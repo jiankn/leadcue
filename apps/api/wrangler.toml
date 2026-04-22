@@ -1,0 +1,33 @@
+name = "leadcue-api"
+main = "src/index.ts"
+compatibility_date = "2026-04-19"
+
+[vars]
+APP_URL = "https://leadcue.app"
+AI_MODEL = "gpt-4.1-mini"
+GOOGLE_REDIRECT_URI = "http://127.0.0.1:8787/api/auth/google/callback"
+STRIPE_PRICE_STARTER = "price_replace_starter"
+STRIPE_PRICE_PRO = "price_replace_pro"
+STRIPE_PRICE_AGENCY = "price_replace_agency"
+STRIPE_PORTAL_RETURN_URL = "https://leadcue.app/app/billing"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "leadcue"
+database_id = "replace-with-database-id"
+migrations_dir = "../../migrations"
+
+[[r2_buckets]]
+binding = "R2"
+bucket_name = "leadcue-production"
+
+[[kv_namespaces]]
+binding = "CONFIG"
+id = "replace-with-kv-id"
+
+[[queues.producers]]
+binding = "JOBS"
+queue = "leadcue-jobs"
+
+[[queues.consumers]]
+queue = "leadcue-jobs"

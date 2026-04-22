@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LeadCue</title>
+    <link rel="stylesheet" href="sidepanel.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <header class="header">
+        <div class="brand">
+          <span class="brand-mark">LC</span>
+          <div>
+            <strong>LeadCue</strong>
+            <span>Website prospecting</span>
+          </div>
+        </div>
+        <button id="settingsToggle" class="icon-button" type="button" aria-label="Toggle settings">
+          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 6h16M7 12h10M10 18h4" /></svg>
+        </button>
+      </header>
+
+      <section id="settings" class="settings" hidden>
+        <label>
+          API base URL
+          <input id="apiBase" type="url" placeholder="http://localhost:8787" />
+        </label>
+        <label>
+          Dashboard URL
+          <input id="dashboardUrl" type="url" placeholder="http://localhost:5173/app" />
+        </label>
+        <button id="saveSettings" class="button secondary" type="button">Save settings</button>
+      </section>
+
+      <section class="scan-panel">
+        <div>
+          <p class="eyebrow">Active website</p>
+          <h1 id="pageTitle">Ready to scan</h1>
+          <p id="pageUrl" class="muted">Open a company website, then analyze the active tab.</p>
+        </div>
+        <button id="analyzeButton" class="button primary" type="button">
+          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 7V5h4M15 5h4v4M19 15v4h-4M9 19H5v-4M8 12h8" /></svg>
+          Analyze website
+        </button>
+        <p id="status" class="status" role="status" aria-live="polite"></p>
+      </section>
+
+      <section id="result" class="result" hidden>
+        <div class="score-row">
+          <div>
+            <p class="eyebrow">Prospect Card</p>
+            <h2 id="companyName"></h2>
+            <span id="domain" class="muted"></span>
+          </div>
+          <div class="score">
+            <strong id="fitScore"></strong>
+            <span>Fit</span>
+          </div>
+        </div>
+
+        <p id="summary" class="summary"></p>
+
+        <div>
+          <h3>Sales cues</h3>
+          <div id="signals" class="signals"></div>
+        </div>
+
+        <div class="first-line">
+          <span>First line</span>
+          <p id="firstLine"></p>
+          <button id="copyFirstLine" class="button secondary" type="button">
+            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M9 5h6M9 3h6v4H9zM7 5H5v16h14V5h-2" /></svg>
+            Copy first line
+          </button>
+        </div>
+
+        <div class="actions">
+          <button id="openDashboard" class="button secondary" type="button">
+            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 6h18v12H3zM3 9h18M7 6v3" /></svg>
+            Open dashboard
+          </button>
+        </div>
+      </section>
+    </main>
+    <script src="sidepanel.js"></script>
+  </body>
+</html>

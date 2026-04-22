@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-label="LeadCue">
+  <rect width="64" height="64" rx="14" fill="#9CFF78"/>
+  <path d="M41.5 22.8a14 14 0 1 0 0 18.4" fill="none" stroke="#002F29" stroke-width="6.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M41.7 41.2 53 52" fill="none" stroke="#002F29" stroke-width="6.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="25.5" cy="32" r="5.2" fill="#002F29"/>
+</svg>
