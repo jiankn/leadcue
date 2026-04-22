@@ -1,0 +1,23 @@
+{
+  "nav": {
+    "features": "Funktionen",
+    "howItWorks": "So funktioniert's",
+    "sampleCard": "Beispielkarte",
+    "pricing": "Preise",
+    "resources": "Ressourcen",
+    "signIn": "Anmelden",
+    "startFree": "Kostenlos starten"
+  },
+  "brand": {
+    "name": "LeadCue"
+  },
+  "hero": {
+    "eyebrow": "LeadCue für Agentur-Outbound-Teams",
+    "title1": "Verwandeln Sie Websites in",
+    "title2": "qualifizierte Leads",
+    "subhead": "Bewerten Sie den Fit, erfassen Sie Website-Beweise und schreiben Sie erste Zeilen, bevor Ihr Team einen weiteren generischen Lead speichert.",
+    "startScan": "Kostenloser Scan",
+    "viewCard": "Beispiel ansehen",
+    "microcopy": "20 kostenlose Scans. Google-Login. Kein LinkedIn-Scraping oder Abhängigkeit von Kontaktdatenbanken."
+  }
+}

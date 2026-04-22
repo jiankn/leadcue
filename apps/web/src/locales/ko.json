@@ -1,0 +1,23 @@
+{
+  "nav": {
+    "features": "기능",
+    "howItWorks": "작동 원리",
+    "sampleCard": "샘플 카드",
+    "pricing": "요금제",
+    "resources": "리소스",
+    "signIn": "로그인",
+    "startFree": "무료 시작"
+  },
+  "brand": {
+    "name": "LeadCue"
+  },
+  "hero": {
+    "eyebrow": "에이전시 아웃바운드 팀을 위한 LeadCue",
+    "title1": "웹사이트를",
+    "title2": "검증된 잠재 고객으로",
+    "subhead": "일반적인 리드를 저장하기 전에 적합도를 평가하고, 웹사이트에서 단서를 포착하여 맞춤형 첫 메시지를 작성하세요.",
+    "startScan": "무료 스캔 시작",
+    "viewCard": "샘플 카드 보기",
+    "microcopy": "20회 무료 스캔. Google 로그인 지원. LinkedIn 크롤링이나 연락처 DB에 의존하지 않습니다."
+  }
+}

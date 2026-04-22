@@ -1,0 +1,23 @@
+{
+  "nav": {
+    "features": "機能",
+    "howItWorks": "仕組み",
+    "sampleCard": "サンプル",
+    "pricing": "料金プラン",
+    "resources": "リソース",
+    "signIn": "ログイン",
+    "startFree": "無料で始める"
+  },
+  "brand": {
+    "name": "LeadCue"
+  },
+  "hero": {
+    "eyebrow": "エージェンシーのアウトバウンド営業向け",
+    "title1": "ウェブサイトを",
+    "title2": "有望な見込み客に",
+    "subhead": "一般的なリストを保存する前に、適合度をスコアリングし、サイト内の証拠を捉え、最初のアプローチ文を作成します。",
+    "startScan": "無料スキャンを開始",
+    "viewCard": "サンプルを確認",
+    "microcopy": "20回の無料スキャン。Googleログイン対応。LinkedInのスクレイピングや外部データベースは不要。"
+  }
+}

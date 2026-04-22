@@ -1,0 +1,23 @@
+{
+  "nav": {
+    "features": "Functies",
+    "howItWorks": "Hoe het werkt",
+    "sampleCard": "Voorbeeldkaart",
+    "pricing": "Prijzen",
+    "resources": "Kennisbank",
+    "signIn": "Inloggen",
+    "startFree": "Gratis beginnen"
+  },
+  "brand": {
+    "name": "LeadCue"
+  },
+  "hero": {
+    "eyebrow": "LeadCue voor outbound bureaus",
+    "title1": "Verander websites in",
+    "title2": "gekwalificeerde prospects",
+    "subhead": "Beoordeel de match, verzamel website-bewijs en schrijf openingszinnen voordat uw team weer een generieke lead opslaat.",
+    "startScan": "Start gratis scan",
+    "viewCard": "Bekijk voorbeeld",
+    "microcopy": "20 gratis scans. Inloggen met Google. Geen LinkedIn-scraping of afhankelijkheid van contactendatabases."
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "nav": {
+    "features": "Fonctionnalités",
+    "howItWorks": "Comment ça marche",
+    "sampleCard": "Exemple",
+    "pricing": "Tarifs",
+    "resources": "Ressources",
+    "signIn": "Se connecter",
+    "startFree": "Démarrer"
+  },
+  "brand": {
+    "name": "LeadCue"
+  },
+  "hero": {
+    "eyebrow": "LeadCue pour les équipes d'outbound",
+    "title1": "Transformez les sites web en",
+    "title2": "prospects qualifiés",
+    "subhead": "Évaluez l'adéquation, capturez les preuves du site et rédigez vos phrases d'accroche avant d'enregistrer un énième lead générique.",
+    "startScan": "Scan gratuit",
+    "viewCard": "Voir un exemple",
+    "microcopy": "20 scans gratuits. Connexion Google. Pas de scraping LinkedIn ni de dépendance à une base de données de contacts."
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "nav": {
+    "features": "产品特性",
+    "howItWorks": "工作原理",
+    "sampleCard": "示例卡片",
+    "pricing": "价格方案",
+    "resources": "资源中心",
+    "signIn": "登录",
+    "startFree": "免费开始"
+  },
+  "brand": {
+    "name": "LeadCue"
+  },
+  "hero": {
+    "eyebrow": "专为代理商出海团队打造",
+    "title1": "将网站访客转化为",
+    "title2": "优质潜在客户",
+    "subhead": "在保存那些千篇一律的线索前，先评估匹配度、捕获网站意向证据，并撰写个性化的破冰话术。",
+    "startScan": "免费开始扫描",
+    "viewCard": "查看示例卡片",
+    "microcopy": "含20次免费扫描。支持谷歌登录。无需领英爬虫，不依赖联系人数据库。"
+  }
+}

@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { type ChangeEvent, type FormEvent, type KeyboardEvent, type ReactElement, useEffect, useMemo, useState } from "react";
 import {
   DEFAULT_ICP,
@@ -921,6 +922,7 @@ function BrandMark() {
 }
 
 function MarketingSite() {
+  const { t, i18n } = useTranslation();
   const homeStructuredData = {
     "@context": "https://schema.org",
     "@graph": [
@@ -968,22 +970,33 @@ function MarketingSite() {
       <header className="topbar topbar-marketing">
         <a className="brand" href="/" aria-label="LeadCue home">
           <BrandMark />
-          <span>LeadCue</span>
+          <span>{t("brand.name")}</span>
         </a>
         <nav className="nav-links" aria-label="Main navigation">
-          <a href="#features">Features</a>
-          <a href="#how">How it works</a>
-          <a href="#card">Sample card</a>
-          <a href="#pricing">Pricing</a>
-          <a href="#resources">Resources</a>
+          <a href="#features">{t("nav.features")}</a>
+          <a href="#how">{t("nav.howItWorks")}</a>
+          <a href="#card">{t("nav.sampleCard")}</a>
+          <a href="#pricing">{t("nav.pricing")}</a>
+          <a href="#resources">{t("nav.resources")}</a>
         </nav>
-        <div className="topbar-actions">
+        
+        <div className="lang-switcher" style={{display: 'flex', gap: '8px', marginLeft: 'auto', marginRight: '16px', alignItems: 'center'}}>
+          <select value={i18n.language} onChange={(e) => i18n.changeLanguage(e.target.value)} style={{background: 'transparent', border: '1px solid var(--border)', borderRadius: '4px', padding: '4px', color: 'inherit'}}>
+            <option value="en">English</option>
+            <option value="zh">简体中文</option>
+            <option value="ja">日本語</option>
+            <option value="ko">한국어</option>
+            <option value="de">Deutsch</option>
+            <option value="nl">Nederlands</option>
+            <option value="fr">Français</option>
+          </select>
+        </div>\n        <div className="topbar-actions">
           <a className="button button-small button-secondary" href="/login">
-            Sign in
+            {t("nav.signIn")}
           </a>
         <a className="button button-small button-primary" href="/signup?plan=free">
           <Icon name="mail" />
-          Start free
+          {t("nav.startFree")}
         </a>
         </div>
       </header>
@@ -991,26 +1004,25 @@ function MarketingSite() {
       <main>
         <section className="hero-band">
           <div className="hero-copy">
-            <p className="eyebrow glass-pill">LeadCue for agency outbound teams</p>
+            <p className="eyebrow glass-pill">{t("hero.eyebrow")}</p>
             <h1>
-              Turn websites into <span className="accent-text">qualified prospects</span>
+              {t("hero.title1")} <span className="accent-text">{t("hero.title2")}</span>
             </h1>
             <p className="hero-subhead">
-              Score fit, capture website evidence, and write first lines before your team saves
-              another generic lead.
+              {t("hero.subhead")}
             </p>
             <div className="hero-actions">
               <a className="button button-primary" href="/signup?plan=free">
                 <Icon name="mail" />
-                Start free scan
+                {t("hero.startScan")}
               </a>
               <a className="button button-secondary" href="#card">
                 <Icon name="clipboard" />
-                View sample card
+                {t("hero.viewCard")}
               </a>
             </div>
             <p className="microcopy">
-              20 free scans. Google sign-in. No LinkedIn scraping or contact database dependency.
+              {t("hero.microcopy")}
             </p>
             <div className="hero-stage">
               <div className="hero-visual-card" aria-label="LeadCue product visual">

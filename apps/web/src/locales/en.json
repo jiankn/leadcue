@@ -1,0 +1,23 @@
+{
+  "nav": {
+    "features": "Features",
+    "howItWorks": "How it works",
+    "sampleCard": "Sample card",
+    "pricing": "Pricing",
+    "resources": "Resources",
+    "signIn": "Sign in",
+    "startFree": "Start free"
+  },
+  "brand": {
+    "name": "LeadCue"
+  },
+  "hero": {
+    "eyebrow": "LeadCue for agency outbound teams",
+    "title1": "Turn websites into",
+    "title2": "qualified prospects",
+    "subhead": "Score fit, capture website evidence, and write first lines before your team saves another generic lead.",
+    "startScan": "Start free scan",
+    "viewCard": "View sample card",
+    "microcopy": "20 free scans. Google sign-in. No LinkedIn scraping or contact database dependency."
+  }
+}
