@@ -1,0 +1,351 @@
+.auth-reset-page {
+  justify-content: center;
+}
+
+.reset-password-card {
+  max-width: 38rem;
+  margin: 0 auto;
+}
+
+.auth-inline-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.85rem 1.25rem;
+  margin-top: 1rem;
+}
+
+.auth-text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--ink-700, #19504b);
+  font: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+  cursor: pointer;
+}
+
+.auth-support-card {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1rem;
+  padding: 1rem 1.1rem;
+  border: 1px solid rgba(12, 77, 69, 0.14);
+  background: rgba(246, 252, 248, 0.92);
+}
+
+.auth-support-card p {
+  margin: 0.35rem 0 0;
+}
+
+.auth-dev-link {
+  justify-self: start;
+}
+
+.auth-compact-note {
+  color: rgba(12, 77, 69, 0.72);
+  line-height: 1.5;
+}
+
+.account-page-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.account-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem 1.2rem;
+}
+
+.account-form-wide {
+  grid-column: 1 / -1;
+}
+
+.account-password-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.account-password-visibility {
+  flex: 1 1 16rem;
+}
+
+.account-summary-panel {
+  align-self: start;
+}
+
+.account-card-list {
+  display: grid;
+  gap: 0.85rem;
+  margin-top: 1rem;
+}
+
+.account-card-list > div,
+.billing-kpis > div {
+  display: grid;
+  gap: 0.22rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid rgba(12, 77, 69, 0.14);
+  background: rgba(247, 251, 248, 0.88);
+}
+
+.account-card-list span,
+.billing-kpis span {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: rgba(12, 77, 69, 0.68);
+}
+
+.account-card-list strong,
+.billing-kpis strong {
+  font-size: 1rem;
+}
+
+.billing-kpis {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.85rem;
+  margin: 1rem 0 1.1rem;
+}
+
+.billing-plan-list {
+  display: grid;
+  gap: 0.9rem;
+  margin-top: 1rem;
+}
+
+.billing-plan-card {
+  display: grid;
+  gap: 0.7rem;
+  padding: 1rem;
+  border: 1px solid rgba(12, 77, 69, 0.14);
+  background: rgba(247, 251, 248, 0.88);
+}
+
+.billing-plan-card > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.75rem;
+}
+
+.billing-plan-card strong {
+  font-size: 1rem;
+}
+
+.billing-plan-card span {
+  color: rgba(12, 77, 69, 0.72);
+  font-size: 0.92rem;
+}
+
+.billing-plan-card p {
+  margin: 0;
+  color: rgba(12, 77, 69, 0.82);
+}
+
+.billing-plan-card.is-current {
+  border-color: rgba(121, 255, 97, 0.7);
+  box-shadow: inset 0 0 0 1px rgba(121, 255, 97, 0.4);
+}
+
+.status-pill.is-success {
+  background: rgba(144, 255, 128, 0.18);
+  border-color: rgba(121, 255, 97, 0.38);
+}
+
+.status-pill.is-warning {
+  background: rgba(255, 216, 120, 0.16);
+  border-color: rgba(255, 187, 84, 0.36);
+}
+
+.status-pill.is-danger {
+  background: rgba(255, 121, 121, 0.14);
+  border-color: rgba(255, 121, 121, 0.36);
+}
+
+.tool-conversion-band {
+  display: grid;
+  gap: 1rem;
+  padding: 1.2rem;
+  border: 1px solid rgba(12, 77, 69, 0.14);
+  background: rgba(247, 251, 248, 0.92);
+}
+
+.tool-conversion-copy p:last-child,
+.billing-status-copy,
+.billing-status-next-step strong {
+  color: rgba(12, 77, 69, 0.82);
+}
+
+.tool-conversion-actions,
+.tool-conversion-points,
+.tool-micro-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+  align-items: center;
+}
+
+.tool-conversion-points span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: rgba(12, 77, 69, 0.82);
+}
+
+.tool-kpi-strip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.85rem;
+  margin: 1rem 0;
+}
+
+.tool-kpi-strip > div,
+.analytics-kpi-grid > div,
+.analytics-funnel-step,
+.billing-status-next-step {
+  display: grid;
+  gap: 0.25rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid rgba(12, 77, 69, 0.14);
+  background: rgba(247, 251, 248, 0.88);
+}
+
+.tool-kpi-strip span,
+.analytics-kpi-grid span,
+.analytics-funnel-step span,
+.billing-status-next-step span {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  color: rgba(12, 77, 69, 0.68);
+}
+
+.tool-inline-field {
+  display: grid;
+  gap: 0.45rem;
+  max-width: 18rem;
+  margin: 1rem 0 0;
+}
+
+.tool-segmented-secondary {
+  margin-top: 0.85rem;
+}
+
+.tool-advice-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.9rem;
+  margin-top: 1rem;
+}
+
+.tool-advice-card {
+  display: grid;
+  gap: 0.55rem;
+  padding: 1rem;
+  border: 1px solid rgba(12, 77, 69, 0.14);
+  background: rgba(247, 251, 248, 0.88);
+}
+
+.tool-advice-card span {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  color: rgba(12, 77, 69, 0.68);
+}
+
+.tool-advice-card p,
+.tool-advice-list {
+  margin: 0;
+  color: rgba(12, 77, 69, 0.82);
+}
+
+.tool-advice-card-contrast {
+  background: rgba(255, 249, 241, 0.92);
+}
+
+.tool-advice-list {
+  padding-left: 1.1rem;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.analytics-page-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.analytics-overview-panel,
+.analytics-events-panel {
+  grid-column: 1 / -1;
+}
+
+.analytics-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.85rem;
+  margin-top: 1rem;
+}
+
+.analytics-funnel {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.85rem;
+  margin-top: 1rem;
+}
+
+.analytics-funnel-step small {
+  color: rgba(12, 77, 69, 0.72);
+  line-height: 1.45;
+}
+
+.analytics-simple-list,
+.analytics-event-list {
+  display: grid;
+  gap: 0.8rem;
+  margin-top: 1rem;
+}
+
+.analytics-simple-list > div,
+.analytics-event-list > article {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid rgba(12, 77, 69, 0.12);
+}
+
+.analytics-simple-list > div:last-child,
+.analytics-event-list > article:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.analytics-simple-list span,
+.analytics-event-list span,
+.analytics-event-list small {
+  color: rgba(12, 77, 69, 0.72);
+}
+
+@media (max-width: 1100px) {
+  .account-page-grid,
+  .billing-kpis,
+  .account-form-grid,
+  .tool-kpi-strip,
+  .tool-advice-grid,
+  .analytics-page-grid,
+  .analytics-kpi-grid,
+  .analytics-funnel {
+    grid-template-columns: 1fr;
+  }
+
+  .account-password-actions {
+    align-items: stretch;
+  }
+}

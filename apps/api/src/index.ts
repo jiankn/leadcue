@@ -44,6 +44,41 @@ type EmailLoginRequest = {
   email?: string;
   password?: string;
 };
+type PasswordResetRequest = {
+  email?: string;
+};
+type PasswordResetSubmitRequest = {
+  token?: string;
+  password?: string;
+};
+type PasswordUpdateRequest = {
+  currentPassword?: string;
+  nextPassword?: string;
+};
+type ProfileUpdateRequest = {
+  name?: string;
+  workspaceName?: string;
+};
+type AnalyticsEventRequest = {
+  name?: string;
+  page?: string;
+  metadata?: Record<string, unknown>;
+};
+type AnalyticsSummaryCountRow = {
+  name: string;
+  count: number;
+};
+type AnalyticsSummaryPageRow = {
+  path: string | null;
+  count: number;
+};
+type AnalyticsRecentEventRow = {
+  id: string;
+  event_name: string;
+  page_path: string | null;
+  metadata_json: string | null;
+  created_at: string;
+};
 type PasswordCredential = {
   hash: string;
   salt: string;
@@ -62,6 +97,12 @@ type GoogleOauthMetadata = {
   planId?: PricingPlan["id"];
   focus?: string;
   returnTo?: string;
+};
+type PasswordResetTokenRow = {
+  id: string;
+  user_id: string;
+  expires_at: string;
+  consumed_at: string | null;
 };
 
 const app = new Hono<{ Bindings: Env; Variables: Variables }>();
@@ -188,6 +229,203 @@ app.post("/api/auth/email/login", async (c) => {
       name: user.name
     },
     next: "/app"
+  });
+});
+
+app.post("/api/auth/password/request-reset", async (c) => {
+  if (!c.env.DB) {
+    return c.json({ ok: false, error: "Password reset is unavailable until the workspace database is ready." }, 503);
+  }
+
+  const body = (await c.req.json<PasswordResetRequest>().catch(() => ({}))) as PasswordResetRequest;
+  const email = body.email?.trim().toLowerCase();
+
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return c.json({ ok: false, error: "Enter the workspace email address you used to sign in." }, 400);
+  }
+
+  const user = await c.env.DB.prepare(
+    `SELECT id, email, password_hash, password_salt, password_iterations
+     FROM users
+     WHERE email = ?
+     LIMIT 1`
+  )
+    .bind(email)
+    .first<EmailPasswordUserRow>();
+
+  if (!user?.id || !user.password_hash || !user.password_salt || !user.password_iterations) {
+    return c.json({
+      ok: true,
+      message: "If that email belongs to a workspace, a one-time reset link has been prepared."
+    });
+  }
+
+  const token = `reset_${crypto.randomUUID()}_${crypto.randomUUID()}`;
+  const tokenHash = await sha256(token);
+  const expiresAt = new Date(Date.now() + 30 * 60 * 1000).toISOString();
+
+  await c.env.DB.prepare(`DELETE FROM password_reset_tokens WHERE user_id = ? OR expires_at <= ?`)
+    .bind(user.id, new Date().toISOString())
+    .run()
+    .catch(() => null);
+
+  await c.env.DB.prepare(
+    `INSERT INTO password_reset_tokens
+      (id, user_id, email, token_hash, expires_at, created_at)
+     VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP)`
+  )
+    .bind(`pwreset_${await shortHash(token)}`, user.id, email, tokenHash, expiresAt)
+    .run();
+
+  const resetUrl = `${appUrl(c.env).replace(/\/$/, "")}/reset-password?token=${encodeURIComponent(token)}`;
+
+  return c.json({
+    ok: true,
+    message: "If that email belongs to a workspace, a one-time reset link has been prepared.",
+    resetUrl: isLocalAppUrl(c.env) ? resetUrl : undefined
+  });
+});
+
+app.post("/api/auth/password/reset", async (c) => {
+  if (!c.env.DB) {
+    return c.json({ ok: false, error: "Password reset is unavailable until the workspace database is ready." }, 503);
+  }
+
+  const body = (await c.req.json<PasswordResetSubmitRequest>().catch(() => ({}))) as PasswordResetSubmitRequest;
+  const token = body.token?.trim();
+  const password = body.password || "";
+
+  if (!token || password.length < 8) {
+    return c.json({ ok: false, error: "A valid reset token and an 8+ character password are required." }, 400);
+  }
+
+  const tokenHash = await sha256(token);
+  const resetRow = await c.env.DB.prepare(
+    `SELECT id, user_id, expires_at, consumed_at
+     FROM password_reset_tokens
+     WHERE token_hash = ?
+     LIMIT 1`
+  )
+    .bind(tokenHash)
+    .first<PasswordResetTokenRow>();
+
+  if (!resetRow || resetRow.consumed_at || Date.parse(resetRow.expires_at) <= Date.now()) {
+    return c.json({ ok: false, error: "This reset link has expired. Request a new password reset." }, 400);
+  }
+
+  const credential = await createPasswordCredential(password);
+
+  await c.env.DB.batch([
+    c.env.DB
+      .prepare(
+        `UPDATE users
+         SET password_hash = ?, password_salt = ?, password_iterations = ?, password_updated_at = CURRENT_TIMESTAMP
+         WHERE id = ?`
+      )
+      .bind(credential.hash, credential.salt, credential.iterations, resetRow.user_id),
+    c.env.DB
+      .prepare(`UPDATE password_reset_tokens SET consumed_at = CURRENT_TIMESTAMP WHERE id = ?`)
+      .bind(resetRow.id)
+  ]);
+
+  await createUserSession(c, c.env.DB, resetRow.user_id);
+
+  return c.json({
+    ok: true,
+    next: "/app?login=1"
+  });
+});
+
+app.post("/api/auth/password/update", async (c) => {
+  if (!c.env.DB) {
+    return c.json({ ok: false, error: "Password updates are unavailable until the workspace database is ready." }, 503);
+  }
+
+  const session = await getAuthenticatedSession(c);
+  if (!session) {
+    return c.json({ ok: false, error: "Sign in before changing the workspace password." }, 401);
+  }
+
+  const body = (await c.req.json<PasswordUpdateRequest>().catch(() => ({}))) as PasswordUpdateRequest;
+  const currentPassword = body.currentPassword || "";
+  const nextPassword = body.nextPassword || "";
+
+  if (nextPassword.length < 8) {
+    return c.json({ ok: false, error: "Use at least 8 characters for the new password." }, 400);
+  }
+
+  const user = await c.env.DB.prepare(
+    `SELECT id, password_hash, password_salt, password_iterations
+     FROM users
+     WHERE id = ?
+     LIMIT 1`
+  )
+    .bind(session.user_id)
+    .first<EmailPasswordUserRow>();
+
+  const hasExistingPassword = Boolean(user?.password_hash && user.password_salt && user.password_iterations);
+  if (hasExistingPassword) {
+    if (!currentPassword) {
+      return c.json({ ok: false, error: "Enter the current password before setting a new one." }, 400);
+    }
+
+    const isValid = await verifyPassword(currentPassword, {
+      hash: user!.password_hash!,
+      salt: user!.password_salt!,
+      iterations: user!.password_iterations!
+    });
+
+    if (!isValid) {
+      return c.json({ ok: false, error: "Current password is incorrect." }, 401);
+    }
+  }
+
+  const credential = await createPasswordCredential(nextPassword);
+  await c.env.DB.prepare(
+    `UPDATE users
+     SET password_hash = ?, password_salt = ?, password_iterations = ?, password_updated_at = CURRENT_TIMESTAMP
+     WHERE id = ?`
+  )
+    .bind(credential.hash, credential.salt, credential.iterations, session.user_id)
+    .run();
+
+  return c.json({ ok: true, message: "Password updated." });
+});
+
+app.patch("/api/account/profile", async (c) => {
+  if (!c.env.DB) {
+    return c.json({ ok: false, error: "Profile updates are unavailable until the workspace database is ready." }, 503);
+  }
+
+  const session = await getAuthenticatedSession(c);
+  if (!session) {
+    return c.json({ ok: false, error: "Sign in before updating workspace profile details." }, 401);
+  }
+
+  const body = (await c.req.json<ProfileUpdateRequest>().catch(() => ({}))) as ProfileUpdateRequest;
+  const name = body.name?.trim();
+  const workspaceName = body.workspaceName?.trim();
+
+  if (!name || !workspaceName) {
+    return c.json({ ok: false, error: "Owner name and workspace name are both required." }, 400);
+  }
+
+  await c.env.DB.batch([
+    c.env.DB.prepare(`UPDATE users SET name = ? WHERE id = ?`).bind(name, session.user_id),
+    c.env.DB.prepare(`UPDATE workspaces SET name = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?`).bind(workspaceName, session.workspace_id)
+  ]);
+
+  return c.json({
+    ok: true,
+    user: {
+      id: session.user_id,
+      email: session.email,
+      name
+    },
+    workspace: {
+      id: session.workspace_id,
+      name: workspaceName
+    }
   });
 });
 
@@ -575,6 +813,141 @@ app.post("/api/billing/portal", async (c) => {
   }
 
   return c.json({ ok: true, url: portal.url });
+});
+
+app.get("/api/analytics/summary", async (c) => {
+  if (!c.env.DB) {
+    return c.json(sampleAnalyticsSummary());
+  }
+
+  const workspaceId = await resolveWorkspaceId(c);
+
+  try {
+    const [eventRows, pageRows, recentRows, leadCountRow, completedScanRow, totalEventsRow] = await Promise.all([
+      c.env.DB.prepare(
+        `SELECT event_name AS name, COUNT(*) AS count
+         FROM analytics_events
+         WHERE workspace_id = ?
+         GROUP BY event_name
+         ORDER BY count DESC
+         LIMIT 8`
+      )
+        .bind(workspaceId)
+        .all<AnalyticsSummaryCountRow>(),
+      c.env.DB.prepare(
+        `SELECT page_path AS path, COUNT(*) AS count
+         FROM analytics_events
+         WHERE workspace_id = ? AND page_path IS NOT NULL
+         GROUP BY page_path
+         ORDER BY count DESC
+         LIMIT 6`
+      )
+        .bind(workspaceId)
+        .all<AnalyticsSummaryPageRow>(),
+      c.env.DB.prepare(
+        `SELECT id, event_name, page_path, metadata_json, created_at
+         FROM analytics_events
+         WHERE workspace_id = ?
+         ORDER BY created_at DESC
+         LIMIT 12`
+      )
+        .bind(workspaceId)
+        .all<AnalyticsRecentEventRow>(),
+      c.env.DB.prepare(`SELECT COUNT(*) AS count FROM leads WHERE workspace_id = ?`).bind(workspaceId).first<{ count: number }>(),
+      c.env.DB.prepare(`SELECT COUNT(*) AS count FROM scans WHERE workspace_id = ? AND status = 'completed'`).bind(workspaceId).first<{ count: number }>(),
+      c.env.DB.prepare(`SELECT COUNT(*) AS count FROM analytics_events WHERE workspace_id = ?`).bind(workspaceId).first<{ count: number }>()
+    ]);
+
+    const eventCounts = Object.fromEntries(eventRows.results.map((row) => [row.name, row.count])) as Record<string, number>;
+    const completedScans = completedScanRow?.count || 0;
+    const leadsSaved = leadCountRow?.count || 0;
+    const exportsCompleted = eventCounts.export_completed || 0;
+    const ctaClicks =
+      (eventCounts.marketing_cta_click || 0) +
+      (eventCounts.product_tool_primary_click || 0) +
+      (eventCounts.product_tool_secondary_click || 0) +
+      (eventCounts.pricing_plan_click || 0) +
+      (eventCounts.auth_signup_cta_click || 0);
+    const signupsCompleted = (eventCounts.auth_signup_completed || 0) + (eventCounts.workspace_signup_session_opened || 0);
+    const loginsCompleted = (eventCounts.auth_login_email_success || 0) + (eventCounts.auth_login_session_opened || 0);
+    const recommendations = buildAnalyticsRecommendations({
+      ctaClicks,
+      signupsCompleted,
+      loginsCompleted,
+      scansCompleted: completedScans,
+      exportsCompleted,
+      topPage: pageRows.results[0]?.path || null
+    });
+
+    return c.json({
+      source: "d1",
+      totals: {
+        events: totalEventsRow?.count || 0,
+        scansCompleted: completedScans,
+        leadsSaved,
+        exportsCompleted
+      },
+      funnel: {
+        ctaClicks,
+        signupsCompleted,
+        loginsCompleted,
+        scansCompleted: completedScans,
+        exportsCompleted
+      },
+      topPages: pageRows.results.map((row) => ({
+        path: row.path || "(unknown)",
+        count: row.count
+      })),
+      topEvents: eventRows.results,
+      recentEvents: recentRows.results.map((row) => ({
+        id: row.id,
+        name: row.event_name,
+        pagePath: row.page_path,
+        createdAt: row.created_at,
+        metadataSummary: summarizeEventMetadata(row.metadata_json)
+      })),
+      recommendations
+    });
+  } catch (error) {
+    console.error("analytics_summary_failed", error);
+    return c.json(sampleAnalyticsSummary());
+  }
+});
+
+app.post("/api/analytics/events", async (c) => {
+  const body = (await c.req.json<AnalyticsEventRequest>().catch(() => ({}))) as AnalyticsEventRequest;
+  const eventName = body.name?.trim();
+
+  if (!eventName) {
+    return c.json({ ok: false, error: "Event name is required." }, 400);
+  }
+
+  if (!c.env.DB) {
+    return c.json({ ok: true, stored: false });
+  }
+
+  const session = await getAuthenticatedSession(c);
+  const pagePath = body.page?.trim() || null;
+  const metadata = JSON.stringify(body.metadata || {});
+
+  await c.env.DB.prepare(
+    `INSERT INTO analytics_events
+      (id, user_id, workspace_id, session_id, event_name, page_path, metadata_json, created_at)
+     VALUES (?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)`
+  )
+    .bind(
+      `evt_${crypto.randomUUID()}`,
+      session?.user_id || null,
+      session?.workspace_id || null,
+      session?.session_id || null,
+      eventName,
+      pagePath,
+      metadata
+    )
+    .run()
+    .catch((error) => console.error("analytics_event_failed", error));
+
+  return c.json({ ok: true, stored: true });
 });
 
 app.post("/api/stripe/webhook", async (c) => {
@@ -1618,6 +1991,111 @@ async function resolveWorkspaceId(c: AppContext, options: { allowDemo?: boolean 
 
 function appUrl(env: Env): string {
   return env.APP_URL || "http://localhost:5173";
+}
+
+function isLocalAppUrl(env: Env): boolean {
+  const url = appUrl(env);
+  return url.includes("localhost") || url.includes("127.0.0.1");
+}
+
+function sampleAnalyticsSummary() {
+  return {
+    source: "sample" as const,
+    totals: {
+      events: 42,
+      scansCompleted: 12,
+      leadsSaved: 7,
+      exportsCompleted: 3
+    },
+    funnel: {
+      ctaClicks: 18,
+      signupsCompleted: 5,
+      loginsCompleted: 6,
+      scansCompleted: 12,
+      exportsCompleted: 3
+    },
+    topPages: [
+      { path: "/", count: 14 },
+      { path: "/templates/crm-csv-field-mapping", count: 9 },
+      { path: "/templates/cold-email-first-line", count: 7 },
+      { path: "/integrations/hubspot-csv-export", count: 5 }
+    ],
+    topEvents: [
+      { name: "scan_completed", count: 12 },
+      { name: "product_tool_primary_click", count: 8 },
+      { name: "export_completed", count: 3 }
+    ],
+    recentEvents: [
+      {
+        id: "evt_sample_scan",
+        name: "scan_completed",
+        pagePath: "/app",
+        createdAt: new Date(Date.now() - 1000 * 60 * 8).toISOString(),
+        metadataSummary: "basic scan, 1 credit"
+      },
+      {
+        id: "evt_sample_export",
+        name: "export_completed",
+        pagePath: "/app/leads",
+        createdAt: new Date(Date.now() - 1000 * 60 * 21).toISOString(),
+        metadataSummary: "CRM / HubSpot"
+      },
+      {
+        id: "evt_sample_tool",
+        name: "product_tool_primary_click",
+        pagePath: "/templates/crm-csv-field-mapping",
+        createdAt: new Date(Date.now() - 1000 * 60 * 46).toISOString(),
+        metadataSummary: "tool CTA"
+      }
+    ],
+    recommendations: [
+      "The CRM mapping tool is attracting the most intent. Keep routing that traffic into the free workspace flow.",
+      "Exports are much lower than scans, so the next bottleneck is likely qualification confidence or CRM handoff timing.",
+      "Once live traffic grows, compare CTA clicks, signups, scans, and exports weekly."
+    ]
+  };
+}
+
+function summarizeEventMetadata(value: string | null) {
+  const parsed = parseJson<Record<string, unknown>>(value, {});
+  const parts = Object.entries(parsed)
+    .filter(([, entry]) => entry !== null && entry !== undefined && entry !== "")
+    .slice(0, 3)
+    .map(([key, entry]) => `${key}: ${String(entry)}`);
+  return parts.join(", ") || null;
+}
+
+function buildAnalyticsRecommendations(input: {
+  ctaClicks: number;
+  signupsCompleted: number;
+  loginsCompleted: number;
+  scansCompleted: number;
+  exportsCompleted: number;
+  topPage: string | null;
+}) {
+  const recommendations: string[] = [];
+
+  if (input.ctaClicks > 0 && input.signupsCompleted === 0) {
+    recommendations.push("CTA clicks are happening, but signups are not. Recheck signup copy, friction, and plan fit on the highest-intent pages.");
+  }
+
+  if ((input.signupsCompleted > 0 || input.loginsCompleted > 0) && input.scansCompleted === 0) {
+    recommendations.push("Accounts are entering the workspace but not running scans yet. Make the first scan path even more obvious in onboarding.");
+  }
+
+  if (input.scansCompleted > 0 && input.exportsCompleted === 0) {
+    recommendations.push("Scans are landing, but exports are not. The next bottleneck is likely qualification confidence or CRM handoff clarity.");
+  }
+
+  if (input.topPage) {
+    recommendations.push(`The strongest page right now is ${input.topPage}. Keep testing a sharper CTA and internal links from that page.`);
+  }
+
+  if (!recommendations.length) {
+    recommendations.push("The funnel is moving. Keep comparing CTA clicks, signups, scans, and exports week over week.");
+  }
+
+  return recommendations.slice(0, 3);
 }
 
 function googleAuthConfigured(env: Env): boolean {

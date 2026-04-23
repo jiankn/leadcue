@@ -30,8 +30,11 @@ import {
   type ServiceType,
   type Tone
 } from "@leadcue/shared";
+import { trackEvent } from "./analytics";
+import { commercialPages, type CommercialPageSlug } from "./commercialContent";
 import { productSeoPageMap, productSeoPages, type ProductSeoPage } from "./productSeoContent";
 import { seoContentPageMap, seoContentPages, type SeoContentPage } from "./seoContent";
+import "./upgrades.css";
 
 type IconName =
   | "arrow"
@@ -288,221 +291,6 @@ const resourceArticles = [
   }
 ];
 
-type CommercialPageSlug = "docs" | "support" | "contact" | "privacy" | "terms";
-
-const commercialPages: Record<
-  CommercialPageSlug,
-  {
-    eyebrow: string;
-    title: string;
-    summary: string;
-    primaryAction: { label: string; href: string };
-    secondaryAction?: { label: string; href: string };
-    sections: Array<{ title: string; copy: string; items: string[] }>;
-  }
-> = {
-  docs: {
-    eyebrow: "Documentation",
-    title: "Run website-first prospecting without building another list tool.",
-    summary:
-      "Use these launch docs to set up a workspace, run website scans, review Prospect Cards, and export clean notes into your outreach system.",
-    primaryAction: { label: "Open dashboard", href: "/app" },
-    secondaryAction: { label: "Contact support", href: "/support" },
-    sections: [
-      {
-        title: "Quick start",
-        copy: "LeadCue works best when each scan starts from a real company website and a clear agency offer.",
-        items: [
-          "Create a workspace with Google or work email.",
-          "Choose the plan that matches monthly scan volume.",
-          "Add agency focus, target industries, and your first prospect URL.",
-          "Run the scan and review the saved Prospect Card before exporting."
-        ]
-      },
-      {
-        title: "Scan payload",
-        copy: "The web app and API both send a page snapshot plus optional ICP context to the scan endpoint.",
-        items: [
-          "Endpoint: POST /api/scans.",
-          "Required page fields: url, title, text, and links.",
-          "Optional fields: meta description, H1, emails, phones, and deepScan.",
-          "Each deep scan uses more credits and should be reserved for high-intent accounts."
-        ]
-      },
-      {
-        title: "Operating model",
-        copy: "LeadCue is the research layer before your outreach tool, not a sender or contact database.",
-        items: [
-          "Review website evidence before saving a lead.",
-          "Copy first lines only when the fit score and signal quality are strong.",
-          "Export saved prospects into Sheets, CRM, or campaign tools.",
-          "Keep ICP settings updated as your agency offer changes."
-        ]
-      }
-    ]
-  },
-  support: {
-    eyebrow: "Support",
-    title: "Get help with account access, billing, scans, and exports.",
-    summary:
-      "Support is focused on keeping agencies moving from first workspace setup to repeatable weekly prospect research.",
-    primaryAction: { label: "Email support", href: "mailto:support@leadcue.app" },
-    secondaryAction: { label: "Read docs", href: "/docs" },
-    sections: [
-      {
-        title: "Common requests",
-        copy: "Most issues are account, billing, scan-credit, or export questions.",
-        items: [
-          "Google sign-in is unavailable or returns to the wrong workspace.",
-          "Billing portal does not open after a plan change.",
-          "A scan produced weak context because the page snapshot was thin.",
-          "CSV export is missing a saved Prospect Card."
-        ]
-      },
-      {
-        title: "What to include",
-        copy: "A clear support request lets the team reproduce the issue quickly.",
-        items: [
-          "Workspace email and plan.",
-          "The prospect URL or scan ID if available.",
-          "Expected outcome and actual outcome.",
-          "Browser, extension version, or API client if relevant."
-        ]
-      },
-      {
-        title: "Launch service levels",
-        copy: "LeadCue is currently optimized for fast product support during early commercial rollout.",
-        items: [
-          "Account and billing issues are prioritized first.",
-          "Scan quality reports help improve prompt and extraction behavior.",
-          "Feature requests should include the outbound workflow they would unlock.",
-          "Security or privacy concerns should be sent directly to support@leadcue.app."
-        ]
-      }
-    ]
-  },
-  contact: {
-    eyebrow: "Contact",
-    title: "Talk to LeadCue about agency prospecting workflows.",
-    summary:
-      "Use contact when you need plan guidance, launch support, agency workspace setup, or integration questions before rollout.",
-    primaryAction: { label: "Email LeadCue", href: "mailto:support@leadcue.app" },
-    secondaryAction: { label: "Start free", href: "/signup?plan=free" },
-    sections: [
-      {
-        title: "Sales and setup",
-        copy: "LeadCue is designed for teams that already sell SEO, web design, redesign, or growth services.",
-        items: [
-          "Plan fit for monthly scan volume.",
-          "Agency workspace and ICP setup.",
-          "Outbound process mapping.",
-          "CSV and CRM handoff planning."
-        ]
-      },
-      {
-        title: "Product questions",
-        copy: "The fastest product conversations start with one real prospecting workflow.",
-        items: [
-          "Which websites your team reviews today.",
-          "What counts as a qualified account.",
-          "Where saved prospects go after research.",
-          "Which proof gaps or timing signals matter most."
-        ]
-      },
-      {
-        title: "Security and privacy",
-        copy: "LeadCue should not be treated as a contact scraper or background browsing collector.",
-        items: [
-          "No LinkedIn scraping workflow.",
-          "No campaign sending inside LeadCue.",
-          "Website-first scans triggered by the user or API.",
-          "Source-backed notes attached to saved prospects."
-        ]
-      }
-    ]
-  },
-  privacy: {
-    eyebrow: "Privacy",
-    title: "Privacy principles for website-first prospect research.",
-    summary:
-      "LeadCue is built around user-triggered website analysis, workspace setup data, and saved prospect notes needed for agency outbound operations.",
-    primaryAction: { label: "Contact privacy support", href: "mailto:support@leadcue.app" },
-    secondaryAction: { label: "Back home", href: "/" },
-    sections: [
-      {
-        title: "Data we expect to process",
-        copy: "Commercial launch data is intentionally narrow and tied to the workspace workflow.",
-        items: [
-          "Account identity from Google OAuth or work email signup.",
-          "Workspace plan, billing status, and scan-credit usage.",
-          "Agency ICP settings used to score websites.",
-          "Prospect website snapshots, generated notes, and saved Prospect Cards."
-        ]
-      },
-      {
-        title: "Data boundaries",
-        copy: "LeadCue is not designed to silently collect browsing history or scrape social networks.",
-        items: [
-          "Scans must be user-triggered or sent through the API.",
-          "LinkedIn scraping is outside the product boundary.",
-          "Contact details are limited to public website contact paths when present.",
-          "Exports contain saved prospect research, not a purchased contact database."
-        ]
-      },
-      {
-        title: "Operational controls",
-        copy: "Teams should be able to understand what was saved and why.",
-        items: [
-          "Prospect Cards keep source notes attached to claims.",
-          "Workspace sessions use server-side cookies.",
-          "Billing operations are routed through Stripe when configured.",
-          "Support requests can be sent to support@leadcue.app."
-        ]
-      }
-    ]
-  },
-  terms: {
-    eyebrow: "Terms",
-    title: "Commercial usage terms for LeadCue workspaces.",
-    summary:
-      "These launch terms clarify the intended product boundary: website research, prospect qualification, and export-ready notes for agency outbound teams.",
-    primaryAction: { label: "Start free", href: "/signup?plan=free" },
-    secondaryAction: { label: "Ask a question", href: "/contact" },
-    sections: [
-      {
-        title: "Acceptable use",
-        copy: "Use LeadCue to analyze public company websites and prepare better outreach research.",
-        items: [
-          "Run scans only for lawful business prospecting workflows.",
-          "Respect website, platform, and outreach-tool policies.",
-          "Do not use LeadCue to build spam lists or automate unwanted contact.",
-          "Review generated copy before sending it anywhere."
-        ]
-      },
-      {
-        title: "Plans and credits",
-        copy: "Plans are organized around monthly website scan credits.",
-        items: [
-          "Free workspaces include a limited monthly scan volume.",
-          "Deep scans can consume additional credits.",
-          "Paid plan billing uses Stripe when payment is configured.",
-          "Credit limits and plan names can change as the commercial product matures."
-        ]
-      },
-      {
-        title: "Product boundary",
-        copy: "LeadCue is the research layer before outreach, not the entire sales stack.",
-        items: [
-          "LeadCue does not send email campaigns.",
-          "LeadCue does not replace CRM ownership or compliance review.",
-          "Generated Prospect Cards should be treated as decision support.",
-          "Customers remain responsible for how exported data is used."
-        ]
-      }
-    ]
-  }
-};
-
 const demoLeads = [
   SAMPLE_PROSPECT_CARD,
   {
@@ -658,6 +446,39 @@ type WorkspaceSnapshot = {
   warning?: string;
 };
 
+type AnalyticsSummary = {
+  source: "d1" | "sample";
+  totals: {
+    events: number;
+    scansCompleted: number;
+    leadsSaved: number;
+    exportsCompleted: number;
+  };
+  funnel: {
+    ctaClicks: number;
+    signupsCompleted: number;
+    loginsCompleted: number;
+    scansCompleted: number;
+    exportsCompleted: number;
+  };
+  topPages: Array<{
+    path: string;
+    count: number;
+  }>;
+  topEvents: Array<{
+    name: string;
+    count: number;
+  }>;
+  recentEvents: Array<{
+    id: string;
+    name: string;
+    pagePath: string | null;
+    createdAt: string;
+    metadataSummary?: string | null;
+  }>;
+  recommendations: string[];
+};
+
 type SignupFormState = {
   email: string;
   password: string;
@@ -671,6 +492,22 @@ type SignupFormState = {
 type LoginFormState = {
   email: string;
   password: string;
+};
+
+type PasswordResetFormState = {
+  password: string;
+  confirmPassword: string;
+};
+
+type AccountProfileFormState = {
+  name: string;
+  workspaceName: string;
+};
+
+type AccountPasswordFormState = {
+  currentPassword: string;
+  nextPassword: string;
+  confirmPassword: string;
 };
 
 type ScanFormState = {
@@ -689,7 +526,7 @@ type IcpFormState = {
   firstProspectUrl: string;
 };
 
-type AppSection = "dashboard" | "leads" | "icp" | "billing";
+type AppSection = "dashboard" | "leads" | "icp" | "billing" | "analytics" | "account";
 
 const sampleWorkspace: WorkspaceSnapshot = {
   workspace: {
@@ -727,6 +564,63 @@ const sampleWorkspace: WorkspaceSnapshot = {
   source: "sample"
 };
 
+const sampleAnalyticsSummary: AnalyticsSummary = {
+  source: "sample",
+  totals: {
+    events: 42,
+    scansCompleted: 12,
+    leadsSaved: 7,
+    exportsCompleted: 3
+  },
+  funnel: {
+    ctaClicks: 18,
+    signupsCompleted: 5,
+    loginsCompleted: 6,
+    scansCompleted: 12,
+    exportsCompleted: 3
+  },
+  topPages: [
+    { path: "/", count: 14 },
+    { path: "/templates/crm-csv-field-mapping", count: 9 },
+    { path: "/templates/cold-email-first-line", count: 7 },
+    { path: "/integrations/hubspot-csv-export", count: 5 }
+  ],
+  topEvents: [
+    { name: "scan_completed", count: 12 },
+    { name: "product_tool_primary_click", count: 8 },
+    { name: "export_completed", count: 3 },
+    { name: "auth_signup_completed", count: 2 }
+  ],
+  recentEvents: [
+    {
+      id: "evt_sample_scan",
+      name: "scan_completed",
+      pagePath: "/app",
+      createdAt: new Date(Date.now() - 1000 * 60 * 9).toISOString(),
+      metadataSummary: "basic scan, 1 credit"
+    },
+    {
+      id: "evt_sample_export",
+      name: "export_completed",
+      pagePath: "/app/leads",
+      createdAt: new Date(Date.now() - 1000 * 60 * 26).toISOString(),
+      metadataSummary: "CRM / HubSpot"
+    },
+    {
+      id: "evt_sample_tool",
+      name: "product_tool_primary_click",
+      pagePath: "/templates/crm-csv-field-mapping",
+      createdAt: new Date(Date.now() - 1000 * 60 * 44).toISOString(),
+      metadataSummary: "HubSpot mapping CTA"
+    }
+  ],
+  recommendations: [
+    "Tool-page CTA clicks are healthy. Keep routing those users into signup with the same field template context.",
+    "Exports are lower than scans, so the next bottleneck is likely qualification confidence or CRM handoff timing.",
+    "The CRM mapping template is pulling the most product-led traffic right now."
+  ]
+};
+
 function icpFormFromSetup(setup: WorkspaceSnapshot["setup"]): IcpFormState {
   return {
     serviceType: serviceTypeForFocus(setup.agencyFocus || setup.serviceType),
@@ -742,6 +636,7 @@ export default function App() {
   const pathname = window.location.pathname;
   const isAppRoute = pathname.startsWith("/app");
   const isLoginRoute = pathname.startsWith("/login");
+  const isResetPasswordRoute = pathname.startsWith("/reset-password");
   const isSignupRoute = pathname.startsWith("/signup");
   const commercialPageSlug = getCommercialPageSlug(pathname);
   const seoContentPage = getSeoContentPage(pathname);
@@ -771,6 +666,20 @@ export default function App() {
           noIndex
         />
         <LoginPage />
+      </>
+    );
+  }
+
+  if (isResetPasswordRoute) {
+    return (
+      <>
+        <SeoHead
+          title="Reset your LeadCue password"
+          description="Reset the password for your LeadCue workspace account."
+          path="/reset-password"
+          noIndex
+        />
+        <ResetPasswordPage />
       </>
     );
   }
@@ -1398,6 +1307,14 @@ function MarketingSite() {
                     className="plan-cta"
                     href={`/signup?plan=${plan.id}`}
                     aria-label={`${plan.id === "free" ? "Start free" : "Subscribe"} with the ${plan.name} plan`}
+                    onClick={() => {
+                      void trackEvent({
+                        name: "pricing_plan_click",
+                        metadata: {
+                          planId: plan.id
+                        }
+                      });
+                    }}
                   >
                     <Icon name="mail" />
                     {plan.id === "free" ? "Start free scan" : plan.id === "agency" ? "Start agency setup" : `Start ${plan.name}`}
@@ -1893,6 +1810,17 @@ const crmMappingRows = [
   }
 ] as const;
 
+const requiredCrmFieldKeys = new Set(["company", "website", "owner", "stage"]);
+const recommendedCrmFieldKeys = new Set(["fit", "confidence", "signal", "firstLine", "sourceNotes", "exported"]);
+
+const agencyToolModes = [
+  { value: "web_design", label: "Web design" },
+  { value: "seo", label: "SEO" },
+  { value: "marketing", label: "Marketing" }
+] as const;
+
+type AgencyToolMode = (typeof agencyToolModes)[number]["value"];
+
 const firstLineTemplates = [
   {
     signal: "Hidden demo CTA",
@@ -1925,6 +1853,54 @@ const firstLineTemplates = [
   }
 ] as const;
 
+const checklistModeRecommendations: Record<AgencyToolMode, string[]> = {
+  web_design: ["cta", "proof", "caseStudies", "positioning", "contactPath", "sourceNotes"],
+  seo: ["contentFreshness", "serviceDepth", "positioning", "contactPath", "sourceNotes"],
+  marketing: ["cta", "proof", "contentFreshness", "positioning", "contactPath", "sourceNotes"]
+};
+
+const integrationPlaybooks = {
+  HubSpot: {
+    recordType: "Company import first",
+    quickWins: [
+      "Map Fit score and Confidence score into custom company properties.",
+      "Keep First line and Source notes visible to SDRs as soon as the record lands.",
+      "Import only selected saved leads so list hygiene stays clean."
+    ],
+    mistakes: [
+      "Importing every scanned account instead of only saved leads.",
+      "Dropping source notes so reps lose the proof behind the opener.",
+      "Using contact import too early before a verified contact path exists."
+    ]
+  },
+  Salesforce: {
+    recordType: "Lead import with research fields",
+    quickWins: [
+      "Set Lead Source to Website Prospecting or LeadCue for cleaner reporting.",
+      "Use Description or a long-text custom field for source-backed summary.",
+      "Route owner and lead status before the campaign handoff."
+    ],
+    mistakes: [
+      "Over-mapping every research field into a rigid schema.",
+      "Skipping custom numeric fields for fit and confidence scores.",
+      "Moving accounts into sequences before the owner verifies the reason to reach out."
+    ]
+  },
+  Pipedrive: {
+    recordType: "Organization or lead import",
+    quickWins: [
+      "Use Organization fields for website identity and note fields for the research reason.",
+      "Map Stage to researching or qualified before the account is touched by outreach.",
+      "Keep owner attached so handoff stays accountable."
+    ],
+    mistakes: [
+      "Creating deals before the account has shown any engagement.",
+      "Burying source notes in a place reps never review.",
+      "Losing export status and re-importing the same account twice."
+    ]
+  }
+} as const;
+
 const checklistItems = [
   { key: "cta", category: "Conversion", label: "Primary CTA is visible above the fold." },
   { key: "proof", category: "Trust", label: "Relevant customer proof appears before the buyer must hunt for it." },
@@ -1937,7 +1913,7 @@ const checklistItems = [
 ] as const;
 
 function copyText(value: string) {
-  void navigator.clipboard?.writeText(value);
+  void copyToClipboard(value);
 }
 
 function escapeCsvValue(value: string) {
@@ -2070,6 +2046,63 @@ function ProductSeoPageView({ page }: { page: ProductSeoPage }) {
               <ProductToolSurface page={page} />
             </section>
 
+            <section className="tool-conversion-band" aria-label="Use this workflow inside LeadCue">
+              <div className="tool-conversion-copy">
+                <p className="eyebrow">Turn the template into pipeline output</p>
+                <h2>Use the same workflow on a real prospect website.</h2>
+                <p>
+                  Start with a free workspace, run the website scan, then keep the fit score, source notes,
+                  first line, and CRM export fields together instead of copying them by hand.
+                </p>
+              </div>
+              <div className="tool-conversion-actions">
+                <a
+                  className="button button-primary"
+                  href={`/signup?plan=free${page.tool === "integration" ? "&focus=marketing" : page.tool === "first-line" ? "&focus=web_design" : ""}`}
+                  onClick={() => {
+                    void trackEvent({
+                      name: "product_tool_primary_click",
+                      metadata: {
+                        slug: page.slug,
+                        tool: page.tool
+                      }
+                    });
+                  }}
+                >
+                  <Icon name="scan" />
+                  Start free with this workflow
+                </a>
+                <a
+                  className="button button-secondary"
+                  href="/app/leads?lead=lead_sample"
+                  onClick={() => {
+                    void trackEvent({
+                      name: "product_tool_secondary_click",
+                      metadata: {
+                        slug: page.slug,
+                        target: "sample_card"
+                      }
+                    });
+                  }}
+                >
+                  <Icon name="clipboard" />
+                  Open sample Prospect Card
+                </a>
+              </div>
+              <div className="tool-conversion-points">
+                {[
+                  "20 free scans to test the workflow on real websites",
+                  "The same CRM naming presets used in the app export flow",
+                  "Save only qualified accounts before import or outreach"
+                ].map((item) => (
+                  <span key={item}>
+                    <Icon name="check" />
+                    {item}
+                  </span>
+                ))}
+              </div>
+            </section>
+
             {page.sections.map((section) => (
               <section className="seo-section" id={makeContentAnchor(section.title)} key={section.title}>
                 <h2>{section.title}</h2>
@@ -2118,7 +2151,20 @@ function ProductSeoPageView({ page }: { page: ProductSeoPage }) {
             <p className="eyebrow">Use it on a real account</p>
             <h2>Run the workflow inside LeadCue and export selected prospects.</h2>
           </div>
-          <a className="button button-primary" href="/signup?plan=free">
+          <a
+            className="button button-primary"
+            href="/signup?plan=free"
+            onClick={() => {
+              void trackEvent({
+                name: "product_tool_primary_click",
+                metadata: {
+                  slug: page.slug,
+                  tool: page.tool,
+                  source: "page_footer_cta"
+                }
+              });
+            }}
+          >
             <Icon name="scan" />
             Start free scan
           </a>
@@ -2146,9 +2192,25 @@ function ProductToolSurface({ page }: { page: ProductSeoPage }) {
 
 function CrmFieldMappingTool() {
   const [mode, setMode] = useState<CrmMappingMode>("hubspot");
+  const [scope, setScope] = useState<"all" | "required" | "recommended">("all");
+  const [customPrefix, setCustomPrefix] = useState("lc_");
   const [selectedKeys, setSelectedKeys] = useState<string[]>(crmMappingRows.map((row) => row.key));
+  const visibleRows = crmMappingRows.filter((row) => {
+    if (scope === "required") {
+      return requiredCrmFieldKeys.has(row.key);
+    }
+
+    if (scope === "recommended") {
+      return recommendedCrmFieldKeys.has(row.key) || requiredCrmFieldKeys.has(row.key);
+    }
+
+    return true;
+  });
   const selectedRows = crmMappingRows.filter((row) => selectedKeys.includes(row.key));
-  const csvHeader = selectedRows.map((row) => row.labels[mode]).join(",");
+  const missingRequired = Array.from(requiredCrmFieldKeys).filter((key) => !selectedKeys.includes(key));
+  const labelForRow = (row: (typeof crmMappingRows)[number]) =>
+    mode === "custom" && customPrefix.trim() ? `${customPrefix.trim()}${row.labels.custom}` : row.labels[mode];
+  const csvHeader = selectedRows.map((row) => labelForRow(row)).join(",");
   const csvSample = selectedRows.map((row) => escapeCsvValue(row.sample)).join(",");
   const csvText = `${csvHeader}\n${csvSample}`;
   const activeMode = crmMappingModes.find((item) => item.value === mode) ?? crmMappingModes[0];
@@ -2162,18 +2224,43 @@ function CrmFieldMappingTool() {
           <p>{activeMode.copy}</p>
         </div>
         <div className="tool-actions">
-          <button className="button button-secondary" type="button" onClick={() => copyText(csvHeader)}>
+          <button
+            className="button button-secondary"
+            type="button"
+            onClick={() => {
+              copyText(csvHeader);
+              void trackEvent({ name: "product_tool_copy", metadata: { tool: "crm-mapping", asset: "header", mode } });
+            }}
+          >
             <Icon name="clipboard" />
             Copy header
           </button>
-          <a
+          <button
             className="button button-primary"
-            href={`data:text/csv;charset=utf-8,${encodeURIComponent(csvText)}`}
-            download={`${mode}-leadcue-sample.csv`}
+            type="button"
+            onClick={() => {
+              downloadTextFile(`${mode}-leadcue-sample.csv`, csvText);
+              void trackEvent({ name: "product_tool_download", metadata: { tool: "crm-mapping", asset: "sample_csv", mode } });
+            }}
           >
             <Icon name="download" />
             Sample CSV
-          </a>
+          </button>
+        </div>
+      </div>
+
+      <div className="tool-kpi-strip">
+        <div>
+          <span>Included fields</span>
+          <strong>{selectedRows.length}</strong>
+        </div>
+        <div>
+          <span>Required fields</span>
+          <strong>{requiredCrmFieldKeys.size - missingRequired.length}/{requiredCrmFieldKeys.size}</strong>
+        </div>
+        <div>
+          <span>Best for</span>
+          <strong>{activeMode.label} import prep</strong>
         </div>
       </div>
 
@@ -2192,10 +2279,36 @@ function CrmFieldMappingTool() {
         ))}
       </div>
 
+      <div className="tool-segmented tool-segmented-secondary" role="tablist" aria-label="CRM field scope">
+        {[
+          ["all", "All fields"],
+          ["required", "Required only"],
+          ["recommended", "Recommended"]
+        ].map(([value, label]) => (
+          <button
+            className={scope === value ? "is-active" : ""}
+            type="button"
+            role="tab"
+            aria-selected={scope === value}
+            key={value}
+            onClick={() => setScope(value as "all" | "required" | "recommended")}
+          >
+            {label}
+          </button>
+        ))}
+      </div>
+
+      {mode === "custom" ? (
+        <label className="tool-inline-field">
+          <span>Custom field prefix</span>
+          <input value={customPrefix} onChange={(event) => setCustomPrefix(event.currentTarget.value)} placeholder="lc_" />
+        </label>
+      ) : null}
+
       <div className="field-mapping-grid">
         <div className="field-picker" aria-label="Fields to include">
           <strong>Included fields</strong>
-          {crmMappingRows.map((row) => (
+          {visibleRows.map((row) => (
             <label key={row.key}>
               <input
                 type="checkbox"
@@ -2206,7 +2319,7 @@ function CrmFieldMappingTool() {
                   );
                 }}
               />
-              <span>{row.labels[mode]}</span>
+              <span>{labelForRow(row)}</span>
             </label>
           ))}
         </div>
@@ -2219,12 +2332,29 @@ function CrmFieldMappingTool() {
           </div>
           {selectedRows.map((row) => (
             <div className="mapping-table-row" key={row.key}>
-              <strong>{row.labels[mode]}</strong>
+              <strong>{labelForRow(row)}</strong>
               <span>{row.group}</span>
               <p>{row.description}</p>
             </div>
           ))}
         </div>
+      </div>
+
+      <div className="tool-advice-grid">
+        <article className="tool-advice-card">
+          <span>Ready-to-import checklist</span>
+          <strong>{missingRequired.length ? "Add the missing required fields before export." : "Your export contains the minimum required fields."}</strong>
+          <p>
+            {missingRequired.length
+              ? `Missing: ${missingRequired.join(", ")}. These fields usually prevent broken ownership or duplicate imports.`
+              : "This header is ready for a selected-lead export and a first CRM import pass."}
+          </p>
+        </article>
+        <article className="tool-advice-card">
+          <span>Best practice</span>
+          <strong>Import selected saved leads, not every scanned website.</strong>
+          <p>That keeps your CRM focused on accounts with fit, evidence, and a usable first line.</p>
+        </article>
       </div>
 
       <pre className="csv-preview">{csvText}</pre>
@@ -2233,9 +2363,11 @@ function CrmFieldMappingTool() {
 }
 
 function FirstLineTemplateTool() {
+  const [agencyMode, setAgencyMode] = useState<AgencyToolMode>("web_design");
   const [selectedIndex, setSelectedIndex] = useState(0);
   const selected = firstLineTemplates[selectedIndex] ?? firstLineTemplates[0];
-  const email = `Hi Alex,\n\n${selected.firstLine}\n\n${selected.nextSentence}\n\n${selected.cta}`;
+  const selectedVariant = buildFirstLineVariant(selected, agencyMode);
+  const email = `Hi Alex,\n\n${selected.firstLine}\n\n${selectedVariant.nextSentence}\n\n${selectedVariant.cta}`;
 
   return (
     <div className="product-tool first-line-tool">
@@ -2243,12 +2375,35 @@ function FirstLineTemplateTool() {
         <div>
           <p className="eyebrow">First line builder</p>
           <h2>{selected.signal}</h2>
-          <p>Pick a website signal and copy a short opener that leads into a useful next step.</p>
+          <p>Pick a website signal, tailor it to your offer, and copy a reply-ready opener that moves the conversation forward.</p>
         </div>
-        <button className="button button-primary" type="button" onClick={() => copyText(email)}>
+        <button
+          className="button button-primary"
+          type="button"
+          onClick={() => {
+            copyText(email);
+            void trackEvent({
+              name: "product_tool_copy",
+              metadata: { tool: "first-line", asset: "email", signal: selected.signal, agencyMode }
+            });
+          }}
+        >
           <Icon name="clipboard" />
           Copy email
         </button>
+      </div>
+
+      <div className="tool-segmented tool-segmented-secondary" role="tablist" aria-label="Agency offer mode">
+        {agencyToolModes.map((mode) => (
+          <button
+            className={agencyMode === mode.value ? "is-active" : ""}
+            type="button"
+            key={mode.value}
+            onClick={() => setAgencyMode(mode.value)}
+          >
+            {mode.label}
+          </button>
+        ))}
       </div>
 
       <div className="template-signal-grid">
@@ -2272,22 +2427,80 @@ function FirstLineTemplateTool() {
         </div>
         <div>
           <span>Bridge</span>
-          <p>{selected.nextSentence}</p>
+          <p>{selectedVariant.nextSentence}</p>
         </div>
         <div>
           <span>CTA</span>
-          <p>{selected.cta}</p>
+          <p>{selectedVariant.cta}</p>
         </div>
+      </div>
+
+      <div className="tool-advice-grid">
+        <article className="tool-advice-card">
+          <span>Why this gets replies</span>
+          <strong>{selectedVariant.whyItWorks}</strong>
+          <p>Lead with an observation the buyer can verify, then connect it to a plausible business outcome.</p>
+        </article>
+        <article className="tool-advice-card tool-advice-card-contrast">
+          <span>Avoid this</span>
+          <strong>{selectedVariant.badExample}</strong>
+          <p>Generic praise sounds automated and gives the buyer no reason to continue reading.</p>
+        </article>
+      </div>
+
+      <div className="tool-micro-actions">
+        <button
+          className="button button-secondary"
+          type="button"
+          onClick={() => {
+            copyText(selected.firstLine);
+            void trackEvent({
+              name: "product_tool_copy",
+              metadata: { tool: "first-line", asset: "first_line", signal: selected.signal, agencyMode }
+            });
+          }}
+        >
+          <Icon name="clipboard" />
+          Copy first line
+        </button>
+        <a
+          className="button button-secondary"
+          href={`/signup?plan=free&focus=${agencyMode}`}
+          onClick={() => {
+            void trackEvent({
+              name: "product_tool_primary_click",
+              metadata: { tool: "first-line", signal: selected.signal, agencyMode }
+            });
+          }}
+        >
+          <Icon name="scan" />
+          Run this in LeadCue
+        </a>
       </div>
     </div>
   );
 }
 
 function WebsiteProspectingChecklistTool() {
-  const [checkedKeys, setCheckedKeys] = useState<string[]>(["cta", "proof", "sourceNotes"]);
+  const checklistQuery = useMemo(() => new URLSearchParams(window.location.search), []);
+  const initialMode = checklistQuery.get("mode");
+  const resolvedMode = agencyToolModes.some((mode) => mode.value === initialMode)
+    ? (initialMode as AgencyToolMode)
+    : "web_design";
+  const initialChecks = checklistQuery
+    .get("checks")
+    ?.split(",")
+    .map((item) => item.trim())
+    .filter((item) => checklistItems.some((check) => check.key === item));
+  const [agencyMode, setAgencyMode] = useState<AgencyToolMode>(resolvedMode);
+  const [checkedKeys, setCheckedKeys] = useState<string[]>(initialChecks?.length ? initialChecks : checklistModeRecommendations[resolvedMode]);
   const checkedItems = checklistItems.filter((item) => checkedKeys.includes(item.key));
   const score = Math.round((checkedItems.length / checklistItems.length) * 100);
   const strongestSignal = checkedItems[0]?.label ?? "No signal selected yet.";
+  const summaryText = `Website prospecting summary\nMode: ${agencyMode}\nCoverage: ${score}%\nSignals:\n${checkedItems
+    .map((item) => `- ${item.category}: ${item.label}`)
+    .join("\n")}`;
+  const shareUrl = `${window.location.origin}${window.location.pathname}?mode=${agencyMode}&checks=${checkedKeys.join(",")}`;
 
   return (
     <div className="product-tool checklist-tool">
@@ -2295,22 +2508,35 @@ function WebsiteProspectingChecklistTool() {
         <div>
           <p className="eyebrow">Website prospecting checklist</p>
           <h2>{score}% evidence coverage</h2>
-          <p>Check the signals you can verify on a prospect website before saving or exporting the account.</p>
+          <p>Check the signals you can verify on a prospect website before saving, exporting, or assigning the account to outreach.</p>
         </div>
         <button
           className="button button-primary"
           type="button"
-          onClick={() =>
-            copyText(
-              `Website prospecting summary\nCoverage: ${score}%\nSignals:\n${checkedItems
-                .map((item) => `- ${item.category}: ${item.label}`)
-                .join("\n")}`
-            )
-          }
+          onClick={() => {
+            copyText(summaryText);
+            void trackEvent({ name: "product_tool_copy", metadata: { tool: "checklist", asset: "summary", agencyMode } });
+          }}
         >
           <Icon name="clipboard" />
           Copy summary
         </button>
+      </div>
+
+      <div className="tool-segmented tool-segmented-secondary" role="tablist" aria-label="Agency checklist mode">
+        {agencyToolModes.map((mode) => (
+          <button
+            className={agencyMode === mode.value ? "is-active" : ""}
+            type="button"
+            key={mode.value}
+            onClick={() => {
+              setAgencyMode(mode.value);
+              setCheckedKeys(checklistModeRecommendations[mode.value]);
+            }}
+          >
+            {mode.label}
+          </button>
+        ))}
       </div>
 
       <div className="checklist-grid">
@@ -2337,6 +2563,33 @@ function WebsiteProspectingChecklistTool() {
         <strong>
           {checkedItems.length} of {checklistItems.length} signals verified
         </strong>
+        <small>
+          Best next step: {score >= 60 ? "save the lead and draft the first line" : "capture more website evidence before export"}
+        </small>
+      </div>
+
+      <div className="tool-micro-actions">
+        <button
+          className="button button-secondary"
+          type="button"
+          onClick={() => {
+            copyText(shareUrl);
+            void trackEvent({ name: "product_tool_copy", metadata: { tool: "checklist", asset: "share_link", agencyMode } });
+          }}
+        >
+          <Icon name="clipboard" />
+          Copy share link
+        </button>
+        <a
+          className="button button-secondary"
+          href={`/signup?plan=free&focus=${agencyMode}`}
+          onClick={() => {
+            void trackEvent({ name: "product_tool_primary_click", metadata: { tool: "checklist", agencyMode } });
+          }}
+        >
+          <Icon name="scan" />
+          Run checklist in LeadCue
+        </a>
       </div>
     </div>
   );
@@ -2347,6 +2600,7 @@ function IntegrationExportTool({ platform }: { platform: "HubSpot" | "Salesforce
     platform === "HubSpot" ? "hubspot" : platform === "Salesforce" ? "salesforce" : "pipedrive";
   const csvHeader = crmMappingRows.map((row) => row.labels[mode]).join(",");
   const csvSample = crmMappingRows.map((row) => escapeCsvValue(row.sample)).join(",");
+  const playbook = integrationPlaybooks[platform];
 
   return (
     <div className="product-tool integration-tool">
@@ -2356,10 +2610,32 @@ function IntegrationExportTool({ platform }: { platform: "HubSpot" | "Salesforce
           <h2>{platform} CSV header and sample row</h2>
           <p>Use these headers as a starting point for selected saved leads from a website-first research workflow.</p>
         </div>
-        <button className="button button-primary" type="button" onClick={() => copyText(csvHeader)}>
+        <button
+          className="button button-primary"
+          type="button"
+          onClick={() => {
+            copyText(csvHeader);
+            void trackEvent({ name: "product_tool_copy", metadata: { tool: "integration", asset: "header", platform } });
+          }}
+        >
           <Icon name="clipboard" />
           Copy {platform} header
         </button>
+      </div>
+
+      <div className="tool-kpi-strip">
+        <div>
+          <span>Recommended record</span>
+          <strong>{playbook.recordType}</strong>
+        </div>
+        <div>
+          <span>Included columns</span>
+          <strong>{crmMappingRows.length}</strong>
+        </div>
+        <div>
+          <span>Best handoff</span>
+          <strong>Selected saved leads</strong>
+        </div>
       </div>
 
       <div className="integration-field-list">
@@ -2372,7 +2648,52 @@ function IntegrationExportTool({ platform }: { platform: "HubSpot" | "Salesforce
         ))}
       </div>
 
+      <div className="tool-advice-grid">
+        <article className="tool-advice-card">
+          <span>Quick wins</span>
+          <strong>What makes this import immediately useful</strong>
+          <ul className="tool-advice-list">
+            {playbook.quickWins.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+        </article>
+        <article className="tool-advice-card tool-advice-card-contrast">
+          <span>Common mistakes</span>
+          <strong>What usually weakens CRM handoff</strong>
+          <ul className="tool-advice-list">
+            {playbook.mistakes.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+        </article>
+      </div>
+
       <pre className="csv-preview">{`${csvHeader}\n${csvSample}`}</pre>
+
+      <div className="tool-micro-actions">
+        <button
+          className="button button-secondary"
+          type="button"
+          onClick={() => {
+            downloadTextFile(`${platform.toLowerCase()}-leadcue-import.csv`, `${csvHeader}\n${csvSample}`);
+            void trackEvent({ name: "product_tool_download", metadata: { tool: "integration", asset: "sample_csv", platform } });
+          }}
+        >
+          <Icon name="download" />
+          Download sample CSV
+        </button>
+        <a
+          className="button button-secondary"
+          href="/templates/crm-csv-field-mapping"
+          onClick={() => {
+            void trackEvent({ name: "product_tool_secondary_click", metadata: { tool: "integration", platform, target: "mapping_template" } });
+          }}
+        >
+          <Icon name="arrow" />
+          Open mapping template
+        </a>
+      </div>
     </div>
   );
 }
@@ -2508,12 +2829,120 @@ function getInitialFirstProspectUrl() {
   return first?.trim() || "";
 }
 
+function buildFirstLineVariant(
+  template: (typeof firstLineTemplates)[number],
+  mode: AgencyToolMode
+): { nextSentence: string; cta: string; whyItWorks: string; badExample: string } {
+  const baseBadExample = "Loved your site and thought I'd reach out because we help companies grow.";
+
+  switch (mode) {
+    case "seo":
+      return {
+        nextSentence:
+          template.category === "SEO"
+            ? "That usually means high-intent search demand is leaking before buyers ever make it to a demo request."
+            : "That can hide demand capture opportunities when buyers research through search before they ever talk to sales.",
+        cta:
+          template.category === "SEO"
+            ? "Want me to send the two search-driven fixes I would test first?"
+            : "Want me to send the SEO angle I would use here first?",
+        whyItWorks: "It ties a visible website issue to search demand and makes the next step feel lightweight.",
+        badExample: baseBadExample
+      };
+    case "marketing":
+      return {
+        nextSentence:
+          template.category === "Trust"
+            ? "That can make paid and outbound traffic bounce before they feel enough confidence to reply or book."
+            : "That usually creates friction between the click and the action you want a buyer to take.",
+        cta: "Want me to send the conversion angle I would test first?",
+        whyItWorks: "It connects the website cue to funnel friction and frames the reply as a small review, not a pitch dump.",
+        badExample: baseBadExample
+      };
+    default:
+      return {
+        nextSentence: template.nextSentence,
+        cta: template.cta,
+        whyItWorks: "It names a real website observation, connects it to buyer behavior, and ends with a low-pressure ask.",
+        badExample: baseBadExample
+      };
+  }
+}
+
 function formatSubscriptionStatus(status: string) {
   return status
     .split("_")
     .filter(Boolean)
     .map((part) => `${part.charAt(0).toUpperCase()}${part.slice(1)}`)
     .join(" ");
+}
+
+function getSubscriptionStatusDetails(status: string) {
+  switch (status) {
+    case "active":
+      return {
+        label: "Active",
+        tone: "is-success",
+        summary: "Scans and exports are available on the current plan.",
+        nextStep: "Keep qualifying accounts, then upgrade only when scan volume is the real bottleneck."
+      };
+    case "trialing":
+      return {
+        label: "Trialing",
+        tone: "is-success",
+        summary: "The workspace has access right now, but the trial period will need a billing decision soon.",
+        nextStep: "Use this window to validate scan quality, save rate, and export handoff."
+      };
+    case "pending_checkout":
+      return {
+        label: "Checkout pending",
+        tone: "is-warning",
+        summary: "The plan change has started, but checkout still needs to be completed.",
+        nextStep: "Finish the Stripe checkout to unlock the paid credit allowance."
+      };
+    case "configuration_required":
+      return {
+        label: "Billing setup required",
+        tone: "is-warning",
+        summary: "The workspace selected a paid plan before billing was fully configured in this environment.",
+        nextStep: "Contact support or finish the Stripe configuration before relying on paid-plan access."
+      };
+    case "past_due":
+      return {
+        label: "Past due",
+        tone: "is-warning",
+        summary: "Billing needs attention before the workspace can rely on uninterrupted paid access.",
+        nextStep: "Open the billing portal and update the payment method or invoice status."
+      };
+    case "canceled":
+      return {
+        label: "Canceled",
+        tone: "is-danger",
+        summary: "The paid subscription is no longer active for future periods.",
+        nextStep: "Restart checkout if the team still needs higher monthly scan volume."
+      };
+    default:
+      return {
+        label: formatSubscriptionStatus(status),
+        tone: "",
+        summary: "This subscription state needs review before rollout.",
+        nextStep: "Open billing details or contact support if the status does not match the expected plan."
+      };
+  }
+}
+
+function formatAnalyticsEventName(value: string) {
+  return value
+    .replace(/_/g, " ")
+    .replace(/\b\w/g, (letter) => letter.toUpperCase());
+}
+
+function percentage(numerator: number, denominator: number) {
+  if (!denominator) {
+    return "0%";
+  }
+
+  return `${Math.round((numerator / denominator) * 100)}%`;
 }
 
 function formatAgencyFocus(value?: string | null) {
@@ -2799,6 +3228,14 @@ function getAppSection(pathname: string): AppSection {
     return "icp";
   }
 
+  if (pathname.startsWith("/app/analytics")) {
+    return "analytics";
+  }
+
+  if (pathname.startsWith("/app/account")) {
+    return "account";
+  }
+
   if (pathname.startsWith("/app/billing")) {
     return "billing";
   }
@@ -2825,6 +3262,18 @@ function appPageCopy(section: AppSection) {
         eyebrow: "Credits and billing",
         title: "Plan usage",
         copy: "Track remaining scan credits, subscription state, and the plan path for your outbound volume."
+      };
+    case "analytics":
+      return {
+        eyebrow: "Analytics",
+        title: "Research funnel",
+        copy: "See which actions actually move from product interest to saved scans, exports, and CRM handoff."
+      };
+    case "account":
+      return {
+        eyebrow: "Account",
+        title: "Profile and access",
+        copy: "Manage workspace identity, password access, and the secure session your team uses to enter LeadCue."
       };
     default:
       return {
@@ -2857,6 +3306,23 @@ function buildGoogleAuthHref(options: {
   return `/api/auth/google/start?${params.toString()}`;
 }
 
+function formatCalendarDate(value: string | null | undefined) {
+  if (!value) {
+    return "Not scheduled";
+  }
+
+  const parsed = Date.parse(value);
+  if (Number.isNaN(parsed)) {
+    return value;
+  }
+
+  return new Date(parsed).toLocaleDateString(undefined, {
+    year: "numeric",
+    month: "short",
+    day: "numeric"
+  });
+}
+
 function getAuthErrorMessage() {
   const authError = new URLSearchParams(window.location.search).get("auth_error");
 
@@ -2884,6 +3350,11 @@ function LoginPage() {
   const [loginState, setLoginState] = useState<"idle" | "loading" | "error">("idle");
   const [loginError, setLoginError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [showResetPanel, setShowResetPanel] = useState(false);
+  const [resetEmail, setResetEmail] = useState("");
+  const [resetState, setResetState] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [resetMessage, setResetMessage] = useState("");
+  const [resetLink, setResetLink] = useState("");
 
   function updateLoginField<Key extends keyof LoginFormState>(field: Key) {
     return (event: ChangeEvent<HTMLInputElement>) => {
@@ -2926,11 +3397,63 @@ function LoginPage() {
         return;
       }
 
+      void trackEvent({
+        name: "auth_login_email_success",
+        metadata: {
+          method: "email"
+        }
+      });
       window.location.href = result.next || "/app?login=1";
     } catch (error) {
       console.error("email_login_failed", error);
       setLoginState("error");
       setLoginError("Email password sign-in is unavailable. Try Google or come back in a moment.");
+    }
+  }
+
+  async function submitPasswordResetRequest(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const email = resetEmail.trim().toLowerCase() || loginForm.email.trim().toLowerCase();
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setResetState("error");
+      setResetMessage("Enter the workspace email address so we know where to send the reset link.");
+      setResetLink("");
+      return;
+    }
+
+    setResetState("loading");
+    setResetMessage("");
+    setResetLink("");
+
+    try {
+      const response = await fetch("/api/auth/password/request-reset", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ email })
+      });
+      const result = (await response.json().catch(() => ({}))) as { ok?: boolean; message?: string; resetUrl?: string; error?: string };
+
+      if (!response.ok || !result.ok) {
+        throw new Error(result.error || "Password reset is unavailable right now.");
+      }
+
+      setResetState("success");
+      setResetMessage(result.message || "If that email belongs to a workspace, a reset link has been prepared.");
+      setResetLink(result.resetUrl || "");
+      void trackEvent({
+        name: "auth_password_reset_requested",
+        metadata: {
+          emailDomain: email.split("@")[1] || "unknown"
+        }
+      });
+    } catch (error) {
+      setResetState("error");
+      setResetMessage(error instanceof Error ? error.message : "Password reset is unavailable right now.");
+      setResetLink("");
     }
   }
 
@@ -2981,7 +3504,13 @@ function LoginPage() {
           <p className="eyebrow">Welcome back</p>
           <h1>Sign in</h1>
           <p className="auth-copy">Use Google or your work email to reopen your prospect research workspace.</p>
-          <a className="button button-primary auth-google-button" href={buildGoogleAuthHref({ intent: "login" })}>
+          <a
+            className="button button-primary auth-google-button"
+            href={buildGoogleAuthHref({ intent: "login" })}
+            onClick={() => {
+              void trackEvent({ name: "auth_login_google_click", metadata: { method: "google" } });
+            }}
+          >
             Continue with Google
           </a>
           <div className="oauth-divider" aria-hidden="true">
@@ -3028,6 +3557,62 @@ function LoginPage() {
               {loginState === "loading" ? "Signing in..." : "Sign in with email"}
             </button>
           </form>
+          <div className="auth-inline-links">
+            <button
+              className="auth-text-link"
+              type="button"
+              onClick={() => {
+                setShowResetPanel((current) => !current);
+                setResetEmail((current) => current || loginForm.email);
+                setResetState("idle");
+                setResetMessage("");
+                setResetLink("");
+              }}
+            >
+              {showResetPanel ? "Hide reset options" : "Forgot password?"}
+            </button>
+            <a className="auth-text-link" href="/support">
+              Need help signing in?
+            </a>
+          </div>
+          {showResetPanel ? (
+            <form className="auth-support-card" onSubmit={submitPasswordResetRequest}>
+              <div>
+                <strong>Reset your password</strong>
+                <p>Use the same work email attached to the workspace. We will prepare a one-time reset link.</p>
+              </div>
+              <label className="auth-field">
+                <span>Workspace email</span>
+                <input
+                  type="email"
+                  value={resetEmail}
+                  onChange={(event) => setResetEmail(event.currentTarget.value)}
+                  placeholder="you@agency.com"
+                  autoComplete="email"
+                  required
+                />
+              </label>
+              <button className="button button-secondary" type="submit" disabled={resetState === "loading"}>
+                {resetState === "loading" ? "Preparing reset link..." : "Email me a reset link"}
+              </button>
+              <p
+                className={`form-status ${
+                  resetState === "error" ? "is-error" : resetState === "success" ? "is-success" : ""
+                }`}
+                role="status"
+              >
+                {resetMessage || " "}
+              </p>
+              {resetLink ? (
+                <a className="button button-secondary auth-dev-link" href={resetLink}>
+                  Open reset link
+                </a>
+              ) : null}
+              <small className="auth-compact-note">
+                On local builds, LeadCue shows the reset link directly so the flow can be tested end to end.
+              </small>
+            </form>
+          ) : null}
           {authMessage ? (
             <p className="form-status is-error auth-message" role="alert">
               {authMessage}
@@ -3044,8 +3629,167 @@ function LoginPage() {
               <span>New to LeadCue?</span>
               <p>Create a free workspace and run your first prospect scan.</p>
             </div>
-            <a className="button button-secondary auth-signup-button" href="/signup?plan=free">
+            <a
+              className="button button-secondary auth-signup-button"
+              href="/signup?plan=free"
+              onClick={() => {
+                void trackEvent({ name: "auth_signup_cta_click", metadata: { source: "login_page" } });
+              }}
+            >
               Create free workspace
+            </a>
+          </div>
+        </section>
+      </main>
+    </div>
+  );
+}
+
+function ResetPasswordPage() {
+  const resetToken = useMemo(() => new URLSearchParams(window.location.search).get("token") || "", []);
+  const [form, setForm] = useState<PasswordResetFormState>({ password: "", confirmPassword: "" });
+  const [showPassword, setShowPassword] = useState(false);
+  const [resetState, setResetState] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [statusMessage, setStatusMessage] = useState("");
+
+  function updateField<Key extends keyof PasswordResetFormState>(field: Key) {
+    return (event: ChangeEvent<HTMLInputElement>) => {
+      setForm((current) => ({ ...current, [field]: event.currentTarget.value }));
+      if (resetState !== "idle") {
+        setResetState("idle");
+        setStatusMessage("");
+      }
+    };
+  }
+
+  async function submitPasswordReset(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    if (!resetToken) {
+      setResetState("error");
+      setStatusMessage("This password reset link is missing its token. Request a new reset from the login page.");
+      return;
+    }
+
+    if (form.password.length < 8) {
+      setResetState("error");
+      setStatusMessage("Use at least 8 characters for the new password.");
+      return;
+    }
+
+    if (form.password !== form.confirmPassword) {
+      setResetState("error");
+      setStatusMessage("The new password and confirmation need to match.");
+      return;
+    }
+
+    setResetState("loading");
+    setStatusMessage("");
+
+    try {
+      const response = await fetch("/api/auth/password/reset", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          token: resetToken,
+          password: form.password
+        })
+      });
+      const result = (await response.json().catch(() => ({}))) as { ok?: boolean; next?: string; error?: string };
+
+      if (!response.ok || !result.ok) {
+        throw new Error(result.error || "This reset link is no longer valid. Request a new one.");
+      }
+
+      setResetState("success");
+      setStatusMessage("Password updated. Reopening your workspace...");
+      void trackEvent({ name: "auth_password_reset_completed" });
+      window.setTimeout(() => {
+        window.location.assign(result.next || "/app?login=1");
+      }, 600);
+    } catch (error) {
+      setResetState("error");
+      setStatusMessage(error instanceof Error ? error.message : "Unable to reset the password right now.");
+    }
+  }
+
+  return (
+    <div className="site-shell">
+      <header className="topbar topbar-minimal">
+        <a className="brand" href="/" aria-label="LeadCue home">
+          <BrandMark />
+          <span>LeadCue</span>
+        </a>
+        <a className="button button-small button-secondary topbar-back" href="/login">
+          <Icon name="arrow" />
+          Back to sign in
+        </a>
+      </header>
+
+      <main className="auth-page auth-reset-page">
+        <section className="auth-card glass-card reset-password-card">
+          <p className="eyebrow">Account recovery</p>
+          <h1>Choose a new password</h1>
+          <p className="auth-copy">
+            This updates the password for your LeadCue workspace login and keeps the same secure session model as Google sign-in.
+          </p>
+          <form className="login-form" onSubmit={submitPasswordReset}>
+            <label className="auth-field">
+              <span>New password</span>
+              <div className="password-input-wrap">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  value={form.password}
+                  onChange={updateField("password")}
+                  autoComplete="new-password"
+                  minLength={8}
+                  placeholder="8+ characters"
+                  required
+                />
+                <button
+                  className="password-toggle"
+                  type="button"
+                  onClick={() => setShowPassword((current) => !current)}
+                  aria-pressed={showPassword}
+                >
+                  {showPassword ? "Hide" : "Show"}
+                </button>
+              </div>
+            </label>
+            <label className="auth-field">
+              <span>Confirm password</span>
+              <input
+                type={showPassword ? "text" : "password"}
+                value={form.confirmPassword}
+                onChange={updateField("confirmPassword")}
+                autoComplete="new-password"
+                minLength={8}
+                placeholder="Repeat the new password"
+                required
+              />
+            </label>
+            <button className="button button-primary auth-email-button" type="submit" disabled={resetState === "loading"}>
+              <Icon name="lock" />
+              {resetState === "loading" ? "Updating password..." : "Update password"}
+            </button>
+            <p
+              className={`form-status ${
+                resetState === "error" ? "is-error" : resetState === "success" ? "is-success" : ""
+              }`}
+              role="status"
+            >
+              {statusMessage || " "}
+            </p>
+          </form>
+          <div className="auth-inline-links">
+            <a className="auth-text-link" href="/login">
+              Back to sign in
+            </a>
+            <a className="auth-text-link" href="/support">
+              Contact support
             </a>
           </div>
         </section>
@@ -3146,6 +3890,13 @@ function SignupPage() {
       }
 
       const result = (await response.json()) as SignupResponse;
+      void trackEvent({
+        name: "auth_signup_completed",
+        metadata: {
+          planId: selectedPlan.id,
+          billingStatus: result.billingStatus || "unknown"
+        }
+      });
       if (result.checkoutUrl) {
         window.location.assign(result.checkoutUrl);
         return;
@@ -3400,6 +4151,8 @@ function DashboardApp() {
   const [historyDateFilter, setHistoryDateFilter] = useState<HistoryDateFilter>("all");
   const [historyReasonFilter, setHistoryReasonFilter] = useState("all");
   const [expandedScanId, setExpandedScanId] = useState<string | null>(null);
+  const [analyticsSummary, setAnalyticsSummary] = useState<AnalyticsSummary>(sampleAnalyticsSummary);
+  const [analyticsState, setAnalyticsState] = useState<"loading" | "ready" | "sample" | "error">("loading");
   const [leadSearch, setLeadSearch] = useState("");
   const [leadSort, setLeadSort] = useState<LeadSortOption>("newest");
   const [leadMinFit, setLeadMinFit] = useState(0);
@@ -3411,6 +4164,20 @@ function DashboardApp() {
   const [dashboardState, setDashboardState] = useState<"loading" | "ready" | "sample">("loading");
   const [dashboardMessage, setDashboardMessage] = useState("");
   const [auth, setAuth] = useState<AuthMeResponse>({ authenticated: false });
+  const [profileForm, setProfileForm] = useState<AccountProfileFormState>({
+    name: "",
+    workspaceName: sampleWorkspace.workspace.name
+  });
+  const [profileSaveState, setProfileSaveState] = useState<"idle" | "saving" | "saved" | "error">("idle");
+  const [profileMessage, setProfileMessage] = useState("");
+  const [accountPasswordForm, setAccountPasswordForm] = useState<AccountPasswordFormState>({
+    currentPassword: "",
+    nextPassword: "",
+    confirmPassword: ""
+  });
+  const [accountPasswordState, setAccountPasswordState] = useState<"idle" | "saving" | "saved" | "error">("idle");
+  const [accountPasswordMessage, setAccountPasswordMessage] = useState("");
+  const [showAccountPassword, setShowAccountPassword] = useState(false);
   const [onboardingState, setOnboardingState] = useState<"idle" | "saving">("idle");
   const [icpForm, setIcpForm] = useState<IcpFormState>(() => icpFormFromSetup(sampleWorkspace.setup));
   const [icpSaveState, setIcpSaveState] = useState<"idle" | "saving" | "saved" | "error">("idle");
@@ -3454,11 +4221,12 @@ function DashboardApp() {
 
     async function loadDashboard() {
       try {
-        const [authResponse, workspaceResponse, leadsResponse, scansResponse] = await Promise.all([
+        const [authResponse, workspaceResponse, leadsResponse, scansResponse, analyticsResponse] = await Promise.all([
           fetch("/api/auth/me", { credentials: "include" }),
           fetch("/api/workspace", { credentials: "include" }),
           fetch("/api/leads", { credentials: "include" }),
-          fetch("/api/scans", { credentials: "include" })
+          fetch("/api/scans", { credentials: "include" }),
+          fetch("/api/analytics/summary", { credentials: "include" })
         ]);
 
         if (!workspaceResponse.ok) {
@@ -3475,6 +4243,9 @@ function DashboardApp() {
         const scansData = scansResponse.ok
           ? ((await scansResponse.json()) as { scans?: ScanHistoryItem[]; source?: "d1" | "sample" })
           : { scans: demoScanHistory, source: "sample" as const };
+        const analyticsData = analyticsResponse.ok
+          ? ((await analyticsResponse.json()) as AnalyticsSummary)
+          : sampleAnalyticsSummary;
         const loadedLeads = leadsData.leads?.length ? leadsData.leads : [];
         const initialLeadRow =
           requestedLeadId && loadedLeads.length
@@ -3517,12 +4288,22 @@ function DashboardApp() {
           }
           setScanHistory(scansData.scans?.length ? scansData.scans : workspaceData.source === "sample" ? demoScanHistory : []);
           setHistoryState(scansData.source === "sample" ? "sample" : "ready");
+          setAnalyticsSummary(analyticsData);
+          setAnalyticsState(analyticsData.source === "sample" ? "sample" : "ready");
           setDashboardState(workspaceData.source === "sample" ? "sample" : "ready");
           setDashboardMessage(
             authData.authenticated
               ? workspaceData.warning || routeMessage
               : "Demo preview. Create a workspace to save prospects and track credits with a secure session."
           );
+
+          if (authData.authenticated && loginFlow) {
+            void trackEvent({ name: "auth_login_session_opened", metadata: { source: "workspace" } });
+          }
+
+          if (authData.authenticated && welcomeFlow) {
+            void trackEvent({ name: "workspace_signup_session_opened", metadata: { source: "workspace" } });
+          }
         }
       } catch (error) {
         if (!cancelled) {
@@ -3531,6 +4312,8 @@ function DashboardApp() {
           setLeads(demoLeadRows);
           setScanHistory(demoScanHistory);
           setHistoryState("sample");
+          setAnalyticsSummary(sampleAnalyticsSummary);
+          setAnalyticsState("sample");
           setSelectedLeadId(demoLeadRows[0]?.id || null);
           setSelectedLead({
             ...SAMPLE_PROSPECT_CARD,
@@ -3582,7 +4365,22 @@ function DashboardApp() {
     snapshot.setup.firstProspectUrl
   ]);
 
+  useEffect(() => {
+    setProfileForm({
+      name: auth.authenticated ? auth.user.name || "" : "",
+      workspaceName: snapshot.workspace.name
+    });
+    setProfileSaveState("idle");
+    setProfileMessage("");
+  }, [auth.authenticated, auth.authenticated ? auth.user.name : "", snapshot.workspace.name]);
+
   function prepareFirstScan() {
+    void trackEvent({
+      name: "workspace_prepare_first_scan",
+      metadata: {
+        hasSeedUrl: Boolean(snapshot.setup.firstProspectUrl)
+      }
+    });
     setScanForm((current) => ({
       ...current,
       url: snapshot.setup.firstProspectUrl || current.url,
@@ -3614,6 +4412,28 @@ function DashboardApp() {
       if (icpSaveState !== "idle") {
         setIcpSaveState("idle");
         setIcpMessage("");
+      }
+    };
+  }
+
+  function updateProfileField<Key extends keyof AccountProfileFormState>(field: Key) {
+    return (event: ChangeEvent<HTMLInputElement>) => {
+      setProfileForm((current) => ({ ...current, [field]: event.currentTarget.value }));
+
+      if (profileSaveState !== "idle") {
+        setProfileSaveState("idle");
+        setProfileMessage("");
+      }
+    };
+  }
+
+  function updateAccountPasswordField<Key extends keyof AccountPasswordFormState>(field: Key) {
+    return (event: ChangeEvent<HTMLInputElement>) => {
+      setAccountPasswordForm((current) => ({ ...current, [field]: event.currentTarget.value }));
+
+      if (accountPasswordState !== "idle") {
+        setAccountPasswordState("idle");
+        setAccountPasswordMessage("");
       }
     };
   }
@@ -3659,6 +4479,184 @@ function DashboardApp() {
     } catch (error) {
       setIcpSaveState("error");
       setIcpMessage(error instanceof Error ? error.message : "Unable to save ICP settings.");
+    }
+  }
+
+  async function submitProfile(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    if (!auth.authenticated) {
+      setProfileSaveState("error");
+      setProfileMessage("Sign in to update workspace profile details.");
+      return;
+    }
+
+    const payload = {
+      name: profileForm.name.trim(),
+      workspaceName: profileForm.workspaceName.trim()
+    };
+
+    if (!payload.name || !payload.workspaceName) {
+      setProfileSaveState("error");
+      setProfileMessage("Owner name and workspace name are both required.");
+      return;
+    }
+
+    setProfileSaveState("saving");
+    setProfileMessage("");
+
+    try {
+      const response = await fetch("/api/account/profile", {
+        method: "PATCH",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      });
+      const result = (await response.json().catch(() => ({}))) as {
+        ok?: boolean;
+        user?: { name: string | null };
+        workspace?: { name: string | null };
+        error?: string;
+      };
+
+      if (!response.ok || !result.ok) {
+        throw new Error(result.error || "Unable to update workspace profile.");
+      }
+
+      setAuth((current) =>
+        current.authenticated
+          ? {
+              ...current,
+              user: {
+                ...current.user,
+                name: result.user?.name ?? payload.name
+              },
+              workspace: {
+                ...current.workspace,
+                name: result.workspace?.name ?? payload.workspaceName
+              }
+            }
+          : current
+      );
+      setSnapshot((current) => ({
+        ...current,
+        workspace: {
+          ...current.workspace,
+          name: result.workspace?.name ?? payload.workspaceName
+        }
+      }));
+      setProfileSaveState("saved");
+      setProfileMessage("Workspace profile saved.");
+      void trackEvent({
+        name: "account_profile_updated",
+        metadata: {
+          workspaceNameLength: payload.workspaceName.length
+        }
+      });
+    } catch (error) {
+      setProfileSaveState("error");
+      setProfileMessage(error instanceof Error ? error.message : "Unable to update workspace profile.");
+    }
+  }
+
+  async function submitPasswordChange(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    if (!auth.authenticated) {
+      setAccountPasswordState("error");
+      setAccountPasswordMessage("Sign in to change the workspace password.");
+      return;
+    }
+
+    if (accountPasswordForm.nextPassword.length < 8) {
+      setAccountPasswordState("error");
+      setAccountPasswordMessage("Use at least 8 characters for the new password.");
+      return;
+    }
+
+    if (accountPasswordForm.nextPassword !== accountPasswordForm.confirmPassword) {
+      setAccountPasswordState("error");
+      setAccountPasswordMessage("The new password and confirmation need to match.");
+      return;
+    }
+
+    setAccountPasswordState("saving");
+    setAccountPasswordMessage("");
+
+    try {
+      const response = await fetch("/api/auth/password/update", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          currentPassword: accountPasswordForm.currentPassword,
+          nextPassword: accountPasswordForm.nextPassword
+        })
+      });
+      const result = (await response.json().catch(() => ({}))) as { ok?: boolean; message?: string; error?: string };
+
+      if (!response.ok || !result.ok) {
+        throw new Error(result.error || "Unable to update the password.");
+      }
+
+      setAccountPasswordForm({
+        currentPassword: "",
+        nextPassword: "",
+        confirmPassword: ""
+      });
+      setAccountPasswordState("saved");
+      setAccountPasswordMessage(result.message || "Password updated.");
+      void trackEvent({ name: "account_password_updated" });
+    } catch (error) {
+      setAccountPasswordState("error");
+      setAccountPasswordMessage(error instanceof Error ? error.message : "Unable to update the password.");
+    }
+  }
+
+  async function startPlanCheckout(planId: PricingPlan["id"]) {
+    if (!auth.authenticated) {
+      window.location.assign(`/signup?plan=${planId}`);
+      return;
+    }
+
+    if (snapshot.plan.id === planId) {
+      setDashboardMessage(`You are already on the ${snapshot.plan.name} plan.`);
+      return;
+    }
+
+    setDashboardMessage("");
+
+    try {
+      const response = await fetch("/api/billing/checkout", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          planId
+        })
+      });
+      const result = (await response.json().catch(() => ({}))) as { url?: string; checkoutUrl?: string; error?: string };
+      const checkoutUrl = result.url || result.checkoutUrl;
+
+      if (!response.ok || !checkoutUrl) {
+        throw new Error(result.error || "Checkout is not available for that plan right now.");
+      }
+
+      void trackEvent({
+        name: "billing_checkout_started",
+        metadata: {
+          planId
+        }
+      });
+      window.location.assign(checkoutUrl);
+    } catch (error) {
+      setDashboardMessage(error instanceof Error ? error.message : "Checkout is not available for that plan right now.");
     }
   }
 
@@ -3849,6 +4847,14 @@ function DashboardApp() {
         }
       }));
       setScanState("done");
+      void trackEvent({
+        name: "scan_completed",
+        metadata: {
+          deepScan: scanForm.deepScan,
+          creditsCharged: result.creditsCharged || 0,
+          replayed: Boolean(result.replayed)
+        }
+      });
       setScanMessage(
         `${result.prospect.companyName} is saved as a Prospect Card. ${result.creditsCharged} credit${result.creditsCharged === 1 ? "" : "s"} used.`
       );
@@ -3877,6 +4883,13 @@ function DashboardApp() {
       ].slice(0, 100));
       setHistoryFilter("all");
       setExpandedScanId(failedHistoryId);
+      void trackEvent({
+        name: "scan_failed",
+        metadata: {
+          deepScan: scanForm.deepScan,
+          reason: pendingFailure?.reason || "generation_failed"
+        }
+      });
       setScanMessage(
         error instanceof Error
           ? error.message
@@ -3906,6 +4919,7 @@ function DashboardApp() {
           completedAt: result.completedAt || new Date().toISOString()
         }
       }));
+      void trackEvent({ name: "workspace_onboarding_completed" });
       setDashboardMessage("Setup guide dismissed.");
     } catch (error) {
       setDashboardMessage(error instanceof Error ? error.message : "Unable to update onboarding.");
@@ -3941,6 +4955,13 @@ function DashboardApp() {
       link.remove();
       URL.revokeObjectURL(url);
       setActiveProspect((current) => ({ ...current, exportStatus: "exported" }));
+      void trackEvent({
+        name: "export_completed",
+        metadata: {
+          preset: bulkExportPreset,
+          crmMode: bulkCrmFieldMode
+        }
+      });
       setDashboardMessage(
         `CSV export prepared with ${bulkExportLabel(bulkExportPreset, bulkCrmFieldMode)} fields.`
       );
@@ -3966,6 +4987,12 @@ function DashboardApp() {
         throw new Error(result.error || "Billing portal is not available yet.");
       }
 
+      void trackEvent({
+        name: "billing_portal_opened",
+        metadata: {
+          planId: snapshot.plan.id
+        }
+      });
       window.location.assign(result.url);
     } catch (error) {
       setDashboardMessage(error instanceof Error ? error.message : "Billing portal is not available yet.");
@@ -3973,6 +5000,7 @@ function DashboardApp() {
   }
 
   async function signOut() {
+    void trackEvent({ name: "auth_sign_out" });
     await fetch("/api/auth/logout", { method: "POST", credentials: "include" }).catch(() => null);
     setAuth({ authenticated: false });
     setDashboardState("sample");
@@ -3980,6 +5008,8 @@ function DashboardApp() {
     setLeads(demoLeadRows);
     setScanHistory(demoScanHistory);
     setHistoryState("sample");
+    setAnalyticsSummary(sampleAnalyticsSummary);
+    setAnalyticsState("sample");
     setHistoryDateFilter("all");
     setHistoryReasonFilter("all");
     setSelectedLeadIds([]);
@@ -3992,6 +5022,15 @@ function DashboardApp() {
     });
     setSelectedLeadState("ready");
     setLeadDrawerOpen(false);
+    setProfileSaveState("idle");
+    setProfileMessage("");
+    setAccountPasswordState("idle");
+    setAccountPasswordMessage("");
+    setAccountPasswordForm({
+      currentPassword: "",
+      nextPassword: "",
+      confirmPassword: ""
+    });
     setDashboardMessage("Signed out. Showing the demo preview.");
   }
 
@@ -4212,6 +5251,7 @@ function DashboardApp() {
   ];
   const onboardingProgress = onboardingTasks.filter((task) => task.done).length;
   const welcomeName = auth.authenticated ? firstName(auth.user.name) || snapshot.workspace.name : snapshot.workspace.name;
+  const subscriptionStatusDetails = getSubscriptionStatusDetails(snapshot.subscription.status);
   const shouldShowOnboarding =
     auth.authenticated &&
     dashboardState === "ready" &&
@@ -4242,6 +5282,14 @@ function DashboardApp() {
             <Icon name="shield" />
             Credits
           </a>
+          <a className={appSection === "analytics" ? "active" : ""} href="/app/analytics">
+            <Icon name="chart" />
+            Analytics
+          </a>
+          <a className={appSection === "account" ? "active" : ""} href="/app/account">
+            <Icon name="lock" />
+            Account
+          </a>
         </nav>
       </aside>
 
@@ -4254,7 +5302,7 @@ function DashboardApp() {
             <div className="workspace-status-row">
               <span>{snapshot.workspace.name}</span>
               <span className="status-pill">{snapshot.plan.name} plan</span>
-              <span className="status-pill">{formatSubscriptionStatus(snapshot.subscription.status)}</span>
+              <span className={`status-pill ${subscriptionStatusDetails.tone}`}>{subscriptionStatusDetails.label}</span>
               <span className="status-pill">{auth.authenticated ? "Signed in" : "Demo preview"}</span>
             </div>
           </div>
@@ -4950,6 +5998,269 @@ function DashboardApp() {
           </section>
         ) : null}
 
+        {appSection === "analytics" ? (
+          <section className="app-page-grid analytics-page-grid">
+            <div className="panel analytics-overview-panel">
+              <div className="panel-header">
+                <div>
+                  <p className="eyebrow">Last 30 days</p>
+                  <h2>What the workspace is actually doing</h2>
+                </div>
+                <span className="status-pill">
+                  {analyticsState === "loading" ? "Loading" : analyticsState === "sample" ? "Sample" : "Live"}
+                </span>
+              </div>
+              <div className="analytics-kpi-grid">
+                {[
+                  ["Tracked events", analyticsSummary.totals.events.toLocaleString()],
+                  ["Scans completed", analyticsSummary.totals.scansCompleted.toLocaleString()],
+                  ["Leads saved", analyticsSummary.totals.leadsSaved.toLocaleString()],
+                  ["Exports completed", analyticsSummary.totals.exportsCompleted.toLocaleString()]
+                ].map(([label, value]) => (
+                  <div key={label}>
+                    <span>{label}</span>
+                    <strong>{value}</strong>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="panel analytics-funnel-panel">
+              <p className="eyebrow">Research funnel</p>
+              <h2>From click to CRM handoff</h2>
+              <div className="analytics-funnel">
+                {[
+                  ["CTA clicks", analyticsSummary.funnel.ctaClicks, "Start free, tool CTA, pricing clicks"],
+                  ["Signups", analyticsSummary.funnel.signupsCompleted, `${percentage(analyticsSummary.funnel.signupsCompleted, analyticsSummary.funnel.ctaClicks)} of CTA clicks`],
+                  ["Scans", analyticsSummary.funnel.scansCompleted, `${percentage(analyticsSummary.funnel.scansCompleted, analyticsSummary.funnel.signupsCompleted || analyticsSummary.funnel.loginsCompleted)} of active users`],
+                  ["Exports", analyticsSummary.funnel.exportsCompleted, `${percentage(analyticsSummary.funnel.exportsCompleted, analyticsSummary.funnel.scansCompleted)} of completed scans`]
+                ].map(([label, value, meta]) => (
+                  <div className="analytics-funnel-step" key={label}>
+                    <span>{label}</span>
+                    <strong>{value}</strong>
+                    <small>{meta}</small>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="panel analytics-list-panel">
+              <p className="eyebrow">Top pages</p>
+              <h2>Where product-led traffic is concentrating</h2>
+              <div className="analytics-simple-list">
+                {analyticsSummary.topPages.map((page) => (
+                  <div key={page.path}>
+                    <strong>{page.path}</strong>
+                    <span>{page.count} events</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="panel analytics-list-panel">
+              <p className="eyebrow">Top events</p>
+              <h2>What users are doing most</h2>
+              <div className="analytics-simple-list">
+                {analyticsSummary.topEvents.map((event) => (
+                  <div key={event.name}>
+                    <strong>{formatAnalyticsEventName(event.name)}</strong>
+                    <span>{event.count} events</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="panel analytics-events-panel">
+              <p className="eyebrow">Recent events</p>
+              <h2>Latest tracked activity</h2>
+              <div className="analytics-event-list">
+                {analyticsSummary.recentEvents.map((event) => (
+                  <article key={event.id}>
+                    <div>
+                      <strong>{formatAnalyticsEventName(event.name)}</strong>
+                      <span>{event.pagePath || "page unavailable"}</span>
+                    </div>
+                    <small>{event.metadataSummary || formatHistoryTime(event.createdAt)}</small>
+                  </article>
+                ))}
+              </div>
+            </div>
+
+            <div className="panel analytics-recommendations-panel">
+              <p className="eyebrow">What to do next</p>
+              <h2>Operator recommendations</h2>
+              <div className="policy-list">
+                {analyticsSummary.recommendations.map((item) => (
+                  <span key={item}>
+                    <Icon name="check" />
+                    {item}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </section>
+        ) : null}
+
+        {appSection === "account" ? (
+          <section className="app-page-grid account-page-grid">
+            <div className="panel">
+              <div className="panel-header">
+                <div>
+                  <p className="eyebrow">Workspace profile</p>
+                  <h2>Identity and ownership</h2>
+                </div>
+                <span className="status-pill">
+                  {profileSaveState === "saving" ? "Saving" : profileSaveState === "saved" ? "Saved" : "Editable"}
+                </span>
+              </div>
+              <form className="icp-edit-form" onSubmit={submitProfile}>
+                <div className="account-form-grid">
+                  <label>
+                    Owner name
+                    <input value={profileForm.name} onChange={updateProfileField("name")} placeholder="Alex Rivera" />
+                    <small>Shown in the workspace header and used for internal ownership context.</small>
+                  </label>
+                  <label>
+                    Workspace name
+                    <input
+                      value={profileForm.workspaceName}
+                      onChange={updateProfileField("workspaceName")}
+                      placeholder="Northstar Outbound"
+                    />
+                    <small>Used across the dashboard, billing, and account entry points.</small>
+                  </label>
+                </div>
+                <div className="icp-form-actions">
+                  <button className="button button-primary" type="submit" disabled={profileSaveState === "saving"}>
+                    <Icon name="check" />
+                    {profileSaveState === "saving" ? "Saving profile" : "Save profile"}
+                  </button>
+                </div>
+                <p
+                  className={`form-status ${
+                    profileSaveState === "error" ? "is-error" : profileSaveState === "saved" ? "is-success" : ""
+                  }`}
+                  role="status"
+                >
+                  {profileMessage || " "}
+                </p>
+              </form>
+            </div>
+
+            <div className="panel">
+              <div className="panel-header">
+                <div>
+                  <p className="eyebrow">Password access</p>
+                  <h2>Secure email sign-in</h2>
+                </div>
+                <span className="status-pill">
+                  {accountPasswordState === "saving"
+                    ? "Updating"
+                    : accountPasswordState === "saved"
+                      ? "Updated"
+                      : "Enabled"}
+                </span>
+              </div>
+              <form className="icp-edit-form" onSubmit={submitPasswordChange}>
+                <div className="account-form-grid">
+                  <label>
+                    Current password
+                    <input
+                      type={showAccountPassword ? "text" : "password"}
+                      value={accountPasswordForm.currentPassword}
+                      onChange={updateAccountPasswordField("currentPassword")}
+                      autoComplete="current-password"
+                      placeholder="Required for existing passwords"
+                    />
+                    <small>Leave blank only if this workspace has never set an email password before.</small>
+                  </label>
+                  <label>
+                    New password
+                    <input
+                      type={showAccountPassword ? "text" : "password"}
+                      value={accountPasswordForm.nextPassword}
+                      onChange={updateAccountPasswordField("nextPassword")}
+                      autoComplete="new-password"
+                      minLength={8}
+                      placeholder="8+ characters"
+                    />
+                    <small>Use a workspace password your team can recover through the reset flow.</small>
+                  </label>
+                  <label className="account-form-wide">
+                    Confirm new password
+                    <input
+                      type={showAccountPassword ? "text" : "password"}
+                      value={accountPasswordForm.confirmPassword}
+                      onChange={updateAccountPasswordField("confirmPassword")}
+                      autoComplete="new-password"
+                      minLength={8}
+                      placeholder="Repeat the new password"
+                    />
+                  </label>
+                </div>
+                <div className="account-password-actions">
+                  <label className="scan-depth-toggle account-password-visibility">
+                    <input
+                      type="checkbox"
+                      checked={showAccountPassword}
+                      onChange={() => setShowAccountPassword((current) => !current)}
+                    />
+                    <span>
+                      Show password fields
+                      <small>Useful when the workspace owner is updating access for the first time.</small>
+                    </span>
+                  </label>
+                  <button className="button button-primary" type="submit" disabled={accountPasswordState === "saving"}>
+                    <Icon name="lock" />
+                    {accountPasswordState === "saving" ? "Updating password" : "Update password"}
+                  </button>
+                </div>
+                <p
+                  className={`form-status ${
+                    accountPasswordState === "error" ? "is-error" : accountPasswordState === "saved" ? "is-success" : ""
+                  }`}
+                  role="status"
+                >
+                  {accountPasswordMessage || " "}
+                </p>
+              </form>
+            </div>
+
+            <div className="panel account-summary-panel">
+              <p className="eyebrow">Session summary</p>
+              <h2>What this workspace is using</h2>
+              <div className="account-card-list">
+                <div>
+                  <span>Signed-in email</span>
+                  <strong>{auth.authenticated ? auth.user.email : "Demo preview"}</strong>
+                </div>
+                <div>
+                  <span>Workspace</span>
+                  <strong>{snapshot.workspace.name}</strong>
+                </div>
+                <div>
+                  <span>Plan</span>
+                  <strong>{snapshot.plan.name}</strong>
+                </div>
+                <div>
+                  <span>Next credit reset</span>
+                  <strong>{formatCalendarDate(snapshot.credits.reset)}</strong>
+                </div>
+              </div>
+              <div className="billing-actions">
+                <button className="button button-secondary" type="button" onClick={openBillingPortal}>
+                  <Icon name="shield" />
+                  Manage billing
+                </button>
+                <button className="button button-secondary" type="button" onClick={signOut}>
+                  <Icon name="lock" />
+                  Sign out
+                </button>
+              </div>
+            </div>
+          </section>
+        ) : null}
+
         {appSection === "billing" ? (
           <section className="app-page-grid billing-page-grid">
             <div className="panel billing-usage-panel">
@@ -4959,6 +6270,20 @@ function DashboardApp() {
                 {snapshot.credits.used.toLocaleString()} credits used this month on the {snapshot.plan.name} plan.
                 Credits are charged only when a scan creates and saves a usable Prospect Card.
               </p>
+              <div className="billing-kpis">
+                <div>
+                  <span>Subscription</span>
+                  <strong>{formatSubscriptionStatus(snapshot.subscription.status)}</strong>
+                </div>
+                <div>
+                  <span>Credit reset</span>
+                  <strong>{formatCalendarDate(snapshot.credits.reset)}</strong>
+                </div>
+                <div>
+                  <span>Billing period end</span>
+                  <strong>{formatCalendarDate(snapshot.subscription.currentPeriodEnd)}</strong>
+                </div>
+              </div>
               <div className="credit-meter" aria-label="Monthly credit usage">
                 <i
                   style={{
@@ -4980,6 +6305,45 @@ function DashboardApp() {
                 </button>
               </div>
             </div>
+            <div className="panel billing-plan-panel">
+              <p className="eyebrow">Plan path</p>
+              <h2>Scale credits without changing the workflow</h2>
+              <div className="billing-plan-list">
+                {PRICING_PLANS.map((plan) => {
+                  const isCurrent = plan.id === snapshot.plan.id;
+                  const isFree = plan.id === "free";
+
+                  return (
+                    <article className={`billing-plan-card ${isCurrent ? "is-current" : ""}`} key={plan.id}>
+                      <div>
+                        <strong>{plan.name}</strong>
+                        <span>{plan.monthlyCredits.toLocaleString()} scans / month</span>
+                      </div>
+                      <p>{planUseCases[plan.id]}</p>
+                      <button
+                        className={`button ${isCurrent ? "button-secondary" : "button-primary"}`}
+                        type="button"
+                        onClick={() => {
+                          if (isCurrent) {
+                            return;
+                          }
+
+                          if (isFree) {
+                            window.location.assign("/support");
+                            return;
+                          }
+
+                          void startPlanCheckout(plan.id);
+                        }}
+                        disabled={isCurrent}
+                      >
+                        {isCurrent ? "Current plan" : `Choose ${plan.name}`}
+                      </button>
+                    </article>
+                  );
+                })}
+              </div>
+            </div>
             <div className="panel billing-policy-panel">
               <p className="eyebrow">Credit policy</p>
               <h2>No charge on failed scans</h2>
@@ -4996,6 +6360,42 @@ function DashboardApp() {
                     {item}
                   </span>
                 ))}
+              </div>
+            </div>
+            <div className="panel billing-status-panel">
+              <p className="eyebrow">Account status</p>
+              <h2>Know why the workspace can or cannot scan</h2>
+              <p className="billing-status-copy">{subscriptionStatusDetails.summary}</p>
+              <div className="account-card-list">
+                <div>
+                  <span>Workspace status</span>
+                  <strong>{auth.authenticated ? "Authenticated" : "Demo preview"}</strong>
+                </div>
+                <div>
+                  <span>Subscription state</span>
+                  <strong>{subscriptionStatusDetails.label}</strong>
+                </div>
+                <div>
+                  <span>Remaining credits</span>
+                  <strong>{snapshot.credits.remaining.toLocaleString()}</strong>
+                </div>
+                <div>
+                  <span>Export mode</span>
+                  <strong>{bulkExportLabel(bulkExportPreset, bulkCrmFieldMode)}</strong>
+                </div>
+              </div>
+              <div className="billing-status-next-step">
+                <span>Next step</span>
+                <strong>{subscriptionStatusDetails.nextStep}</strong>
+              </div>
+              <div className="billing-actions">
+                <button className="button button-secondary" type="button" onClick={downloadCsv}>
+                  <Icon name="download" />
+                  Export current fields
+                </button>
+                <a className="button button-secondary" href="/support">
+                  Billing FAQ
+                </a>
               </div>
             </div>
             <div className="panel scan-history-panel">
