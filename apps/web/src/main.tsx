@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 import App from "./App";
 import "./i18n";
 import "./styles.css";
+import "./topbar-fixes.css";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
