@@ -14,7 +14,7 @@ STRIPE_PORTAL_RETURN_URL = "https://leadcue.app/app/billing"
 [[d1_databases]]
 binding = "DB"
 database_name = "leadcue"
-database_id = "replace-with-database-id"
+database_id = "f00f46dc-d82d-4938-8598-bd3566e0cd85"
 migrations_dir = "../../migrations"
 
 [[r2_buckets]]
@@ -23,11 +23,12 @@ bucket_name = "leadcue-production"
 
 [[kv_namespaces]]
 binding = "CONFIG"
-id = "replace-with-kv-id"
+id = "af3aca1e970f499b82d637ff711e2a32"
 
 [[queues.producers]]
 binding = "JOBS"
 queue = "leadcue-jobs"
 
-[[queues.consumers]]
-queue = "leadcue-jobs"
+# Queue consumer temporarily disabled - needs handler implementation
+# [[queues.consumers]]
+# queue = "leadcue-jobs"
