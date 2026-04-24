@@ -5,161 +5,17 @@ import { fileURLToPath } from "node:url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(__dirname, "..");
 const distDir = path.join(repoRoot, "apps", "web", "dist");
+const generatedDir = path.join(repoRoot, "apps", "web", "src", "content", "generated");
 const siteUrl = "https://leadcue.app";
 
-const publicRoutes = [
-  {
-    path: "/",
-    title: "LeadCue - Website Prospecting Assistant for Agencies",
-    description:
-      "LeadCue turns company websites into qualified prospect cards with fit scores, source-backed sales cues, outreach angles, and cold email first lines.",
-    sections: ["Website-first prospecting for agencies.", "Fit scores, source-backed cues, first lines, and CRM-ready exports."]
-  },
-  {
-    path: "/docs",
-    title: "Run Website-First Prospecting Without Another List Tool | LeadCue",
-    description:
-      "Use LeadCue docs to set up a workspace, run website scans, review Prospect Cards, and export clean notes into your outreach system.",
-    sections: ["Quick start", "Scan payload", "Operating model"]
-  },
-  {
-    path: "/support",
-    title: "LeadCue Support for Account, Billing, Scans, and Exports",
-    description: "Get help with account access, billing, scans, CSV exports, and LeadCue workspace setup.",
-    sections: ["Common requests", "What to include", "Launch service levels"]
-  },
-  {
-    path: "/contact",
-    title: "Contact LeadCue About Agency Prospecting Workflows",
-    description: "Talk to LeadCue about plan guidance, launch support, agency workspace setup, and integration questions.",
-    sections: ["Sales and setup", "Product questions", "Security and privacy"]
-  },
-  {
-    path: "/privacy",
-    title: "LeadCue Privacy Principles for Website-First Prospect Research",
-    description:
-      "LeadCue privacy principles for user-triggered website analysis, workspace setup data, and saved prospect notes.",
-    sections: ["Data we expect to process", "Data boundaries", "Operational controls"]
-  },
-  {
-    path: "/terms",
-    title: "LeadCue Commercial Usage Terms",
-    description:
-      "LeadCue launch terms for website research, prospect qualification, and export-ready notes for agency outbound teams.",
-    sections: ["Acceptable use", "Plans and credits", "Product boundary"]
-  },
-  {
-    path: "/website-prospecting",
-    title: "Website Prospecting Guide for Agency Outbound | LeadCue",
-    description:
-      "Learn how website prospecting helps agencies qualify accounts, find evidence-backed sales angles, and write better outreach from public company pages.",
-    sections: ["What website prospecting means", "Signals worth capturing", "How to turn evidence into outreach"]
-  },
-  {
-    path: "/prospect-research-tool-for-agencies",
-    title: "Prospect Research Tool for Agencies | What to Look For | LeadCue",
-    description:
-      "A practical buying guide for agencies comparing prospect research tools, fit scoring workflows, source-backed notes, and CRM export paths.",
-    sections: ["The job the tool should do", "Features that matter", "Red flags when comparing tools"]
-  },
-  {
-    path: "/cold-email-first-lines",
-    title: "Cold Email First Lines from Website Evidence | LeadCue",
-    description:
-      "Learn how to write personalized cold email first lines from website observations, avoid generic openers, and connect each line to a credible business angle.",
-    sections: ["What makes a first line work", "Use website evidence", "A simple formula"]
-  },
-  {
-    path: "/agency-lead-qualification",
-    title: "Agency Lead Qualification Workflow | Fit Score and Website Signals",
-    description:
-      "Build an agency lead qualification workflow that uses fit score, confidence, website signals, contact paths, and source-backed notes before outreach.",
-    sections: ["Separate fit from evidence quality", "Define your save threshold", "Carry qualification into export"]
-  },
-  {
-    path: "/use-cases/web-design-agencies",
-    title: "Website Prospecting for Web Design Agencies | LeadCue",
-    description:
-      "How web design agencies can find redesign-ready prospects by spotting weak CTAs, buried proof, confusing navigation, and conversion gaps.",
-    sections: ["Best signals for web design offers", "How to package the outreach", "What to save for the team"]
-  },
-  {
-    path: "/use-cases/seo-agencies",
-    title: "Prospect Research for SEO Agencies | Website Gaps and Outreach",
-    description:
-      "How SEO agencies can use website prospecting to find thin pages, stale content, weak metadata, and source-backed reasons to start outreach.",
-    sections: ["SEO signals that support outreach", "How to make the angle credible", "What to export"]
-  },
-  {
-    path: "/use-cases/marketing-agencies",
-    title: "Website Prospecting for Marketing Agencies | Growth Outreach",
-    description:
-      "Use website prospecting to find unclear positioning, weak campaign paths, missing proof, and lead-generation opportunities for marketing agency outbound.",
-    sections: ["Signals for marketing offers", "Turn gaps into a useful offer", "Build a repeatable research motion"]
-  },
-  {
-    path: "/guides/turn-website-into-cold-email-angle",
-    title: "Turn a Prospect Website into a Cold Email Angle | LeadCue Guide",
-    description:
-      "A step-by-step guide for turning visible website evidence into a cold email angle, first line, and low-pressure CTA.",
-    sections: ["Choose the right page", "Translate the observation", "Write the email"]
-  },
-  {
-    path: "/guides/score-prospect-website",
-    title: "How to Score a Prospect Website for Outreach | LeadCue Guide",
-    description:
-      "Use this practical scoring framework to qualify prospect websites by ICP fit, website cues, confidence, contact paths, and outreach readiness.",
-    sections: ["Score ICP fit first", "Score the website cues", "Score export readiness"]
-  },
-  {
-    path: "/guides/website-audit-outreach",
-    title: "Website Audit Outreach Guide for Agencies | LeadCue",
-    description:
-      "Learn how agencies can use lightweight website audits to create helpful cold outreach, avoid generic redesign pitches, and earn replies.",
-    sections: ["Keep the audit lightweight", "Package the idea clearly", "Use audit notes for follow-up"]
-  },
-  {
-    path: "/templates/crm-csv-field-mapping",
-    title: "CRM CSV Field Mapping Template for Prospect Research | LeadCue",
-    description:
-      "Map prospect research fields into HubSpot, Salesforce, Pipedrive, or a custom CSV export while keeping fit score, first line, and source notes intact.",
-    sections: ["Interactive CRM field mapper", "Copy CSV headers", "Download a sample row"]
-  },
-  {
-    path: "/templates/cold-email-first-line",
-    title: "Cold Email First Line Template Library | LeadCue",
-    description:
-      "Copy first line templates based on real website signals such as hidden CTAs, missing proof, stale content, and unclear positioning.",
-    sections: ["First line builder", "Signal templates", "Copy-ready email"]
-  },
-  {
-    path: "/templates/website-prospecting-checklist",
-    title: "Website Prospecting Checklist for Agency Outbound | LeadCue",
-    description:
-      "Use this website prospecting checklist to inspect CTA clarity, proof, SEO, navigation, contact paths, and content freshness before saving a lead.",
-    sections: ["Interactive checklist", "Prospect Card summary", "Export readiness"]
-  },
-  {
-    path: "/integrations/hubspot-csv-export",
-    title: "HubSpot CSV Export for Prospect Research | LeadCue",
-    description:
-      "Prepare HubSpot-friendly CSV fields for saved prospect research, including company, website, fit score, first line, source notes, and lead status.",
-    sections: ["Recommended HubSpot fields", "Import workflow", "Custom properties"]
-  },
-  {
-    path: "/integrations/salesforce-csv-export",
-    title: "Salesforce CSV Export for Qualified Prospect Research | LeadCue",
-    description:
-      "Map website prospecting research into Salesforce lead import fields while preserving fit score, source notes, first line, and lead source.",
-    sections: ["Recommended Salesforce fields", "Lead import workflow", "Description and source notes"]
-  },
-  {
-    path: "/integrations/pipedrive-csv-export",
-    title: "Pipedrive CSV Export for Prospect Research Notes | LeadCue",
-    description:
-      "Prepare Pipedrive CSV imports for website prospecting research with organization fields, owner, stage, fit score, first line, and notes.",
-    sections: ["Recommended Pipedrive fields", "Organization import workflow", "Notes and custom fields"]
-  }
+const localeMeta = [
+  { code: "en", hrefLang: "en", htmlLang: "en" },
+  { code: "zh", hrefLang: "zh-CN", htmlLang: "zh-CN" },
+  { code: "ja", hrefLang: "ja", htmlLang: "ja" },
+  { code: "ko", hrefLang: "ko", htmlLang: "ko" },
+  { code: "de", hrefLang: "de", htmlLang: "de" },
+  { code: "nl", hrefLang: "nl", htmlLang: "nl" },
+  { code: "fr", hrefLang: "fr", htmlLang: "fr" }
 ];
 
 function escapeHtml(value) {
@@ -170,52 +26,208 @@ function escapeHtml(value) {
     .replace(/"/g, "&quot;");
 }
 
-function canonicalFor(routePath) {
-  return `${siteUrl}${routePath === "/" ? "/" : routePath}`;
+function normalizePath(pathname) {
+  if (!pathname) {
+    return "/";
+  }
+
+  const normalized = pathname.startsWith("/") ? pathname : `/${pathname}`;
+  return normalized !== "/" ? normalized.replace(/\/+$/, "") || "/" : normalized;
+}
+
+function buildLocalePath(locale, pathname) {
+  const normalized = normalizePath(pathname);
+  return locale === "en" ? normalized : normalized === "/" ? `/${locale}` : `/${locale}${normalized}`;
+}
+
+function localizeHref(locale, href) {
+  if (!href || href.startsWith("http://") || href.startsWith("https://") || href.startsWith("mailto:") || href.startsWith("#")) {
+    return href;
+  }
+
+  const [pathAndSearch, hash = ""] = href.split("#");
+  const [pathname = "/", search = ""] = pathAndSearch.split("?");
+  const localizedPath = buildLocalePath(locale, pathname);
+
+  return `${localizedPath}${search ? `?${search}` : ""}${hash ? `#${hash}` : ""}`;
+}
+
+function canonicalFor(localizedPath) {
+  return `${siteUrl}${localizedPath === "/" ? "/" : localizedPath}`;
+}
+
+async function loadBundles() {
+  const [siteUi, seoPages, productPages, commercialPages] = await Promise.all([
+    readFile(path.join(generatedDir, "site-ui.locales.json"), "utf8"),
+    readFile(path.join(generatedDir, "seo-pages.locales.json"), "utf8"),
+    readFile(path.join(generatedDir, "product-pages.locales.json"), "utf8"),
+    readFile(path.join(generatedDir, "commercial-pages.locales.json"), "utf8")
+  ]);
+
+  return {
+    siteUi: JSON.parse(siteUi),
+    seoPages: JSON.parse(seoPages),
+    productPages: JSON.parse(productPages),
+    commercialPages: JSON.parse(commercialPages)
+  };
+}
+
+function buildRoutes(bundles) {
+  const routes = [];
+
+  for (const locale of localeMeta) {
+    const siteUi = bundles.siteUi[locale.code] ?? bundles.siteUi.en;
+    const seoPages = bundles.seoPages[locale.code] ?? bundles.seoPages.en;
+    const productPages = bundles.productPages[locale.code] ?? bundles.productPages.en;
+    const commercialPages = bundles.commercialPages[locale.code] ?? bundles.commercialPages.en;
+
+    routes.push({
+      locale: locale.code,
+      htmlLang: locale.htmlLang,
+      hrefLang: locale.hrefLang,
+      basePath: "/",
+      localizedPath: buildLocalePath(locale.code, "/"),
+      title: siteUi.home.seo.title,
+      description: siteUi.home.seo.description,
+      sections: [siteUi.home.hero.subhead, siteUi.home.features.copy, siteUi.home.resources.copy],
+      siteUi,
+      structuredType: "WebSite",
+      ogType: "website"
+    });
+
+    Object.entries(commercialPages).forEach(([slug, page]) => {
+      routes.push({
+        locale: locale.code,
+        htmlLang: locale.htmlLang,
+        hrefLang: locale.hrefLang,
+        basePath: `/${slug}`,
+        localizedPath: buildLocalePath(locale.code, `/${slug}`),
+        title: `${page.title} | ${siteUi.common.brand}`,
+        description: page.summary,
+        sections: page.sections.map((section) => section.title),
+        siteUi,
+        structuredType: "WebPage",
+        ogType: "website"
+      });
+    });
+
+    seoPages.forEach((page) => {
+      routes.push({
+        locale: locale.code,
+        htmlLang: locale.htmlLang,
+        hrefLang: locale.hrefLang,
+        basePath: `/${page.slug}`,
+        localizedPath: buildLocalePath(locale.code, `/${page.slug}`),
+        title: page.seoTitle,
+        description: page.description,
+        sections: page.heroBullets,
+        siteUi,
+        structuredType: "Article",
+        ogType: "article"
+      });
+    });
+
+    productPages.forEach((page) => {
+      routes.push({
+        locale: locale.code,
+        htmlLang: locale.htmlLang,
+        hrefLang: locale.hrefLang,
+        basePath: `/${page.slug}`,
+        localizedPath: buildLocalePath(locale.code, `/${page.slug}`),
+        title: page.seoTitle,
+        description: page.description,
+        sections: page.heroBullets,
+        siteUi,
+        structuredType: page.slug.startsWith("integrations/") ? "TechArticle" : "WebPage",
+        ogType: page.slug.startsWith("integrations/") ? "article" : "website"
+      });
+    });
+  }
+
+  return routes;
+}
+
+function renderAlternateLinks(basePath) {
+  return localeMeta
+    .map((locale) => {
+      const href = canonicalFor(buildLocalePath(locale.code, basePath));
+      return `<link rel="alternate" hreflang="${locale.hrefLang}" href="${href}" data-leadcue-prerender="alternate" />`;
+    })
+    .concat(`<link rel="alternate" hreflang="x-default" href="${canonicalFor(buildLocalePath("en", basePath))}" data-leadcue-prerender="alternate" />`)
+    .join("\n    ");
 }
 
 function renderStaticRoot(route) {
+  const homeHref = buildLocalePath(route.locale, "/");
+  const resourcesHref = `${buildLocalePath(route.locale, "/")}#resources`;
+  const startHref = localizeHref(route.locale, "/signup?plan=free");
+  const navTrail =
+    route.basePath === "/"
+      ? `<a href="${homeHref}">${escapeHtml(route.siteUi.common.brand)}</a>`
+      : `<a href="${homeHref}">${escapeHtml(route.siteUi.common.brand)}</a> / <a href="${resourcesHref}">${escapeHtml(route.siteUi.common.resources)}</a>`;
+
   return `<main class="prerendered-seo" aria-label="${escapeHtml(route.title)}">
-    <nav><a href="/">LeadCue</a> / <a href="/#resources">Resources</a></nav>
+    <nav>${navTrail}</nav>
     <h1>${escapeHtml(route.title.replace(" | LeadCue", ""))}</h1>
     <p>${escapeHtml(route.description)}</p>
     <ul>${route.sections.map((section) => `<li>${escapeHtml(section)}</li>`).join("")}</ul>
-    <p><a href="/signup?plan=free">Start free scan</a></p>
+    <p><a href="${startHref}">${escapeHtml(route.siteUi.common.startFreeScan)}</a></p>
   </main>`;
 }
 
+function setHtmlLang(baseHtml, htmlLang) {
+  if (/<html[^>]*\slang=/i.test(baseHtml)) {
+    return baseHtml.replace(/<html([^>]*)\slang="[^"]*"([^>]*)>/i, `<html$1 lang="${htmlLang}"$2>`);
+  }
+
+  return baseHtml.replace(/<html([^>]*)>/i, `<html$1 lang="${htmlLang}">`);
+}
+
+function upsertDescriptionMeta(baseHtml, description) {
+  const tag = `<meta name="description" content="${escapeHtml(description)}" />`;
+
+  if (/meta\s+name="description"/i.test(baseHtml)) {
+    return baseHtml.replace(/<meta\s+name="description"\s+content="[^"]*"\s*\/?>/i, tag);
+  }
+
+  return baseHtml.replace("</head>", `  ${tag}\n</head>`);
+}
+
 function injectHead(baseHtml, route) {
-  const canonical = canonicalFor(route.path);
+  const canonical = canonicalFor(route.localizedPath);
+  const image = canonicalFor("/images/leadcue-og-card.svg");
   const structuredData = JSON.stringify({
     "@context": "https://schema.org",
-    "@type": route.path.startsWith("/integrations/") ? "TechArticle" : "WebPage",
+    "@type": route.structuredType,
     name: route.title,
     description: route.description,
     url: canonical,
+    inLanguage: route.htmlLang,
     publisher: {
       "@type": "Organization",
-      name: "LeadCue",
+      name: route.siteUi.common.brand,
       url: siteUrl
     }
   });
 
-  let html = baseHtml
-    .replace(/<title>[\s\S]*?<\/title>/, `<title>${escapeHtml(route.title)}</title>`)
-    .replace(
-      /<meta\s+name="description"\s+content="[^"]*"\s*\/?>/,
-      `<meta name="description" content="${escapeHtml(route.description)}" />`
-    );
-
+  let html = setHtmlLang(baseHtml, route.htmlLang).replace(/<title>[\s\S]*?<\/title>/i, `<title>${escapeHtml(route.title)}</title>`);
+  html = upsertDescriptionMeta(html, route.description);
   html = html.replace(
     "</head>",
-    `<link rel="canonical" href="${canonical}" />
+    `    <link rel="canonical" href="${canonical}" />
+    ${renderAlternateLinks(route.basePath)}
     <meta name="robots" content="index,follow" />
     <meta property="og:title" content="${escapeHtml(route.title)}" />
     <meta property="og:description" content="${escapeHtml(route.description)}" />
     <meta property="og:url" content="${canonical}" />
-    <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="LeadCue" />
+    <meta property="og:type" content="${route.ogType}" />
+    <meta property="og:site_name" content="${escapeHtml(route.siteUi.common.brand)}" />
+    <meta property="og:locale" content="${route.hrefLang}" />
+    <meta property="og:image" content="${image}" />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="${escapeHtml(route.title)}" />
+    <meta name="twitter:description" content="${escapeHtml(route.description)}" />
+    <meta name="twitter:image" content="${image}" />
     <script type="application/ld+json">${structuredData.replace(/</g, "\\u003c")}</script>
   </head>`
   );
@@ -224,14 +236,16 @@ function injectHead(baseHtml, route) {
 }
 
 const baseHtml = await readFile(path.join(distDir, "index.html"), "utf8");
+const bundles = await loadBundles();
+const publicRoutes = buildRoutes(bundles);
 
 await Promise.all(
   publicRoutes.map(async (route) => {
     const html = injectHead(baseHtml, route);
-    const targetDir = route.path === "/" ? distDir : path.join(distDir, route.path.slice(1));
+    const targetDir = route.localizedPath === "/" ? distDir : path.join(distDir, route.localizedPath.slice(1));
     await mkdir(targetDir, { recursive: true });
     await writeFile(path.join(targetDir, "index.html"), html);
   })
 );
 
-console.log(`Prerendered ${publicRoutes.length} public pages.`);
+console.log(`Prerendered ${publicRoutes.length} localized public pages.`);
