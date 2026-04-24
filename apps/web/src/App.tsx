@@ -1,4 +1,3 @@
-import { useTranslation } from "react-i18next";
 import { type ChangeEvent, type FormEvent, type KeyboardEvent, type ReactElement, useEffect, useMemo, useState } from "react";
 import {
   DEFAULT_ICP,
@@ -31,9 +30,14 @@ import {
   type Tone
 } from "@leadcue/shared";
 import { trackEvent } from "./analytics";
-import { commercialPages, type CommercialPageSlug } from "./commercialContent";
-import { productSeoPageMap, productSeoPages, type ProductSeoPage } from "./productSeoContent";
-import { seoContentPageMap, seoContentPages, type SeoContentPage } from "./seoContent";
+import type { CommercialPageSlug } from "./commercialContent";
+import type { ProductSeoPage } from "./productSeoContent";
+import type { SeoContentPage } from "./seoContent";
+import i18n from "./i18n";
+import { HeroVisualIllustration, LoginWorkspaceIllustration, ResearchDeskIllustration, ResourceIllustration } from "./localizedIllustrations";
+import { getCommercialPages, getProductPageMap, getProductPages, getSeoPageMap, getSeoPages, getSiteUi, type SiteUi } from "./publicContent";
+import { PublicSiteContext, createPublicSiteContextValue, usePublicSite } from "./publicSiteContext";
+import { buildLocalePath, getLocaleHtmlLang, localizeHref, parseSiteLocalePath, supportedSiteLocales, type SiteLocaleCode } from "./siteLocale";
 import "./upgrades.css";
 
 type IconName =
@@ -633,113 +637,154 @@ function icpFormFromSetup(setup: WorkspaceSnapshot["setup"]): IcpFormState {
 }
 
 export default function App() {
-  const pathname = window.location.pathname;
+  const { locale, path: pathname } = parseSiteLocalePath(window.location.pathname);
+  const siteUi = getSiteUi(locale);
+  const publicSiteContext = useMemo(() => createPublicSiteContextValue(locale, pathname, siteUi), [locale, pathname, siteUi]);
   const isAppRoute = pathname.startsWith("/app");
   const isLoginRoute = pathname.startsWith("/login");
   const isResetPasswordRoute = pathname.startsWith("/reset-password");
   const isSignupRoute = pathname.startsWith("/signup");
-  const commercialPageSlug = getCommercialPageSlug(pathname);
-  const seoContentPage = getSeoContentPage(pathname);
-  const productSeoPage = getProductSeoPage(pathname);
+  const commercialPageSlug = getCommercialPageSlug(pathname, locale);
+  const seoContentPage = getSeoContentPage(pathname, locale);
+  const productSeoPage = getProductSeoPage(pathname, locale);
+
+  useEffect(() => {
+    document.documentElement.lang = getLocaleHtmlLang(locale);
+
+    if (i18n.resolvedLanguage !== locale) {
+      void i18n.changeLanguage(locale);
+    }
+  }, [locale]);
 
   if (isAppRoute) {
     return (
-      <>
-        <SeoHead
-          title="LeadCue App - Prospect Research Workspace"
-          description="LeadCue app workspace for signed-in teams."
-          path="/app"
-          noIndex
-        />
-        <DashboardApp />
-      </>
+      <PublicSiteContext.Provider value={publicSiteContext}>
+        <>
+          <SeoHead
+            title="LeadCue App - Prospect Research Workspace"
+            description="LeadCue app workspace for signed-in teams."
+            path="/app"
+            locale={locale}
+            noIndex
+          />
+          <DashboardApp />
+        </>
+      </PublicSiteContext.Provider>
     );
   }
 
   if (isLoginRoute) {
     return (
-      <>
-        <SeoHead
-          title="Sign in to LeadCue"
-          description="Sign in to your LeadCue prospect research workspace."
-          path="/login"
-          noIndex
-        />
-        <LoginPage />
-      </>
+      <PublicSiteContext.Provider value={publicSiteContext}>
+        <>
+          <SeoHead
+            title={siteUi.auth.login.cardTitle}
+            description={siteUi.auth.login.cardCopy}
+            path="/login"
+            locale={locale}
+            noIndex
+          />
+          <LoginPage />
+        </>
+      </PublicSiteContext.Provider>
     );
   }
 
   if (isResetPasswordRoute) {
     return (
-      <>
-        <SeoHead
-          title="Reset your LeadCue password"
-          description="Reset the password for your LeadCue workspace account."
-          path="/reset-password"
-          noIndex
-        />
-        <ResetPasswordPage />
-      </>
+      <PublicSiteContext.Provider value={publicSiteContext}>
+        <>
+          <SeoHead
+            title={siteUi.auth.reset.title}
+            description={siteUi.auth.reset.copy}
+            path="/reset-password"
+            locale={locale}
+            noIndex
+          />
+          <ResetPasswordPage />
+        </>
+      </PublicSiteContext.Provider>
     );
   }
 
   if (isSignupRoute) {
     return (
-      <>
-        <SeoHead
-          title="Create a LeadCue Workspace"
-          description="Create a LeadCue workspace and start turning prospect websites into source-backed Prospect Cards."
-          path="/signup"
-          noIndex
-        />
-        <SignupPage />
-      </>
+      <PublicSiteContext.Provider value={publicSiteContext}>
+        <>
+          <SeoHead
+            title={siteUi.auth.signup.heroTitle}
+            description={siteUi.auth.signup.heroCopy}
+            path="/signup"
+            locale={locale}
+            noIndex
+          />
+          <SignupPage />
+        </>
+      </PublicSiteContext.Provider>
     );
   }
 
   if (seoContentPage) {
-    return <SeoContentPageView page={seoContentPage} />;
+    return (
+      <PublicSiteContext.Provider value={publicSiteContext}>
+        <SeoContentPageView page={seoContentPage} />
+      </PublicSiteContext.Provider>
+    );
   }
 
   if (productSeoPage) {
-    return <ProductSeoPageView page={productSeoPage} />;
+    return (
+      <PublicSiteContext.Provider value={publicSiteContext}>
+        <ProductSeoPageView page={productSeoPage} />
+      </PublicSiteContext.Provider>
+    );
   }
 
   if (commercialPageSlug) {
-    return <CommercialPage slug={commercialPageSlug} />;
+    return (
+      <PublicSiteContext.Provider value={publicSiteContext}>
+        <CommercialPage slug={commercialPageSlug} />
+      </PublicSiteContext.Provider>
+    );
   }
 
-  return <MarketingSite />;
+  return (
+    <PublicSiteContext.Provider value={publicSiteContext}>
+      <MarketingSite />
+    </PublicSiteContext.Provider>
+  );
 }
 
-function getCommercialPageSlug(pathname: string): CommercialPageSlug | null {
+function getCommercialPageSlug(pathname: string, locale: SiteLocaleCode): CommercialPageSlug | null {
   const slug = pathname.replace(/^\/+/, "").replace(/\/+$/, "");
-  return slug in commercialPages ? (slug as CommercialPageSlug) : null;
+  const pages = getCommercialPages(locale);
+  return slug in pages ? (slug as CommercialPageSlug) : null;
 }
 
-function getSeoContentPage(pathname: string): SeoContentPage | null {
+function getSeoContentPage(pathname: string, locale: SiteLocaleCode): SeoContentPage | null {
   const slug = pathname.replace(/^\/+/, "").replace(/\/+$/, "");
-  return seoContentPageMap[slug] ?? null;
+  return getSeoPageMap(locale)[slug] ?? null;
 }
 
-function getProductSeoPage(pathname: string): ProductSeoPage | null {
+function getProductSeoPage(pathname: string, locale: SiteLocaleCode): ProductSeoPage | null {
   const slug = pathname.replace(/^\/+/, "").replace(/\/+$/, "");
-  return productSeoPageMap[slug] ?? null;
+  return getProductPageMap(locale)[slug] ?? null;
 }
 
 type SeoHeadProps = {
   title: string;
   description: string;
   path: string;
+  locale: SiteLocaleCode;
   noIndex?: boolean;
   type?: "website" | "article";
   image?: string;
   structuredData?: unknown;
 };
 
-function absoluteUrl(path: string) {
-  const normalizedPath = path.startsWith("/") ? path : `/${path}`;
+function absoluteUrl(path: string, locale: SiteLocaleCode = "en") {
+  const localizedPath = buildLocalePath(locale, path);
+  const normalizedPath = localizedPath.startsWith("/") ? localizedPath : `/${localizedPath}`;
   return `${SITE_URL}${normalizedPath === "/" ? "/" : normalizedPath.replace(/\/$/, "")}`;
 }
 
@@ -767,16 +812,45 @@ function setCanonicalLink(href: string) {
   element.setAttribute("href", href);
 }
 
+function setAlternateLinks(path: string, noIndex: boolean) {
+  document.head.querySelectorAll('link[data-leadcue-alternate="true"]').forEach((element) => element.remove());
+
+  if (noIndex) {
+    return;
+  }
+
+  const locales = [
+    ...supportedSiteLocales.map((locale) => ({
+      hrefLang: getLocaleHtmlLang(locale),
+      href: absoluteUrl(path, locale)
+    })),
+    {
+      hrefLang: "x-default",
+      href: absoluteUrl(path, "en")
+    }
+  ];
+
+  locales.forEach((entry) => {
+    const element = document.createElement("link");
+    element.setAttribute("rel", "alternate");
+    element.setAttribute("hreflang", entry.hrefLang);
+    element.setAttribute("href", entry.href);
+    element.setAttribute("data-leadcue-alternate", "true");
+    document.head.appendChild(element);
+  });
+}
+
 function SeoHead({
   title,
   description,
   path,
+  locale,
   noIndex = false,
   type = "website",
-  image = "/images/leadcue-hero-prospecting.png",
+  image = "/images/leadcue-og-card.svg",
   structuredData
 }: SeoHeadProps) {
-  const canonicalUrl = absoluteUrl(path);
+  const canonicalUrl = absoluteUrl(path, locale);
   const imageUrl = absoluteUrl(image);
   const structuredDataJson = structuredData ? JSON.stringify(structuredData) : "";
 
@@ -795,6 +869,7 @@ function SeoHead({
     setMetaTag("name", "twitter:description", description);
     setMetaTag("name", "twitter:image", imageUrl);
     setCanonicalLink(canonicalUrl);
+    setAlternateLinks(path, noIndex);
 
     const scriptId = "leadcue-structured-data";
     const existingScript = document.getElementById(scriptId);
@@ -814,7 +889,7 @@ function SeoHead({
     if (!existingScript) {
       document.head.appendChild(script);
     }
-  }, [canonicalUrl, description, imageUrl, noIndex, structuredDataJson, title, type]);
+  }, [canonicalUrl, description, imageUrl, locale, noIndex, path, structuredDataJson, title, type]);
 
   return null;
 }
@@ -830,39 +905,82 @@ function BrandMark() {
   );
 }
 
+function LanguageSwitcher() {
+  const { locale, getSwitchHref, siteUi } = usePublicSite();
+
+  return (
+    <div className="lang-switcher">
+      <select
+        aria-label={siteUi.common.languageLabel}
+        value={locale}
+        onChange={(event) => {
+          window.location.assign(getSwitchHref(event.currentTarget.value as SiteLocaleCode));
+        }}
+      >
+        {supportedSiteLocales.map((code) => (
+          <option value={code} key={code}>
+            {siteLocaleLabel(code)}
+          </option>
+        ))}
+      </select>
+    </div>
+  );
+}
+
+function siteLocaleLabel(locale: SiteLocaleCode) {
+  switch (locale) {
+    case "zh":
+      return "简体中文";
+    case "ja":
+      return "日本語";
+    case "ko":
+      return "한국어";
+    case "de":
+      return "Deutsch";
+    case "nl":
+      return "Nederlands";
+    case "fr":
+      return "Français";
+    default:
+      return "English";
+  }
+}
+
 function MarketingSite() {
-  const { t, i18n } = useTranslation();
+  const { locale, siteUi, localizeHref, formatMessage } = usePublicSite();
+  const home = siteUi.home;
+  const seoPages = getSeoPages(locale);
+  const productPages = getProductPages(locale);
   const homeStructuredData = {
     "@context": "https://schema.org",
     "@graph": [
       {
         "@type": "Organization",
         "@id": `${SITE_URL}/#organization`,
-        name: "LeadCue",
-        url: SITE_URL,
+        name: siteUi.common.brand,
+        url: absoluteUrl("/", locale),
         email: "support@leadcue.app"
       },
       {
         "@type": "WebSite",
         "@id": `${SITE_URL}/#website`,
-        name: "LeadCue",
-        url: SITE_URL,
+        name: siteUi.common.brand,
+        url: absoluteUrl("/", locale),
         publisher: { "@id": `${SITE_URL}/#organization` },
-        description:
-          "LeadCue turns company websites into qualified prospect cards with fit scores, source-backed sales cues, outreach angles, and cold email first lines."
+        description: home.seo.structuredDescription
       },
       {
         "@type": "SoftwareApplication",
-        name: "LeadCue",
+        name: siteUi.common.brand,
         applicationCategory: "BusinessApplication",
         operatingSystem: "Web",
-        url: SITE_URL,
+        url: absoluteUrl("/", locale),
         offers: PRICING_PLANS.map((plan) => ({
           "@type": "Offer",
           name: plan.name,
           price: plan.price,
           priceCurrency: "USD",
-          url: `${SITE_URL}/signup?plan=${plan.id}`
+          url: `${SITE_URL}${localizeHref(`/signup?plan=${plan.id}`)}`
         }))
       }
     ]
@@ -871,102 +989,80 @@ function MarketingSite() {
   return (
     <div className="site-shell">
       <SeoHead
-        title="LeadCue - Website Prospecting Assistant for Agencies"
-        description="LeadCue turns company websites into qualified prospect cards with fit scores, source-backed sales cues, outreach angles, and cold email first lines."
+        title={home.seo.title}
+        description={home.seo.description}
         path="/"
+        locale={locale}
         structuredData={homeStructuredData}
       />
       <header className="topbar topbar-marketing">
-        <a className="brand" href="/" aria-label="LeadCue home">
+        <a className="brand" href={localizeHref("/")} aria-label={`${siteUi.common.brand} ${siteUi.common.home}`}>
           <BrandMark />
-          <span>{t("brand.name")}</span>
+          <span>{siteUi.common.brand}</span>
         </a>
         <nav className="nav-links" aria-label="Main navigation">
-          <a href="#features">{t("nav.features")}</a>
-          <a href="#how">{t("nav.howItWorks")}</a>
-          <a href="#card">{t("nav.sampleCard")}</a>
-          <a href="#pricing">{t("nav.pricing")}</a>
-          <a href="#resources">{t("nav.resources")}</a>
+          <a href="#features">{siteUi.nav.features}</a>
+          <a href="#how">{siteUi.nav.howItWorks}</a>
+          <a href="#card">{siteUi.nav.sampleCard}</a>
+          <a href="#pricing">{siteUi.nav.pricing}</a>
+          <a href="#resources">{siteUi.nav.resources}</a>
         </nav>
-        
-        <div className="lang-switcher" style={{display: 'flex', gap: '8px', marginLeft: 'auto', marginRight: '16px', alignItems: 'center'}}>
-          <select value={i18n.language} onChange={(e) => i18n.changeLanguage(e.target.value)} style={{background: 'transparent', border: '1px solid var(--border)', borderRadius: '4px', padding: '4px', color: 'inherit'}}>
-            <option value="en">English</option>
-            <option value="zh">简体中文</option>
-            <option value="ja">日本語</option>
-            <option value="ko">한국어</option>
-            <option value="de">Deutsch</option>
-            <option value="nl">Nederlands</option>
-            <option value="fr">Français</option>
-          </select>
-        </div>\n        <div className="topbar-actions">
-          <a className="button button-small button-secondary" href="/login">
-            {t("nav.signIn")}
+        <LanguageSwitcher />
+        <div className="topbar-actions">
+          <a className="button button-small button-secondary" href={localizeHref("/login")}>
+            {siteUi.nav.signIn}
           </a>
-        <a className="button button-small button-primary" href="/signup?plan=free">
-          <Icon name="mail" />
-          {t("nav.startFree")}
-        </a>
+          <a className="button button-small button-primary" href={localizeHref("/signup?plan=free")}>
+            <Icon name="mail" />
+            {siteUi.nav.startFree}
+          </a>
         </div>
       </header>
 
       <main>
         <section className="hero-band">
           <div className="hero-copy">
-            <p className="eyebrow glass-pill">{t("hero.eyebrow")}</p>
+            <p className="eyebrow glass-pill">{home.hero.eyebrow}</p>
             <h1>
-              {t("hero.title1")} <span className="accent-text">{t("hero.title2")}</span>
+              {home.hero.titleLead} <span className="accent-text">{home.hero.titleAccent}</span>
             </h1>
-            <p className="hero-subhead">
-              {t("hero.subhead")}
-            </p>
+            <p className="hero-subhead">{home.hero.subhead}</p>
             <div className="hero-actions">
-              <a className="button button-primary" href="/signup?plan=free">
+              <a className="button button-primary" href={localizeHref("/signup?plan=free")}>
                 <Icon name="mail" />
-                {t("hero.startScan")}
+                {home.hero.primaryCta}
               </a>
               <a className="button button-secondary" href="#card">
                 <Icon name="clipboard" />
-                {t("hero.viewCard")}
+                {home.hero.secondaryCta}
               </a>
             </div>
-            <p className="microcopy">
-              {t("hero.microcopy")}
-            </p>
+            <p className="microcopy">{home.hero.microcopy}</p>
             <div className="hero-stage">
-              <div className="hero-visual-card" aria-label="LeadCue product visual">
-                <img
-                  src="/images/leadcue-hero-prospecting.png"
-                  alt="A laptop with abstract prospect analytics cards on a dark green SaaS background"
-                  loading="eager"
-                />
+              <div className="hero-visual-card" aria-label={home.hero.visualNote}>
+                <HeroVisualIllustration copy={home.heroVisual} />
                 <span className="hero-visual-note">
                   <Icon name="spark" />
-                  Website evidence, ICP fit, and first-line cues in one workspace
+                  {home.hero.visualNote}
                 </span>
               </div>
 
-              <div className="hero-analytics glass-card" aria-label="LeadCue live prospecting analytics preview">
+              <div className="hero-analytics glass-card" aria-label={home.analytics.title}>
                 <div className="hero-analytics-top">
                   <div>
-                    <span className="analytics-kicker">Website prospecting live</span>
-                    <strong>Agency pipeline snapshot</strong>
+                    <span className="analytics-kicker">{home.analytics.kicker}</span>
+                    <strong>{home.analytics.title}</strong>
                   </div>
                   <div className="analytics-meta" aria-label="Data freshness">
-                    <span className="live-dot">Live</span>
-                    <span className="live-timeframe">Last 24h</span>
+                    <span className="live-dot">{home.analytics.live}</span>
+                    <span className="live-timeframe">{home.analytics.timeframe}</span>
                   </div>
                 </div>
                 <div className="live-metric-grid">
-                  {([
-                    { icon: "scan", label: "Websites scanned", value: "214", delta: "+18%" },
-                    { icon: "target", label: "Qualified", value: "42%", delta: "+7 pts" },
-                    { icon: "chart", label: "Avg fit", value: "86", delta: "High" },
-                    { icon: "clipboard", label: "First lines copied", value: "64", delta: "+31%" }
-                  ] as const).map((metric) => (
+                  {home.analytics.metrics.map((metric, index) => (
                     <div className="live-metric" key={metric.label}>
                       <span className="metric-icon">
-                        <Icon name={metric.icon} />
+                        <Icon name={(["scan", "target", "chart", "clipboard"] as const)[index]} />
                       </span>
                       <span className="metric-label">{metric.label}</span>
                       <strong>{metric.value}</strong>
@@ -978,10 +1074,10 @@ function MarketingSite() {
                   <div className="analytics-chart-card">
                     <div className="chart-header">
                       <div>
-                        <span>Qualified prospects</span>
-                        <strong>Website scan to saved prospect</strong>
+                        <span>{home.analytics.chartLabel}</span>
+                        <strong>{home.analytics.chartTitle}</strong>
                       </div>
-                      <span className="chart-badge">+24 saved</span>
+                      <span className="chart-badge">{home.analytics.chartBadge}</span>
                     </div>
                     <div className="live-chart" aria-hidden="true">
                       {[38, 54, 48, 66, 62, 74, 69, 84, 78, 92, 86, 96].map((height, index) => (
@@ -994,12 +1090,8 @@ function MarketingSite() {
                   </div>
                   <div className="analytics-side">
                     <div className="signal-mix">
-                      <span className="side-label">Opportunity mix</span>
-                      {([
-                        { label: "Web design", value: 48, tone: "primary" },
-                        { label: "SEO", value: 31, tone: "amber" },
-                        { label: "Growth", value: 21, tone: "coral" }
-                      ] as const).map((signal) => (
+                      <span className="side-label">{home.analytics.mixLabel}</span>
+                      {home.analytics.mix.map((signal) => (
                         <div className={`signal-row ${signal.tone}`} key={signal.label}>
                           <div className="signal-row-top">
                             <span>{signal.label}</span>
@@ -1012,12 +1104,8 @@ function MarketingSite() {
                       ))}
                     </div>
                     <div className="recent-scans">
-                      <span className="side-label">High-fit websites</span>
-                      {([
-                        { company: "Northstar Analytics", cue: "CTA below fold", fit: 86 },
-                        { company: "Beacon Dental", cue: "No visible proof", fit: 82 },
-                        { company: "Lumen Logistics", cue: "Thin service pages", fit: 74 }
-                      ] as const).map((scan) => (
+                      <span className="side-label">{home.analytics.highFitLabel}</span>
+                      {home.analytics.highFitSites.map((scan) => (
                         <div className="scan-row" key={scan.company}>
                           <div>
                             <strong>{scan.company}</strong>
@@ -1031,17 +1119,18 @@ function MarketingSite() {
                 </div>
                 <div className="analytics-footer">
                   <span>
-                    <Icon name="check" />3 prospects ready for outreach
+                    <Icon name="check" />
+                    {home.analytics.footerReady}
                   </span>
-                  <span>12 / 300 scans used</span>
+                  <span>{home.analytics.footerUsage}</span>
                 </div>
               </div>
             </div>
-            <div className="hero-trust-badges" aria-label="LeadCue trust signals">
-              {trustBadges.map((badge) => (
-                <span className="glass-badge" key={badge.label}>
-                  <Icon name={badge.icon} />
-                  {badge.label}
+            <div className="hero-trust-badges" aria-label={home.trustBandLead}>
+              {home.trustBadges.map((badge, index) => (
+                <span className="glass-badge" key={badge}>
+                  <Icon name={(["lock", "shield", "database", "check"] as const)[index]} />
+                  {badge}
                 </span>
               ))}
             </div>
@@ -1050,11 +1139,11 @@ function MarketingSite() {
 
         <section className="section trust-band">
           <div className="section-inner trust-band-inner">
-            <span>Built for agency outbound teams that need a reason to reach out</span>
-            {trustBadges.map((badge) => (
-              <strong key={badge.label}>
-                <Icon name={badge.icon} />
-                {badge.label}
+            <span>{home.trustBandLead}</span>
+            {home.trustBadges.map((badge, index) => (
+              <strong key={badge}>
+                <Icon name={(["lock", "shield", "database", "check"] as const)[index]} />
+                {badge}
               </strong>
             ))}
           </div>
@@ -1064,19 +1153,16 @@ function MarketingSite() {
           <div className="section-inner">
             <div className="section-heading section-heading-split">
               <div>
-                <p className="eyebrow">Product tour</p>
-                <h2 id="homepage-map-title">Everything a buyer needs before starting a scan</h2>
+                <p className="eyebrow">{home.map.eyebrow}</p>
+                <h2 id="homepage-map-title">{home.map.title}</h2>
               </div>
-              <p className="section-copy">
-                Jump into the parts that matter: what LeadCue does, how the scan works, what the
-                Prospect Card contains, and how pricing scales.
-              </p>
+              <p className="section-copy">{home.map.copy}</p>
             </div>
             <div className="homepage-map-grid">
-              {homepageContentLinks.map((item) => (
+              {home.map.items.map((item, index) => (
                 <a className="homepage-map-card" href={item.href} key={item.href}>
                   <span className="feature-icon">
-                    <Icon name={item.icon} />
+                    <Icon name={(["layers", "scan", "clipboard", "chart", "mail"] as const)[index]} />
                   </span>
                   <small>{item.eyebrow}</small>
                   <strong>{item.title}</strong>
@@ -1090,18 +1176,16 @@ function MarketingSite() {
         <section className="section problem-section">
           <div className="section-inner two-column">
             <div>
-              <p className="eyebrow">Outbound is not a list problem</p>
-              <h2>You do not need more random leads. You need a reason to reach out.</h2>
+              <p className="eyebrow">{home.problem.eyebrow}</p>
+              <h2>{home.problem.title}</h2>
             </div>
             <div className="problem-list">
-              {["Is this company a fit for our offer?", "What did their website reveal?", "Which problem can we credibly pitch?", "What should the first line say?"].map(
-                (item) => (
-                  <div className="problem-row" key={item}>
-                    <Icon name="check" />
-                    <span>{item}</span>
-                  </div>
-                )
-              )}
+              {home.problem.questions.map((item) => (
+                <div className="problem-row" key={item}>
+                  <Icon name="check" />
+                  <span>{item}</span>
+                </div>
+              ))}
             </div>
           </div>
         </section>
@@ -1109,18 +1193,15 @@ function MarketingSite() {
         <section className="section feature-section" id="features">
           <div className="section-inner">
             <div className="section-heading">
-              <p className="eyebrow">Website-first workflow</p>
-              <h2>Research, qualify, and export from one prospecting desk</h2>
-              <p className="section-copy">
-                LeadCue turns website observations into pipeline data, so agencies can see which
-                prospects are worth saving, personalizing, and moving into outreach.
-              </p>
+              <p className="eyebrow">{home.features.eyebrow}</p>
+              <h2>{home.features.title}</h2>
+              <p className="section-copy">{home.features.copy}</p>
             </div>
             <div className="feature-grid">
-              {featureHighlights.map((feature) => (
+              {home.features.items.map((feature, index) => (
                 <article className="feature-card glass-card" key={feature.title}>
                   <span className="feature-icon">
-                    <Icon name={feature.icon} />
+                    <Icon name={(["chart", "target", "layers", "database"] as const)[index]} />
                   </span>
                   <span className="feature-tag">{feature.meta}</span>
                   <h3>{feature.title}</h3>
@@ -1134,11 +1215,11 @@ function MarketingSite() {
         <section className="section" id="how">
           <div className="section-inner">
             <div className="section-heading">
-              <p className="eyebrow">How it works</p>
-              <h2>From company website to outreach angle in minutes</h2>
+              <p className="eyebrow">{home.workflow.eyebrow}</p>
+              <h2>{home.workflow.title}</h2>
             </div>
             <div className="step-grid">
-              {workflow.map((step, index) => (
+              {home.workflow.steps.map((step, index) => (
                 <article className="step-card" key={step.title}>
                   <span className="step-number">{index + 1}</span>
                   <h3>{step.title}</h3>
@@ -1152,20 +1233,13 @@ function MarketingSite() {
         <section className="section method-section">
           <div className="section-inner two-column media-story">
             <div className="media-copy">
-              <p className="eyebrow">Agency research method</p>
+              <p className="eyebrow">{home.method.eyebrow}</p>
               <h2>
-                Replace guesswork with <span className="accent-text">website-backed evidence</span>
+                {home.method.titleLead} <span className="accent-text">{home.method.titleAccent}</span>
               </h2>
-              <p className="section-copy">
-                LeadCue keeps sales cues attached to the exact website observations that created
-                them, so teams can qualify prospects before writing a sequence.
-              </p>
+              <p className="section-copy">{home.method.copy}</p>
               <div className="method-checklist">
-                {[
-                  "Score fit against your agency offer",
-                  "Capture CTA, proof, SEO, and positioning gaps",
-                  "Export only accounts with a credible outreach reason"
-                ].map((item) => (
+                {home.method.checklist.map((item) => (
                   <span key={item}>
                     <Icon name="check" />
                     {item}
@@ -1174,14 +1248,10 @@ function MarketingSite() {
               </div>
             </div>
             <figure className="media-frame">
-              <img
-                src="/images/leadcue-agency-research.png"
-                alt="Agency operators reviewing website research and analytics together"
-                loading="lazy"
-              />
+              <ResearchDeskIllustration copy={home.researchVisual} />
               <figcaption>
-                <strong>Research desk</strong>
-                <span>ICP fit, website observations, and outreach notes stay connected.</span>
+                <strong>{home.method.frameTitle}</strong>
+                <span>{home.method.frameCopy}</span>
               </figcaption>
             </figure>
           </div>
@@ -1190,32 +1260,25 @@ function MarketingSite() {
         <section className="section section-muted" id="card">
           <div className="section-inner two-column card-showcase">
             <div className="sample-card-copy">
-              <p className="eyebrow">Sample output</p>
-              <h2>The Prospect Card gives every lead a reason</h2>
-              <p className="section-copy">
-                Each card connects fit, website evidence, contact paths, outreach angles, and
-                copy-ready first lines so your team knows what to say and why.
-              </p>
-              <div className="sample-proof-grid" aria-label="Sample Prospect Card outcomes">
-                {[
-                  ["3", "website cues"],
-                  ["86", "fit score"],
-                  ["1", "ready opener"]
-                ].map(([value, label]) => (
-                  <div className="sample-proof-item" key={label}>
-                    <strong>{value}</strong>
-                    <span>{label}</span>
+              <p className="eyebrow">{home.sampleCard.eyebrow}</p>
+              <h2>{home.sampleCard.title}</h2>
+              <p className="section-copy">{home.sampleCard.copy}</p>
+              <div className="sample-proof-grid" aria-label={home.sampleCard.proofAriaLabel}>
+                {home.sampleCard.stats.map((item) => (
+                  <div className="sample-proof-item" key={item.label}>
+                    <strong>{item.value}</strong>
+                    <span>{item.label}</span>
                   </div>
                 ))}
               </div>
               <div className="sample-card-actions">
-                <a className="button button-primary" href="/signup?plan=free&first=https%3A%2F%2Fnorthstaranalytics.example">
+                <a className="button button-primary" href={localizeHref("/signup?plan=free&first=https%3A%2F%2Fnorthstaranalytics.example")}>
                   <Icon name="scan" />
-                  Run this workflow
+                  {home.sampleCard.primaryCta}
                 </a>
-                <a className="button button-secondary" href="/docs">
+                <a className="button button-secondary" href={localizeHref("/docs")}>
                   <Icon name="clipboard" />
-                  Read scan docs
+                  {home.sampleCard.secondaryCta}
                 </a>
               </div>
             </div>
@@ -1226,15 +1289,15 @@ function MarketingSite() {
         <section className="section">
           <div className="section-inner">
             <div className="section-heading">
-              <p className="eyebrow">Use cases</p>
-              <h2>Use LeadCue when outreach needs proof, not placeholders</h2>
+              <p className="eyebrow">{home.useCases.eyebrow}</p>
+              <h2>{home.useCases.title}</h2>
             </div>
             <div className="use-case-grid">
-              {useCases.map((item) => (
+              {home.useCases.items.map((item, index) => (
                 <article className="use-case-card" key={item.title}>
                   <h3>{item.title}</h3>
                   <p>{item.copy}</p>
-                  <a href={`/signup?focus=${item.focus}&plan=free`}>
+                  <a href={localizeHref(`/signup?focus=${(["web_design", "seo", "marketing"] as const)[index]}&plan=free`)}>
                     {item.cta}
                     <Icon name="arrow" />
                   </a>
@@ -1247,20 +1310,12 @@ function MarketingSite() {
         <section className="section comparison-section">
           <div className="section-inner two-column">
             <div>
-              <p className="eyebrow">Positioning</p>
-              <h2>LeadCue is not another email finder</h2>
-              <p className="section-copy">
-                Email finders help you locate contacts. LeadCue helps you decide why the company is
-                worth contacting before the first message.
-              </p>
+              <p className="eyebrow">{home.comparison.eyebrow}</p>
+              <h2>{home.comparison.title}</h2>
+              <p className="section-copy">{home.comparison.copy}</p>
             </div>
             <div className="comparison-table" role="table" aria-label="LeadCue comparison">
-              {[
-                ["Email finder", "Email addresses", "Why this company should care"],
-                ["Sales database", "Company and contact lists", "Which accounts deserve research"],
-                ["CRM", "Pipeline tracking", "Website insight before outreach"],
-                ["LeadCue", "Qualified Prospect Cards", "Sending sequences in your outreach tool"]
-              ].map(([type, gives, missing]) => (
+              {home.comparison.rows.map(([type, gives, missing]) => (
                 <div className="comparison-row" role="row" key={type}>
                   <strong>{type}</strong>
                   <span>{gives}</span>
@@ -1274,29 +1329,26 @@ function MarketingSite() {
         <section className="section section-muted" id="pricing">
           <div className="section-inner">
             <div className="section-heading">
-              <p className="eyebrow">Pricing</p>
-              <h2>Credits that match weekly prospecting</h2>
-              <p className="section-copy">
-                Start with a small batch of website scans, then scale when LeadCue becomes part of
-                your agency's outbound research rhythm.
-              </p>
+              <p className="eyebrow">{home.pricing.eyebrow}</p>
+              <h2>{home.pricing.title}</h2>
+              <p className="section-copy">{home.pricing.copy}</p>
             </div>
             <div className="pricing-grid">
               {PRICING_PLANS.map((plan) => (
                 <article className={`pricing-card glass-card ${plan.id === "pro" ? "featured-plan" : ""}`} key={plan.id}>
                   <div className="pricing-card-top">
-                    {plan.id === "pro" ? <span className="plan-ribbon">Most useful</span> : <span />}
-                    <span className="plan-credit-pill">{plan.monthlyCredits.toLocaleString()} scans</span>
+                    {plan.id === "pro" ? <span className="plan-ribbon">{home.pricing.mostUseful}</span> : <span />}
+                    <span className="plan-credit-pill">{`${plan.monthlyCredits.toLocaleString()} ${home.pricing.scansSuffix}`}</span>
                   </div>
                   <h3>{plan.name}</h3>
                   <div className="price-row">
                     <p className="price">{plan.price === 0 ? "$0" : `$${plan.price}`}</p>
-                    <span>/mo</span>
+                    <span>{home.pricing.perMonth}</span>
                   </div>
-                  <span className="plan-description">{plan.description}</span>
-                  <span className="plan-use-case">{planUseCases[plan.id]}</span>
+                  <span className="plan-description">{home.pricing.planBenefits[plan.id][0]}</span>
+                  <span className="plan-use-case">{home.pricing.planUseCases[plan.id]}</span>
                   <ul>
-                    {planBenefits[plan.id].map((benefit) => (
+                    {home.pricing.planBenefits[plan.id].map((benefit) => (
                       <li key={benefit}>
                         <Icon name="check" />
                         {benefit}
@@ -1305,8 +1357,12 @@ function MarketingSite() {
                   </ul>
                   <a
                     className="plan-cta"
-                    href={`/signup?plan=${plan.id}`}
-                    aria-label={`${plan.id === "free" ? "Start free" : "Subscribe"} with the ${plan.name} plan`}
+                    href={localizeHref(`/signup?plan=${plan.id}`)}
+                    aria-label={
+                      plan.id === "free"
+                        ? formatMessage(home.pricing.ariaStartFree, { plan: plan.name })
+                        : formatMessage(home.pricing.ariaSubscribe, { plan: plan.name })
+                    }
                     onClick={() => {
                       void trackEvent({
                         name: "pricing_plan_click",
@@ -1317,7 +1373,11 @@ function MarketingSite() {
                     }}
                   >
                     <Icon name="mail" />
-                    {plan.id === "free" ? "Start free scan" : plan.id === "agency" ? "Start agency setup" : `Start ${plan.name}`}
+                    {plan.id === "free"
+                      ? home.pricing.startFreeScan
+                      : plan.id === "agency"
+                        ? home.pricing.startAgencySetup
+                        : formatMessage(home.pricing.startPlan, { plan: plan.name })}
                   </a>
                 </article>
               ))}
@@ -1328,15 +1388,12 @@ function MarketingSite() {
         <section className="section faq-section" id="faq">
           <div className="section-inner faq-layout">
             <div>
-              <p className="eyebrow">FAQ</p>
-              <h2>Built around website research, not another contact database</h2>
-              <p className="section-copy">
-                LeadCue is intentionally narrow: analyze the prospect site, qualify the opportunity,
-                and move better notes into the outreach workflow you already use.
-              </p>
+              <p className="eyebrow">{home.faqSection.eyebrow}</p>
+              <h2>{home.faqSection.title}</h2>
+              <p className="section-copy">{home.faqSection.copy}</p>
             </div>
             <div className="faq-list">
-              {faqItems.map((item) => (
+              {home.faqSection.items.map((item) => (
                 <details className="faq-card glass-card" key={item.question}>
                   <summary>
                     <span>{item.question}</span>
@@ -1353,43 +1410,44 @@ function MarketingSite() {
           <div className="section-inner">
             <div className="section-heading section-heading-split">
               <div>
-                <p className="eyebrow">Outbound resources</p>
+                <p className="eyebrow">{home.resources.eyebrow}</p>
                 <h2>
-                  Build a sharper prospecting system with <span className="accent-text">better signals</span>
+                  {home.resources.titleLead} <span className="accent-text">{home.resources.titleAccent}</span>
                 </h2>
               </div>
-              <p className="section-copy">
-                Practical articles for teams that want every saved account to carry evidence,
-                timing, and a credible reason to start a conversation.
-              </p>
+              <p className="section-copy">{home.resources.copy}</p>
             </div>
             <div className="resource-grid">
-              {resourceArticles.map((article) => (
+              {home.resources.items.map((article, index) => (
                 <article className="resource-card" key={article.title}>
-                  <img src={article.image} alt="" loading="lazy" />
+                  <div className="resource-card-visual">
+                    <ResourceIllustration
+                      copy={index === 0 ? home.resourceVisuals.playbook : index === 1 ? home.resourceVisuals.qualification : home.resourceVisuals.strategy}
+                    />
+                  </div>
                   <span>{article.label}</span>
                   <h3>{article.title}</h3>
                   <p>{article.copy}</p>
-                  <a href={article.href}>
-                    Read the guide
+                  <a href={localizeHref(article.href)}>
+                    {home.resources.readGuide}
                     <Icon name="arrow" />
                   </a>
                 </article>
               ))}
             </div>
-            <div className="resource-index" aria-label="LeadCue SEO resource library">
+            <div className="resource-index" aria-label={home.resources.titleLead}>
               <div>
-                <span>Browse the content library</span>
-                <strong>16 search-intent pages, tools, and CRM guides</strong>
+                <span>{home.resources.browseLead}</span>
+                <strong>{home.resources.browseTitle}</strong>
               </div>
               <div className="resource-index-links">
-                {seoContentPages.map((page) => (
-                  <a href={`/${page.slug}`} key={page.slug}>
+                {seoPages.map((page) => (
+                  <a href={localizeHref(`/${page.slug}`)} key={page.slug}>
                     {page.category}
                   </a>
                 ))}
-                {productSeoPages.map((page) => (
-                  <a href={`/${page.slug}`} key={page.slug}>
+                {productPages.map((page) => (
+                  <a href={localizeHref(`/${page.slug}`)} key={page.slug}>
                     {page.category}
                   </a>
                 ))}
@@ -1401,54 +1459,48 @@ function MarketingSite() {
         <section className="section signup-section" id="start">
           <div className="section-inner signup-layout">
             <div>
-              <p className="eyebrow">Start scanning</p>
-              <h2>Create your agency workspace and run your first prospect scan</h2>
-              <p className="section-copy">
-                Start with the free plan, connect your agency offer, and use LeadCue to turn
-                company websites into source-backed Prospect Cards.
-              </p>
+              <p className="eyebrow">{home.launch.eyebrow}</p>
+              <h2>{home.launch.title}</h2>
+              <p className="section-copy">{home.launch.copy}</p>
               <div className="signup-points">
                 <span>
                   <Icon name="check" />
-                  20 scans included on Free
+                  {home.launch.points[0]}
                 </span>
                 <span>
                   <Icon name="shield" />
-                  No LinkedIn scraping
+                  {home.launch.points[1]}
                 </span>
                 <span>
                   <Icon name="database" />
-                  CSV export path
+                  {home.launch.points[2]}
                 </span>
               </div>
             </div>
             <div className="signup-card">
-              <span className="signup-card-kicker">Commercial launch path</span>
-              <h3>Free plan starts with 20 website scans/month.</h3>
-              <p>
-                Paid plans unlock higher monthly scan volume, saved prospect workflow, and priority
-                analytics for outbound teams.
-              </p>
-              <form className="quick-scan-form" action="/signup" method="get">
+              <span className="signup-card-kicker">{home.launch.cardKicker}</span>
+              <h3>{home.launch.cardTitle}</h3>
+              <p>{home.launch.cardCopy}</p>
+              <form className="quick-scan-form" action={localizeHref("/signup")} method="get">
                 <input type="hidden" name="plan" value="free" />
-                <label htmlFor="quick-scan-url">First prospect website</label>
+                <label htmlFor="quick-scan-url">{home.launch.quickScanLabel}</label>
                 <div>
                   <input
                     id="quick-scan-url"
                     name="first"
                     type="url"
-                    placeholder="https://prospect.example.com"
-                    aria-label="First prospect website"
+                    placeholder={home.launch.quickScanPlaceholder}
+                    aria-label={home.launch.quickScanAria}
                   />
                   <button className="button button-primary" type="submit">
                     <Icon name="scan" />
-                    Queue scan
+                    {home.launch.queueScan}
                   </button>
                 </div>
               </form>
-              <a className="button button-primary" href="/signup?plan=free">
+              <a className="button button-primary" href={localizeHref("/signup?plan=free")}>
                 <Icon name="mail" />
-                Start free
+                {home.launch.startFree}
               </a>
             </div>
           </div>
@@ -1458,41 +1510,41 @@ function MarketingSite() {
       <footer className="footer">
         <div className="section-inner footer-inner">
           <div className="footer-brand">
-            <a className="brand" href="/" aria-label="LeadCue home">
+            <a className="brand" href={localizeHref("/")} aria-label={`${siteUi.common.brand} ${siteUi.common.home}`}>
               <BrandMark />
-              <span>LeadCue</span>
+              <span>{siteUi.common.brand}</span>
             </a>
-            <p>Website-first prospecting for agencies that need stronger reasons to reach out.</p>
+            <p>{home.footer.brandCopy}</p>
           </div>
           <div className="footer-column">
-            <strong>Product</strong>
-            <a href="#features">Features</a>
-            <a href="#card">Sample card</a>
-            <a href="#pricing">Pricing</a>
-            <a href="/app">Dashboard</a>
+            <strong>{home.footer.productTitle}</strong>
+            <a href="#features">{siteUi.nav.features}</a>
+            <a href="#card">{siteUi.nav.sampleCard}</a>
+            <a href="#pricing">{siteUi.nav.pricing}</a>
+            <a href={localizeHref("/app")}>{home.footer.dashboard}</a>
           </div>
           <div className="footer-column">
-            <strong>Resources</strong>
-            <a href="/website-prospecting">Website prospecting</a>
-            <a href="/cold-email-first-lines">Cold email first lines</a>
-            <a href="/agency-lead-qualification">Lead qualification</a>
-            <a href="#faq">FAQ</a>
+            <strong>{home.footer.resourcesTitle}</strong>
+            <a href={localizeHref("/website-prospecting")}>{seoPages[0]?.category ?? "Website prospecting"}</a>
+            <a href={localizeHref("/cold-email-first-lines")}>{seoPages[2]?.category ?? "Cold email"}</a>
+            <a href={localizeHref("/agency-lead-qualification")}>{seoPages[3]?.category ?? "Lead qualification"}</a>
+            <a href="#faq">{siteUi.common.faq}</a>
           </div>
           <div className="footer-column">
-            <strong>Legal</strong>
-            <a href="/docs">Docs</a>
-            <a href="/contact">Contact</a>
-            <a href="/privacy">Privacy</a>
-            <a href="/terms">Terms</a>
-            <a href="/support">Support</a>
+            <strong>{home.footer.legalTitle}</strong>
+            <a href={localizeHref("/docs")}>{home.footer.docs}</a>
+            <a href={localizeHref("/contact")}>{home.footer.contact}</a>
+            <a href={localizeHref("/privacy")}>{home.footer.privacy}</a>
+            <a href={localizeHref("/terms")}>{home.footer.terms}</a>
+            <a href={localizeHref("/support")}>{home.footer.support}</a>
           </div>
         </div>
         <div className="section-inner footer-bottom">
-          <span>Copyright © 2026 LeadCue. All rights reserved.</span>
+          <span>{home.footer.copyright}</span>
           <div>
-            <a href="/privacy">Privacy Policy</a>
-            <a href="/terms">Terms & Conditions</a>
-            <a href="/signup?plan=free">Start free</a>
+            <a href={localizeHref("/privacy")}>{home.footer.privacyPolicy}</a>
+            <a href={localizeHref("/terms")}>{home.footer.termsAndConditions}</a>
+            <a href={localizeHref("/signup?plan=free")}>{home.launch.startFree}</a>
           </div>
         </div>
       </footer>
@@ -1507,9 +1559,9 @@ function makeContentAnchor(value: string) {
     .replace(/^-+|-+$/g, "");
 }
 
-function getSeoContentStructuredData(page: SeoContentPage) {
+function getSeoContentStructuredData(page: SeoContentPage, locale: SiteLocaleCode) {
   const path = `/${page.slug}`;
-  const url = absoluteUrl(path);
+  const url = absoluteUrl(path, locale);
 
   return {
     "@context": "https://schema.org",
@@ -1539,8 +1591,8 @@ function getSeoContentStructuredData(page: SeoContentPage) {
           {
             "@type": "ListItem",
             position: 1,
-            name: "Resources",
-            item: `${SITE_URL}/#resources`
+            name: getSiteUi(locale).common.resources,
+            item: `${absoluteUrl("/", locale)}#resources`
           },
           {
             "@type": "ListItem",
@@ -1566,9 +1618,11 @@ function getSeoContentStructuredData(page: SeoContentPage) {
 }
 
 function SeoContentPageView({ page }: { page: SeoContentPage }) {
+  const { locale, localizeHref, siteUi } = usePublicSite();
   const path = `/${page.slug}`;
+  const seoPageMap = getSeoPageMap(locale);
   const relatedPages = page.related
-    .map((slug) => seoContentPageMap[slug])
+    .map((slug) => seoPageMap[slug])
     .filter((relatedPage): relatedPage is SeoContentPage => Boolean(relatedPage));
 
   return (
@@ -1577,31 +1631,33 @@ function SeoContentPageView({ page }: { page: SeoContentPage }) {
         title={page.seoTitle}
         description={page.description}
         path={path}
+        locale={locale}
         type="article"
-        structuredData={getSeoContentStructuredData(page)}
+        structuredData={getSeoContentStructuredData(page, locale)}
       />
       <header className="topbar topbar-minimal content-topbar">
-        <a className="brand" href="/" aria-label="LeadCue home">
+        <a className="brand" href={localizeHref("/")} aria-label={`${siteUi.common.brand} ${siteUi.common.home}`}>
           <BrandMark />
-          <span>LeadCue</span>
+          <span>{siteUi.common.brand}</span>
         </a>
         <nav className="content-nav" aria-label="LeadCue content navigation">
-          <a href="/website-prospecting">Strategy</a>
-          <a href="/use-cases/web-design-agencies">Use cases</a>
-          <a href="/guides/turn-website-into-cold-email-angle">Guides</a>
-          <a href="/agency-lead-qualification">Qualification</a>
+          <a href={localizeHref("/website-prospecting")}>{siteUi.content.seoNav.strategy}</a>
+          <a href={localizeHref("/use-cases/web-design-agencies")}>{siteUi.content.seoNav.useCases}</a>
+          <a href={localizeHref("/guides/turn-website-into-cold-email-angle")}>{siteUi.content.seoNav.guides}</a>
+          <a href={localizeHref("/agency-lead-qualification")}>{siteUi.content.seoNav.qualification}</a>
         </nav>
-        <a className="button button-small button-primary topbar-back" href="/signup?plan=free">
-          Start free
+        <LanguageSwitcher />
+        <a className="button button-small button-primary topbar-back" href={localizeHref("/signup?plan=free")}>
+          {siteUi.common.startFree}
         </a>
       </header>
 
       <main className="content-page seo-page">
         <section className="content-hero seo-hero">
           <nav className="seo-breadcrumb" aria-label="Breadcrumb">
-            <a href="/">Home</a>
+            <a href={localizeHref("/")}>{siteUi.content.breadcrumbs.home}</a>
             <span>/</span>
-            <a href="/#resources">Resources</a>
+            <a href={localizeHref("/#resources")}>{siteUi.content.breadcrumbs.resources}</a>
             <span>/</span>
             <strong>{page.category}</strong>
           </nav>
@@ -1611,7 +1667,7 @@ function SeoContentPageView({ page }: { page: SeoContentPage }) {
           <div className="seo-meta-row" aria-label="Article metadata">
             <span>{page.category}</span>
             <span>{page.readingTime}</span>
-            <span>Updated {page.updatedAt}</span>
+            <span>{`${siteUi.common.updatedLabel} ${page.updatedAt}`}</span>
           </div>
           <div className="seo-keywords" aria-label="Target search intent">
             <span>{page.primaryKeyword}</span>
@@ -1622,21 +1678,21 @@ function SeoContentPageView({ page }: { page: SeoContentPage }) {
         </section>
 
         <section className="seo-layout" aria-label={`${page.title} article`}>
-          <aside className="seo-toc" aria-label="On this page">
-            <strong>On this page</strong>
+          <aside className="seo-toc" aria-label={siteUi.common.onThisPage}>
+            <strong>{siteUi.common.onThisPage}</strong>
             {page.sections.map((section) => (
               <a href={`#${makeContentAnchor(section.title)}`} key={section.title}>
                 {section.title}
               </a>
             ))}
-            <a href="#example">Example</a>
-            <a href="#faq">FAQ</a>
+            <a href="#example">{siteUi.common.example}</a>
+            <a href="#faq">{siteUi.common.faq}</a>
           </aside>
 
           <article className="seo-article">
             <section className="seo-summary-panel">
               <div>
-                <p className="eyebrow">Search intent</p>
+                <p className="eyebrow">{siteUi.common.searchIntent}</p>
                 <h2>{page.intent}</h2>
               </div>
               <ul>
@@ -1665,7 +1721,7 @@ function SeoContentPageView({ page }: { page: SeoContentPage }) {
             ))}
 
             <section className="seo-example" id="example">
-              <p className="eyebrow">Example</p>
+              <p className="eyebrow">{siteUi.common.example}</p>
               <h2>{page.example.title}</h2>
               <p>{page.example.copy}</p>
               <div className="seo-example-grid">
@@ -1676,8 +1732,8 @@ function SeoContentPageView({ page }: { page: SeoContentPage }) {
             </section>
 
             <section className="seo-faq" id="faq">
-              <p className="eyebrow">FAQ</p>
-              <h2>Common questions</h2>
+              <p className="eyebrow">{siteUi.common.faq}</p>
+              <h2>{siteUi.content.faqTitle}</h2>
               {page.faqs.map((faq) => (
                 <details className="seo-faq-item" key={faq.question}>
                   <summary>{faq.question}</summary>
@@ -1688,12 +1744,12 @@ function SeoContentPageView({ page }: { page: SeoContentPage }) {
 
             <section className="seo-related" aria-label="Related LeadCue resources">
               <div>
-                <p className="eyebrow">Related resources</p>
-                <h2>Keep building the workflow</h2>
+                <p className="eyebrow">{siteUi.common.relatedResources}</p>
+                <h2>{siteUi.common.keepBuilding}</h2>
               </div>
               <div className="seo-related-grid">
                 {relatedPages.map((relatedPage) => (
-                  <a href={`/${relatedPage.slug}`} key={relatedPage.slug}>
+                  <a href={localizeHref(`/${relatedPage.slug}`)} key={relatedPage.slug}>
                     <span>{relatedPage.category}</span>
                     <strong>{relatedPage.title}</strong>
                   </a>
@@ -1705,12 +1761,12 @@ function SeoContentPageView({ page }: { page: SeoContentPage }) {
 
         <section className="content-cta">
           <div>
-            <p className="eyebrow">Use it on a real account</p>
-            <h2>Turn one prospect website into a source-backed Prospect Card.</h2>
+            <p className="eyebrow">{siteUi.common.useOnRealAccount}</p>
+            <h2>{siteUi.content.ctaTitleSeo}</h2>
           </div>
-          <a className="button button-primary" href="/signup?plan=free">
+          <a className="button button-primary" href={localizeHref("/signup?plan=free")}>
             <Icon name="scan" />
-            Start free scan
+            {siteUi.common.startFreeScan}
           </a>
         </section>
       </main>
@@ -1920,9 +1976,9 @@ function escapeCsvValue(value: string) {
   return `"${value.replace(/"/g, '""')}"`;
 }
 
-function getProductSeoStructuredData(page: ProductSeoPage) {
+function getProductSeoStructuredData(page: ProductSeoPage, locale: SiteLocaleCode) {
   const path = `/${page.slug}`;
-  const url = absoluteUrl(path);
+  const url = absoluteUrl(path, locale);
 
   return {
     "@context": "https://schema.org",
@@ -1942,7 +1998,7 @@ function getProductSeoStructuredData(page: ProductSeoPage) {
       {
         "@type": "BreadcrumbList",
         itemListElement: [
-          { "@type": "ListItem", position: 1, name: "Resources", item: `${SITE_URL}/#resources` },
+          { "@type": "ListItem", position: 1, name: getSiteUi(locale).common.resources, item: `${absoluteUrl("/", locale)}#resources` },
           { "@type": "ListItem", position: 2, name: page.category, item: url }
         ]
       },
@@ -1959,9 +2015,12 @@ function getProductSeoStructuredData(page: ProductSeoPage) {
 }
 
 function ProductSeoPageView({ page }: { page: ProductSeoPage }) {
+  const { locale, localizeHref, siteUi } = usePublicSite();
   const path = `/${page.slug}`;
+  const productPageMap = getProductPageMap(locale);
+  const seoPageMap = getSeoPageMap(locale);
   const relatedPages = page.related
-    .map((slug) => productSeoPageMap[slug] ?? seoContentPageMap[slug])
+    .map((slug) => productPageMap[slug] ?? seoPageMap[slug])
     .filter((relatedPage): relatedPage is ProductSeoPage | SeoContentPage => Boolean(relatedPage));
 
   return (
@@ -1970,31 +2029,33 @@ function ProductSeoPageView({ page }: { page: ProductSeoPage }) {
         title={page.seoTitle}
         description={page.description}
         path={path}
+        locale={locale}
         type="article"
-        structuredData={getProductSeoStructuredData(page)}
+        structuredData={getProductSeoStructuredData(page, locale)}
       />
       <header className="topbar topbar-minimal content-topbar">
-        <a className="brand" href="/" aria-label="LeadCue home">
+        <a className="brand" href={localizeHref("/")} aria-label={`${siteUi.common.brand} ${siteUi.common.home}`}>
           <BrandMark />
-          <span>LeadCue</span>
+          <span>{siteUi.common.brand}</span>
         </a>
         <nav className="content-nav" aria-label="Product-led SEO navigation">
-          <a href="/templates/crm-csv-field-mapping">CSV tool</a>
-          <a href="/templates/cold-email-first-line">First lines</a>
-          <a href="/templates/website-prospecting-checklist">Checklist</a>
-          <a href="/integrations/hubspot-csv-export">Integrations</a>
+          <a href={localizeHref("/templates/crm-csv-field-mapping")}>{siteUi.content.productNav.csvTool}</a>
+          <a href={localizeHref("/templates/cold-email-first-line")}>{siteUi.content.productNav.firstLines}</a>
+          <a href={localizeHref("/templates/website-prospecting-checklist")}>{siteUi.content.productNav.checklist}</a>
+          <a href={localizeHref("/integrations/hubspot-csv-export")}>{siteUi.content.productNav.integrations}</a>
         </nav>
-        <a className="button button-small button-primary topbar-back" href="/signup?plan=free">
-          Start free
+        <LanguageSwitcher />
+        <a className="button button-small button-primary topbar-back" href={localizeHref("/signup?plan=free")}>
+          {siteUi.common.startFree}
         </a>
       </header>
 
       <main className="content-page seo-page product-seo-page">
         <section className="content-hero seo-hero">
           <nav className="seo-breadcrumb" aria-label="Breadcrumb">
-            <a href="/">Home</a>
+            <a href={localizeHref("/")}>{siteUi.content.breadcrumbs.home}</a>
             <span>/</span>
-            <a href="/#resources">Resources</a>
+            <a href={localizeHref("/#resources")}>{siteUi.content.breadcrumbs.resources}</a>
             <span>/</span>
             <strong>{page.category}</strong>
           </nav>
@@ -2004,7 +2065,7 @@ function ProductSeoPageView({ page }: { page: ProductSeoPage }) {
           <div className="seo-meta-row" aria-label="Page metadata">
             <span>{page.category}</span>
             <span>{page.readingTime}</span>
-            <span>Updated {page.updatedAt}</span>
+            <span>{`${siteUi.common.updatedLabel} ${page.updatedAt}`}</span>
           </div>
           <div className="seo-keywords" aria-label="Target search intent">
             <span>{page.primaryKeyword}</span>
@@ -2015,21 +2076,21 @@ function ProductSeoPageView({ page }: { page: ProductSeoPage }) {
         </section>
 
         <section className="seo-layout" aria-label={`${page.title} tool and guide`}>
-          <aside className="seo-toc" aria-label="On this page">
-            <strong>On this page</strong>
-            <a href="#tool">Tool</a>
+          <aside className="seo-toc" aria-label={siteUi.common.onThisPage}>
+            <strong>{siteUi.common.onThisPage}</strong>
+            <a href="#tool">{siteUi.common.tool}</a>
             {page.sections.map((section) => (
               <a href={`#${makeContentAnchor(section.title)}`} key={section.title}>
                 {section.title}
               </a>
             ))}
-            <a href="#faq">FAQ</a>
+            <a href="#faq">{siteUi.common.faq}</a>
           </aside>
 
           <article className="seo-article">
             <section className="seo-summary-panel">
               <div>
-                <p className="eyebrow">Search intent</p>
+                <p className="eyebrow">{siteUi.common.searchIntent}</p>
                 <h2>{page.intent}</h2>
               </div>
               <ul>
@@ -2048,17 +2109,14 @@ function ProductSeoPageView({ page }: { page: ProductSeoPage }) {
 
             <section className="tool-conversion-band" aria-label="Use this workflow inside LeadCue">
               <div className="tool-conversion-copy">
-                <p className="eyebrow">Turn the template into pipeline output</p>
-                <h2>Use the same workflow on a real prospect website.</h2>
-                <p>
-                  Start with a free workspace, run the website scan, then keep the fit score, source notes,
-                  first line, and CRM export fields together instead of copying them by hand.
-                </p>
+                <p className="eyebrow">{siteUi.content.toolBand.eyebrow}</p>
+                <h2>{siteUi.content.toolBand.title}</h2>
+                <p>{siteUi.content.toolBand.copy}</p>
               </div>
               <div className="tool-conversion-actions">
                 <a
                   className="button button-primary"
-                  href={`/signup?plan=free${page.tool === "integration" ? "&focus=marketing" : page.tool === "first-line" ? "&focus=web_design" : ""}`}
+                  href={localizeHref(`/signup?plan=free${page.tool === "integration" ? "&focus=marketing" : page.tool === "first-line" ? "&focus=web_design" : ""}`)}
                   onClick={() => {
                     void trackEvent({
                       name: "product_tool_primary_click",
@@ -2070,11 +2128,11 @@ function ProductSeoPageView({ page }: { page: ProductSeoPage }) {
                   }}
                 >
                   <Icon name="scan" />
-                  Start free with this workflow
+                  {siteUi.content.toolBand.primaryCta}
                 </a>
                 <a
                   className="button button-secondary"
-                  href="/app/leads?lead=lead_sample"
+                  href={localizeHref("/app/leads?lead=lead_sample")}
                   onClick={() => {
                     void trackEvent({
                       name: "product_tool_secondary_click",
@@ -2086,15 +2144,11 @@ function ProductSeoPageView({ page }: { page: ProductSeoPage }) {
                   }}
                 >
                   <Icon name="clipboard" />
-                  Open sample Prospect Card
+                  {siteUi.content.toolBand.secondaryCta}
                 </a>
               </div>
               <div className="tool-conversion-points">
-                {[
-                  "20 free scans to test the workflow on real websites",
-                  "The same CRM naming presets used in the app export flow",
-                  "Save only qualified accounts before import or outreach"
-                ].map((item) => (
+                {siteUi.content.toolBand.points.map((item) => (
                   <span key={item}>
                     <Icon name="check" />
                     {item}
@@ -2119,8 +2173,8 @@ function ProductSeoPageView({ page }: { page: ProductSeoPage }) {
             ))}
 
             <section className="seo-faq" id="faq">
-              <p className="eyebrow">FAQ</p>
-              <h2>Common questions</h2>
+              <p className="eyebrow">{siteUi.common.faq}</p>
+              <h2>{siteUi.content.faqTitle}</h2>
               {page.faqs.map((faq) => (
                 <details className="seo-faq-item" key={faq.question}>
                   <summary>{faq.question}</summary>
@@ -2131,12 +2185,12 @@ function ProductSeoPageView({ page }: { page: ProductSeoPage }) {
 
             <section className="seo-related" aria-label="Related LeadCue resources">
               <div>
-                <p className="eyebrow">Related resources</p>
-                <h2>Keep building the workflow</h2>
+                <p className="eyebrow">{siteUi.common.relatedResources}</p>
+                <h2>{siteUi.common.keepBuilding}</h2>
               </div>
               <div className="seo-related-grid">
                 {relatedPages.map((relatedPage) => (
-                  <a href={`/${relatedPage.slug}`} key={relatedPage.slug}>
+                  <a href={localizeHref(`/${relatedPage.slug}`)} key={relatedPage.slug}>
                     <span>{relatedPage.category}</span>
                     <strong>{relatedPage.title}</strong>
                   </a>
@@ -2148,12 +2202,12 @@ function ProductSeoPageView({ page }: { page: ProductSeoPage }) {
 
         <section className="content-cta">
           <div>
-            <p className="eyebrow">Use it on a real account</p>
-            <h2>Run the workflow inside LeadCue and export selected prospects.</h2>
+            <p className="eyebrow">{siteUi.common.useOnRealAccount}</p>
+            <h2>{siteUi.content.ctaTitleProduct}</h2>
           </div>
           <a
             className="button button-primary"
-            href="/signup?plan=free"
+            href={localizeHref("/signup?plan=free")}
             onClick={() => {
               void trackEvent({
                 name: "product_tool_primary_click",
@@ -2166,7 +2220,7 @@ function ProductSeoPageView({ page }: { page: ProductSeoPage }) {
             }}
           >
             <Icon name="scan" />
-            Start free scan
+            {siteUi.common.startFreeScan}
           </a>
         </section>
       </main>
@@ -2191,11 +2245,15 @@ function ProductToolSurface({ page }: { page: ProductSeoPage }) {
 }
 
 function CrmFieldMappingTool() {
+  const { siteUi, formatMessage } = usePublicSite();
+  const crmCopy = siteUi.tools.crmMapping;
+  const crmModes = crmCopy.modes;
+  const crmRows = crmCopy.rows;
   const [mode, setMode] = useState<CrmMappingMode>("hubspot");
   const [scope, setScope] = useState<"all" | "required" | "recommended">("all");
   const [customPrefix, setCustomPrefix] = useState("lc_");
-  const [selectedKeys, setSelectedKeys] = useState<string[]>(crmMappingRows.map((row) => row.key));
-  const visibleRows = crmMappingRows.filter((row) => {
+  const [selectedKeys, setSelectedKeys] = useState<string[]>(crmRows.map((row) => row.key));
+  const visibleRows = crmRows.filter((row) => {
     if (scope === "required") {
       return requiredCrmFieldKeys.has(row.key);
     }
@@ -2206,21 +2264,21 @@ function CrmFieldMappingTool() {
 
     return true;
   });
-  const selectedRows = crmMappingRows.filter((row) => selectedKeys.includes(row.key));
+  const selectedRows = crmRows.filter((row) => selectedKeys.includes(row.key));
   const missingRequired = Array.from(requiredCrmFieldKeys).filter((key) => !selectedKeys.includes(key));
-  const labelForRow = (row: (typeof crmMappingRows)[number]) =>
+  const labelForRow = (row: (typeof crmRows)[number]) =>
     mode === "custom" && customPrefix.trim() ? `${customPrefix.trim()}${row.labels.custom}` : row.labels[mode];
   const csvHeader = selectedRows.map((row) => labelForRow(row)).join(",");
   const csvSample = selectedRows.map((row) => escapeCsvValue(row.sample)).join(",");
   const csvText = `${csvHeader}\n${csvSample}`;
-  const activeMode = crmMappingModes.find((item) => item.value === mode) ?? crmMappingModes[0];
+  const activeMode = crmModes.find((item) => item.value === mode) ?? crmModes[0];
 
   return (
     <div className="product-tool">
       <div className="product-tool-head">
         <div>
-          <p className="eyebrow">CSV field mapper</p>
-          <h2>{activeMode.label} prospect research export</h2>
+          <p className="eyebrow">{crmCopy.eyebrow}</p>
+          <h2>{`${activeMode.label} prospect research export`}</h2>
           <p>{activeMode.copy}</p>
         </div>
         <div className="tool-actions">
@@ -2233,7 +2291,7 @@ function CrmFieldMappingTool() {
             }}
           >
             <Icon name="clipboard" />
-            Copy header
+            {crmCopy.copyHeader}
           </button>
           <button
             className="button button-primary"
@@ -2244,35 +2302,35 @@ function CrmFieldMappingTool() {
             }}
           >
             <Icon name="download" />
-            Sample CSV
+            {crmCopy.sampleCsv}
           </button>
         </div>
       </div>
 
       <div className="tool-kpi-strip">
         <div>
-          <span>Included fields</span>
+          <span>{crmCopy.includedFields}</span>
           <strong>{selectedRows.length}</strong>
         </div>
         <div>
-          <span>Required fields</span>
+          <span>{crmCopy.requiredFields}</span>
           <strong>{requiredCrmFieldKeys.size - missingRequired.length}/{requiredCrmFieldKeys.size}</strong>
         </div>
         <div>
-          <span>Best for</span>
-          <strong>{activeMode.label} import prep</strong>
+          <span>{crmCopy.bestFor}</span>
+          <strong>{formatMessage(crmCopy.importPrep, { mode: activeMode.label })}</strong>
         </div>
       </div>
 
       <div className="tool-segmented" role="tablist" aria-label="CRM field naming mode">
-        {crmMappingModes.map((item) => (
+        {crmModes.map((item) => (
           <button
             className={mode === item.value ? "is-active" : ""}
             type="button"
             role="tab"
             aria-selected={mode === item.value}
             key={item.value}
-            onClick={() => setMode(item.value)}
+            onClick={() => setMode(item.value as CrmMappingMode)}
           >
             {item.label}
           </button>
@@ -2281,9 +2339,9 @@ function CrmFieldMappingTool() {
 
       <div className="tool-segmented tool-segmented-secondary" role="tablist" aria-label="CRM field scope">
         {[
-          ["all", "All fields"],
-          ["required", "Required only"],
-          ["recommended", "Recommended"]
+          ["all", crmCopy.scopeAll],
+          ["required", crmCopy.scopeRequired],
+          ["recommended", crmCopy.scopeRecommended]
         ].map(([value, label]) => (
           <button
             className={scope === value ? "is-active" : ""}
@@ -2300,14 +2358,14 @@ function CrmFieldMappingTool() {
 
       {mode === "custom" ? (
         <label className="tool-inline-field">
-          <span>Custom field prefix</span>
+          <span>{crmCopy.customPrefix}</span>
           <input value={customPrefix} onChange={(event) => setCustomPrefix(event.currentTarget.value)} placeholder="lc_" />
         </label>
       ) : null}
 
       <div className="field-mapping-grid">
         <div className="field-picker" aria-label="Fields to include">
-          <strong>Included fields</strong>
+          <strong>{crmCopy.includedFields}</strong>
           {visibleRows.map((row) => (
             <label key={row.key}>
               <input
@@ -2326,9 +2384,9 @@ function CrmFieldMappingTool() {
 
         <div className="mapping-table" aria-label={`${activeMode.label} field mapping table`}>
           <div className="mapping-table-row mapping-table-head">
-            <span>Field</span>
-            <span>Group</span>
-            <span>Purpose</span>
+            <span>{crmCopy.mappingField}</span>
+            <span>{crmCopy.mappingGroup}</span>
+            <span>{crmCopy.mappingPurpose}</span>
           </div>
           {selectedRows.map((row) => (
             <div className="mapping-table-row" key={row.key}>
@@ -2342,18 +2400,18 @@ function CrmFieldMappingTool() {
 
       <div className="tool-advice-grid">
         <article className="tool-advice-card">
-          <span>Ready-to-import checklist</span>
-          <strong>{missingRequired.length ? "Add the missing required fields before export." : "Your export contains the minimum required fields."}</strong>
+          <span>{crmCopy.readyChecklist}</span>
+          <strong>{missingRequired.length ? crmCopy.readyMissing : crmCopy.readyComplete}</strong>
           <p>
             {missingRequired.length
-              ? `Missing: ${missingRequired.join(", ")}. These fields usually prevent broken ownership or duplicate imports.`
-              : "This header is ready for a selected-lead export and a first CRM import pass."}
+              ? formatMessage(crmCopy.readyMissingCopy, { missing: missingRequired.join(", ") })
+              : crmCopy.readyCompleteCopy}
           </p>
         </article>
         <article className="tool-advice-card">
-          <span>Best practice</span>
-          <strong>Import selected saved leads, not every scanned website.</strong>
-          <p>That keeps your CRM focused on accounts with fit, evidence, and a usable first line.</p>
+          <span>{crmCopy.bestPractice}</span>
+          <strong>{crmCopy.bestPracticeTitle}</strong>
+          <p>{crmCopy.bestPracticeCopy}</p>
         </article>
       </div>
 
@@ -2363,19 +2421,22 @@ function CrmFieldMappingTool() {
 }
 
 function FirstLineTemplateTool() {
+  const { siteUi, localizeHref } = usePublicSite();
+  const firstLineCopy = siteUi.tools.firstLine;
+  const localizedTemplates = firstLineCopy.templates;
   const [agencyMode, setAgencyMode] = useState<AgencyToolMode>("web_design");
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const selected = firstLineTemplates[selectedIndex] ?? firstLineTemplates[0];
-  const selectedVariant = buildFirstLineVariant(selected, agencyMode);
+  const selected = localizedTemplates[selectedIndex] ?? localizedTemplates[0];
+  const selectedVariant = buildFirstLineVariant(selected, agencyMode, selectedIndex, siteUi);
   const email = `Hi Alex,\n\n${selected.firstLine}\n\n${selectedVariant.nextSentence}\n\n${selectedVariant.cta}`;
 
   return (
     <div className="product-tool first-line-tool">
       <div className="product-tool-head">
         <div>
-          <p className="eyebrow">First line builder</p>
+          <p className="eyebrow">{firstLineCopy.eyebrow}</p>
           <h2>{selected.signal}</h2>
-          <p>Pick a website signal, tailor it to your offer, and copy a reply-ready opener that moves the conversation forward.</p>
+          <p>{firstLineCopy.pickerCopy}</p>
         </div>
         <button
           className="button button-primary"
@@ -2389,7 +2450,7 @@ function FirstLineTemplateTool() {
           }}
         >
           <Icon name="clipboard" />
-          Copy email
+          {firstLineCopy.copyEmail}
         </button>
       </div>
 
@@ -2401,13 +2462,13 @@ function FirstLineTemplateTool() {
             key={mode.value}
             onClick={() => setAgencyMode(mode.value)}
           >
-            {mode.label}
+            {firstLineCopy.modeLabels[mode.value]}
           </button>
         ))}
       </div>
 
       <div className="template-signal-grid">
-        {firstLineTemplates.map((template, index) => (
+        {localizedTemplates.map((template, index) => (
           <button
             className={selectedIndex === index ? "is-active" : ""}
             type="button"
@@ -2422,29 +2483,29 @@ function FirstLineTemplateTool() {
 
       <div className="template-output">
         <div>
-          <span>First line</span>
+          <span>{firstLineCopy.firstLineLabel}</span>
           <p>{selected.firstLine}</p>
         </div>
         <div>
-          <span>Bridge</span>
+          <span>{firstLineCopy.bridgeLabel}</span>
           <p>{selectedVariant.nextSentence}</p>
         </div>
         <div>
-          <span>CTA</span>
+          <span>{firstLineCopy.ctaLabel}</span>
           <p>{selectedVariant.cta}</p>
         </div>
       </div>
 
       <div className="tool-advice-grid">
         <article className="tool-advice-card">
-          <span>Why this gets replies</span>
+          <span>{firstLineCopy.whyLabel}</span>
           <strong>{selectedVariant.whyItWorks}</strong>
-          <p>Lead with an observation the buyer can verify, then connect it to a plausible business outcome.</p>
+          <p>{firstLineCopy.whyCopy}</p>
         </article>
         <article className="tool-advice-card tool-advice-card-contrast">
-          <span>Avoid this</span>
+          <span>{firstLineCopy.avoidLabel}</span>
           <strong>{selectedVariant.badExample}</strong>
-          <p>Generic praise sounds automated and gives the buyer no reason to continue reading.</p>
+          <p>{firstLineCopy.avoidCopy}</p>
         </article>
       </div>
 
@@ -2461,11 +2522,11 @@ function FirstLineTemplateTool() {
           }}
         >
           <Icon name="clipboard" />
-          Copy first line
+          {firstLineCopy.copyFirstLine}
         </button>
         <a
           className="button button-secondary"
-          href={`/signup?plan=free&focus=${agencyMode}`}
+          href={localizeHref(`/signup?plan=free&focus=${agencyMode}`)}
           onClick={() => {
             void trackEvent({
               name: "product_tool_primary_click",
@@ -2474,7 +2535,7 @@ function FirstLineTemplateTool() {
           }}
         >
           <Icon name="scan" />
-          Run this in LeadCue
+          {firstLineCopy.runInLeadCue}
         </a>
       </div>
     </div>
@@ -2482,6 +2543,9 @@ function FirstLineTemplateTool() {
 }
 
 function WebsiteProspectingChecklistTool() {
+  const { siteUi, localizeHref, formatMessage } = usePublicSite();
+  const checklistCopy = siteUi.tools.checklist;
+  const localizedChecklistItems = checklistCopy.items;
   const checklistQuery = useMemo(() => new URLSearchParams(window.location.search), []);
   const initialMode = checklistQuery.get("mode");
   const resolvedMode = agencyToolModes.some((mode) => mode.value === initialMode)
@@ -2491,13 +2555,13 @@ function WebsiteProspectingChecklistTool() {
     .get("checks")
     ?.split(",")
     .map((item) => item.trim())
-    .filter((item) => checklistItems.some((check) => check.key === item));
+    .filter((item) => localizedChecklistItems.some((check) => check.key === item));
   const [agencyMode, setAgencyMode] = useState<AgencyToolMode>(resolvedMode);
   const [checkedKeys, setCheckedKeys] = useState<string[]>(initialChecks?.length ? initialChecks : checklistModeRecommendations[resolvedMode]);
-  const checkedItems = checklistItems.filter((item) => checkedKeys.includes(item.key));
-  const score = Math.round((checkedItems.length / checklistItems.length) * 100);
-  const strongestSignal = checkedItems[0]?.label ?? "No signal selected yet.";
-  const summaryText = `Website prospecting summary\nMode: ${agencyMode}\nCoverage: ${score}%\nSignals:\n${checkedItems
+  const checkedItems = localizedChecklistItems.filter((item) => checkedKeys.includes(item.key));
+  const score = Math.round((checkedItems.length / localizedChecklistItems.length) * 100);
+  const strongestSignal = checkedItems[0]?.label ?? checklistCopy.summaryEmpty;
+  const summaryText = `Website prospecting summary\n${checklistCopy.summaryMode}: ${agencyMode}\n${checklistCopy.summaryCoverage}: ${score}%\n${checklistCopy.summarySignals}:\n${checkedItems
     .map((item) => `- ${item.category}: ${item.label}`)
     .join("\n")}`;
   const shareUrl = `${window.location.origin}${window.location.pathname}?mode=${agencyMode}&checks=${checkedKeys.join(",")}`;
@@ -2506,9 +2570,9 @@ function WebsiteProspectingChecklistTool() {
     <div className="product-tool checklist-tool">
       <div className="product-tool-head">
         <div>
-          <p className="eyebrow">Website prospecting checklist</p>
-          <h2>{score}% evidence coverage</h2>
-          <p>Check the signals you can verify on a prospect website before saving, exporting, or assigning the account to outreach.</p>
+          <p className="eyebrow">{checklistCopy.eyebrow}</p>
+          <h2>{formatMessage(checklistCopy.coverage, { score })}</h2>
+          <p>{checklistCopy.copy}</p>
         </div>
         <button
           className="button button-primary"
@@ -2519,7 +2583,7 @@ function WebsiteProspectingChecklistTool() {
           }}
         >
           <Icon name="clipboard" />
-          Copy summary
+          {checklistCopy.copySummary}
         </button>
       </div>
 
@@ -2534,13 +2598,13 @@ function WebsiteProspectingChecklistTool() {
               setCheckedKeys(checklistModeRecommendations[mode.value]);
             }}
           >
-            {mode.label}
+            {siteUi.tools.firstLine.modeLabels[mode.value]}
           </button>
         ))}
       </div>
 
       <div className="checklist-grid">
-        {checklistItems.map((item) => (
+        {localizedChecklistItems.map((item) => (
           <label className={checkedKeys.includes(item.key) ? "is-checked" : ""} key={item.key}>
             <input
               type="checkbox"
@@ -2558,13 +2622,13 @@ function WebsiteProspectingChecklistTool() {
       </div>
 
       <div className="checklist-summary">
-        <span>Prospect Card-style summary</span>
+        <span>{checklistCopy.summaryTitle}</span>
         <p>{strongestSignal}</p>
         <strong>
-          {checkedItems.length} of {checklistItems.length} signals verified
+          {formatMessage(checklistCopy.summaryCount, { count: checkedItems.length, total: localizedChecklistItems.length })}
         </strong>
         <small>
-          Best next step: {score >= 60 ? "save the lead and draft the first line" : "capture more website evidence before export"}
+          {`${checklistCopy.nextStepLead} ${score >= 60 ? checklistCopy.nextStepReady : checklistCopy.nextStepMore}`}
         </small>
       </div>
 
@@ -2578,17 +2642,17 @@ function WebsiteProspectingChecklistTool() {
           }}
         >
           <Icon name="clipboard" />
-          Copy share link
+          {checklistCopy.copyShareLink}
         </button>
         <a
           className="button button-secondary"
-          href={`/signup?plan=free&focus=${agencyMode}`}
+          href={localizeHref(`/signup?plan=free&focus=${agencyMode}`)}
           onClick={() => {
             void trackEvent({ name: "product_tool_primary_click", metadata: { tool: "checklist", agencyMode } });
           }}
         >
           <Icon name="scan" />
-          Run checklist in LeadCue
+          {checklistCopy.runChecklist}
         </a>
       </div>
     </div>
@@ -2596,19 +2660,22 @@ function WebsiteProspectingChecklistTool() {
 }
 
 function IntegrationExportTool({ platform }: { platform: "HubSpot" | "Salesforce" | "Pipedrive" }) {
+  const { siteUi, localizeHref, formatMessage } = usePublicSite();
+  const integrationCopy = siteUi.tools.integration;
+  const crmRows = siteUi.tools.crmMapping.rows;
   const mode: CrmMappingMode =
     platform === "HubSpot" ? "hubspot" : platform === "Salesforce" ? "salesforce" : "pipedrive";
-  const csvHeader = crmMappingRows.map((row) => row.labels[mode]).join(",");
-  const csvSample = crmMappingRows.map((row) => escapeCsvValue(row.sample)).join(",");
-  const playbook = integrationPlaybooks[platform];
+  const csvHeader = crmRows.map((row) => row.labels[mode]).join(",");
+  const csvSample = crmRows.map((row) => escapeCsvValue(row.sample)).join(",");
+  const playbook = integrationCopy.playbooks[platform];
 
   return (
     <div className="product-tool integration-tool">
       <div className="product-tool-head">
         <div>
-          <p className="eyebrow">{platform} import kit</p>
-          <h2>{platform} CSV header and sample row</h2>
-          <p>Use these headers as a starting point for selected saved leads from a website-first research workflow.</p>
+          <p className="eyebrow">{formatMessage(integrationCopy.eyebrow, { platform })}</p>
+          <h2>{formatMessage(integrationCopy.title, { platform })}</h2>
+          <p>{integrationCopy.copy}</p>
         </div>
         <button
           className="button button-primary"
@@ -2619,27 +2686,27 @@ function IntegrationExportTool({ platform }: { platform: "HubSpot" | "Salesforce
           }}
         >
           <Icon name="clipboard" />
-          Copy {platform} header
+          {formatMessage(integrationCopy.copyHeader, { platform })}
         </button>
       </div>
 
       <div className="tool-kpi-strip">
         <div>
-          <span>Recommended record</span>
+          <span>{integrationCopy.recommendedRecord}</span>
           <strong>{playbook.recordType}</strong>
         </div>
         <div>
-          <span>Included columns</span>
-          <strong>{crmMappingRows.length}</strong>
+          <span>{integrationCopy.includedColumns}</span>
+          <strong>{crmRows.length}</strong>
         </div>
         <div>
-          <span>Best handoff</span>
-          <strong>Selected saved leads</strong>
+          <span>{integrationCopy.bestHandoff}</span>
+          <strong>{integrationCopy.selectedSavedLeads}</strong>
         </div>
       </div>
 
       <div className="integration-field-list">
-        {crmMappingRows.map((row) => (
+        {crmRows.map((row) => (
           <div key={row.key}>
             <span>{row.group}</span>
             <strong>{row.labels[mode]}</strong>
@@ -2650,8 +2717,8 @@ function IntegrationExportTool({ platform }: { platform: "HubSpot" | "Salesforce
 
       <div className="tool-advice-grid">
         <article className="tool-advice-card">
-          <span>Quick wins</span>
-          <strong>What makes this import immediately useful</strong>
+          <span>{integrationCopy.quickWins}</span>
+          <strong>{integrationCopy.quickWinsTitle}</strong>
           <ul className="tool-advice-list">
             {playbook.quickWins.map((item) => (
               <li key={item}>{item}</li>
@@ -2659,8 +2726,8 @@ function IntegrationExportTool({ platform }: { platform: "HubSpot" | "Salesforce
           </ul>
         </article>
         <article className="tool-advice-card tool-advice-card-contrast">
-          <span>Common mistakes</span>
-          <strong>What usually weakens CRM handoff</strong>
+          <span>{integrationCopy.mistakes}</span>
+          <strong>{integrationCopy.mistakesTitle}</strong>
           <ul className="tool-advice-list">
             {playbook.mistakes.map((item) => (
               <li key={item}>{item}</li>
@@ -2681,17 +2748,17 @@ function IntegrationExportTool({ platform }: { platform: "HubSpot" | "Salesforce
           }}
         >
           <Icon name="download" />
-          Download sample CSV
+          {integrationCopy.downloadSample}
         </button>
         <a
           className="button button-secondary"
-          href="/templates/crm-csv-field-mapping"
+          href={localizeHref("/templates/crm-csv-field-mapping")}
           onClick={() => {
             void trackEvent({ name: "product_tool_secondary_click", metadata: { tool: "integration", platform, target: "mapping_template" } });
           }}
         >
           <Icon name="arrow" />
-          Open mapping template
+          {integrationCopy.openTemplate}
         </a>
       </div>
     </div>
@@ -2699,7 +2766,8 @@ function IntegrationExportTool({ platform }: { platform: "HubSpot" | "Salesforce
 }
 
 function CommercialPage({ slug }: { slug: CommercialPageSlug }) {
-  const page = commercialPages[slug];
+  const { locale, localizeHref, siteUi } = usePublicSite();
+  const page = getCommercialPages(locale)[slug];
   const path = `/${slug}`;
 
   return (
@@ -2708,27 +2776,29 @@ function CommercialPage({ slug }: { slug: CommercialPageSlug }) {
         title={`${page.title} | LeadCue`}
         description={page.summary}
         path={path}
+        locale={locale}
         structuredData={{
           "@context": "https://schema.org",
           "@type": "WebPage",
           name: page.title,
           description: page.summary,
-          url: absoluteUrl(path),
+          url: absoluteUrl(path, locale),
           isPartOf: { "@id": `${SITE_URL}/#website` }
         }}
       />
       <header className="topbar topbar-minimal content-topbar">
-        <a className="brand" href="/" aria-label="LeadCue home">
+        <a className="brand" href={localizeHref("/")} aria-label={`${siteUi.common.brand} ${siteUi.common.home}`}>
           <BrandMark />
-          <span>LeadCue</span>
+          <span>{siteUi.common.brand}</span>
         </a>
         <nav className="content-nav" aria-label="Commercial pages">
-          <a href="/docs">Docs</a>
-          <a href="/support">Support</a>
-          <a href="/contact">Contact</a>
+          <a href={localizeHref("/docs")}>{siteUi.content.commercialNav.docs}</a>
+          <a href={localizeHref("/support")}>{siteUi.content.commercialNav.support}</a>
+          <a href={localizeHref("/contact")}>{siteUi.content.commercialNav.contact}</a>
         </nav>
-        <a className="button button-small button-primary topbar-back" href="/signup?plan=free">
-          Start free
+        <LanguageSwitcher />
+        <a className="button button-small button-primary topbar-back" href={localizeHref("/signup?plan=free")}>
+          {siteUi.common.startFree}
         </a>
       </header>
 
@@ -2738,12 +2808,12 @@ function CommercialPage({ slug }: { slug: CommercialPageSlug }) {
           <h1>{page.title}</h1>
           <p>{page.summary}</p>
           <div className="content-actions">
-            <a className="button button-primary" href={page.primaryAction.href}>
+            <a className="button button-primary" href={localizeHref(page.primaryAction.href)}>
               <Icon name="arrow" />
               {page.primaryAction.label}
             </a>
             {page.secondaryAction ? (
-              <a className="button button-secondary" href={page.secondaryAction.href}>
+              <a className="button button-secondary" href={localizeHref(page.secondaryAction.href)}>
                 {page.secondaryAction.label}
               </a>
             ) : null}
@@ -2754,25 +2824,20 @@ function CommercialPage({ slug }: { slug: CommercialPageSlug }) {
           <section className="help-center-shell" aria-label="LeadCue help center">
             <div className="help-center-head">
               <div>
-                <p className="eyebrow">Help center</p>
-                <h2>Find the right answer by workflow</h2>
+                <p className="eyebrow">{siteUi.commercial.helpCenter.eyebrow}</p>
+                <h2>{siteUi.commercial.helpCenter.title}</h2>
               </div>
               <label className="help-search">
-                <span>Search help</span>
-                <input type="search" placeholder="Search scans, credits, OAuth, exports..." />
+                <span>{siteUi.commercial.helpCenter.searchLabel}</span>
+                <input type="search" placeholder={siteUi.commercial.helpCenter.searchPlaceholder} />
               </label>
             </div>
             <div className="help-category-grid">
-              {[
-                ["Workspace setup", "Create an account, choose a plan, and finish onboarding.", "/docs"],
-                ["Scanning and credits", "Understand scan inputs, failures, retries, and credit charging.", "/docs"],
-                ["Billing and plans", "Manage Stripe billing, scan limits, and plan upgrades.", "/support"],
-                ["Security and privacy", "Review data boundaries, OAuth, and website-first processing.", "/privacy"]
-              ].map(([title, copy, href]) => (
-                <a className="help-category-card" href={href} key={title}>
+              {siteUi.commercial.helpCenter.cards.map((item) => (
+                <a className="help-category-card" href={localizeHref(item.href)} key={item.title}>
                   <Icon name="arrow" />
-                  <strong>{title}</strong>
-                  <span>{copy}</span>
+                  <strong>{item.title}</strong>
+                  <span>{item.copy}</span>
                 </a>
               ))}
             </div>
@@ -2799,12 +2864,12 @@ function CommercialPage({ slug }: { slug: CommercialPageSlug }) {
 
         <section className="content-cta">
           <div>
-            <p className="eyebrow">Next step</p>
-            <h2>Turn one real website into your first Prospect Card.</h2>
+            <p className="eyebrow">{siteUi.commercial.nextStepEyebrow}</p>
+            <h2>{siteUi.commercial.nextStepTitle}</h2>
           </div>
-          <a className="button button-primary" href="/signup?plan=free">
+          <a className="button button-primary" href={localizeHref("/signup?plan=free")}>
             <Icon name="scan" />
-            Start free scan
+            {siteUi.common.startFreeScan}
           </a>
         </section>
       </main>
@@ -2830,40 +2895,43 @@ function getInitialFirstProspectUrl() {
 }
 
 function buildFirstLineVariant(
-  template: (typeof firstLineTemplates)[number],
-  mode: AgencyToolMode
+  template: { nextSentence: string; cta: string },
+  mode: AgencyToolMode,
+  selectedIndex: number,
+  siteUi: SiteUi
 ): { nextSentence: string; cta: string; whyItWorks: string; badExample: string } {
-  const baseBadExample = "Loved your site and thought I'd reach out because we help companies grow.";
+  const firstLineCopy = siteUi.tools.firstLine;
+  const baseBadExample = firstLineCopy.badExample;
 
   switch (mode) {
     case "seo":
       return {
         nextSentence:
-          template.category === "SEO"
-            ? "That usually means high-intent search demand is leaking before buyers ever make it to a demo request."
-            : "That can hide demand capture opportunities when buyers research through search before they ever talk to sales.",
+          selectedIndex === 2
+            ? firstLineCopy.modeOverrides.seo.seoNextSentence
+            : firstLineCopy.modeOverrides.seo.defaultNextSentence,
         cta:
-          template.category === "SEO"
-            ? "Want me to send the two search-driven fixes I would test first?"
-            : "Want me to send the SEO angle I would use here first?",
-        whyItWorks: "It ties a visible website issue to search demand and makes the next step feel lightweight.",
+          selectedIndex === 2
+            ? firstLineCopy.modeOverrides.seo.seoCta
+            : firstLineCopy.modeOverrides.seo.defaultCta,
+        whyItWorks: firstLineCopy.modeOverrides.seo.why,
         badExample: baseBadExample
       };
     case "marketing":
       return {
         nextSentence:
-          template.category === "Trust"
-            ? "That can make paid and outbound traffic bounce before they feel enough confidence to reply or book."
-            : "That usually creates friction between the click and the action you want a buyer to take.",
-        cta: "Want me to send the conversion angle I would test first?",
-        whyItWorks: "It connects the website cue to funnel friction and frames the reply as a small review, not a pitch dump.",
+          selectedIndex === 1
+            ? firstLineCopy.modeOverrides.marketing.trustNextSentence
+            : firstLineCopy.modeOverrides.marketing.defaultNextSentence,
+        cta: firstLineCopy.modeOverrides.marketing.cta,
+        whyItWorks: firstLineCopy.modeOverrides.marketing.why,
         badExample: baseBadExample
       };
     default:
       return {
         nextSentence: template.nextSentence,
         cta: template.cta,
-        whyItWorks: "It names a real website observation, connects it to buyer behavior, and ends with a low-pressure ask.",
+        whyItWorks: firstLineCopy.modeOverrides.web_design.why,
         badExample: baseBadExample
       };
   }
@@ -3323,29 +3391,32 @@ function formatCalendarDate(value: string | null | undefined) {
   });
 }
 
-function getAuthErrorMessage() {
+function getAuthErrorMessage(siteUi: SiteUi) {
   const authError = new URLSearchParams(window.location.search).get("auth_error");
+  const authErrors = siteUi.auth.errors;
 
   switch (authError) {
     case "google_not_configured":
-      return "Google sign-in is not configured for this environment yet.";
+      return authErrors.google_not_configured;
     case "database_unavailable":
-      return "Authentication is unavailable until the workspace database is ready.";
+      return authErrors.database_unavailable;
     case "state_missing":
     case "state_invalid":
-      return "Your sign-in session expired. Start the Google flow again.";
+      return authErrors.state_missing;
     case "access_denied":
     case "oauth_cancelled":
-      return "Google sign-in was canceled before completion.";
+      return authErrors.access_denied;
     case "google_exchange_failed":
-      return "Google could not complete sign-in. Try again or use your work email setup.";
+      return authErrors.google_exchange_failed;
     default:
       return "";
   }
 }
 
 function LoginPage() {
-  const authMessage = getAuthErrorMessage();
+  const { locale, siteUi, localizeHref } = usePublicSite();
+  const authCopy = siteUi.auth.login;
+  const authMessage = getAuthErrorMessage(siteUi);
   const [loginForm, setLoginForm] = useState<LoginFormState>({ email: "", password: "" });
   const [loginState, setLoginState] = useState<"idle" | "loading" | "error">("idle");
   const [loginError, setLoginError] = useState("");
@@ -3372,7 +3443,7 @@ function LoginPage() {
 
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || loginForm.password.length < 8) {
       setLoginState("error");
-      setLoginError("Enter a valid work email and an 8+ character password.");
+      setLoginError(authCopy.validation.invalidLogin);
       return;
     }
 
@@ -3393,7 +3464,7 @@ function LoginPage() {
 
       if (!response.ok || !result.ok) {
         setLoginState("error");
-        setLoginError(result.error || "Email password sign-in failed. Try again.");
+        setLoginError(result.error || authCopy.validation.emailLoginFailed);
         return;
       }
 
@@ -3403,11 +3474,11 @@ function LoginPage() {
           method: "email"
         }
       });
-      window.location.href = result.next || "/app?login=1";
+      window.location.href = localizeHref(result.next || "/app?login=1");
     } catch (error) {
       console.error("email_login_failed", error);
       setLoginState("error");
-      setLoginError("Email password sign-in is unavailable. Try Google or come back in a moment.");
+      setLoginError(authCopy.validation.emailLoginUnavailable);
     }
   }
 
@@ -3417,7 +3488,7 @@ function LoginPage() {
 
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       setResetState("error");
-      setResetMessage("Enter the workspace email address so we know where to send the reset link.");
+      setResetMessage(authCopy.validation.invalidResetEmail);
       setResetLink("");
       return;
     }
@@ -3442,7 +3513,7 @@ function LoginPage() {
       }
 
       setResetState("success");
-      setResetMessage(result.message || "If that email belongs to a workspace, a reset link has been prepared.");
+      setResetMessage(result.message || authCopy.validation.resetPrepared);
       setResetLink(result.resetUrl || "");
       void trackEvent({
         name: "auth_password_reset_requested",
@@ -3452,7 +3523,7 @@ function LoginPage() {
       });
     } catch (error) {
       setResetState("error");
-      setResetMessage(error instanceof Error ? error.message : "Password reset is unavailable right now.");
+      setResetMessage(error instanceof Error ? error.message : authCopy.validation.resetUnavailable);
       setResetLink("");
     }
   }
@@ -3460,77 +3531,61 @@ function LoginPage() {
   return (
     <div className="site-shell">
       <header className="topbar topbar-minimal">
-        <a className="brand" href="/" aria-label="LeadCue home">
+        <a className="brand" href={localizeHref("/")} aria-label={`${siteUi.common.brand} ${siteUi.common.home}`}>
           <BrandMark />
-          <span>LeadCue</span>
+          <span>{siteUi.common.brand}</span>
         </a>
-        <a className="button button-small button-secondary topbar-back" href="/">
+        <LanguageSwitcher />
+        <a className="button button-small button-secondary topbar-back" href={localizeHref("/")}>
           <Icon name="arrow" />
-          Home
+          {siteUi.common.backHome}
         </a>
       </header>
 
       <main className="auth-page login-page">
         <section className="login-showcase" aria-label="LeadCue prospect research preview">
-          <img
-            src="/images/leadcue-login-pipeline.png"
-            alt="LeadCue turns website research into ranked prospect cards and export-ready opportunities."
+          <LoginWorkspaceIllustration
+            copy={{
+              eyebrow: authCopy.heroEyebrow,
+              title: authCopy.heroTitle,
+              copy: authCopy.heroCopy,
+              proofItems: authCopy.proofItems
+            }}
           />
           <div className="login-showcase-overlay" />
-          <div className="login-showcase-copy">
-            <p className="eyebrow">AI prospect research</p>
-            <h1>Turn website research into ranked accounts.</h1>
-            <p>
-              Source-backed signals, fit scores, and outreach context in one workspace.
-            </p>
-          </div>
-          <div className="login-proof-stack" aria-label="LeadCue outcomes">
-            <div>
-              <span>Qualified fit</span>
-              <strong>92</strong>
-            </div>
-            <div>
-              <span>Website cues</span>
-              <strong>3+</strong>
-            </div>
-            <div>
-              <span>CRM ready</span>
-              <strong>CSV</strong>
-            </div>
-          </div>
         </section>
 
         <section className="auth-card login-card glass-card">
-          <p className="eyebrow">Welcome back</p>
-          <h1>Sign in</h1>
-          <p className="auth-copy">Use Google or your work email to reopen your prospect research workspace.</p>
+          <p className="eyebrow">{authCopy.cardEyebrow}</p>
+          <h1>{authCopy.cardTitle}</h1>
+          <p className="auth-copy">{authCopy.cardCopy}</p>
           <a
             className="button button-primary auth-google-button"
-            href={buildGoogleAuthHref({ intent: "login" })}
+            href={buildGoogleAuthHref({ intent: "login", returnTo: buildLocalePath(locale, "/app") })}
             onClick={() => {
               void trackEvent({ name: "auth_login_google_click", metadata: { method: "google" } });
             }}
           >
-            Continue with Google
+            {authCopy.googleCta}
           </a>
           <div className="oauth-divider" aria-hidden="true">
-            <span>or sign in with email</span>
+            <span>{authCopy.divider}</span>
           </div>
           <form className="login-form" onSubmit={submitEmailLogin}>
             <label className="auth-field">
-              <span>Email</span>
+              <span>{authCopy.emailLabel}</span>
               <input
                 type="email"
                 name="email"
                 value={loginForm.email}
                 onChange={updateLoginField("email")}
                 autoComplete="email"
-                placeholder="you@agency.com"
+                placeholder={authCopy.emailPlaceholder}
                 required
               />
             </label>
             <label className="auth-field">
-              <span>Password</span>
+              <span>{authCopy.passwordLabel}</span>
               <div className="password-input-wrap">
                 <input
                   type={showPassword ? "text" : "password"}
@@ -3539,7 +3594,7 @@ function LoginPage() {
                   onChange={updateLoginField("password")}
                   autoComplete="current-password"
                   minLength={8}
-                  placeholder="8+ characters"
+                  placeholder={authCopy.passwordPlaceholder}
                   required
                 />
                 <button
@@ -3548,13 +3603,13 @@ function LoginPage() {
                   onClick={() => setShowPassword((current) => !current)}
                   aria-pressed={showPassword}
                 >
-                  {showPassword ? "Hide" : "Show"}
+                  {showPassword ? authCopy.hide : authCopy.show}
                 </button>
               </div>
             </label>
             <button className="button button-secondary auth-email-button" type="submit" disabled={loginState === "loading"}>
               <Icon name="mail" />
-              {loginState === "loading" ? "Signing in..." : "Sign in with email"}
+              {loginState === "loading" ? authCopy.emailLoading : authCopy.emailCta}
             </button>
           </form>
           <div className="auth-inline-links">
@@ -3569,31 +3624,31 @@ function LoginPage() {
                 setResetLink("");
               }}
             >
-              {showResetPanel ? "Hide reset options" : "Forgot password?"}
+              {showResetPanel ? authCopy.hideReset : authCopy.forgotPassword}
             </button>
-            <a className="auth-text-link" href="/support">
-              Need help signing in?
+            <a className="auth-text-link" href={localizeHref("/support")}>
+              {authCopy.needHelp}
             </a>
           </div>
           {showResetPanel ? (
             <form className="auth-support-card" onSubmit={submitPasswordResetRequest}>
               <div>
-                <strong>Reset your password</strong>
-                <p>Use the same work email attached to the workspace. We will prepare a one-time reset link.</p>
+                <strong>{authCopy.resetTitle}</strong>
+                <p>{authCopy.resetCopy}</p>
               </div>
               <label className="auth-field">
-                <span>Workspace email</span>
+                <span>{authCopy.resetEmailLabel}</span>
                 <input
                   type="email"
                   value={resetEmail}
                   onChange={(event) => setResetEmail(event.currentTarget.value)}
-                  placeholder="you@agency.com"
+                  placeholder={authCopy.emailPlaceholder}
                   autoComplete="email"
                   required
                 />
               </label>
               <button className="button button-secondary" type="submit" disabled={resetState === "loading"}>
-                {resetState === "loading" ? "Preparing reset link..." : "Email me a reset link"}
+                {resetState === "loading" ? authCopy.resetLoading : authCopy.resetCta}
               </button>
               <p
                 className={`form-status ${
@@ -3605,12 +3660,10 @@ function LoginPage() {
               </p>
               {resetLink ? (
                 <a className="button button-secondary auth-dev-link" href={resetLink}>
-                  Open reset link
+                  {authCopy.resetOpenLink}
                 </a>
               ) : null}
-              <small className="auth-compact-note">
-                On local builds, LeadCue shows the reset link directly so the flow can be tested end to end.
-              </small>
+              <small className="auth-compact-note">{authCopy.resetDevNote}</small>
             </form>
           ) : null}
           {authMessage ? (
@@ -3623,20 +3676,20 @@ function LoginPage() {
               {loginError}
             </p>
           ) : null}
-          <p className="auth-note">Password sign-in uses the same secure workspace session as Google OAuth.</p>
+          <p className="auth-note">{authCopy.sessionNote}</p>
           <div className="auth-signup-row">
             <div>
-              <span>New to LeadCue?</span>
-              <p>Create a free workspace and run your first prospect scan.</p>
+              <span>{authCopy.signupLead}</span>
+              <p>{authCopy.signupCopy}</p>
             </div>
             <a
               className="button button-secondary auth-signup-button"
-              href="/signup?plan=free"
+              href={localizeHref("/signup?plan=free")}
               onClick={() => {
                 void trackEvent({ name: "auth_signup_cta_click", metadata: { source: "login_page" } });
               }}
             >
-              Create free workspace
+              {authCopy.signupCta}
             </a>
           </div>
         </section>
@@ -3646,6 +3699,8 @@ function LoginPage() {
 }
 
 function ResetPasswordPage() {
+  const { locale, siteUi, localizeHref } = usePublicSite();
+  const resetCopy = siteUi.auth.reset;
   const resetToken = useMemo(() => new URLSearchParams(window.location.search).get("token") || "", []);
   const [form, setForm] = useState<PasswordResetFormState>({ password: "", confirmPassword: "" });
   const [showPassword, setShowPassword] = useState(false);
@@ -3667,19 +3722,19 @@ function ResetPasswordPage() {
 
     if (!resetToken) {
       setResetState("error");
-      setStatusMessage("This password reset link is missing its token. Request a new reset from the login page.");
+      setStatusMessage(resetCopy.missingToken);
       return;
     }
 
     if (form.password.length < 8) {
       setResetState("error");
-      setStatusMessage("Use at least 8 characters for the new password.");
+      setStatusMessage(resetCopy.shortPassword);
       return;
     }
 
     if (form.password !== form.confirmPassword) {
       setResetState("error");
-      setStatusMessage("The new password and confirmation need to match.");
+      setStatusMessage(resetCopy.mismatch);
       return;
     }
 
@@ -3701,44 +3756,43 @@ function ResetPasswordPage() {
       const result = (await response.json().catch(() => ({}))) as { ok?: boolean; next?: string; error?: string };
 
       if (!response.ok || !result.ok) {
-        throw new Error(result.error || "This reset link is no longer valid. Request a new one.");
+        throw new Error(result.error || resetCopy.invalidLink);
       }
 
       setResetState("success");
-      setStatusMessage("Password updated. Reopening your workspace...");
+      setStatusMessage(resetCopy.success);
       void trackEvent({ name: "auth_password_reset_completed" });
       window.setTimeout(() => {
-        window.location.assign(result.next || "/app?login=1");
+        window.location.assign(localizeHref(result.next || "/app?login=1"));
       }, 600);
     } catch (error) {
       setResetState("error");
-      setStatusMessage(error instanceof Error ? error.message : "Unable to reset the password right now.");
+      setStatusMessage(error instanceof Error ? error.message : resetCopy.genericError);
     }
   }
 
   return (
     <div className="site-shell">
       <header className="topbar topbar-minimal">
-        <a className="brand" href="/" aria-label="LeadCue home">
+        <a className="brand" href={localizeHref("/")} aria-label={`${siteUi.common.brand} ${siteUi.common.home}`}>
           <BrandMark />
-          <span>LeadCue</span>
+          <span>{siteUi.common.brand}</span>
         </a>
-        <a className="button button-small button-secondary topbar-back" href="/login">
+        <LanguageSwitcher />
+        <a className="button button-small button-secondary topbar-back" href={localizeHref("/login")}>
           <Icon name="arrow" />
-          Back to sign in
+          {siteUi.common.backToSignIn}
         </a>
       </header>
 
       <main className="auth-page auth-reset-page">
         <section className="auth-card glass-card reset-password-card">
-          <p className="eyebrow">Account recovery</p>
-          <h1>Choose a new password</h1>
-          <p className="auth-copy">
-            This updates the password for your LeadCue workspace login and keeps the same secure session model as Google sign-in.
-          </p>
+          <p className="eyebrow">{resetCopy.eyebrow}</p>
+          <h1>{resetCopy.title}</h1>
+          <p className="auth-copy">{resetCopy.copy}</p>
           <form className="login-form" onSubmit={submitPasswordReset}>
             <label className="auth-field">
-              <span>New password</span>
+              <span>{resetCopy.passwordLabel}</span>
               <div className="password-input-wrap">
                 <input
                   type={showPassword ? "text" : "password"}
@@ -3746,7 +3800,7 @@ function ResetPasswordPage() {
                   onChange={updateField("password")}
                   autoComplete="new-password"
                   minLength={8}
-                  placeholder="8+ characters"
+                  placeholder={siteUi.auth.login.passwordPlaceholder}
                   required
                 />
                 <button
@@ -3755,25 +3809,25 @@ function ResetPasswordPage() {
                   onClick={() => setShowPassword((current) => !current)}
                   aria-pressed={showPassword}
                 >
-                  {showPassword ? "Hide" : "Show"}
+                  {showPassword ? siteUi.auth.login.hide : siteUi.auth.login.show}
                 </button>
               </div>
             </label>
             <label className="auth-field">
-              <span>Confirm password</span>
+              <span>{resetCopy.confirmLabel}</span>
               <input
                 type={showPassword ? "text" : "password"}
                 value={form.confirmPassword}
                 onChange={updateField("confirmPassword")}
                 autoComplete="new-password"
                 minLength={8}
-                placeholder="Repeat the new password"
+                placeholder={resetCopy.confirmPlaceholder}
                 required
               />
             </label>
             <button className="button button-primary auth-email-button" type="submit" disabled={resetState === "loading"}>
               <Icon name="lock" />
-              {resetState === "loading" ? "Updating password..." : "Update password"}
+              {resetState === "loading" ? resetCopy.loading : resetCopy.submit}
             </button>
             <p
               className={`form-status ${
@@ -3785,11 +3839,11 @@ function ResetPasswordPage() {
             </p>
           </form>
           <div className="auth-inline-links">
-            <a className="auth-text-link" href="/login">
-              Back to sign in
+            <a className="auth-text-link" href={localizeHref("/login")}>
+              {siteUi.common.backToSignIn}
             </a>
-            <a className="auth-text-link" href="/support">
-              Contact support
+            <a className="auth-text-link" href={localizeHref("/support")}>
+              {siteUi.common.contactSupport}
             </a>
           </div>
         </section>
@@ -3799,10 +3853,12 @@ function ResetPasswordPage() {
 }
 
 function SignupPage() {
+  const { locale, siteUi, localizeHref, formatMessage } = usePublicSite();
+  const signupCopy = siteUi.auth.signup;
   const selectedPlan = getSelectedPlan();
   const initialFocus = getInitialFocus();
   const initialFirstProspectUrl = getInitialFirstProspectUrl();
-  const authMessage = getAuthErrorMessage();
+  const authMessage = getAuthErrorMessage(siteUi);
   const [signupStep, setSignupStep] = useState<1 | 2>(1);
   const [signupForm, setSignupForm] = useState<SignupFormState>(() => ({
     email: "",
@@ -3817,19 +3873,19 @@ function SignupPage() {
     intent: "signup",
     planId: selectedPlan.id,
     focus: signupForm.agencyFocus === "founder" ? "marketing" : signupForm.agencyFocus,
-    returnTo: "/app"
+    returnTo: buildLocalePath(locale, "/app")
   });
   const selectedPlanPrice = selectedPlan.price === 0 ? "$0/mo" : `$${selectedPlan.price}/mo`;
   const selectedPlanCopy =
     selectedPlan.id === "free"
-      ? "20 scans/month to validate the workflow."
-      : `${selectedPlanPrice} · ${selectedPlan.monthlyCredits.toLocaleString()} scans/month.`;
-  const submitCopy = selectedPlan.id === "free" ? "Create workspace" : "Continue to billing";
+      ? signupCopy.selectedPlanFree
+      : formatMessage(signupCopy.selectedPlanPaid, { price: selectedPlanPrice, credits: selectedPlan.monthlyCredits.toLocaleString() });
+  const submitCopy = selectedPlan.id === "free" ? signupCopy.createWorkspace : signupCopy.continueToBilling;
   const [signupState, setSignupState] = useState<"idle" | "loading" | "done" | "error">("idle");
   const [statusMessage, setStatusMessage] = useState("");
   const stepSummaries = [
-    { step: 1 as const, label: "Basics" },
-    { step: 2 as const, label: "Scoring" }
+    { step: 1 as const, label: signupCopy.stepBasics },
+    { step: 2 as const, label: signupCopy.stepScoring }
   ];
 
   function updateSignupField<Key extends keyof SignupFormState>(field: Key) {
@@ -3847,13 +3903,13 @@ function SignupPage() {
   function continueSignup() {
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(signupForm.email.trim().toLowerCase())) {
       setSignupState("error");
-      setStatusMessage("A valid work email is required.");
+      setStatusMessage(signupCopy.validation.emailRequired);
       return;
     }
 
     if (signupForm.password.length < 8) {
       setSignupState("error");
-      setStatusMessage("Use at least 8 characters so email sign-in can be enabled.");
+      setStatusMessage(signupCopy.validation.passwordRequired);
       return;
     }
 
@@ -3886,7 +3942,7 @@ function SignupPage() {
 
       if (!response.ok) {
         const result = (await response.json().catch(() => ({}))) as { error?: string };
-        throw new Error(result.error || "Unable to create workspace setup.");
+        throw new Error(result.error || signupCopy.validation.setupFailed);
       }
 
       const result = (await response.json()) as SignupResponse;
@@ -3903,78 +3959,79 @@ function SignupPage() {
       }
 
       if (result.next === "dashboard") {
-        window.location.assign("/app?welcome=1");
+        window.location.assign(localizeHref("/app?welcome=1"));
         return;
       }
 
       setSignupState("done");
       setStatusMessage(
         result.next === "checkout"
-          ? "Workspace setup saved. Billing is pending, and you can review the workspace now."
-          : "Workspace setup saved. You can continue into the dashboard."
+          ? signupCopy.validation.billingPending
+          : signupCopy.validation.dashboardReady
       );
     } catch (error) {
       setSignupState("error");
-      setStatusMessage(error instanceof Error ? error.message : "Unable to create workspace setup.");
+      setStatusMessage(error instanceof Error ? error.message : signupCopy.validation.setupFailed);
     }
   }
 
   return (
     <div className="site-shell">
       <header className="topbar topbar-minimal">
-        <a className="brand" href="/" aria-label="LeadCue home">
+        <a className="brand" href={localizeHref("/")} aria-label={`${siteUi.common.brand} ${siteUi.common.home}`}>
           <BrandMark />
-          <span>LeadCue</span>
+          <span>{siteUi.common.brand}</span>
         </a>
-        <a className="button button-small button-secondary topbar-back" href="/">
+        <LanguageSwitcher />
+        <a className="button button-small button-secondary topbar-back" href={localizeHref("/")}>
           <Icon name="arrow" />
-          Home
+          {siteUi.common.backHome}
         </a>
       </header>
 
       <main className="signup-page">
         <section className="signup-hero">
           <div className="signup-copy">
-            <p className="eyebrow glass-pill">Get started</p>
-            <h1>Create workspace</h1>
-            <p>Pick a plan and add the agency context LeadCue should score against.</p>
+            <p className="eyebrow glass-pill">{signupCopy.heroEyebrow}</p>
+            <h1>{signupCopy.heroTitle}</h1>
+            <p>{signupCopy.heroCopy}</p>
             <div className="signup-summary">
               <span>
                 <Icon name="check" />
-                {selectedPlan.monthlyCredits.toLocaleString()} scans/month
+                {`${selectedPlan.monthlyCredits.toLocaleString()} ${siteUi.home.pricing.scansSuffix}`}
               </span>
               <span>
                 <Icon name="database" />
-                Prospect Cards + CSV
+                {signupCopy.summaryProspects}
               </span>
             </div>
           </div>
 
           <div className="signup-form-shell glass-card">
             <div className="selected-plan">
-              <span>Plan</span>
+              <span>{signupCopy.planLabel}</span>
               <strong>{selectedPlan.name}</strong>
               <p>{selectedPlanCopy}</p>
             </div>
-            <div className="signup-steps" aria-label="Signup progress">
+            <div className="signup-steps" aria-label={signupCopy.progressAria}>
               {stepSummaries.map((item) => (
                 <div
                   className={`signup-step-pill ${signupStep === item.step ? "is-current" : ""} ${signupStep > item.step ? "is-done" : ""}`}
                   key={item.step}
                 >
-                  <span>{signupStep > item.step ? "Done" : item.step}</span>
+                  <span>{signupStep > item.step ? "✓" : item.step}</span>
                   <strong>{item.label}</strong>
                 </div>
               ))}
             </div>
             <div className="oauth-entry">
               <a className="button button-secondary auth-google-button" href={googleSignupHref}>
-                Continue with Google
+                {signupCopy.oauthCta}
               </a>
-              <p>Google creates a workspace or signs you back in.</p>
+              <p>{signupCopy.oauthCopy}</p>
             </div>
             <div className="oauth-divider" aria-hidden="true">
-              <span>or use work email</span>
+              <span>{signupCopy.divider}</span>
             </div>
             {authMessage ? (
               <p className="form-status is-error auth-message" role="alert">
@@ -3987,16 +4044,16 @@ function SignupPage() {
                 <span className="success-icon">
                   <Icon name="check" />
                 </span>
-                <h2>Workspace setup saved.</h2>
+                <h2>{signupCopy.successTitle}</h2>
                 <p>{statusMessage}</p>
                 <div className="signup-actions">
-                  <a className="button button-primary" href="/app">
+                  <a className="button button-primary" href={localizeHref("/app")}>
                     <Icon name="browser" />
-                    Open dashboard
+                    {siteUi.common.openDashboard}
                   </a>
-                  <a className="button button-secondary" href="/#pricing">
+                  <a className="button button-secondary" href={localizeHref("/#pricing")}>
                     <Icon name="chart" />
-                    Review plans
+                    {siteUi.common.reviewPlans}
                   </a>
                 </div>
               </div>
@@ -4005,58 +4062,58 @@ function SignupPage() {
                 {signupStep === 1 ? (
                   <div className="signup-step-panel">
                     <div className="signup-step-header">
-                      <span>Step 1 of 2</span>
-                      <h2>Workspace basics</h2>
-                      <p>Start with the account and agency details LeadCue needs for the first setup.</p>
+                      <span>{signupCopy.step1Lead}</span>
+                      <h2>{signupCopy.step1Title}</h2>
+                      <p>{signupCopy.step1Copy}</p>
                     </div>
                     <label>
-                      Work email
+                      {signupCopy.workEmail}
                       <input
                         name="email"
                         type="email"
                         autoComplete="email"
                         required
-                        placeholder="you@agency.com"
+                        placeholder={siteUi.auth.login.emailPlaceholder}
                         value={signupForm.email}
                         onChange={updateSignupField("email")}
                       />
                     </label>
                     <label>
-                      Password
+                      {signupCopy.password}
                       <input
                         name="password"
                         type="password"
                         autoComplete="new-password"
                         minLength={8}
                         required
-                        placeholder="8+ characters"
+                        placeholder={siteUi.auth.login.passwordPlaceholder}
                         value={signupForm.password}
                         onChange={updateSignupField("password")}
                       />
                     </label>
                     <label>
-                      Agency focus
+                      {signupCopy.agencyFocus}
                       <select name="agencyFocus" value={signupForm.agencyFocus} onChange={updateSignupField("agencyFocus")}>
-                        <option value="web_design">Web design / redesign</option>
-                        <option value="seo">SEO agency</option>
-                        <option value="marketing">Growth / marketing agency</option>
-                        <option value="founder">Founder-led outbound</option>
+                        <option value="web_design">{signupCopy.focusOptions.web_design}</option>
+                        <option value="seo">{signupCopy.focusOptions.seo}</option>
+                        <option value="marketing">{signupCopy.focusOptions.marketing}</option>
+                        <option value="founder">{signupCopy.focusOptions.founder}</option>
                       </select>
                     </label>
                     <label>
-                      Agency website
+                      {signupCopy.agencyWebsite}
                       <input
                         name="agencyWebsite"
                         type="url"
                         autoComplete="url"
-                        placeholder="https://youragency.com"
+                        placeholder={signupCopy.agencyWebsitePlaceholder}
                         value={signupForm.agencyWebsite}
                         onChange={updateSignupField("agencyWebsite")}
                       />
                     </label>
                     <div className="signup-actions-row">
                       <button className="button button-primary" type="button" onClick={continueSignup}>
-                        Continue
+                        {signupCopy.continue}
                       </button>
                     </div>
                     <p className={`form-status ${signupState === "error" ? "is-error" : ""}`} role="status" aria-live="polite">
@@ -4066,17 +4123,17 @@ function SignupPage() {
                 ) : (
                   <div className="signup-step-panel">
                     <div className="signup-step-header">
-                      <span>Step 2 of 2</span>
-                      <h2>Scoring context</h2>
-                      <p>Define the offer and target profile so the first Prospect Cards start with useful fit signals.</p>
+                      <span>{signupCopy.step2Lead}</span>
+                      <h2>{signupCopy.step2Title}</h2>
+                      <p>{signupCopy.step2Copy}</p>
                     </div>
                     <div className="signup-draft">
                       <span>{signupForm.email}</span>
-                      <span>{formatAgencyFocus(signupForm.agencyFocus)}</span>
+                      <span>{signupCopy.focusOptions[signupForm.agencyFocus as keyof typeof signupCopy.focusOptions]}</span>
                       {signupForm.agencyWebsite ? <span>{formatCompactUrl(signupForm.agencyWebsite)}</span> : null}
                     </div>
                     <label>
-                      Offer description
+                      {signupCopy.offerDescription}
                       <textarea
                         name="offerDescription"
                         required
@@ -4086,7 +4143,7 @@ function SignupPage() {
                       />
                     </label>
                     <label>
-                      Target industries
+                      {signupCopy.targetIndustries}
                       <input
                         name="targetIndustries"
                         required
@@ -4095,18 +4152,18 @@ function SignupPage() {
                       />
                     </label>
                     <label>
-                      First prospect website
+                      {signupCopy.firstProspectUrl}
                       <input
                         name="firstProspectUrl"
                         type="url"
-                        placeholder="https://prospect.example.com"
+                        placeholder={siteUi.home.launch.quickScanPlaceholder}
                         value={signupForm.firstProspectUrl}
                         onChange={updateSignupField("firstProspectUrl")}
                       />
                     </label>
                     <p className="form-note">
                       <Icon name="lock" />
-                      This creates your commercial workspace setup and prepares plan-based credits.
+                      {signupCopy.setupNote}
                     </p>
                     <div className="signup-actions-row">
                       <button
@@ -4115,11 +4172,11 @@ function SignupPage() {
                         onClick={() => setSignupStep(1)}
                         disabled={signupState === "loading"}
                       >
-                        Back
+                        {signupCopy.back}
                       </button>
                       <button className="button button-primary" type="submit" disabled={signupState === "loading"}>
                         <Icon name="mail" />
-                        {signupState === "loading" ? "Creating workspace..." : submitCopy}
+                        {submitCopy}
                       </button>
                     </div>
                     <p className={`form-status ${signupState === "error" ? "is-error" : ""}`} role="status" aria-live="polite">
@@ -6587,7 +6644,9 @@ function DashboardApp() {
 }
 
 function HomeProspectPreview({ card }: { card: ProspectCardType }) {
-  const firstLine = card.firstLines[0] || "No first line generated yet.";
+  const { siteUi } = usePublicSite();
+  const previewCopy = siteUi.home.sampleCard;
+  const firstLine = card.firstLines[0] || previewCopy.noFirstLineLabel;
   const topSignals = card.opportunitySignals.slice(0, 3);
   const shortEmailLines = card.shortEmail.split(/\n+/).filter(Boolean);
   const contactCount =
@@ -6597,46 +6656,46 @@ function HomeProspectPreview({ card }: { card: ProspectCardType }) {
     card.contactPoints.socialLinks.length;
 
   return (
-    <article className="home-prospect-preview" aria-label="Compact sample Prospect Card">
+    <article className="home-prospect-preview" aria-label={previewCopy.previewAriaLabel}>
       <div className="home-preview-header">
         <div>
-          <p className="eyebrow">Prospect Card</p>
+          <p className="eyebrow">{previewCopy.previewEyebrow}</p>
           <h3>{card.companyName}</h3>
           <span>{card.domain}</span>
         </div>
         <div className="home-preview-score">
           <strong>{card.fitScore}</strong>
-          <span>Fit</span>
+          <span>{previewCopy.fitLabel}</span>
         </div>
       </div>
 
-      <div className="home-preview-meta" aria-label="Sample prospect summary">
+      <div className="home-preview-meta" aria-label={previewCopy.summaryAriaLabel}>
         <div>
-          <span>Confidence</span>
+          <span>{previewCopy.confidenceLabel}</span>
           <strong>{Math.round(card.confidenceScore * 100)}%</strong>
         </div>
         <div>
-          <span>Signals</span>
+          <span>{previewCopy.signalsLabel}</span>
           <strong>{card.opportunitySignals.length}</strong>
         </div>
         <div>
-          <span>Contact paths</span>
-          <strong>{contactCount || "None"}</strong>
+          <span>{previewCopy.contactPathsLabel}</span>
+          <strong>{contactCount || previewCopy.noneLabel}</strong>
         </div>
       </div>
 
       <div className="home-preview-panels">
         <section className="home-preview-panel home-preview-signals">
           <div className="home-preview-panel-head">
-            <span>Website evidence</span>
-            <strong>{topSignals.length} cues</strong>
+            <span>{previewCopy.websiteEvidenceLabel}</span>
+            <strong>{`${topSignals.length} ${previewCopy.cuesSuffix}`}</strong>
           </div>
           <div className="home-signal-stack">
             {topSignals.map((signal) => (
               <div className="home-signal-row" key={`${signal.category}-${signal.signal}`}>
                 <span>{signal.category.replace("_", " ")}</span>
                 <strong>{signal.signal}</strong>
-                <small>Source: {signal.source}</small>
+                <small>{`${previewCopy.sourceLabel}: ${signal.source}`}</small>
               </div>
             ))}
           </div>
@@ -6644,23 +6703,23 @@ function HomeProspectPreview({ card }: { card: ProspectCardType }) {
 
         <section className="home-preview-panel home-preview-outcome">
           <div className="home-preview-panel-head">
-            <span>Best first line</span>
-            <strong>Copy-ready</strong>
+            <span>{previewCopy.bestFirstLineLabel}</span>
+            <strong>{previewCopy.copyReadyLabel}</strong>
           </div>
           <p>{firstLine}</p>
         </section>
 
         <section className="home-preview-panel home-preview-email">
           <div className="home-preview-panel-head">
-            <span>Short email</span>
-            <strong>Reply-ready</strong>
+            <span>{previewCopy.shortEmailLabel}</span>
+            <strong>{previewCopy.replyReadyLabel}</strong>
           </div>
           <pre>{shortEmailLines.join("\n\n")}</pre>
         </section>
       </div>
 
       <div className="home-preview-footer" aria-label="Export-ready fields">
-        {["CRM CSV", "First line", "Source notes"].map((item) => (
+        {previewCopy.exportFields.map((item) => (
           <span key={item}>
             <Icon name="check" />
             {item}

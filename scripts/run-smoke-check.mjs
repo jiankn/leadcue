@@ -1,34 +1,53 @@
 import fs from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 
-const distDir = process.argv[2] ? path.resolve(process.argv[2]) : path.resolve("apps/web/dist");
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const repoRoot = path.resolve(__dirname, "..");
+const distDir = process.argv[2] ? path.resolve(process.argv[2]) : path.join(repoRoot, "apps", "web", "dist");
+const generatedDir = path.join(repoRoot, "apps", "web", "src", "content", "generated");
 
-const expectedHtmlRoutes = [
-  "index.html",
-  "docs/index.html",
-  "support/index.html",
-  "contact/index.html",
-  "privacy/index.html",
-  "terms/index.html",
-  "website-prospecting/index.html",
-  "prospect-research-tool-for-agencies/index.html",
-  "cold-email-first-lines/index.html",
-  "agency-lead-qualification/index.html",
-  "use-cases/web-design-agencies/index.html",
-  "use-cases/seo-agencies/index.html",
-  "use-cases/marketing-agencies/index.html",
-  "guides/turn-website-into-cold-email-angle/index.html",
-  "guides/score-prospect-website/index.html",
-  "guides/website-audit-outreach/index.html",
-  "templates/crm-csv-field-mapping/index.html",
-  "templates/cold-email-first-line/index.html",
-  "templates/website-prospecting-checklist/index.html",
-  "integrations/hubspot-csv-export/index.html",
-  "integrations/salesforce-csv-export/index.html",
-  "integrations/pipedrive-csv-export/index.html"
+const locales = ["en", "zh", "ja", "ko", "de", "nl", "fr"];
+
+function normalizePath(pathname) {
+  if (!pathname) {
+    return "/";
+  }
+
+  const normalized = pathname.startsWith("/") ? pathname : `/${pathname}`;
+  return normalized !== "/" ? normalized.replace(/\/+$/, "") || "/" : normalized;
+}
+
+function buildLocalePath(locale, pathname) {
+  const normalized = normalizePath(pathname);
+  return locale === "en" ? normalized : normalized === "/" ? `/${locale}` : `/${locale}${normalized}`;
+}
+
+function loadJson(filename) {
+  return JSON.parse(fs.readFileSync(path.join(generatedDir, filename), "utf8"));
+}
+
+const commercialPages = loadJson("commercial-pages.locales.json");
+const seoPages = loadJson("seo-pages.locales.json");
+const productPages = loadJson("product-pages.locales.json");
+
+const basePaths = [
+  "/",
+  ...Object.keys(commercialPages.en).map((slug) => `/${slug}`),
+  ...seoPages.en.map((page) => `/${page.slug}`),
+  ...productPages.en.map((page) => `/${page.slug}`)
 ];
 
-const requiredStaticFiles = ["robots.txt", "sitemap.xml", "favicon.svg"];
+const expectedHtmlRoutes = locales.map((locale) => buildLocalePath(locale, "/").slice(1) || "index.html")
+  .map((value) => (value === "index.html" ? value : `${value}/index.html`));
+
+for (const locale of locales) {
+  for (const basePath of basePaths.slice(1)) {
+    expectedHtmlRoutes.push(`${buildLocalePath(locale, basePath).slice(1)}/index.html`);
+  }
+}
+
+const requiredStaticFiles = ["robots.txt", "sitemap.xml", "favicon.svg", "images/leadcue-og-card.svg"];
 
 const failures = [];
 
@@ -58,4 +77,4 @@ if (failures.length) {
   process.exit(1);
 }
 
-console.log(`Smoke check passed for ${expectedHtmlRoutes.length} public routes in ${distDir}.`);
+console.log(`Smoke check passed for ${expectedHtmlRoutes.length} localized public routes in ${distDir}.`);

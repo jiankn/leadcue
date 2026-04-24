@@ -37,12 +37,20 @@ for (const file of htmlFiles) {
     findings.push(`${publicPath}: missing <title>`);
   }
 
+  if (!/<html[^>]*\slang="[^"]+"/i.test(html)) {
+    findings.push(`${publicPath}: missing html lang`);
+  }
+
   if (!/meta\s+name=["']description["']\s+content=["'][^"']+/i.test(html)) {
     findings.push(`${publicPath}: missing meta description`);
   }
 
   if (!/link\s+rel=["']canonical["']\s+href=["']https?:\/\//i.test(html)) {
     findings.push(`${publicPath}: missing canonical link`);
+  }
+
+  if (!/link\s+rel=["']alternate["']\s+hreflang=["'][^"']+["']\s+href=["']https?:\/\//i.test(html)) {
+    findings.push(`${publicPath}: missing hreflang alternates`);
   }
 
   if (!/meta\s+name=["']robots["']\s+content=["'][^"']+/i.test(html)) {
