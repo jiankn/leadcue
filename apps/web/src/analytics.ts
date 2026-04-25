@@ -1,3 +1,5 @@
+import { apiUrl } from "./api";
+
 type AnalyticsPayload = {
   name: string;
   page?: string;
@@ -18,11 +20,11 @@ export async function trackEvent(payload: AnalyticsPayload) {
   try {
     if (navigator.sendBeacon) {
       const blob = new Blob([body], { type: "application/json" });
-      navigator.sendBeacon("/api/analytics/events", blob);
+      navigator.sendBeacon(apiUrl("/api/analytics/events"), blob);
       return;
     }
 
-    await fetch("/api/analytics/events", {
+    await fetch(apiUrl("/api/analytics/events"), {
       method: "POST",
       credentials: "include",
       headers: {

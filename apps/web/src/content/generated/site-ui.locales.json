@@ -1130,7 +1130,7 @@
       "heroVisual": {
         "browserChip": "实时网站扫描",
         "browserTitle": "北极星分析",
-        "browserSubtitle": "CTA 隐藏在第一个滚动条下方",
+        "browserSubtitle": "关键 CTA 位于首屏下方",
         "fitLabel": "适合",
         "fitValue": "86",
         "signalTitle": "信号摘要",
@@ -1143,7 +1143,7 @@
         "footerRight": "前景卡已准备好"
       },
       "analytics": {
-        "kicker": "现场网站勘探",
+        "kicker": "实时网站潜客研究",
         "title": "代理管道快照",
         "live": "直播",
         "timeframe": "过去 24 小时",

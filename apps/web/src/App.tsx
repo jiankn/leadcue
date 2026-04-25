@@ -30,6 +30,7 @@ import {
   type Tone
 } from "@leadcue/shared";
 import { trackEvent } from "./analytics";
+import { apiUrl } from "./api";
 import type { CommercialPageDefinition, CommercialPageSlug } from "./commercialContent";
 import homeSeoKeywords from "./content/source/home-seo-keywords.json";
 import type { ProductSeoPage } from "./productSeoContent";
@@ -3495,7 +3496,7 @@ function buildGoogleAuthHref(options: {
     params.set("focus", options.focus);
   }
 
-  return `/api/auth/google/start?${params.toString()}`;
+  return apiUrl(`/api/auth/google/start?${params.toString()}`);
 }
 
 function formatCalendarDate(value: string | null | undefined) {
@@ -3575,7 +3576,7 @@ function LoginPage() {
     setLoginError("");
 
     try {
-      const response = await fetch("/api/auth/email/login", {
+      const response = await fetch(apiUrl("/api/auth/email/login"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -3622,7 +3623,7 @@ function LoginPage() {
     setResetLink("");
 
     try {
-      const response = await fetch("/api/auth/password/request-reset", {
+      const response = await fetch(apiUrl("/api/auth/password/request-reset"), {
         method: "POST",
         credentials: "include",
         headers: {
@@ -3869,7 +3870,7 @@ function ResetPasswordPage() {
     setStatusMessage("");
 
     try {
-      const response = await fetch("/api/auth/password/reset", {
+      const response = await fetch(apiUrl("/api/auth/password/reset"), {
         method: "POST",
         credentials: "include",
         headers: {
@@ -4053,7 +4054,7 @@ function SignupPage() {
     setStatusMessage("");
 
     try {
-      const response = await fetch("/api/signup-intents", {
+      const response = await fetch(apiUrl("/api/signup-intents"), {
         method: "POST",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
@@ -4410,11 +4411,11 @@ function DashboardApp() {
     async function loadDashboard() {
       try {
         const [authResponse, workspaceResponse, leadsResponse, scansResponse, analyticsResponse] = await Promise.all([
-          fetch("/api/auth/me", { credentials: "include" }),
-          fetch("/api/workspace", { credentials: "include" }),
-          fetch("/api/leads", { credentials: "include" }),
-          fetch("/api/scans", { credentials: "include" }),
-          fetch("/api/analytics/summary", { credentials: "include" })
+          fetch(apiUrl("/api/auth/me"), { credentials: "include" }),
+          fetch(apiUrl("/api/workspace"), { credentials: "include" }),
+          fetch(apiUrl("/api/leads"), { credentials: "include" }),
+          fetch(apiUrl("/api/scans"), { credentials: "include" }),
+          fetch(apiUrl("/api/analytics/summary"), { credentials: "include" })
         ]);
 
         if (!workspaceResponse.ok) {
@@ -4442,7 +4443,7 @@ function DashboardApp() {
         let initialLeadDetail: ProspectCardType | null = null;
 
         if (initialLeadRow) {
-          const detailResponse = await fetch(`/api/leads/${encodeURIComponent(initialLeadRow.id)}`, {
+          const detailResponse = await fetch(apiUrl(`/api/leads/${encodeURIComponent(initialLeadRow.id)}`), {
             credentials: "include"
           }).catch(() => null);
 
@@ -4641,7 +4642,7 @@ function DashboardApp() {
     };
 
     try {
-      const response = await fetch("/api/workspace/icp", {
+      const response = await fetch(apiUrl("/api/workspace/icp"), {
         method: "PATCH",
         credentials: "include",
         headers: {
@@ -4694,7 +4695,7 @@ function DashboardApp() {
     setProfileMessage("");
 
     try {
-      const response = await fetch("/api/account/profile", {
+      const response = await fetch(apiUrl("/api/account/profile"), {
         method: "PATCH",
         credentials: "include",
         headers: {
@@ -4774,7 +4775,7 @@ function DashboardApp() {
     setAccountPasswordMessage("");
 
     try {
-      const response = await fetch("/api/auth/password/update", {
+      const response = await fetch(apiUrl("/api/auth/password/update"), {
         method: "POST",
         credentials: "include",
         headers: {
@@ -4819,7 +4820,7 @@ function DashboardApp() {
     setDashboardMessage("");
 
     try {
-      const response = await fetch("/api/billing/checkout", {
+      const response = await fetch(apiUrl("/api/billing/checkout"), {
         method: "POST",
         credentials: "include",
         headers: {
@@ -4886,7 +4887,7 @@ function DashboardApp() {
     replaceLeadDeepLink(lead.id, getProspectTabFromLocation());
 
     try {
-      const response = await fetch(`/api/leads/${encodeURIComponent(lead.id)}`, {
+      const response = await fetch(apiUrl(`/api/leads/${encodeURIComponent(lead.id)}`), {
         credentials: "include"
       });
       const result = (await response.json().catch(() => ({}))) as { lead?: ProspectCardType; error?: string };
@@ -4955,7 +4956,7 @@ function DashboardApp() {
     let pendingFailure: ScanFailureResponse | null = null;
 
     try {
-      const response = await fetch("/api/scans", {
+      const response = await fetch(apiUrl("/api/scans"), {
         method: "POST",
         credentials: "include",
         headers: {
@@ -5090,7 +5091,7 @@ function DashboardApp() {
     setOnboardingState("saving");
 
     try {
-      const response = await fetch("/api/workspace/onboarding/complete", {
+      const response = await fetch(apiUrl("/api/workspace/onboarding/complete"), {
         method: "POST",
         credentials: "include"
       });
@@ -5124,7 +5125,7 @@ function DashboardApp() {
         preset: bulkExportPreset,
         crmMode: bulkCrmFieldMode
       });
-      const response = await fetch(`/api/exports?${query.toString()}`, {
+      const response = await fetch(apiUrl(`/api/exports?${query.toString()}`), {
         method: "POST",
         credentials: "include"
       });
@@ -5162,7 +5163,7 @@ function DashboardApp() {
     setDashboardMessage("");
 
     try {
-      const response = await fetch("/api/billing/portal", {
+      const response = await fetch(apiUrl("/api/billing/portal"), {
         method: "POST",
         credentials: "include",
         headers: {
@@ -5189,7 +5190,7 @@ function DashboardApp() {
 
   async function signOut() {
     void trackEvent({ name: "auth_sign_out" });
-    await fetch("/api/auth/logout", { method: "POST", credentials: "include" }).catch(() => null);
+    await fetch(apiUrl("/api/auth/logout"), { method: "POST", credentials: "include" }).catch(() => null);
     setAuth({ authenticated: false });
     setDashboardState("sample");
     setSnapshot(sampleWorkspace);
@@ -5267,7 +5268,7 @@ function DashboardApp() {
     }
 
     try {
-      const response = await fetch(`/api/leads/${encodeURIComponent(lead.id)}`, {
+      const response = await fetch(apiUrl(`/api/leads/${encodeURIComponent(lead.id)}`), {
         credentials: "include"
       });
       const result = (await response.json().catch(() => ({}))) as { lead?: ProspectCardType };
@@ -7168,7 +7169,7 @@ function ProspectCard({
     setMetaSaveState("saving");
 
     try {
-      const response = await fetch(`/api/leads/${encodeURIComponent(leadId)}/context`, {
+      const response = await fetch(apiUrl(`/api/leads/${encodeURIComponent(leadId)}/context`), {
         method: "PATCH",
         credentials: "include",
         headers: {

@@ -61,6 +61,8 @@ export const localeStringOverrides = {
       "20 次免费扫描。支持 Google 登录。不依赖 LinkedIn 抓取或联系人数据库。"
     ],
     ["Website evidence, ICP fit, and first-line cues in one workspace", "网站证据、ICP 匹配与开场线索集中在一个工作区"],
+    ["CTA hidden below the first scroll", "关键 CTA 位于首屏下方"],
+    ["Website prospecting live", "实时网站潜客研究"],
     ["Strategy", "策略"],
     ["Use cases", "使用场景"],
     ["Guides", "指南"],
