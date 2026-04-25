@@ -1,0 +1,11 @@
+{
+  "extensionName": {
+    "message": "LeadCue | Assistant de prospection web pour les agences"
+  },
+  "extensionDescription": {
+    "message": "Analysez le site d'entreprise actif, qualifiez le compte et enregistrez une Prospect Card sourcee dans votre workspace LeadCue."
+  },
+  "actionTitle": {
+    "message": "Ouvrir le panneau lateral LeadCue"
+  }
+}

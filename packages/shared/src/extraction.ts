@@ -4,6 +4,7 @@ import type {
   OpportunitySignal,
   PageSnapshot,
   ProspectCard,
+  ScanLocale,
   ScanRequest
 } from "./types";
 
@@ -52,6 +53,952 @@ export const PRICING_PLANS = [
 const EMAIL_PATTERN = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g;
 const PHONE_PATTERN =
   /(?:\+?\d{1,3}[\s.-]?)?(?:\(?\d{3}\)?[\s.-]?)?\d{3}[\s.-]?\d{4}/g;
+
+type RuleBasedSignalCopy = {
+  signal: string;
+  reason: string;
+  source: string;
+};
+
+type SampleLocaleContent = {
+  workspaceName: string;
+  targetIndustries: string[];
+  targetCountries: string[];
+  offerDescription: string;
+  industryLabels: {
+    northstar: string;
+    beacon: string;
+    lumen: string;
+  };
+  demoPages: Record<
+    "northstar" | "beacon" | "lumen",
+    {
+      title: string;
+      metaDescription: string;
+      h1: string;
+      text: string;
+    }
+  >;
+  analytics: {
+    eventMetadata: {
+      basicScanOneCredit: string;
+      crmHubSpot: string;
+      hubSpotMappingCta: string;
+    };
+    recommendations: {
+      toolPageCta: string;
+      exportsGap: string;
+      crmTemplateTraffic: string;
+      ctaSignupGap: string;
+      noScans: string;
+      scanExportGap: string;
+      topPage: string;
+      steadyFunnel: string;
+    };
+  };
+  pipelineOwner: string;
+  pipelineActorName: string;
+  pipelineNotes: string;
+};
+
+type RuleBasedProspectCopy = {
+  unknownIndustry: string;
+  serviceTypes: Record<ICPProfile["serviceType"], string>;
+  fallbackSignal: string;
+  summary: (companyName: string) => string;
+  fitReason: (signalCount: number, serviceTypeLabel: string) => string;
+  outreachAngle1: (signal: string) => string;
+  outreachAngle2: string;
+  outreachAngle3: string;
+  firstLine1: (companyName: string, firstLine: string) => string;
+  firstLine2: string;
+  firstLine3: (domain: string) => string;
+  shortEmail: (companyName: string, firstLine: string) => string;
+  signals: {
+    noCta: RuleBasedSignalCopy;
+    metaDescriptionThin: RuleBasedSignalCopy;
+    h1Weak: RuleBasedSignalCopy;
+    noProof: RuleBasedSignalCopy;
+    noBlog: RuleBasedSignalCopy;
+    growthHiring: RuleBasedSignalCopy;
+  };
+};
+
+const ruleBasedProspectCopy: Record<ScanLocale, RuleBasedProspectCopy> = {
+  en: {
+    unknownIndustry: "unknown",
+    serviceTypes: {
+      web_design: "web design",
+      seo: "SEO",
+      marketing: "marketing",
+      custom: "custom"
+    },
+    fallbackSignal:
+      "the path to the next step could be clearer for new visitors.",
+    summary: (companyName) =>
+      `${companyName} appears to be a company website with enough public information for website-based prospect research.`,
+    fitReason: (signalCount, serviceTypeLabel) =>
+      `The site shows ${signalCount || "some"} website signals that can support a ${serviceTypeLabel} outreach angle.`,
+    outreachAngle1: (signal) =>
+      `Position the offer around fixing "${signal}" with a short website improvement sprint.`,
+    outreachAngle2: "Lead with a source-backed observation instead of a generic compliment.",
+    outreachAngle3: "Offer to send 2-3 quick website ideas before pitching a full project.",
+    firstLine1: (companyName, firstLine) =>
+      `I noticed ${companyName} has useful website content, but ${firstLine}`,
+    firstLine2:
+      "Your site gives visitors a starting point, but the strongest next step could be easier to spot from the homepage.",
+    firstLine3: (domain) =>
+      `I was looking at ${domain} and noticed a few website signals that could be turned into a clearer conversion path.`,
+    shortEmail: (companyName, firstLine) =>
+      `Hi there,\n\nI noticed ${companyName} has useful website content, but ${firstLine}\n\nWe help teams improve website conversion with clearer CTAs, proof sections, and page structure.\n\nWorth sending over a few quick ideas?`,
+    signals: {
+      noCta: {
+        signal: "No clear conversion CTA appears early on the page.",
+        reason: "LeadCue did not find common booking or demo CTA language in the first screen worth of extracted copy.",
+        source: "homepage"
+      },
+      metaDescriptionThin: {
+        signal: "Meta description is missing or thin.",
+        reason: "The homepage metadata may not explain the offer strongly enough for search snippets.",
+        source: "meta description"
+      },
+      h1Weak: {
+        signal: "Homepage H1 is unclear or unavailable.",
+        reason: "A weak H1 can make the page harder for visitors and search engines to understand quickly.",
+        source: "homepage h1"
+      },
+      noProof: {
+        signal: "No obvious proof section or case study path was found.",
+        reason: "Prospects with limited proof can be good fits for conversion-focused website or content work.",
+        source: "navigation scan"
+      },
+      noBlog: {
+        signal: "No blog or resources path was visible in the scanned links.",
+        reason: "This can indicate limited content marketing surface area or a navigation gap.",
+        source: "navigation scan"
+      },
+      growthHiring: {
+        signal: "Hiring or growth language appears on the website.",
+        reason: "Growth-related hiring can create timing for website, SEO, or conversion support.",
+        source: "homepage/navigation scan"
+      }
+    }
+  },
+  zh: {
+    unknownIndustry: "未知",
+    serviceTypes: {
+      web_design: "网站设计",
+      seo: "SEO",
+      marketing: "营销",
+      custom: "定制"
+    },
+    fallbackSignal: "新访客在网站上找到下一步行动的路径还可以更清晰。",
+    summary: (companyName) =>
+      `${companyName} 看起来是一家公司官网，公开信息足以支持基于网站的潜在客户研究。`,
+    fitReason: (signalCount, serviceTypeLabel) =>
+      `该网站展示了 ${signalCount || "若干"} 个网站信号，足以支撑以${serviceTypeLabel}为切入点的外联。`,
+    outreachAngle1: (signal) => `可以围绕修复“${signal}”来定位服务，先提出一次简短的网站优化冲刺。`,
+    outreachAngle2: "先用有来源支撑的观察切入，而不是泛泛称赞。",
+    outreachAngle3: "先提出发送 2-3 个快速网站改进建议，再讨论完整项目。",
+    firstLine1: (companyName, firstLine) =>
+      `我注意到 ${companyName} 的网站信息很完整，但${firstLine}`,
+    firstLine2: "你们的网站已经给了访客一个起点，但首页上最关键的下一步动作还可以更容易被看到。",
+    firstLine3: (domain) =>
+      `我在看 ${domain} 时注意到几个网站信号，可以把它们转化成更清晰的转化路径。`,
+    shortEmail: (companyName, firstLine) =>
+      `你好，\n\n我注意到 ${companyName} 的网站信息很完整，但${firstLine}\n\n我们会通过更清晰的 CTA、证明版块和页面结构，帮助团队提升网站转化。\n\n如果你愿意，我可以先发几个快速想法过去。`,
+    signals: {
+      noCta: {
+        signal: "页面开头没有清晰的转化 CTA。",
+        reason: "LeadCue 在首屏附近提取的文案中，没有发现常见的预约或演示 CTA 语言。",
+        source: "首页"
+      },
+      metaDescriptionThin: {
+        signal: "Meta 描述缺失或内容偏弱。",
+        reason: "首页元数据可能没有足够清楚地说明服务内容，难以支撑搜索摘要。",
+        source: "meta 描述"
+      },
+      h1Weak: {
+        signal: "首页 H1 不清晰或缺失。",
+        reason: "薄弱的 H1 会让访客和搜索引擎更难快速理解页面。",
+        source: "首页 H1"
+      },
+      noProof: {
+        signal: "未发现明显的证明版块或案例研究路径。",
+        reason: "缺少证明素材的潜在客户，通常更适合做以转化为导向的网站或内容优化。",
+        source: "导航扫描"
+      },
+      noBlog: {
+        signal: "扫描到的链接里未看到博客或资源入口。",
+        reason: "这通常意味着内容营销触点有限，或导航结构存在缺口。",
+        source: "导航扫描"
+      },
+      growthHiring: {
+        signal: "网站上出现了招聘或增长相关信号。",
+        reason: "与增长相关的招聘通常意味着他们正处于适合网站、SEO 或转化支持的时间窗口。",
+        source: "首页/导航扫描"
+      }
+    }
+  },
+  ja: {
+    unknownIndustry: "不明",
+    serviceTypes: {
+      web_design: "Web デザイン",
+      seo: "SEO",
+      marketing: "マーケティング",
+      custom: "カスタム"
+    },
+    fallbackSignal: "新規訪問者にとって次の一歩がまだ少し分かりにくい状態です。",
+    summary: (companyName) =>
+      `${companyName} は、サイトベースの見込み客リサーチに十分な公開情報がある企業サイトのように見えます。`,
+    fitReason: (signalCount, serviceTypeLabel) =>
+      `このサイトには ${signalCount || "いくつかの"} サイトシグナルがあり、${serviceTypeLabel} を軸にしたアプローチにつなげられます。`,
+    outreachAngle1: (signal) =>
+      `「${signal}」の改善を軸に、短いサイト改善スプリントとして提案できます。`,
+    outreachAngle2: "ありきたりな褒め言葉ではなく、根拠のある観察から入りましょう。",
+    outreachAngle3: "最初から大きな提案をする前に、2〜3 個の素早い改善案を送る形にします。",
+    firstLine1: (companyName, firstLine) =>
+      `${companyName} のサイトには有益な情報がありますが、${firstLine}`,
+    firstLine2:
+      "サイトは訪問者に出発点を示していますが、ホームページ上で次の一歩がもう少し見つけやすくなりそうです。",
+    firstLine3: (domain) =>
+      `${domain} を見ていて、より明確なコンバージョン導線に変えられそうなサイトシグナルがいくつか見つかりました。`,
+    shortEmail: (companyName, firstLine) =>
+      `こんにちは。\n\n${companyName} のサイトには有益な情報がありますが、${firstLine}\n\n私たちは、CTA や実績セクション、ページ構成をより分かりやすくしてサイトのコンバージョン改善を支援しています。\n\nよければ、すぐ試せるアイデアをいくつかお送りします。`,
+    signals: {
+      noCta: {
+        signal: "ページ序盤に明確なコンバージョン CTA が見当たりません。",
+        reason: "抽出されたファーストビュー付近の文言に、一般的な予約やデモ CTA が見つかりませんでした。",
+        source: "ホームページ"
+      },
+      metaDescriptionThin: {
+        signal: "meta description が不足しているか弱い状態です。",
+        reason: "ホームページのメタ情報だけでは、検索結果で提供価値が十分に伝わらない可能性があります。",
+        source: "meta description"
+      },
+      h1Weak: {
+        signal: "ホームページの H1 が不明確、または取得できませんでした。",
+        reason: "弱い H1 は、訪問者や検索エンジンがページを素早く理解する妨げになります。",
+        source: "ホームページ H1"
+      },
+      noProof: {
+        signal: "明確な実績セクションや事例導線が見つかりませんでした。",
+        reason: "社会的証明が少ない見込み客は、コンバージョン重視のサイト改善やコンテンツ支援と相性が良いことがあります。",
+        source: "ナビゲーション確認"
+      },
+      noBlog: {
+        signal: "確認したリンクにブログやリソース導線が見当たりませんでした。",
+        reason: "コンテンツマーケティングの接点が少ない、またはナビゲーションに抜けがある可能性があります。",
+        source: "ナビゲーション確認"
+      },
+      growthHiring: {
+        signal: "採用や成長に関する表現がサイト上に見られます。",
+        reason: "成長関連の採用は、サイト改善や SEO、コンバージョン支援のタイミングを示すことがあります。",
+        source: "ホームページ/ナビゲーション確認"
+      }
+    }
+  },
+  ko: {
+    unknownIndustry: "알 수 없음",
+    serviceTypes: {
+      web_design: "웹 디자인",
+      seo: "SEO",
+      marketing: "마케팅",
+      custom: "맞춤"
+    },
+    fallbackSignal: "새 방문자가 다음 단계를 찾는 경로가 조금 더 명확해질 수 있습니다.",
+    summary: (companyName) =>
+      `${companyName} 는 웹사이트 기반 잠재고객 리서치를 진행하기에 충분한 공개 정보를 가진 회사 사이트로 보입니다.`,
+    fitReason: (signalCount, serviceTypeLabel) =>
+      `이 사이트에는 ${signalCount || "몇 가지"} 웹사이트 시그널이 보여 ${serviceTypeLabel} 중심의 아웃리치 각도를 만들 수 있습니다.`,
+    outreachAngle1: (signal) =>
+      `“${signal}”를 개선하는 방향으로 제안을 잡고, 짧은 웹사이트 개선 스프린트로 제시할 수 있습니다.`,
+    outreachAngle2: "뻔한 칭찬보다 출처가 있는 관찰로 대화를 시작하세요.",
+    outreachAngle3: "전체 프로젝트를 제안하기 전에 2~3개의 빠른 웹사이트 아이디어를 먼저 보내겠다고 제안하세요.",
+    firstLine1: (companyName, firstLine) =>
+      `${companyName} 사이트에는 유용한 정보가 있지만, ${firstLine}`,
+    firstLine2:
+      "사이트가 방문자에게 출발점은 제공하지만, 홈페이지에서 다음 단계가 더 잘 보이도록 만들 여지가 있습니다.",
+    firstLine3: (domain) =>
+      `${domain} 을 살펴보면서 더 명확한 전환 경로로 바꿀 수 있는 몇 가지 웹사이트 시그널을 발견했습니다.`,
+    shortEmail: (companyName, firstLine) =>
+      `안녕하세요.\n\n${companyName} 사이트에는 유용한 정보가 있지만, ${firstLine}\n\n저희는 더 명확한 CTA, 신뢰 요소, 페이지 구조를 통해 팀의 웹사이트 전환을 개선하도록 돕습니다.\n\n원하시면 바로 적용할 수 있는 몇 가지 아이디어를 보내드릴까요?`,
+    signals: {
+      noCta: {
+        signal: "페이지 초반에 명확한 전환 CTA가 보이지 않습니다.",
+        reason: "추출된 첫 화면 분량의 문구에서 일반적인 예약 또는 데모 CTA 문구를 찾지 못했습니다.",
+        source: "홈페이지"
+      },
+      metaDescriptionThin: {
+        signal: "메타 설명이 없거나 내용이 약합니다.",
+        reason: "홈페이지 메타데이터만으로는 검색 스니펫에서 제안을 충분히 설명하지 못할 수 있습니다.",
+        source: "메타 설명"
+      },
+      h1Weak: {
+        signal: "홈페이지 H1이 불명확하거나 없습니다.",
+        reason: "약한 H1은 방문자와 검색엔진이 페이지를 빠르게 이해하기 어렵게 만들 수 있습니다.",
+        source: "홈페이지 H1"
+      },
+      noProof: {
+        signal: "분명한 신뢰 요소 섹션이나 사례 연구 경로가 보이지 않습니다.",
+        reason: "신뢰 요소가 부족한 잠재고객은 전환 중심 웹사이트나 콘텐츠 작업과 잘 맞을 수 있습니다.",
+        source: "내비게이션 스캔"
+      },
+      noBlog: {
+        signal: "스캔한 링크에서 블로그나 리소스 경로가 보이지 않았습니다.",
+        reason: "콘텐츠 마케팅 접점이 적거나 내비게이션에 공백이 있다는 신호일 수 있습니다.",
+        source: "내비게이션 스캔"
+      },
+      growthHiring: {
+        signal: "사이트에 채용 또는 성장 관련 문구가 보입니다.",
+        reason: "성장 관련 채용은 웹사이트, SEO 또는 전환 지원이 필요한 타이밍을 보여줄 수 있습니다.",
+        source: "홈페이지/내비게이션 스캔"
+      }
+    }
+  },
+  de: {
+    unknownIndustry: "unbekannt",
+    serviceTypes: {
+      web_design: "Webdesign",
+      seo: "SEO",
+      marketing: "Marketing",
+      custom: "individuelle"
+    },
+    fallbackSignal: "der Weg zum nächsten Schritt für neue Besucher noch klarer sein könnte.",
+    summary: (companyName) =>
+      `${companyName} wirkt wie eine Unternehmenswebsite mit genug öffentlichen Informationen für websitebasierte Prospect-Recherche.`,
+    fitReason: (signalCount, serviceTypeLabel) =>
+      `Die Website zeigt ${signalCount || "einige"} Website-Signale, die einen ${serviceTypeLabel}-Outreach-Winkel stützen können.`,
+    outreachAngle1: (signal) =>
+      `Positionieren Sie das Angebot rund um die Behebung von „${signal}“ mit einem kurzen Website-Verbesserungssprint.`,
+    outreachAngle2: "Starten Sie mit einer belegbaren Beobachtung statt mit einem generischen Kompliment.",
+    outreachAngle3: "Bieten Sie zuerst 2-3 schnelle Website-Ideen an, bevor Sie ein volles Projekt pitchen.",
+    firstLine1: (companyName, firstLine) =>
+      `Mir ist aufgefallen, dass ${companyName} nützliche Website-Inhalte hat, aber ${firstLine}`,
+    firstLine2:
+      "Ihre Website gibt Besuchern einen Startpunkt, aber der stärkste nächste Schritt könnte auf der Homepage leichter erkennbar sein.",
+    firstLine3: (domain) =>
+      `Beim Blick auf ${domain} sind mir einige Website-Signale aufgefallen, die sich in einen klareren Conversion-Pfad übersetzen lassen.`,
+    shortEmail: (companyName, firstLine) =>
+      `Hallo,\n\nmir ist aufgefallen, dass ${companyName} nützliche Website-Inhalte hat, aber ${firstLine}\n\nWir helfen Teams, die Website-Conversion mit klareren CTAs, Proof-Sektionen und einer besseren Seitenstruktur zu verbessern.\n\nSoll ich ein paar schnelle Ideen schicken?`,
+    signals: {
+      noCta: {
+        signal: "Früh auf der Seite ist keine klare Conversion-CTA zu sehen.",
+        reason: "LeadCue hat im extrahierten Text des ersten sichtbaren Bereichs keine üblichen Buchungs- oder Demo-CTAs gefunden.",
+        source: "Homepage"
+      },
+      metaDescriptionThin: {
+        signal: "Die Meta-Beschreibung fehlt oder ist zu dünn.",
+        reason: "Die Homepage-Metadaten erklären das Angebot für Such-Snippets möglicherweise nicht deutlich genug.",
+        source: "Meta-Beschreibung"
+      },
+      h1Weak: {
+        signal: "Die H1 der Homepage ist unklar oder nicht verfügbar.",
+        reason: "Eine schwache H1 erschwert es Besuchern und Suchmaschinen, die Seite schnell zu verstehen.",
+        source: "Homepage-H1"
+      },
+      noProof: {
+        signal: "Es wurde kein klarer Proof-Bereich oder Case-Study-Pfad gefunden.",
+        reason: "Prospects mit wenig sozialem Beweis passen oft gut zu conversion-orientierter Website- oder Content-Arbeit.",
+        source: "Navigations-Scan"
+      },
+      noBlog: {
+        signal: "In den gescannten Links war kein Blog- oder Ressourcenpfad sichtbar.",
+        reason: "Das kann auf wenig Content-Marketing-Fläche oder eine Lücke in der Navigation hindeuten.",
+        source: "Navigations-Scan"
+      },
+      growthHiring: {
+        signal: "Auf der Website erscheinen Hiring- oder Wachstums-Signale.",
+        reason: "Wachstumsbezogene Hiring-Signale können auf Timing für Website-, SEO- oder Conversion-Unterstützung hinweisen.",
+        source: "Homepage/Navigations-Scan"
+      }
+    }
+  },
+  nl: {
+    unknownIndustry: "onbekend",
+    serviceTypes: {
+      web_design: "webdesign",
+      seo: "SEO",
+      marketing: "marketing",
+      custom: "maatwerk"
+    },
+    fallbackSignal: "het pad naar de volgende stap voor nieuwe bezoekers duidelijker kan zijn.",
+    summary: (companyName) =>
+      `${companyName} lijkt een bedrijfswebsite te zijn met genoeg openbare informatie voor websitegebaseerd prospectonderzoek.`,
+    fitReason: (signalCount, serviceTypeLabel) =>
+      `De site laat ${signalCount || "enkele"} websitesignalen zien die een ${serviceTypeLabel}-outreachhoek kunnen ondersteunen.`,
+    outreachAngle1: (signal) =>
+      `Positioneer het aanbod rond het oplossen van “${signal}” met een korte website-verbetersprint.`,
+    outreachAngle2: "Open met een brononderbouwde observatie in plaats van een algemeen compliment.",
+    outreachAngle3: "Bied aan om eerst 2-3 snelle website-ideeën te sturen voordat je een volledig project pitcht.",
+    firstLine1: (companyName, firstLine) =>
+      `Ik zag dat ${companyName} nuttige website-inhoud heeft, maar ${firstLine}`,
+    firstLine2:
+      "De site geeft bezoekers een startpunt, maar de sterkste volgende stap kan vanaf de homepage makkelijker zichtbaar worden.",
+    firstLine3: (domain) =>
+      `Ik keek naar ${domain} en zag een paar websitesignalen die kunnen worden omgezet in een duidelijker conversiepad.`,
+    shortEmail: (companyName, firstLine) =>
+      `Hallo,\n\nik zag dat ${companyName} nuttige website-inhoud heeft, maar ${firstLine}\n\nWij helpen teams websiteconversie te verbeteren met duidelijkere CTA's, bewijsblokken en paginastructuur.\n\nZal ik een paar snelle ideeën sturen?`,
+    signals: {
+      noCta: {
+        signal: "Er verschijnt vroeg op de pagina geen duidelijke conversie-CTA.",
+        reason: "LeadCue vond in het eerste zichtbare deel van de geëxtraheerde tekst geen gangbare boekings- of demo-CTA-taal.",
+        source: "homepage"
+      },
+      metaDescriptionThin: {
+        signal: "De meta description ontbreekt of is zwak.",
+        reason: "De homepage-metadata legt het aanbod mogelijk niet sterk genoeg uit voor zoekresultaten.",
+        source: "meta description"
+      },
+      h1Weak: {
+        signal: "De homepage-H1 is onduidelijk of niet beschikbaar.",
+        reason: "Een zwakke H1 maakt het voor bezoekers en zoekmachines lastiger om de pagina snel te begrijpen.",
+        source: "homepage-H1"
+      },
+      noProof: {
+        signal: "Er is geen duidelijk bewijsblok of case-study-pad gevonden.",
+        reason: "Prospects met weinig bewijs passen vaak goed bij conversiegerichte website- of contentverbetering.",
+        source: "navigatiescan"
+      },
+      noBlog: {
+        signal: "Er was geen blog- of resourcepad zichtbaar in de gescande links.",
+        reason: "Dit kan wijzen op weinig contentmarketing-oppervlak of een gat in de navigatie.",
+        source: "navigatiescan"
+      },
+      growthHiring: {
+        signal: "Er verschijnt hiring- of groeitaal op de website.",
+        reason: "Groeigerelateerde hiring kan wijzen op timing voor website-, SEO- of conversieondersteuning.",
+        source: "homepage/navigatiescan"
+      }
+    }
+  },
+  fr: {
+    unknownIndustry: "inconnu",
+    serviceTypes: {
+      web_design: "web design",
+      seo: "SEO",
+      marketing: "marketing",
+      custom: "personnalisée"
+    },
+    fallbackSignal:
+      "le passage vers l'étape suivante pourrait être plus clair pour les nouveaux visiteurs.",
+    summary: (companyName) =>
+      `${companyName} semble être un site d'entreprise avec assez d'informations publiques pour une recherche de prospects basée sur le site web.`,
+    fitReason: (signalCount, serviceTypeLabel) =>
+      `Le site montre ${signalCount || "quelques"} signaux web qui peuvent soutenir un angle d'approche ${serviceTypeLabel}.`,
+    outreachAngle1: (signal) =>
+      `Positionnez l'offre autour de la résolution de « ${signal} » avec un court sprint d'amélioration du site.`,
+    outreachAngle2: "Commencez par une observation sourcée plutôt que par un compliment générique.",
+    outreachAngle3: "Proposez d'envoyer d'abord 2 à 3 idées rapides pour le site avant de vendre un projet complet.",
+    firstLine1: (companyName, firstLine) =>
+      `J'ai remarqué que ${companyName} a un site utile, mais ${firstLine}`,
+    firstLine2:
+      "Le site donne déjà un point de départ aux visiteurs, mais l'étape suivante la plus forte pourrait être plus visible dès la page d'accueil.",
+    firstLine3: (domain) =>
+      `En regardant ${domain}, j'ai remarqué quelques signaux du site qui pourraient être transformés en un parcours de conversion plus clair.`,
+    shortEmail: (companyName, firstLine) =>
+      `Bonjour,\n\nj'ai remarqué que ${companyName} a un site utile, mais ${firstLine}\n\nNous aidons les équipes à améliorer la conversion du site avec des CTA plus clairs, des sections de preuve et une meilleure structure de page.\n\nSouhaitez-vous que j'envoie quelques idées rapides ?`,
+    signals: {
+      noCta: {
+        signal: "Aucun CTA de conversion clair n'apparaît tôt dans la page.",
+        reason: "LeadCue n'a pas trouvé de formulation classique de prise de rendez-vous ou de démo dans le premier écran de texte extrait.",
+        source: "page d'accueil"
+      },
+      metaDescriptionThin: {
+        signal: "La meta description est absente ou trop faible.",
+        reason: "Les métadonnées de la page d'accueil n'expliquent peut-être pas assez clairement l'offre pour les extraits de recherche.",
+        source: "meta description"
+      },
+      h1Weak: {
+        signal: "Le H1 de la page d'accueil est flou ou indisponible.",
+        reason: "Un H1 faible peut rendre la page plus difficile à comprendre rapidement pour les visiteurs comme pour les moteurs de recherche.",
+        source: "H1 de la page d'accueil"
+      },
+      noProof: {
+        signal: "Aucune section de preuve claire ni parcours vers des études de cas n'a été trouvé.",
+        reason: "Les prospects avec peu de preuve sociale peuvent bien correspondre à un travail de site ou de contenu orienté conversion.",
+        source: "scan de navigation"
+      },
+      noBlog: {
+        signal: "Aucun accès blog ou ressources n'était visible dans les liens scannés.",
+        reason: "Cela peut indiquer peu de surface de content marketing ou une lacune dans la navigation.",
+        source: "scan de navigation"
+      },
+      growthHiring: {
+        signal: "Le site montre des signaux de recrutement ou de croissance.",
+        reason: "Le recrutement lié à la croissance peut indiquer un bon timing pour un accompagnement site, SEO ou conversion.",
+        source: "page d'accueil/scan de navigation"
+      }
+    }
+  }
+};
+
+const sampleLocaleContentByLocale: Record<ScanLocale, SampleLocaleContent> = {
+  en: {
+    workspaceName: "LeadCue Demo Workspace",
+    targetIndustries: ["B2B SaaS", "local services", "professional services"],
+    targetCountries: ["United States", "United Kingdom", "Canada", "Australia"],
+    offerDescription:
+      "We help companies turn more website visitors into booked calls with clearer CTAs, proof sections, and conversion-focused page structure.",
+    industryLabels: {
+      northstar: "B2B SaaS",
+      beacon: "Local healthcare",
+      lumen: "B2B services"
+    },
+    demoPages: {
+      northstar: {
+        title: "Northstar Analytics | Reporting software for small finance teams",
+        metaDescription:
+          "Northstar Analytics gives finance teams clearer reporting, monthly board packs, and faster KPI visibility without replacing the tools they already use.",
+        h1: "Northstar Analytics gives fast-moving finance teams reporting without spreadsheet cleanup",
+        text:
+          "Northstar Analytics helps finance teams build weekly reporting, board updates, and KPI visibility without replacing their current stack. The homepage explains the product, integrations, dashboards, and finance workflows. Visitors can explore product pages, pricing, and team updates. Northstar is hiring across customer success and revenue operations this quarter."
+      },
+      beacon: {
+        title: "Beacon Dental Group | Family and cosmetic dentistry",
+        metaDescription:
+          "Beacon Dental Group helps local families book preventive, cosmetic, and restorative dental care with a clean, mobile-friendly clinic experience.",
+        h1: "Beacon Dental Group provides family and cosmetic dentistry for busy neighborhoods",
+        text:
+          "Beacon Dental Group serves local families with preventive cleanings, whitening, implants, and emergency visits. The website covers treatments, insurance support, office hours, and team bios. Patients can read reviews, compare services, and meet the practice team. Beacon is hiring a front-desk coordinator and dental hygienist this season."
+      },
+      lumen: {
+        title: "Lumen Logistics | Freight coordination for fast-moving teams",
+        metaDescription:
+          "Lumen Logistics helps operations teams coordinate freight, carrier updates, and exception handling with clearer visibility across every shipment.",
+        h1: "Lumen Logistics gives operations teams freight coordination without spreadsheet chaos",
+        text:
+          "Lumen Logistics supports operations teams with routing visibility, carrier coordination, and exception handling for every shipment. The site explains service coverage, shipment workflows, and operational reporting. Visitors can review service regions, platform updates, and hiring information for implementation and support roles."
+      }
+    },
+    analytics: {
+      eventMetadata: {
+        basicScanOneCredit: "basic scan, 1 credit",
+        crmHubSpot: "CRM / HubSpot",
+        hubSpotMappingCta: "HubSpot mapping CTA"
+      },
+      recommendations: {
+        toolPageCta:
+          "Tool-page CTA clicks are healthy. Keep routing those users into signup with the same field template context.",
+        exportsGap:
+          "Exports are lower than scans, so the next bottleneck is likely qualification confidence or CRM handoff timing.",
+        crmTemplateTraffic: "The CRM mapping template is pulling the most product-led traffic right now.",
+        ctaSignupGap:
+          "CTA clicks are happening, but signups are not. Recheck signup copy, friction, and plan fit on the highest-intent pages.",
+        noScans:
+          "Accounts are entering the workspace but not running scans yet. Make the first scan path even more obvious in onboarding.",
+        scanExportGap:
+          "Scans are landing, but exports are not. The next bottleneck is likely qualification confidence or CRM handoff clarity.",
+        topPage:
+          "The strongest page right now is __PAGE__. Keep testing a sharper CTA and internal links from that page.",
+        steadyFunnel:
+          "The funnel is moving. Keep comparing CTA clicks, signups, scans, and exports week over week."
+      }
+    },
+    pipelineOwner: "Avery",
+    pipelineActorName: "Demo user",
+    pipelineNotes: "Prioritize the homepage CTA angle before export."
+  },
+  zh: {
+    workspaceName: "LeadCue 示例工作空间",
+    targetIndustries: ["B2B SaaS", "本地服务", "专业服务"],
+    targetCountries: ["美国", "英国", "加拿大", "澳大利亚"],
+    offerDescription:
+      "我们通过更清晰的 CTA、证明版块和以转化为导向的页面结构，帮助企业把更多网站访客转化为预约通话。",
+    industryLabels: {
+      northstar: "B2B SaaS",
+      beacon: "本地医疗",
+      lumen: "B2B 服务"
+    },
+    demoPages: {
+      northstar: {
+        title: "Northstar Analytics | 面向小型财务团队的报表软件",
+        metaDescription:
+          "Northstar Analytics 帮助财务团队获得更清晰的报表、月度董事会材料和更快的 KPI 可见性，同时无需替换现有工具。",
+        h1: "Northstar Analytics 帮助快速发展的财务团队摆脱表格清理，完成报表工作",
+        text:
+          "Northstar Analytics 帮助财务团队搭建周报、董事会更新和 KPI 可视化，而无需替换现有技术栈。首页介绍产品、集成、仪表盘和财务工作流。访客可以查看产品页、价格和团队动态。Northstar 本季度正在招聘客户成功和收入运营岗位。"
+      },
+      beacon: {
+        title: "Beacon Dental Group | 家庭与美容牙科",
+        metaDescription:
+          "Beacon Dental Group 为本地家庭提供预防、医美和修复牙科预约，并呈现清晰、移动端友好的诊所体验。",
+        h1: "Beacon Dental Group 为繁忙社区提供家庭与美容牙科服务",
+        text:
+          "Beacon Dental Group 为本地家庭提供洗牙、美白、种植和急诊服务。网站介绍治疗项目、保险支持、营业时间和团队简介。患者可以阅读评价、比较服务并了解诊所团队。Beacon 本季正在招聘前台协调员和牙科洁治师。"
+      },
+      lumen: {
+        title: "Lumen Logistics | 面向快节奏团队的货运协调",
+        metaDescription:
+          "Lumen Logistics 帮助运营团队协调货运、承运商更新和异常处理，让每票货运更清晰可见。",
+        h1: "Lumen Logistics 让运营团队摆脱表格混乱完成货运协调",
+        text:
+          "Lumen Logistics 为运营团队提供路线可视化、承运商协调和每票货运的异常处理。网站说明服务覆盖范围、发运流程和运营报告。访客可以查看服务地区、平台更新，以及实施和支持岗位招聘信息。"
+      }
+    },
+    analytics: {
+      eventMetadata: {
+        basicScanOneCredit: "基础扫描，1 积分",
+        crmHubSpot: "CRM / HubSpot",
+        hubSpotMappingCta: "HubSpot 映射 CTA"
+      },
+      recommendations: {
+        toolPageCta: "工具页 CTA 点击表现不错，继续把这批用户以相同字段模板场景引导到注册流程。",
+        exportsGap: "导出量低于扫描量，下一个瓶颈很可能是资格判断信心或 CRM 交接时机。",
+        crmTemplateTraffic: "CRM 字段映射模板目前带来了最多的产品驱动流量。",
+        ctaSignupGap: "CTA 点击已经发生，但注册还没有跟上。请重新检查高意图页面的注册文案、摩擦点和套餐匹配。",
+        noScans: "账户正在进入工作空间，但还没有开始扫描。请让 onboarding 中的首次扫描路径更加明显。",
+        scanExportGap: "扫描已经发生，但导出还没有跟上。下一个瓶颈很可能是资格判断信心或 CRM 交接清晰度。",
+        topPage: "当前表现最强的页面是 __PAGE__。继续测试更清晰的 CTA，并从该页面加强内部链接。",
+        steadyFunnel: "漏斗正在运转。继续按周比较 CTA 点击、注册、扫描和导出。"
+      }
+    },
+    pipelineOwner: "Avery",
+    pipelineActorName: "示例用户",
+    pipelineNotes: "导出前优先处理首页 CTA 这个角度。"
+  },
+  ja: {
+    workspaceName: "LeadCue デモワークスペース",
+    targetIndustries: ["B2B SaaS", "地域サービス", "専門サービス"],
+    targetCountries: ["アメリカ", "イギリス", "カナダ", "オーストラリア"],
+    offerDescription:
+      "より明確な CTA、実績セクション、コンバージョン重視のページ構成によって、サイト訪問者を商談につなげやすくします。",
+    industryLabels: {
+      northstar: "B2B SaaS",
+      beacon: "地域医療",
+      lumen: "B2B サービス"
+    },
+    demoPages: {
+      northstar: {
+        title: "Northstar Analytics | 小規模財務チーム向けレポートソフトウェア",
+        metaDescription:
+          "Northstar Analytics は、既存ツールを置き換えずに、財務チームへ明確なレポート、月次取締役会資料、迅速な KPI 可視化を提供します。",
+        h1: "Northstar Analytics は成長中の財務チームにスプレッドシート整理なしのレポートを提供",
+        text:
+          "Northstar Analytics は、財務チームが既存スタックを置き換えずに週次レポート、取締役会向け更新、KPI 可視化を作れるよう支援します。ホームページでは製品、連携、ダッシュボード、財務ワークフローを説明しています。訪問者は製品ページ、料金、チーム更新を確認できます。Northstar は今四半期、カスタマーサクセスとレベニューオペレーション職を採用中です。"
+      },
+      beacon: {
+        title: "Beacon Dental Group | ファミリー歯科・審美歯科",
+        metaDescription:
+          "Beacon Dental Group は、地域の家族が予防歯科、審美歯科、修復治療を予約しやすい、モバイル対応のわかりやすいクリニック体験を提供します。",
+        h1: "Beacon Dental Group は忙しい地域の家族にファミリー歯科と審美歯科を提供",
+        text:
+          "Beacon Dental Group は地域の家族に、定期クリーニング、ホワイトニング、インプラント、緊急診療を提供しています。サイトでは治療内容、保険サポート、診療時間、チーム紹介を掲載しています。患者はレビューを読み、サービスを比較し、医院チームを確認できます。Beacon は今季、受付コーディネーターと歯科衛生士を採用中です。"
+      },
+      lumen: {
+        title: "Lumen Logistics | 速く動くチーム向け貨物調整",
+        metaDescription:
+          "Lumen Logistics は、運用チームが貨物、配送会社の更新、例外対応を調整し、各配送の可視性を高めるのを支援します。",
+        h1: "Lumen Logistics は運用チームにスプレッドシート混乱のない貨物調整を提供",
+        text:
+          "Lumen Logistics は、運用チームにルート可視化、配送会社との調整、各配送の例外対応を提供します。サイトではサービス範囲、出荷ワークフロー、運用レポートを説明しています。訪問者は対応地域、プラットフォーム更新、導入・サポート職の採用情報を確認できます。"
+      }
+    },
+    analytics: {
+      eventMetadata: {
+        basicScanOneCredit: "基本スキャン、1クレジット",
+        crmHubSpot: "CRM / HubSpot",
+        hubSpotMappingCta: "HubSpot マッピング CTA"
+      },
+      recommendations: {
+        toolPageCta:
+          "ツールページの CTA クリックは健全です。同じフィールドテンプレート文脈でサインアップへ誘導し続けてください。",
+        exportsGap:
+          "エクスポート数がスキャン数を下回っています。次のボトルネックは、適格性への確信または CRM 引き渡しのタイミングである可能性があります。",
+        crmTemplateTraffic: "CRM マッピングテンプレートが現在もっとも多くのプロダクト起点トラフィックを集めています。",
+        ctaSignupGap:
+          "CTAクリックは発生していますが、サインアップにつながっていません。高意図ページの登録コピー、摩擦、プラン適合を見直してください。",
+        noScans:
+          "アカウントはワークスペースに入っていますが、まだスキャンを実行していません。オンボーディングで最初のスキャン導線をさらに目立たせてください。",
+        scanExportGap:
+          "スキャンは発生していますが、エクスポートにつながっていません。次のボトルネックは適格性への確信または CRM 引き渡しの明確さである可能性があります。",
+        topPage:
+          "現在もっとも強いページは __PAGE__ です。そのページから、より鋭い CTA と内部リンクを引き続きテストしてください。",
+        steadyFunnel:
+          "ファネルは動いています。CTAクリック、サインアップ、スキャン、エクスポートを週次で比較し続けてください。"
+      }
+    },
+    pipelineOwner: "Avery",
+    pipelineActorName: "デモユーザー",
+    pipelineNotes: "エクスポート前にホームページ CTA の角度を優先して確認します。"
+  },
+  ko: {
+    workspaceName: "LeadCue 데모 워크스페이스",
+    targetIndustries: ["B2B SaaS", "로컬 서비스", "전문 서비스"],
+    targetCountries: ["미국", "영국", "캐나다", "호주"],
+    offerDescription:
+      "더 명확한 CTA, 신뢰 요소 섹션, 전환 중심 페이지 구조로 더 많은 웹사이트 방문자를 상담으로 전환하도록 돕습니다.",
+    industryLabels: {
+      northstar: "B2B SaaS",
+      beacon: "지역 의료",
+      lumen: "B2B 서비스"
+    },
+    demoPages: {
+      northstar: {
+        title: "Northstar Analytics | 소규모 재무팀을 위한 리포팅 소프트웨어",
+        metaDescription:
+          "Northstar Analytics는 기존 도구를 교체하지 않고도 재무팀에 더 명확한 리포트, 월간 이사회 자료, 빠른 KPI 가시성을 제공합니다.",
+        h1: "Northstar Analytics는 빠르게 움직이는 재무팀에 스프레드시트 정리 없는 리포팅을 제공합니다",
+        text:
+          "Northstar Analytics는 재무팀이 현재 스택을 교체하지 않고 주간 리포트, 이사회 업데이트, KPI 가시성을 구축하도록 돕습니다. 홈페이지는 제품, 연동, 대시보드, 재무 워크플로를 설명합니다. 방문자는 제품 페이지, 가격, 팀 업데이트를 살펴볼 수 있습니다. Northstar는 이번 분기에 고객 성공 및 수익 운영 직무를 채용 중입니다."
+      },
+      beacon: {
+        title: "Beacon Dental Group | 가족 및 미용 치과",
+        metaDescription:
+          "Beacon Dental Group은 지역 가족이 예방, 미용, 회복 치과 진료를 예약할 수 있도록 깔끔하고 모바일 친화적인 클리닉 경험을 제공합니다.",
+        h1: "Beacon Dental Group은 바쁜 지역 사회를 위한 가족 및 미용 치과 서비스를 제공합니다",
+        text:
+          "Beacon Dental Group은 지역 가족에게 정기 검진, 미백, 임플란트, 응급 진료를 제공합니다. 웹사이트는 치료 항목, 보험 지원, 진료 시간, 팀 소개를 다룹니다. 환자는 리뷰를 읽고, 서비스를 비교하고, 진료팀을 확인할 수 있습니다. Beacon은 이번 시즌 프런트 데스크 코디네이터와 치과 위생사를 채용 중입니다."
+      },
+      lumen: {
+        title: "Lumen Logistics | 빠르게 움직이는 팀을 위한 화물 조율",
+        metaDescription:
+          "Lumen Logistics는 운영팀이 화물, 운송사 업데이트, 예외 처리를 조율하고 모든 배송의 가시성을 높이도록 돕습니다.",
+        h1: "Lumen Logistics는 운영팀에 스프레드시트 혼란 없는 화물 조율을 제공합니다",
+        text:
+          "Lumen Logistics는 운영팀에 경로 가시성, 운송사 조율, 각 배송의 예외 처리를 지원합니다. 사이트는 서비스 범위, 배송 워크플로, 운영 리포팅을 설명합니다. 방문자는 서비스 지역, 플랫폼 업데이트, 구현 및 지원 직무 채용 정보를 확인할 수 있습니다."
+      }
+    },
+    analytics: {
+      eventMetadata: {
+        basicScanOneCredit: "기본 스캔, 1 크레딧",
+        crmHubSpot: "CRM / HubSpot",
+        hubSpotMappingCta: "HubSpot 매핑 CTA"
+      },
+      recommendations: {
+        toolPageCta:
+          "도구 페이지 CTA 클릭이 건강합니다. 같은 필드 템플릿 맥락으로 사용자를 가입 흐름에 계속 연결하세요.",
+        exportsGap:
+          "내보내기가 스캔보다 적습니다. 다음 병목은 자격 판단 신뢰도 또는 CRM 핸드오프 타이밍일 가능성이 큽니다.",
+        crmTemplateTraffic: "CRM 매핑 템플릿이 현재 가장 많은 제품 주도 트래픽을 끌어오고 있습니다.",
+        ctaSignupGap:
+          "CTA 클릭은 발생하지만 가입으로 이어지지 않습니다. 고의도 페이지의 가입 문구, 마찰, 플랜 적합성을 다시 확인하세요.",
+        noScans:
+          "계정은 워크스페이스에 들어오고 있지만 아직 스캔을 실행하지 않았습니다. 온보딩에서 첫 스캔 경로를 더 분명하게 만드세요.",
+        scanExportGap:
+          "스캔은 발생하지만 내보내기로 이어지지 않습니다. 다음 병목은 자격 판단 신뢰도 또는 CRM 핸드오프 명확성일 가능성이 큽니다.",
+        topPage:
+          "현재 가장 강한 페이지는 __PAGE__ 입니다. 해당 페이지에서 더 날카로운 CTA와 내부 링크를 계속 테스트하세요.",
+        steadyFunnel:
+          "퍼널은 움직이고 있습니다. CTA 클릭, 가입, 스캔, 내보내기를 매주 비교하세요."
+      }
+    },
+    pipelineOwner: "Avery",
+    pipelineActorName: "데모 사용자",
+    pipelineNotes: "내보내기 전에 홈페이지 CTA 각도를 우선 검토하세요."
+  },
+  de: {
+    workspaceName: "LeadCue Demo-Workspace",
+    targetIndustries: ["B2B SaaS", "lokale Dienstleistungen", "professionelle Dienstleistungen"],
+    targetCountries: ["Vereinigte Staaten", "Vereinigtes Königreich", "Kanada", "Australien"],
+    offerDescription:
+      "Wir helfen Unternehmen, mehr Website-Besucher mit klareren CTAs, Proof-Sektionen und conversion-orientierter Seitenstruktur in gebuchte Gespräche zu verwandeln.",
+    industryLabels: {
+      northstar: "B2B SaaS",
+      beacon: "Lokale Gesundheitsdienste",
+      lumen: "B2B-Dienstleistungen"
+    },
+    demoPages: {
+      northstar: {
+        title: "Northstar Analytics | Reporting-Software für kleine Finanzteams",
+        metaDescription:
+          "Northstar Analytics bietet Finanzteams klarere Reports, monatliche Board-Pakete und schnellere KPI-Sichtbarkeit, ohne bestehende Tools zu ersetzen.",
+        h1: "Northstar Analytics liefert schnellen Finanzteams Reporting ohne Spreadsheet-Aufräumen",
+        text:
+          "Northstar Analytics hilft Finanzteams, Wochenreports, Board-Updates und KPI-Sichtbarkeit aufzubauen, ohne den bestehenden Stack zu ersetzen. Die Homepage erklärt Produkt, Integrationen, Dashboards und Finanz-Workflows. Besucher können Produktseiten, Preise und Team-Updates ansehen. Northstar stellt in diesem Quartal Rollen in Customer Success und Revenue Operations ein."
+      },
+      beacon: {
+        title: "Beacon Dental Group | Familien- und ästhetische Zahnmedizin",
+        metaDescription:
+          "Beacon Dental Group hilft lokalen Familien, präventive, ästhetische und restaurative Zahnbehandlungen über ein klares, mobilfreundliches Praxiserlebnis zu buchen.",
+        h1: "Beacon Dental Group bietet Familien- und ästhetische Zahnmedizin für lebendige Stadtteile",
+        text:
+          "Beacon Dental Group betreut lokale Familien mit Prophylaxe, Bleaching, Implantaten und Notfallterminen. Die Website erklärt Behandlungen, Versicherungsunterstützung, Öffnungszeiten und Teamprofile. Patienten können Bewertungen lesen, Leistungen vergleichen und das Praxisteam kennenlernen. Beacon stellt in dieser Saison eine Empfangskoordination und Dentalhygiene ein."
+      },
+      lumen: {
+        title: "Lumen Logistics | Frachtkoordination für schnell arbeitende Teams",
+        metaDescription:
+          "Lumen Logistics hilft Operations-Teams, Fracht, Carrier-Updates und Ausnahmefälle zu koordinieren und jede Sendung transparenter zu verfolgen.",
+        h1: "Lumen Logistics gibt Operations-Teams Frachtkoordination ohne Tabellenchaos",
+        text:
+          "Lumen Logistics unterstützt Operations-Teams mit Routing-Transparenz, Carrier-Koordination und Ausnahmebehandlung für jede Sendung. Die Website erklärt Serviceabdeckung, Versand-Workflows und operatives Reporting. Besucher können Servicegebiete, Plattform-Updates sowie Stellen für Implementierung und Support ansehen."
+      }
+    },
+    analytics: {
+      eventMetadata: {
+        basicScanOneCredit: "Basis-Scan, 1 Credit",
+        crmHubSpot: "CRM / HubSpot",
+        hubSpotMappingCta: "HubSpot-Mapping-CTA"
+      },
+      recommendations: {
+        toolPageCta:
+          "CTA-Klicks auf Tool-Seiten sind gesund. Leiten Sie diese Nutzer mit demselben Feldtemplate-Kontext weiter in die Registrierung.",
+        exportsGap:
+          "Exporte liegen unter den Scans. Der nächste Engpass ist wahrscheinlich Qualifizierungsvertrauen oder CRM-Übergabezeitpunkt.",
+        crmTemplateTraffic: "Das CRM-Mapping-Template bringt derzeit den meisten produktgetriebenen Traffic.",
+        ctaSignupGap:
+          "CTA-Klicks finden statt, aber Registrierungen bleiben aus. Prüfen Sie Signup-Copy, Reibung und Plan-Fit auf den Seiten mit höchster Absicht.",
+        noScans:
+          "Accounts gelangen in den Workspace, führen aber noch keine Scans aus. Machen Sie den ersten Scan-Pfad im Onboarding noch deutlicher.",
+        scanExportGap:
+          "Scans kommen an, aber Exporte nicht. Der nächste Engpass ist wahrscheinlich Qualifizierungsvertrauen oder Klarheit bei der CRM-Übergabe.",
+        topPage:
+          "Die stärkste Seite ist derzeit __PAGE__. Testen Sie dort weiter eine schärfere CTA und interne Links.",
+        steadyFunnel:
+          "Der Funnel bewegt sich. Vergleichen Sie CTA-Klicks, Registrierungen, Scans und Exporte weiter Woche für Woche."
+      }
+    },
+    pipelineOwner: "Avery",
+    pipelineActorName: "Demo-Nutzer",
+    pipelineNotes: "Vor dem Export zuerst den CTA-Winkel der Homepage priorisieren."
+  },
+  nl: {
+    workspaceName: "LeadCue demo-workspace",
+    targetIndustries: ["B2B SaaS", "lokale diensten", "professionele diensten"],
+    targetCountries: ["Verenigde Staten", "Verenigd Koninkrijk", "Canada", "Australië"],
+    offerDescription:
+      "We helpen bedrijven meer websitebezoekers om te zetten in geboekte gesprekken met duidelijkere CTA's, bewijsblokken en een conversiegerichte paginastructuur.",
+    industryLabels: {
+      northstar: "B2B SaaS",
+      beacon: "Lokale zorg",
+      lumen: "B2B-diensten"
+    },
+    demoPages: {
+      northstar: {
+        title: "Northstar Analytics | Rapportagesoftware voor kleine finance-teams",
+        metaDescription:
+          "Northstar Analytics geeft finance-teams duidelijkere rapportages, maandelijkse board packs en snellere KPI-zichtbaarheid zonder bestaande tools te vervangen.",
+        h1: "Northstar Analytics geeft snelle finance-teams rapportage zonder spreadsheet-opruimwerk",
+        text:
+          "Northstar Analytics helpt finance-teams wekelijkse rapportages, board updates en KPI-zichtbaarheid te bouwen zonder hun huidige stack te vervangen. De homepage legt het product, integraties, dashboards en finance-workflows uit. Bezoekers kunnen productpagina's, prijzen en teamupdates bekijken. Northstar werft dit kwartaal voor customer success en revenue operations."
+      },
+      beacon: {
+        title: "Beacon Dental Group | Familie- en cosmetische tandzorg",
+        metaDescription:
+          "Beacon Dental Group helpt lokale gezinnen preventieve, cosmetische en herstellende tandzorg te boeken via een heldere, mobielvriendelijke praktijkervaring.",
+        h1: "Beacon Dental Group biedt familie- en cosmetische tandzorg voor drukke buurten",
+        text:
+          "Beacon Dental Group bedient lokale gezinnen met controles, whitening, implantaten en spoedafspraken. De website behandelt behandelingen, verzekeringshulp, openingstijden en teamprofielen. Patiënten kunnen reviews lezen, diensten vergelijken en het praktijkteam leren kennen. Beacon werft dit seizoen een frontdeskcoördinator en mondhygiënist."
+      },
+      lumen: {
+        title: "Lumen Logistics | Vrachtcoördinatie voor snel bewegende teams",
+        metaDescription:
+          "Lumen Logistics helpt operations-teams vracht, carrier-updates en uitzonderingen coördineren met duidelijkere zichtbaarheid per zending.",
+        h1: "Lumen Logistics geeft operations-teams vrachtcoördinatie zonder spreadsheetchaos",
+        text:
+          "Lumen Logistics ondersteunt operations-teams met routezichtbaarheid, carriercoördinatie en uitzonderingsafhandeling voor elke zending. De site legt servicedekking, verzendworkflows en operationele rapportage uit. Bezoekers kunnen regio's, platformupdates en vacatures voor implementatie en support bekijken."
+      }
+    },
+    analytics: {
+      eventMetadata: {
+        basicScanOneCredit: "basisscan, 1 credit",
+        crmHubSpot: "CRM / HubSpot",
+        hubSpotMappingCta: "HubSpot-mapping CTA"
+      },
+      recommendations: {
+        toolPageCta:
+          "CTA-klikken op toolpagina's zijn gezond. Blijf deze gebruikers met dezelfde veldtemplate-context naar signup leiden.",
+        exportsGap:
+          "Exports blijven achter bij scans. De volgende bottleneck is waarschijnlijk kwalificatievertrouwen of timing van CRM-overdracht.",
+        crmTemplateTraffic: "De CRM-mappingtemplate trekt momenteel het meeste productgedreven verkeer.",
+        ctaSignupGap:
+          "CTA-klikken gebeuren, maar signups blijven achter. Controleer signupcopy, frictie en planfit op de pagina's met de hoogste intentie.",
+        noScans:
+          "Accounts komen de werkruimte binnen, maar voeren nog geen scans uit. Maak het eerste scanpad in onboarding nog duidelijker.",
+        scanExportGap:
+          "Scans komen binnen, maar exports niet. De volgende bottleneck is waarschijnlijk kwalificatievertrouwen of duidelijkheid bij CRM-overdracht.",
+        topPage:
+          "De sterkste pagina is nu __PAGE__. Blijf op die pagina een scherpere CTA en interne links testen.",
+        steadyFunnel:
+          "De funnel beweegt. Blijf CTA-klikken, signups, scans en exports week op week vergelijken."
+      }
+    },
+    pipelineOwner: "Avery",
+    pipelineActorName: "Demo-gebruiker",
+    pipelineNotes: "Geef de homepage-CTA-hoek prioriteit voordat je exporteert."
+  },
+  fr: {
+    workspaceName: "Workspace démo LeadCue",
+    targetIndustries: ["B2B SaaS", "services locaux", "services professionnels"],
+    targetCountries: ["États-Unis", "Royaume-Uni", "Canada", "Australie"],
+    offerDescription:
+      "Nous aidons les entreprises à convertir davantage de visiteurs du site en rendez-vous grâce à des CTA plus clairs, des sections de preuve et une structure de page orientée conversion.",
+    industryLabels: {
+      northstar: "B2B SaaS",
+      beacon: "Santé locale",
+      lumen: "Services B2B"
+    },
+    demoPages: {
+      northstar: {
+        title: "Northstar Analytics | Logiciel de reporting pour petites équipes finance",
+        metaDescription:
+          "Northstar Analytics offre aux équipes finance des rapports plus clairs, des packs board mensuels et une visibilité KPI plus rapide sans remplacer leurs outils.",
+        h1: "Northstar Analytics aide les équipes finance rapides à produire des rapports sans nettoyer des tableurs",
+        text:
+          "Northstar Analytics aide les équipes finance à créer des rapports hebdomadaires, des mises à jour board et une visibilité KPI sans remplacer leur stack actuel. La page d'accueil explique le produit, les intégrations, les tableaux de bord et les workflows finance. Les visiteurs peuvent explorer les pages produit, les tarifs et les actualités d'équipe. Northstar recrute ce trimestre en customer success et revenue operations."
+      },
+      beacon: {
+        title: "Beacon Dental Group | Dentisterie familiale et esthétique",
+        metaDescription:
+          "Beacon Dental Group aide les familles locales à réserver des soins dentaires préventifs, esthétiques et restaurateurs avec une expérience claire et mobile.",
+        h1: "Beacon Dental Group propose une dentisterie familiale et esthétique pour les quartiers actifs",
+        text:
+          "Beacon Dental Group accompagne les familles locales avec des nettoyages préventifs, du blanchiment, des implants et des urgences. Le site couvre les soins, l'aide à l'assurance, les horaires et les biographies de l'équipe. Les patients peuvent lire les avis, comparer les services et découvrir l'équipe. Beacon recrute cette saison un coordinateur d'accueil et un hygiéniste dentaire."
+      },
+      lumen: {
+        title: "Lumen Logistics | Coordination fret pour équipes rapides",
+        metaDescription:
+          "Lumen Logistics aide les équipes opérations à coordonner le fret, les mises à jour transporteurs et les exceptions avec une meilleure visibilité sur chaque expédition.",
+        h1: "Lumen Logistics donne aux équipes opérations une coordination fret sans chaos de tableurs",
+        text:
+          "Lumen Logistics soutient les équipes opérations avec visibilité de routage, coordination transporteurs et gestion des exceptions pour chaque expédition. Le site explique la couverture de service, les workflows d'expédition et le reporting opérationnel. Les visiteurs peuvent consulter les régions couvertes, les mises à jour plateforme et les postes d'implémentation et support."
+      }
+    },
+    analytics: {
+      eventMetadata: {
+        basicScanOneCredit: "scan basique, 1 crédit",
+        crmHubSpot: "CRM / HubSpot",
+        hubSpotMappingCta: "CTA mapping HubSpot"
+      },
+      recommendations: {
+        toolPageCta:
+          "Les clics CTA des pages outil sont sains. Continuez à guider ces utilisateurs vers l'inscription avec le même contexte de modèle de champs.",
+        exportsGap:
+          "Les exports sont inférieurs aux scans. Le prochain blocage concerne probablement la confiance de qualification ou le timing du transfert CRM.",
+        crmTemplateTraffic: "Le modèle de mapping CRM génère actuellement le plus de trafic product-led.",
+        ctaSignupGap:
+          "Les clics CTA arrivent, mais pas les inscriptions. Revoyez le texte d'inscription, la friction et l'adéquation du plan sur les pages les plus intentionnelles.",
+        noScans:
+          "Des comptes entrent dans le workspace mais ne lancent pas encore de scans. Rendez le chemin du premier scan encore plus évident dans l'onboarding.",
+        scanExportGap:
+          "Les scans arrivent, mais pas les exports. Le prochain blocage concerne probablement la confiance de qualification ou la clarté du transfert CRM.",
+        topPage:
+          "La page la plus forte en ce moment est __PAGE__. Continuez à tester un CTA plus précis et des liens internes depuis cette page.",
+        steadyFunnel:
+          "Le funnel avance. Continuez à comparer les clics CTA, inscriptions, scans et exports semaine après semaine."
+      }
+    },
+    pipelineOwner: "Avery",
+    pipelineActorName: "Utilisateur démo",
+    pipelineNotes: "Priorisez l'angle CTA de la page d'accueil avant l'export."
+  }
+};
+
+function resolveRuleBasedCopy(locale?: ScanLocale): RuleBasedProspectCopy {
+  return locale ? ruleBasedProspectCopy[locale] ?? ruleBasedProspectCopy.en : ruleBasedProspectCopy.en;
+}
+
+export function getSampleLocaleContent(locale: ScanLocale = "en"): SampleLocaleContent {
+  return sampleLocaleContentByLocale[locale] ?? sampleLocaleContentByLocale.en;
+}
+
+function lowerSentenceStart(value: string): string {
+  if (!value) {
+    return value;
+  }
+
+  return `${value.charAt(0).toLowerCase()}${value.slice(1)}`;
+}
 
 export function unique<T>(items: T[]): T[] {
   return [...new Set(items.filter(Boolean))];
@@ -126,8 +1073,10 @@ export function inferCompanyName(page: PageSnapshot): string {
 
 export function detectOpportunitySignals(
   page: PageSnapshot,
-  icp: ICPProfile = DEFAULT_ICP
+  icp: ICPProfile = DEFAULT_ICP,
+  locale: ScanLocale = "en"
 ): OpportunitySignal[] {
+  const copy = resolveRuleBasedCopy(locale);
   const text = normalizeWhitespace(`${page.title} ${page.metaDescription ?? ""} ${page.h1 ?? ""} ${page.text}`);
   const lower = text.toLowerCase();
   const links = page.links.join(" ").toLowerCase();
@@ -136,54 +1085,42 @@ export function detectOpportunitySignals(
   if (!/(book|demo|contact|call|quote|get started|schedule|consultation)/i.test(page.text.slice(0, 2200))) {
     signals.push({
       category: "web_design",
-      signal: "No clear conversion CTA appears early on the page.",
-      reason: "LeadCue did not find common booking or demo CTA language in the first screen worth of extracted copy.",
-      source: "homepage"
+      ...copy.signals.noCta
     });
   }
 
   if (!page.metaDescription || page.metaDescription.length < 70) {
     signals.push({
       category: "seo",
-      signal: "Meta description is missing or thin.",
-      reason: "The homepage metadata may not explain the offer strongly enough for search snippets.",
-      source: "meta description"
+      ...copy.signals.metaDescriptionThin
     });
   }
 
   if (!page.h1 || page.h1.length < 8) {
     signals.push({
       category: "seo",
-      signal: "Homepage H1 is unclear or unavailable.",
-      reason: "A weak H1 can make the page harder for visitors and search engines to understand quickly.",
-      source: "homepage h1"
+      ...copy.signals.h1Weak
     });
   }
 
   if (!/(case stud|customer|testimonial|review|proof|results)/i.test(text + links)) {
     signals.push({
       category: "marketing",
-      signal: "No obvious proof section or case study path was found.",
-      reason: "Prospects with limited proof can be good fits for conversion-focused website or content work.",
-      source: "navigation scan"
+      ...copy.signals.noProof
     });
   }
 
   if (!/(blog|resources|insights)/i.test(links)) {
     signals.push({
       category: "seo",
-      signal: "No blog or resources path was visible in the scanned links.",
-      reason: "This can indicate limited content marketing surface area or a navigation gap.",
-      source: "navigation scan"
+      ...copy.signals.noBlog
     });
   }
 
   if (/(hiring|careers|growth|marketing manager|sales manager|demand generation)/i.test(lower + links)) {
     signals.push({
       category: "timing",
-      signal: "Hiring or growth language appears on the website.",
-      reason: "Growth-related hiring can create timing for website, SEO, or conversion support.",
-      source: "homepage/navigation scan"
+      ...copy.signals.growthHiring
     });
   }
 
@@ -196,14 +1133,15 @@ export function detectOpportunitySignals(
 export function buildRuleBasedProspectCard(request: ScanRequest): ProspectCard {
   const icp = { ...DEFAULT_ICP, ...request.icp };
   const page = request.page;
+  const copy = resolveRuleBasedCopy(request.locale);
   const domain = extractDomain(page.url);
   const contactPoints = classifyContactPoints(page);
-  const signals = detectOpportunitySignals(page, icp);
+  const signals = detectOpportunitySignals(page, icp, request.locale);
   const companyName = inferCompanyName(page);
   const topSignal = signals[0];
-  const firstLine =
-    topSignal?.signal ??
-    "I noticed your website has useful company information, but the path to the next step could be clearer for new visitors.";
+  const firstLine = topSignal?.signal ?? copy.fallbackSignal;
+  const normalizedFirstLine = lowerSentenceStart(firstLine);
+  const serviceTypeLabel = copy.serviceTypes[icp.serviceType] ?? icp.serviceType.replace("_", " ");
 
   const fitScore = Math.min(92, Math.max(58, 72 + signals.length * 4));
 
@@ -211,23 +1149,23 @@ export function buildRuleBasedProspectCard(request: ScanRequest): ProspectCard {
     companyName,
     website: page.url,
     domain,
-    industry: "unknown",
-    summary: `${companyName} appears to be a company website with enough public information for website-based prospect research.`,
+    industry: copy.unknownIndustry,
+    summary: copy.summary(companyName),
     fitScore,
-    fitReason: `The site shows ${signals.length || "some"} website signals that can support a ${icp.serviceType.replace("_", " ")} outreach angle.`,
+    fitReason: copy.fitReason(signals.length, serviceTypeLabel),
     contactPoints,
     opportunitySignals: signals,
     outreachAngles: [
-      `Position the offer around fixing "${topSignal?.signal ?? "the unclear conversion path"}" with a short website improvement sprint.`,
-      "Lead with a source-backed observation instead of a generic compliment.",
-      "Offer to send 2-3 quick website ideas before pitching a full project."
+      copy.outreachAngle1(topSignal?.signal ?? copy.fallbackSignal),
+      copy.outreachAngle2,
+      copy.outreachAngle3
     ],
     firstLines: [
-      `I noticed ${companyName} has useful website content, but ${firstLine.charAt(0).toLowerCase()}${firstLine.slice(1)}`,
-      `Your site gives visitors a starting point, but the strongest next step could be easier to spot from the homepage.`,
-      `I was looking at ${domain} and noticed a few website signals that could be turned into a clearer conversion path.`
+      copy.firstLine1(companyName, normalizedFirstLine),
+      copy.firstLine2,
+      copy.firstLine3(domain)
     ],
-    shortEmail: `Hi there,\n\nI noticed ${companyName} has useful website content, but ${firstLine.charAt(0).toLowerCase()}${firstLine.slice(1)}\n\nWe help teams improve website conversion with clearer CTAs, proof sections, and page structure.\n\nWorth sending over a few quick ideas?`,
+    shortEmail: copy.shortEmail(companyName, normalizedFirstLine),
     sourceNotes: signals.map((signal) => ({
       claim: signal.signal,
       source: signal.source
@@ -238,59 +1176,56 @@ export function buildRuleBasedProspectCard(request: ScanRequest): ProspectCard {
   };
 }
 
-export const SAMPLE_PROSPECT_CARD: ProspectCard = {
-  companyName: "Northstar Analytics",
-  website: "https://northstaranalytics.example",
-  domain: "northstaranalytics.example",
-  industry: "B2B SaaS",
-  summary: "Northstar Analytics sells reporting software for small finance teams.",
-  fitScore: 86,
-  fitReason:
-    "The website shows conversion and proof gaps that are relevant to a web design or marketing agency offer.",
-  contactPoints: {
-    emails: ["hello@northstaranalytics.example"],
-    phones: [],
-    contactPages: ["https://northstaranalytics.example/contact"],
-    socialLinks: ["https://www.linkedin.com/company/northstar-analytics"]
-  },
-  opportunitySignals: [
-    {
-      category: "web_design",
-      signal: "Demo CTA is not visible above the fold.",
-      reason: "The homepage explains the product, but the strongest conversion action appears late.",
-      source: "homepage"
+export function buildSampleProspectCard(locale: ScanLocale = "en"): ProspectCard {
+  const sampleContent = getSampleLocaleContent(locale);
+  const samplePage = sampleContent.demoPages.northstar;
+  const base = buildRuleBasedProspectCard({
+    source: "web",
+    locale,
+    page: {
+      url: "https://northstaranalytics.example",
+      title: samplePage.title,
+      metaDescription: samplePage.metaDescription,
+      h1: samplePage.h1,
+      text: samplePage.text,
+      links: [
+        "https://northstaranalytics.example",
+        "https://northstaranalytics.example/product",
+        "https://northstaranalytics.example/pricing",
+        "https://northstaranalytics.example/blog",
+        "https://northstaranalytics.example/careers",
+        "https://northstaranalytics.example/contact",
+        "https://www.linkedin.com/company/northstar-analytics"
+      ],
+      emails: ["hello@northstaranalytics.example"],
+      phones: []
     },
-    {
-      category: "seo",
-      signal: "Blog appears inactive.",
-      reason: "The latest visible article is older than one year in the example scan.",
-      source: "/blog"
-    },
-    {
-      category: "marketing",
-      signal: "No case studies are visible in the main navigation.",
-      reason: "Finance buyers often need proof before booking a demo.",
-      source: "navigation scan"
+    icp: {
+      serviceType: "web_design",
+      targetIndustries: sampleContent.targetIndustries,
+      targetCountries: sampleContent.targetCountries,
+      offerDescription: sampleContent.offerDescription,
+      tone: "professional"
     }
-  ],
-  outreachAngles: [
-    "Offer a conversion-focused homepage refresh that makes the demo path clearer.",
-    "Suggest adding proof for finance buyers before the primary CTA.",
-    "Package the first touch as a short website teardown rather than a full redesign pitch."
-  ],
-  firstLines: [
-    "I noticed Northstar makes the reporting use case clear, but finance buyers do not see proof or a demo path until after the first scroll.",
-    "Your homepage explains the product well; the next lift may be showing finance buyers proof and a clear demo path earlier.",
-    "I saw a clear product story, but no obvious case-study path in the main navigation for buyers who need proof first."
-  ],
-  shortEmail:
-    "Hi Alex,\n\nI noticed Northstar makes the reporting use case clear, but finance buyers do not see proof or a demo path until after the first scroll. That can cost booked demos from visitors who already understand the product.\n\nI found three quick fixes for the hero CTA, proof block, and case-study path. Want me to send them over?",
-  sourceNotes: [
-    { claim: "Demo CTA visibility", source: "homepage" },
-    { claim: "Inactive blog", source: "/blog" },
-    { claim: "No case studies in nav", source: "navigation scan" }
-  ],
-  confidenceScore: 0.82,
-  savedStatus: "saved",
-  exportStatus: "not_exported"
-};
+  });
+
+  return {
+    ...base,
+    companyName: "Northstar Analytics",
+    website: "https://northstaranalytics.example",
+    domain: "northstaranalytics.example",
+    industry: sampleContent.industryLabels.northstar,
+    contactPoints: {
+      emails: ["hello@northstaranalytics.example"],
+      phones: [],
+      contactPages: ["https://northstaranalytics.example/contact"],
+      socialLinks: ["https://www.linkedin.com/company/northstar-analytics"]
+    },
+    fitScore: 86,
+    confidenceScore: 0.82,
+    savedStatus: "saved",
+    exportStatus: "not_exported"
+  };
+}
+
+export const SAMPLE_PROSPECT_CARD: ProspectCard = buildSampleProspectCard("en");

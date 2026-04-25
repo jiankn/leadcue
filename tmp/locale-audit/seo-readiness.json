@@ -1,0 +1,363 @@
+{
+  "siteUrl": "https://leadcue.app",
+  "verificationEntries": [],
+  "ogImages": {
+    "expected": 154,
+    "missing": []
+  },
+  "robotsCoverage": [
+    {
+      "pathname": "/app",
+      "inRobots": true,
+      "inHeaders": true
+    },
+    {
+      "pathname": "/login",
+      "inRobots": true,
+      "inHeaders": true
+    },
+    {
+      "pathname": "/signup",
+      "inRobots": true,
+      "inHeaders": true
+    },
+    {
+      "pathname": "/reset-password",
+      "inRobots": true,
+      "inHeaders": true
+    },
+    {
+      "pathname": "/zh/app",
+      "inRobots": true,
+      "inHeaders": true
+    },
+    {
+      "pathname": "/zh/login",
+      "inRobots": true,
+      "inHeaders": true
+    },
+    {
+      "pathname": "/zh/signup",
+      "inRobots": true,
+      "inHeaders": true
+    },
+    {
+      "pathname": "/zh/reset-password",
+      "inRobots": true,
+      "inHeaders": true
+    },
+    {
+      "pathname": "/ja/app",
+      "inRobots": true,
+      "inHeaders": true
+    },
+    {
+      "pathname": "/ja/login",
+      "inRobots": true,
+      "inHeaders": true
+    },
+    {
+      "pathname": "/ja/signup",
+      "inRobots": true,
+      "inHeaders": true
+    },
+    {
+      "pathname": "/ja/reset-password",
+      "inRobots": true,
+      "inHeaders": true
+    },
+    {
+      "pathname": "/ko/app",
+      "inRobots": true,
+      "inHeaders": true
+    },
+    {
+      "pathname": "/ko/login",
+      "inRobots": true,
+      "inHeaders": true
+    },
+    {
+      "pathname": "/ko/signup",
+      "inRobots": true,
+      "inHeaders": true
+    },
+    {
+      "pathname": "/ko/reset-password",
+      "inRobots": true,
+      "inHeaders": true
+    },
+    {
+      "pathname": "/de/app",
+      "inRobots": true,
+      "inHeaders": true
+    },
+    {
+      "pathname": "/de/login",
+      "inRobots": true,
+      "inHeaders": true
+    },
+    {
+      "pathname": "/de/signup",
+      "inRobots": true,
+      "inHeaders": true
+    },
+    {
+      "pathname": "/de/reset-password",
+      "inRobots": true,
+      "inHeaders": true
+    },
+    {
+      "pathname": "/nl/app",
+      "inRobots": true,
+      "inHeaders": true
+    },
+    {
+      "pathname": "/nl/login",
+      "inRobots": true,
+      "inHeaders": true
+    },
+    {
+      "pathname": "/nl/signup",
+      "inRobots": true,
+      "inHeaders": true
+    },
+    {
+      "pathname": "/nl/reset-password",
+      "inRobots": true,
+      "inHeaders": true
+    },
+    {
+      "pathname": "/fr/app",
+      "inRobots": true,
+      "inHeaders": true
+    },
+    {
+      "pathname": "/fr/login",
+      "inRobots": true,
+      "inHeaders": true
+    },
+    {
+      "pathname": "/fr/signup",
+      "inRobots": true,
+      "inHeaders": true
+    },
+    {
+      "pathname": "/fr/reset-password",
+      "inRobots": true,
+      "inHeaders": true
+    }
+  ],
+  "sitemapHasXDefault": true,
+  "keywordMatrix": {
+    "en": {
+      "home": {
+        "primaryKeyword": "website prospecting software",
+        "secondaryKeywords": [
+          "prospect research tool",
+          "agency outbound software",
+          "website prospecting assistant"
+        ]
+      },
+      "sampleSeo": [
+        {
+          "title": "Website prospecting: turn company pages into qualified outbound accounts",
+          "keyword": "website prospecting"
+        },
+        {
+          "title": "How to choose a prospect research tool for agency outbound",
+          "keyword": "prospect research tool for agencies"
+        }
+      ],
+      "sampleProduct": [
+        {
+          "title": "CRM CSV field mapping for prospect research",
+          "keyword": "CRM CSV field mapping"
+        },
+        {
+          "title": "Cold email first line templates from website signals",
+          "keyword": "cold email first line template"
+        }
+      ]
+    },
+    "zh": {
+      "home": {
+        "primaryKeyword": "网站潜客研究工具",
+        "secondaryKeywords": [
+          "潜客研究软件",
+          "代理机构外联软件",
+          "网站线索评分工具"
+        ]
+      },
+      "sampleSeo": [
+        {
+          "title": "网站潜客研究：把企业页面变成高质量外联目标",
+          "keyword": "网站勘探"
+        },
+        {
+          "title": "代理机构如何选择潜客研究工具",
+          "keyword": "机构潜客研究工具"
+        }
+      ],
+      "sampleProduct": [
+        {
+          "title": "用于潜客研究的 CRM CSV 字段映射",
+          "keyword": "CRM CSV 字段映射"
+        },
+        {
+          "title": "基于网站信号的冷邮件开场句模板",
+          "keyword": "冷电子邮件第一行模板"
+        }
+      ]
+    },
+    "ja": {
+      "home": {
+        "primaryKeyword": "Webサイト見込み客調査ツール",
+        "secondaryKeywords": [
+          "営業リサーチツール",
+          "代理店向けアウトバウンド支援",
+          "Webサイトプロスペクティング"
+        ]
+      },
+      "sampleSeo": [
+        {
+          "title": "Webサイト調査で企業ページを優先アカウントに変える",
+          "keyword": "Webサイトの調査"
+        },
+        {
+          "title": "代理店アウトバウンド向けの見込み客調査ツールの選び方",
+          "keyword": "代理店向けの見込み客調査ツール"
+        }
+      ],
+      "sampleProduct": [
+        {
+          "title": "見込み顧客調査のための CRM CSV フィールド マッピング",
+          "keyword": "CRM CSV フィールド マッピング"
+        },
+        {
+          "title": "Webサイトのシグナルから作るコールドメール冒頭文テンプレート",
+          "keyword": "コールドメールの冒頭文テンプレート"
+        }
+      ]
+    },
+    "ko": {
+      "home": {
+        "primaryKeyword": "웹사이트 잠재고객 조사 도구",
+        "secondaryKeywords": [
+          "리드 리서치 소프트웨어",
+          "에이전시 아웃바운드 도구",
+          "웹사이트 적합도 평가"
+        ]
+      },
+      "sampleSeo": [
+        {
+          "title": "웹사이트 리서치로 회사 페이지를 우선순위 아웃바운드 계정으로 전환",
+          "keyword": "웹사이트 발굴"
+        },
+        {
+          "title": "대행사 아웃바운드를 위한 잠재 고객 조사 도구를 선택하는 방법",
+          "keyword": "대행사를 위한 잠재 고객 조사 도구"
+        }
+      ],
+      "sampleProduct": [
+        {
+          "title": "잠재 고객 조사를 위한 CRM CSV 필드 매핑",
+          "keyword": "CRM CSV 필드 매핑"
+        },
+        {
+          "title": "웹사이트 신호로 만드는 콜드 이메일 첫 문장 템플릿",
+          "keyword": "콜드 이메일 첫 문장 템플릿"
+        }
+      ]
+    },
+    "de": {
+      "home": {
+        "primaryKeyword": "Website-Prospecting-Tool",
+        "secondaryKeywords": [
+          "Tool für Vertriebsrecherche",
+          "Outbound-Software für Agenturen",
+          "Website-Signale für Leads"
+        ]
+      },
+      "sampleSeo": [
+        {
+          "title": "Website-Prospecting: Unternehmensseiten in qualifizierte Prospects verwandeln",
+          "keyword": "Website-Prospecting"
+        },
+        {
+          "title": "So wählen Agenturen ein Tool für Prospect Research im Outbound",
+          "keyword": "Interessentenrecherchetool für Agenturen"
+        }
+      ],
+      "sampleProduct": [
+        {
+          "title": "CRM-CSV-Feldzuordnung für Prospect Research",
+          "keyword": "CRM CSV-Feldzuordnung"
+        },
+        {
+          "title": "Cold-Email-Erstzeilen-Vorlagen aus Website-Signalen",
+          "keyword": "Vorlage für die erste Zeile einer kalten E-Mail"
+        }
+      ]
+    },
+    "nl": {
+      "home": {
+        "primaryKeyword": "website prospecting tool",
+        "secondaryKeywords": [
+          "prospect research tool",
+          "outbound software voor bureaus",
+          "website signalen voor leads"
+        ]
+      },
+      "sampleSeo": [
+        {
+          "title": "Websiteprospectie: verander bedrijfspagina's in gekwalificeerde prospects",
+          "keyword": "website-prospectie"
+        },
+        {
+          "title": "Hoe bureaus een tool voor prospectonderzoek kiezen",
+          "keyword": "prospectonderzoeksinstrument voor bureaus"
+        }
+      ],
+      "sampleProduct": [
+        {
+          "title": "CRM CSV-veldmapping voor prospectonderzoek",
+          "keyword": "CRM CSV-veldtoewijzing"
+        },
+        {
+          "title": "Templates voor eerste zinnen van koude e-mails op basis van websitesignalen",
+          "keyword": "eerstelijnssjabloon voor koude e-mail"
+        }
+      ]
+    },
+    "fr": {
+      "home": {
+        "primaryKeyword": "outil de prospection de site web",
+        "secondaryKeywords": [
+          "outil de recherche de prospects",
+          "logiciel outbound pour agence",
+          "signaux de site web pour leads"
+        ]
+      },
+      "sampleSeo": [
+        {
+          "title": "Prospection web : transformez les pages d'entreprise en prospects qualifiés",
+          "keyword": "prospection du site internet"
+        },
+        {
+          "title": "Comment choisir un outil de recherche de prospects pour une agence",
+          "keyword": "outil de recherche de prospects pour les agences"
+        }
+      ],
+      "sampleProduct": [
+        {
+          "title": "Mapping des champs CRM CSV pour la recherche de prospects",
+          "keyword": "Mappage des champs CSV CRM"
+        },
+        {
+          "title": "Modèles de premières lignes d’e-mails à froid à partir de signaux web",
+          "keyword": "modèle de première ligne d'e-mail froid"
+        }
+      ]
+    }
+  }
+}

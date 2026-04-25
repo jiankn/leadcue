@@ -2,6 +2,9 @@ export type ServiceType = "seo" | "web_design" | "marketing" | "custom";
 
 export type Tone = "direct" | "casual" | "professional";
 
+export const supportedScanLocales = ["en", "zh", "ja", "ko", "de", "nl", "fr"] as const;
+export type ScanLocale = (typeof supportedScanLocales)[number];
+
 export interface ICPProfile {
   serviceType: ServiceType;
   targetIndustries: string[];
@@ -93,6 +96,7 @@ export interface ProspectPipelineActivity {
 
 export interface ScanRequest {
   source: "extension" | "web" | "api";
+  locale?: ScanLocale;
   page: PageSnapshot;
   icp?: Partial<ICPProfile>;
   deepScan?: boolean;

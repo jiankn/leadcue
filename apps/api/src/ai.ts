@@ -152,7 +152,8 @@ export async function generateProspectCard(env: Env, request: ScanRequest): Prom
   const messages = buildProspectCardMessages({
     icp,
     website: request.page,
-    contactPoints
+    contactPoints,
+    locale: request.locale
   });
 
   if (env.GOOGLE_API_KEY) {

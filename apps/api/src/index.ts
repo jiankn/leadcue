@@ -4,10 +4,13 @@ import {
   DEFAULT_ICP,
   PRICING_PLANS,
   SAMPLE_PROSPECT_CARD,
+  buildSampleProspectCard,
   buildProspectExportCsv,
   extractDomain,
+  getSampleLocaleContent,
   isProspectCrmFieldMode,
   isProspectExportPresetKey,
+  supportedScanLocales,
   type ProspectContextUpdateRequest,
   type IcpUpdateRequest,
   type LeadListItem,
@@ -19,6 +22,7 @@ import {
   type ScanFailureReason,
   type ScanFailureResponse,
   type ScanHistoryItem,
+  type ScanLocale,
   type ScanRequest,
   type ScanResponse
 } from "@leadcue/shared";
@@ -204,6 +208,63 @@ app.post("/api/auth/logout", async (c) => {
 
   clearSessionCookie(c);
   return c.json({ ok: true });
+});
+
+app.get("/api/extension/session", async (c) => {
+  const baseUrl = appUrl(c.env);
+  const links = {
+    appUrl: baseUrl,
+    dashboardUrl: `${baseUrl}/app`,
+    loginUrl: `${baseUrl}/login`,
+    signupUrl: `${baseUrl}/signup?plan=free`,
+    billingUrl: `${baseUrl}/app/billing`,
+    supportUrl: `${baseUrl}/support`
+  };
+
+  if (!c.env.DB) {
+    return c.json({
+      authenticated: false,
+      available: false,
+      reason: "database_unavailable",
+      ...links
+    });
+  }
+
+  const session = await getAuthenticatedSession(c);
+  if (!session?.workspace_id) {
+    return c.json({
+      authenticated: false,
+      available: true,
+      reason: "sign_in_required",
+      ...links
+    });
+  }
+
+  const snapshot = await getWorkspaceSnapshot(c.env.DB, session.workspace_id);
+  if (!snapshot) {
+    return c.json({
+      authenticated: false,
+      available: true,
+      reason: "workspace_not_found",
+      ...links
+    });
+  }
+
+  return c.json({
+    authenticated: true,
+    available: true,
+    user: {
+      id: session.user_id,
+      email: session.email,
+      name: session.name
+    },
+    workspace: snapshot.workspace,
+    onboarding: snapshot.onboarding,
+    plan: snapshot.plan,
+    subscription: snapshot.subscription,
+    credits: snapshot.credits,
+    ...links
+  });
 });
 
 app.post("/api/auth/email/login", async (c) => {
@@ -666,9 +727,10 @@ app.post("/api/signup-intents", async (c) => {
 
 app.get("/api/workspace", async (c) => {
   const workspaceId = await resolveWorkspaceId(c);
+  const locale = resolveApiLocale(c);
 
   if (!c.env.DB) {
-    return c.json(sampleWorkspaceSnapshot(workspaceId));
+    return c.json(sampleWorkspaceSnapshot(workspaceId, locale));
   }
 
   try {
@@ -685,7 +747,7 @@ app.get("/api/workspace", async (c) => {
   } catch (error) {
     console.error("workspace_snapshot_failed", error);
     return c.json({
-      ...sampleWorkspaceSnapshot(workspaceId),
+      ...sampleWorkspaceSnapshot(workspaceId, locale),
       warning: "D1 is not initialized. Apply migrations to enable workspace persistence."
     });
   }
@@ -721,6 +783,7 @@ app.post("/api/workspace/onboarding/complete", async (c) => {
 
 app.patch("/api/workspace/icp", async (c) => {
   const workspaceId = await resolveWorkspaceId(c);
+  const locale = resolveApiLocale(c);
   const body = (await c.req.json<IcpUpdateRequest>().catch(() => null)) as IcpUpdateRequest | null;
 
   if (!body) {
@@ -742,7 +805,7 @@ app.patch("/api/workspace/icp", async (c) => {
     return c.json({
       ok: true,
       setup: {
-        ...sampleWorkspaceSnapshot(workspaceId).setup,
+        ...sampleWorkspaceSnapshot(workspaceId, locale).setup,
         serviceType,
         agencyFocus: serviceType,
         targetIndustries,
@@ -840,8 +903,10 @@ app.post("/api/billing/portal", async (c) => {
 });
 
 app.get("/api/analytics/summary", async (c) => {
+  const locale = resolveApiLocale(c);
+
   if (!c.env.DB) {
-    return c.json(sampleAnalyticsSummary());
+    return c.json(sampleAnalyticsSummary(locale));
   }
 
   const workspaceId = await resolveWorkspaceId(c);
@@ -894,14 +959,17 @@ app.get("/api/analytics/summary", async (c) => {
       (eventCounts.auth_signup_cta_click || 0);
     const signupsCompleted = (eventCounts.auth_signup_completed || 0) + (eventCounts.workspace_signup_session_opened || 0);
     const loginsCompleted = (eventCounts.auth_login_email_success || 0) + (eventCounts.auth_login_session_opened || 0);
-    const recommendations = buildAnalyticsRecommendations({
-      ctaClicks,
-      signupsCompleted,
-      loginsCompleted,
-      scansCompleted: completedScans,
-      exportsCompleted,
-      topPage: pageRows.results[0]?.path || null
-    });
+    const recommendations = buildAnalyticsRecommendations(
+      {
+        ctaClicks,
+        signupsCompleted,
+        loginsCompleted,
+        scansCompleted: completedScans,
+        exportsCompleted,
+        topPage: pageRows.results[0]?.path || null
+      },
+      locale
+    );
 
     return c.json({
       source: "d1",
@@ -934,7 +1002,7 @@ app.get("/api/analytics/summary", async (c) => {
     });
   } catch (error) {
     console.error("analytics_summary_failed", error);
-    return c.json(sampleAnalyticsSummary());
+    return c.json(sampleAnalyticsSummary(locale));
   }
 });
 
@@ -999,10 +1067,11 @@ app.post("/api/stripe/webhook", async (c) => {
 
 app.get("/api/scans", async (c) => {
   const workspaceId = await resolveWorkspaceId(c);
+  const locale = resolveApiLocale(c);
 
   if (!c.env.DB) {
     return c.json({
-      scans: sampleScanHistory(),
+      scans: sampleScanHistory(locale),
       source: "sample"
     });
   }
@@ -1084,7 +1153,7 @@ app.get("/api/scans", async (c) => {
   } catch (error) {
     console.error("scan_history_failed", error);
     return c.json({
-      scans: sampleScanHistory(),
+      scans: sampleScanHistory(locale),
       source: "sample",
       warning: "D1 is not initialized. Apply migrations to enable scan history."
     });
@@ -1107,25 +1176,26 @@ app.post("/api/scans", async (c) => {
     return c.json(scanFailure("validation_failed", validation, 0, false, undefined, idempotencyKey), 400);
   }
 
+  const extensionClient = request.source === "extension";
   const creditsNeeded = request.deepScan ? 3 : 1;
-  const workspaceId = await resolveWorkspaceId(c);
+  const workspaceId = extensionClient ? await resolveWorkspaceId(c, { allowDemo: false }) : await resolveWorkspaceId(c);
   const requestHash = await scanRequestHash(request);
   const idempotencyEnabled = Boolean(c.env.DB && idempotencyKey);
 
   async function fail(
     reason: ScanFailureReason,
     error: string,
-    statusCode: 400 | 402 | 409 | 500 | 503,
+    statusCode: 400 | 401 | 402 | 409 | 500 | 503,
     retryable: boolean,
     scanId?: string
   ) {
     const response = scanFailure(reason, error, 0, retryable, scanId, idempotencyKey);
 
-    if (c.env.DB && scanId) {
+    if (c.env.DB && scanId && workspaceId) {
       await recordFailedScan(c.env.DB, workspaceId, scanId, request, reason, error);
     }
 
-    if (idempotencyEnabled) {
+    if (idempotencyEnabled && workspaceId) {
       await saveScanIdempotencyResult(c.env.DB!, workspaceId, idempotencyKey!, response, statusCode, {
         scanId,
         creditsCharged: 0
@@ -1135,10 +1205,20 @@ app.post("/api/scans", async (c) => {
     return c.json(response, statusCode);
   }
 
+  if (extensionClient && !c.env.DB) {
+    return fail("workspace_unavailable", "Chrome extension sign-in is unavailable until the workspace database is ready.", 503, true);
+  }
+
+  if (extensionClient && !workspaceId) {
+    return fail("workspace_unavailable", "Sign in to LeadCue before scanning from the Chrome extension.", 401, false);
+  }
+
+  const resolvedWorkspaceId = workspaceId ?? "ws_demo";
+
   if (idempotencyEnabled) {
     try {
       await ensureScanIdempotencyStore(c.env.DB!);
-      const existing = await getScanIdempotency(c.env.DB!, workspaceId, idempotencyKey!);
+      const existing = await getScanIdempotency(c.env.DB!, resolvedWorkspaceId, idempotencyKey!);
 
       if (existing) {
         if (existing.request_hash !== requestHash) {
@@ -1158,7 +1238,7 @@ app.post("/api/scans", async (c) => {
 
         const replay = replayScanIdempotency(existing);
         if (replay) {
-          await recordScanReplay(c.env.DB!, workspaceId, idempotencyKey!);
+          await recordScanReplay(c.env.DB!, resolvedWorkspaceId, idempotencyKey!);
           return c.json(replay.body, replay.statusCode);
         }
 
@@ -1175,13 +1255,13 @@ app.post("/api/scans", async (c) => {
         );
       }
 
-      const created = await createScanIdempotency(c.env.DB!, workspaceId, idempotencyKey!, requestHash);
+      const created = await createScanIdempotency(c.env.DB!, resolvedWorkspaceId, idempotencyKey!, requestHash);
       if (!created) {
-        const existingAfterRace = await getScanIdempotency(c.env.DB!, workspaceId, idempotencyKey!);
+        const existingAfterRace = await getScanIdempotency(c.env.DB!, resolvedWorkspaceId, idempotencyKey!);
         const replay = existingAfterRace ? replayScanIdempotency(existingAfterRace) : null;
 
         if (replay) {
-          await recordScanReplay(c.env.DB!, workspaceId, idempotencyKey!);
+          await recordScanReplay(c.env.DB!, resolvedWorkspaceId, idempotencyKey!);
           return c.json(replay.body, replay.statusCode);
         }
 
@@ -1204,11 +1284,11 @@ app.post("/api/scans", async (c) => {
 
   if (c.env.DB) {
     try {
-      if (workspaceId === "ws_demo") {
-        await ensureDemoWorkspace(c.env.DB, workspaceId);
+      if (resolvedWorkspaceId === "ws_demo") {
+        await ensureDemoWorkspace(c.env.DB, resolvedWorkspaceId);
       }
 
-      const access = await checkScanAccess(c.env.DB, workspaceId, creditsNeeded);
+      const access = await checkScanAccess(c.env.DB, resolvedWorkspaceId, creditsNeeded);
       if (!access.ok) {
         return fail(mapScanAccessReason(access.reason), access.error, 402, false);
       }
@@ -1219,7 +1299,7 @@ app.post("/api/scans", async (c) => {
   }
 
   const scanId = `scan_${crypto.randomUUID()}`;
-  const leadId = `lead_${await shortHash(`${workspaceId}:${extractDomain(request.page.url) || request.page.url}`)}`;
+  const leadId = `lead_${await shortHash(`${resolvedWorkspaceId}:${extractDomain(request.page.url) || request.page.url}`)}`;
   const persistence: "d1" | "memory" = c.env.DB ? "d1" : "memory";
   let prospect: ProspectCard;
 
@@ -1232,7 +1312,7 @@ app.post("/api/scans", async (c) => {
 
   if (c.env.DB) {
     try {
-      await persistScanResult(c.env.DB, workspaceId, scanId, leadId, request, prospect, creditsNeeded);
+      await persistScanResult(c.env.DB, resolvedWorkspaceId, scanId, leadId, request, prospect, creditsNeeded);
     } catch (error) {
       console.error("scan_persist_failed", error);
       return fail("persistence_failed", "The scan completed but could not be saved. No credit was used.", 500, true, scanId);
@@ -1257,7 +1337,7 @@ app.post("/api/scans", async (c) => {
   };
 
   if (idempotencyEnabled) {
-    await saveScanIdempotencyResult(c.env.DB!, workspaceId, idempotencyKey!, response, 200, {
+    await saveScanIdempotencyResult(c.env.DB!, resolvedWorkspaceId, idempotencyKey!, response, 200, {
       scanId,
       leadId,
       creditsCharged: creditsNeeded
@@ -1269,10 +1349,11 @@ app.post("/api/scans", async (c) => {
 
 app.get("/api/leads", async (c) => {
   const workspaceId = await resolveWorkspaceId(c);
+  const locale = resolveApiLocale(c);
 
   if (!c.env.DB) {
     return c.json({
-      leads: [sampleLeadListItem()],
+      leads: [sampleLeadListItem(locale)],
       source: "sample"
     });
   }
@@ -1296,7 +1377,7 @@ app.get("/api/leads", async (c) => {
   } catch (error) {
     console.error("lead_list_failed", error);
     return c.json({
-      leads: [sampleLeadListItem()],
+      leads: [sampleLeadListItem(locale)],
       source: "sample",
       warning: "D1 is not initialized. Apply migrations to enable persistence."
     });
@@ -1306,13 +1387,15 @@ app.get("/api/leads", async (c) => {
 app.get("/api/leads/:id", async (c) => {
   const id = c.req.param("id");
   const workspaceId = await resolveWorkspaceId(c);
+  const locale = resolveApiLocale(c);
+  const sampleCard = buildSampleProspectCard(locale);
 
   if (!c.env.DB) {
     return c.json({
       lead: {
-        ...SAMPLE_PROSPECT_CARD,
+        ...sampleCard,
         pipelineContext: defaultPipelineContext(),
-        pipelineActivity: samplePipelineActivity()
+        pipelineActivity: samplePipelineActivity(locale)
       },
       source: "sample"
     });
@@ -1329,9 +1412,9 @@ app.get("/api/leads/:id", async (c) => {
     console.error("lead_detail_failed", error);
     return c.json({
       lead: {
-        ...SAMPLE_PROSPECT_CARD,
+        ...sampleCard,
         pipelineContext: defaultPipelineContext(),
-        pipelineActivity: samplePipelineActivity()
+        pipelineActivity: samplePipelineActivity(locale)
       },
       source: "sample",
       warning: "D1 is not initialized. Apply migrations to enable persistence."
@@ -1357,6 +1440,7 @@ app.get("/api/leads/:id", async (c) => {
 app.patch("/api/leads/:id/context", async (c) => {
   const id = c.req.param("id");
   const workspaceId = await resolveWorkspaceId(c);
+  const locale = resolveApiLocale(c);
   const payload = (await c.req.json().catch(() => ({}))) as ProspectContextUpdateRequest;
   const context = normalizePipelineContext(payload);
 
@@ -1387,7 +1471,7 @@ app.patch("/api/leads/:id/context", async (c) => {
         return c.json({
           ok: true,
           context: { ...context, updatedAt },
-          activity: samplePipelineActivity({ currentValues: { ...context, updatedAt } })[0],
+          activity: samplePipelineActivity(locale, { currentValues: { ...context, updatedAt } })[0],
           source: "sample"
         });
       }
@@ -1436,7 +1520,7 @@ app.patch("/api/leads/:id/context", async (c) => {
       return c.json({
         ok: true,
         context: currentContext,
-        activity: samplePipelineActivity({ currentValues: currentContext })[0],
+        activity: samplePipelineActivity(locale, { currentValues: currentContext })[0],
         source: "sample"
       });
     }
@@ -1480,13 +1564,14 @@ app.get("/api/credits", async (c) => {
 
 app.post("/api/exports", async (c) => {
   const workspaceId = await resolveWorkspaceId(c);
+  const locale = resolveApiLocale(c);
   const presetQuery = c.req.query("preset");
   const crmModeQuery = c.req.query("crmMode");
   const preset = isProspectExportPresetKey(presetQuery) ? presetQuery : "crm";
   const crmMode = isProspectCrmFieldMode(crmModeQuery) ? crmModeQuery : "hubspot";
 
   if (!c.env.DB) {
-    return c.text(buildProspectExportCsv([{ card: SAMPLE_PROSPECT_CARD }], preset, crmMode), 200, {
+    return c.text(buildProspectExportCsv([{ card: buildSampleProspectCard(locale) }], preset, crmMode), 200, {
       "Content-Type": "text/csv; charset=utf-8",
       "Content-Disposition": "attachment; filename=leadcue-export.csv"
     });
@@ -1504,7 +1589,7 @@ app.post("/api/exports", async (c) => {
     results = [];
   }
 
-  const cards = results.length ? results.map(mapLeadDetail) : [SAMPLE_PROSPECT_CARD];
+  const cards = results.length ? results.map(mapLeadDetail) : [buildSampleProspectCard(locale)];
 
   return c.text(buildProspectExportCsv(cards.map((card) => ({ card, pipelineContext: card.pipelineContext })), preset, crmMode), 200, {
     "Content-Type": "text/csv; charset=utf-8",
@@ -1519,6 +1604,10 @@ export default app;
 function validateScanRequest(request: ScanRequest): string | null {
   if (!request?.page?.url) {
     return "page.url is required.";
+  }
+
+  if (request.locale && !supportedScanLocales.includes(request.locale)) {
+    return "locale is invalid.";
   }
 
   if (!request.page.title) {
@@ -1684,6 +1773,13 @@ function normalizeIdempotencyKey(value?: string | null): string | undefined {
   }
 
   return key.slice(0, 255);
+}
+
+function resolveApiLocale(c: AppContext): ScanLocale {
+  const queryLocale = c.req.query("locale");
+  const headerLocale = c.req.header("X-LeadCue-Locale");
+  const value = (queryLocale || headerLocale || "en").trim();
+  return supportedScanLocales.includes(value as ScanLocale) ? (value as ScanLocale) : "en";
 }
 
 async function scanRequestHash(request: ScanRequest): Promise<string> {
@@ -1867,7 +1963,8 @@ function isScanStatusCode(value: number): value is 200 | 400 | 402 | 409 | 500 |
   return value === 200 || value === 400 || value === 402 || value === 409 || value === 500 || value === 503;
 }
 
-function sampleScanHistory(): ScanHistoryItem[] {
+function sampleScanHistory(locale: ScanLocale = "en"): ScanHistoryItem[] {
+  const sampleCard = buildSampleProspectCard(locale);
   const now = new Date();
   const completedAt = new Date(now.getTime() - 1000 * 60 * 18).toISOString();
   const failedAt = new Date(now.getTime() - 1000 * 60 * 42).toISOString();
@@ -1876,15 +1973,15 @@ function sampleScanHistory(): ScanHistoryItem[] {
   return [
     {
       id: "scan_sample_completed",
-      url: SAMPLE_PROSPECT_CARD.website,
-      domain: SAMPLE_PROSPECT_CARD.domain,
+      url: sampleCard.website,
+      domain: sampleCard.domain,
       scanType: "basic",
       status: "completed",
       reason: null,
       creditsUsed: 1,
       creditsCharged: 1,
       leadId: "lead_sample",
-      companyName: SAMPLE_PROSPECT_CARD.companyName,
+      companyName: sampleCard.companyName,
       idempotencyKey: "sample_completed_key",
       replayed: false,
       createdAt: completedAt,
@@ -1908,15 +2005,15 @@ function sampleScanHistory(): ScanHistoryItem[] {
     },
     {
       id: "scan_sample_replayed",
-      url: SAMPLE_PROSPECT_CARD.website,
-      domain: SAMPLE_PROSPECT_CARD.domain,
+      url: sampleCard.website,
+      domain: sampleCard.domain,
       scanType: "basic",
       status: "replayed",
       reason: "replayed",
       creditsUsed: 0,
       creditsCharged: 0,
       leadId: "lead_sample",
-      companyName: SAMPLE_PROSPECT_CARD.companyName,
+      companyName: sampleCard.companyName,
       idempotencyKey: "sample_completed_key",
       replayed: true,
       createdAt: replayedAt,
@@ -2022,7 +2119,10 @@ function isLocalAppUrl(env: Env): boolean {
   return url.includes("localhost") || url.includes("127.0.0.1");
 }
 
-function sampleAnalyticsSummary() {
+function sampleAnalyticsSummary(locale: ScanLocale = "en") {
+  const sampleContent = getSampleLocaleContent(locale);
+  const analytics = sampleContent.analytics;
+
   return {
     source: "sample" as const,
     totals: {
@@ -2055,27 +2155,27 @@ function sampleAnalyticsSummary() {
         name: "scan_completed",
         pagePath: "/app",
         createdAt: new Date(Date.now() - 1000 * 60 * 8).toISOString(),
-        metadataSummary: "basic scan, 1 credit"
+        metadataSummary: analytics.eventMetadata.basicScanOneCredit
       },
       {
         id: "evt_sample_export",
         name: "export_completed",
         pagePath: "/app/leads",
         createdAt: new Date(Date.now() - 1000 * 60 * 21).toISOString(),
-        metadataSummary: "CRM / HubSpot"
+        metadataSummary: analytics.eventMetadata.crmHubSpot
       },
       {
         id: "evt_sample_tool",
         name: "product_tool_primary_click",
         pagePath: "/templates/crm-csv-field-mapping",
         createdAt: new Date(Date.now() - 1000 * 60 * 46).toISOString(),
-        metadataSummary: "tool CTA"
+        metadataSummary: analytics.eventMetadata.hubSpotMappingCta
       }
     ],
     recommendations: [
-      "The CRM mapping tool is attracting the most intent. Keep routing that traffic into the free workspace flow.",
-      "Exports are much lower than scans, so the next bottleneck is likely qualification confidence or CRM handoff timing.",
-      "Once live traffic grows, compare CTA clicks, signups, scans, and exports weekly."
+      analytics.recommendations.toolPageCta,
+      analytics.recommendations.exportsGap,
+      analytics.recommendations.crmTemplateTraffic
     ]
   };
 }
@@ -2096,27 +2196,28 @@ function buildAnalyticsRecommendations(input: {
   scansCompleted: number;
   exportsCompleted: number;
   topPage: string | null;
-}) {
+}, locale: ScanLocale = "en") {
+  const analytics = getSampleLocaleContent(locale).analytics;
   const recommendations: string[] = [];
 
   if (input.ctaClicks > 0 && input.signupsCompleted === 0) {
-    recommendations.push("CTA clicks are happening, but signups are not. Recheck signup copy, friction, and plan fit on the highest-intent pages.");
+    recommendations.push(analytics.recommendations.ctaSignupGap);
   }
 
   if ((input.signupsCompleted > 0 || input.loginsCompleted > 0) && input.scansCompleted === 0) {
-    recommendations.push("Accounts are entering the workspace but not running scans yet. Make the first scan path even more obvious in onboarding.");
+    recommendations.push(analytics.recommendations.noScans);
   }
 
   if (input.scansCompleted > 0 && input.exportsCompleted === 0) {
-    recommendations.push("Scans are landing, but exports are not. The next bottleneck is likely qualification confidence or CRM handoff clarity.");
+    recommendations.push(analytics.recommendations.scanExportGap);
   }
 
   if (input.topPage) {
-    recommendations.push(`The strongest page right now is ${input.topPage}. Keep testing a sharper CTA and internal links from that page.`);
+    recommendations.push(analytics.recommendations.topPage.replace("__PAGE__", input.topPage));
   }
 
   if (!recommendations.length) {
-    recommendations.push("The funnel is moving. Keep comparing CTA clicks, signups, scans, and exports week over week.");
+    recommendations.push(analytics.recommendations.steadyFunnel);
   }
 
   return recommendations.slice(0, 3);
@@ -2260,14 +2361,16 @@ function getSessionToken(c: AppContext): string | null {
 
 function buildSessionCookie(c: AppContext, token: string, expiresAt: Date): string {
   const secure = isSecureRequest(c) ? "; Secure" : "";
-  return `${SESSION_COOKIE_NAME}=${encodeURIComponent(token)}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${SESSION_TTL_SECONDS}; Expires=${expiresAt.toUTCString()}${secure}`;
+  const sameSite = isSecureRequest(c) ? "None" : "Lax";
+  return `${SESSION_COOKIE_NAME}=${encodeURIComponent(token)}; Path=/; HttpOnly; SameSite=${sameSite}; Max-Age=${SESSION_TTL_SECONDS}; Expires=${expiresAt.toUTCString()}${secure}`;
 }
 
 function clearSessionCookie(c: AppContext) {
   const secure = isSecureRequest(c) ? "; Secure" : "";
+  const sameSite = isSecureRequest(c) ? "None" : "Lax";
   c.header(
     "Set-Cookie",
-    `${SESSION_COOKIE_NAME}=; Path=/; HttpOnly; SameSite=Lax; Max-Age=0; Expires=Thu, 01 Jan 1970 00:00:00 GMT${secure}`
+    `${SESSION_COOKIE_NAME}=; Path=/; HttpOnly; SameSite=${sameSite}; Max-Age=0; Expires=Thu, 01 Jan 1970 00:00:00 GMT${secure}`
   );
 }
 
@@ -2726,24 +2829,26 @@ async function getWorkspaceSnapshot(db: D1Database, workspaceId: string) {
   };
 }
 
-function sampleWorkspaceSnapshot(workspaceId: string) {
+function sampleWorkspaceSnapshot(workspaceId: string, locale: ScanLocale = "en") {
   const plan = PRICING_PLANS[0];
+  const sampleContent = getSampleLocaleContent(locale);
+  const sampleCard = buildSampleProspectCard(locale);
 
   return {
     workspace: {
       id: workspaceId,
-      name: "LeadCue Demo Workspace",
+      name: sampleContent.workspaceName,
       createdAt: new Date().toISOString()
     },
     setup: {
       serviceType: DEFAULT_ICP.serviceType,
       agencyFocus: "web_design",
-      targetIndustries: DEFAULT_ICP.targetIndustries,
-      targetCountries: DEFAULT_ICP.targetCountries,
-      offerDescription: DEFAULT_ICP.offerDescription,
+      targetIndustries: sampleContent.targetIndustries,
+      targetCountries: sampleContent.targetCountries,
+      offerDescription: sampleContent.offerDescription,
       tone: DEFAULT_ICP.tone,
       agencyWebsite: "https://leadcue.app",
-      firstProspectUrl: SAMPLE_PROSPECT_CARD.website
+      firstProspectUrl: sampleCard.website
     },
     onboarding: {
       completedAt: new Date().toISOString(),
@@ -3217,6 +3322,7 @@ function stripeUnixToIso(value: number | undefined): string | null {
 
 async function ensureDemoWorkspace(db: D1Database, workspaceId: string) {
   const userId = "user_demo";
+  const sampleContent = getSampleLocaleContent("en");
 
   await db.batch([
     db
@@ -3225,14 +3331,14 @@ async function ensureDemoWorkspace(db: D1Database, workspaceId: string) {
           (id, email, name, google_sub, auth_provider)
          VALUES (?, ?, ?, ?, ?)`
       )
-      .bind(userId, "demo@leadcue.app", "LeadCue Demo", "demo-google-sub", "google"),
+      .bind(userId, "demo@leadcue.app", sampleContent.pipelineActorName, "demo-google-sub", "google"),
     db
       .prepare(
         `INSERT OR IGNORE INTO workspaces
           (id, owner_user_id, name, plan, monthly_credit_limit)
          VALUES (?, ?, ?, ?, ?)`
       )
-      .bind(workspaceId, userId, "LeadCue Demo Workspace", "free", 20),
+      .bind(workspaceId, userId, sampleContent.workspaceName, "free", 20),
     db
       .prepare(
         `INSERT OR IGNORE INTO workspace_members
@@ -3589,15 +3695,16 @@ interface LeadActivityLogRow {
   created_at: string;
 }
 
-function sampleLeadListItem(): LeadListItem {
+function sampleLeadListItem(locale: ScanLocale = "en"): LeadListItem {
+  const sampleCard = buildSampleProspectCard(locale);
   return {
     id: "lead_sample",
-    companyName: SAMPLE_PROSPECT_CARD.companyName,
-    domain: SAMPLE_PROSPECT_CARD.domain,
-    websiteUrl: SAMPLE_PROSPECT_CARD.website,
-    industry: SAMPLE_PROSPECT_CARD.industry,
-    fitScore: SAMPLE_PROSPECT_CARD.fitScore,
-    confidenceScore: SAMPLE_PROSPECT_CARD.confidenceScore,
+    companyName: sampleCard.companyName,
+    domain: sampleCard.domain,
+    websiteUrl: sampleCard.website,
+    industry: sampleCard.industry,
+    fitScore: sampleCard.fitScore,
+    confidenceScore: sampleCard.confidenceScore,
     createdAt: new Date().toISOString(),
     pipelineContext: defaultPipelineContext()
   };
@@ -3649,19 +3756,21 @@ function defaultPipelineContext(): ProspectPipelineContext {
 }
 
 function samplePipelineActivity(
+  locale: ScanLocale = "en",
   options: { currentValues?: ProspectPipelineContext } = {}
 ): ProspectPipelineActivity[] {
+  const sampleContent = getSampleLocaleContent(locale);
   const currentValues = options.currentValues || {
-    owner: "Avery",
+    owner: sampleContent.pipelineOwner,
     stage: "qualified",
-    notes: "Prioritize the homepage CTA angle before export.",
+    notes: sampleContent.pipelineNotes,
     updatedAt: new Date(Date.now() - 1000 * 60 * 12).toISOString()
   };
 
   return [
     {
       id: "activity_demo_pipeline",
-      actorName: "Demo user",
+      actorName: sampleContent.pipelineActorName,
       actorEmail: null,
       action: "pipeline_context_updated",
       changedFields: ["owner", "stage", "notes"],

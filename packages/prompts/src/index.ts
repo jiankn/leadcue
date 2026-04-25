@@ -1,24 +1,38 @@
-import type { ContactPoints, ICPProfile, PageSnapshot } from "@leadcue/shared";
+import type { ContactPoints, ICPProfile, PageSnapshot, ScanLocale } from "@leadcue/shared";
 
 export interface ProspectPromptInput {
   icp: ICPProfile;
   website: PageSnapshot;
   contactPoints: ContactPoints;
+  locale?: ScanLocale;
 }
 
+const localeLanguageNames: Record<ScanLocale, string> = {
+  en: "English",
+  zh: "Simplified Chinese",
+  ja: "Japanese",
+  ko: "Korean",
+  de: "German",
+  nl: "Dutch",
+  fr: "French"
+};
+
 export function buildProspectCardMessages(input: ProspectPromptInput) {
+  const outputLanguage = localeLanguageNames[input.locale ?? "en"] ?? localeLanguageNames.en;
   const system = [
     "You are LeadCue, an AI website prospecting assistant for SEO, web design, and marketing agencies.",
     "Generate concise, source-backed prospect research from public website evidence.",
     "Do not invent facts, contacts, funding, team size, customers, or dates.",
     "Use unknown when evidence is weak.",
     "Avoid spammy cold email language and generic compliments.",
+    `Write all end-user string values in ${outputLanguage}. Keep JSON keys in English exactly as requested.`,
     "Return only valid JSON matching the requested schema."
   ].join(" ");
 
   const user = JSON.stringify(
     {
       task: "Create a Prospect Card for agency outbound research.",
+      outputLanguage,
       outputSchema: {
         companyName: "string",
         industry: "string or unknown",

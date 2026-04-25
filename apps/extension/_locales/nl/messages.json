@@ -1,0 +1,11 @@
+{
+  "extensionName": {
+    "message": "LeadCue | Websiteprospectie-assistent voor bureaus"
+  },
+  "extensionDescription": {
+    "message": "Analyseer de actieve bedrijfswebsite, kwalificeer het account en sla een Prospect Card met bronverwijzingen op in je LeadCue-workspace."
+  },
+  "actionTitle": {
+    "message": "LeadCue-zijpaneel openen"
+  }
+}

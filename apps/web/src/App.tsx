@@ -3,9 +3,11 @@ import {
   DEFAULT_ICP,
   PRICING_PLANS,
   SAMPLE_PROSPECT_CARD,
+  buildRuleBasedProspectCard,
   buildProspectExportCsv,
+  buildSampleProspectCard,
   defaultProspectExportSelection,
-  formatPipelineStageLabel,
+  getSampleLocaleContent,
   getProspectExportColumns,
   prospectCrmFieldModes,
   prospectExportFields,
@@ -41,7 +43,9 @@ import { getCommercialPages, getProductPageMap, getProductPages, getSeoPageMap, 
 import { PublicSiteContext, createPublicSiteContextValue, usePublicSite } from "./publicSiteContext";
 import { getSearchEngineVerifications, getSeoImageAlt, getSeoImagePath, SITE_URL } from "./seoConfig";
 import { buildLocalePath, getLocaleHtmlLang, localizeHref, parseSiteLocalePath, siteLocaleLabels, supportedSiteLocales, type SiteLocaleCode } from "./siteLocale";
+import { getAppUi, type AppUi } from "./appContent";
 import "./upgrades.css";
+import "./dashboard-shell.css";
 
 type IconName =
   | "arrow"
@@ -74,53 +78,18 @@ type PipelineContextSaveResult = {
   activity?: ProspectPipelineActivity | null;
 };
 
-const scanHistoryFilters: Array<{ value: ScanHistoryFilter; label: string }> = [
-  { value: "all", label: "All" },
-  { value: "completed", label: "Completed" },
-  { value: "failed", label: "Failed" },
-  { value: "replayed", label: "Replayed" },
-  { value: "processing", label: "Processing" }
-];
+const scanHistoryFilters: ScanHistoryFilter[] = ["all", "completed", "failed", "replayed", "processing"];
 
-const historyDateFilters: Array<{ value: HistoryDateFilter; label: string }> = [
-  { value: "all", label: "All dates" },
-  { value: "today", label: "Today" },
-  { value: "7d", label: "Last 7 days" },
-  { value: "30d", label: "Last 30 days" }
-];
+const historyDateFilters: HistoryDateFilter[] = ["all", "today", "7d", "30d"];
 
-const leadSortOptions: Array<{ value: LeadSortOption; label: string }> = [
-  { value: "newest", label: "Newest saved" },
-  { value: "fit_desc", label: "Fit score" },
-  { value: "confidence_desc", label: "Confidence" },
-  { value: "company_asc", label: "Company A-Z" }
-];
+const leadSortOptions: LeadSortOption[] = ["newest", "fit_desc", "confidence_desc", "company_asc"];
 
-const prospectCardTabs: Array<{ value: ProspectCardTab; label: string }> = [
-  { value: "overview", label: "Overview" },
-  { value: "signals", label: "Signals" },
-  { value: "contacts", label: "Contacts" },
-  { value: "outreach", label: "Outreach" },
-  { value: "email", label: "Email" },
-  { value: "sources", label: "Sources" },
-  { value: "export", label: "Export" }
-];
+const prospectCardTabs: ProspectCardTab[] = ["overview", "signals", "contacts", "outreach", "email", "sources", "export"];
 
-const pipelineStageOptions: Array<{ value: ProspectPipelineStage; label: string }> = [
-  { value: "researching", label: "Researching" },
-  { value: "qualified", label: "Qualified" },
-  { value: "outreach_queued", label: "Outreach queued" },
-  { value: "contacted", label: "Contacted" },
-  { value: "won", label: "Won" },
-  { value: "archived", label: "Archived" }
-];
+const pipelineStageOptions: ProspectPipelineStage[] = ["researching", "qualified", "outreach_queued", "contacted", "won", "archived"];
 
-const activityFieldFilters: Array<{ value: ActivityFieldFilter; label: string }> = [
-  { value: "all", label: "All" },
-  { value: "owner", label: "Owner" },
-  { value: "stage", label: "Stage" },
-  { value: "notes", label: "Notes" }
-];
+const activityFieldFilters: ActivityFieldFilter[] = ["all", "owner", "stage", "notes"];
+const fallbackAppUi = getAppUi("en");
 
 const defaultProspectMeta: ProspectPipelineContext = {
   owner: "",
@@ -129,259 +98,149 @@ const defaultProspectMeta: ProspectPipelineContext = {
   updatedAt: null
 };
 
-const useCases = [
-  {
-    title: "Web design agencies",
-    copy: "Find weak CTAs, buried demo paths, thin proof, confusing navigation, and redesign reasons you can mention in outreach.",
-    cta: "Start with redesign angles",
-    focus: "web_design"
-  },
-  {
-    title: "SEO agencies",
-    copy: "Spot thin metadata, stale blogs, weak service pages, and content gaps before writing a tailored first line.",
-    cta: "Start with SEO gaps",
-    focus: "seo"
-  },
-  {
-    title: "Marketing agencies",
-    copy: "Identify unclear positioning, missing lead magnets, weak landing pages, and campaign angles worth pitching.",
-    cta: "Start with growth angles",
-    focus: "marketing"
-  }
-];
-
-const workflow = [
-  {
-    title: "Open a prospect website",
-    copy: "Start from the company site your team is already reviewing, not a scraped contact list."
-  },
-  {
-    title: "Click LeadCue",
-    copy: "Scan visible pages, metadata, CTAs, links, contact paths, and content signals."
-  },
-  {
-    title: "Get a Prospect Card",
-    copy: "Get fit score, website-backed cues, outreach angles, first lines, and export-ready notes."
-  }
-];
-
-const featureHighlights: Array<{ icon: IconName; title: string; copy: string; meta: string }> = [
-  {
-    icon: "chart",
-    title: "Prospect analytics that show intent",
-    copy: "Track websites scanned, save rate, fit scores, and copied first lines so your team sees which research turns into outreach.",
-    meta: "Live pipeline"
-  },
-  {
-    icon: "target",
-    title: "ICP scoring for agency offers",
-    copy: "Score each website against your service type, industries, regions, company size, and offer before saving it.",
-    meta: "Fit scoring"
-  },
-  {
-    icon: "layers",
-    title: "Website evidence in every card",
-    copy: "Keep the page observation, sales cue, outreach angle, and first line together so reps know why the prospect matters.",
-    meta: "Source backed"
-  },
-  {
-    icon: "database",
-    title: "Exports for your outreach stack",
-    copy: "Move qualified prospects into Sheets, Smartlead, Instantly, Lemlist, or your CRM without carrying unqualified lists.",
-    meta: "Clean handoff"
-  }
-];
-
-const trustBadges: Array<{ icon: IconName; label: string }> = [
-  { icon: "lock", label: "No LinkedIn scraping" },
-  { icon: "shield", label: "Permission-light Chrome MV3" },
-  { icon: "database", label: "CSV export ready" },
-  { icon: "check", label: "Source-backed notes" }
-];
-
-const homepageContentLinks: Array<{ href: string; eyebrow: string; title: string; copy: string; icon: IconName }> = [
-  {
-    href: "#features",
-    eyebrow: "Features",
-    title: "Everything around the website scan",
-    copy: "Fit scoring, signals, exports, and team context stay in one card.",
-    icon: "layers"
-  },
-  {
-    href: "#how",
-    eyebrow: "How it works",
-    title: "A three-step research workflow",
-    copy: "Start from the company site, capture evidence, then save a Prospect Card.",
-    icon: "scan"
-  },
-  {
-    href: "#card",
-    eyebrow: "Sample card",
-    title: "Inspect the output before signup",
-    copy: "See the fit score, website cues, first line, and short email together.",
-    icon: "clipboard"
-  },
-  {
-    href: "#pricing",
-    eyebrow: "Pricing",
-    title: "Credits built for weekly prospecting",
-    copy: "Start free, then scale scan volume as the workflow proves itself.",
-    icon: "chart"
-  },
-  {
-    href: "#resources",
-    eyebrow: "Resources",
-    title: "Sharpen outbound quality",
-    copy: "Use guides for evidence-led prospecting and better account qualification.",
-    icon: "mail"
-  }
-];
-
-const planBenefits: Record<string, string[]> = {
-  free: ["20 website scans/month", "Sample Prospect Cards", "Basic first-line copy"],
-  starter: ["300 website scans/month", "Saved prospect list", "CSV export"],
-  pro: ["1,500 website scans/month", "Custom ICP settings", "Priority analytics"],
-  agency: ["5,000 website scans/month", "3 agency workspaces", "Shared scan credits"]
-};
-
-const planUseCases: Record<PricingPlan["id"], string> = {
-  free: "Validate the workflow with real websites before a paid rollout.",
-  starter: "Best for one operator building a weekly outbound habit.",
-  pro: "Best for agencies turning prospect research into a repeatable pipeline.",
-  agency: "Best for teams sharing scan credits across multiple client offers."
-};
-
-const faqItems = [
-  {
-    question: "Is LeadCue an email finder?",
-    answer:
-      "No. LeadCue can surface public contact paths from a website, but its main job is to find sales cues, fit signals, outreach angles, and first lines grounded in the pages you choose to analyze."
-  },
-  {
-    question: "Does LeadCue scrape LinkedIn or browse in the background?",
-    answer:
-      "No. The Chrome extension is designed around user-triggered website analysis. It does not scrape LinkedIn, collect browsing history, or run background prospecting jobs."
-  },
-  {
-    question: "Can I send campaigns from LeadCue?",
-    answer:
-      "No. LeadCue prepares the research layer before outreach. Save Prospect Cards, copy first lines, or export qualified prospects into your existing tools."
-  },
-  {
-    question: "Who is LeadCue built for first?",
-    answer:
-      "LeadCue is built first for small SEO, web design, redesign, and growth agencies that do outbound and need specific website-backed reasons to contact prospects."
-  }
-];
-
-const resourceArticles = [
-  {
-    title: "How to turn a prospect website into a cold email angle",
-    copy: "A practical workflow for moving from visible page evidence to credible outreach.",
-    image: "/images/leadcue-outreach-playbook.png",
-    label: "Outbound playbook",
-    href: "/guides/turn-website-into-cold-email-angle"
-  },
-  {
-    title: "What agencies should score before saving a prospect",
-    copy: "Use fit, urgency, proof gaps, and contact paths to avoid list-building noise.",
-    image: "/images/leadcue-agency-research.png",
-    label: "Qualification",
-    href: "/guides/score-prospect-website"
-  },
-  {
-    title: "Why website-first prospecting beats generic lead lists",
-    copy: "LeadCue keeps every saved account tied to a reason your team can actually use.",
-    image: "/images/leadcue-hero-prospecting.png",
-    label: "Strategy",
-    href: "/website-prospecting"
-  }
-];
-
-const demoLeads = [
-  SAMPLE_PROSPECT_CARD,
-  {
-    ...SAMPLE_PROSPECT_CARD,
-    companyName: "Beacon Dental Group",
-    domain: "beacondental.example",
-    website: "https://beacondental.example",
-    industry: "Local healthcare",
+function buildDemoLeads(locale: SiteLocaleCode): ProspectCardType[] {
+  const sampleContent = getSampleLocaleContent(locale);
+  const sharedIcp = {
+    serviceType: "web_design" as const,
+    targetIndustries: sampleContent.targetIndustries,
+    targetCountries: sampleContent.targetCountries,
+    offerDescription: sampleContent.offerDescription,
+    tone: "professional" as const
+  };
+  const northstar = buildSampleProspectCard(locale);
+  const { beacon: beaconPage, lumen: lumenPage } = sampleContent.demoPages;
+  const beacon = {
+    ...buildRuleBasedProspectCard({
+      source: "web",
+      locale,
+      page: {
+        url: "https://beacondental.example",
+        title: beaconPage.title,
+        metaDescription: beaconPage.metaDescription,
+        h1: beaconPage.h1,
+        text: beaconPage.text,
+        links: [
+          "https://beacondental.example",
+          "https://beacondental.example/services",
+          "https://beacondental.example/insurance",
+          "https://beacondental.example/reviews",
+          "https://beacondental.example/careers",
+          "https://beacondental.example/contact",
+          "https://www.facebook.com/beacondental"
+        ],
+        emails: ["hello@beacondental.example"],
+        phones: ["(415) 555-0142"]
+      },
+      icp: sharedIcp
+    }),
+    industry: sampleContent.industryLabels.beacon,
     fitScore: 82,
-    confidenceScore: 0.76
-  },
-  {
-    ...SAMPLE_PROSPECT_CARD,
-    companyName: "Lumen Logistics",
-    domain: "lumenlogistics.example",
-    website: "https://lumenlogistics.example",
-    industry: "B2B services",
+    confidenceScore: 0.76,
+    savedStatus: "saved" as const,
+    exportStatus: "not_exported" as const
+  };
+  const lumen = {
+    ...buildRuleBasedProspectCard({
+      source: "web",
+      locale,
+      page: {
+        url: "https://lumenlogistics.example",
+        title: lumenPage.title,
+        metaDescription: lumenPage.metaDescription,
+        h1: lumenPage.h1,
+        text: lumenPage.text,
+        links: [
+          "https://lumenlogistics.example",
+          "https://lumenlogistics.example/solutions",
+          "https://lumenlogistics.example/coverage",
+          "https://lumenlogistics.example/team",
+          "https://lumenlogistics.example/careers",
+          "https://lumenlogistics.example/contact",
+          "https://www.linkedin.com/company/lumen-logistics"
+        ],
+        emails: ["ops@lumenlogistics.example"],
+        phones: ["+1 312-555-0188"]
+      },
+      icp: sharedIcp
+    }),
+    industry: sampleContent.industryLabels.lumen,
     fitScore: 74,
-    confidenceScore: 0.69
-  }
-];
+    confidenceScore: 0.69,
+    savedStatus: "saved" as const,
+    exportStatus: "not_exported" as const
+  };
 
-const demoLeadRows: LeadListItem[] = demoLeads.map((lead, index) => ({
-  id: index === 0 ? "lead_sample" : `lead_demo_${index}`,
-  companyName: lead.companyName,
-  domain: lead.domain,
-  websiteUrl: lead.website,
-  industry: lead.industry,
-  fitScore: lead.fitScore,
-  confidenceScore: lead.confidenceScore,
-  pipelineContext: { ...defaultProspectMeta },
-  createdAt: new Date().toISOString()
-}));
+  return [northstar, beacon, lumen];
+}
 
-const demoScanHistory: ScanHistoryItem[] = [
-  {
-    id: "scan_demo_completed",
-    url: SAMPLE_PROSPECT_CARD.website,
-    domain: SAMPLE_PROSPECT_CARD.domain,
-    scanType: "basic",
-    status: "completed",
-    reason: null,
-    creditsUsed: 1,
-    creditsCharged: 1,
-    leadId: "lead_sample",
-    companyName: SAMPLE_PROSPECT_CARD.companyName,
-    idempotencyKey: "demo_completed_key",
-    replayed: false,
-    createdAt: new Date(Date.now() - 1000 * 60 * 18).toISOString(),
-    completedAt: new Date(Date.now() - 1000 * 60 * 18).toISOString()
-  },
-  {
-    id: "scan_demo_failed",
-    url: "https://missing-content.example",
-    domain: "missing-content.example",
-    scanType: "basic",
-    status: "failed",
-    reason: "generation_failed",
-    creditsUsed: 0,
-    creditsCharged: 0,
-    leadId: null,
-    companyName: null,
-    idempotencyKey: "demo_failed_key",
-    replayed: false,
-    createdAt: new Date(Date.now() - 1000 * 60 * 42).toISOString(),
-    completedAt: new Date(Date.now() - 1000 * 60 * 42).toISOString()
-  },
-  {
-    id: "scan_demo_replayed",
-    url: SAMPLE_PROSPECT_CARD.website,
-    domain: SAMPLE_PROSPECT_CARD.domain,
-    scanType: "basic",
-    status: "replayed",
-    reason: "replayed",
-    creditsUsed: 0,
-    creditsCharged: 0,
-    leadId: "lead_sample",
-    companyName: SAMPLE_PROSPECT_CARD.companyName,
-    idempotencyKey: "demo_completed_key",
-    replayed: true,
-    createdAt: new Date(Date.now() - 1000 * 60 * 54).toISOString(),
-    completedAt: new Date(Date.now() - 1000 * 60 * 54).toISOString()
-  }
-];
+function buildDemoLeadRows(locale: SiteLocaleCode): LeadListItem[] {
+  return buildDemoLeads(locale).map((lead, index) => ({
+    id: index === 0 ? "lead_sample" : `lead_demo_${index}`,
+    companyName: lead.companyName,
+    domain: lead.domain,
+    websiteUrl: lead.website,
+    industry: lead.industry,
+    fitScore: lead.fitScore,
+    confidenceScore: lead.confidenceScore,
+    pipelineContext: { ...defaultProspectMeta },
+    createdAt: new Date().toISOString()
+  }));
+}
+
+function buildDemoScanHistory(locale: SiteLocaleCode): ScanHistoryItem[] {
+  const [sampleLead] = buildDemoLeads(locale);
+
+  return [
+    {
+      id: "scan_demo_completed",
+      url: sampleLead.website,
+      domain: sampleLead.domain,
+      scanType: "basic",
+      status: "completed",
+      reason: null,
+      creditsUsed: 1,
+      creditsCharged: 1,
+      leadId: "lead_sample",
+      companyName: sampleLead.companyName,
+      idempotencyKey: "demo_completed_key",
+      replayed: false,
+      createdAt: new Date(Date.now() - 1000 * 60 * 18).toISOString(),
+      completedAt: new Date(Date.now() - 1000 * 60 * 18).toISOString()
+    },
+    {
+      id: "scan_demo_failed",
+      url: "https://missing-content.example",
+      domain: "missing-content.example",
+      scanType: "basic",
+      status: "failed",
+      reason: "generation_failed",
+      creditsUsed: 0,
+      creditsCharged: 0,
+      leadId: null,
+      companyName: null,
+      idempotencyKey: "demo_failed_key",
+      replayed: false,
+      createdAt: new Date(Date.now() - 1000 * 60 * 42).toISOString(),
+      completedAt: new Date(Date.now() - 1000 * 60 * 42).toISOString()
+    },
+    {
+      id: "scan_demo_replayed",
+      url: sampleLead.website,
+      domain: sampleLead.domain,
+      scanType: "basic",
+      status: "replayed",
+      reason: "replayed",
+      creditsUsed: 0,
+      creditsCharged: 0,
+      leadId: "lead_sample",
+      companyName: sampleLead.companyName,
+      idempotencyKey: "demo_completed_key",
+      replayed: true,
+      createdAt: new Date(Date.now() - 1000 * 60 * 54).toISOString(),
+      completedAt: new Date(Date.now() - 1000 * 60 * 54).toISOString()
+    }
+  ];
+}
 
 type SignupResponse = {
   ok: boolean;
@@ -535,98 +394,108 @@ type IcpFormState = {
 
 type AppSection = "dashboard" | "leads" | "icp" | "billing" | "analytics" | "account";
 
-const sampleWorkspace: WorkspaceSnapshot = {
-  workspace: {
-    id: "ws_demo",
-    name: "LeadCue Demo Workspace",
-    createdAt: new Date().toISOString()
-  },
-  setup: {
-    serviceType: DEFAULT_ICP.serviceType,
-    agencyFocus: "web_design",
-    targetIndustries: DEFAULT_ICP.targetIndustries,
-    targetCountries: DEFAULT_ICP.targetCountries,
-    offerDescription: DEFAULT_ICP.offerDescription,
-    tone: DEFAULT_ICP.tone,
-    agencyWebsite: "https://leadcue.app",
-    firstProspectUrl: SAMPLE_PROSPECT_CARD.website
-  },
-  onboarding: {
-    completedAt: new Date().toISOString(),
-    isComplete: true
-  },
-  plan: PRICING_PLANS[0],
-  subscription: {
-    provider: "leadcue",
-    status: "active",
-    customerId: null,
-    currentPeriodEnd: null
-  },
-  credits: {
-    used: 4,
-    remaining: PRICING_PLANS[0].monthlyCredits - 4,
-    reset: new Date().toISOString()
-  },
-  leadCount: demoLeadRows.length,
-  source: "sample"
-};
+function buildSampleWorkspace(locale: SiteLocaleCode, leadCount: number, firstProspectUrl: string): WorkspaceSnapshot {
+  const plan = PRICING_PLANS[0];
+  const sampleContent = getSampleLocaleContent(locale);
 
-const sampleAnalyticsSummary: AnalyticsSummary = {
-  source: "sample",
-  totals: {
-    events: 42,
-    scansCompleted: 12,
-    leadsSaved: 7,
-    exportsCompleted: 3
-  },
-  funnel: {
-    ctaClicks: 18,
-    signupsCompleted: 5,
-    loginsCompleted: 6,
-    scansCompleted: 12,
-    exportsCompleted: 3
-  },
-  topPages: [
-    { path: "/", count: 14 },
-    { path: "/templates/crm-csv-field-mapping", count: 9 },
-    { path: "/templates/cold-email-first-line", count: 7 },
-    { path: "/integrations/hubspot-csv-export", count: 5 }
-  ],
-  topEvents: [
-    { name: "scan_completed", count: 12 },
-    { name: "product_tool_primary_click", count: 8 },
-    { name: "export_completed", count: 3 },
-    { name: "auth_signup_completed", count: 2 }
-  ],
-  recentEvents: [
-    {
-      id: "evt_sample_scan",
-      name: "scan_completed",
-      pagePath: "/app",
-      createdAt: new Date(Date.now() - 1000 * 60 * 9).toISOString(),
-      metadataSummary: "basic scan, 1 credit"
+  return {
+    workspace: {
+      id: "ws_demo",
+      name: sampleContent.workspaceName,
+      createdAt: new Date().toISOString()
     },
-    {
-      id: "evt_sample_export",
-      name: "export_completed",
-      pagePath: "/app/leads",
-      createdAt: new Date(Date.now() - 1000 * 60 * 26).toISOString(),
-      metadataSummary: "CRM / HubSpot"
+    setup: {
+      serviceType: DEFAULT_ICP.serviceType,
+      agencyFocus: "web_design",
+      targetIndustries: sampleContent.targetIndustries,
+      targetCountries: sampleContent.targetCountries,
+      offerDescription: sampleContent.offerDescription,
+      tone: DEFAULT_ICP.tone,
+      agencyWebsite: "https://leadcue.app",
+      firstProspectUrl
     },
-    {
-      id: "evt_sample_tool",
-      name: "product_tool_primary_click",
-      pagePath: "/templates/crm-csv-field-mapping",
-      createdAt: new Date(Date.now() - 1000 * 60 * 44).toISOString(),
-      metadataSummary: "HubSpot mapping CTA"
-    }
-  ],
-  recommendations: [
-    "Tool-page CTA clicks are healthy. Keep routing those users into signup with the same field template context.",
-    "Exports are lower than scans, so the next bottleneck is likely qualification confidence or CRM handoff timing.",
-    "The CRM mapping template is pulling the most product-led traffic right now."
-  ]
-};
+    onboarding: {
+      completedAt: new Date().toISOString(),
+      isComplete: true
+    },
+    plan,
+    subscription: {
+      provider: "leadcue",
+      status: "active",
+      customerId: null,
+      currentPeriodEnd: null
+    },
+    credits: {
+      used: 4,
+      remaining: plan.monthlyCredits - 4,
+      reset: new Date().toISOString()
+    },
+    leadCount,
+    source: "sample"
+  };
+}
+
+function buildSampleAnalyticsSummary(locale: SiteLocaleCode): AnalyticsSummary {
+  const sampleContent = getSampleLocaleContent(locale);
+  const analytics = sampleContent.analytics;
+
+  return {
+    source: "sample",
+    totals: {
+      events: 42,
+      scansCompleted: 12,
+      leadsSaved: 7,
+      exportsCompleted: 3
+    },
+    funnel: {
+      ctaClicks: 18,
+      signupsCompleted: 5,
+      loginsCompleted: 6,
+      scansCompleted: 12,
+      exportsCompleted: 3
+    },
+    topPages: [
+      { path: "/", count: 14 },
+      { path: "/templates/crm-csv-field-mapping", count: 9 },
+      { path: "/templates/cold-email-first-line", count: 7 },
+      { path: "/integrations/hubspot-csv-export", count: 5 }
+    ],
+    topEvents: [
+      { name: "scan_completed", count: 12 },
+      { name: "product_tool_primary_click", count: 8 },
+      { name: "export_completed", count: 3 },
+      { name: "auth_signup_completed", count: 2 }
+    ],
+    recentEvents: [
+      {
+        id: "evt_sample_scan",
+        name: "scan_completed",
+        pagePath: "/app",
+        createdAt: new Date(Date.now() - 1000 * 60 * 9).toISOString(),
+        metadataSummary: analytics.eventMetadata.basicScanOneCredit
+      },
+      {
+        id: "evt_sample_export",
+        name: "export_completed",
+        pagePath: "/app/leads",
+        createdAt: new Date(Date.now() - 1000 * 60 * 26).toISOString(),
+        metadataSummary: analytics.eventMetadata.crmHubSpot
+      },
+      {
+        id: "evt_sample_tool",
+        name: "product_tool_primary_click",
+        pagePath: "/templates/crm-csv-field-mapping",
+        createdAt: new Date(Date.now() - 1000 * 60 * 44).toISOString(),
+        metadataSummary: analytics.eventMetadata.hubSpotMappingCta
+      }
+    ],
+    recommendations: [
+      analytics.recommendations.toolPageCta,
+      analytics.recommendations.exportsGap,
+      analytics.recommendations.crmTemplateTraffic
+    ]
+  };
+}
 
 function icpFormFromSetup(setup: WorkspaceSnapshot["setup"]): IcpFormState {
   return {
@@ -639,11 +508,49 @@ function icpFormFromSetup(setup: WorkspaceSnapshot["setup"]): IcpFormState {
   };
 }
 
+const APP_LOCALE_KEY = "leadcue_app_locale";
+const APP_LOCALE_QUERY_KEY = "lc_locale";
+
+function readAppLocale(): SiteLocaleCode | null {
+  try {
+    const stored = localStorage.getItem(APP_LOCALE_KEY);
+    if (stored && supportedSiteLocales.includes(stored as SiteLocaleCode)) {
+      return stored as SiteLocaleCode;
+    }
+  } catch {
+    // localStorage 不可用
+  }
+  return null;
+}
+
+function readRequestedAppLocale(): SiteLocaleCode | null {
+  try {
+    const requested = new URLSearchParams(window.location.search).get(APP_LOCALE_QUERY_KEY);
+    if (requested && supportedSiteLocales.includes(requested as SiteLocaleCode)) {
+      return requested as SiteLocaleCode;
+    }
+  } catch {
+    // URLSearchParams 不可用
+  }
+  return null;
+}
+
+function saveAppLocale(locale: SiteLocaleCode) {
+  try {
+    localStorage.setItem(APP_LOCALE_KEY, locale);
+  } catch {
+    // localStorage 不可用
+  }
+}
+
 export default function App() {
-  const { locale, path: pathname } = parseSiteLocalePath(window.location.pathname);
+  const { locale: urlLocale, path: pathname } = parseSiteLocalePath(window.location.pathname);
+  const isAppRoute = pathname.startsWith("/app");
+  const requestedAppLocale = readRequestedAppLocale();
+  const locale = isAppRoute ? (requestedAppLocale ?? readAppLocale() ?? urlLocale) : urlLocale;
   const siteUi = getSiteUi(locale);
   const publicSiteContext = useMemo(() => createPublicSiteContextValue(locale, pathname, siteUi), [locale, pathname, siteUi]);
-  const isAppRoute = pathname.startsWith("/app");
+
   const isLoginRoute = pathname.startsWith("/login");
   const isResetPasswordRoute = pathname.startsWith("/reset-password");
   const isSignupRoute = pathname.startsWith("/signup");
@@ -659,13 +566,21 @@ export default function App() {
     }
   }, [locale]);
 
+  useEffect(() => {
+    if (isLoginRoute || isSignupRoute || isResetPasswordRoute || (isAppRoute && requestedAppLocale)) {
+      saveAppLocale(locale);
+    }
+  }, [isAppRoute, isLoginRoute, isResetPasswordRoute, isSignupRoute, locale, requestedAppLocale]);
+
   if (isAppRoute) {
+    const appUi = getAppUi(locale);
+
     return (
       <PublicSiteContext.Provider value={publicSiteContext}>
         <>
           <SeoHead
-            title="LeadCue App - Prospect Research Workspace"
-            description="LeadCue app workspace for signed-in teams."
+            title={`${siteUi.common.brand} ${appUi.pages.dashboard.title}`}
+            description={appUi.pages.dashboard.copy}
             path="/app"
             locale={locale}
             noIndex
@@ -969,6 +884,13 @@ function LanguageSwitcher() {
       return;
     }
 
+    // 对于 /app 路由，将语言偏好保存到 localStorage 后刷新页面
+    if (window.location.pathname.startsWith("/app")) {
+      saveAppLocale(nextLocale);
+      window.location.reload();
+      return;
+    }
+
     window.location.assign(getSwitchHref(nextLocale));
   }
 
@@ -1086,7 +1008,7 @@ function MarketingSite() {
           <BrandMark />
           <span>{siteUi.common.brand}</span>
         </a>
-        <nav className="nav-links" aria-label="Main navigation">
+        <nav className="nav-links" aria-label={`${siteUi.common.brand} ${siteUi.nav.resources}`}>
           <a href="#features">{siteUi.nav.features}</a>
           <a href="#how">{siteUi.nav.howItWorks}</a>
           <a href="#card">{siteUi.nav.sampleCard}</a>
@@ -1139,7 +1061,7 @@ function MarketingSite() {
                     <span className="analytics-kicker">{home.analytics.kicker}</span>
                     <strong>{home.analytics.title}</strong>
                   </div>
-                  <div className="analytics-meta" aria-label="Data freshness">
+                  <div className="analytics-meta" aria-label={`${home.analytics.live} ${home.analytics.timeframe}`}>
                     <span className="live-dot">{home.analytics.live}</span>
                     <span className="live-timeframe">{home.analytics.timeframe}</span>
                   </div>
@@ -1368,7 +1290,7 @@ function MarketingSite() {
                 </a>
               </div>
             </div>
-            <HomeProspectPreview card={SAMPLE_PROSPECT_CARD} />
+            <HomeProspectPreview card={buildSampleProspectCard(locale)} />
           </div>
         </section>
 
@@ -1400,7 +1322,7 @@ function MarketingSite() {
               <h2>{home.comparison.title}</h2>
               <p className="section-copy">{home.comparison.copy}</p>
             </div>
-            <div className="comparison-table" role="table" aria-label="LeadCue comparison">
+            <div className="comparison-table" role="table" aria-label={home.comparison.title}>
               {home.comparison.rows.map(([type, gives, missing]) => (
                 <div className="comparison-row" role="row" key={type}>
                   <strong>{type}</strong>
@@ -1741,7 +1663,7 @@ function SeoContentPageView({ page }: { page: SeoContentPage }) {
           <BrandMark />
           <span>{siteUi.common.brand}</span>
         </a>
-        <nav className="content-nav" aria-label="LeadCue content navigation">
+        <nav className="content-nav" aria-label={siteUi.home.footer.resourcesTitle}>
           <a href={localizeHref("/website-prospecting")}>{siteUi.content.seoNav.strategy}</a>
           <a href={localizeHref("/use-cases/web-design-agencies")}>{siteUi.content.seoNav.useCases}</a>
           <a href={localizeHref("/guides/turn-website-into-cold-email-angle")}>{siteUi.content.seoNav.guides}</a>
@@ -1755,7 +1677,7 @@ function SeoContentPageView({ page }: { page: SeoContentPage }) {
 
       <main className="content-page seo-page">
         <section className="content-hero seo-hero">
-          <nav className="seo-breadcrumb" aria-label="Breadcrumb">
+          <nav className="seo-breadcrumb" aria-label={siteUi.content.breadcrumbs.resources}>
             <a href={localizeHref("/")}>{siteUi.content.breadcrumbs.home}</a>
             <span>/</span>
             <a href={localizeHref("/#resources")}>{siteUi.content.breadcrumbs.resources}</a>
@@ -1765,12 +1687,12 @@ function SeoContentPageView({ page }: { page: SeoContentPage }) {
           <p className="eyebrow glass-pill">{page.eyebrow}</p>
           <h1>{page.title}</h1>
           <p>{page.description}</p>
-          <div className="seo-meta-row" aria-label="Article metadata">
+          <div className="seo-meta-row" aria-label={`${page.category} ${siteUi.common.updatedLabel}`}>
             <span>{page.category}</span>
             <span>{page.readingTime}</span>
             <span>{`${siteUi.common.updatedLabel} ${page.updatedAt}`}</span>
           </div>
-          <div className="seo-keywords" aria-label="Target search intent">
+          <div className="seo-keywords" aria-label={siteUi.common.searchIntent}>
             <span>{page.primaryKeyword}</span>
             {page.secondaryKeywords.map((keyword) => (
               <span key={keyword}>{keyword}</span>
@@ -1778,7 +1700,7 @@ function SeoContentPageView({ page }: { page: SeoContentPage }) {
           </div>
         </section>
 
-        <section className="seo-layout" aria-label={`${page.title} article`}>
+        <section className="seo-layout" aria-label={page.title}>
           <aside className="seo-toc" aria-label={siteUi.common.onThisPage}>
             <strong>{siteUi.common.onThisPage}</strong>
             {page.sections.map((section) => (
@@ -1843,7 +1765,7 @@ function SeoContentPageView({ page }: { page: SeoContentPage }) {
               ))}
             </section>
 
-            <section className="seo-related" aria-label="Related LeadCue resources">
+            <section className="seo-related" aria-label={siteUi.common.relatedResources}>
               <div>
                 <p className="eyebrow">{siteUi.common.relatedResources}</p>
                 <h2>{siteUi.common.keepBuilding}</h2>
@@ -1877,197 +1799,18 @@ function SeoContentPageView({ page }: { page: SeoContentPage }) {
 
 type CrmMappingMode = "hubspot" | "salesforce" | "pipedrive" | "custom";
 
-const crmMappingModes: Array<{ value: CrmMappingMode; label: string; copy: string }> = [
-  { value: "hubspot", label: "HubSpot", copy: "Human-readable labels for company and list imports." },
-  { value: "salesforce", label: "Salesforce", copy: "Lead import labels for source, owner, and description." },
-  { value: "pipedrive", label: "Pipedrive", copy: "Organization, owner, stage, and note handoff fields." },
-  { value: "custom", label: "Custom", copy: "LeadCue's neutral export field naming." }
-];
-
-const crmMappingRows = [
-  {
-    key: "company",
-    group: "Identity",
-    labels: { hubspot: "Company name", salesforce: "Company", pipedrive: "Organization name", custom: "company_name" },
-    sample: "Northstar Analytics",
-    description: "The account or organization name."
-  },
-  {
-    key: "website",
-    group: "Identity",
-    labels: { hubspot: "Website URL", salesforce: "Website", pipedrive: "Website", custom: "website_url" },
-    sample: "https://northstaranalytics.example",
-    description: "The prospect website used for research."
-  },
-  {
-    key: "fit",
-    group: "Qualification",
-    labels: { hubspot: "Fit score", salesforce: "Fit Score", pipedrive: "Fit score", custom: "fit_score" },
-    sample: "86",
-    description: "Prioritization score for the account."
-  },
-  {
-    key: "confidence",
-    group: "Qualification",
-    labels: {
-      hubspot: "Confidence score",
-      salesforce: "Confidence Score",
-      pipedrive: "Confidence score",
-      custom: "confidence_score"
-    },
-    sample: "82%",
-    description: "How strong the website evidence is."
-  },
-  {
-    key: "signal",
-    group: "Website evidence",
-    labels: { hubspot: "Top website signal", salesforce: "Top Signal", pipedrive: "Top signal", custom: "top_signal" },
-    sample: "Demo CTA is not visible above the fold",
-    description: "The strongest source-backed reason to reach out."
-  },
-  {
-    key: "firstLine",
-    group: "Outreach",
-    labels: {
-      hubspot: "Cold email first line",
-      salesforce: "First Line",
-      pipedrive: "First line",
-      custom: "first_line"
-    },
-    sample: "I noticed Northstar explains the product clearly, but the demo path starts after the first scroll.",
-    description: "Copy-ready opener based on website evidence."
-  },
-  {
-    key: "sourceNotes",
-    group: "Website evidence",
-    labels: { hubspot: "Source notes", salesforce: "Description", pipedrive: "Notes", custom: "source_notes" },
-    sample: "Homepage: demo CTA appears below the first scroll; navigation scan: no case studies.",
-    description: "Evidence that lets reps verify the claim."
-  },
-  {
-    key: "owner",
-    group: "Workflow",
-    labels: { hubspot: "HubSpot owner", salesforce: "Lead Owner", pipedrive: "Owner", custom: "owner" },
-    sample: "Alex Rivera",
-    description: "The teammate responsible for follow-up."
-  },
-  {
-    key: "stage",
-    group: "Workflow",
-    labels: { hubspot: "Lead status", salesforce: "Lead Status", pipedrive: "Stage", custom: "stage" },
-    sample: "Researching",
-    description: "Where the account sits before outreach."
-  },
-  {
-    key: "exported",
-    group: "Workflow",
-    labels: { hubspot: "Export status", salesforce: "Export Status", pipedrive: "Export status", custom: "export_status" },
-    sample: "Not exported",
-    description: "Prevents duplicate CRM handoff."
-  }
-] as const;
-
 const requiredCrmFieldKeys = new Set(["company", "website", "owner", "stage"]);
 const recommendedCrmFieldKeys = new Set(["fit", "confidence", "signal", "firstLine", "sourceNotes", "exported"]);
 
-const agencyToolModes = [
-  { value: "web_design", label: "Web design" },
-  { value: "seo", label: "SEO" },
-  { value: "marketing", label: "Marketing" }
-] as const;
+const agencyToolModes = ["web_design", "seo", "marketing"] as const;
 
-type AgencyToolMode = (typeof agencyToolModes)[number]["value"];
-
-const firstLineTemplates = [
-  {
-    signal: "Hidden demo CTA",
-    category: "Conversion",
-    firstLine:
-      "I noticed the product story is clear, but the main demo path does not show up until after the first scroll.",
-    nextSentence: "That can cost booked demos from visitors who already understand what you do.",
-    cta: "Want me to send over three above-the-fold ideas?"
-  },
-  {
-    signal: "Missing proof",
-    category: "Trust",
-    firstLine: "I saw a strong product explanation, but buyer proof and case studies are hard to find from the main navigation.",
-    nextSentence: "For higher-consideration buyers, that can make the demo decision feel riskier than it needs to be.",
-    cta: "Want me to send a quick proof-section outline?"
-  },
-  {
-    signal: "Inactive content",
-    category: "SEO",
-    firstLine: "I noticed the blog appears inactive, even though the product seems to serve buyers who research before booking a demo.",
-    nextSentence: "That may leave high-intent educational searches uncovered.",
-    cta: "Want me to send a few content angles I would test first?"
-  },
-  {
-    signal: "Unclear positioning",
-    category: "Messaging",
-    firstLine: "I noticed the homepage names the product category, but the buyer-specific outcome takes a few sections to become clear.",
-    nextSentence: "Tightening that message can help visitors understand why the product is relevant faster.",
-    cta: "Want me to send two headline directions?"
-  }
-] as const;
+type AgencyToolMode = (typeof agencyToolModes)[number];
 
 const checklistModeRecommendations: Record<AgencyToolMode, string[]> = {
   web_design: ["cta", "proof", "caseStudies", "positioning", "contactPath", "sourceNotes"],
   seo: ["contentFreshness", "serviceDepth", "positioning", "contactPath", "sourceNotes"],
   marketing: ["cta", "proof", "contentFreshness", "positioning", "contactPath", "sourceNotes"]
 };
-
-const integrationPlaybooks = {
-  HubSpot: {
-    recordType: "Company import first",
-    quickWins: [
-      "Map Fit score and Confidence score into custom company properties.",
-      "Keep First line and Source notes visible to SDRs as soon as the record lands.",
-      "Import only selected saved leads so list hygiene stays clean."
-    ],
-    mistakes: [
-      "Importing every scanned account instead of only saved leads.",
-      "Dropping source notes so reps lose the proof behind the opener.",
-      "Using contact import too early before a verified contact path exists."
-    ]
-  },
-  Salesforce: {
-    recordType: "Lead import with research fields",
-    quickWins: [
-      "Set Lead Source to Website Prospecting or LeadCue for cleaner reporting.",
-      "Use Description or a long-text custom field for source-backed summary.",
-      "Route owner and lead status before the campaign handoff."
-    ],
-    mistakes: [
-      "Over-mapping every research field into a rigid schema.",
-      "Skipping custom numeric fields for fit and confidence scores.",
-      "Moving accounts into sequences before the owner verifies the reason to reach out."
-    ]
-  },
-  Pipedrive: {
-    recordType: "Organization or lead import",
-    quickWins: [
-      "Use Organization fields for website identity and note fields for the research reason.",
-      "Map Stage to researching or qualified before the account is touched by outreach.",
-      "Keep owner attached so handoff stays accountable."
-    ],
-    mistakes: [
-      "Creating deals before the account has shown any engagement.",
-      "Burying source notes in a place reps never review.",
-      "Losing export status and re-importing the same account twice."
-    ]
-  }
-} as const;
-
-const checklistItems = [
-  { key: "cta", category: "Conversion", label: "Primary CTA is visible above the fold." },
-  { key: "proof", category: "Trust", label: "Relevant customer proof appears before the buyer must hunt for it." },
-  { key: "caseStudies", category: "Trust", label: "Case studies or outcomes are accessible from navigation." },
-  { key: "contentFreshness", category: "SEO", label: "Blog, resources, or service content looks current." },
-  { key: "serviceDepth", category: "SEO", label: "Service or use-case pages answer specific buyer questions." },
-  { key: "positioning", category: "Messaging", label: "The headline explains the target buyer and outcome clearly." },
-  { key: "contactPath", category: "Contact path", label: "Contact, demo, or booking path is easy to find." },
-  { key: "sourceNotes", category: "Evidence", label: "The strongest observation can be tied to a page source." }
-] as const;
 
 function copyText(value: string) {
   void copyToClipboard(value);
@@ -2170,7 +1913,7 @@ function ProductSeoPageView({ page }: { page: ProductSeoPage }) {
           <BrandMark />
           <span>{siteUi.common.brand}</span>
         </a>
-        <nav className="content-nav" aria-label="Product-led SEO navigation">
+        <nav className="content-nav" aria-label={siteUi.home.footer.resourcesTitle}>
           <a href={localizeHref("/templates/crm-csv-field-mapping")}>{siteUi.content.productNav.csvTool}</a>
           <a href={localizeHref("/templates/cold-email-first-line")}>{siteUi.content.productNav.firstLines}</a>
           <a href={localizeHref("/templates/website-prospecting-checklist")}>{siteUi.content.productNav.checklist}</a>
@@ -2184,7 +1927,7 @@ function ProductSeoPageView({ page }: { page: ProductSeoPage }) {
 
       <main className="content-page seo-page product-seo-page">
         <section className="content-hero seo-hero">
-          <nav className="seo-breadcrumb" aria-label="Breadcrumb">
+          <nav className="seo-breadcrumb" aria-label={siteUi.content.breadcrumbs.resources}>
             <a href={localizeHref("/")}>{siteUi.content.breadcrumbs.home}</a>
             <span>/</span>
             <a href={localizeHref("/#resources")}>{siteUi.content.breadcrumbs.resources}</a>
@@ -2194,12 +1937,12 @@ function ProductSeoPageView({ page }: { page: ProductSeoPage }) {
           <p className="eyebrow glass-pill">{page.eyebrow}</p>
           <h1>{page.title}</h1>
           <p>{page.description}</p>
-          <div className="seo-meta-row" aria-label="Page metadata">
+          <div className="seo-meta-row" aria-label={`${page.category} ${siteUi.common.updatedLabel}`}>
             <span>{page.category}</span>
             <span>{page.readingTime}</span>
             <span>{`${siteUi.common.updatedLabel} ${page.updatedAt}`}</span>
           </div>
-          <div className="seo-keywords" aria-label="Target search intent">
+          <div className="seo-keywords" aria-label={siteUi.common.searchIntent}>
             <span>{page.primaryKeyword}</span>
             {page.secondaryKeywords.map((keyword) => (
               <span key={keyword}>{keyword}</span>
@@ -2207,7 +1950,7 @@ function ProductSeoPageView({ page }: { page: ProductSeoPage }) {
           </div>
         </section>
 
-        <section className="seo-layout" aria-label={`${page.title} tool and guide`}>
+        <section className="seo-layout" aria-label={`${page.title} ${siteUi.common.tool}`}>
           <aside className="seo-toc" aria-label={siteUi.common.onThisPage}>
             <strong>{siteUi.common.onThisPage}</strong>
             <a href="#tool">{siteUi.common.tool}</a>
@@ -2239,7 +1982,7 @@ function ProductSeoPageView({ page }: { page: ProductSeoPage }) {
               <ProductToolSurface page={page} />
             </section>
 
-            <section className="tool-conversion-band" aria-label="Use this workflow inside LeadCue">
+            <section className="tool-conversion-band" aria-label={siteUi.content.toolBand.title}>
               <div className="tool-conversion-copy">
                 <p className="eyebrow">{siteUi.content.toolBand.eyebrow}</p>
                 <h2>{siteUi.content.toolBand.title}</h2>
@@ -2315,7 +2058,7 @@ function ProductSeoPageView({ page }: { page: ProductSeoPage }) {
               ))}
             </section>
 
-            <section className="seo-related" aria-label="Related LeadCue resources">
+            <section className="seo-related" aria-label={siteUi.common.relatedResources}>
               <div>
                 <p className="eyebrow">{siteUi.common.relatedResources}</p>
                 <h2>{siteUi.common.keepBuilding}</h2>
@@ -2410,7 +2153,7 @@ function CrmFieldMappingTool() {
       <div className="product-tool-head">
         <div>
           <p className="eyebrow">{crmCopy.eyebrow}</p>
-          <h2>{`${activeMode.label} prospect research export`}</h2>
+          <h2>{formatMessage(crmCopy.importPrep, { mode: activeMode.label })}</h2>
           <p>{activeMode.copy}</p>
         </div>
         <div className="tool-actions">
@@ -2454,7 +2197,7 @@ function CrmFieldMappingTool() {
         </div>
       </div>
 
-      <div className="tool-segmented" role="tablist" aria-label="CRM field naming mode">
+      <div className="tool-segmented" role="tablist" aria-label={crmCopy.eyebrow}>
         {crmModes.map((item) => (
           <button
             className={mode === item.value ? "is-active" : ""}
@@ -2469,7 +2212,7 @@ function CrmFieldMappingTool() {
         ))}
       </div>
 
-      <div className="tool-segmented tool-segmented-secondary" role="tablist" aria-label="CRM field scope">
+      <div className="tool-segmented tool-segmented-secondary" role="tablist" aria-label={crmCopy.readyChecklist}>
         {[
           ["all", crmCopy.scopeAll],
           ["required", crmCopy.scopeRequired],
@@ -2496,7 +2239,7 @@ function CrmFieldMappingTool() {
       ) : null}
 
       <div className="field-mapping-grid">
-        <div className="field-picker" aria-label="Fields to include">
+        <div className="field-picker" aria-label={crmCopy.includedFields}>
           <strong>{crmCopy.includedFields}</strong>
           {visibleRows.map((row) => (
             <label key={row.key}>
@@ -2514,7 +2257,7 @@ function CrmFieldMappingTool() {
           ))}
         </div>
 
-        <div className="mapping-table" aria-label={`${activeMode.label} field mapping table`}>
+        <div className="mapping-table" aria-label={formatMessage(crmCopy.importPrep, { mode: activeMode.label })}>
           <div className="mapping-table-row mapping-table-head">
             <span>{crmCopy.mappingField}</span>
             <span>{crmCopy.mappingGroup}</span>
@@ -2586,15 +2329,15 @@ function FirstLineTemplateTool() {
         </button>
       </div>
 
-      <div className="tool-segmented tool-segmented-secondary" role="tablist" aria-label="Agency offer mode">
+      <div className="tool-segmented tool-segmented-secondary" role="tablist" aria-label={firstLineCopy.eyebrow}>
         {agencyToolModes.map((mode) => (
           <button
-            className={agencyMode === mode.value ? "is-active" : ""}
+            className={agencyMode === mode ? "is-active" : ""}
             type="button"
-            key={mode.value}
-            onClick={() => setAgencyMode(mode.value)}
+            key={mode}
+            onClick={() => setAgencyMode(mode)}
           >
-            {firstLineCopy.modeLabels[mode.value]}
+            {firstLineCopy.modeLabels[mode]}
           </button>
         ))}
       </div>
@@ -2680,7 +2423,7 @@ function WebsiteProspectingChecklistTool() {
   const localizedChecklistItems = checklistCopy.items;
   const checklistQuery = useMemo(() => new URLSearchParams(window.location.search), []);
   const initialMode = checklistQuery.get("mode");
-  const resolvedMode = agencyToolModes.some((mode) => mode.value === initialMode)
+  const resolvedMode = agencyToolModes.some((mode) => mode === initialMode)
     ? (initialMode as AgencyToolMode)
     : "web_design";
   const initialChecks = checklistQuery
@@ -2693,7 +2436,7 @@ function WebsiteProspectingChecklistTool() {
   const checkedItems = localizedChecklistItems.filter((item) => checkedKeys.includes(item.key));
   const score = Math.round((checkedItems.length / localizedChecklistItems.length) * 100);
   const strongestSignal = checkedItems[0]?.label ?? checklistCopy.summaryEmpty;
-  const summaryText = `Website prospecting summary\n${checklistCopy.summaryMode}: ${agencyMode}\n${checklistCopy.summaryCoverage}: ${score}%\n${checklistCopy.summarySignals}:\n${checkedItems
+  const summaryText = `${checklistCopy.summaryTitle}\n${checklistCopy.summaryMode}: ${siteUi.tools.firstLine.modeLabels[agencyMode]}\n${checklistCopy.summaryCoverage}: ${score}%\n${checklistCopy.summarySignals}:\n${checkedItems
     .map((item) => `- ${item.category}: ${item.label}`)
     .join("\n")}`;
   const shareUrl = `${window.location.origin}${window.location.pathname}?mode=${agencyMode}&checks=${checkedKeys.join(",")}`;
@@ -2719,18 +2462,18 @@ function WebsiteProspectingChecklistTool() {
         </button>
       </div>
 
-      <div className="tool-segmented tool-segmented-secondary" role="tablist" aria-label="Agency checklist mode">
+      <div className="tool-segmented tool-segmented-secondary" role="tablist" aria-label={checklistCopy.eyebrow}>
         {agencyToolModes.map((mode) => (
           <button
-            className={agencyMode === mode.value ? "is-active" : ""}
+            className={agencyMode === mode ? "is-active" : ""}
             type="button"
-            key={mode.value}
+            key={mode}
             onClick={() => {
-              setAgencyMode(mode.value);
-              setCheckedKeys(checklistModeRecommendations[mode.value]);
+              setAgencyMode(mode);
+              setCheckedKeys(checklistModeRecommendations[mode]);
             }}
           >
-            {siteUi.tools.firstLine.modeLabels[mode.value]}
+            {siteUi.tools.firstLine.modeLabels[mode]}
           </button>
         ))}
       </div>
@@ -2916,7 +2659,7 @@ function CommercialPage({ slug }: { slug: CommercialPageSlug }) {
           <BrandMark />
           <span>{siteUi.common.brand}</span>
         </a>
-        <nav className="content-nav" aria-label="Commercial pages">
+        <nav className="content-nav" aria-label={siteUi.home.footer.resourcesTitle}>
           <a href={localizeHref("/docs")}>{siteUi.content.commercialNav.docs}</a>
           <a href={localizeHref("/support")}>{siteUi.content.commercialNav.support}</a>
           <a href={localizeHref("/contact")}>{siteUi.content.commercialNav.contact}</a>
@@ -2946,7 +2689,7 @@ function CommercialPage({ slug }: { slug: CommercialPageSlug }) {
         </section>
 
         {slug === "docs" || slug === "support" || slug === "contact" ? (
-          <section className="help-center-shell" aria-label="LeadCue help center">
+          <section className="help-center-shell" aria-label={siteUi.commercial.helpCenter.title}>
             <div className="help-center-head">
               <div>
                 <p className="eyebrow">{siteUi.commercial.helpCenter.eyebrow}</p>
@@ -2969,7 +2712,7 @@ function CommercialPage({ slug }: { slug: CommercialPageSlug }) {
           </section>
         ) : null}
 
-        <section className="content-grid" aria-label={`${page.title} details`}>
+        <section className="content-grid" aria-label={page.title}>
           {page.sections.map((section, index) => (
             <article className={`content-panel ${index === 1 ? "content-panel-dark" : ""}`} key={section.title}>
               <span className="content-panel-index">{String(index + 1).padStart(2, "0")}</span>
@@ -3062,72 +2805,181 @@ function buildFirstLineVariant(
   }
 }
 
-function formatSubscriptionStatus(status: string) {
-  return status
+function humanizeEnumLabel(value?: string | null) {
+  return (value || "")
     .split("_")
     .filter(Boolean)
     .map((part) => `${part.charAt(0).toUpperCase()}${part.slice(1)}`)
     .join(" ");
 }
 
-function getSubscriptionStatusDetails(status: string) {
+function formatSubscriptionStatus(status: string, appUi?: AppUi) {
+  return (
+    appUi?.options.subscriptionStatuses[status as keyof AppUi["options"]["subscriptionStatuses"]] ||
+    fallbackAppUi.options.subscriptionStatuses[status as keyof AppUi["options"]["subscriptionStatuses"]] ||
+    humanizeEnumLabel(status)
+  );
+}
+
+function getSubscriptionStatusDetails(status: string, appUi: AppUi) {
   switch (status) {
     case "active":
       return {
-        label: "Active",
+        label: formatSubscriptionStatus(status, appUi),
         tone: "is-success",
-        summary: "Scans and exports are available on the current plan.",
-        nextStep: "Keep qualifying accounts, then upgrade only when scan volume is the real bottleneck."
+        summary: appUi.billing.subscriptionDetails.active.summary,
+        nextStep: appUi.billing.subscriptionDetails.active.nextStep
       };
     case "trialing":
       return {
-        label: "Trialing",
+        label: formatSubscriptionStatus(status, appUi),
         tone: "is-success",
-        summary: "The workspace has access right now, but the trial period will need a billing decision soon.",
-        nextStep: "Use this window to validate scan quality, save rate, and export handoff."
+        summary: appUi.billing.subscriptionDetails.trialing.summary,
+        nextStep: appUi.billing.subscriptionDetails.trialing.nextStep
       };
     case "pending_checkout":
       return {
-        label: "Checkout pending",
+        label: formatSubscriptionStatus(status, appUi),
         tone: "is-warning",
-        summary: "The plan change has started, but checkout still needs to be completed.",
-        nextStep: "Finish the Stripe checkout to unlock the paid credit allowance."
+        summary: appUi.billing.subscriptionDetails.pendingCheckout.summary,
+        nextStep: appUi.billing.subscriptionDetails.pendingCheckout.nextStep
       };
     case "configuration_required":
       return {
-        label: "Billing setup required",
+        label: formatSubscriptionStatus(status, appUi),
         tone: "is-warning",
-        summary: "The workspace selected a paid plan before billing was fully configured in this environment.",
-        nextStep: "Contact support or finish the Stripe configuration before relying on paid-plan access."
+        summary: appUi.billing.subscriptionDetails.configurationRequired.summary,
+        nextStep: appUi.billing.subscriptionDetails.configurationRequired.nextStep
       };
     case "past_due":
       return {
-        label: "Past due",
+        label: formatSubscriptionStatus(status, appUi),
         tone: "is-warning",
-        summary: "Billing needs attention before the workspace can rely on uninterrupted paid access.",
-        nextStep: "Open the billing portal and update the payment method or invoice status."
+        summary: appUi.billing.subscriptionDetails.pastDue.summary,
+        nextStep: appUi.billing.subscriptionDetails.pastDue.nextStep
       };
     case "canceled":
       return {
-        label: "Canceled",
+        label: formatSubscriptionStatus(status, appUi),
         tone: "is-danger",
-        summary: "The paid subscription is no longer active for future periods.",
-        nextStep: "Restart checkout if the team still needs higher monthly scan volume."
+        summary: appUi.billing.subscriptionDetails.canceled.summary,
+        nextStep: appUi.billing.subscriptionDetails.canceled.nextStep
       };
     default:
       return {
-        label: formatSubscriptionStatus(status),
+        label: formatSubscriptionStatus(status, appUi),
         tone: "",
-        summary: "This subscription state needs review before rollout.",
-        nextStep: "Open billing details or contact support if the status does not match the expected plan."
+        summary: appUi.billing.subscriptionDetails.fallbackSummary,
+        nextStep: appUi.billing.subscriptionDetails.fallbackNextStep
       };
   }
 }
 
-function formatAnalyticsEventName(value: string) {
-  return value
-    .replace(/_/g, " ")
-    .replace(/\b\w/g, (letter) => letter.toUpperCase());
+function formatAnalyticsEventName(value: string, appUi: AppUi) {
+  return appUi.analytics.eventNames[value as keyof AppUi["analytics"]["eventNames"]] || humanizeEnumLabel(value);
+}
+
+function formatAnalyticsMetadataSummary(value: string | null | undefined, appUi: AppUi) {
+  const analytics = getSampleLocaleContent("en").analytics;
+
+  switch (value) {
+    case analytics.eventMetadata.basicScanOneCredit:
+      return appUi.analytics.eventMetadata.basicScanOneCredit;
+    case analytics.eventMetadata.crmHubSpot:
+      return appUi.analytics.eventMetadata.crmHubSpot;
+    case analytics.eventMetadata.hubSpotMappingCta:
+      return appUi.analytics.eventMetadata.hubSpotMappingCta;
+    default:
+      return value || null;
+  }
+}
+
+function formatAnalyticsRecommendation(value: string, appUi: AppUi) {
+  const analytics = getSampleLocaleContent("en").analytics;
+
+  switch (value) {
+    case analytics.recommendations.toolPageCta:
+      return appUi.analytics.recommendations.toolPageCta;
+    case analytics.recommendations.exportsGap:
+      return appUi.analytics.recommendations.exportsGap;
+    case analytics.recommendations.crmTemplateTraffic:
+      return appUi.analytics.recommendations.crmTemplateTraffic;
+    default:
+      return value;
+  }
+}
+
+function formatScanTypeLabel(value: "basic" | "deep", appUi: AppUi) {
+  return appUi.billing.scanHistory.scanTypes[value];
+}
+
+function translateAppErrorMessage(message: string, appUi: AppUi) {
+  switch (message) {
+    case "D1 is not initialized. Apply migrations to enable workspace persistence.":
+    case "D1 is not initialized. Apply migrations to enable scan history.":
+    case "D1 is not initialized. Apply migrations to enable persistence.":
+    case "D1 is not initialized. Apply migrations to enable credit tracking.":
+      return appUi.common.messages.sampleWorkspaceDataPlain;
+    case "Sign in before managing billing.":
+      return appUi.common.messages.signInRequired;
+    case "Workspace not found.":
+    case "Workspace data is not available yet.":
+      return appUi.common.messages.workspaceNotFound;
+    case "Your subscription is not active. Update billing before scanning more websites.":
+      return appUi.common.messages.subscriptionInactive;
+    case "This workspace does not have enough scan credits for this request.":
+      return appUi.common.messages.insufficientCredits;
+    case "First prospect URL must be a valid http(s) URL.":
+      return appUi.icp.messages.invalidFirstTargetUrl;
+    case "Sign in before updating workspace profile details.":
+      return appUi.account.messages.signInProfile;
+    case "Owner name and workspace name are both required.":
+      return appUi.account.messages.namesRequired;
+    case "Profile updates are unavailable until the workspace database is ready.":
+      return appUi.account.messages.profileSaveFailed;
+    case "Sign in before changing the workspace password.":
+      return appUi.account.messages.signInPassword;
+    case "Use at least 8 characters for the new password.":
+      return appUi.account.messages.passwordMin;
+    case "The new password and confirmation need to match.":
+      return appUi.account.messages.passwordMismatch;
+    case "Enter the current password before setting a new one.":
+      return appUi.account.messages.currentPasswordRequired;
+    case "Current password is incorrect.":
+      return appUi.account.messages.currentPasswordIncorrect;
+    case "Password updates are unavailable until the workspace database is ready.":
+      return appUi.account.messages.passwordUpdateFailed;
+    case "Lead detail is not available.":
+    case "Lead not found.":
+      return appUi.common.messages.leadDetailUnavailable;
+    case "Scan failed. Try again with a fuller website snapshot.":
+      return appUi.common.messages.scanFailed;
+    case "Unable to save ICP settings.":
+    case "Request body must be valid JSON.":
+      return appUi.icp.messages.saveFailed;
+    case "Sign in before updating onboarding.":
+    case "Onboarding state requires a configured database.":
+    case "Unable to update onboarding.":
+      return appUi.common.messages.onboardingUpdateFailed;
+    case "CSV export is not available for this workspace.":
+      return appUi.common.messages.csvExportFailed;
+    case "Billing portal requires a configured database.":
+    case "Stripe portal is not configured for this environment.":
+    case "No Stripe customer is attached to this workspace yet.":
+    case "Billing portal is not available yet.":
+      return appUi.common.messages.billingPortalUnavailable;
+    case "Stripe checkout is not configured for this environment.":
+      return appUi.common.messages.checkoutUnavailable;
+    case "Invalid owner, pipeline stage, or notes.":
+    case "Unable to save pipeline context.":
+      return appUi.prospectCard.pipeline.saveStateError;
+    default:
+      return message;
+  }
+}
+
+function resolveAppErrorMessage(error: unknown, fallback: string, appUi: AppUi) {
+  return error instanceof Error ? translateAppErrorMessage(error.message, appUi) : fallback;
 }
 
 function percentage(numerator: number, denominator: number) {
@@ -3138,35 +2990,51 @@ function percentage(numerator: number, denominator: number) {
   return `${Math.round((numerator / denominator) * 100)}%`;
 }
 
-function formatAgencyFocus(value?: string | null) {
+function formatAgencyFocus(value?: string | null, appUi?: AppUi) {
   switch (value) {
     case "web_design":
-      return "Web design / redesign";
+      return appUi?.options.serviceTypes.web_design || fallbackAppUi.options.serviceTypes.web_design;
     case "seo":
-      return "SEO agency";
+      return appUi?.options.serviceTypes.seo || fallbackAppUi.options.serviceTypes.seo;
     case "marketing":
-      return "Growth / marketing";
+      return appUi?.options.serviceTypes.marketing || fallbackAppUi.options.serviceTypes.marketing;
     case "founder":
-      return "Founder-led outbound";
+      return appUi?.options.serviceTypes.founder || fallbackAppUi.options.serviceTypes.founder;
     case "custom":
-      return "Custom";
+      return appUi?.options.serviceTypes.custom || fallbackAppUi.options.serviceTypes.custom;
     default:
-      return value ? value.replace(/_/g, " ") : "Not set";
+      return value ? humanizeEnumLabel(value) : appUi?.options.serviceTypes.unknown || fallbackAppUi.options.serviceTypes.unknown;
   }
 }
 
-function formatCompactUrl(value?: string | null) {
+function formatToneLabel(value?: string | null, appUi?: AppUi) {
   if (!value) {
-    return "Not set";
+    return appUi?.options.tones.unknown || fallbackAppUi.options.tones.unknown;
+  }
+
+  return (
+    appUi?.options.tones[value as keyof AppUi["options"]["tones"]] ||
+    fallbackAppUi.options.tones[value as keyof AppUi["options"]["tones"]] ||
+    humanizeEnumLabel(value)
+  );
+}
+
+function formatSignalCategory(value: OpportunitySignal["category"], appUi?: AppUi) {
+  return appUi?.options.signalCategories[value] || fallbackAppUi.options.signalCategories[value] || humanizeEnumLabel(value);
+}
+
+function formatCompactUrl(value?: string | null, emptyLabel = fallbackAppUi.common.notSet) {
+  if (!value) {
+    return emptyLabel;
   }
 
   return value.replace(/^https?:\/\//, "").replace(/\/$/, "");
 }
 
-function previewList(values: string[], maxItems = 3) {
+function previewList(values: string[], maxItems = 3, emptyLabel = fallbackAppUi.common.notSet) {
   const items = values.map((value) => value.trim()).filter(Boolean);
   if (!items.length) {
-    return "Not set";
+    return emptyLabel;
   }
 
   return items.length > maxItems
@@ -3174,13 +3042,13 @@ function previewList(values: string[], maxItems = 3) {
     : items.join(", ");
 }
 
-function formatHistoryTime(value: string) {
+function formatHistoryTime(value: string, locale = "en", unknownLabel = fallbackAppUi.common.unknownTime) {
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) {
-    return "Unknown time";
+    return unknownLabel;
   }
 
-  return new Intl.DateTimeFormat("en", {
+  return new Intl.DateTimeFormat(locale, {
     month: "short",
     day: "numeric",
     hour: "2-digit",
@@ -3188,38 +3056,52 @@ function formatHistoryTime(value: string) {
   }).format(date);
 }
 
-function formatHistoryReason(value?: ScanHistoryItem["reason"]) {
+function formatHistoryReason(value?: string | null, appUi?: AppUi) {
   if (!value) {
-    return "usable card saved";
+    return appUi?.preview.saved || fallbackAppUi.preview.saved;
   }
 
-  return value.replace(/_/g, " ");
+  return (
+    appUi?.options.historyReasons[value as keyof AppUi["options"]["historyReasons"]] ||
+    fallbackAppUi.options.historyReasons[value as keyof AppUi["options"]["historyReasons"]] ||
+    humanizeEnumLabel(value)
+  );
+}
+
+function withAppLocaleHeader(locale: SiteLocaleCode, headers?: HeadersInit) {
+  const nextHeaders = new Headers(headers);
+  nextHeaders.set("X-LeadCue-Locale", locale);
+  return nextHeaders;
 }
 
 function leadDetailHref(leadId?: string | null) {
   return leadId ? `/app/leads?lead=${encodeURIComponent(leadId)}` : null;
 }
 
-function bulkExportLabel(presetKey: Exclude<ProspectExportPresetKey, "custom">, crmMode: ProspectCrmFieldMode) {
+function bulkExportLabel(presetKey: Exclude<ProspectExportPresetKey, "custom">, crmMode: ProspectCrmFieldMode, appUi?: AppUi) {
   const preset = prospectExportPresets.find((item) => item.key === presetKey);
   const mode = prospectCrmFieldModes.find((item) => item.value === crmMode);
+  const presetLabel = preset
+    ? appUi?.prospectCard.export.presets[preset.key].label || preset.label
+    : appUi?.prospectCard.export.csvColumns || fallbackAppUi.prospectCard.export.csvColumns;
+  const modeLabel = mode ? appUi?.prospectCard.export.crmModes[mode.value].label || mode.label : "";
 
-  return presetKey === "crm" && mode ? `${preset?.label || "CRM export"} / ${mode.label}` : preset?.label || "CSV";
+  return presetKey === "crm" && modeLabel ? `${presetLabel} / ${modeLabel}` : presetLabel;
 }
 
-function formatActivityFieldLabel(field: ActivityChangedField) {
+function formatActivityFieldLabel(field: ActivityChangedField, appUi?: AppUi) {
   const labels: Record<ActivityChangedField, string> = {
     owner: "Owner",
     stage: "Stage",
     notes: "Notes"
   };
 
-  return labels[field];
+  return appUi?.options.activityFields[field] || labels[field];
 }
 
-function formatActivityContextValue(context: ProspectPipelineContext, field: ActivityChangedField) {
+function formatActivityContextValue(context: ProspectPipelineContext, field: ActivityChangedField, appUi?: AppUi) {
   if (field === "stage") {
-    return formatPipelineStageLabel(context.stage);
+    return appUi?.options.pipelineStages[context.stage] || humanizeEnumLabel(context.stage);
   }
 
   const value = context[field]?.trim();
@@ -3227,11 +3109,11 @@ function formatActivityContextValue(context: ProspectPipelineContext, field: Act
     return value;
   }
 
-  return field === "owner" ? "Unassigned" : "Empty";
+  return field === "owner" ? appUi?.common.unassigned || "Unassigned" : appUi?.common.empty || "Empty";
 }
 
-function formatCardList(values: string[]) {
-  return values.map((value) => value.trim()).filter(Boolean).join(", ") || "None found";
+function formatCardList(values: string[], emptyLabel = "None found") {
+  return values.map((value) => value.trim()).filter(Boolean).join(", ") || emptyLabel;
 }
 
 function slugifyFilePart(value: string) {
@@ -3257,8 +3139,8 @@ function downloadTextFile(filename: string, value: string) {
 }
 
 function normalizeProspectMeta(value?: ProspectPipelineContext | null): ProspectPipelineContext {
-  const stage = pipelineStageOptions.some((option) => option.value === value?.stage)
-    ? value!.stage
+  const stage = value?.stage && pipelineStageOptions.includes(value.stage)
+    ? value.stage
     : defaultProspectMeta.stage;
 
   return {
@@ -3269,9 +3151,9 @@ function normalizeProspectMeta(value?: ProspectPipelineContext | null): Prospect
   };
 }
 
-function leadPreviewProspect(lead: LeadListItem): ProspectCardType {
+function leadPreviewProspect(lead: LeadListItem, sampleCard: ProspectCardType = SAMPLE_PROSPECT_CARD): ProspectCardType {
   return {
-    ...SAMPLE_PROSPECT_CARD,
+    ...sampleCard,
     companyName: lead.companyName,
     domain: lead.domain,
     website: lead.websiteUrl,
@@ -3285,7 +3167,7 @@ function leadPreviewProspect(lead: LeadListItem): ProspectCardType {
 }
 
 function parseProspectCardTab(value?: string | null): ProspectCardTab {
-  return prospectCardTabs.some((tab) => tab.value === value) ? (value as ProspectCardTab) : "overview";
+  return value && prospectCardTabs.includes(value as ProspectCardTab) ? (value as ProspectCardTab) : "overview";
 }
 
 function getProspectTabFromLocation() {
@@ -3416,65 +3298,19 @@ function getAppSection(pathname: string): AppSection {
   if (pathname.startsWith("/app/leads")) {
     return "leads";
   }
-
   if (pathname.startsWith("/app/settings/icp")) {
     return "icp";
   }
-
   if (pathname.startsWith("/app/analytics")) {
     return "analytics";
   }
-
   if (pathname.startsWith("/app/account")) {
     return "account";
   }
-
   if (pathname.startsWith("/app/billing")) {
     return "billing";
   }
-
   return "dashboard";
-}
-
-function appPageCopy(section: AppSection) {
-  switch (section) {
-    case "leads":
-      return {
-        eyebrow: "Lead library",
-        title: "Saved prospects",
-        copy: "Review qualified accounts, fit scores, confidence, and the Prospect Card your team can export."
-      };
-    case "icp":
-      return {
-        eyebrow: "ICP settings",
-        title: "Scoring profile",
-        copy: "Tune the agency offer, industries, countries, and tone LeadCue uses when ranking websites."
-      };
-    case "billing":
-      return {
-        eyebrow: "Credits and billing",
-        title: "Plan usage",
-        copy: "Track remaining scan credits, subscription state, and the plan path for your outbound volume."
-      };
-    case "analytics":
-      return {
-        eyebrow: "Analytics",
-        title: "Research funnel",
-        copy: "See which actions actually move from product interest to saved scans, exports, and CRM handoff."
-      };
-    case "account":
-      return {
-        eyebrow: "Account",
-        title: "Profile and access",
-        copy: "Manage workspace identity, password access, and the secure session your team uses to enter LeadCue."
-      };
-    default:
-      return {
-        eyebrow: "Workspace",
-        title: "Prospect research dashboard",
-        copy: "Run website scans, review Prospect Cards, and keep outbound research connected to credits."
-      };
-  }
 }
 
 function buildGoogleAuthHref(options: {
@@ -3487,21 +3323,18 @@ function buildGoogleAuthHref(options: {
     intent: options.intent,
     returnTo: options.returnTo || "/app"
   });
-
   if (options.planId) {
     params.set("planId", options.planId);
   }
-
   if (options.focus) {
     params.set("focus", options.focus);
   }
-
   return apiUrl(`/api/auth/google/start?${params.toString()}`);
 }
 
 function formatCalendarDate(value: string | null | undefined) {
   if (!value) {
-    return "Not scheduled";
+    return fallbackAppUi.common.notSet;
   }
 
   const parsed = Date.parse(value);
@@ -3535,6 +3368,42 @@ function getAuthErrorMessage(siteUi: SiteUi) {
       return authErrors.google_exchange_failed;
     default:
       return "";
+  }
+}
+
+function translatePublicAuthErrorMessage(message: string, siteUi: SiteUi) {
+  const { login, reset, signup, errors } = siteUi.auth;
+
+  switch (message) {
+    case "Authentication is unavailable until the workspace database is ready.":
+    case "Email password sign-in is unavailable until the workspace database is ready.":
+    case "This workspace does not have email password sign-in set up yet.":
+      return errors.database_unavailable || login.validation.emailLoginUnavailable;
+    case "Enter a valid email and password.":
+      return login.validation.invalidLogin;
+    case "Email or password is incorrect.":
+      return login.validation.emailLoginFailed;
+    case "Password reset is unavailable until the workspace database is ready.":
+    case "Password reset is unavailable right now.":
+      return login.validation.resetUnavailable;
+    case "Enter the workspace email address you used to sign in.":
+      return login.validation.invalidResetEmail;
+    case "If that email belongs to a workspace, a one-time reset link has been prepared.":
+    case "If that email belongs to a workspace, a reset link has been prepared.":
+      return login.validation.resetPrepared;
+    case "A valid reset token and an 8+ character password are required.":
+      return reset.genericError;
+    case "This reset link has expired. Request a new password reset.":
+      return reset.invalidLink;
+    case "A valid work email is required.":
+      return signup.validation.emailRequired;
+    case "Offer description is required.":
+    case "Unable to create workspace. Please try again.":
+      return signup.validation.setupFailed;
+    case "Password must be at least 8 characters.":
+      return signup.validation.passwordRequired;
+    default:
+      return message;
   }
 }
 
@@ -3589,7 +3458,7 @@ function LoginPage() {
 
       if (!response.ok || !result.ok) {
         setLoginState("error");
-        setLoginError(result.error || authCopy.validation.emailLoginFailed);
+        setLoginError(translatePublicAuthErrorMessage(result.error || authCopy.validation.emailLoginFailed, siteUi));
         return;
       }
 
@@ -3634,11 +3503,11 @@ function LoginPage() {
       const result = (await response.json().catch(() => ({}))) as { ok?: boolean; message?: string; resetUrl?: string; error?: string };
 
       if (!response.ok || !result.ok) {
-        throw new Error(result.error || "Password reset is unavailable right now.");
+        throw new Error(translatePublicAuthErrorMessage(result.error || authCopy.validation.resetUnavailable, siteUi));
       }
 
       setResetState("success");
-      setResetMessage(result.message || authCopy.validation.resetPrepared);
+      setResetMessage(authCopy.validation.resetPrepared);
       setResetLink(result.resetUrl || "");
       void trackEvent({
         name: "auth_password_reset_requested",
@@ -3648,7 +3517,7 @@ function LoginPage() {
       });
     } catch (error) {
       setResetState("error");
-      setResetMessage(error instanceof Error ? error.message : authCopy.validation.resetUnavailable);
+      setResetMessage(error instanceof Error ? translatePublicAuthErrorMessage(error.message, siteUi) : authCopy.validation.resetUnavailable);
       setResetLink("");
     }
   }
@@ -3660,7 +3529,7 @@ function LoginPage() {
           <BrandMark />
           <span>{siteUi.common.brand}</span>
         </a>
-        <div className="topbar-control-dock" aria-label={`${siteUi.common.languageLabel} and ${siteUi.common.home}`}>
+        <div className="topbar-control-dock" aria-label={`${siteUi.common.languageLabel} · ${siteUi.common.home}`}>
           <LanguageSwitcher />
           <a className="button button-small button-secondary topbar-back" href={localizeHref("/")}>
             <Icon name="arrow" />
@@ -3670,7 +3539,7 @@ function LoginPage() {
       </header>
 
       <main className="auth-page login-page">
-        <section className="login-showcase" aria-label="LeadCue prospect research preview">
+        <section className="login-showcase" aria-label={authCopy.heroTitle}>
           <LoginWorkspaceIllustration
             locale={locale}
             copy={{
@@ -3884,7 +3753,7 @@ function ResetPasswordPage() {
       const result = (await response.json().catch(() => ({}))) as { ok?: boolean; next?: string; error?: string };
 
       if (!response.ok || !result.ok) {
-        throw new Error(result.error || resetCopy.invalidLink);
+        throw new Error(translatePublicAuthErrorMessage(result.error || resetCopy.invalidLink, siteUi));
       }
 
       setResetState("success");
@@ -3895,7 +3764,7 @@ function ResetPasswordPage() {
       }, 600);
     } catch (error) {
       setResetState("error");
-      setStatusMessage(error instanceof Error ? error.message : resetCopy.genericError);
+      setStatusMessage(error instanceof Error ? translatePublicAuthErrorMessage(error.message, siteUi) : resetCopy.genericError);
     }
   }
 
@@ -3906,7 +3775,7 @@ function ResetPasswordPage() {
           <BrandMark />
           <span>{siteUi.common.brand}</span>
         </a>
-        <div className="topbar-control-dock" aria-label={`${siteUi.common.languageLabel} and ${siteUi.common.backToSignIn}`}>
+        <div className="topbar-control-dock" aria-label={`${siteUi.common.languageLabel} · ${siteUi.common.backToSignIn}`}>
           <LanguageSwitcher />
           <a className="button button-small button-secondary topbar-back" href={localizeHref("/login")}>
             <Icon name="arrow" />
@@ -4072,7 +3941,7 @@ function SignupPage() {
 
       if (!response.ok) {
         const result = (await response.json().catch(() => ({}))) as { error?: string };
-        throw new Error(result.error || signupCopy.validation.setupFailed);
+        throw new Error(translatePublicAuthErrorMessage(result.error || signupCopy.validation.setupFailed, siteUi));
       }
 
       const result = (await response.json()) as SignupResponse;
@@ -4101,7 +3970,7 @@ function SignupPage() {
       );
     } catch (error) {
       setSignupState("error");
-      setStatusMessage(error instanceof Error ? error.message : signupCopy.validation.setupFailed);
+      setStatusMessage(error instanceof Error ? translatePublicAuthErrorMessage(error.message, siteUi) : signupCopy.validation.setupFailed);
     }
   }
 
@@ -4112,7 +3981,7 @@ function SignupPage() {
           <BrandMark />
           <span>{siteUi.common.brand}</span>
         </a>
-        <div className="topbar-control-dock" aria-label={`${siteUi.common.languageLabel} and ${siteUi.common.home}`}>
+        <div className="topbar-control-dock" aria-label={`${siteUi.common.languageLabel} · ${siteUi.common.home}`}>
           <LanguageSwitcher />
           <a className="button button-small button-secondary topbar-back" href={localizeHref("/")}>
             <Icon name="arrow" />
@@ -4325,10 +4194,110 @@ function SignupPage() {
   );
 }
 
+function UserMenu({ appUi, auth, signOut }: { appUi: AppUi; auth: AuthMeResponse; signOut: () => void }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (!isOpen) {
+      return;
+    }
+
+    function handlePointerDown(event: globalThis.PointerEvent) {
+      if (!menuRef.current || !(event.target instanceof Node) || menuRef.current.contains(event.target)) {
+        return;
+      }
+
+      setIsOpen(false);
+    }
+
+    function handleEscape(event: globalThis.KeyboardEvent) {
+      if (event.key === "Escape") {
+        setIsOpen(false);
+      }
+    }
+
+    document.addEventListener("pointerdown", handlePointerDown);
+    document.addEventListener("keydown", handleEscape);
+
+    return () => {
+      document.removeEventListener("pointerdown", handlePointerDown);
+      document.removeEventListener("keydown", handleEscape);
+    };
+  }, [isOpen]);
+
+  const userEmail = auth.authenticated ? auth.user.email : "";
+  const userInitial = auth.authenticated
+    ? (auth.user.name?.[0] || auth.user.email?.[0] || "U").toUpperCase()
+    : "?";
+
+  return (
+    <div className={`user-menu${isOpen ? " is-open" : ""}`} ref={menuRef}>
+      <button
+        type="button"
+        className="user-menu-trigger"
+        aria-haspopup="menu"
+        aria-expanded={isOpen}
+        onClick={() => setIsOpen((current) => !current)}
+      >
+        <span className="user-menu-avatar" aria-hidden="true">{userInitial}</span>
+        <span className="user-menu-caret" aria-hidden="true">
+          <Icon name="chevron_down" />
+        </span>
+      </button>
+      {isOpen ? (
+        <div className="user-menu-dropdown" role="menu">
+          {userEmail ? (
+            <div className="user-menu-email">{userEmail}</div>
+          ) : null}
+          <a className="user-menu-item" href="/app/account" role="menuitem" onClick={() => setIsOpen(false)}>
+            <Icon name="lock" />
+            {appUi.userMenu.accountSettings}
+          </a>
+          <a className="user-menu-item" href="/app/billing" role="menuitem" onClick={() => setIsOpen(false)}>
+            <Icon name="shield" />
+            {appUi.userMenu.manageBilling}
+          </a>
+          <div className="user-menu-divider" />
+          {auth.authenticated ? (
+            <button
+              className="user-menu-item user-menu-signout"
+              type="button"
+              role="menuitem"
+              onClick={() => {
+                setIsOpen(false);
+                signOut();
+              }}
+            >
+              <Icon name="arrow" />
+              {appUi.userMenu.signOut}
+            </button>
+          ) : (
+            <a className="user-menu-item" href="/login" role="menuitem">
+              <Icon name="mail" />
+              {appUi.actions.signIn}
+            </a>
+          )}
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
 function DashboardApp() {
+  const { locale, siteUi, formatMessage } = usePublicSite();
+  const appUi = getAppUi(locale);
   const appQuery = useMemo(() => new URLSearchParams(window.location.search), []);
   const appSection = getAppSection(window.location.pathname);
-  const pageCopy = appPageCopy(appSection);
+  const pageCopy = appUi.pages[appSection] ?? appUi.pages.dashboard;
+  const sampleProspectCard = useMemo(() => buildSampleProspectCard(locale), [locale]);
+  const demoLeadRows = useMemo(() => buildDemoLeadRows(locale), [locale]);
+  const demoScanHistory = useMemo(() => buildDemoScanHistory(locale), [locale]);
+  const sampleWorkspace = useMemo(
+    () => buildSampleWorkspace(locale, demoLeadRows.length, sampleProspectCard.website),
+    [demoLeadRows.length, locale, sampleProspectCard.website]
+  );
+  const sampleAnalyticsSummary = useMemo(() => buildSampleAnalyticsSummary(locale), [locale]);
   const welcomeFlow = appQuery.get("welcome") === "1";
   const loginFlow = appQuery.get("login") === "1";
   const checkoutSuccess = appQuery.get("checkout") === "success";
@@ -4373,14 +4342,14 @@ function DashboardApp() {
   const [icpMessage, setIcpMessage] = useState("");
   const [scanForm, setScanForm] = useState<ScanFormState>(() => ({
     url: sampleWorkspace.setup.firstProspectUrl || "",
-    companyName: SAMPLE_PROSPECT_CARD.companyName,
-    notes: "Homepage shows the demo CTA below the fold and does not show visible case studies in the main navigation.",
+    companyName: sampleProspectCard.companyName,
+    notes: "",
     deepScan: false
   }));
   const [scanState, setScanState] = useState<"idle" | "loading" | "done" | "error">("idle");
   const [scanMessage, setScanMessage] = useState("");
   const [activeProspect, setActiveProspect] = useState<ProspectCardType>({
-    ...SAMPLE_PROSPECT_CARD,
+    ...sampleProspectCard,
     savedStatus: "saved" as const,
     exportStatus: "not_exported" as const,
     pipelineContext: { ...defaultProspectMeta }
@@ -4388,7 +4357,7 @@ function DashboardApp() {
   const [lastScanError, setLastScanError] = useState<ScanFailureResponse | null>(null);
   const [selectedLeadId, setSelectedLeadId] = useState<string | null>(demoLeadRows[0]?.id || null);
   const [selectedLead, setSelectedLead] = useState<ProspectCardType | null>({
-    ...SAMPLE_PROSPECT_CARD,
+    ...sampleProspectCard,
     savedStatus: "saved" as const,
     exportStatus: "not_exported" as const,
     pipelineContext: { ...defaultProspectMeta }
@@ -4397,12 +4366,19 @@ function DashboardApp() {
   const [isLeadDrawerOpen, setLeadDrawerOpen] = useState(false);
   const topSignals = useMemo(
     () =>
-      SAMPLE_PROSPECT_CARD.opportunitySignals.reduce<Record<string, number>>((acc, signal) => {
+      sampleProspectCard.opportunitySignals.reduce<Record<string, number>>((acc, signal) => {
         acc[signal.category] = (acc[signal.category] ?? 0) + 1;
         return acc;
       }, {}),
-    []
+    [sampleProspectCard]
   );
+
+  function fetchAppApi(path: string, init?: RequestInit) {
+    return fetch(apiUrl(path), {
+      ...init,
+      headers: withAppLocaleHeader(locale, init?.headers)
+    });
+  }
 
   useEffect(() => {
     let cancelled = false;
@@ -4411,15 +4387,16 @@ function DashboardApp() {
     async function loadDashboard() {
       try {
         const [authResponse, workspaceResponse, leadsResponse, scansResponse, analyticsResponse] = await Promise.all([
-          fetch(apiUrl("/api/auth/me"), { credentials: "include" }),
-          fetch(apiUrl("/api/workspace"), { credentials: "include" }),
-          fetch(apiUrl("/api/leads"), { credentials: "include" }),
-          fetch(apiUrl("/api/scans"), { credentials: "include" }),
-          fetch(apiUrl("/api/analytics/summary"), { credentials: "include" })
+          fetchAppApi("/api/auth/me", { credentials: "include" }),
+          fetchAppApi("/api/workspace", { credentials: "include" }),
+          fetchAppApi("/api/leads", { credentials: "include" }),
+          fetchAppApi("/api/scans", { credentials: "include" }),
+          fetchAppApi("/api/analytics/summary", { credentials: "include" })
         ]);
 
         if (!workspaceResponse.ok) {
-          throw new Error("Workspace data is not available yet.");
+          const result = (await workspaceResponse.json().catch(() => ({}))) as { error?: string };
+          throw new Error(result.error || appUi.common.messages.workspaceNotFound);
         }
 
         const authData = authResponse.ok
@@ -4443,7 +4420,7 @@ function DashboardApp() {
         let initialLeadDetail: ProspectCardType | null = null;
 
         if (initialLeadRow) {
-          const detailResponse = await fetch(apiUrl(`/api/leads/${encodeURIComponent(initialLeadRow.id)}`), {
+          const detailResponse = await fetchAppApi(`/api/leads/${encodeURIComponent(initialLeadRow.id)}`, {
             credentials: "include"
           }).catch(() => null);
 
@@ -4454,16 +4431,16 @@ function DashboardApp() {
         }
 
         if (!cancelled) {
-          const fallbackLeadDetail = initialLeadRow ? leadPreviewProspect(initialLeadRow) : null;
+          const fallbackLeadDetail = initialLeadRow ? leadPreviewProspect(initialLeadRow, sampleProspectCard) : null;
           const resolvedLeadDetail =
             initialLeadDetail || fallbackLeadDetail || (workspaceData.source === "sample" ? activeProspect : null);
           const resolvedLeadId = initialLeadRow?.id || (workspaceData.source === "sample" ? demoLeadRows[0]?.id || null : null);
           const routeMessage = checkoutSuccess
-            ? "Billing is active. Finish the first setup below."
+            ? appUi.common.messages.billingActiveSetup
             : welcomeFlow
-              ? "Workspace created. Finish the first setup below."
+              ? appUi.common.messages.workspaceCreatedSetup
               : loginFlow
-                ? "Signed in."
+                ? appUi.common.messages.signedIn
                 : "";
           setAuth(authData);
           setSnapshot(workspaceData);
@@ -4482,8 +4459,8 @@ function DashboardApp() {
           setDashboardState(workspaceData.source === "sample" ? "sample" : "ready");
           setDashboardMessage(
             authData.authenticated
-              ? workspaceData.warning || routeMessage
-              : "Demo preview. Create a workspace to save prospects and track credits with a secure session."
+              ? (workspaceData.warning ? translateAppErrorMessage(workspaceData.warning, appUi) : routeMessage)
+              : appUi.common.messages.demoPreviewIntro
           );
 
           if (authData.authenticated && loginFlow) {
@@ -4505,7 +4482,13 @@ function DashboardApp() {
           setAnalyticsState("sample");
           setSelectedLeadId(demoLeadRows[0]?.id || null);
           setSelectedLead({
-            ...SAMPLE_PROSPECT_CARD,
+            ...sampleProspectCard,
+            savedStatus: "saved",
+            exportStatus: "not_exported",
+            pipelineContext: { ...defaultProspectMeta }
+          });
+          setActiveProspect({
+            ...sampleProspectCard,
             savedStatus: "saved",
             exportStatus: "not_exported",
             pipelineContext: { ...defaultProspectMeta }
@@ -4514,8 +4497,10 @@ function DashboardApp() {
           setDashboardState("sample");
           setDashboardMessage(
             error instanceof Error
-              ? `${error.message} Showing sample workspace data.`
-              : "Showing sample workspace data."
+              ? formatMessage(appUi.common.messages.sampleWorkspaceData, {
+                  error: translateAppErrorMessage(error.message, appUi)
+                })
+              : appUi.common.messages.sampleWorkspaceDataPlain
           );
         }
       }
@@ -4577,8 +4562,10 @@ function DashboardApp() {
     }));
     setDashboardMessage(
       snapshot.setup.firstProspectUrl
-        ? `${formatCompactUrl(snapshot.setup.firstProspectUrl)} is loaded in the scan desk. Review the notes, then run the scan.`
-        : "Add a prospect website in the scan desk to create the first saved Prospect Card."
+        ? formatMessage(appUi.common.messages.scanDeskLoaded, {
+            url: formatCompactUrl(snapshot.setup.firstProspectUrl, appUi.common.notSet)
+          })
+        : appUi.common.messages.scanDeskMissingTarget
     );
   }
 
@@ -4642,7 +4629,7 @@ function DashboardApp() {
     };
 
     try {
-      const response = await fetch(apiUrl("/api/workspace/icp"), {
+      const response = await fetchAppApi("/api/workspace/icp", {
         method: "PATCH",
         credentials: "include",
         headers: {
@@ -4664,10 +4651,10 @@ function DashboardApp() {
         setup: result.setup!
       }));
       setIcpSaveState("saved");
-      setIcpMessage("ICP saved. New scans will use this scoring profile.");
+      setIcpMessage(appUi.icp.messages.saved);
     } catch (error) {
       setIcpSaveState("error");
-      setIcpMessage(error instanceof Error ? error.message : "Unable to save ICP settings.");
+      setIcpMessage(resolveAppErrorMessage(error, appUi.icp.messages.saveFailed, appUi));
     }
   }
 
@@ -4676,7 +4663,7 @@ function DashboardApp() {
 
     if (!auth.authenticated) {
       setProfileSaveState("error");
-      setProfileMessage("Sign in to update workspace profile details.");
+      setProfileMessage(appUi.account.messages.signInProfile);
       return;
     }
 
@@ -4687,7 +4674,7 @@ function DashboardApp() {
 
     if (!payload.name || !payload.workspaceName) {
       setProfileSaveState("error");
-      setProfileMessage("Owner name and workspace name are both required.");
+      setProfileMessage(appUi.account.messages.namesRequired);
       return;
     }
 
@@ -4695,7 +4682,7 @@ function DashboardApp() {
     setProfileMessage("");
 
     try {
-      const response = await fetch(apiUrl("/api/account/profile"), {
+      const response = await fetchAppApi("/api/account/profile", {
         method: "PATCH",
         credentials: "include",
         headers: {
@@ -4711,7 +4698,7 @@ function DashboardApp() {
       };
 
       if (!response.ok || !result.ok) {
-        throw new Error(result.error || "Unable to update workspace profile.");
+        throw new Error(result.error || appUi.account.messages.profileSaveFailed);
       }
 
       setAuth((current) =>
@@ -4737,7 +4724,7 @@ function DashboardApp() {
         }
       }));
       setProfileSaveState("saved");
-      setProfileMessage("Workspace profile saved.");
+      setProfileMessage(appUi.account.messages.profileSaved);
       void trackEvent({
         name: "account_profile_updated",
         metadata: {
@@ -4746,7 +4733,7 @@ function DashboardApp() {
       });
     } catch (error) {
       setProfileSaveState("error");
-      setProfileMessage(error instanceof Error ? error.message : "Unable to update workspace profile.");
+      setProfileMessage(resolveAppErrorMessage(error, appUi.account.messages.profileSaveFailed, appUi));
     }
   }
 
@@ -4755,19 +4742,19 @@ function DashboardApp() {
 
     if (!auth.authenticated) {
       setAccountPasswordState("error");
-      setAccountPasswordMessage("Sign in to change the workspace password.");
+      setAccountPasswordMessage(appUi.account.messages.signInPassword);
       return;
     }
 
     if (accountPasswordForm.nextPassword.length < 8) {
       setAccountPasswordState("error");
-      setAccountPasswordMessage("Use at least 8 characters for the new password.");
+      setAccountPasswordMessage(appUi.account.messages.passwordMin);
       return;
     }
 
     if (accountPasswordForm.nextPassword !== accountPasswordForm.confirmPassword) {
       setAccountPasswordState("error");
-      setAccountPasswordMessage("The new password and confirmation need to match.");
+      setAccountPasswordMessage(appUi.account.messages.passwordMismatch);
       return;
     }
 
@@ -4775,7 +4762,7 @@ function DashboardApp() {
     setAccountPasswordMessage("");
 
     try {
-      const response = await fetch(apiUrl("/api/auth/password/update"), {
+      const response = await fetchAppApi("/api/auth/password/update", {
         method: "POST",
         credentials: "include",
         headers: {
@@ -4789,7 +4776,7 @@ function DashboardApp() {
       const result = (await response.json().catch(() => ({}))) as { ok?: boolean; message?: string; error?: string };
 
       if (!response.ok || !result.ok) {
-        throw new Error(result.error || "Unable to update the password.");
+        throw new Error(result.error || appUi.account.messages.passwordUpdateFailed);
       }
 
       setAccountPasswordForm({
@@ -4798,11 +4785,11 @@ function DashboardApp() {
         confirmPassword: ""
       });
       setAccountPasswordState("saved");
-      setAccountPasswordMessage(result.message || "Password updated.");
+      setAccountPasswordMessage(appUi.account.messages.passwordUpdated);
       void trackEvent({ name: "account_password_updated" });
     } catch (error) {
       setAccountPasswordState("error");
-      setAccountPasswordMessage(error instanceof Error ? error.message : "Unable to update the password.");
+      setAccountPasswordMessage(resolveAppErrorMessage(error, appUi.account.messages.passwordUpdateFailed, appUi));
     }
   }
 
@@ -4813,14 +4800,14 @@ function DashboardApp() {
     }
 
     if (snapshot.plan.id === planId) {
-      setDashboardMessage(`You are already on the ${snapshot.plan.name} plan.`);
+      setDashboardMessage(formatMessage(appUi.common.messages.samePlan, { plan: snapshot.plan.name }));
       return;
     }
 
     setDashboardMessage("");
 
     try {
-      const response = await fetch(apiUrl("/api/billing/checkout"), {
+      const response = await fetchAppApi("/api/billing/checkout", {
         method: "POST",
         credentials: "include",
         headers: {
@@ -4834,7 +4821,7 @@ function DashboardApp() {
       const checkoutUrl = result.url || result.checkoutUrl;
 
       if (!response.ok || !checkoutUrl) {
-        throw new Error(result.error || "Checkout is not available for that plan right now.");
+        throw new Error(result.error || appUi.common.messages.checkoutUnavailable);
       }
 
       void trackEvent({
@@ -4845,7 +4832,7 @@ function DashboardApp() {
       });
       window.location.assign(checkoutUrl);
     } catch (error) {
-      setDashboardMessage(error instanceof Error ? error.message : "Checkout is not available for that plan right now.");
+      setDashboardMessage(resolveAppErrorMessage(error, appUi.common.messages.checkoutUnavailable, appUi));
     }
   }
 
@@ -4887,22 +4874,22 @@ function DashboardApp() {
     replaceLeadDeepLink(lead.id, getProspectTabFromLocation());
 
     try {
-      const response = await fetch(apiUrl(`/api/leads/${encodeURIComponent(lead.id)}`), {
+      const response = await fetchAppApi(`/api/leads/${encodeURIComponent(lead.id)}`, {
         credentials: "include"
       });
       const result = (await response.json().catch(() => ({}))) as { lead?: ProspectCardType; error?: string };
 
       if (!response.ok || !result.lead) {
-        throw new Error(result.error || "Lead detail is not available.");
+        throw new Error(result.error || appUi.common.messages.leadDetailUnavailable);
       }
 
       setSelectedLead(result.lead);
       setActiveProspect(result.lead);
       setSelectedLeadState("ready");
     } catch (error) {
-      setSelectedLead(leadPreviewProspect(lead));
+      setSelectedLead(leadPreviewProspect(lead, sampleProspectCard));
       setSelectedLeadState("error");
-      setDashboardMessage(error instanceof Error ? error.message : "Unable to load lead detail.");
+      setDashboardMessage(resolveAppErrorMessage(error, appUi.common.messages.leadDetailUnavailable, appUi));
     }
   }
 
@@ -4916,11 +4903,11 @@ function DashboardApp() {
         ok: false,
         status: "failed",
         reason: "validation_failed",
-        error: "Enter a valid prospect website URL.",
+        error: appUi.common.messages.scanInvalidUrl,
         creditsCharged: 0,
         retryable: false
       });
-      setScanMessage("Enter a valid prospect website URL. No credit was used. Fix the URL and try again.");
+      setScanMessage(appUi.common.messages.scanInvalidUrl);
       return;
     }
 
@@ -4931,17 +4918,17 @@ function DashboardApp() {
 
     const companyName = scanForm.companyName.trim() || companyNameFromUrl(normalizedUrl);
     const domain = hostnameFromUrl(normalizedUrl);
+    const scanSeedCopy = scanForm.notes.trim() || snapshot.setup.offerDescription || getSampleLocaleContent(locale).offerDescription;
     const scanPayload: ScanRequest = {
       source: "web",
+      locale,
       deepScan: scanForm.deepScan,
       page: {
         url: normalizedUrl,
-        title: `${companyName} website`,
-        metaDescription: `${companyName} public website reviewed from the LeadCue dashboard scan desk.`,
+        title: `${companyName} · ${appUi.scan.prospectWebsite}`,
+        metaDescription: scanSeedCopy,
         h1: companyName,
-        text:
-          scanForm.notes.trim() ||
-          `${companyName} has a public website with service pages, calls to action, proof, navigation, and contact paths that LeadCue should evaluate for agency outbound fit.`,
+        text: scanSeedCopy,
         links: [normalizedUrl, `${normalizedUrl.replace(/\/$/, "")}/services`, `${normalizedUrl.replace(/\/$/, "")}/contact`]
       },
       icp: {
@@ -4956,7 +4943,7 @@ function DashboardApp() {
     let pendingFailure: ScanFailureResponse | null = null;
 
     try {
-      const response = await fetch(apiUrl("/api/scans"), {
+      const response = await fetchAppApi("/api/scans", {
         method: "POST",
         credentials: "include",
         headers: {
@@ -4975,13 +4962,13 @@ function DashboardApp() {
                 ok: false,
                 status: "failed",
                 reason: "generation_failed",
-                error: "Scan failed. Try again with a fuller website snapshot.",
+                error: appUi.common.messages.scanFailed,
                 creditsCharged: 0,
                 retryable: true
               } satisfies ScanFailureResponse);
         pendingFailure = failure;
         setLastScanError(failure);
-        throw new Error(`${failure.error} No credit was used. Fix the URL and try again.`);
+        throw new Error(failure.error || appUi.common.messages.scanFailed);
       }
 
       setActiveProspect(result.prospect);
@@ -5045,9 +5032,12 @@ function DashboardApp() {
         }
       });
       setScanMessage(
-        `${result.prospect.companyName} is saved as a Prospect Card. ${result.creditsCharged} credit${result.creditsCharged === 1 ? "" : "s"} used.`
+        formatMessage(appUi.common.messages.scanSaved, {
+          company: result.prospect.companyName,
+          count: result.creditsCharged ?? 0
+        })
       );
-      setDashboardMessage("Scan complete. Review the Prospect Card before exporting or writing outreach.");
+      setDashboardMessage(appUi.common.messages.scanComplete);
     } catch (error) {
       const failedHistoryId = `failed_${Date.now()}`;
       setScanState("error");
@@ -5079,11 +5069,7 @@ function DashboardApp() {
           reason: pendingFailure?.reason || "generation_failed"
         }
       });
-      setScanMessage(
-        error instanceof Error
-          ? error.message
-          : "Scan failed. No credit was used. Fix the URL and try again."
-      );
+      setScanMessage(resolveAppErrorMessage(error, appUi.common.messages.scanFailed, appUi));
     }
   }
 
@@ -5091,14 +5077,14 @@ function DashboardApp() {
     setOnboardingState("saving");
 
     try {
-      const response = await fetch(apiUrl("/api/workspace/onboarding/complete"), {
+      const response = await fetchAppApi("/api/workspace/onboarding/complete", {
         method: "POST",
         credentials: "include"
       });
       const result = (await response.json().catch(() => ({}))) as { completedAt?: string; error?: string };
 
       if (!response.ok) {
-        throw new Error(result.error || "Unable to update onboarding.");
+        throw new Error(result.error || appUi.common.messages.onboardingUpdateFailed);
       }
 
       setSnapshot((current) => ({
@@ -5109,9 +5095,9 @@ function DashboardApp() {
         }
       }));
       void trackEvent({ name: "workspace_onboarding_completed" });
-      setDashboardMessage("Setup guide dismissed.");
+      setDashboardMessage(appUi.common.messages.onboardingDismissed);
     } catch (error) {
-      setDashboardMessage(error instanceof Error ? error.message : "Unable to update onboarding.");
+      setDashboardMessage(resolveAppErrorMessage(error, appUi.common.messages.onboardingUpdateFailed, appUi));
     } finally {
       setOnboardingState("idle");
     }
@@ -5125,13 +5111,13 @@ function DashboardApp() {
         preset: bulkExportPreset,
         crmMode: bulkCrmFieldMode
       });
-      const response = await fetch(apiUrl(`/api/exports?${query.toString()}`), {
+      const response = await fetchAppApi(`/api/exports?${query.toString()}`, {
         method: "POST",
         credentials: "include"
       });
 
       if (!response.ok) {
-        throw new Error("CSV export is not available for this workspace.");
+        throw new Error(appUi.common.messages.csvExportFailed);
       }
 
       const blob = await response.blob();
@@ -5152,10 +5138,12 @@ function DashboardApp() {
         }
       });
       setDashboardMessage(
-        `CSV export prepared with ${bulkExportLabel(bulkExportPreset, bulkCrmFieldMode)} fields.`
+        formatMessage(appUi.common.messages.csvExportPrepared, {
+          label: bulkExportLabel(bulkExportPreset, bulkCrmFieldMode, appUi)
+        })
       );
     } catch (error) {
-      setDashboardMessage(error instanceof Error ? error.message : "CSV export failed.");
+      setDashboardMessage(resolveAppErrorMessage(error, appUi.common.messages.csvExportFailed, appUi));
     }
   }
 
@@ -5163,7 +5151,7 @@ function DashboardApp() {
     setDashboardMessage("");
 
     try {
-      const response = await fetch(apiUrl("/api/billing/portal"), {
+      const response = await fetchAppApi("/api/billing/portal", {
         method: "POST",
         credentials: "include",
         headers: {
@@ -5184,13 +5172,13 @@ function DashboardApp() {
       });
       window.location.assign(result.url);
     } catch (error) {
-      setDashboardMessage(error instanceof Error ? error.message : "Billing portal is not available yet.");
+      setDashboardMessage(resolveAppErrorMessage(error, appUi.common.messages.billingPortalUnavailable, appUi));
     }
   }
 
   async function signOut() {
     void trackEvent({ name: "auth_sign_out" });
-    await fetch(apiUrl("/api/auth/logout"), { method: "POST", credentials: "include" }).catch(() => null);
+    await fetchAppApi("/api/auth/logout", { method: "POST", credentials: "include" }).catch(() => null);
     setAuth({ authenticated: false });
     setDashboardState("sample");
     setSnapshot(sampleWorkspace);
@@ -5204,7 +5192,13 @@ function DashboardApp() {
     setSelectedLeadIds([]);
     setSelectedLeadId(demoLeadRows[0]?.id || null);
     setSelectedLead({
-      ...SAMPLE_PROSPECT_CARD,
+      ...sampleProspectCard,
+      savedStatus: "saved",
+      exportStatus: "not_exported",
+      pipelineContext: { ...defaultProspectMeta }
+    });
+    setActiveProspect({
+      ...sampleProspectCard,
       savedStatus: "saved",
       exportStatus: "not_exported",
       pipelineContext: { ...defaultProspectMeta }
@@ -5220,7 +5214,7 @@ function DashboardApp() {
       nextPassword: "",
       confirmPassword: ""
     });
-    setDashboardMessage("Signed out. Showing the demo preview.");
+    setDashboardMessage(appUi.common.messages.signedOutDemo);
   }
 
   function resetLeadControls() {
@@ -5264,11 +5258,11 @@ function DashboardApp() {
     }
 
     if (dashboardState === "sample") {
-      return leadPreviewProspect(lead);
+      return leadPreviewProspect(lead, sampleProspectCard);
     }
 
     try {
-      const response = await fetch(apiUrl(`/api/leads/${encodeURIComponent(lead.id)}`), {
+      const response = await fetchAppApi(`/api/leads/${encodeURIComponent(lead.id)}`, {
         credentials: "include"
       });
       const result = (await response.json().catch(() => ({}))) as { lead?: ProspectCardType };
@@ -5280,13 +5274,13 @@ function DashboardApp() {
       // Fall back to the list preview when detail fetch is unavailable.
     }
 
-    return leadPreviewProspect(lead);
+    return leadPreviewProspect(lead, sampleProspectCard);
   }
 
   async function exportSelectedLeads() {
     const selectedRows = sourceLeads.filter((lead) => selectedLeadIds.includes(lead.id));
     if (!selectedRows.length) {
-      setDashboardMessage("Select at least one lead before exporting.");
+      setDashboardMessage(appUi.common.messages.selectLeadBeforeExport);
       return;
     }
 
@@ -5303,14 +5297,14 @@ function DashboardApp() {
       downloadTextFile(`leadcue-selected-${selectedRows.length}-${bulkExportPreset}${modePart}.csv`, csv);
       setBulkExportState("idle");
       setDashboardMessage(
-        `${selectedRows.length} selected lead${selectedRows.length === 1 ? "" : "s"} exported with ${bulkExportLabel(
-          bulkExportPreset,
-          bulkCrmFieldMode
-        )} fields.`
+        formatMessage(appUi.common.messages.selectedLeadExported, {
+          count: selectedRows.length,
+          label: bulkExportLabel(bulkExportPreset, bulkCrmFieldMode, appUi)
+        })
       );
     } catch (error) {
       setBulkExportState("error");
-      setDashboardMessage(error instanceof Error ? error.message : "Selected lead export failed.");
+      setDashboardMessage(resolveAppErrorMessage(error, appUi.common.messages.selectedLeadExportFailed, appUi));
     }
   }
 
@@ -5321,10 +5315,10 @@ function DashboardApp() {
   }
 
   const metricRows = [
-    ["Saved prospects", String(snapshot.leadCount || leads.length)],
-    ["Current plan", snapshot.plan.name],
-    ["Credits left", snapshot.credits.remaining.toLocaleString()],
-    ["Subscription", formatSubscriptionStatus(snapshot.subscription.status)]
+    [appUi.dashboard.metrics.savedProspects, String(snapshot.leadCount || leads.length)],
+    [appUi.dashboard.metrics.currentPlan, snapshot.plan.name],
+    [appUi.dashboard.metrics.creditsLeft, snapshot.credits.remaining.toLocaleString()],
+    [appUi.dashboard.metrics.subscription, formatSubscriptionStatus(snapshot.subscription.status, appUi)]
   ];
   const isSampleDashboard = dashboardState === "sample";
   const sourceLeads = leads.length ? leads : isSampleDashboard ? demoLeadRows : [];
@@ -5382,7 +5376,7 @@ function DashboardApp() {
       scanHistory
         .filter((scan) => scan.status === "failed")
         .reduce<Record<string, number>>((counts, scan) => {
-          const reason = formatHistoryReason(scan.reason || "generation_failed");
+          const reason = formatHistoryReason(scan.reason || "generation_failed", appUi);
           counts[reason] = (counts[reason] ?? 0) + 1;
           return counts;
         }, {}),
@@ -5405,7 +5399,7 @@ function DashboardApp() {
         const statusMatches = historyFilter === "all" || scan.status === historyFilter;
         const reasonMatches =
           historyReasonFilter === "all" ||
-          (scan.status === "failed" && formatHistoryReason(scan.reason || "generation_failed") === historyReasonFilter);
+          (scan.status === "failed" && formatHistoryReason(scan.reason || "generation_failed", appUi) === historyReasonFilter);
 
         return dateMatches && statusMatches && reasonMatches;
       });
@@ -5415,32 +5409,41 @@ function DashboardApp() {
   const historySecondaryFiltersActive = historyDateFilter !== "all" || historyReasonFilter !== "all";
   const onboardingTasks = [
     {
-      label: "Targeting profile saved",
+      label: appUi.dashboard.onboarding.tasks.profileSaved,
       description: snapshot.setup.offerDescription
-        ? `Scoring is tuned for ${previewList(snapshot.setup.targetIndustries)}.`
-        : "Define the offer and industries you want LeadCue to score against.",
+        ? formatMessage(appUi.dashboard.onboarding.descriptions.profileSaved, {
+            industries: previewList(snapshot.setup.targetIndustries, 3, appUi.common.notSet)
+          })
+        : appUi.dashboard.onboarding.descriptions.profileTodo,
       done: Boolean(snapshot.setup.offerDescription.trim() && snapshot.setup.targetIndustries.length)
     },
     {
-      label: "First website queued",
+      label: appUi.dashboard.onboarding.tasks.firstWebsiteQueued,
       description: snapshot.setup.firstProspectUrl
-        ? `Ready to scan: ${formatCompactUrl(snapshot.setup.firstProspectUrl)}`
+        ? formatMessage(appUi.dashboard.onboarding.descriptions.websiteQueued, {
+            url: formatCompactUrl(snapshot.setup.firstProspectUrl, appUi.common.notSet)
+          })
         : snapshot.setup.agencyWebsite
-          ? `Agency site saved: ${formatCompactUrl(snapshot.setup.agencyWebsite)}`
-          : "Add the first target website when your team is ready to scan.",
+          ? formatMessage(appUi.dashboard.onboarding.descriptions.agencySaved, {
+              url: formatCompactUrl(snapshot.setup.agencyWebsite, appUi.common.notSet)
+            })
+          : appUi.dashboard.onboarding.descriptions.websiteTodo,
       done: Boolean(snapshot.setup.firstProspectUrl)
     },
     {
-      label: "First Prospect Card",
+      label: appUi.dashboard.onboarding.tasks.firstProspectCard,
       description: snapshot.leadCount
-        ? `${snapshot.leadCount} saved prospect${snapshot.leadCount === 1 ? "" : "s"} already in the workspace.`
-        : "Run the first website scan to create a saved Prospect Card and export-ready notes.",
+        ? formatMessage(appUi.dashboard.onboarding.descriptions.firstCardDone, {
+            count: snapshot.leadCount
+          })
+        : appUi.dashboard.onboarding.descriptions.firstCardTodo,
       done: snapshot.leadCount > 0
     }
   ];
   const onboardingProgress = onboardingTasks.filter((task) => task.done).length;
   const welcomeName = auth.authenticated ? firstName(auth.user.name) || snapshot.workspace.name : snapshot.workspace.name;
-  const subscriptionStatusDetails = getSubscriptionStatusDetails(snapshot.subscription.status);
+  const subscriptionStatusDetails = getSubscriptionStatusDetails(snapshot.subscription.status, appUi);
+  const subscriptionStatusLabel = formatSubscriptionStatus(snapshot.subscription.status, appUi);
   const shouldShowOnboarding =
     auth.authenticated &&
     dashboardState === "ready" &&
@@ -5449,94 +5452,81 @@ function DashboardApp() {
 
   return (
     <div className="app-shell">
-      <aside className="sidebar">
-        <a className="brand" href="/" aria-label="LeadCue home">
+      <header className="dashboard-topbar">
+        <a className="brand" href="/" aria-label={`${siteUi.common.brand} ${siteUi.common.home}`}>
           <BrandMark />
           <span>LeadCue</span>
         </a>
-        <nav className="side-nav" aria-label="Dashboard navigation">
-          <a className={appSection === "dashboard" ? "active" : ""} href="/app">
-            <Icon name="browser" />
-            Dashboard
-          </a>
-          <a className={appSection === "leads" ? "active" : ""} href="/app/leads">
-            <Icon name="filter" />
-            Leads
-          </a>
-          <a className={appSection === "icp" ? "active" : ""} href="/app/settings/icp">
-            <Icon name="scan" />
-            ICP
-          </a>
-          <a className={appSection === "billing" ? "active" : ""} href="/app/billing">
-            <Icon name="shield" />
-            Credits
-          </a>
-          <a className={appSection === "analytics" ? "active" : ""} href="/app/analytics">
-            <Icon name="chart" />
-            Analytics
-          </a>
-          <a className={appSection === "account" ? "active" : ""} href="/app/account">
-            <Icon name="lock" />
-            Account
-          </a>
-        </nav>
-      </aside>
-
-      <main className="dashboard-main">
-        <header className="dashboard-header">
-          <div>
-            <p className="eyebrow">{pageCopy.eyebrow}</p>
-            <h1>{pageCopy.title}</h1>
-            <p className="dashboard-page-copy">{pageCopy.copy}</p>
-            <div className="workspace-status-row">
-              <span>{snapshot.workspace.name}</span>
-              <span className="status-pill">{snapshot.plan.name} plan</span>
-              <span className={`status-pill ${subscriptionStatusDetails.tone}`}>{subscriptionStatusDetails.label}</span>
-              <span className="status-pill">{auth.authenticated ? "Signed in" : "Demo preview"}</span>
-            </div>
-          </div>
-          <div className="dashboard-actions">
-            {auth.authenticated ? (
-              <button className="button button-secondary" type="button" onClick={signOut}>
-                <Icon name="lock" />
-                Sign out
-              </button>
-            ) : (
-              <a className="button button-secondary" href="/login">
-                Continue with Google
-              </a>
-            )}
-            <button className="button button-secondary" type="button" onClick={openBillingPortal}>
-              <Icon name="shield" />
-              Manage billing
-            </button>
-            <button className="button button-secondary" type="button" onClick={downloadCsv}>
-              <Icon name="download" />
-              Export CSV
-            </button>
-            <a className="button button-primary" href={appSection === "dashboard" ? "#scan-console" : "/app#scan-console"}>
-              <Icon name="scan" />
-              New scan
-            </a>
-          </div>
-        </header>
-
-        <div className="workspace-alert" role="status" aria-live="polite">
-          {dashboardState === "loading" ? "Loading workspace data..." : dashboardMessage || " "}
+        <div className="dashboard-topbar-actions">
+          <LanguageSwitcher />
+          <UserMenu appUi={appUi} auth={auth} signOut={signOut} />
         </div>
+      </header>
+
+      <div className="app-shell-body">
+        <aside className="sidebar">
+          <nav className="side-nav" aria-label={appUi.pages.dashboard.title}>
+            <a className={appSection === "dashboard" ? "active" : ""} href="/app">
+              <Icon name="browser" />
+              {appUi.nav.dashboard}
+            </a>
+            <a className={appSection === "leads" ? "active" : ""} href="/app/leads">
+              <Icon name="filter" />
+              {appUi.nav.leads}
+            </a>
+            <a className={appSection === "icp" ? "active" : ""} href="/app/settings/icp">
+              <Icon name="scan" />
+              {appUi.nav.icp}
+            </a>
+            <a className={appSection === "billing" ? "active" : ""} href="/app/billing">
+              <Icon name="shield" />
+              {appUi.nav.credits}
+            </a>
+            <a className={appSection === "analytics" ? "active" : ""} href="/app/analytics">
+              <Icon name="chart" />
+              {appUi.nav.analytics}
+            </a>
+            <a className={appSection === "account" ? "active" : ""} href="/app/account">
+              <Icon name="lock" />
+              {appUi.nav.account}
+            </a>
+          </nav>
+        </aside>
+
+        <main className="dashboard-main">
+          <header className="dashboard-header">
+            <div>
+              <p className="eyebrow">{pageCopy.eyebrow}</p>
+              <h1>{pageCopy.title}</h1>
+              <p className="dashboard-page-copy">{pageCopy.copy}</p>
+              <div className="workspace-status-row">
+                <span>{snapshot.workspace.name}</span>
+                <span className="status-pill">{snapshot.plan.name} {appUi.status.plan}</span>
+                <span className={`status-pill ${subscriptionStatusDetails.tone}`}>{subscriptionStatusLabel}</span>
+                <span className="status-pill">{auth.authenticated ? appUi.status.signedIn : appUi.status.demoPreview}</span>
+              </div>
+            </div>
+            <div className="dashboard-actions">
+              <a className="button button-primary" href={appSection === "dashboard" ? "#scan-console" : "/app#scan-console"}>
+                <Icon name="scan" />
+                {appUi.actions.newScan}
+              </a>
+            </div>
+          </header>
+
+          <div className="workspace-alert" role="status" aria-live="polite">
+            {dashboardState === "loading" ? appUi.status.loading : dashboardMessage || " "}
+          </div>
 
         {appSection === "dashboard" ? (
           <>
         <section className={`panel scan-console ${scanState === "loading" ? "is-loading" : ""}`} id="scan-console" aria-labelledby="scan-console-title">
           <div className="scan-console-copy">
-            <p className="eyebrow">Scan desk</p>
-            <h2 id="scan-console-title">Turn one website into a saved Prospect Card</h2>
-            <p>
-              Enter a real prospect URL, add what your team already noticed, and LeadCue will create
-              fit scoring, evidence, first lines, and export-ready notes in the same workspace.
-            </p>
-            <div className="scan-flow-steps" aria-label="Scan workflow">
-              {["Website", "Evidence", "Prospect Card"].map((step, index) => (
+            <p className="eyebrow">{appUi.scan.eyebrow}</p>
+            <h2 id="scan-console-title">{appUi.scan.title}</h2>
+            <p>{appUi.scan.copy}</p>
+            <div className="scan-flow-steps" aria-label={appUi.scan.title}>
+              {appUi.scan.steps.map((step, index) => (
                 <span className={index === 0 || scanState === "done" ? "is-active" : ""} key={step}>
                   {index + 1}. {step}
                 </span>
@@ -5546,31 +5536,31 @@ function DashboardApp() {
 
           <form className="scan-form" onSubmit={submitScan}>
             <label>
-              Prospect website
+              {appUi.scan.prospectWebsite}
               <input
                 name="url"
                 type="url"
                 required
-                placeholder="https://prospect.example.com"
+                placeholder={appUi.common.placeholders.prospectUrl}
                 value={scanForm.url}
                 onChange={updateScanField("url")}
               />
             </label>
             <label>
-              Company name
+              {appUi.scan.companyName}
               <input
                 name="companyName"
-                placeholder="Northstar Analytics"
+                placeholder={appUi.common.placeholders.companyName}
                 value={scanForm.companyName}
                 onChange={updateScanField("companyName")}
               />
             </label>
             <label className="scan-form-wide">
-              Website notes
+              {appUi.scan.websiteNotes}
               <textarea
                 name="notes"
                 rows={4}
-                placeholder="Add visible proof gaps, CTA issues, SEO clues, or contact-path notes."
+                placeholder={appUi.scan.notesPlaceholder}
                 value={scanForm.notes}
                 onChange={updateScanField("notes")}
               />
@@ -5578,32 +5568,32 @@ function DashboardApp() {
             <label className="scan-depth-toggle">
               <input type="checkbox" checked={scanForm.deepScan} onChange={updateScanField("deepScan")} />
               <span>
-                Deep scan
-                <small>Uses 3 credits for richer context.</small>
+                {appUi.scan.deepScan}
+                <small>{appUi.scan.deepScanHint}</small>
               </span>
             </label>
             <button className="button button-primary" type="submit" disabled={scanState === "loading"}>
               <Icon name="scan" />
-              {scanState === "loading" ? "Scanning website..." : "Run scan"}
+              {scanState === "loading" ? appUi.scan.scanning : appUi.scan.runScan}
             </button>
             <p className={`form-status ${scanState === "error" ? "is-error" : scanState === "done" ? "is-success" : ""}`} role="status" aria-live="polite">
               {scanMessage || " "}
             </p>
             {scanState === "error" && lastScanError ? (
               <div className="scan-error-box" role="alert">
-                <strong>No credit was used. Fix the URL and try again.</strong>
-                <span>Reason: {lastScanError.reason.replace(/_/g, " ")}</span>
+                <strong>{appUi.scan.noCredit}</strong>
+                <span>{appUi.preview.reason}: {formatHistoryReason(lastScanError.reason, appUi)}</span>
                 <button className="button button-secondary" type="submit">
-                  Retry scan
+                  {appUi.scan.retryScan}
                 </button>
               </div>
             ) : null}
           </form>
 
-          <div className="scan-preview" aria-label="Scan output preview">
-            <span className="side-label">Output preview</span>
+          <div className="scan-preview" aria-label={appUi.preview.outputPreview}>
+            <span className="side-label">{appUi.preview.outputPreview}</span>
             {scanState === "loading" ? (
-              <div className="scan-skeleton" aria-label="Scan result loading">
+              <div className="scan-skeleton" aria-label={appUi.status.loading}>
                 <i />
                 <i />
                 <i />
@@ -5612,15 +5602,15 @@ function DashboardApp() {
             ) : (
               <>
                 <div className="scan-status-row">
-                  <span className="status-pill">{activeProspect.savedStatus === "saved" ? "Saved" : "Unsaved"}</span>
+                  <span className="status-pill">{activeProspect.savedStatus === "saved" ? appUi.preview.saved : appUi.preview.unsaved}</span>
                   <span className="status-pill">
-                    {activeProspect.exportStatus === "exported" ? "Exported" : "Not exported"}
+                    {activeProspect.exportStatus === "exported" ? appUi.preview.exported : appUi.preview.notExported}
                   </span>
                 </div>
                 <div className="scan-preview-row">
                   <strong>{activeProspect.companyName}</strong>
                   <span>{activeProspect.domain}</span>
-                  <em>{activeProspect.fitScore} fit</em>
+                  <em>{activeProspect.fitScore} {appUi.preview.fit}</em>
                 </div>
                 <div className="scan-preview-evidence">
                   {activeProspect.opportunitySignals.slice(0, 3).map((signal) => (
@@ -5631,7 +5621,7 @@ function DashboardApp() {
                   ))}
                 </div>
                 <div className="scan-preview-first-line">
-                  <span>First line</span>
+                  <span>{appUi.preview.firstLine}</span>
                   <p>{activeProspect.firstLines[0]}</p>
                 </div>
               </>
@@ -5643,30 +5633,29 @@ function DashboardApp() {
           <section className="panel dashboard-onboarding" aria-labelledby="dashboard-onboarding-title">
             <div className="dashboard-onboarding-head">
               <div className="dashboard-onboarding-copy">
-                <p className="eyebrow">First run</p>
+                <p className="eyebrow">{appUi.dashboard.onboarding.eyebrow}</p>
                 <h2 id="dashboard-onboarding-title">
-                  {welcomeFlow || checkoutSuccess ? `Welcome, ${welcomeName}.` : `Workspace ready, ${welcomeName}.`}
+                  {welcomeFlow || checkoutSuccess
+                    ? formatMessage(appUi.dashboard.onboarding.welcomeTitle, { name: welcomeName })
+                    : formatMessage(appUi.dashboard.onboarding.workspaceReadyTitle, { name: welcomeName })}
                 </h2>
-                <p>
-                  LeadCue already has your plan and scoring defaults. Finish one scan to start saving
-                  Prospect Cards, first lines, and export-ready notes.
-                </p>
+                <p>{appUi.dashboard.onboarding.intro}</p>
               </div>
               <div className="dashboard-onboarding-meta">
-                <span className="status-pill">{onboardingProgress}/3 ready</span>
+                <span className="status-pill">{formatMessage(appUi.dashboard.onboarding.progress, { count: onboardingProgress })}</span>
                 <button
                   className="button button-small button-secondary"
                   type="button"
                   onClick={completeOnboarding}
                   disabled={onboardingState === "saving"}
                 >
-                  {onboardingState === "saving" ? "Saving..." : "Mark complete"}
+                  {onboardingState === "saving" ? appUi.common.saving : appUi.dashboard.onboarding.markComplete}
                 </button>
               </div>
             </div>
 
             <div className="dashboard-onboarding-layout">
-              <div className="onboarding-checklist" role="list" aria-label="Workspace onboarding checklist">
+              <div className="onboarding-checklist" role="list" aria-label={appUi.dashboard.onboarding.checklistLabel}>
                 {onboardingTasks.map((task, index) => (
                   <div className={`onboarding-item ${task.done ? "is-done" : ""}`} key={task.label} role="listitem">
                     <span className="onboarding-item-state">
@@ -5681,18 +5670,18 @@ function DashboardApp() {
               </div>
 
               <div className="onboarding-setup">
-                <span className="side-label">Setup snapshot</span>
+                <span className="side-label">{appUi.dashboard.onboarding.setupSnapshot}</span>
                 <div className="onboarding-field">
-                  <span>Service</span>
-                  <strong>{formatAgencyFocus(snapshot.setup.agencyFocus || snapshot.setup.serviceType)}</strong>
+                  <span>{appUi.dashboard.onboarding.service}</span>
+                  <strong>{formatAgencyFocus(snapshot.setup.agencyFocus || snapshot.setup.serviceType, appUi)}</strong>
                 </div>
                 <div className="onboarding-field">
-                  <span>Industries</span>
-                  <strong>{previewList(snapshot.setup.targetIndustries, 4)}</strong>
+                  <span>{appUi.dashboard.onboarding.industries}</span>
+                  <strong>{previewList(snapshot.setup.targetIndustries, 4, appUi.common.notSet)}</strong>
                 </div>
                 <div className="onboarding-field">
-                  <span>First target</span>
-                  <strong>{formatCompactUrl(snapshot.setup.firstProspectUrl || snapshot.setup.agencyWebsite)}</strong>
+                  <span>{appUi.dashboard.onboarding.firstTarget}</span>
+                  <strong>{formatCompactUrl(snapshot.setup.firstProspectUrl || snapshot.setup.agencyWebsite, appUi.common.notSet)}</strong>
                 </div>
               </div>
             </div>
@@ -5700,28 +5689,30 @@ function DashboardApp() {
             <div className="dashboard-onboarding-footer">
               <button className="button button-primary" type="button" onClick={prepareFirstScan}>
                 <Icon name="scan" />
-                {snapshot.setup.firstProspectUrl ? "Prepare first scan" : "Run first scan"}
+                {snapshot.setup.firstProspectUrl ? appUi.dashboard.onboarding.prepareFirstScan : appUi.dashboard.onboarding.runFirstScan}
               </button>
               <a className="button button-secondary" href="#icp-panel">
                 <Icon name="target" />
-                Review ICP
+                {appUi.dashboard.onboarding.reviewIcp}
               </a>
               {snapshot.plan.id !== "free" || snapshot.subscription.status !== "active" ? (
                 <button className="button button-secondary" type="button" onClick={openBillingPortal}>
                   <Icon name="shield" />
-                  Manage billing
+                  {appUi.actions.manageBilling}
                 </button>
               ) : null}
             </div>
           </section>
         ) : null}
 
-        <section className="metric-grid" aria-label="Workspace metrics">
+        <section className="metric-grid" aria-label={appUi.dashboard.metrics.ariaLabel}>
           {metricRows.map(([label, value]) => (
             <article className="metric-card" key={label}>
               <span>{label}</span>
               <strong>{value}</strong>
-              {label === "Credits left" ? <small>{snapshot.credits.used.toLocaleString()} used this month</small> : null}
+              {label === appUi.dashboard.metrics.creditsLeft ? (
+                <small>{formatMessage(appUi.dashboard.metrics.usedThisMonth, { count: snapshot.credits.used.toLocaleString() })}</small>
+              ) : null}
             </article>
           ))}
         </section>
@@ -5730,19 +5721,19 @@ function DashboardApp() {
           <div className="panel leads-panel">
             <div className="panel-header">
               <div>
-                <p className="eyebrow">Lead list</p>
-                <h2>Saved prospects</h2>
+                <p className="eyebrow">{appUi.dashboard.leadsPanel.eyebrow}</p>
+                <h2>{appUi.dashboard.leadsPanel.title}</h2>
               </div>
-              <button className="icon-button" type="button" aria-label="Filter leads">
+              <button className="icon-button" type="button" aria-label={appUi.dashboard.leadsPanel.filterLabel}>
                 <Icon name="filter" />
               </button>
             </div>
-            <div className="lead-table" role="table" aria-label="Saved leads">
+            <div className="lead-table" role="table" aria-label={appUi.dashboard.leadsPanel.tableLabel}>
               <div className="lead-row lead-head" role="row">
-                <span>Company</span>
-                <span>Industry</span>
-                <span>Fit</span>
-                <span>Confidence</span>
+                <span>{appUi.dashboard.leadsPanel.company}</span>
+                <span>{appUi.dashboard.leadsPanel.industry}</span>
+                <span>{appUi.dashboard.leadsPanel.fit}</span>
+                <span>{appUi.dashboard.leadsPanel.confidence}</span>
               </div>
               {sourceLeads.length ? (
                 sourceLeads.map((lead) => (
@@ -5755,8 +5746,8 @@ function DashboardApp() {
                 ))
               ) : (
                 <div className="empty-table-state">
-                  <strong>No saved prospects yet.</strong>
-                  <span>Run a website scan from the extension or API, then saved Prospect Cards will appear here.</span>
+                  <strong>{appUi.dashboard.leadsPanel.emptyTitle}</strong>
+                  <span>{appUi.dashboard.leadsPanel.emptyCopy}</span>
                 </div>
               )}
             </div>
@@ -5766,19 +5757,16 @@ function DashboardApp() {
             <ProspectCard card={activeProspect} compact />
           ) : (
             <div className="panel empty-prospect-panel">
-              <p className="eyebrow">Prospect Card</p>
-              <h2>Your first saved card will appear here</h2>
-              <p>
-                LeadCue saves fit score, website evidence, outreach angles, first lines, and export
-                notes after a completed scan.
-              </p>
+              <p className="eyebrow">{appUi.dashboard.emptyProspect.eyebrow}</p>
+              <h2>{appUi.dashboard.emptyProspect.title}</h2>
+              <p>{appUi.dashboard.emptyProspect.copy}</p>
               <button
                 className="button button-primary"
                 type="button"
-                onClick={() => setDashboardMessage("Use the Chrome extension or POST /api/scans while signed in to create the first saved card.")}
+                onClick={() => setDashboardMessage(appUi.common.messages.createFirstSavedCard)}
               >
                 <Icon name="scan" />
-                Prepare first scan
+                {appUi.dashboard.emptyProspect.cta}
               </button>
             </div>
           )}
@@ -5786,30 +5774,42 @@ function DashboardApp() {
           <div className="panel icp-panel" id="icp-panel">
             <div className="panel-header">
               <div>
-                <p className="eyebrow">ICP settings</p>
-                <h2>Agency mode</h2>
+                <p className="eyebrow">{appUi.dashboard.icpPanel.eyebrow}</p>
+                <h2>{appUi.dashboard.icpPanel.title}</h2>
               </div>
             </div>
             <div className="settings-list">
-              <Setting label="Service type" value={formatAgencyFocus(snapshot.setup.agencyFocus || snapshot.setup.serviceType)} />
-              <Setting label="Target industries" value={previewList(snapshot.setup.targetIndustries, 4)} />
-              <Setting label="Countries" value={previewList(snapshot.setup.targetCountries, 4)} />
-              <Setting label="Tone" value={snapshot.setup.tone} />
-              <Setting label="First target" value={formatCompactUrl(snapshot.setup.firstProspectUrl || snapshot.setup.agencyWebsite)} />
+              <Setting
+                label={appUi.dashboard.icpPanel.serviceType}
+                value={formatAgencyFocus(snapshot.setup.agencyFocus || snapshot.setup.serviceType, appUi)}
+              />
+              <Setting
+                label={appUi.dashboard.icpPanel.targetIndustries}
+                value={previewList(snapshot.setup.targetIndustries, 4, appUi.common.notSet)}
+              />
+              <Setting
+                label={appUi.dashboard.icpPanel.countries}
+                value={previewList(snapshot.setup.targetCountries, 4, appUi.common.notSet)}
+              />
+              <Setting label={appUi.dashboard.icpPanel.tone} value={formatToneLabel(snapshot.setup.tone, appUi)} />
+              <Setting
+                label={appUi.dashboard.icpPanel.firstTarget}
+                value={formatCompactUrl(snapshot.setup.firstProspectUrl || snapshot.setup.agencyWebsite, appUi.common.notSet)}
+              />
             </div>
           </div>
 
           <div className="panel signal-panel">
             <div className="panel-header">
               <div>
-                <p className="eyebrow">Signals</p>
-                <h2>Current scan mix</h2>
+                <p className="eyebrow">{appUi.dashboard.signalPanel.eyebrow}</p>
+                <h2>{appUi.dashboard.signalPanel.title}</h2>
               </div>
             </div>
             <div className="signal-bars">
               {Object.entries(topSignals).map(([name, count]) => (
                 <div className="signal-bar" key={name}>
-                  <span>{name.replace("_", " ")}</span>
+                  <span>{formatSignalCategory(name as OpportunitySignal["category"], appUi)}</span>
                   <div>
                     <i style={{ width: `${Math.min(100, count * 34)}%` }} />
                   </div>
@@ -5826,42 +5826,42 @@ function DashboardApp() {
             <div className="panel leads-panel leads-page-panel">
               <div className="panel-header">
                 <div>
-                  <p className="eyebrow">Saved accounts</p>
-                  <h2>Prospect library</h2>
+                  <p className="eyebrow">{appUi.leads.eyebrow}</p>
+                  <h2>{appUi.leads.title}</h2>
                 </div>
                 <div className="panel-actions">
                   <button className="button button-secondary" type="button" onClick={downloadCsv}>
                     <Icon name="download" />
-                    Export CSV
+                    {appUi.actions.exportCsv}
                   </button>
                   <a className="button button-primary" href="/app#scan-console">
                     <Icon name="scan" />
-                    New scan
+                    {appUi.actions.newScan}
                   </a>
                 </div>
               </div>
-              <div className="lead-controls" aria-label="Prospect library controls">
+              <div className="lead-controls" aria-label={appUi.leads.controlsLabel}>
                 <label className="lead-search-field">
-                  Search
+                  {appUi.leads.searchLabel}
                   <input
                     type="search"
                     value={leadSearch}
                     onChange={(event) => setLeadSearch(event.currentTarget.value)}
-                    placeholder="Company, domain, or industry"
+                    placeholder={appUi.common.placeholders.leadSearch}
                   />
                 </label>
                 <label>
-                  Sort
+                  {appUi.leads.sortLabel}
                   <select value={leadSort} onChange={(event) => setLeadSort(event.currentTarget.value as LeadSortOption)}>
                     {leadSortOptions.map((option) => (
-                      <option value={option.value} key={option.value}>
-                        {option.label}
+                      <option value={option} key={option}>
+                        {appUi.options.leadSort[option]}
                       </option>
                     ))}
                   </select>
                 </label>
                 <label>
-                  Min fit
+                  {appUi.leads.minFit}
                   <span className="range-value">{leadMinFit}+</span>
                   <input
                     type="range"
@@ -5873,7 +5873,7 @@ function DashboardApp() {
                   />
                 </label>
                 <label>
-                  Min confidence
+                  {appUi.leads.minConfidence}
                   <span className="range-value">{leadMinConfidence}%+</span>
                   <input
                     type="range"
@@ -5885,48 +5885,48 @@ function DashboardApp() {
                   />
                 </label>
                 <button className="button button-secondary button-small" type="button" onClick={resetLeadControls} disabled={!leadFiltersActive}>
-                  Clear filters
+                  {appUi.common.clearFilters}
                 </button>
               </div>
               <div className="lead-result-meta" aria-live="polite">
                 <span>
-                  Showing {visibleLeads.length} of {sourceLeads.length} prospects
+                  {formatMessage(appUi.leads.resultsSummary, { visible: visibleLeads.length, total: sourceLeads.length })}
                 </span>
-                <span>{leadSortOptions.find((option) => option.value === leadSort)?.label || "Newest saved"}</span>
+                <span>{appUi.options.leadSort[leadSort]}</span>
               </div>
-              <div className="lead-bulk-toolbar" aria-label="Bulk prospect actions">
+              <div className="lead-bulk-toolbar" aria-label={appUi.leads.title}>
                 <div>
-                  <strong>{selectedSourceLeads.length} selected</strong>
+                  <strong>{formatMessage(appUi.leads.selectedCount, { count: selectedSourceLeads.length })}</strong>
                   <span>
                     {selectedSourceLeads.length
-                      ? "Export only the accounts your team is ready to work."
-                      : "Select prospects to export a focused CSV."}
+                      ? appUi.leads.selectedReadyCopy
+                      : appUi.leads.selectedEmptyCopy}
                   </span>
                 </div>
-                <div className="lead-bulk-template" aria-label="Bulk CSV field template">
+                <div className="lead-bulk-template" aria-label={appUi.leads.templateLabel}>
                   <label>
-                    Template
+                    {appUi.leads.templateLabel}
                     <select
                       value={bulkExportPreset}
                       onChange={(event) => setBulkExportPreset(event.currentTarget.value as Exclude<ProspectExportPresetKey, "custom">)}
                     >
                       {prospectExportPresets.map((preset) => (
                         <option value={preset.key} key={preset.key}>
-                          {preset.label}
+                          {appUi.prospectCard.export.presets[preset.key].label}
                         </option>
                       ))}
                     </select>
                   </label>
                   {bulkExportPreset === "crm" ? (
                     <label>
-                      CRM fields
+                      {appUi.leads.crmFieldsLabel}
                       <select
                         value={bulkCrmFieldMode}
                         onChange={(event) => setBulkCrmFieldMode(event.currentTarget.value as ProspectCrmFieldMode)}
                       >
                         {prospectCrmFieldModes.map((mode) => (
                           <option value={mode.value} key={mode.value}>
-                            {mode.label}
+                            {appUi.prospectCard.export.crmModes[mode.value].label}
                           </option>
                         ))}
                       </select>
@@ -5940,7 +5940,7 @@ function DashboardApp() {
                     onClick={toggleAllVisibleLeads}
                     disabled={!visibleLeads.length}
                   >
-                    {allVisibleLeadsSelected ? "Clear visible" : "Select visible"}
+                    {allVisibleLeadsSelected ? appUi.common.clearVisible : appUi.common.selectVisible}
                   </button>
                   <button
                     className="button button-secondary button-small"
@@ -5948,7 +5948,7 @@ function DashboardApp() {
                     onClick={clearLeadSelection}
                     disabled={!selectedSourceLeads.length}
                   >
-                    Clear selection
+                    {appUi.common.clearSelection}
                   </button>
                   <button
                     className="button button-primary button-small"
@@ -5957,16 +5957,16 @@ function DashboardApp() {
                     disabled={!selectedSourceLeads.length || bulkExportState === "loading"}
                   >
                     <Icon name="download" />
-                    {bulkExportState === "loading" ? "Exporting..." : "Export selected"}
+                    {bulkExportState === "loading" ? appUi.common.exporting : appUi.common.exportSelected}
                   </button>
                 </div>
               </div>
-              <div className="lead-table lead-table-expanded" role="table" aria-label="Saved prospects">
+              <div className="lead-table lead-table-expanded" role="table" aria-label={appUi.leads.tableLabel}>
                 <div className="lead-row lead-head" role="row">
                   <span className="lead-select-cell lead-select-heading">
                     <input
                       type="checkbox"
-                      aria-label={allVisibleLeadsSelected ? "Clear all visible prospects" : "Select all visible prospects"}
+                      aria-label={allVisibleLeadsSelected ? appUi.leads.clearAllVisible : appUi.leads.selectAllVisible}
                       checked={allVisibleLeadsSelected}
                       ref={(element) => {
                         if (element) {
@@ -5977,10 +5977,10 @@ function DashboardApp() {
                       disabled={!visibleLeads.length}
                     />
                   </span>
-                  <span>Company</span>
-                  <span>Industry</span>
-                  <span>Fit</span>
-                  <span>Confidence</span>
+                  <span>{appUi.dashboard.leadsPanel.company}</span>
+                  <span>{appUi.dashboard.leadsPanel.industry}</span>
+                  <span>{appUi.dashboard.leadsPanel.fit}</span>
+                  <span>{appUi.dashboard.leadsPanel.confidence}</span>
                 </div>
                 {visibleLeads.length ? (
                   visibleLeads.map((lead) => (
@@ -5996,14 +5996,14 @@ function DashboardApp() {
                           type="checkbox"
                           checked={selectedLeadIds.includes(lead.id)}
                           onChange={() => toggleLeadSelection(lead.id)}
-                          aria-label={`Select ${lead.companyName}`}
+                          aria-label={formatMessage(appUi.leads.selectLead, { company: lead.companyName })}
                         />
                       </label>
                       <button
                         className="lead-row-open"
                         type="button"
                         onClick={() => void openLeadDetail(lead)}
-                        aria-label={`Open Prospect Card for ${lead.companyName}`}
+                        aria-label={formatMessage(appUi.leads.openProspectCard, { company: lead.companyName })}
                       >
                         <strong>{lead.companyName}</strong>
                         <span>{lead.industry}</span>
@@ -6014,11 +6014,11 @@ function DashboardApp() {
                   ))
                 ) : (
                   <div className="empty-table-state">
-                    <strong>{sourceLeads.length ? "No matching prospects." : "No saved prospects yet."}</strong>
+                    <strong>{sourceLeads.length ? appUi.leads.noMatchingTitle : appUi.leads.noSavedTitle}</strong>
                     <span>
                       {sourceLeads.length
-                        ? "Relax the search or score filters to bring more accounts back into view."
-                        : "Run a website scan to create the first saved Prospect Card."}
+                        ? appUi.leads.noMatchingCopy
+                        : appUi.leads.noSavedCopy}
                     </span>
                   </div>
                 )}
@@ -6027,7 +6027,7 @@ function DashboardApp() {
             <button
               className={`lead-detail-backdrop ${isLeadDrawerOpen ? "is-open" : ""}`}
               type="button"
-              aria-label="Close Prospect Card"
+              aria-label={appUi.leads.drawerCloseLabel}
               aria-hidden={!isLeadDrawerOpen}
               tabIndex={isLeadDrawerOpen ? 0 : -1}
               onClick={() => setLeadDrawerOpen(false)}
@@ -6035,22 +6035,26 @@ function DashboardApp() {
             <aside
               className={`lead-detail-drawer ${isLeadDrawerOpen ? "is-open" : ""}`}
               role="dialog"
-              aria-label="Selected lead Prospect Card"
+              aria-label={appUi.leads.drawerLabel}
               aria-live="polite"
             >
               <div className="panel-header">
                 <div>
-                  <p className="eyebrow">Selected lead</p>
-                  <h2>Full Prospect Card</h2>
+                  <p className="eyebrow">{appUi.leads.drawerEyebrow}</p>
+                  <h2>{appUi.leads.drawerTitle}</h2>
                 </div>
                 <div className="lead-detail-actions">
                   <span className="status-pill">
-                    {selectedLeadState === "loading" ? "Loading" : selectedLead ? `${selectedLead.fitScore} fit` : "No selection"}
+                    {selectedLeadState === "loading"
+                      ? appUi.common.loading
+                      : selectedLead
+                        ? formatMessage(appUi.leads.drawerFitLabel, { score: selectedLead.fitScore })
+                        : appUi.leads.drawerNoSelection}
                   </span>
                   <button
                     className="icon-button lead-detail-close"
                     type="button"
-                    aria-label="Close Prospect Card"
+                    aria-label={appUi.leads.drawerCloseLabel}
                     onClick={() => setLeadDrawerOpen(false)}
                   >
                     <span aria-hidden="true">X</span>
@@ -6058,7 +6062,7 @@ function DashboardApp() {
                 </div>
               </div>
               {selectedLeadState === "loading" ? (
-                <div className="lead-detail-skeleton" aria-label="Loading prospect card">
+                <div className="lead-detail-skeleton" aria-label={appUi.leads.drawerLoadingLabel}>
                   <i />
                   <i />
                   <i />
@@ -6069,7 +6073,7 @@ function DashboardApp() {
                 <>
                   {selectedLeadState === "error" ? (
                     <p className="form-status is-error" role="status">
-                      Showing the list preview because full detail could not load.
+                      {appUi.leads.errorShowingPreview}
                     </p>
                   ) : null}
                   <ProspectCard
@@ -6082,8 +6086,8 @@ function DashboardApp() {
                 </>
               ) : (
                 <div className="detail-empty-state">
-                  <strong>Select a lead</strong>
-                  <span>Click any saved account to review the complete Prospect Card, including source-backed signals and email copy.</span>
+                  <strong>{appUi.leads.detailEmptyTitle}</strong>
+                  <span>{appUi.leads.detailEmptyCopy}</span>
                 </div>
               )}
             </aside>
@@ -6095,55 +6099,59 @@ function DashboardApp() {
             <div className="panel icp-editor-panel">
               <div className="panel-header">
                 <div>
-                  <p className="eyebrow">Scoring inputs</p>
-                  <h2>Agency ICP</h2>
+                  <p className="eyebrow">{appUi.icp.editorEyebrow}</p>
+                  <h2>{appUi.icp.editorTitle}</h2>
                 </div>
                 <span className="status-pill">
-                  {icpSaveState === "saving" ? "Saving" : icpSaveState === "saved" ? "Saved" : "Applied to new scans"}
+                  {icpSaveState === "saving"
+                    ? appUi.icp.statusSaving
+                    : icpSaveState === "saved"
+                      ? appUi.icp.statusSaved
+                      : appUi.icp.statusApplied}
                 </span>
               </div>
               <form className="icp-edit-form" onSubmit={submitIcpSettings}>
                 <div className="icp-form-grid">
                   <label>
-                    Service type
+                    {appUi.icp.fields.serviceType}
                     <select value={icpForm.serviceType} onChange={updateIcpField("serviceType")}>
-                      <option value="web_design">Web design</option>
-                      <option value="seo">SEO</option>
-                      <option value="marketing">Marketing</option>
-                      <option value="custom">Custom</option>
+                      <option value="web_design">{appUi.icp.serviceOptions.web_design}</option>
+                      <option value="seo">{appUi.icp.serviceOptions.seo}</option>
+                      <option value="marketing">{appUi.icp.serviceOptions.marketing}</option>
+                      <option value="custom">{appUi.icp.serviceOptions.custom}</option>
                     </select>
                   </label>
                   <label>
-                    Tone
+                    {appUi.icp.fields.tone}
                     <select value={icpForm.tone} onChange={updateIcpField("tone")}>
-                      <option value="professional">Professional</option>
-                      <option value="direct">Direct</option>
-                      <option value="casual">Casual</option>
+                      <option value="professional">{appUi.icp.toneOptions.professional}</option>
+                      <option value="direct">{appUi.icp.toneOptions.direct}</option>
+                      <option value="casual">{appUi.icp.toneOptions.casual}</option>
                     </select>
                   </label>
                   <label>
-                    Target industries
+                    {appUi.icp.fields.targetIndustries}
                     <input value={icpForm.targetIndustries} onChange={updateIcpField("targetIndustries")} />
-                    <small>Comma separated. Used for fit scoring and outreach angle quality.</small>
+                    <small>{appUi.icp.fields.targetIndustriesHelp}</small>
                   </label>
                   <label>
-                    Countries
+                    {appUi.icp.fields.countries}
                     <input value={icpForm.targetCountries} onChange={updateIcpField("targetCountries")} />
-                    <small>Comma separated. Leave broad if your team sells internationally.</small>
+                    <small>{appUi.icp.fields.countriesHelp}</small>
                   </label>
                   <label className="icp-form-wide">
-                    Offer
+                    {appUi.icp.fields.offer}
                     <textarea rows={4} value={icpForm.offerDescription} onChange={updateIcpField("offerDescription")} />
                   </label>
                   <label className="icp-form-wide">
-                    First target URL
+                    {appUi.icp.fields.firstTargetUrl}
                     <input type="url" value={icpForm.firstProspectUrl} onChange={updateIcpField("firstProspectUrl")} />
                   </label>
                 </div>
                 <div className="icp-form-actions">
                   <button className="button button-primary" type="submit" disabled={icpSaveState === "saving"}>
                     <Icon name="check" />
-                    {icpSaveState === "saving" ? "Saving ICP" : "Save ICP"}
+                    {icpSaveState === "saving" ? appUi.icp.actions.saving : appUi.icp.actions.save}
                   </button>
                   <button
                     className="button button-secondary"
@@ -6151,7 +6159,7 @@ function DashboardApp() {
                     onClick={() => setIcpForm(icpFormFromSetup(snapshot.setup))}
                     disabled={icpSaveState === "saving"}
                   >
-                    Reset
+                    {appUi.icp.actions.reset}
                   </button>
                 </div>
                 <p
@@ -6164,24 +6172,24 @@ function DashboardApp() {
               </form>
             </div>
             <div className="panel scoring-rules-panel">
-              <p className="eyebrow">How scoring works</p>
-              <h2>LeadCue ranks visible website evidence</h2>
+              <p className="eyebrow">{appUi.icp.rules.eyebrow}</p>
+              <h2>{appUi.icp.rules.title}</h2>
               <div className="rule-list">
                 {[
-                  ["Fit", "Matches the agency focus, industry, country, and offer."],
-                  ["Urgency", "Shows weak CTA paths, proof gaps, stale pages, or thin service positioning."],
-                  ["Evidence", "Keeps source notes tied to the website observation."],
-                  ["Actionability", "Produces a first line and angle a rep can actually use."]
-                ].map(([label, copy]) => (
-                  <div className="rule-item" key={label}>
-                    <strong>{label}</strong>
-                    <span>{copy}</span>
+                  appUi.icp.rules.items.fit,
+                  appUi.icp.rules.items.urgency,
+                  appUi.icp.rules.items.evidence,
+                  appUi.icp.rules.items.actionability
+                ].map((item) => (
+                  <div className="rule-item" key={item.label}>
+                    <strong>{item.label}</strong>
+                    <span>{item.copy}</span>
                   </div>
                 ))}
               </div>
               <a className="button button-primary" href="/app#scan-console">
                 <Icon name="scan" />
-                Test this ICP
+                {appUi.icp.actions.test}
               </a>
             </div>
           </section>
@@ -6192,19 +6200,23 @@ function DashboardApp() {
             <div className="panel analytics-overview-panel">
               <div className="panel-header">
                 <div>
-                  <p className="eyebrow">Last 30 days</p>
-                  <h2>What the workspace is actually doing</h2>
+                  <p className="eyebrow">{appUi.analytics.overviewEyebrow}</p>
+                  <h2>{appUi.analytics.overviewTitle}</h2>
                 </div>
                 <span className="status-pill">
-                  {analyticsState === "loading" ? "Loading" : analyticsState === "sample" ? "Sample" : "Live"}
+                  {analyticsState === "loading"
+                    ? appUi.common.loading
+                    : analyticsState === "sample"
+                      ? appUi.common.sample
+                      : appUi.common.live}
                 </span>
               </div>
               <div className="analytics-kpi-grid">
                 {[
-                  ["Tracked events", analyticsSummary.totals.events.toLocaleString()],
-                  ["Scans completed", analyticsSummary.totals.scansCompleted.toLocaleString()],
-                  ["Leads saved", analyticsSummary.totals.leadsSaved.toLocaleString()],
-                  ["Exports completed", analyticsSummary.totals.exportsCompleted.toLocaleString()]
+                  [appUi.analytics.kpis.trackedEvents, analyticsSummary.totals.events.toLocaleString()],
+                  [appUi.analytics.kpis.scansCompleted, analyticsSummary.totals.scansCompleted.toLocaleString()],
+                  [appUi.analytics.kpis.leadsSaved, analyticsSummary.totals.leadsSaved.toLocaleString()],
+                  [appUi.analytics.kpis.exportsCompleted, analyticsSummary.totals.exportsCompleted.toLocaleString()]
                 ].map(([label, value]) => (
                   <div key={label}>
                     <span>{label}</span>
@@ -6215,14 +6227,35 @@ function DashboardApp() {
             </div>
 
             <div className="panel analytics-funnel-panel">
-              <p className="eyebrow">Research funnel</p>
-              <h2>From click to CRM handoff</h2>
+              <p className="eyebrow">{appUi.analytics.funnel.eyebrow}</p>
+              <h2>{appUi.analytics.funnel.title}</h2>
               <div className="analytics-funnel">
                 {[
-                  ["CTA clicks", analyticsSummary.funnel.ctaClicks, "Start free, tool CTA, pricing clicks"],
-                  ["Signups", analyticsSummary.funnel.signupsCompleted, `${percentage(analyticsSummary.funnel.signupsCompleted, analyticsSummary.funnel.ctaClicks)} of CTA clicks`],
-                  ["Scans", analyticsSummary.funnel.scansCompleted, `${percentage(analyticsSummary.funnel.scansCompleted, analyticsSummary.funnel.signupsCompleted || analyticsSummary.funnel.loginsCompleted)} of active users`],
-                  ["Exports", analyticsSummary.funnel.exportsCompleted, `${percentage(analyticsSummary.funnel.exportsCompleted, analyticsSummary.funnel.scansCompleted)} of completed scans`]
+                  [appUi.analytics.funnel.ctaClicks, analyticsSummary.funnel.ctaClicks, appUi.analytics.funnel.ctaClicksMeta],
+                  [
+                    appUi.analytics.funnel.signups,
+                    analyticsSummary.funnel.signupsCompleted,
+                    formatMessage(appUi.analytics.funnel.signupsMeta, {
+                      percent: percentage(analyticsSummary.funnel.signupsCompleted, analyticsSummary.funnel.ctaClicks)
+                    })
+                  ],
+                  [
+                    appUi.analytics.funnel.scans,
+                    analyticsSummary.funnel.scansCompleted,
+                    formatMessage(appUi.analytics.funnel.scansMeta, {
+                      percent: percentage(
+                        analyticsSummary.funnel.scansCompleted,
+                        analyticsSummary.funnel.signupsCompleted || analyticsSummary.funnel.loginsCompleted
+                      )
+                    })
+                  ],
+                  [
+                    appUi.analytics.funnel.exports,
+                    analyticsSummary.funnel.exportsCompleted,
+                    formatMessage(appUi.analytics.funnel.exportsMeta, {
+                      percent: percentage(analyticsSummary.funnel.exportsCompleted, analyticsSummary.funnel.scansCompleted)
+                    })
+                  ]
                 ].map(([label, value, meta]) => (
                   <div className="analytics-funnel-step" key={label}>
                     <span>{label}</span>
@@ -6234,55 +6267,58 @@ function DashboardApp() {
             </div>
 
             <div className="panel analytics-list-panel">
-              <p className="eyebrow">Top pages</p>
-              <h2>Where product-led traffic is concentrating</h2>
+              <p className="eyebrow">{appUi.analytics.topPages.eyebrow}</p>
+              <h2>{appUi.analytics.topPages.title}</h2>
               <div className="analytics-simple-list">
                 {analyticsSummary.topPages.map((page) => (
                   <div key={page.path}>
                     <strong>{page.path}</strong>
-                    <span>{page.count} events</span>
+                    <span>{formatMessage(appUi.analytics.topPages.eventsSuffix, { count: page.count })}</span>
                   </div>
                 ))}
               </div>
             </div>
 
             <div className="panel analytics-list-panel">
-              <p className="eyebrow">Top events</p>
-              <h2>What users are doing most</h2>
+              <p className="eyebrow">{appUi.analytics.topEvents.eyebrow}</p>
+              <h2>{appUi.analytics.topEvents.title}</h2>
               <div className="analytics-simple-list">
                 {analyticsSummary.topEvents.map((event) => (
                   <div key={event.name}>
-                    <strong>{formatAnalyticsEventName(event.name)}</strong>
-                    <span>{event.count} events</span>
+                    <strong>{formatAnalyticsEventName(event.name, appUi)}</strong>
+                    <span>{formatMessage(appUi.analytics.topEvents.eventsSuffix, { count: event.count })}</span>
                   </div>
                 ))}
               </div>
             </div>
 
             <div className="panel analytics-events-panel">
-              <p className="eyebrow">Recent events</p>
-              <h2>Latest tracked activity</h2>
+              <p className="eyebrow">{appUi.analytics.recentEvents.eyebrow}</p>
+              <h2>{appUi.analytics.recentEvents.title}</h2>
               <div className="analytics-event-list">
                 {analyticsSummary.recentEvents.map((event) => (
                   <article key={event.id}>
                     <div>
-                      <strong>{formatAnalyticsEventName(event.name)}</strong>
-                      <span>{event.pagePath || "page unavailable"}</span>
+                      <strong>{formatAnalyticsEventName(event.name, appUi)}</strong>
+                      <span>{event.pagePath || appUi.analytics.recentEvents.pageUnavailable}</span>
                     </div>
-                    <small>{event.metadataSummary || formatHistoryTime(event.createdAt)}</small>
+                    <small>
+                      {formatAnalyticsMetadataSummary(event.metadataSummary, appUi) ||
+                        formatHistoryTime(event.createdAt, locale, appUi.common.unknownTime)}
+                    </small>
                   </article>
                 ))}
               </div>
             </div>
 
             <div className="panel analytics-recommendations-panel">
-              <p className="eyebrow">What to do next</p>
-              <h2>Operator recommendations</h2>
+              <p className="eyebrow">{appUi.analytics.recommendations.eyebrow}</p>
+              <h2>{appUi.analytics.recommendations.title}</h2>
               <div className="policy-list">
                 {analyticsSummary.recommendations.map((item) => (
                   <span key={item}>
                     <Icon name="check" />
-                    {item}
+                    {formatAnalyticsRecommendation(item, appUi)}
                   </span>
                 ))}
               </div>
@@ -6295,34 +6331,42 @@ function DashboardApp() {
             <div className="panel">
               <div className="panel-header">
                 <div>
-                  <p className="eyebrow">Workspace profile</p>
-                  <h2>Identity and ownership</h2>
+                  <p className="eyebrow">{appUi.account.profile.eyebrow}</p>
+                  <h2>{appUi.account.profile.title}</h2>
                 </div>
                 <span className="status-pill">
-                  {profileSaveState === "saving" ? "Saving" : profileSaveState === "saved" ? "Saved" : "Editable"}
+                  {profileSaveState === "saving"
+                    ? appUi.account.profile.statusSaving
+                    : profileSaveState === "saved"
+                      ? appUi.account.profile.statusSaved
+                      : appUi.account.profile.statusEditable}
                 </span>
               </div>
               <form className="icp-edit-form" onSubmit={submitProfile}>
                 <div className="account-form-grid">
                   <label>
-                    Owner name
-                    <input value={profileForm.name} onChange={updateProfileField("name")} placeholder="Alex Rivera" />
-                    <small>Shown in the workspace header and used for internal ownership context.</small>
+                    {appUi.account.profile.ownerName}
+                    <input
+                      value={profileForm.name}
+                      onChange={updateProfileField("name")}
+                      placeholder={appUi.account.profile.ownerPlaceholder}
+                    />
+                    <small>{appUi.account.profile.ownerHelp}</small>
                   </label>
                   <label>
-                    Workspace name
+                    {appUi.account.profile.workspaceName}
                     <input
                       value={profileForm.workspaceName}
                       onChange={updateProfileField("workspaceName")}
-                      placeholder="Northstar Outbound"
+                      placeholder={appUi.account.profile.workspacePlaceholder}
                     />
-                    <small>Used across the dashboard, billing, and account entry points.</small>
+                    <small>{appUi.account.profile.workspaceHelp}</small>
                   </label>
                 </div>
                 <div className="icp-form-actions">
                   <button className="button button-primary" type="submit" disabled={profileSaveState === "saving"}>
                     <Icon name="check" />
-                    {profileSaveState === "saving" ? "Saving profile" : "Save profile"}
+                    {profileSaveState === "saving" ? appUi.account.profile.saving : appUi.account.profile.save}
                   </button>
                 </div>
                 <p
@@ -6339,51 +6383,51 @@ function DashboardApp() {
             <div className="panel">
               <div className="panel-header">
                 <div>
-                  <p className="eyebrow">Password access</p>
-                  <h2>Secure email sign-in</h2>
+                  <p className="eyebrow">{appUi.account.password.eyebrow}</p>
+                  <h2>{appUi.account.password.title}</h2>
                 </div>
                 <span className="status-pill">
                   {accountPasswordState === "saving"
-                    ? "Updating"
+                    ? appUi.account.password.statusUpdating
                     : accountPasswordState === "saved"
-                      ? "Updated"
-                      : "Enabled"}
+                      ? appUi.account.password.statusUpdated
+                      : appUi.account.password.statusEnabled}
                 </span>
               </div>
               <form className="icp-edit-form" onSubmit={submitPasswordChange}>
                 <div className="account-form-grid">
                   <label>
-                    Current password
+                    {appUi.account.password.currentPassword}
                     <input
                       type={showAccountPassword ? "text" : "password"}
                       value={accountPasswordForm.currentPassword}
                       onChange={updateAccountPasswordField("currentPassword")}
                       autoComplete="current-password"
-                      placeholder="Required for existing passwords"
+                      placeholder={appUi.account.password.currentPlaceholder}
                     />
-                    <small>Leave blank only if this workspace has never set an email password before.</small>
+                    <small>{appUi.account.password.currentHelp}</small>
                   </label>
                   <label>
-                    New password
+                    {appUi.account.password.newPassword}
                     <input
                       type={showAccountPassword ? "text" : "password"}
                       value={accountPasswordForm.nextPassword}
                       onChange={updateAccountPasswordField("nextPassword")}
                       autoComplete="new-password"
                       minLength={8}
-                      placeholder="8+ characters"
+                      placeholder={appUi.account.password.newPlaceholder}
                     />
-                    <small>Use a workspace password your team can recover through the reset flow.</small>
+                    <small>{appUi.account.password.newHelp}</small>
                   </label>
                   <label className="account-form-wide">
-                    Confirm new password
+                    {appUi.account.password.confirmPassword}
                     <input
                       type={showAccountPassword ? "text" : "password"}
                       value={accountPasswordForm.confirmPassword}
                       onChange={updateAccountPasswordField("confirmPassword")}
                       autoComplete="new-password"
                       minLength={8}
-                      placeholder="Repeat the new password"
+                      placeholder={appUi.account.password.confirmPlaceholder}
                     />
                   </label>
                 </div>
@@ -6395,13 +6439,13 @@ function DashboardApp() {
                       onChange={() => setShowAccountPassword((current) => !current)}
                     />
                     <span>
-                      Show password fields
-                      <small>Useful when the workspace owner is updating access for the first time.</small>
+                      {appUi.account.password.showFields}
+                      <small>{appUi.account.password.showFieldsHelp}</small>
                     </span>
                   </label>
                   <button className="button button-primary" type="submit" disabled={accountPasswordState === "saving"}>
                     <Icon name="lock" />
-                    {accountPasswordState === "saving" ? "Updating password" : "Update password"}
+                    {accountPasswordState === "saving" ? appUi.account.password.updating : appUi.account.password.update}
                   </button>
                 </div>
                 <p
@@ -6416,34 +6460,34 @@ function DashboardApp() {
             </div>
 
             <div className="panel account-summary-panel">
-              <p className="eyebrow">Session summary</p>
-              <h2>What this workspace is using</h2>
+              <p className="eyebrow">{appUi.account.summary.eyebrow}</p>
+              <h2>{appUi.account.summary.title}</h2>
               <div className="account-card-list">
                 <div>
-                  <span>Signed-in email</span>
-                  <strong>{auth.authenticated ? auth.user.email : "Demo preview"}</strong>
+                  <span>{appUi.account.summary.signedInEmail}</span>
+                  <strong>{auth.authenticated ? auth.user.email : appUi.account.summary.demoPreview}</strong>
                 </div>
                 <div>
-                  <span>Workspace</span>
+                  <span>{appUi.account.summary.workspace}</span>
                   <strong>{snapshot.workspace.name}</strong>
                 </div>
                 <div>
-                  <span>Plan</span>
+                  <span>{appUi.account.summary.plan}</span>
                   <strong>{snapshot.plan.name}</strong>
                 </div>
                 <div>
-                  <span>Next credit reset</span>
+                  <span>{appUi.account.summary.nextCreditReset}</span>
                   <strong>{formatCalendarDate(snapshot.credits.reset)}</strong>
                 </div>
               </div>
               <div className="billing-actions">
                 <button className="button button-secondary" type="button" onClick={openBillingPortal}>
                   <Icon name="shield" />
-                  Manage billing
+                  {appUi.account.summary.manageBilling}
                 </button>
                 <button className="button button-secondary" type="button" onClick={signOut}>
                   <Icon name="lock" />
-                  Sign out
+                  {appUi.account.summary.signOut}
                 </button>
               </div>
             </div>
@@ -6453,27 +6497,29 @@ function DashboardApp() {
         {appSection === "billing" ? (
           <section className="app-page-grid billing-page-grid">
             <div className="panel billing-usage-panel">
-              <p className="eyebrow">Credit balance</p>
-              <h2>{snapshot.credits.remaining.toLocaleString()} scans left</h2>
+              <p className="eyebrow">{appUi.billing.usage.eyebrow}</p>
+              <h2>{formatMessage(appUi.billing.usage.title, { count: snapshot.credits.remaining.toLocaleString() })}</h2>
               <p>
-                {snapshot.credits.used.toLocaleString()} credits used this month on the {snapshot.plan.name} plan.
-                Credits are charged only when a scan creates and saves a usable Prospect Card.
+                {formatMessage(appUi.billing.usage.summary, {
+                  used: snapshot.credits.used.toLocaleString(),
+                  plan: snapshot.plan.name
+                })}
               </p>
               <div className="billing-kpis">
                 <div>
-                  <span>Subscription</span>
-                  <strong>{formatSubscriptionStatus(snapshot.subscription.status)}</strong>
+                  <span>{appUi.billing.kpis.subscription}</span>
+                  <strong>{formatSubscriptionStatus(snapshot.subscription.status, appUi)}</strong>
                 </div>
                 <div>
-                  <span>Credit reset</span>
+                  <span>{appUi.billing.kpis.creditReset}</span>
                   <strong>{formatCalendarDate(snapshot.credits.reset)}</strong>
                 </div>
                 <div>
-                  <span>Billing period end</span>
+                  <span>{appUi.billing.kpis.billingPeriodEnd}</span>
                   <strong>{formatCalendarDate(snapshot.subscription.currentPeriodEnd)}</strong>
                 </div>
               </div>
-              <div className="credit-meter" aria-label="Monthly credit usage">
+              <div className="credit-meter" aria-label={appUi.billing.meterLabel}>
                 <i
                   style={{
                     width: `${Math.min(
@@ -6486,17 +6532,17 @@ function DashboardApp() {
               <div className="billing-actions">
                 <button className="button button-primary" type="button" onClick={openBillingPortal}>
                   <Icon name="shield" />
-                  Manage billing
+                  {appUi.billing.actions.manageBilling}
                 </button>
                 <button className="button button-secondary" type="button" onClick={downloadCsv}>
                   <Icon name="download" />
-                  Export CSV
+                  {appUi.billing.actions.exportCsv}
                 </button>
               </div>
             </div>
             <div className="panel billing-plan-panel">
-              <p className="eyebrow">Plan path</p>
-              <h2>Scale credits without changing the workflow</h2>
+              <p className="eyebrow">{appUi.billing.plans.eyebrow}</p>
+              <h2>{appUi.billing.plans.title}</h2>
               <div className="billing-plan-list">
                 {PRICING_PLANS.map((plan) => {
                   const isCurrent = plan.id === snapshot.plan.id;
@@ -6506,9 +6552,13 @@ function DashboardApp() {
                     <article className={`billing-plan-card ${isCurrent ? "is-current" : ""}`} key={plan.id}>
                       <div>
                         <strong>{plan.name}</strong>
-                        <span>{plan.monthlyCredits.toLocaleString()} scans / month</span>
+                        <span>
+                          {formatMessage(appUi.billing.plans.scansPerMonth, {
+                            count: plan.monthlyCredits.toLocaleString()
+                          })}
+                        </span>
                       </div>
-                      <p>{planUseCases[plan.id]}</p>
+                      <p>{appUi.billing.plans.useCases[plan.id]}</p>
                       <button
                         className={`button ${isCurrent ? "button-secondary" : "button-primary"}`}
                         type="button"
@@ -6526,7 +6576,7 @@ function DashboardApp() {
                         }}
                         disabled={isCurrent}
                       >
-                        {isCurrent ? "Current plan" : `Choose ${plan.name}`}
+                        {isCurrent ? appUi.billing.plans.currentPlan : formatMessage(appUi.billing.plans.choosePlan, { plan: plan.name })}
                       </button>
                     </article>
                   );
@@ -6534,15 +6584,15 @@ function DashboardApp() {
               </div>
             </div>
             <div className="panel billing-policy-panel">
-              <p className="eyebrow">Credit policy</p>
-              <h2>No charge on failed scans</h2>
+              <p className="eyebrow">{appUi.billing.policy.eyebrow}</p>
+              <h2>{appUi.billing.policy.title}</h2>
               <div className="policy-list">
                 {[
-                  "Validation errors use 0 credits.",
-                  "Website access or generation failures use 0 credits.",
-                  "Duplicate retries use an idempotency key to prevent double charging.",
-                  "Basic scans charge 1 credit only after a Prospect Card is saved.",
-                  "Deep scans charge 3 credits only after a Prospect Card is saved."
+                  appUi.billing.policy.validation,
+                  appUi.billing.policy.access,
+                  appUi.billing.policy.duplicate,
+                  appUi.billing.policy.basic,
+                  appUi.billing.policy.deep
                 ].map((item) => (
                   <span key={item}>
                     <Icon name="check" />
@@ -6552,71 +6602,75 @@ function DashboardApp() {
               </div>
             </div>
             <div className="panel billing-status-panel">
-              <p className="eyebrow">Account status</p>
-              <h2>Know why the workspace can or cannot scan</h2>
+              <p className="eyebrow">{appUi.billing.status.eyebrow}</p>
+              <h2>{appUi.billing.status.title}</h2>
               <p className="billing-status-copy">{subscriptionStatusDetails.summary}</p>
               <div className="account-card-list">
                 <div>
-                  <span>Workspace status</span>
-                  <strong>{auth.authenticated ? "Authenticated" : "Demo preview"}</strong>
+                  <span>{appUi.billing.status.workspaceStatus}</span>
+                  <strong>{auth.authenticated ? appUi.billing.status.authenticated : appUi.billing.status.demoPreview}</strong>
                 </div>
                 <div>
-                  <span>Subscription state</span>
-                  <strong>{subscriptionStatusDetails.label}</strong>
+                  <span>{appUi.billing.status.subscriptionState}</span>
+                  <strong>{subscriptionStatusLabel}</strong>
                 </div>
                 <div>
-                  <span>Remaining credits</span>
+                  <span>{appUi.billing.status.remainingCredits}</span>
                   <strong>{snapshot.credits.remaining.toLocaleString()}</strong>
                 </div>
                 <div>
-                  <span>Export mode</span>
-                  <strong>{bulkExportLabel(bulkExportPreset, bulkCrmFieldMode)}</strong>
+                  <span>{appUi.billing.status.exportMode}</span>
+                  <strong>{bulkExportLabel(bulkExportPreset, bulkCrmFieldMode, appUi)}</strong>
                 </div>
               </div>
               <div className="billing-status-next-step">
-                <span>Next step</span>
+                <span>{appUi.billing.status.nextStep}</span>
                 <strong>{subscriptionStatusDetails.nextStep}</strong>
               </div>
               <div className="billing-actions">
                 <button className="button button-secondary" type="button" onClick={downloadCsv}>
                   <Icon name="download" />
-                  Export current fields
+                  {appUi.billing.actions.exportCurrentFields}
                 </button>
                 <a className="button button-secondary" href="/support">
-                  Billing FAQ
+                  {appUi.billing.actions.faq}
                 </a>
               </div>
             </div>
             <div className="panel scan-history-panel">
               <div className="panel-header">
                 <div>
-                  <p className="eyebrow">Scan audit</p>
-                  <h2>History</h2>
+                  <p className="eyebrow">{appUi.billing.scanHistory.eyebrow}</p>
+                  <h2>{appUi.billing.scanHistory.title}</h2>
                 </div>
                 <span className="status-pill">
-                  {historyState === "loading" ? "Loading" : historyState === "sample" ? "Sample" : `${scanHistory.length} records`}
+                  {historyState === "loading"
+                    ? appUi.common.loading
+                    : historyState === "sample"
+                      ? appUi.common.sample
+                      : formatMessage(appUi.billing.scanHistory.records, { count: scanHistory.length })}
                 </span>
               </div>
-              <div className="scan-history-toolbar" aria-label="Scan history filters">
+              <div className="scan-history-toolbar" aria-label={appUi.billing.scanHistory.filtersLabel}>
                 {scanHistoryFilters.map((filter) => (
                   <button
-                    className={`history-filter ${historyFilter === filter.value ? "is-active" : ""}`}
+                    className={`history-filter ${historyFilter === filter ? "is-active" : ""}`}
                     type="button"
-                    key={filter.value}
+                    key={filter}
                     onClick={() => {
-                      setHistoryFilter(filter.value);
+                      setHistoryFilter(filter);
                       setExpandedScanId(null);
                     }}
-                    aria-pressed={historyFilter === filter.value}
+                    aria-pressed={historyFilter === filter}
                   >
-                    <span>{filter.label}</span>
-                    <strong>{historyCounts[filter.value]}</strong>
+                    <span>{appUi.options.scanHistoryFilters[filter]}</span>
+                    <strong>{historyCounts[filter]}</strong>
                   </button>
                 ))}
               </div>
-              <div className="history-secondary-filters" aria-label="Scan history secondary filters">
+              <div className="history-secondary-filters" aria-label={appUi.billing.scanHistory.secondaryFiltersLabel}>
                 <label>
-                  Date range
+                  {appUi.billing.scanHistory.dateRange}
                   <select
                     value={historyDateFilter}
                     onChange={(event) => {
@@ -6625,14 +6679,14 @@ function DashboardApp() {
                     }}
                   >
                     {historyDateFilters.map((filter) => (
-                      <option value={filter.value} key={filter.value}>
-                        {filter.label}
+                      <option value={filter} key={filter}>
+                        {appUi.options.historyDateFilters[filter]}
                       </option>
                     ))}
                   </select>
                 </label>
                 <label>
-                  Failure reason
+                  {appUi.billing.scanHistory.failureReason}
                   <select
                     value={historyReasonFilter}
                     onChange={(event) => {
@@ -6643,10 +6697,10 @@ function DashboardApp() {
                       setExpandedScanId(null);
                     }}
                   >
-                    <option value="all">All failure reasons</option>
+                    <option value="all">{appUi.billing.scanHistory.allFailureReasons}</option>
                     {failureReasonEntries.map(([reason]) => (
                       <option value={reason} key={reason}>
-                        {reason}
+                        {formatHistoryReason(reason, appUi)}
                       </option>
                     ))}
                   </select>
@@ -6657,13 +6711,15 @@ function DashboardApp() {
                   onClick={resetHistorySecondaryFilters}
                   disabled={!historySecondaryFiltersActive}
                 >
-                  Clear date/reason
+                  {appUi.billing.scanHistory.clearSecondaryFilters}
                 </button>
-                <span aria-live="polite">{filteredScanHistory.length} matching records</span>
+                <span aria-live="polite">
+                  {formatMessage(appUi.billing.scanHistory.matchingRecords, { count: filteredScanHistory.length })}
+                </span>
               </div>
-              <div className="failure-reason-summary" aria-label="Failed scan reason breakdown">
+              <div className="failure-reason-summary" aria-label={appUi.billing.scanHistory.failureBreakdownLabel}>
                 <div>
-                  <span>Failed scans</span>
+                  <span>{appUi.billing.scanHistory.failedScans}</span>
                   <strong>{historyCounts.failed}</strong>
                 </div>
                 {failureReasonEntries.length ? (
@@ -6678,16 +6734,16 @@ function DashboardApp() {
                           setExpandedScanId(null);
                         }}
                       >
-                        <span>{reason}</span>
+                        <span>{formatHistoryReason(reason, appUi)}</span>
                         <strong>{count}</strong>
                       </button>
                     ))}
                   </div>
                 ) : (
-                  <p>No failed scans in this audit window.</p>
+                  <p>{appUi.billing.scanHistory.noFailedScans}</p>
                 )}
               </div>
-              <div className="scan-history-list" role="list" aria-label="Scan history audit records">
+              <div className="scan-history-list" role="list" aria-label={appUi.billing.scanHistory.listLabel}>
                 {filteredScanHistory.length ? (
                   filteredScanHistory.map((scan) => (
                     <article
@@ -6703,54 +6759,60 @@ function DashboardApp() {
                       >
                         <div>
                           <span className={`history-status history-status-${scan.status}`}>
-                            {scan.status}
+                            {appUi.options.scanHistoryFilters[scan.status]}
                           </span>
                           <strong>{scan.companyName || scan.domain}</strong>
                           <small>{scan.url}</small>
                         </div>
                         <div>
-                          <span>{scan.scanType}</span>
-                          <span>{formatHistoryReason(scan.reason)}</span>
+                          <span>{formatScanTypeLabel(scan.scanType, appUi)}</span>
+                          <span>{formatHistoryReason(scan.reason, appUi)}</span>
                         </div>
                         <div>
                           <strong>{scan.creditsCharged}</strong>
-                          <span>credits charged</span>
+                          <span>{appUi.billing.scanHistory.creditsCharged}</span>
                         </div>
-                        <time dateTime={scan.createdAt}>{formatHistoryTime(scan.createdAt)}</time>
-                        <span className="history-expand-cue">{expandedScanId === scan.id ? "Hide" : "Details"}</span>
+                        <time dateTime={scan.createdAt}>{formatHistoryTime(scan.createdAt, locale, appUi.common.unknownTime)}</time>
+                        <span className="history-expand-cue">
+                          {expandedScanId === scan.id ? appUi.billing.scanHistory.hide : appUi.billing.scanHistory.details}
+                        </span>
                       </button>
                       {expandedScanId === scan.id ? (
                         <div className="scan-history-details">
                           <div>
-                            <span>Scan ID</span>
+                            <span>{appUi.billing.scanHistory.scanId}</span>
                             <code>{scan.id}</code>
                           </div>
                           <div>
-                            <span>Idempotency key</span>
-                            <code>{scan.idempotencyKey || "Not recorded"}</code>
+                            <span>{appUi.billing.scanHistory.idempotencyKey}</span>
+                            <code>{scan.idempotencyKey || appUi.billing.scanHistory.notRecorded}</code>
                           </div>
                           <div>
-                            <span>Lead ID</span>
-                            <code>{scan.leadId || "No lead saved"}</code>
+                            <span>{appUi.billing.scanHistory.leadId}</span>
+                            <code>{scan.leadId || appUi.billing.scanHistory.noLeadSaved}</code>
                           </div>
                           <div>
-                            <span>Completed</span>
-                            <code>{scan.completedAt ? formatHistoryTime(scan.completedAt) : "Not completed"}</code>
+                            <span>{appUi.billing.scanHistory.completed}</span>
+                            <code>
+                              {scan.completedAt
+                                ? formatHistoryTime(scan.completedAt, locale, appUi.common.unknownTime)
+                                : appUi.billing.scanHistory.notCompleted}
+                            </code>
                           </div>
                           <div className="scan-history-detail-action">
-                            <span>Prospect Card</span>
+                            <span>{appUi.billing.scanHistory.prospectCard}</span>
                             {scan.leadId ? (
-                              <a href={leadDetailHref(scan.leadId) || "/app/leads"}>Open lead detail</a>
+                              <a href={leadDetailHref(scan.leadId) || "/app/leads"}>{appUi.billing.scanHistory.openLeadDetail}</a>
                             ) : (
-                              <code>No lead saved</code>
+                              <code>{appUi.billing.scanHistory.noLeadSaved}</code>
                             )}
                           </div>
                           <p className={scan.status === "failed" ? "history-detail-note is-error" : "history-detail-note"}>
                             {scan.status === "failed"
-                              ? "No credit was used. Fix the URL and try again."
+                              ? appUi.billing.scanHistory.failedNote
                               : scan.status === "replayed"
-                                ? "Network retry returned the saved scan result without another credit charge."
-                                : "Credit was charged only after a usable Prospect Card was saved."}
+                                ? appUi.billing.scanHistory.replayedNote
+                                : appUi.billing.scanHistory.successNote}
                           </p>
                         </div>
                       ) : null}
@@ -6758,11 +6820,15 @@ function DashboardApp() {
                   ))
                 ) : (
                   <div className="detail-empty-state">
-                    <strong>{scanHistory.length ? "No matching scans." : "No scan history yet."}</strong>
+                    <strong>
+                      {scanHistory.length
+                        ? appUi.billing.scanHistory.emptyFilteredTitle
+                        : appUi.billing.scanHistory.emptyTitle}
+                    </strong>
                     <span>
                       {scanHistory.length
-                        ? "Change the filter to review the rest of the audit trail."
-                        : "Completed, failed, and replayed scan records will appear here as an audit trail."}
+                        ? appUi.billing.scanHistory.emptyFilteredCopy
+                        : appUi.billing.scanHistory.emptyCopy}
                     </span>
                   </div>
                 )}
@@ -6771,6 +6837,7 @@ function DashboardApp() {
           </section>
         ) : null}
       </main>
+      </div>
     </div>
   );
 }
@@ -6850,7 +6917,7 @@ function HomeProspectPreview({ card }: { card: ProspectCardType }) {
         </section>
       </div>
 
-      <div className="home-preview-footer" aria-label="Export-ready fields">
+      <div className="home-preview-footer" aria-label={previewCopy.proofAriaLabel}>
         {previewCopy.exportFields.map((item) => (
           <span key={item}>
             <Icon name="check" />
@@ -6877,6 +6944,8 @@ function ProspectCard({
   enableDeepLink?: boolean;
   onContextSaved?: (result: PipelineContextSaveResult) => void;
 }) {
+  const { locale, formatMessage, siteUi } = usePublicSite();
+  const appUi = getAppUi(locale);
   const [copyState, setCopyState] = useState<{ key: string; status: "copied" | "error" } | null>(null);
   const [exportSelection, setExportSelection] = useState<Record<ProspectExportFieldKey, boolean>>(
     defaultProspectExportSelection
@@ -6892,10 +6961,8 @@ function ProspectCard({
   );
   const [activityFieldFilter, setActivityFieldFilter] = useState<ActivityFieldFilter>("all");
   const [expandedActivityId, setExpandedActivityId] = useState<string | null>(null);
-  const firstLine = card.firstLines[0] || "No first line generated yet.";
-  const stageLabel =
-    pipelineStageOptions.find((option) => option.value === metaFields.stage)?.label ||
-    pipelineStageOptions[0].label;
+  const firstLine = card.firstLines[0] || siteUi.home.sampleCard.noFirstLineLabel;
+  const stageLabel = appUi.options.pipelineStages[metaFields.stage] || appUi.options.pipelineStages.researching;
   const tabIdPrefix = `prospect-${slugifyFilePart(card.domain)}`;
 
   useEffect(() => {
@@ -6916,50 +6983,90 @@ function ProspectCard({
   }, [card.pipelineContext?.owner, card.pipelineContext?.stage, card.pipelineContext?.notes, card.pipelineContext?.updatedAt]);
 
   const contactGroups = [
-    { label: "Emails", value: formatCardList(card.contactPoints.emails) },
-    { label: "Phones", value: formatCardList(card.contactPoints.phones) },
-    { label: "Contact pages", value: formatCardList(card.contactPoints.contactPages) },
-    { label: "Social links", value: formatCardList(card.contactPoints.socialLinks) }
+    {
+      label: appUi.prospectCard.contactLabels.emails,
+      value: formatCardList(card.contactPoints.emails, appUi.common.noneFound)
+    },
+    {
+      label: appUi.prospectCard.contactLabels.phones,
+      value: formatCardList(card.contactPoints.phones, appUi.common.noneFound)
+    },
+    {
+      label: appUi.prospectCard.contactLabels.contactPages,
+      value: formatCardList(card.contactPoints.contactPages, appUi.common.noneFound)
+    },
+    {
+      label: appUi.prospectCard.contactLabels.socialLinks,
+      value: formatCardList(card.contactPoints.socialLinks, appUi.common.noneFound)
+    }
   ];
   const topSignals = card.opportunitySignals.slice(0, 3);
+  const contactFoundCount = [
+    card.contactPoints.emails,
+    card.contactPoints.phones,
+    card.contactPoints.contactPages,
+    card.contactPoints.socialLinks
+  ].filter((group) => group.length).length;
   const pipelineActivity = card.pipelineActivity || [];
+  const localizedExportFields = prospectExportFields.map((field) => ({
+    ...field,
+    label: appUi.prospectCard.export.fields[field.key]
+  }));
+  const localizedExportPresets = prospectExportPresets.map((preset) => ({
+    ...preset,
+    label: appUi.prospectCard.export.presets[preset.key].label,
+    description: appUi.prospectCard.export.presets[preset.key].description
+  }));
+  const localizedCrmFieldModes = prospectCrmFieldModes.map((mode) => ({
+    ...mode,
+    label: appUi.prospectCard.export.crmModes[mode.value].label,
+    description: appUi.prospectCard.export.crmModes[mode.value].description
+  }));
+  const copyLabels = appUi.prospectCard.copyLabels;
   const fullCardText = [
     `${card.companyName} - ${card.website}`,
-    `Fit score: ${card.fitScore}`,
-    `Confidence: ${Math.round(card.confidenceScore * 100)}%`,
-    `Industry: ${card.industry}`,
-    `Owner: ${metaFields.owner || "Unassigned"}`,
-    `Pipeline stage: ${stageLabel}`,
-    `Notes: ${metaFields.notes || "None"}`,
-    `Summary: ${card.summary}`,
-    `Fit reason: ${card.fitReason}`,
-    `Signals: ${card.opportunitySignals.map((signal) => `${signal.category}: ${signal.signal}`).join("; ")}`,
-    `First line: ${firstLine}`,
-    `Short email:\n${card.shortEmail}`
+    `${copyLabels.fitScore}: ${card.fitScore}`,
+    `${copyLabels.confidence}: ${Math.round(card.confidenceScore * 100)}%`,
+    `${copyLabels.industry}: ${card.industry}`,
+    `${copyLabels.owner}: ${metaFields.owner || appUi.common.unassigned}`,
+    `${copyLabels.pipelineStage}: ${stageLabel}`,
+    `${copyLabels.notes}: ${metaFields.notes || appUi.common.none}`,
+    `${copyLabels.summary}: ${card.summary}`,
+    `${copyLabels.fitReason}: ${card.fitReason}`,
+    `${copyLabels.signals}: ${card.opportunitySignals.map((signal) => `${formatSignalCategory(signal.category, appUi)}: ${signal.signal}`).join("; ")}`,
+    `${copyLabels.firstLine}: ${firstLine}`,
+    `${copyLabels.shortEmail}:\n${card.shortEmail}`
   ].join("\n");
-  const emailDraftText = [`Subject: Quick idea for ${card.companyName}`, "", card.shortEmail].join("\n");
+  const emailDraftText = [formatMessage(copyLabels.subjectLine, { company: card.companyName }), "", card.shortEmail].join("\n");
   const exportSections: Record<ProspectExportFieldKey, string> = {
     identity: [
-      `Company: ${card.companyName}`,
-      `Website: ${card.website}`,
-      `Domain: ${card.domain}`,
-      `Industry: ${card.industry}`,
-      `Confidence: ${Math.round(card.confidenceScore * 100)}%`,
-      `Owner: ${metaFields.owner || "Unassigned"}`,
-      `Pipeline stage: ${stageLabel}`,
-      `Notes: ${metaFields.notes || "None"}`
+      `${copyLabels.company}: ${card.companyName}`,
+      `${appUi.prospectCard.website}: ${card.website}`,
+      `${copyLabels.domain}: ${card.domain}`,
+      `${copyLabels.industry}: ${card.industry}`,
+      `${copyLabels.confidence}: ${Math.round(card.confidenceScore * 100)}%`,
+      `${copyLabels.owner}: ${metaFields.owner || appUi.common.unassigned}`,
+      `${copyLabels.pipelineStage}: ${stageLabel}`,
+      `${copyLabels.notes}: ${metaFields.notes || appUi.common.none}`
     ].join("\n"),
-    fit: [`Fit score: ${card.fitScore}`, `Summary: ${card.summary}`, `Fit reason: ${card.fitReason}`].join("\n"),
+    fit: [
+      `${copyLabels.fitScore}: ${card.fitScore}`,
+      `${copyLabels.summary}: ${card.summary}`,
+      `${copyLabels.fitReason}: ${card.fitReason}`
+    ].join("\n"),
     signals: card.opportunitySignals
-      .map((signal) => `- ${signal.category.replace("_", " ")}: ${signal.signal} (Source: ${signal.source})`)
+      .map(
+        (signal) =>
+          `- ${formatSignalCategory(signal.category, appUi)}: ${signal.signal} (${copyLabels.source}: ${signal.source})`
+      )
       .join("\n"),
     contacts: contactGroups.map((group) => `${group.label}: ${group.value}`).join("\n"),
     angles: card.outreachAngles.map((angle) => `- ${angle}`).join("\n"),
     firstLine,
     email: card.shortEmail,
-    sources: card.sourceNotes.map((note) => `- ${note.claim} (Source: ${note.source})`).join("\n")
+    sources: card.sourceNotes.map((note) => `- ${note.claim} (${copyLabels.source}: ${note.source})`).join("\n")
   };
-  const activePreset = exportPreset === "custom" ? null : prospectExportPresets.find((preset) => preset.key === exportPreset) || null;
+  const activePreset = exportPreset === "custom" ? null : localizedExportPresets.find((preset) => preset.key === exportPreset) || null;
   const activityFieldCounts = useMemo(
     () =>
       pipelineActivity.reduce<Record<ActivityFieldFilter, number>>(
@@ -6985,38 +7092,47 @@ function ProspectCard({
   const presetExportText = activePreset
     ? buildProspectExportCsv([{ card, pipelineContext: metaFields }], activePreset.key, crmFieldMode)
     : "";
-  const selectedExportFields = prospectExportFields.filter((field) => exportSelection[field.key]);
+  const selectedExportFields = localizedExportFields.filter((field) => exportSelection[field.key]);
   const customExportText = selectedExportFields
-    .map((field) => `${field.label}\n${exportSections[field.key] || "No data"}`)
+    .map((field) => `${field.label}\n${exportSections[field.key] || appUi.common.noData}`)
     .join("\n\n");
   const selectedExportText = activePreset ? presetExportText : customExportText;
-  const selectedExportCopyLabel = activePreset ? "Copy CSV row" : "Copy selected";
-  const selectedExportDownloadLabel = activePreset ? "Download CSV" : "Download fields";
+  const selectedExportCopyLabel = activePreset ? appUi.prospectCard.export.copyCsvRow : appUi.prospectCard.export.copySelected;
+  const selectedExportDownloadLabel = activePreset ? appUi.prospectCard.export.downloadCsv : appUi.prospectCard.export.downloadFields;
   const selectedExportFilename = activePreset
     ? `${slugifyFilePart(card.companyName)}-${activePreset.key}${activePreset.key === "crm" ? `-${crmFieldMode}` : ""}-export.csv`
     : `${slugifyFilePart(card.companyName)}-prospect-fields.txt`;
   const shareUrl = currentLeadDeepLink(leadId, activeTab);
   const copyMenuItems = [
-    { key: "full-card", label: "Copy full card", value: fullCardText },
-    { key: "website", label: "Copy URL", value: card.website },
-    { key: "share-link", label: "Copy card link", value: shareUrl },
-    { key: "first-line", label: "Copy first line", value: firstLine },
+    { key: "full-card", label: appUi.prospectCard.copyMenu.fullCard, value: fullCardText },
+    { key: "website", label: appUi.prospectCard.copyMenu.website, value: card.website },
+    { key: "share-link", label: appUi.prospectCard.copyMenu.cardLink, value: shareUrl },
+    { key: "first-line", label: appUi.prospectCard.copyMenu.firstLine, value: firstLine },
     {
       key: "signals",
-      label: "Copy signals",
-      value: card.opportunitySignals.map((signal) => `${signal.category}: ${signal.signal} Source: ${signal.source}`).join("\n")
+      label: appUi.prospectCard.copyMenu.signals,
+      value: card.opportunitySignals
+        .map(
+          (signal) =>
+            `${formatSignalCategory(signal.category, appUi)}: ${signal.signal} ${copyLabels.source}: ${signal.source}`
+        )
+        .join("\n")
     },
     {
       key: "contact-paths",
-      label: "Copy contact paths",
+      label: appUi.prospectCard.copyMenu.contactPaths,
       value: contactGroups.map((group) => `${group.label}: ${group.value}`).join("\n")
     },
     {
       key: "source-notes",
-      label: "Copy source notes",
-      value: card.sourceNotes.map((note) => `${note.claim} Source: ${note.source}`).join("\n")
+      label: appUi.prospectCard.copyMenu.sourceNotes,
+      value: card.sourceNotes.map((note) => `${note.claim} ${copyLabels.source}: ${note.source}`).join("\n")
     },
-    { key: "selected-fields", label: activePreset ? `Copy ${activePreset.label}` : "Copy selected fields", value: selectedExportText }
+    {
+      key: "selected-fields",
+      label: activePreset ? `${appUi.common.copy} ${activePreset.label}` : appUi.prospectCard.copyMenu.selectedFields,
+      value: selectedExportText
+    }
   ];
 
   async function copyCardValue(key: string, value: string) {
@@ -7067,25 +7183,29 @@ function ProspectCard({
 
   function renderActivityLog() {
     return (
-      <section className="prospect-activity-log" aria-label="Pipeline activity log">
+      <section className="prospect-activity-log" aria-label={appUi.prospectCard.activity.panelLabel}>
         <div className="prospect-section-head">
-          <span>Activity log</span>
-          <strong>{pipelineActivity.length ? `${pipelineActivity.length} recent` : "No changes yet"}</strong>
+          <span>{appUi.prospectCard.activity.title}</span>
+          <strong>
+            {pipelineActivity.length
+              ? formatMessage(appUi.prospectCard.activity.recent, { count: pipelineActivity.length })
+              : appUi.prospectCard.activity.noChangesYet}
+          </strong>
         </div>
-        <div className="activity-log-toolbar" role="group" aria-label="Filter activity log by changed field">
+        <div className="activity-log-toolbar" role="group" aria-label={appUi.prospectCard.activity.filterLabel}>
           {activityFieldFilters.map((filter) => (
             <button
-              className={activityFieldFilter === filter.value ? "is-active" : ""}
+              className={activityFieldFilter === filter ? "is-active" : ""}
               type="button"
-              aria-pressed={activityFieldFilter === filter.value}
+              aria-pressed={activityFieldFilter === filter}
               onClick={() => {
-                setActivityFieldFilter(filter.value);
+                setActivityFieldFilter(filter);
                 setExpandedActivityId(null);
               }}
-              key={filter.value}
+              key={filter}
             >
-              <span>{filter.label}</span>
-              <strong>{activityFieldCounts[filter.value]}</strong>
+              <span>{appUi.options.activityFields[filter]}</span>
+              <strong>{activityFieldCounts[filter]}</strong>
             </button>
           ))}
         </div>
@@ -7107,23 +7227,27 @@ function ProspectCard({
                       {activity.actorEmail ? <small>{activity.actorEmail}</small> : null}
                     </span>
                     <span>
-                      changed {activity.changedFields.map(formatActivityFieldLabel).join(", ")} ·{" "}
-                      {formatHistoryTime(activity.createdAt)}
+                      {formatMessage(appUi.prospectCard.activity.changed, {
+                        fields: activity.changedFields.map((field) => formatActivityFieldLabel(field, appUi)).join(", "),
+                        time: formatHistoryTime(activity.createdAt, locale, appUi.common.unknownTime)
+                      })}
                     </span>
-                    <span className="activity-log-expand-cue">{isExpanded ? "Hide diff" : "Show diff"}</span>
+                    <span className="activity-log-expand-cue">
+                      {isExpanded ? appUi.prospectCard.activity.hideDiff : appUi.prospectCard.activity.showDiff}
+                    </span>
                   </button>
                   {isExpanded ? (
-                    <div className="activity-diff-grid" aria-label="Previous and current pipeline values">
+                    <div className="activity-diff-grid" aria-label={appUi.prospectCard.activity.diffLabel}>
                       {activity.changedFields.map((field) => (
                         <div className="activity-diff-row" key={`${activity.id}-${field}`}>
-                          <span>{formatActivityFieldLabel(field)}</span>
+                          <span>{formatActivityFieldLabel(field, appUi)}</span>
                           <div>
-                            <strong>Previous</strong>
-                            <code>{formatActivityContextValue(activity.previousValues, field)}</code>
+                            <strong>{appUi.common.previous}</strong>
+                            <code>{formatActivityContextValue(activity.previousValues, field, appUi)}</code>
                           </div>
                           <div>
-                            <strong>Current</strong>
-                            <code>{formatActivityContextValue(activity.currentValues, field)}</code>
+                            <strong>{appUi.common.current}</strong>
+                            <code>{formatActivityContextValue(activity.currentValues, field, appUi)}</code>
                           </div>
                         </div>
                       ))}
@@ -7136,8 +7260,8 @@ function ProspectCard({
         ) : (
           <p>
             {pipelineActivity.length
-              ? "No activity matches this field filter."
-              : "Owner, stage, and notes changes will appear here after the first save."}
+              ? appUi.prospectCard.activity.noMatch
+              : appUi.prospectCard.activity.empty}
           </p>
         )}
       </section>
@@ -7172,9 +7296,9 @@ function ProspectCard({
       const response = await fetch(apiUrl(`/api/leads/${encodeURIComponent(leadId)}/context`), {
         method: "PATCH",
         credentials: "include",
-        headers: {
+        headers: withAppLocaleHeader(locale, {
           "Content-Type": "application/json"
-        },
+        }),
         body: JSON.stringify(payload)
       });
       const result = (await response.json().catch(() => ({}))) as {
@@ -7218,7 +7342,7 @@ function ProspectCard({
     }
 
     event.preventDefault();
-    const currentIndex = prospectCardTabs.findIndex((item) => item.value === tab);
+    const currentIndex = prospectCardTabs.findIndex((item) => item === tab);
     const lastIndex = prospectCardTabs.length - 1;
     const nextIndex =
       event.key === "Home"
@@ -7232,22 +7356,25 @@ function ProspectCard({
             : currentIndex === 0
               ? lastIndex
               : currentIndex - 1;
-    const nextTab = prospectCardTabs[nextIndex].value;
+    const nextTab = prospectCardTabs[nextIndex];
     selectProspectTab(nextTab);
     window.requestAnimationFrame(() => document.getElementById(tabButtonId(nextTab))?.focus());
   }
 
   function renderExportPanel() {
     return (
-      <section className="prospect-export-panel" aria-label="Export selected Prospect Card fields">
+      <section className="prospect-export-panel" aria-label={appUi.prospectCard.export.panelLabel}>
         <div className="prospect-section-head">
-          <span>Export selected fields</span>
+          <span>{appUi.prospectCard.export.title}</span>
           <strong>
-            {selectedExportFields.length}/{prospectExportFields.length} selected
+            {formatMessage(appUi.prospectCard.export.selected, {
+              selected: selectedExportFields.length,
+              total: localizedExportFields.length
+            })}
           </strong>
         </div>
-        <div className="export-preset-grid" role="group" aria-label="Export field presets">
-          {prospectExportPresets.map((preset) => (
+        <div className="export-preset-grid" role="group" aria-label={appUi.prospectCard.export.presetsLabel}>
+          {localizedExportPresets.map((preset) => (
             <button
               className={exportPreset === preset.key ? "is-active" : ""}
               type="button"
@@ -7261,8 +7388,8 @@ function ProspectCard({
           ))}
         </div>
         {activePreset?.key === "crm" ? (
-          <div className="crm-field-mode-grid" role="group" aria-label="CRM field naming mode">
-            {prospectCrmFieldModes.map((mode) => (
+          <div className="crm-field-mode-grid" role="group" aria-label={appUi.prospectCard.export.crmModesLabel}>
+            {localizedCrmFieldModes.map((mode) => (
               <button
                 className={crmFieldMode === mode.value ? "is-active" : ""}
                 type="button"
@@ -7277,13 +7404,19 @@ function ProspectCard({
           </div>
         ) : null}
         {activePreset ? (
-          <div className="export-column-map" aria-label={`${activePreset.label} CSV columns`}>
-            <span>{activePreset.key === "crm" ? `${bulkExportLabel(activePreset.key, crmFieldMode)} columns` : "CSV columns"}</span>
+          <div className="export-column-map" aria-label={formatMessage(appUi.prospectCard.export.columns, { label: activePreset.label })}>
+            <span>
+              {activePreset.key === "crm"
+                ? formatMessage(appUi.prospectCard.export.columns, {
+                    label: bulkExportLabel(activePreset.key, crmFieldMode, appUi)
+                  })
+                : appUi.prospectCard.export.csvColumns}
+            </span>
             <code>{activePresetColumns.map((column) => column.label).join(", ")}</code>
           </div>
         ) : null}
         <div className="export-field-grid">
-          {prospectExportFields.map((field) => (
+          {localizedExportFields.map((field) => (
             <label key={field.key}>
               <input
                 type="checkbox"
@@ -7311,8 +7444,8 @@ function ProspectCard({
             <Icon name="download" />
             {copyState?.key === "download-selected"
               ? copyState.status === "copied"
-                ? "Downloaded"
-                : "Failed"
+                ? appUi.common.downloaded
+                : appUi.common.failed
               : selectedExportDownloadLabel}
           </button>
         </div>
@@ -7325,8 +7458,8 @@ function ProspectCard({
       return (
         <section className="prospect-card-section">
           <div className="prospect-section-head">
-            <span>Website signals</span>
-            <strong>{card.opportunitySignals.length} findings</strong>
+            <span>{appUi.prospectCard.signals.title}</span>
+            <strong>{formatMessage(appUi.prospectCard.signals.findings, { count: card.opportunitySignals.length })}</strong>
           </div>
           <SignalList signals={card.opportunitySignals} />
         </section>
@@ -7337,8 +7470,8 @@ function ProspectCard({
       return (
         <section className="prospect-card-section">
           <div className="prospect-section-head">
-            <span>Contact paths</span>
-            <strong>{contactGroups.filter((group) => group.value !== "None found").length} found</strong>
+            <span>{appUi.prospectCard.contacts.title}</span>
+            <strong>{formatMessage(appUi.prospectCard.contacts.found, { count: contactFoundCount })}</strong>
           </div>
           <div className="contact-field-grid">
             {contactGroups.map((group) => (
@@ -7357,15 +7490,15 @@ function ProspectCard({
         <div className="prospect-tab-stack">
           <div className="first-line-box">
             <div className="prospect-section-head">
-              <span>Best first line</span>
-              <strong>Ready to paste</strong>
+              <span>{appUi.prospectCard.outreach.bestFirstLine}</span>
+              <strong>{appUi.prospectCard.outreach.readyToPaste}</strong>
             </div>
             <p>{firstLine}</p>
           </div>
           <section className="prospect-card-section">
             <div className="prospect-section-head">
-              <span>Outreach angles</span>
-              <strong>{card.outreachAngles.length} angles</strong>
+              <span>{appUi.prospectCard.outreach.angles}</span>
+              <strong>{formatMessage(appUi.prospectCard.outreach.count, { count: card.outreachAngles.length })}</strong>
             </div>
             <div className="angle-list">
               {card.outreachAngles.map((angle) => (
@@ -7381,8 +7514,14 @@ function ProspectCard({
       return (
         <div className="email-box">
           <div className="prospect-section-head">
-            <span>Short email</span>
-            <CopyButton copyKey="short-email" label="Copy email" state={copyState} value={card.shortEmail} onCopy={copyCardValue} />
+            <span>{appUi.prospectCard.email.title}</span>
+            <CopyButton
+              copyKey="short-email"
+              label={appUi.prospectCard.actions.copyEmail}
+              state={copyState}
+              value={card.shortEmail}
+              onCopy={copyCardValue}
+            />
           </div>
           <pre>{card.shortEmail}</pre>
         </div>
@@ -7393,14 +7532,14 @@ function ProspectCard({
       return (
         <section className="prospect-card-section">
           <div className="prospect-section-head">
-            <span>Source notes</span>
-            <strong>{card.sourceNotes.length} sources</strong>
+            <span>{appUi.prospectCard.sources.title}</span>
+            <strong>{formatMessage(appUi.prospectCard.sources.count, { count: card.sourceNotes.length })}</strong>
           </div>
           <div className="source-note-list">
             {card.sourceNotes.map((note) => (
               <div key={`${note.claim}-${note.source}`}>
                 <strong>{note.claim}</strong>
-                <small>Source: {note.source}</small>
+                <small>{appUi.prospectCard.sources.sourceLabel}: {note.source}</small>
               </div>
             ))}
           </div>
@@ -7416,32 +7555,32 @@ function ProspectCard({
       <div className="prospect-overview-grid">
         <section className="prospect-card-section">
           <div className="prospect-section-head">
-            <span>Fit evidence</span>
-            <strong>{Math.round(card.confidenceScore * 100)}% confidence</strong>
+            <span>{appUi.prospectCard.overview.fitEvidence}</span>
+            <strong>{formatMessage(appUi.prospectCard.overview.confidence, { count: Math.round(card.confidenceScore * 100) })}</strong>
           </div>
           <p>{card.summary}</p>
           {!compact ? <small>{card.fitReason}</small> : null}
         </section>
         <section className="prospect-card-section">
           <div className="prospect-section-head">
-            <span>Top website signals</span>
-            <strong>{topSignals.length} shown</strong>
+            <span>{appUi.prospectCard.overview.topSignals}</span>
+            <strong>{formatMessage(appUi.prospectCard.overview.shown, { count: topSignals.length })}</strong>
           </div>
           <SignalList signals={topSignals} />
         </section>
         <div className="first-line-box">
           <div className="prospect-section-head">
-            <span>Best first line</span>
-            <strong>Highest leverage</strong>
+            <span>{appUi.prospectCard.overview.bestFirstLine}</span>
+            <strong>{appUi.prospectCard.overview.highestLeverage}</strong>
           </div>
           <p>{firstLine}</p>
         </div>
         {!compact ? (
           <div className="email-box email-preview-box">
             <div className="prospect-section-head">
-              <span>Short email preview</span>
+              <span>{appUi.prospectCard.overview.shortEmailPreview}</span>
               <button className="copy-chip" type="button" onClick={() => selectProspectTab("email")}>
-                Open email
+                {appUi.prospectCard.overview.openEmail}
               </button>
             </div>
             <pre>{card.shortEmail}</pre>
@@ -7455,40 +7594,43 @@ function ProspectCard({
     <article className={`prospect-card ${compact ? "panel" : ""} ${workspaceControls ? "has-workspace-controls" : ""}`}>
       <div className="prospect-card-header">
         <div>
-          <p className="eyebrow">Prospect Card</p>
+          <p className="eyebrow">{appUi.prospectCard.eyebrow}</p>
           <h3>{card.companyName}</h3>
           <span>{card.domain}</span>
         </div>
         <div className="score-badge">
           <strong>{card.fitScore}</strong>
-          <span>Fit</span>
+          <span>{appUi.prospectCard.fitLabel}</span>
         </div>
       </div>
-      <div className="prospect-summary-strip" aria-label="Prospect summary">
+      <div className="prospect-summary-strip" aria-label={appUi.prospectCard.summaryLabel}>
         <div>
-          <span>Website</span>
+          <span>{appUi.prospectCard.website}</span>
           <strong>{card.domain}</strong>
         </div>
         <div>
-          <span>Industry</span>
+          <span>{appUi.prospectCard.industry}</span>
           <strong>{card.industry}</strong>
         </div>
         <div>
-          <span>Confidence</span>
+          <span>{appUi.prospectCard.confidence}</span>
           <strong>{Math.round(card.confidenceScore * 100)}%</strong>
         </div>
         <div>
-          <span>Status</span>
-          <strong>{`${card.savedStatus || "saved"} / ${card.exportStatus || "not_exported"}`.replace(/_/g, " ")}</strong>
+          <span>{appUi.prospectCard.status}</span>
+          <strong>
+            {(card.savedStatus || "saved") === "saved" ? appUi.preview.saved : appUi.preview.unsaved} /{" "}
+            {(card.exportStatus || "not_exported") === "exported" ? appUi.preview.exported : appUi.preview.notExported}
+          </strong>
         </div>
         {workspaceControls ? (
           <>
             <div>
-              <span>Owner</span>
-              <strong>{metaFields.owner || "Unassigned"}</strong>
+              <span>{appUi.prospectCard.owner}</span>
+              <strong>{metaFields.owner || appUi.common.unassigned}</strong>
             </div>
             <div>
-              <span>Stage</span>
+              <span>{appUi.prospectCard.stage}</span>
               <strong>{stageLabel}</strong>
             </div>
           </>
@@ -7497,7 +7639,7 @@ function ProspectCard({
       <div className="prospect-card-actions prospect-card-primary-actions">
         <CopyButton
           copyKey="email-draft"
-          label="Copy email"
+          label={appUi.prospectCard.actions.copyEmail}
           state={copyState}
           value={emailDraftText}
           onCopy={copyCardValue}
@@ -7509,15 +7651,21 @@ function ProspectCard({
           disabled={!selectedExportFields.length}
         >
           <Icon name="download" />
-          Export
+          {appUi.prospectCard.actions.export}
         </button>
         {workspaceControls && leadId ? (
-          <CopyButton copyKey="share-link" label="Copy link" state={copyState} value={shareUrl} onCopy={copyCardValue} />
+          <CopyButton
+            copyKey="share-link"
+            label={appUi.prospectCard.actions.copyLink}
+            state={copyState}
+            value={shareUrl}
+            onCopy={copyCardValue}
+          />
         ) : null}
         <details className="copy-menu">
           <summary>
             <Icon name="clipboard" />
-            More copy actions
+            {appUi.prospectCard.actions.moreCopyActions}
           </summary>
           <div className="copy-menu-panel">
             {copyMenuItems.map((item) => (
@@ -7534,47 +7682,49 @@ function ProspectCard({
         </details>
       </div>
       {workspaceControls && !compact ? (
-        <details className="prospect-meta-panel prospect-meta-panel-compact" aria-label="Prospect owner, stage, and notes">
+        <details className="prospect-meta-panel prospect-meta-panel-compact" aria-label={appUi.prospectCard.pipeline.panelLabel}>
           <summary>
-            <span>Pipeline context</span>
+            <span>{appUi.prospectCard.pipeline.title}</span>
             <strong>
               {metaSaveState === "saving"
-                ? "Saving"
+                ? appUi.common.saving
                 : metaSaveState === "saved"
-                ? "Saved"
+                ? appUi.common.saved
                 : metaFields.updatedAt
-                  ? `Updated ${formatHistoryTime(metaFields.updatedAt)}`
-                  : "Not saved yet"}
+                  ? formatMessage(appUi.prospectCard.pipeline.updated, {
+                      time: formatHistoryTime(metaFields.updatedAt, locale, appUi.common.unknownTime)
+                    })
+                  : appUi.prospectCard.pipeline.notSavedYet}
             </strong>
           </summary>
           <div className="prospect-meta-grid">
             <label>
-              Owner
+              {appUi.prospectCard.owner}
               <input
                 value={metaFields.owner}
                 onChange={(event) => updateProspectMeta("owner", event.currentTarget.value)}
-                placeholder="Assign a teammate"
+                placeholder={appUi.common.placeholders.assignTeammate}
               />
             </label>
             <label>
-              Pipeline stage
+              {appUi.prospectCard.stage}
               <select
                 value={metaFields.stage}
                 onChange={(event) => updateProspectStage(event.currentTarget.value as ProspectPipelineStage)}
               >
                 {pipelineStageOptions.map((option) => (
-                  <option value={option.value} key={option.value}>
-                    {option.label}
+                  <option value={option} key={option}>
+                    {appUi.options.pipelineStages[option]}
                   </option>
                 ))}
               </select>
             </label>
             <label className="prospect-meta-notes">
-              Notes
+              {appUi.prospectCard.pipeline.notes}
               <textarea
                 value={metaFields.notes}
                 onChange={(event) => updateProspectMeta("notes", event.currentTarget.value)}
-                placeholder="Add the account angle, blocker, or next action."
+                placeholder={appUi.common.placeholders.nextAction}
                 rows={4}
               />
             </label>
@@ -7586,37 +7736,37 @@ function ProspectCard({
               onClick={() => void saveProspectMeta()}
               disabled={metaSaveState === "saving"}
             >
-              {metaSaveState === "saving" ? "Saving..." : "Save context"}
+              {metaSaveState === "saving" ? appUi.common.saving : appUi.prospectCard.pipeline.saveContext}
             </button>
             <span className={`meta-save-state ${metaSaveState === "error" ? "is-error" : ""}`} role="status">
               {metaSaveState === "error"
-                ? "Could not save to workspace."
+                ? appUi.prospectCard.pipeline.saveStateError
                 : metaSaveState === "saving"
-                  ? "Saving owner, stage, and notes..."
+                  ? appUi.prospectCard.pipeline.saveStateSaving
                 : metaSaveState === "saved"
-                  ? "Owner, stage, and notes are saved."
-                : "Save changes to the workspace."}
+                  ? appUi.prospectCard.pipeline.saveStateSaved
+                : appUi.prospectCard.pipeline.saveStateIdle}
             </span>
           </div>
         </details>
       ) : null}
       {workspaceControls && !compact ? renderActivityLog() : null}
       {!compact && (
-        <div className="prospect-tabs" role="tablist" aria-label="Prospect Card sections">
+        <div className="prospect-tabs" role="tablist" aria-label={appUi.prospectCard.sectionsLabel}>
           {prospectCardTabs.map((tab) => (
             <button
-              id={tabButtonId(tab.value)}
-              className={activeTab === tab.value ? "is-active" : ""}
+              id={tabButtonId(tab)}
+              className={activeTab === tab ? "is-active" : ""}
               role="tab"
               type="button"
-              key={tab.value}
-              aria-selected={activeTab === tab.value}
-              aria-controls={tabPanelId(tab.value)}
-              tabIndex={activeTab === tab.value ? 0 : -1}
-              onClick={() => selectProspectTab(tab.value)}
-              onKeyDown={(event) => handleTabKeyDown(event, tab.value)}
+              key={tab}
+              aria-selected={activeTab === tab}
+              aria-controls={tabPanelId(tab)}
+              tabIndex={activeTab === tab ? 0 : -1}
+              onClick={() => selectProspectTab(tab)}
+              onKeyDown={(event) => handleTabKeyDown(event, tab)}
             >
-              {tab.label}
+              {appUi.options.prospectCardTabs[tab]}
             </button>
           ))}
         </div>
@@ -7630,11 +7780,17 @@ function ProspectCard({
         {renderTabPanel()}
       </div>
       {workspaceControls && !compact ? (
-        <div className="prospect-mobile-sticky-actions" aria-label="Mobile Prospect Card actions">
-          <CopyButton copyKey="mobile-email" label="Copy email" state={copyState} value={emailDraftText} onCopy={copyCardValue} />
+        <div className="prospect-mobile-sticky-actions" aria-label={appUi.prospectCard.mobileActionsLabel}>
+          <CopyButton
+            copyKey="mobile-email"
+            label={appUi.prospectCard.actions.copyEmail}
+            state={copyState}
+            value={emailDraftText}
+            onCopy={copyCardValue}
+          />
           <button className="copy-chip" type="button" onClick={downloadSelectedFields} disabled={!selectedExportFields.length}>
             <Icon name="download" />
-            Export
+            {appUi.prospectCard.actions.export}
           </button>
           <button
             className="copy-chip"
@@ -7643,7 +7799,7 @@ function ProspectCard({
             disabled={metaSaveState === "saving"}
           >
             <Icon name="check" />
-            {metaSaveState === "saving" ? "Saving" : "Save"}
+            {metaSaveState === "saving" ? appUi.prospectCard.actions.saving : appUi.prospectCard.actions.save}
           </button>
         </div>
       ) : null}
@@ -7678,7 +7834,7 @@ function CopyButton({
   value,
   state,
   onCopy,
-  label = "Copy"
+  label
 }: {
   copyKey: string;
   value: string;
@@ -7686,8 +7842,14 @@ function CopyButton({
   onCopy: (key: string, value: string) => Promise<void>;
   label?: string;
 }) {
+  const { locale } = usePublicSite();
+  const appUi = getAppUi(locale);
   const isCurrent = state?.key === copyKey;
-  const statusLabel = isCurrent ? (state.status === "copied" ? "Copied" : "Failed") : label;
+  const statusLabel = isCurrent
+    ? state.status === "copied"
+      ? appUi.common.copied
+      : appUi.common.failed
+    : label || appUi.common.copy;
 
   return (
     <button
@@ -7703,13 +7865,15 @@ function CopyButton({
 }
 
 function SignalList({ signals }: { signals: OpportunitySignal[] }) {
+  const { locale } = usePublicSite();
+  const appUi = getAppUi(locale);
   return (
     <div className="signal-list">
       {signals.map((signal) => (
         <div className="signal-item" key={signal.signal}>
-          <span>{signal.category.replace("_", " ")}</span>
+          <span>{formatSignalCategory(signal.category, appUi)}</span>
           <p>{signal.signal}</p>
-          <small>Source: {signal.source}</small>
+          <small>{appUi.prospectCard.sources.sourceLabel}: {signal.source}</small>
         </div>
       ))}
     </div>

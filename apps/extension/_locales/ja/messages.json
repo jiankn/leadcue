@@ -1,0 +1,11 @@
+{
+  "extensionName": {
+    "message": "LeadCue | 代理店向けWebサイト見込み客リサーチ支援"
+  },
+  "extensionDescription": {
+    "message": "現在開いている企業サイトを分析し、アカウントを見極め、根拠付きの Prospect Card を LeadCue ワークスペースに保存します。"
+  },
+  "actionTitle": {
+    "message": "LeadCue サイドパネルを開く"
+  }
+}

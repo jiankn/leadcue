@@ -1,0 +1,11 @@
+{
+  "extensionName": {
+    "message": "LeadCue | 에이전시를 위한 웹사이트 잠재고객 리서치"
+  },
+  "extensionDescription": {
+    "message": "현재 보고 있는 회사 웹사이트를 분석하고 계정을 판별한 뒤, 근거가 포함된 Prospect Card를 LeadCue 워크스페이스에 저장합니다."
+  },
+  "actionTitle": {
+    "message": "LeadCue 사이드 패널 열기"
+  }
+}

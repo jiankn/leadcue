@@ -1,0 +1,11 @@
+{
+  "extensionName": {
+    "message": "LeadCue | Website-Prospecting für Agenturen"
+  },
+  "extensionDescription": {
+    "message": "Analysieren Sie die aktive Unternehmenswebsite, qualifizieren Sie den Account und speichern Sie eine quellenbasierte Prospect Card in Ihrem LeadCue-Workspace."
+  },
+  "actionTitle": {
+    "message": "LeadCue-Seitenleiste oeffnen"
+  }
+}

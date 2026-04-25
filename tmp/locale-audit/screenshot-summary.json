@@ -1,0 +1,450 @@
+[
+  {
+    "locale": "en",
+    "route": "home",
+    "url": "http://127.0.0.1:5173/",
+    "title": "LeadCue - Website Prospecting Assistant for Agencies",
+    "h1": "Turn websites into qualified prospects",
+    "primaryCtas": [
+      "Start free scan",
+      "View sample card",
+      "FEATURES Everything around the website scan Fit scoring, signals, exports, and team context stay in one card.",
+      "HOW IT WORKS A three-step research workflow Start from the company site, capture evidence, then save a Prospect Card."
+    ],
+    "horizontalOverflow": false,
+    "headerHeight": 76,
+    "screenshotPath": "C:\\antigravity\\leadcue\\tmp\\locale-audit\\screenshots\\en-home.png"
+  },
+  {
+    "locale": "en",
+    "route": "login",
+    "url": "http://127.0.0.1:5173/login",
+    "title": "Sign in",
+    "h1": "Sign in",
+    "primaryCtas": [
+      "Continue with Google",
+      "Show",
+      "Sign in with email",
+      "Forgot password?"
+    ],
+    "horizontalOverflow": false,
+    "headerHeight": 87,
+    "screenshotPath": "C:\\antigravity\\leadcue\\tmp\\locale-audit\\screenshots\\en-login.png"
+  },
+  {
+    "locale": "en",
+    "route": "seo",
+    "url": "http://127.0.0.1:5173/website-prospecting",
+    "title": "Website Prospecting Guide for Agency Outbound | LeadCue",
+    "h1": "Website prospecting: turn company pages into qualified outbound accounts",
+    "primaryCtas": [
+      "Home",
+      "Resources",
+      "What website prospecting means",
+      "Signals worth capturing"
+    ],
+    "horizontalOverflow": false,
+    "headerHeight": 73,
+    "screenshotPath": "C:\\antigravity\\leadcue\\tmp\\locale-audit\\screenshots\\en-seo.png"
+  },
+  {
+    "locale": "en",
+    "route": "product",
+    "url": "http://127.0.0.1:5173/templates/cold-email-first-line",
+    "title": "Cold Email First Line Template Library | LeadCue",
+    "h1": "Cold email first line templates from website signals",
+    "primaryCtas": [
+      "Home",
+      "Resources",
+      "Tool",
+      "What the template should do"
+    ],
+    "horizontalOverflow": false,
+    "headerHeight": 73,
+    "screenshotPath": "C:\\antigravity\\leadcue\\tmp\\locale-audit\\screenshots\\en-product.png"
+  },
+  {
+    "locale": "zh",
+    "route": "home",
+    "url": "http://127.0.0.1:5173/zh",
+    "title": "LeadCue：面向代理机构的网站潜客研究助手",
+    "h1": "把网站变成 高质量潜客",
+    "primaryCtas": [
+      "开始免费扫描",
+      "查看示例卡片",
+      "功能 扫描网站周围的所有内容 将评分、信号、导出和团队背景保留在一张卡中。",
+      "工作原理 三步研究工作流程 从公司现场开始，收集证据，然后保存一张前景卡。"
+    ],
+    "horizontalOverflow": false,
+    "headerHeight": 76,
+    "screenshotPath": "C:\\antigravity\\leadcue\\tmp\\locale-audit\\screenshots\\zh-home.png"
+  },
+  {
+    "locale": "zh",
+    "route": "login",
+    "url": "http://127.0.0.1:5173/zh/login",
+    "title": "登录",
+    "h1": "登录",
+    "primaryCtas": [
+      "使用 Google 继续",
+      "显示",
+      "使用邮箱登录",
+      "忘记密码？"
+    ],
+    "horizontalOverflow": false,
+    "headerHeight": 87,
+    "screenshotPath": "C:\\antigravity\\leadcue\\tmp\\locale-audit\\screenshots\\zh-login.png"
+  },
+  {
+    "locale": "zh",
+    "route": "seo",
+    "url": "http://127.0.0.1:5173/zh/website-prospecting",
+    "title": "代理机构外联网站潜客研究指南 | LeadCue",
+    "h1": "网站潜客研究：把企业页面变成高质量外联目标",
+    "primaryCtas": [
+      "首页",
+      "资源",
+      "网站勘探意味着什么",
+      "值得捕获的信号"
+    ],
+    "horizontalOverflow": false,
+    "headerHeight": 73,
+    "screenshotPath": "C:\\antigravity\\leadcue\\tmp\\locale-audit\\screenshots\\zh-seo.png"
+  },
+  {
+    "locale": "zh",
+    "route": "product",
+    "url": "http://127.0.0.1:5173/zh/templates/cold-email-first-line",
+    "title": "冷邮件开场句模板库 | LeadCue",
+    "h1": "基于网站信号的冷邮件开场句模板",
+    "primaryCtas": [
+      "首页",
+      "资源",
+      "工具",
+      "模板应该做什么"
+    ],
+    "horizontalOverflow": false,
+    "headerHeight": 73,
+    "screenshotPath": "C:\\antigravity\\leadcue\\tmp\\locale-audit\\screenshots\\zh-product.png"
+  },
+  {
+    "locale": "ja",
+    "route": "home",
+    "url": "http://127.0.0.1:5173/ja",
+    "title": "LeadCue | 代理店向けWebサイト見込み客リサーチ支援",
+    "h1": "Webサイトを 優先度の高い見込み客へ",
+    "primaryCtas": [
+      "無料スキャンを始める",
+      "サンプルカードを見る",
+      "機能 Webサイト周辺のすべてをスキャンします フィット スコアリング、シグナル、エクスポート、チーム コンテキストが 1 つのカードに収まります。",
+      "仕組み 3 ステップのリサーチ ワークフロー 会社のサイトから開始して証拠をキャプチャし、見込み客カードを保存します。"
+    ],
+    "horizontalOverflow": false,
+    "headerHeight": 76,
+    "screenshotPath": "C:\\antigravity\\leadcue\\tmp\\locale-audit\\screenshots\\ja-home.png"
+  },
+  {
+    "locale": "ja",
+    "route": "login",
+    "url": "http://127.0.0.1:5173/ja/login",
+    "title": "ログイン",
+    "h1": "ログイン",
+    "primaryCtas": [
+      "Googleで続ける",
+      "表示",
+      "電子メールでサインインする",
+      "パスワードをお忘れですか?"
+    ],
+    "horizontalOverflow": false,
+    "headerHeight": 87,
+    "screenshotPath": "C:\\antigravity\\leadcue\\tmp\\locale-audit\\screenshots\\ja-login.png"
+  },
+  {
+    "locale": "ja",
+    "route": "seo",
+    "url": "http://127.0.0.1:5173/ja/website-prospecting",
+    "title": "代理店向けWebサイト見込み客ガイド | LeadCue",
+    "h1": "Webサイト調査で企業ページを優先アカウントに変える",
+    "primaryCtas": [
+      "ホーム",
+      "リソース",
+      "Webサイト調査の意味",
+      "捕捉する価値のある信号"
+    ],
+    "horizontalOverflow": false,
+    "headerHeight": 73,
+    "screenshotPath": "C:\\antigravity\\leadcue\\tmp\\locale-audit\\screenshots\\ja-seo.png"
+  },
+  {
+    "locale": "ja",
+    "route": "product",
+    "url": "http://127.0.0.1:5173/ja/templates/cold-email-first-line",
+    "title": "コールドメール冒頭文テンプレート集 | LeadCue",
+    "h1": "Webサイトのシグナルから作るコールドメール冒頭文テンプレート",
+    "primaryCtas": [
+      "ホーム",
+      "リソース",
+      "ツール",
+      "テンプレートが行うべきこと"
+    ],
+    "horizontalOverflow": false,
+    "headerHeight": 73,
+    "screenshotPath": "C:\\antigravity\\leadcue\\tmp\\locale-audit\\screenshots\\ja-product.png"
+  },
+  {
+    "locale": "ko",
+    "route": "home",
+    "url": "http://127.0.0.1:5173/ko",
+    "title": "LeadCue | 에이전시를 위한 웹사이트 잠재고객 리서치",
+    "h1": "웹사이트를 우선순위 잠재고객으로",
+    "primaryCtas": [
+      "무료 스캔 시작",
+      "샘플 카드 보기",
+      "기능 웹사이트 스캔과 관련된 모든 것 적합 점수, 신호, 내보내기 및 팀 컨텍스트가 하나의 카드에 유지됩니다.",
+      "작동 방식 3단계 연구 작업흐름 회사 사이트에서 시작하여 증거를 캡처한 후 잠재고객 카드를 저장하세요."
+    ],
+    "horizontalOverflow": false,
+    "headerHeight": 76,
+    "screenshotPath": "C:\\antigravity\\leadcue\\tmp\\locale-audit\\screenshots\\ko-home.png"
+  },
+  {
+    "locale": "ko",
+    "route": "login",
+    "url": "http://127.0.0.1:5173/ko/login",
+    "title": "로그인",
+    "h1": "로그인",
+    "primaryCtas": [
+      "Google로 계속하기",
+      "표시",
+      "이메일로 로그인",
+      "비밀번호를 잊으셨나요?"
+    ],
+    "horizontalOverflow": false,
+    "headerHeight": 87,
+    "screenshotPath": "C:\\antigravity\\leadcue\\tmp\\locale-audit\\screenshots\\ko-login.png"
+  },
+  {
+    "locale": "ko",
+    "route": "seo",
+    "url": "http://127.0.0.1:5173/ko/website-prospecting",
+    "title": "에이전시 아웃바운드를 위한 웹사이트 잠재고객 발굴 가이드 | LeadCue",
+    "h1": "웹사이트 리서치로 회사 페이지를 우선순위 아웃바운드 계정으로 전환",
+    "primaryCtas": [
+      "홈",
+      "리소스",
+      "웹사이트 잠재고객 발굴의 의미",
+      "캡처할 가치가 있는 신호"
+    ],
+    "horizontalOverflow": false,
+    "headerHeight": 73,
+    "screenshotPath": "C:\\antigravity\\leadcue\\tmp\\locale-audit\\screenshots\\ko-seo.png"
+  },
+  {
+    "locale": "ko",
+    "route": "product",
+    "url": "http://127.0.0.1:5173/ko/templates/cold-email-first-line",
+    "title": "콜드 이메일 첫 문장 템플릿 라이브러리 | LeadCue",
+    "h1": "웹사이트 신호로 만드는 콜드 이메일 첫 문장 템플릿",
+    "primaryCtas": [
+      "홈",
+      "리소스",
+      "도구",
+      "템플릿이 수행해야 하는 작업"
+    ],
+    "horizontalOverflow": false,
+    "headerHeight": 73,
+    "screenshotPath": "C:\\antigravity\\leadcue\\tmp\\locale-audit\\screenshots\\ko-product.png"
+  },
+  {
+    "locale": "de",
+    "route": "home",
+    "url": "http://127.0.0.1:5173/de",
+    "title": "LeadCue | Website-Prospecting für Agenturen",
+    "h1": "Websites in qualifizierte Prospects verwandeln",
+    "primaryCtas": [
+      "Kostenlosen Scan starten",
+      "Beispielkarte ansehen",
+      "FUNKTIONEN Alles rund um den Website-Scan Fit-Bewertung, Signale, Exporte und Teamkontext bleiben auf einer Karte.",
+      "SO FUNKTIONIERT'S Ein dreistufiger Forschungsworkflow Beginnen Sie auf der Unternehmensseite, erfassen Sie Beweise und speichern Sie dann eine Interessentenkarte."
+    ],
+    "horizontalOverflow": false,
+    "headerHeight": 76,
+    "screenshotPath": "C:\\antigravity\\leadcue\\tmp\\locale-audit\\screenshots\\de-home.png"
+  },
+  {
+    "locale": "de",
+    "route": "login",
+    "url": "http://127.0.0.1:5173/de/login",
+    "title": "Anmelden",
+    "h1": "Anmelden",
+    "primaryCtas": [
+      "Mit Google fortfahren",
+      "Anzeigen",
+      "Per E-Mail anmelden",
+      "Passwort vergessen?"
+    ],
+    "horizontalOverflow": false,
+    "headerHeight": 87,
+    "screenshotPath": "C:\\antigravity\\leadcue\\tmp\\locale-audit\\screenshots\\de-login.png"
+  },
+  {
+    "locale": "de",
+    "route": "seo",
+    "url": "http://127.0.0.1:5173/de/website-prospecting",
+    "title": "Website-Prospecting für Agentur-Outbound | LeadCue",
+    "h1": "Website-Prospecting: Unternehmensseiten in qualifizierte Prospects verwandeln",
+    "primaryCtas": [
+      "Startseite",
+      "Ressourcen",
+      "Was Website-Prospecting bedeutet",
+      "Signale, die es wert sind, erfasst zu werden"
+    ],
+    "horizontalOverflow": false,
+    "headerHeight": 73,
+    "screenshotPath": "C:\\antigravity\\leadcue\\tmp\\locale-audit\\screenshots\\de-seo.png"
+  },
+  {
+    "locale": "de",
+    "route": "product",
+    "url": "http://127.0.0.1:5173/de/templates/cold-email-first-line",
+    "title": "Vorlagenbibliothek für Cold-Email-Erstzeilen | LeadCue",
+    "h1": "Cold-Email-Erstzeilen-Vorlagen aus Website-Signalen",
+    "primaryCtas": [
+      "Startseite",
+      "Ressourcen",
+      "Tool",
+      "Was die Vorlage tun soll"
+    ],
+    "horizontalOverflow": false,
+    "headerHeight": 73,
+    "screenshotPath": "C:\\antigravity\\leadcue\\tmp\\locale-audit\\screenshots\\de-product.png"
+  },
+  {
+    "locale": "nl",
+    "route": "home",
+    "url": "http://127.0.0.1:5173/nl",
+    "title": "LeadCue | Websiteprospectie-assistent voor bureaus",
+    "h1": "Zet websites om in gekwalificeerde prospects",
+    "primaryCtas": [
+      "Gratis scan starten",
+      "Bekijk voorbeeldkaart",
+      "FUNCTIES Alles rondom de websitescan Fitscores, signalen, exports en teamcontext blijven op één kaart.",
+      "HOE HET WERKT Een onderzoeksworkflow in drie stappen Begin vanaf de bedrijfslocatie, verzamel bewijsmateriaal en bewaar vervolgens een prospectkaart."
+    ],
+    "horizontalOverflow": false,
+    "headerHeight": 76,
+    "screenshotPath": "C:\\antigravity\\leadcue\\tmp\\locale-audit\\screenshots\\nl-home.png"
+  },
+  {
+    "locale": "nl",
+    "route": "login",
+    "url": "http://127.0.0.1:5173/nl/login",
+    "title": "Inloggen",
+    "h1": "Inloggen",
+    "primaryCtas": [
+      "Doorgaan met Google",
+      "Tonen",
+      "Inloggen met e-mail",
+      "Wachtwoord vergeten?"
+    ],
+    "horizontalOverflow": false,
+    "headerHeight": 87,
+    "screenshotPath": "C:\\antigravity\\leadcue\\tmp\\locale-audit\\screenshots\\nl-login.png"
+  },
+  {
+    "locale": "nl",
+    "route": "seo",
+    "url": "http://127.0.0.1:5173/nl/website-prospecting",
+    "title": "Gids voor websiteprospectie voor bureaus | LeadCue",
+    "h1": "Websiteprospectie: verander bedrijfspagina's in gekwalificeerde prospects",
+    "primaryCtas": [
+      "Startpagina",
+      "Bronnen",
+      "Wat websiteprospectie betekent",
+      "Signalen die de moeite waard zijn om op te vangen"
+    ],
+    "horizontalOverflow": false,
+    "headerHeight": 73,
+    "screenshotPath": "C:\\antigravity\\leadcue\\tmp\\locale-audit\\screenshots\\nl-seo.png"
+  },
+  {
+    "locale": "nl",
+    "route": "product",
+    "url": "http://127.0.0.1:5173/nl/templates/cold-email-first-line",
+    "title": "Templatebibliotheek voor eerste zinnen in koude e-mails | LeadCue",
+    "h1": "Templates voor eerste zinnen van koude e-mails op basis van websitesignalen",
+    "primaryCtas": [
+      "Startpagina",
+      "Bronnen",
+      "Tool",
+      "Wat de sjabloon moet doen"
+    ],
+    "horizontalOverflow": false,
+    "headerHeight": 73,
+    "screenshotPath": "C:\\antigravity\\leadcue\\tmp\\locale-audit\\screenshots\\nl-product.png"
+  },
+  {
+    "locale": "fr",
+    "route": "home",
+    "url": "http://127.0.0.1:5173/fr",
+    "title": "LeadCue | Assistant de prospection web pour les agences",
+    "h1": "Transformez les sites web en prospects qualifiés",
+    "primaryCtas": [
+      "Démarrer une analyse gratuite",
+      "Voir une carte d'exemple",
+      "FONCTIONNALITÉS Tout autour de l'analyse du site Web La notation d'ajustement, les signaux, les exportations et le contexte de l'équipe restent sur une seule carte.",
+      "COMMENT ÇA MARCHE Un flux de recherche en trois étapes Commencez à partir du site de l'entreprise, capturez des preuves, puis enregistrez une carte de prospect."
+    ],
+    "horizontalOverflow": false,
+    "headerHeight": 76,
+    "screenshotPath": "C:\\antigravity\\leadcue\\tmp\\locale-audit\\screenshots\\fr-home.png"
+  },
+  {
+    "locale": "fr",
+    "route": "login",
+    "url": "http://127.0.0.1:5173/fr/login",
+    "title": "Se connecter",
+    "h1": "Se connecter",
+    "primaryCtas": [
+      "Continuer avec Google",
+      "Afficher",
+      "Se connecter par e-mail",
+      "Mot de passe oublié ?"
+    ],
+    "horizontalOverflow": false,
+    "headerHeight": 87,
+    "screenshotPath": "C:\\antigravity\\leadcue\\tmp\\locale-audit\\screenshots\\fr-login.png"
+  },
+  {
+    "locale": "fr",
+    "route": "seo",
+    "url": "http://127.0.0.1:5173/fr/website-prospecting",
+    "title": "Guide de prospection web pour l'outbound en agence | LeadCue",
+    "h1": "Prospection web : transformez les pages d'entreprise en prospects qualifiés",
+    "primaryCtas": [
+      "Accueil",
+      "Ressources",
+      "Ce que signifie la prospection de sites Web",
+      "Signaux à capturer"
+    ],
+    "horizontalOverflow": false,
+    "headerHeight": 73,
+    "screenshotPath": "C:\\antigravity\\leadcue\\tmp\\locale-audit\\screenshots\\fr-seo.png"
+  },
+  {
+    "locale": "fr",
+    "route": "product",
+    "url": "http://127.0.0.1:5173/fr/templates/cold-email-first-line",
+    "title": "Bibliothèque de modèles pour premières lignes d’e-mails à froid | LeadCue",
+    "h1": "Modèles de premières lignes d’e-mails à froid à partir de signaux web",
+    "primaryCtas": [
+      "Accueil",
+      "Ressources",
+      "Outil",
+      "Ce que le modèle doit faire"
+    ],
+    "horizontalOverflow": false,
+    "headerHeight": 73,
+    "screenshotPath": "C:\\antigravity\\leadcue\\tmp\\locale-audit\\screenshots\\fr-product.png"
+  }
+]

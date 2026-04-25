@@ -3,86 +3,205 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>LeadCue</title>
+    <title>LeadCue - Website Prospecting Assistant for Agencies</title>
     <link rel="stylesheet" href="sidepanel.css" />
   </head>
   <body>
     <main class="shell">
       <header class="header">
         <div class="brand">
-          <span class="brand-mark">LC</span>
+          <svg class="brand-mark" viewBox="0 0 44 44" aria-hidden="true" focusable="false">
+            <rect class="brand-mark-surface" x="1" y="1" width="42" height="42" rx="10" />
+            <path class="brand-mark-lens" d="M28.5 16.2a10 10 0 1 0 0 15.6" />
+            <path class="brand-mark-lens" d="M28.6 31.8 36 39" />
+            <circle class="brand-mark-cue" cx="17.4" cy="24" r="3.6" />
+          </svg>
           <div>
             <strong>LeadCue</strong>
-            <span>Website prospecting</span>
+            <span id="brandTagline">Website prospecting for real workspaces</span>
           </div>
         </div>
-        <button id="settingsToggle" class="icon-button" type="button" aria-label="Toggle settings">
-          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 6h16M7 12h10M10 18h4" /></svg>
-        </button>
+        <div class="header-actions">
+          <button
+            id="refreshSession"
+            class="icon-button"
+            type="button"
+            aria-label="Refresh workspace access"
+            data-i18n-aria-label="aria.refreshSession"
+          >
+            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.34-5.66M20 4v6h-6" /></svg>
+          </button>
+          <button
+            id="settingsToggle"
+            class="icon-button state-toggle"
+            type="button"
+            aria-label="Open settings"
+            aria-controls="settings"
+            aria-expanded="false"
+          >
+            <span class="toggle-icon" aria-hidden="true">
+              <svg class="toggle-icon-closed" viewBox="0 0 24 24">
+                <path d="M3 12h18" />
+                <path d="M12 3a14.5 14.5 0 0 1 0 18" />
+                <path d="M12 3a14.5 14.5 0 0 0 0 18" />
+                <path d="M5.2 7.5h13.6" />
+                <path d="M5.2 16.5h13.6" />
+              </svg>
+              <svg class="toggle-icon-open" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18" /></svg>
+            </span>
+            <span id="settingsToggleLabel" class="toggle-label">Language</span>
+          </button>
+        </div>
       </header>
 
-      <section id="settings" class="settings" hidden>
-        <label>
-          API base URL
-          <input id="apiBase" type="url" placeholder="http://localhost:8787" />
-        </label>
-        <label>
-          Dashboard URL
-          <input id="dashboardUrl" type="url" placeholder="http://localhost:5173/app" />
-        </label>
-        <button id="saveSettings" class="button secondary" type="button">Save settings</button>
-      </section>
-
-      <section class="scan-panel">
-        <div>
-          <p class="eyebrow">Active website</p>
-          <h1 id="pageTitle">Ready to scan</h1>
-          <p id="pageUrl" class="muted">Open a company website, then analyze the active tab.</p>
-        </div>
-        <button id="analyzeButton" class="button primary" type="button">
-          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 7V5h4M15 5h4v4M19 15v4h-4M9 19H5v-4M8 12h8" /></svg>
-          Analyze website
-        </button>
-        <p id="status" class="status" role="status" aria-live="polite"></p>
-      </section>
-
-      <section id="result" class="result" hidden>
-        <div class="score-row">
+      <section class="panel scan-panel">
+        <div class="scan-head">
           <div>
-            <p class="eyebrow">Prospect Card</p>
+            <p class="eyebrow" data-i18n="labels.activeWebsite">Active website</p>
+            <h1 id="pageTitle">Ready to scan</h1>
+          </div>
+          <span id="authBadge" class="status-badge is-muted">Checking</span>
+        </div>
+        <p id="pageUrl" class="muted site-url">Open a company website, then analyze the active tab.</p>
+
+        <label class="scan-toggle" for="deepScan">
+          <input id="deepScan" type="checkbox" />
+          <span>
+            <strong id="deepScanLabel" data-i18n="labels.deepScan">Deep scan</strong>
+            <small id="deepScanHint">Uses 3 credits for richer context.</small>
+          </span>
+        </label>
+
+        <button id="analyzeButton" class="button primary block" type="button">
+          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 7V5h4M15 5h4v4M19 15v4h-4M9 19H5v-4M8 12h8" /></svg>
+          <span id="analyzeLabel">Analyze website</span>
+        </button>
+
+        <div class="action-row action-row-compact">
+          <button id="refreshTabButton" class="button secondary subtle" type="button">
+            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.34-5.66M20 4v6h-6" /></svg>
+            <span id="refreshTabLabel" data-i18n="buttons.refreshPage">Refresh page</span>
+          </button>
+          <button id="loginButton" class="button secondary subtle" type="button" data-i18n="buttons.signIn" hidden>
+            Sign in
+          </button>
+          <button id="signupButton" class="button secondary subtle" type="button" data-i18n="buttons.startFree" hidden>
+            Start free
+          </button>
+          <button id="billingButton" class="button secondary subtle" type="button" data-i18n="buttons.manageBilling" hidden>
+            Manage billing
+          </button>
+          <button id="logoutButton" class="button secondary subtle" type="button" data-i18n="buttons.signOut" hidden>
+            Sign out
+          </button>
+        </div>
+
+        <p id="scanNote" class="inline-note">Sign in to a real LeadCue workspace before scanning from Chrome.</p>
+        <p id="status" class="status is-neutral" role="status" aria-live="polite"></p>
+      </section>
+
+      <section id="result" class="panel result" hidden>
+        <div class="result-head">
+          <div>
+            <p class="eyebrow" data-i18n="labels.prospectCard">Prospect Card</p>
             <h2 id="companyName"></h2>
             <span id="domain" class="muted"></span>
           </div>
-          <div class="score">
+          <div class="result-score">
             <strong id="fitScore"></strong>
-            <span>Fit</span>
+            <span data-i18n="labels.fit">Fit</span>
           </div>
         </div>
 
         <p id="summary" class="summary"></p>
 
+        <div class="highlight-grid">
+          <div class="highlight-card">
+            <span data-i18n="labels.bestEmail">Best email</span>
+            <strong id="primaryEmail">No email found</strong>
+          </div>
+          <div class="highlight-card first-line-card">
+            <span data-i18n="labels.firstLine">First line</span>
+            <p id="firstLine"></p>
+          </div>
+        </div>
+
+        <div class="meta-row">
+          <div class="meta-chip">
+            <span data-i18n="labels.phones">Phones</span>
+            <strong id="phoneCount">0</strong>
+          </div>
+          <div class="meta-chip">
+            <span data-i18n="labels.contactPaths">Contact paths</span>
+            <strong id="contactPathCount">0</strong>
+          </div>
+        </div>
+
         <div>
-          <h3>Sales cues</h3>
+          <h3 data-i18n="labels.salesCues">Sales cues</h3>
           <div id="signals" class="signals"></div>
         </div>
 
-        <div class="first-line">
-          <span>First line</span>
-          <p id="firstLine"></p>
-          <button id="copyFirstLine" class="button secondary" type="button">
-            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M9 5h6M9 3h6v4H9zM7 5H5v16h14V5h-2" /></svg>
+        <div class="action-row action-row-compact">
+          <button id="copyEmail" class="button secondary subtle" type="button" data-i18n="buttons.copyEmail">Copy email</button>
+          <button id="copyFirstLine" class="button secondary subtle" type="button" data-i18n="buttons.copyFirstLine">
             Copy first line
           </button>
-        </div>
-
-        <div class="actions">
-          <button id="openDashboard" class="button secondary" type="button">
-            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 6h18v12H3zM3 9h18M7 6v3" /></svg>
-            Open dashboard
+          <button id="openLead" class="button secondary subtle" type="button" data-i18n="buttons.openSavedLead">
+            Open saved lead
+          </button>
+          <button id="openBilling" class="button secondary subtle" type="button" data-i18n="buttons.manageBilling">
+            Manage billing
           </button>
         </div>
       </section>
+
+      <section class="panel account-panel">
+        <div>
+          <p id="authEyebrow" class="eyebrow">Workspace access</p>
+          <h2 id="authTitle">Checking LeadCue access...</h2>
+          <p id="authCopy" class="muted compact-copy">We are verifying whether this browser already has a LeadCue workspace session.</p>
+        </div>
+
+        <div id="workspaceSummary" class="workspace-summary" hidden>
+          <div>
+            <span data-i18n="labels.workspace">Workspace</span>
+            <strong id="workspaceName"></strong>
+          </div>
+          <div>
+            <span data-i18n="labels.owner">Owner</span>
+            <strong id="workspaceUser"></strong>
+          </div>
+        </div>
+
+        <div id="planStats" class="metric-row" hidden>
+          <div class="metric-pill">
+            <span data-i18n="labels.plan">Plan</span>
+            <strong id="planName"></strong>
+          </div>
+          <div class="metric-pill">
+            <span data-i18n="labels.creditsLeft">Credits left</span>
+            <strong id="creditsRemaining"></strong>
+          </div>
+        </div>
+
+        <span id="creditsUsed" hidden></span>
+        <span id="creditsReset" hidden></span>
+
+        <p id="permissionNote" class="inline-note compact-note">
+          LeadCue only reads the active website after you click "Analyze website".
+        </p>
+      </section>
+
+      <section id="settings" class="panel settings" hidden>
+        <p class="eyebrow" data-i18n="labels.interfaceLanguage">Interface language</p>
+        <label>
+          <span data-i18n="labels.language">Language</span>
+          <select id="localeSelect"></select>
+        </label>
+      </section>
     </main>
+    <script src="extension-locales.js"></script>
     <script src="sidepanel.js"></script>
   </body>
 </html>

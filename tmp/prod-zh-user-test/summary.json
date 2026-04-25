@@ -1,0 +1,109 @@
+{
+  "results": [
+    {
+      "name": "zh-home",
+      "url": "https://leadcue.app/zh/",
+      "title": "LeadCue：面向代理机构的网站潜客研究助手",
+      "h1": "把网站变成 高质量潜客",
+      "lang": "zh-CN",
+      "overflow": false,
+      "header": "LeadCue 功能 工作原理 示例卡片 价格 资源 ZH 登录 免费开始",
+      "firstCtas": [
+        "开始免费扫描",
+        "查看示例卡片",
+        "功能扫描网站周围的所有内容将评分、信号、导出和团队背景保留在一张卡中。",
+        "工作原理三步研究工作流程从公司现场开始，收集证据，然后保存一张前景卡。",
+        "示例卡片注册前检查输出一起查看适合度分数、网站提示、第一行和简短的电子邮件。",
+        "价格为每周勘探而建立的积分开始免费，然后随着工作流程的证明，扩展扫描量。"
+      ],
+      "screenshotPath": "C:\\antigravity\\leadcue\\tmp\\prod-zh-user-test\\zh-home.png"
+    },
+    {
+      "name": "language-menu",
+      "menuVisible": true,
+      "menuText": "English 简体中文 日本語 한국어 Deutsch Nederlands Français"
+    },
+    {
+      "name": "zh-login",
+      "url": "https://leadcue.app/zh/login",
+      "title": "登录",
+      "h1": "登录",
+      "lang": "zh-CN",
+      "overflow": false,
+      "header": "LeadCue ZH 首页",
+      "firstCtas": [
+        "使用 Google 继续",
+        "显示",
+        "使用邮箱登录",
+        "忘记密码？",
+        "登录遇到问题？",
+        "创建免费工作区"
+      ],
+      "screenshotPath": "C:\\antigravity\\leadcue\\tmp\\prod-zh-user-test\\zh-login.png"
+    },
+    {
+      "name": "zh-signup",
+      "url": "https://leadcue.app/zh/signup?plan=free",
+      "title": "创建工作区",
+      "h1": "创建工作区",
+      "lang": "zh-CN",
+      "overflow": false,
+      "header": "LeadCue ZH 首页",
+      "firstCtas": [
+        "使用 Google 继续",
+        "继续"
+      ],
+      "screenshotPath": "C:\\antigravity\\leadcue\\tmp\\prod-zh-user-test\\zh-signup.png"
+    },
+    {
+      "name": "zh-reset",
+      "url": "https://leadcue.app/zh/reset-password",
+      "title": "设置新密码",
+      "h1": "设置新密码",
+      "lang": "zh-CN",
+      "overflow": false,
+      "header": "LeadCue ZH 返回登录",
+      "firstCtas": [
+        "显示",
+        "更新密码",
+        "返回登录",
+        "联系支持"
+      ],
+      "screenshotPath": "C:\\antigravity\\leadcue\\tmp\\prod-zh-user-test\\zh-reset.png"
+    },
+    {
+      "name": "api-health",
+      "apiHealth": {
+        "ok": true,
+        "service": "leadcue-api",
+        "requestId": "da1c640c-4f1b-4535-ba77-119a6fe80f34"
+      }
+    },
+    {
+      "name": "gemini",
+      "status": 500,
+      "body": {
+        "ok": false,
+        "error": "Server is missing GOOGLE_API_KEY."
+      }
+    }
+  ],
+  "findings": [
+    {
+      "type": "console-error",
+      "text": "Failed to load resource: net::ERR_CONNECTION_CLOSED"
+    },
+    {
+      "type": "console-error",
+      "text": "Failed to load resource: net::ERR_CONNECTION_CLOSED"
+    },
+    {
+      "type": "console-error",
+      "text": "Failed to load resource: net::ERR_CONNECTION_CLOSED"
+    },
+    {
+      "type": "console-error",
+      "text": "Failed to load resource: net::ERR_CONNECTION_CLOSED"
+    }
+  ]
+}

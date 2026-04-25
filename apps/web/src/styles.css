@@ -4619,7 +4619,8 @@ h3 {
 .app-shell {
   display: grid;
   min-height: 100dvh;
-  grid-template-columns: 260px minmax(0, 1fr);
+  grid-template-columns: 1fr;
+  grid-template-rows: auto 1fr;
   background:
     linear-gradient(rgba(0, 63, 54, 0.035) 1px, transparent 1px),
     linear-gradient(90deg, rgba(0, 63, 54, 0.035) 1px, transparent 1px),
@@ -6201,7 +6202,8 @@ h3 {
     right: 24px;
   }
 
-  .app-shell {
+
+  .app-shell-body {
     grid-template-columns: 1fr;
   }
 

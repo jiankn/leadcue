@@ -1,0 +1,11 @@
+{
+  "extensionName": {
+    "message": "LeadCue - Website Prospecting Assistant for Agencies"
+  },
+  "extensionDescription": {
+    "message": "Analyze the active company website, qualify the account, and save a source-backed Prospect Card to your LeadCue workspace."
+  },
+  "actionTitle": {
+    "message": "Open LeadCue side panel"
+  }
+}
