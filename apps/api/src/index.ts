@@ -128,7 +128,7 @@ app.use(
   "/api/*",
   cors({
     origin: (origin) => origin || "*",
-    allowHeaders: ["Content-Type", "Authorization", "X-Workspace-Id"],
+    allowHeaders: ["Content-Type", "Authorization", "X-Workspace-Id", "X-LeadCue-Locale"],
     allowMethods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     credentials: true
   })

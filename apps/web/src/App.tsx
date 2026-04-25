@@ -2913,6 +2913,15 @@ function formatScanTypeLabel(value: "basic" | "deep", appUi: AppUi) {
   return appUi.billing.scanHistory.scanTypes[value];
 }
 
+function isGenericNetworkErrorMessage(message: string) {
+  return [
+    "Failed to fetch",
+    "Load failed",
+    "NetworkError when attempting to fetch resource.",
+    "The network connection was lost."
+  ].includes(message);
+}
+
 function translateAppErrorMessage(message: string, appUi: AppUi) {
   switch (message) {
     case "D1 is not initialized. Apply migrations to enable workspace persistence.":
@@ -2979,7 +2988,11 @@ function translateAppErrorMessage(message: string, appUi: AppUi) {
 }
 
 function resolveAppErrorMessage(error: unknown, fallback: string, appUi: AppUi) {
-  return error instanceof Error ? translateAppErrorMessage(error.message, appUi) : fallback;
+  if (!(error instanceof Error)) {
+    return fallback;
+  }
+
+  return isGenericNetworkErrorMessage(error.message) ? fallback : translateAppErrorMessage(error.message, appUi);
 }
 
 function percentage(numerator: number, denominator: number) {
@@ -4497,9 +4510,11 @@ function DashboardApp() {
           setDashboardState("sample");
           setDashboardMessage(
             error instanceof Error
-              ? formatMessage(appUi.common.messages.sampleWorkspaceData, {
-                  error: translateAppErrorMessage(error.message, appUi)
-                })
+              ? isGenericNetworkErrorMessage(error.message)
+                ? appUi.common.messages.sampleWorkspaceDataPlain
+                : formatMessage(appUi.common.messages.sampleWorkspaceData, {
+                    error: translateAppErrorMessage(error.message, appUi)
+                  })
               : appUi.common.messages.sampleWorkspaceDataPlain
           );
         }
@@ -5521,10 +5536,12 @@ function DashboardApp() {
         {appSection === "dashboard" ? (
           <>
         <section className={`panel scan-console ${scanState === "loading" ? "is-loading" : ""}`} id="scan-console" aria-labelledby="scan-console-title">
-          <div className="scan-console-copy">
-            <p className="eyebrow">{appUi.scan.eyebrow}</p>
-            <h2 id="scan-console-title">{appUi.scan.title}</h2>
-            <p>{appUi.scan.copy}</p>
+          <div className="scan-console-head">
+            <div className="scan-console-copy">
+              <p className="eyebrow">{appUi.scan.eyebrow}</p>
+              <h2 id="scan-console-title">{appUi.scan.title}</h2>
+              <p>{appUi.scan.copy}</p>
+            </div>
             <div className="scan-flow-steps" aria-label={appUi.scan.title}>
               {appUi.scan.steps.map((step, index) => (
                 <span className={index === 0 || scanState === "done" ? "is-active" : ""} key={step}>
@@ -5534,98 +5551,100 @@ function DashboardApp() {
             </div>
           </div>
 
-          <form className="scan-form" onSubmit={submitScan}>
-            <label>
-              {appUi.scan.prospectWebsite}
-              <input
-                name="url"
-                type="url"
-                required
-                placeholder={appUi.common.placeholders.prospectUrl}
-                value={scanForm.url}
-                onChange={updateScanField("url")}
-              />
-            </label>
-            <label>
-              {appUi.scan.companyName}
-              <input
-                name="companyName"
-                placeholder={appUi.common.placeholders.companyName}
-                value={scanForm.companyName}
-                onChange={updateScanField("companyName")}
-              />
-            </label>
-            <label className="scan-form-wide">
-              {appUi.scan.websiteNotes}
-              <textarea
-                name="notes"
-                rows={4}
-                placeholder={appUi.scan.notesPlaceholder}
-                value={scanForm.notes}
-                onChange={updateScanField("notes")}
-              />
-            </label>
-            <label className="scan-depth-toggle">
-              <input type="checkbox" checked={scanForm.deepScan} onChange={updateScanField("deepScan")} />
-              <span>
-                {appUi.scan.deepScan}
-                <small>{appUi.scan.deepScanHint}</small>
-              </span>
-            </label>
-            <button className="button button-primary" type="submit" disabled={scanState === "loading"}>
-              <Icon name="scan" />
-              {scanState === "loading" ? appUi.scan.scanning : appUi.scan.runScan}
-            </button>
-            <p className={`form-status ${scanState === "error" ? "is-error" : scanState === "done" ? "is-success" : ""}`} role="status" aria-live="polite">
-              {scanMessage || " "}
-            </p>
-            {scanState === "error" && lastScanError ? (
-              <div className="scan-error-box" role="alert">
-                <strong>{appUi.scan.noCredit}</strong>
-                <span>{appUi.preview.reason}: {formatHistoryReason(lastScanError.reason, appUi)}</span>
-                <button className="button button-secondary" type="submit">
-                  {appUi.scan.retryScan}
-                </button>
-              </div>
-            ) : null}
-          </form>
+          <div className="scan-console-body">
+            <form className="scan-form" onSubmit={submitScan}>
+              <label>
+                {appUi.scan.prospectWebsite}
+                <input
+                  name="url"
+                  type="url"
+                  required
+                  placeholder={appUi.common.placeholders.prospectUrl}
+                  value={scanForm.url}
+                  onChange={updateScanField("url")}
+                />
+              </label>
+              <label>
+                {appUi.scan.companyName}
+                <input
+                  name="companyName"
+                  placeholder={appUi.common.placeholders.companyName}
+                  value={scanForm.companyName}
+                  onChange={updateScanField("companyName")}
+                />
+              </label>
+              <label className="scan-form-wide">
+                {appUi.scan.websiteNotes}
+                <textarea
+                  name="notes"
+                  rows={4}
+                  placeholder={appUi.scan.notesPlaceholder}
+                  value={scanForm.notes}
+                  onChange={updateScanField("notes")}
+                />
+              </label>
+              <label className="scan-depth-toggle">
+                <input type="checkbox" checked={scanForm.deepScan} onChange={updateScanField("deepScan")} />
+                <span>
+                  {appUi.scan.deepScan}
+                  <small>{appUi.scan.deepScanHint}</small>
+                </span>
+              </label>
+              <button className="button button-primary" type="submit" disabled={scanState === "loading"}>
+                <Icon name="scan" />
+                {scanState === "loading" ? appUi.scan.scanning : appUi.scan.runScan}
+              </button>
+              <p className={`form-status ${scanState === "error" ? "is-error" : scanState === "done" ? "is-success" : ""}`} role="status" aria-live="polite">
+                {scanMessage || " "}
+              </p>
+              {scanState === "error" && lastScanError ? (
+                <div className="scan-error-box" role="alert">
+                  <strong>{appUi.scan.noCredit}</strong>
+                  <span>{appUi.preview.reason}: {formatHistoryReason(lastScanError.reason, appUi)}</span>
+                  <button className="button button-secondary" type="submit">
+                    {appUi.scan.retryScan}
+                  </button>
+                </div>
+              ) : null}
+            </form>
 
-          <div className="scan-preview" aria-label={appUi.preview.outputPreview}>
-            <span className="side-label">{appUi.preview.outputPreview}</span>
-            {scanState === "loading" ? (
-              <div className="scan-skeleton" aria-label={appUi.status.loading}>
-                <i />
-                <i />
-                <i />
-                <i />
-              </div>
-            ) : (
-              <>
-                <div className="scan-status-row">
-                  <span className="status-pill">{activeProspect.savedStatus === "saved" ? appUi.preview.saved : appUi.preview.unsaved}</span>
-                  <span className="status-pill">
-                    {activeProspect.exportStatus === "exported" ? appUi.preview.exported : appUi.preview.notExported}
-                  </span>
+            <div className="scan-preview" aria-label={appUi.preview.outputPreview}>
+              <span className="side-label">{appUi.preview.outputPreview}</span>
+              {scanState === "loading" ? (
+                <div className="scan-skeleton" aria-label={appUi.status.loading}>
+                  <i />
+                  <i />
+                  <i />
+                  <i />
                 </div>
-                <div className="scan-preview-row">
-                  <strong>{activeProspect.companyName}</strong>
-                  <span>{activeProspect.domain}</span>
-                  <em>{activeProspect.fitScore} {appUi.preview.fit}</em>
-                </div>
-                <div className="scan-preview-evidence">
-                  {activeProspect.opportunitySignals.slice(0, 3).map((signal) => (
-                    <span key={signal.signal}>
-                      <Icon name="check" />
-                      {signal.signal}
+              ) : (
+                <>
+                  <div className="scan-status-row">
+                    <span className="status-pill">{activeProspect.savedStatus === "saved" ? appUi.preview.saved : appUi.preview.unsaved}</span>
+                    <span className="status-pill">
+                      {activeProspect.exportStatus === "exported" ? appUi.preview.exported : appUi.preview.notExported}
                     </span>
-                  ))}
-                </div>
-                <div className="scan-preview-first-line">
-                  <span>{appUi.preview.firstLine}</span>
-                  <p>{activeProspect.firstLines[0]}</p>
-                </div>
-              </>
-            )}
+                  </div>
+                  <div className="scan-preview-row">
+                    <strong>{activeProspect.companyName}</strong>
+                    <span>{activeProspect.domain}</span>
+                    <em>{activeProspect.fitScore} {appUi.preview.fit}</em>
+                  </div>
+                  <div className="scan-preview-evidence">
+                    {activeProspect.opportunitySignals.slice(0, 3).map((signal) => (
+                      <span key={signal.signal}>
+                        <Icon name="check" />
+                        {signal.signal}
+                      </span>
+                    ))}
+                  </div>
+                  <div className="scan-preview-first-line">
+                    <span>{appUi.preview.firstLine}</span>
+                    <p>{activeProspect.firstLines[0]}</p>
+                  </div>
+                </>
+              )}
+            </div>
           </div>
         </section>
 

@@ -4725,9 +4725,7 @@ h3 {
 
 .scan-console {
   display: grid;
-  grid-template-columns: minmax(0, 0.9fr) minmax(360px, 0.74fr) minmax(320px, 0.64fr);
   gap: 18px;
-  align-items: stretch;
   margin-top: 24px;
   background:
     linear-gradient(rgba(0, 63, 54, 0.035) 1px, transparent 1px),
@@ -4740,14 +4738,24 @@ h3 {
   border-color: rgba(156, 255, 120, 0.62);
 }
 
+.scan-console-head {
+  display: grid;
+  gap: 14px;
+  align-items: start;
+}
+
 .scan-console-copy {
   display: grid;
   align-content: start;
   gap: 12px;
+  max-width: 72ch;
 }
 
 .scan-console-copy h2 {
-  font-size: 36px;
+  font-size: clamp(30px, 2.45vw, 36px);
+  line-height: 1.08;
+  overflow-wrap: normal;
+  text-wrap: balance;
 }
 
 .scan-console-copy p:not(.eyebrow) {
@@ -4757,15 +4765,18 @@ h3 {
 }
 
 .scan-flow-steps {
-  display: grid;
+  display: flex;
+  flex-wrap: wrap;
   gap: 8px;
-  margin-top: 8px;
+  margin-top: 2px;
 }
 
 .scan-flow-steps span {
+  flex: 1 1 180px;
   min-height: 40px;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   border: 1px solid var(--border);
   padding: 9px 11px;
   color: var(--muted);
@@ -4777,6 +4788,13 @@ h3 {
   color: var(--dark-strong);
   border-color: rgba(20, 125, 115, 0.28);
   background: var(--primary);
+}
+
+.scan-console-body {
+  display: grid;
+  grid-template-columns: minmax(340px, 1.02fr) minmax(300px, 0.92fr);
+  gap: 18px;
+  align-items: start;
 }
 
 .scan-form {
@@ -4869,6 +4887,7 @@ h3 {
   display: grid;
   align-content: start;
   gap: 14px;
+  min-height: 100%;
   padding: 16px;
   color: #fff;
   background:
@@ -6245,6 +6264,12 @@ h3 {
 
   .login-card {
     width: min(560px, 100%);
+  }
+}
+
+@media (max-width: 1240px) {
+  .scan-console-body {
+    grid-template-columns: 1fr;
   }
 }
 
