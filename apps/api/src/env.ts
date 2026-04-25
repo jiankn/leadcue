@@ -7,6 +7,7 @@ export interface Env {
   AI_GATEWAY_URL?: string;
   AI_PROVIDER_API_KEY?: string;
   AI_MODEL?: string;
+  GOOGLE_API_KEY?: string;
   GOOGLE_CLIENT_ID?: string;
   GOOGLE_CLIENT_SECRET?: string;
   GOOGLE_REDIRECT_URI?: string;

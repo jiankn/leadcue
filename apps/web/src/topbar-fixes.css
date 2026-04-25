@@ -6,6 +6,11 @@
   font-size: 14px;
 }
 
+.topbar-marketing .topbar-actions {
+  gap: 10px;
+  margin-left: auto;
+}
+
 .topbar-marketing .brand,
 .topbar-marketing .lang-switcher,
 .topbar-marketing .topbar-actions {
@@ -60,7 +65,7 @@
 
 .topbar-locale-fr .topbar-actions,
 .topbar-locale-nl .topbar-actions {
-  gap: 6px;
+  gap: 8px;
 }
 
 @media (max-width: 1180px) {
@@ -73,7 +78,7 @@
   }
 
   .topbar-locale-fr .lang-switcher {
-    margin-left: auto;
+    margin-left: 0;
   }
 }
 

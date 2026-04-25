@@ -1092,8 +1092,8 @@ function MarketingSite() {
           <a href="#pricing">{siteUi.nav.pricing}</a>
           <a href="#resources">{siteUi.nav.resources}</a>
         </nav>
-        <LanguageSwitcher />
         <div className="topbar-actions">
+          <LanguageSwitcher />
           <a className="button button-small button-secondary" href={localizeHref("/login")}>
             {siteUi.nav.signIn}
           </a>

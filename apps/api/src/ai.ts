@@ -19,6 +19,18 @@ interface OpenAICompatibleResponse {
   }>;
 }
 
+interface GeminiGenerateContentResponse {
+  candidates?: Array<{
+    content?: {
+      parts?: Array<{
+        text?: string;
+      }>;
+    };
+  }>;
+}
+
+const DEFAULT_GEMINI_MODEL = "gemini-3.1-pro-preview";
+
 function coerceProspectCard(
   value: Partial<ProspectCard>,
   request: ScanRequest,
@@ -77,19 +89,88 @@ function parseJsonObject(content: string): Partial<ProspectCard> | null {
   }
 }
 
+async function callGemini(env: Env, prompt: string, options?: { json?: boolean }): Promise<string | null> {
+  if (!env.GOOGLE_API_KEY) {
+    return null;
+  }
+
+  const model = env.AI_MODEL || DEFAULT_GEMINI_MODEL;
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`;
+  const response = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "x-goog-api-key": env.GOOGLE_API_KEY
+    },
+    body: JSON.stringify({
+      contents: [
+        {
+          parts: [{ text: prompt }]
+        }
+      ],
+      generationConfig: {
+        temperature: 0.2,
+        ...(options?.json ? { responseMimeType: "application/json" } : {})
+      }
+    })
+  });
+
+  if (!response.ok) {
+    throw new Error(`Gemini API request failed with ${response.status}`);
+  }
+
+  const data = (await response.json()) as GeminiGenerateContentResponse;
+  return data.candidates?.[0]?.content?.parts?.map((part) => part.text || "").join("").trim() || null;
+}
+
+function messagesToGeminiPrompt(messages: ReturnType<typeof buildProspectCardMessages>) {
+  return messages.map((message) => `${message.role.toUpperCase()}:\n${message.content}`).join("\n\n");
+}
+
+export async function generateGeminiText(env: Env, prompt: string): Promise<string> {
+  if (!prompt.trim()) {
+    throw new Error("Missing prompt.");
+  }
+
+  if (!env.GOOGLE_API_KEY) {
+    throw new Error("Missing GOOGLE_API_KEY.");
+  }
+
+  const text = await callGemini(env, prompt);
+
+  if (!text) {
+    throw new Error("Gemini returned an empty response.");
+  }
+
+  return text;
+}
+
 export async function generateProspectCard(env: Env, request: ScanRequest): Promise<ProspectCard> {
   const icp: ICPProfile = { ...DEFAULT_ICP, ...request.icp };
   const contactPoints = classifyContactPoints(request.page);
-
-  if (!env.AI_GATEWAY_URL || !env.AI_PROVIDER_API_KEY) {
-    return buildRuleBasedProspectCard({ ...request, icp });
-  }
 
   const messages = buildProspectCardMessages({
     icp,
     website: request.page,
     contactPoints
   });
+
+  if (env.GOOGLE_API_KEY) {
+    try {
+      const content = await callGemini(env, messagesToGeminiPrompt(messages), { json: true });
+      const parsed = content ? parseJsonObject(content) : null;
+
+      if (parsed) {
+        return coerceProspectCard(parsed, { ...request, icp }, contactPoints);
+      }
+    } catch {
+      return buildRuleBasedProspectCard({ ...request, icp });
+    }
+  }
+
+  if (!env.AI_GATEWAY_URL || !env.AI_PROVIDER_API_KEY) {
+    return buildRuleBasedProspectCard({ ...request, icp });
+  }
 
   try {
     const response = await fetch(env.AI_GATEWAY_URL, {
@@ -99,7 +180,7 @@ export async function generateProspectCard(env: Env, request: ScanRequest): Prom
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        model: env.AI_MODEL || "gpt-4.1-mini",
+        model: env.AI_MODEL || DEFAULT_GEMINI_MODEL,
         messages,
         temperature: 0.2,
         response_format: { type: "json_object" }

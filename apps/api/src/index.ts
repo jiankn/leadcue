@@ -22,7 +22,7 @@ import {
   type ScanRequest,
   type ScanResponse
 } from "@leadcue/shared";
-import { generateProspectCard } from "./ai";
+import { generateGeminiText, generateProspectCard } from "./ai";
 import type { Env } from "./env";
 
 type Variables = {
@@ -92,6 +92,9 @@ type CheckoutRequest = {
 type PortalRequest = {
   workspaceId?: string;
 };
+type GeminiPromptRequest = {
+  prompt?: string;
+};
 type GoogleOauthMetadata = {
   intent: "login" | "signup";
   planId?: PricingPlan["id"];
@@ -143,6 +146,27 @@ app.get("/api/config", (c) =>
     googleAuthEnabled: Boolean(c.env.GOOGLE_CLIENT_ID && c.env.GOOGLE_CLIENT_SECRET && c.env.GOOGLE_REDIRECT_URI)
   })
 );
+
+app.post("/api/ai/gemini", async (c) => {
+  const body = (await c.req.json<GeminiPromptRequest>().catch(() => ({}))) as GeminiPromptRequest;
+  const prompt = body.prompt?.trim();
+
+  if (!prompt) {
+    return c.json({ ok: false, error: "Missing prompt." }, 400);
+  }
+
+  if (!c.env.GOOGLE_API_KEY) {
+    return c.json({ ok: false, error: "Server is missing GOOGLE_API_KEY." }, 500);
+  }
+
+  try {
+    const text = await generateGeminiText(c.env, prompt);
+    return c.json({ ok: true, text });
+  } catch (error) {
+    console.error("gemini_api_failed", error);
+    return c.json({ ok: false, error: "Gemini API request failed." }, 502);
+  }
+});
 
 app.get("/api/auth/me", async (c) => {
   if (!c.env.DB) {
