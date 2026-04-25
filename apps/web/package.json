@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host 0.0.0.0 --port 5173",
-    "content:generate": "node ../../scripts/generate-public-locale-data.mjs",
-    "build": "tsc -p tsconfig.json && vite build && node ../../scripts/prerender-public-pages.mjs && node ../../scripts/validate-public-pages.mjs dist && node ../../scripts/run-smoke-check.mjs dist",
+    "content:generate": "node ../../scripts/generate-public-locale-data.mjs && node ../../scripts/generate-seo-assets.mjs",
+    "build": "node ../../scripts/generate-seo-assets.mjs && tsc -p tsconfig.json && vite build && node ../../scripts/prerender-public-pages.mjs && node ../../scripts/validate-public-pages.mjs dist && node ../../scripts/run-smoke-check.mjs dist",
     "qa:public": "node ../../scripts/validate-public-pages.mjs dist",
     "qa:smoke": "node ../../scripts/run-smoke-check.mjs dist",
     "preview": "vite preview --host 0.0.0.0 --port 4173",

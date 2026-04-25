@@ -1,4 +1,4 @@
-import { type ChangeEvent, type FormEvent, type KeyboardEvent, type ReactElement, useEffect, useMemo, useState } from "react";
+import { type ChangeEvent, type FormEvent, type KeyboardEvent, type ReactElement, useEffect, useMemo, useRef, useState } from "react";
 import {
   DEFAULT_ICP,
   PRICING_PLANS,
@@ -30,26 +30,30 @@ import {
   type Tone
 } from "@leadcue/shared";
 import { trackEvent } from "./analytics";
-import type { CommercialPageSlug } from "./commercialContent";
+import type { CommercialPageDefinition, CommercialPageSlug } from "./commercialContent";
+import homeSeoKeywords from "./content/source/home-seo-keywords.json";
 import type { ProductSeoPage } from "./productSeoContent";
 import type { SeoContentPage } from "./seoContent";
 import i18n from "./i18n";
 import { HeroVisualIllustration, LoginWorkspaceIllustration, ResearchDeskIllustration, ResourceIllustration } from "./localizedIllustrations";
 import { getCommercialPages, getProductPageMap, getProductPages, getSeoPageMap, getSeoPages, getSiteUi, type SiteUi } from "./publicContent";
 import { PublicSiteContext, createPublicSiteContextValue, usePublicSite } from "./publicSiteContext";
-import { buildLocalePath, getLocaleHtmlLang, localizeHref, parseSiteLocalePath, supportedSiteLocales, type SiteLocaleCode } from "./siteLocale";
+import { getSearchEngineVerifications, getSeoImageAlt, getSeoImagePath, SITE_URL } from "./seoConfig";
+import { buildLocalePath, getLocaleHtmlLang, localizeHref, parseSiteLocalePath, siteLocaleLabels, supportedSiteLocales, type SiteLocaleCode } from "./siteLocale";
 import "./upgrades.css";
 
 type IconName =
   | "arrow"
   | "browser"
   | "chart"
+  | "chevron_down"
   | "check"
   | "clipboard"
   | "cursor"
   | "database"
   | "download"
   | "filter"
+  | "globe"
   | "layers"
   | "lock"
   | "mail"
@@ -68,8 +72,6 @@ type PipelineContextSaveResult = {
   context: ProspectPipelineContext;
   activity?: ProspectPipelineActivity | null;
 };
-
-const SITE_URL = "https://leadcue.app";
 
 const scanHistoryFilters: Array<{ value: ScanHistoryFilter; label: string }> = [
   { value: "all", label: "All" },
@@ -779,6 +781,7 @@ type SeoHeadProps = {
   noIndex?: boolean;
   type?: "website" | "article";
   image?: string;
+  imageAlt?: string;
   structuredData?: unknown;
 };
 
@@ -847,12 +850,16 @@ function SeoHead({
   locale,
   noIndex = false,
   type = "website",
-  image = "/images/leadcue-og-card.svg",
+  image,
+  imageAlt,
   structuredData
 }: SeoHeadProps) {
   const canonicalUrl = absoluteUrl(path, locale);
-  const imageUrl = absoluteUrl(image);
+  const resolvedImage = image ?? getSeoImagePath(locale, noIndex ? "/" : path);
+  const imageUrl = absoluteUrl(resolvedImage);
+  const resolvedImageAlt = imageAlt ?? getSeoImageAlt(title);
   const structuredDataJson = structuredData ? JSON.stringify(structuredData) : "";
+  const searchEngineVerifications = useMemo(() => getSearchEngineVerifications(), []);
 
   useEffect(() => {
     document.title = title;
@@ -863,13 +870,26 @@ function SeoHead({
     setMetaTag("property", "og:type", type);
     setMetaTag("property", "og:url", canonicalUrl);
     setMetaTag("property", "og:image", imageUrl);
+    setMetaTag("property", "og:image:alt", resolvedImageAlt);
+    setMetaTag("property", "og:image:width", "1200");
+    setMetaTag("property", "og:image:height", "630");
     setMetaTag("property", "og:site_name", "LeadCue");
     setMetaTag("name", "twitter:card", "summary_large_image");
     setMetaTag("name", "twitter:title", title);
     setMetaTag("name", "twitter:description", description);
     setMetaTag("name", "twitter:image", imageUrl);
+    setMetaTag("name", "twitter:image:alt", resolvedImageAlt);
     setCanonicalLink(canonicalUrl);
     setAlternateLinks(path, noIndex);
+
+    document.head.querySelectorAll('meta[data-leadcue-verification="true"]').forEach((element) => element.remove());
+    searchEngineVerifications.forEach((entry) => {
+      const element = document.createElement("meta");
+      element.setAttribute(entry.attribute, entry.value);
+      element.setAttribute("content", entry.content);
+      element.setAttribute("data-leadcue-verification", "true");
+      document.head.appendChild(element);
+    });
 
     const scriptId = "leadcue-structured-data";
     const existingScript = document.getElementById(scriptId);
@@ -889,7 +909,7 @@ function SeoHead({
     if (!existingScript) {
       document.head.appendChild(script);
     }
-  }, [canonicalUrl, description, imageUrl, locale, noIndex, path, structuredDataJson, title, type]);
+  }, [canonicalUrl, description, imageUrl, noIndex, path, resolvedImageAlt, searchEngineVerifications, structuredDataJson, title, type]);
 
   return null;
 }
@@ -907,43 +927,101 @@ function BrandMark() {
 
 function LanguageSwitcher() {
   const { locale, getSwitchHref, siteUi } = usePublicSite();
+  const [isOpen, setIsOpen] = useState(false);
+  const switcherRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (!isOpen) {
+      return;
+    }
+
+    function handlePointerDown(event: globalThis.PointerEvent) {
+      if (!switcherRef.current || !(event.target instanceof Node) || switcherRef.current.contains(event.target)) {
+        return;
+      }
+
+      setIsOpen(false);
+    }
+
+    function handleEscape(event: globalThis.KeyboardEvent) {
+      if (event.key === "Escape") {
+        setIsOpen(false);
+      }
+    }
+
+    document.addEventListener("pointerdown", handlePointerDown);
+    document.addEventListener("keydown", handleEscape);
+
+    return () => {
+      document.removeEventListener("pointerdown", handlePointerDown);
+      document.removeEventListener("keydown", handleEscape);
+    };
+  }, [isOpen]);
+
+  useEffect(() => {
+    setIsOpen(false);
+  }, [locale]);
+
+  function handleLocaleSelect(nextLocale: SiteLocaleCode) {
+    if (nextLocale === locale) {
+      setIsOpen(false);
+      return;
+    }
+
+    window.location.assign(getSwitchHref(nextLocale));
+  }
 
   return (
-    <div className="lang-switcher">
-      <select
+    <div className={`lang-switcher${isOpen ? " is-open" : ""}`} ref={switcherRef}>
+      <button
+        type="button"
+        className="lang-switcher-trigger"
         aria-label={siteUi.common.languageLabel}
-        value={locale}
-        onChange={(event) => {
-          window.location.assign(getSwitchHref(event.currentTarget.value as SiteLocaleCode));
+        aria-haspopup="listbox"
+        aria-expanded={isOpen}
+        title={siteLocaleLabels[locale].nativeName}
+        onClick={() => {
+          setIsOpen((current) => !current);
         }}
       >
-        {supportedSiteLocales.map((code) => (
-          <option value={code} key={code}>
-            {siteLocaleLabel(code)}
-          </option>
-        ))}
-      </select>
+        <span className="lang-switcher-trigger-icon" aria-hidden="true">
+          <Icon name="globe" />
+        </span>
+        <span className="lang-switcher-trigger-label">{siteLocaleLabels[locale].switcherLabel}</span>
+        <span className="lang-switcher-trigger-caret" aria-hidden="true">
+          <Icon name="chevron_down" />
+        </span>
+      </button>
+      {isOpen ? (
+        <div className="lang-switcher-menu" role="listbox" aria-label={siteUi.common.languageLabel}>
+          {supportedSiteLocales.map((code) => {
+            const language = siteLocaleLabels[code];
+            const isActive = code === locale;
+
+            return (
+              <button
+                key={code}
+                type="button"
+                role="option"
+                aria-selected={isActive}
+                className={`lang-switcher-option${isActive ? " is-active" : ""}`}
+                onClick={() => {
+                  handleLocaleSelect(code);
+                }}
+              >
+                <span className="lang-switcher-option-indicator" aria-hidden="true">
+                  {isActive ? <Icon name="check" /> : null}
+                </span>
+                <span className="lang-switcher-option-text" lang={language.htmlLang}>
+                  {language.nativeName}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      ) : null}
     </div>
   );
-}
-
-function siteLocaleLabel(locale: SiteLocaleCode) {
-  switch (locale) {
-    case "zh":
-      return "简体中文";
-    case "ja":
-      return "日本語";
-    case "ko":
-      return "한국어";
-    case "de":
-      return "Deutsch";
-    case "nl":
-      return "Nederlands";
-    case "fr":
-      return "Français";
-    default:
-      return "English";
-  }
 }
 
 function MarketingSite() {
@@ -951,6 +1029,7 @@ function MarketingSite() {
   const home = siteUi.home;
   const seoPages = getSeoPages(locale);
   const productPages = getProductPages(locale);
+  const homeKeywordSet = homeSeoKeywords[locale] ?? homeSeoKeywords.en;
   const homeStructuredData = {
     "@context": "https://schema.org",
     "@graph": [
@@ -967,7 +1046,10 @@ function MarketingSite() {
         name: siteUi.common.brand,
         url: absoluteUrl("/", locale),
         publisher: { "@id": `${SITE_URL}/#organization` },
-        description: home.seo.structuredDescription
+        description: home.seo.structuredDescription,
+        inLanguage: getLocaleHtmlLang(locale),
+        image: absoluteUrl(getSeoImagePath(locale, "/")),
+        keywords: [homeKeywordSet.primaryKeyword, ...homeKeywordSet.secondaryKeywords].join(", ")
       },
       {
         "@type": "SoftwareApplication",
@@ -975,6 +1057,9 @@ function MarketingSite() {
         applicationCategory: "BusinessApplication",
         operatingSystem: "Web",
         url: absoluteUrl("/", locale),
+        inLanguage: getLocaleHtmlLang(locale),
+        image: absoluteUrl(getSeoImagePath(locale, "/")),
+        keywords: [homeKeywordSet.primaryKeyword, ...homeKeywordSet.secondaryKeywords].join(", "),
         offers: PRICING_PLANS.map((plan) => ({
           "@type": "Offer",
           name: plan.name,
@@ -995,7 +1080,7 @@ function MarketingSite() {
         locale={locale}
         structuredData={homeStructuredData}
       />
-      <header className="topbar topbar-marketing">
+      <header className={`topbar topbar-marketing topbar-locale-${locale}`}>
         <a className="brand" href={localizeHref("/")} aria-label={`${siteUi.common.brand} ${siteUi.common.home}`}>
           <BrandMark />
           <span>{siteUi.common.brand}</span>
@@ -1553,10 +1638,23 @@ function MarketingSite() {
 }
 
 function makeContentAnchor(value: string) {
-  return value
+  const asciiAnchor = value
     .toLowerCase()
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "");
+
+  if (asciiAnchor) {
+    return asciiAnchor;
+  }
+
+  const unicodeAnchor = Array.from(value.trim())
+    .map((char) => char.codePointAt(0)?.toString(16) ?? "")
+    .filter(Boolean)
+    .join("-");
+
+  return unicodeAnchor ? `section-${unicodeAnchor}` : "section";
 }
 
 function getSeoContentStructuredData(page: SeoContentPage, locale: SiteLocaleCode) {
@@ -1573,6 +1671,8 @@ function getSeoContentStructuredData(page: SeoContentPage, locale: SiteLocaleCod
         description: page.description,
         datePublished: page.updatedAt,
         dateModified: page.updatedAt,
+        image: absoluteUrl(getSeoImagePath(locale, path)),
+        inLanguage: getLocaleHtmlLang(locale),
         author: {
           "@type": "Organization",
           name: "LeadCue"
@@ -1990,6 +2090,8 @@ function getProductSeoStructuredData(page: ProductSeoPage, locale: SiteLocaleCod
         description: page.description,
         datePublished: page.updatedAt,
         dateModified: page.updatedAt,
+        image: absoluteUrl(getSeoImagePath(locale, path)),
+        inLanguage: getLocaleHtmlLang(locale),
         author: { "@type": "Organization", name: "LeadCue" },
         publisher: { "@type": "Organization", name: "LeadCue", url: SITE_URL },
         mainEntityOfPage: url,
@@ -2009,6 +2111,35 @@ function getProductSeoStructuredData(page: ProductSeoPage, locale: SiteLocaleCod
           name: faq.question,
           acceptedAnswer: { "@type": "Answer", text: faq.answer }
         }))
+      }
+    ]
+  };
+}
+
+function getCommercialStructuredData(page: CommercialPageDefinition, slug: CommercialPageSlug, locale: SiteLocaleCode) {
+  const path = `/${slug}`;
+  const url = absoluteUrl(path, locale);
+
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": `${url}#page`,
+        name: page.title,
+        description: page.summary,
+        url,
+        image: absoluteUrl(getSeoImagePath(locale, path)),
+        inLanguage: getLocaleHtmlLang(locale),
+        keywords: [page.eyebrow, ...page.sections.map((section) => section.title)].join(", "),
+        isPartOf: { "@id": `${SITE_URL}/#website` }
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: getSiteUi(locale).common.home, item: absoluteUrl("/", locale) },
+          { "@type": "ListItem", position: 2, name: page.title, item: url }
+        ]
       }
     ]
   };
@@ -2777,14 +2908,7 @@ function CommercialPage({ slug }: { slug: CommercialPageSlug }) {
         description={page.summary}
         path={path}
         locale={locale}
-        structuredData={{
-          "@context": "https://schema.org",
-          "@type": "WebPage",
-          name: page.title,
-          description: page.summary,
-          url: absoluteUrl(path, locale),
-          isPartOf: { "@id": `${SITE_URL}/#website` }
-        }}
+        structuredData={getCommercialStructuredData(page, slug, locale)}
       />
       <header className="topbar topbar-minimal content-topbar">
         <a className="brand" href={localizeHref("/")} aria-label={`${siteUi.common.brand} ${siteUi.common.home}`}>
@@ -3535,16 +3659,19 @@ function LoginPage() {
           <BrandMark />
           <span>{siteUi.common.brand}</span>
         </a>
-        <LanguageSwitcher />
-        <a className="button button-small button-secondary topbar-back" href={localizeHref("/")}>
-          <Icon name="arrow" />
-          {siteUi.common.backHome}
-        </a>
+        <div className="topbar-control-dock" aria-label={`${siteUi.common.languageLabel} and ${siteUi.common.home}`}>
+          <LanguageSwitcher />
+          <a className="button button-small button-secondary topbar-back" href={localizeHref("/")}>
+            <Icon name="arrow" />
+            <span className="topbar-back-label">{siteUi.common.backHome}</span>
+          </a>
+        </div>
       </header>
 
       <main className="auth-page login-page">
         <section className="login-showcase" aria-label="LeadCue prospect research preview">
           <LoginWorkspaceIllustration
+            locale={locale}
             copy={{
               eyebrow: authCopy.heroEyebrow,
               title: authCopy.heroTitle,
@@ -3778,11 +3905,13 @@ function ResetPasswordPage() {
           <BrandMark />
           <span>{siteUi.common.brand}</span>
         </a>
-        <LanguageSwitcher />
-        <a className="button button-small button-secondary topbar-back" href={localizeHref("/login")}>
-          <Icon name="arrow" />
-          {siteUi.common.backToSignIn}
-        </a>
+        <div className="topbar-control-dock" aria-label={`${siteUi.common.languageLabel} and ${siteUi.common.backToSignIn}`}>
+          <LanguageSwitcher />
+          <a className="button button-small button-secondary topbar-back" href={localizeHref("/login")}>
+            <Icon name="arrow" />
+            <span className="topbar-back-label">{siteUi.common.backToSignIn}</span>
+          </a>
+        </div>
       </header>
 
       <main className="auth-page auth-reset-page">
@@ -3982,11 +4111,13 @@ function SignupPage() {
           <BrandMark />
           <span>{siteUi.common.brand}</span>
         </a>
-        <LanguageSwitcher />
-        <a className="button button-small button-secondary topbar-back" href={localizeHref("/")}>
-          <Icon name="arrow" />
-          {siteUi.common.backHome}
-        </a>
+        <div className="topbar-control-dock" aria-label={`${siteUi.common.languageLabel} and ${siteUi.common.home}`}>
+          <LanguageSwitcher />
+          <a className="button button-small button-secondary topbar-back" href={localizeHref("/")}>
+            <Icon name="arrow" />
+            <span className="topbar-back-label">{siteUi.common.backHome}</span>
+          </a>
+        </div>
       </header>
 
       <main className="signup-page">
@@ -7598,12 +7729,14 @@ function Icon({ name }: { name: IconName }) {
     arrow: <path d="M5 12h14M13 6l6 6-6 6" />,
     browser: <path d="M3 6h18v12H3zM3 9h18M7 6v3" />,
     chart: <path d="M4 19V5M4 19h16M8 16v-5M12 16V8M16 16v-7M20 16v-3" />,
+    chevron_down: <path d="m6 9 6 6 6-6" />,
     check: <path d="m5 12 4 4L19 6" />,
     clipboard: <path d="M9 5h6M9 3h6v4H9zM7 5H5v16h14V5h-2" />,
     cursor: <path d="m5 4 14 7-6 2-2 6z" />,
     database: <path d="M5 6c0 1.7 3.1 3 7 3s7-1.3 7-3-3.1-3-7-3-7 1.3-7 3zM5 6v6c0 1.7 3.1 3 7 3s7-1.3 7-3V6M5 12v6c0 1.7 3.1 3 7 3s7-1.3 7-3v-6" />,
     download: <path d="M12 3v12M7 10l5 5 5-5M5 21h14" />,
     filter: <path d="M4 6h16M7 12h10M10 18h4" />,
+    globe: <path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zm0 0c2.3 2.1 3.6 5.1 3.6 9S14.3 18.9 12 21m0-18c-2.3 2.1-3.6 5.1-3.6 9S9.7 18.9 12 21M4 12h16M5.4 7.5h13.2M5.4 16.5h13.2" />,
     layers: <path d="m12 3 9 5-9 5-9-5zM3 12l9 5 9-5M3 16l9 5 9-5" />,
     lock: <path d="M7 11V8a5 5 0 0 1 10 0v3M6 11h12v10H6z" />,
     mail: <path d="M4 6h16v12H4zM4 7l8 6 8-6" />,

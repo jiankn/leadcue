@@ -1,0 +1,30 @@
+{
+  "en": {
+    "primaryKeyword": "website prospecting software",
+    "secondaryKeywords": ["prospect research tool", "agency outbound software", "website prospecting assistant"]
+  },
+  "zh": {
+    "primaryKeyword": "网站潜客研究工具",
+    "secondaryKeywords": ["潜客研究软件", "代理机构外联软件", "网站线索评分工具"]
+  },
+  "ja": {
+    "primaryKeyword": "Webサイト見込み客調査ツール",
+    "secondaryKeywords": ["営業リサーチツール", "代理店向けアウトバウンド支援", "Webサイトプロスペクティング"]
+  },
+  "ko": {
+    "primaryKeyword": "웹사이트 잠재고객 조사 도구",
+    "secondaryKeywords": ["리드 리서치 소프트웨어", "에이전시 아웃바운드 도구", "웹사이트 적합도 평가"]
+  },
+  "de": {
+    "primaryKeyword": "Website-Prospecting-Tool",
+    "secondaryKeywords": ["Tool für Vertriebsrecherche", "Outbound-Software für Agenturen", "Website-Signale für Leads"]
+  },
+  "nl": {
+    "primaryKeyword": "website prospecting tool",
+    "secondaryKeywords": ["prospect research tool", "outbound software voor bureaus", "website signalen voor leads"]
+  },
+  "fr": {
+    "primaryKeyword": "outil de prospection de site web",
+    "secondaryKeywords": ["outil de recherche de prospects", "logiciel outbound pour agence", "signaux de site web pour leads"]
+  }
+}

@@ -1080,52 +1080,52 @@
     },
     "common": {
       "brand": "LeadCue",
-      "home": "主页",
+      "home": "首页",
       "resources": "资源",
-      "faq": "常见问题解答",
+      "faq": "常见问题",
       "example": "示例",
       "searchIntent": "搜索意图",
       "relatedResources": "相关资源",
-      "keepBuilding": "继续构建工作流程",
-      "useOnRealAccount": "在真实账户上使用",
+      "keepBuilding": "继续完善这套工作流",
+      "useOnRealAccount": "在真实客户上运行",
       "startFree": "免费开始",
       "startFreeScan": "开始免费扫描",
       "signIn": "登录",
-      "updatedLabel": "已更新",
-      "onThisPage": "在本页上",
-      "tool": "Tool",
+      "updatedLabel": "更新于",
+      "onThisPage": "本页内容",
+      "tool": "工具",
       "languageLabel": "语言",
-      "backHome": "主页",
+      "backHome": "首页",
       "backToSignIn": "返回登录",
-      "contactSupport": "联系支持人员",
-      "openDashboard": "打开仪表板",
-      "reviewPlans": "审查计划",
-      "openSampleCard": "打开样本前景卡"
+      "contactSupport": "联系支持",
+      "openDashboard": "打开仪表盘",
+      "reviewPlans": "查看套餐",
+      "openSampleCard": "打开示例 Prospect Card"
     },
     "nav": {
-      "features": "特点",
+      "features": "功能",
       "howItWorks": "工作原理",
-      "sampleCard": "样本卡",
-      "pricing": "定价",
+      "sampleCard": "示例卡片",
+      "pricing": "价格",
       "resources": "资源",
       "signIn": "登录",
       "startFree": "免费开始"
     },
     "home": {
       "seo": {
-        "title": "LeadCue - 机构网站勘探助手",
-        "description": "LeadCue 将公司网站转变为合格的潜在客户卡，其中包含适合度分数、来源支持的销售线索、外展角度和冷电子邮件第一行。",
-        "structuredDescription": "LeadCue 将公司网站转变为合格的潜在客户卡，其中包含适合度分数、来源支持的销售线索、外展角度和冷电子邮件第一行。"
+        "title": "LeadCue：面向代理机构的网站潜客研究助手",
+        "description": "LeadCue 将企业网站转化为高质量 Prospect Card，包含匹配评分、来源证据、外联角度和冷邮件开场句。",
+        "structuredDescription": "LeadCue 将企业网站转化为高质量 Prospect Card，包含匹配评分、来源证据、外联角度和冷邮件开场句。"
       },
       "hero": {
-        "eyebrow": "针对代理机构外派团队的 LeadCue",
-        "titleLead": "将网站变成",
-        "titleAccent": "合格的潜在客户",
-        "subhead": "在您的团队保存另一个通用线索之前，对拟合度进行评分、捕获网站证据并编写第一行。",
+        "eyebrow": "LeadCue 助力代理机构外联团队",
+        "titleLead": "把网站变成",
+        "titleAccent": "高质量潜客",
+        "subhead": "评估匹配度、记录网站证据，并在团队保存下一个泛泛线索之前写好开场句。",
         "primaryCta": "开始免费扫描",
-        "secondaryCta": "查看样本卡",
-        "microcopy": "20 次免费扫描。谷歌登录。没有 LinkedIn 抓取或联系人数据库依赖性。",
-        "visualNote": "一个工作区中的网站证据、ICP 拟合和一线线索"
+        "secondaryCta": "查看示例卡片",
+        "microcopy": "20 次免费扫描。支持 Google 登录。不依赖 LinkedIn 抓取或联系人数据库。",
+        "visualNote": "网站证据、ICP 匹配与开场线索集中在一个工作区"
       },
       "heroVisual": {
         "browserChip": "实时网站扫描",
@@ -1225,7 +1225,7 @@
         "items": [
           {
             "href": "#features",
-            "eyebrow": "特点",
+            "eyebrow": "功能",
             "title": "扫描网站周围的所有内容",
             "copy": "将评分、信号、导出和团队背景保留在一张卡中。"
           },
@@ -1237,13 +1237,13 @@
           },
           {
             "href": "#card",
-            "eyebrow": "样本卡",
+            "eyebrow": "示例卡片",
             "title": "注册前检查输出",
             "copy": "一起查看适合度分数、网站提示、第一行和简短的电子邮件。"
           },
           {
             "href": "#pricing",
-            "eyebrow": "定价",
+            "eyebrow": "价格",
             "title": "为每周勘探而建立的积分",
             "copy": "开始免费，然后随着工作流程的证明，扩展扫描量。"
           },
@@ -1256,7 +1256,7 @@
         ]
       },
       "problem": {
-        "eyebrow": "出站不是列表问题",
+        "eyebrow": "外联不是列表问题",
         "title": "您不需要更多随机线索。你需要一个伸出援手的理由。",
         "questions": [
           "这家公司适合我们的报价吗？",
@@ -1325,9 +1325,9 @@
       },
       "researchVisual": {
         "headline": "研究台",
-        "fitLabel": "合格的配合",
+        "fitLabel": "匹配评分",
         "fitValue": "92",
-        "cueLabel": "网站提示",
+        "cueLabel": "网站信号",
         "cueValue": "3+",
         "stackTitle": "有来源支持的注释",
         "stackItems": [
@@ -1380,7 +1380,7 @@
         "secondaryCta": "阅读扫描文档"
       },
       "useCases": {
-        "eyebrow": "用例",
+        "eyebrow": "使用场景",
         "title": "当外展需要证据时使用 LeadCue，而不是占位符",
         "items": [
           {
@@ -1428,7 +1428,7 @@
         ]
       },
       "pricing": {
-        "eyebrow": "定价",
+        "eyebrow": "价格",
         "title": "与每周勘探相匹配的学分",
         "copy": "从一小批网站扫描开始，然后在 LeadCue 成为您机构对外研究节奏的一部分时进行扩展。",
         "mostUseful": "最有用",
@@ -1463,13 +1463,13 @@
         },
         "planUseCases": {
           "free": "在付费推出之前使用真实网站验证工作流程。",
-          "starter": "最适合培养每周出站习惯的操作员。",
-          "pro": "最适合将前景研究转变为可重复渠道的机构。",
+          "starter": "最适合培养每周外联习惯的操作员。",
+          "pro": "最适合将潜客研究转变为可重复渠道的机构。",
           "agency": "最适合在多个客户报价之间共享扫描积分的团队。"
         }
       },
       "faqSection": {
-        "eyebrow": "常见问题解答",
+        "eyebrow": "常见问题",
         "title": "围绕网站研究构建，而不是另一个联系人数据库",
         "copy": "LeadCue 有意缩小范围：分析潜在客户站点，限定机会，并将更好的注释移至您已使用的外展工作流程中。",
         "items": [
@@ -1487,12 +1487,12 @@
           },
           {
             "question": "LeadCue 首先是为谁构建的？",
-            "answer": "LeadCue 首先是为小型 SEO、网页设计、重新设计和发展机构构建的，这些机构进行出站并需要特定的网站支持原因来联系潜在客户。"
+            "answer": "LeadCue 首先是为小型 SEO、网页设计、重新设计和发展机构构建的，这些机构进行外联并需要特定的网站支持原因来联系潜在客户。"
           }
         ]
       },
       "resources": {
-        "eyebrow": "出站资源",
+        "eyebrow": "外联资源",
         "titleLead": "构建更清晰的勘探系统",
         "titleAccent": "更好的信号",
         "copy": "为希望每个保存的帐户都带有证据、时间安排和开始对话的可信理由的团队提供的实用文章。",
@@ -1501,15 +1501,15 @@
         "browseTitle": "16 个搜索意图页面、工具和 CRM 指南",
         "items": [
           {
-            "title": "如何将潜在客户网站变成冷电子邮件角度",
+            "title": "如何把潜客网站转化为冷邮件切入角度",
             "copy": "从可见页面证据转向可信外展的实用工作流程。",
-            "label": "出站策略手册",
+            "label": "外联策略手册",
             "href": "/guides/turn-website-into-cold-email-angle"
           },
           {
             "title": "在挽救潜在客户之前，代理机构应进行哪些评分",
             "copy": "使用适合性、紧迫性、验证间隙和接触路径来避免列表构建噪音。",
-            "label": "资格",
+            "label": "资格判断",
             "href": "/guides/score-prospect-website"
           },
           {
@@ -1522,7 +1522,7 @@
       },
       "resourceVisuals": {
         "playbook": {
-          "kicker": "出站策略手册",
+          "kicker": "外联策略手册",
           "title": "冷电子邮件角度",
           "items": [
             "可见的网站提示",
@@ -1531,7 +1531,7 @@
           ]
         },
         "qualification": {
-          "kicker": "资格",
+          "kicker": "资格判断",
           "title": "保存阈值",
           "items": [
             "适合分数 80+",
@@ -1574,7 +1574,7 @@
         "legalTitle": "法律",
         "dashboard": "仪表板",
         "docs": "文档",
-        "contact": "联系方式",
+        "contact": "联系我们",
         "privacy": "隐私",
         "terms": "条款",
         "support": "支持",
@@ -1586,38 +1586,38 @@
     "content": {
       "seoNav": {
         "strategy": "策略",
-        "useCases": "用例",
+        "useCases": "使用场景",
         "guides": "指南",
-        "qualification": "资格"
+        "qualification": "资格判断"
       },
       "productNav": {
         "csvTool": "CSV 工具",
-        "firstLines": "第一行",
+        "firstLines": "开场句",
         "checklist": "清单",
         "integrations": "集成"
       },
       "commercialNav": {
         "docs": "文档",
         "support": "支持",
-        "contact": "联系方式"
+        "contact": "联系我们"
       },
       "breadcrumbs": {
-        "home": "主页",
+        "home": "首页",
         "resources": "资源"
       },
       "faqTitle": "常见问题",
-      "ctaTitleSeo": "将一个潜在客户网站变成一张有来源支持的潜在客户卡。",
-      "ctaTitleProduct": "在 LeadCue 内运行工作流程并导出选定的潜在客户。",
+      "ctaTitleSeo": "把一个潜客网站转成带来源依据的 Prospect Card。",
+      "ctaTitleProduct": "在 LeadCue 中运行这套工作流，并导出已筛选的潜客。",
       "toolBand": {
-        "eyebrow": "将模板转为管道输出",
-        "title": "在真实的潜在客户网站上使用相同的工作流程。",
-        "copy": "从免费工作区开始，运行网站扫描，然后将拟合得分、源注释、第一行和 CRM 导出字段保留在一起，而不是手动复制它们。",
-        "primaryCta": "使用此工作流程免费开始",
-        "secondaryCta": "打开样本前景卡",
+        "eyebrow": "把模板变成可执行的管道输出",
+        "title": "在真实潜客网站上运行同样的工作流。",
+        "copy": "用免费工作区开始，运行网站扫描，把匹配评分、来源注释、开场句和 CRM 导出字段保存在一起，而不是手动复制。",
+        "primaryCta": "用这套工作流免费开始",
+        "secondaryCta": "打开示例 Prospect Card",
         "points": [
-          "20 次免费扫描以测试真实网站上的工作流程",
-          "应用程序导出流程中使用的相同 CRM 命名预设",
-          "在导入或外展之前仅保存合格的帐户"
+          "20 次免费扫描，可在真实网站上验证这套工作流",
+          "与应用导出流程相同的 CRM 字段预设",
+          "只保存已验证的目标客户，再导入或外联"
         ]
       }
     },
@@ -1664,16 +1664,16 @@
         "google_exchange_failed": "Google 无法完成登录。请重试或使用您的工作电子邮件设置。"
       },
       "login": {
-        "heroEyebrow": "人工智能前景研究",
-        "heroTitle": "将网站研究转化为排名帐户。",
-        "heroCopy": "在一个工作区中提供来源支持的信号、拟合分数和外展环境。",
+        "heroEyebrow": "AI 潜客研究",
+        "heroTitle": "把网站研究转化为高优先级客户",
+        "heroCopy": "来源证据、匹配评分和外联上下文，集中在一个工作区。",
         "proofItems": [
           {
-            "label": "合格的配合",
+            "label": "匹配评分",
             "value": "92"
           },
           {
-            "label": "网站提示",
+            "label": "网站信号",
             "value": "3+"
           },
           {
@@ -1683,31 +1683,31 @@
         ],
         "cardEyebrow": "欢迎回来",
         "cardTitle": "登录",
-        "cardCopy": "使用 Google 或您的工作电子邮件重新打开您的潜在客户研究工作区。",
-        "googleCta": "继续使用 Google",
-        "divider": "或使用电子邮件登录",
-        "emailLabel": "电子邮件",
+        "cardCopy": "使用 Google 或工作邮箱重新进入你的潜客研究工作区。",
+        "googleCta": "使用 Google 继续",
+        "divider": "或使用邮箱登录",
+        "emailLabel": "电子邮箱",
         "emailPlaceholder": "you@agency.com",
         "passwordLabel": "密码",
         "passwordPlaceholder": "8 个以上字符",
         "show": "显示",
         "hide": "隐藏",
-        "emailCta": "使用电子邮件登录",
+        "emailCta": "使用邮箱登录",
         "emailLoading": "正在登录...",
         "forgotPassword": "忘记密码？",
         "hideReset": "隐藏重置选项",
-        "needHelp": "需要登录帮助吗？",
-        "resetTitle": "重置您的密码",
+        "needHelp": "登录遇到问题？",
+        "resetTitle": "重置密码",
         "resetCopy": "使用附加到工作区的同一工作电子邮件。我们将准备一个一次性重置链接。",
         "resetEmailLabel": "工作区电子邮件",
         "resetLoading": "正在准备重置链接...",
-        "resetCta": "通过电子邮件给我发送重置链接",
+        "resetCta": "向我发送重置链接",
         "resetOpenLink": "打开重置链接",
         "resetDevNote": "在本地构建上，LeadCue 直接显示重置链接，以便可以端到端地测试流程。",
-        "sessionNote": "密码登录使用与 Google OAuth 相同的安全工作区会话。",
-        "signupLead": "LeadCue 新手？",
-        "signupCopy": "创建一个免费工作区并运行您的第一次潜在客户扫描。",
-        "signupCta": "创建自由工作区",
+        "sessionNote": "密码登录与 Google OAuth 使用同样安全的工作区会话。",
+        "signupLead": "第一次使用 LeadCue？",
+        "signupCopy": "创建免费工作区并运行第一次潜客扫描。",
+        "signupCta": "创建免费工作区",
         "validation": {
           "invalidLogin": "输入有效的工作电子邮件和 8 个以上字符的密码。",
           "emailLoginFailed": "电子邮件密码登录失败。再试一次。",
@@ -1718,8 +1718,8 @@
         }
       },
       "reset": {
-        "eyebrow": "帐户恢复",
-        "title": "选择新密码",
+        "eyebrow": "账号恢复",
+        "title": "设置新密码",
         "copy": "这会更新您的 LeadCue 工作区登录密码，并保持与 Google 登录相同的安全会话模型。",
         "passwordLabel": "新密码",
         "confirmLabel": "确认密码",
@@ -1734,20 +1734,20 @@
         "genericError": "现在无法重置密码。"
       },
       "signup": {
-        "heroEyebrow": "开始",
+        "heroEyebrow": "开始使用",
         "heroTitle": "创建工作区",
-        "heroCopy": "选择一个计划并添加 LeadCue 应评分的机构环境。",
-        "summaryProspects": "前景卡 + CSV",
-        "planLabel": "计划",
-        "oauthCta": "继续使用 Google",
+        "heroCopy": "选择套餐并补充 LeadCue 进行评分所需的代理机构上下文。",
+        "summaryProspects": "Prospect Cards + CSV",
+        "planLabel": "套餐",
+        "oauthCta": "使用 Google 继续",
         "oauthCopy": "Google 创建一个工作区或让您重新登录。",
         "divider": "或使用工作电子邮件",
         "successTitle": "工作区设置已保存。",
-        "stepBasics": "基础知识",
+        "stepBasics": "基础信息",
         "stepScoring": "评分",
         "progressAria": "注册进度",
         "step1Lead": "第 1 步（共 2 步）",
-        "step1Title": "工作区基础知识",
+        "step1Title": "工作区基础信息",
         "step1Copy": "从 LeadCue 首次设置所需的帐户和机构详细信息开始。",
         "workEmail": "工作电子邮件",
         "password": "密码",
@@ -1764,12 +1764,12 @@
         "setupNote": "这将创建您的商业工作空间设置并准备基于计划的积分。",
         "back": "返回",
         "createWorkspace": "创建工作区",
-        "continueToBilling": "继续计费",
+        "continueToBilling": "继续前往计费",
         "focusOptions": {
           "web_design": "网页设计/重新设计",
           "seo": "SEO 机构",
           "marketing": "增长/营销机构",
-          "founder": "创始人主导的出站"
+          "founder": "创始人主导的外联"
         },
         "selectedPlanFree": "每月 20 次扫描来验证工作流程。",
         "selectedPlanPaid": "__价格__ · __CREDITS__ 扫描/月。",
@@ -1855,7 +1855,7 @@
           },
           {
             "key": "适合",
-            "group": "资格",
+            "group": "资格判断",
             "labels": {
               "hubspot": "适合分数",
               "salesforce": "适合分数",
@@ -1867,7 +1867,7 @@
           },
           {
             "key": "信心",
-            "group": "资格",
+            "group": "资格判断",
             "labels": {
               "hubspot": "置信度分数",
               "salesforce": "置信度分数",
@@ -2009,7 +2009,7 @@
             "why": "它将可见的网站问题与搜索需求联系起来，并使下一步变得轻松。"
           },
           "marketing": {
-            "trustNextSentence": "这可以使付费和出站流量在他们有足够的信心回复或预订之前反弹。",
+            "trustNextSentence": "这可以使付费和外联流量在他们有足够的信心回复或预订之前反弹。",
             "defaultNextSentence": "这通常会在点击和您希望买家采取的操作之间产生摩擦。",
             "cta": "想要我发送我要先测试的转换角度吗？",
             "why": "它将网站提示与漏斗摩擦联系起来，并将回复框定为小评论，而不是推介转储。"
@@ -2148,56 +2148,56 @@
       "fr": "フランス語"
     },
     "common": {
-      "brand": "リードキュー",
+      "brand": "LeadCue",
       "home": "ホーム",
       "resources": "リソース",
       "faq": "よくある質問",
       "example": "例",
       "searchIntent": "検索意図",
       "relatedResources": "関連リソース",
-      "keepBuilding": "ワークフローを構築し続ける",
-      "useOnRealAccount": "実際のアカウントで使用する",
-      "startFree": "無料で始めましょう",
-      "startFreeScan": "無料スキャンの開始",
-      "signIn": "サインイン",
-      "updatedLabel": "更新されました",
-      "onThisPage": "このページについて",
-      "tool": "Tool",
+      "keepBuilding": "ワークフローをさらに整える",
+      "useOnRealAccount": "実際のアカウントで使う",
+      "startFree": "無料で始める",
+      "startFreeScan": "無料スキャンを始める",
+      "signIn": "ログイン",
+      "updatedLabel": "更新日",
+      "onThisPage": "このページの内容",
+      "tool": "ツール",
       "languageLabel": "言語",
       "backHome": "ホーム",
-      "backToSignIn": "サインインに戻る",
-      "contactSupport": "サポートにお問い合わせください",
+      "backToSignIn": "ログインに戻る",
+      "contactSupport": "サポートに連絡",
       "openDashboard": "ダッシュボードを開く",
-      "reviewPlans": "計画を確認する",
-      "openSampleCard": "サンプルの見込みカードを開く"
+      "reviewPlans": "プランを見る",
+      "openSampleCard": "サンプルの Prospect Card を開く"
     },
     "nav": {
-      "features": "の機能",
+      "features": "機能",
       "howItWorks": "仕組み",
       "sampleCard": "サンプルカード",
-      "pricing": "価格",
+      "pricing": "料金",
       "resources": "リソース",
-      "signIn": "サインイン",
-      "startFree": "無料で始めましょう"
+      "signIn": "ログイン",
+      "startFree": "無料で始める"
     },
     "home": {
       "seo": {
-        "title": "LeadCue - 代理店向けウェブサイト調査アシスタント",
-        "description": "LeadCue は、企業の Web サイトを、適合性スコア、ソースに裏付けられたセールス キュー、アウトリーチ アングル、コールド メールの第一線を備えた適格な見込み顧客カードに変換します。",
-        "structuredDescription": "LeadCue は、企業の Web サイトを、適合性スコア、ソースに裏付けられたセールス キュー、アウトリーチ アングル、コールド メールの第一線を備えた適格な見込み顧客カードに変換します。"
+        "title": "LeadCue | 代理店向けWebサイト見込み客リサーチ支援",
+        "description": "LeadCue は企業サイトを、適合度スコア、根拠あるシグナル、アプローチ角度、コールドメールの冒頭文を備えた Prospect Card に変換します。",
+        "structuredDescription": "LeadCue は企業サイトを、適合度スコア、根拠あるシグナル、アプローチ角度、コールドメールの冒頭文を備えた Prospect Card に変換します。"
       },
       "hero": {
-        "eyebrow": "代理店のアウトバウンド チーム向け LeadCue",
-        "titleLead": "ウェブサイトを",
-        "titleAccent": "の資格のある見込み客",
-        "subhead": "チームが別の一般的なリードを保存する前に、適合性をスコアリングし、Web サイトの証拠をキャプチャし、最初の行を書き込みます。",
-        "primaryCta": "無料スキャンの開始",
+        "eyebrow": "代理店のアウトバウンドチーム向け LeadCue",
+        "titleLead": "Webサイトを",
+        "titleAccent": "優先度の高い見込み客へ",
+        "subhead": "適合度を見極め、Webサイトの根拠を記録し、チームがまた一般的なリードを保存する前に冒頭文を書けます。",
+        "primaryCta": "無料スキャンを始める",
         "secondaryCta": "サンプルカードを見る",
-        "microcopy": "20 回の無料スキャン。 Google サインイン。 LinkedIn スクレイピングや連絡先データベースへの依存はありません。",
-        "visualNote": "ウェブサイトの証拠、ICP 適合、および第一線の手がかりを 1 つのワークスペースに"
+        "microcopy": "無料スキャン20回。Googleログイン対応。LinkedInスクレイピングや連絡先データベースには依存しません。",
+        "visualNote": "Webサイトの根拠、ICP適合、冒頭文のヒントを1つのワークスペースに"
       },
       "heroVisual": {
-        "browserChip": "ウェブサイトのライブスキャン",
+        "browserChip": "Webサイトのライブスキャン",
         "browserTitle": "ノーススター アナリティクス",
         "browserSubtitle": "CTA が最初のスクロールの下に隠れています",
         "fitLabel": "フィット",
@@ -2208,17 +2208,17 @@
           "証明セクションはヒーローの下にあります",
           "ナビゲーションに財務ケーススタディが表示されていません"
         ],
-        "footerLeft": "ウェブサイトの証拠",
+        "footerLeft": "Webサイトの証拠",
         "footerRight": "プロスペクトカードの準備が完了しました"
       },
       "analytics": {
-        "kicker": "ウェブサイトのプロスペクティングをライブで実施",
+        "kicker": "Webサイト調査をライブで実施",
         "title": "代理店パイプラインのスナップショット",
         "live": "ライブ",
         "timeframe": "過去 24 時間",
         "metrics": [
           {
-            "label": "スキャンされた Web サイト",
+            "label": "スキャンされた Webサイト",
             "value": "214",
             "delta": "+18%"
           },
@@ -2233,13 +2233,13 @@
             "delta": "高"
           },
           {
-            "label": "最初の行がコピーされました",
+            "label": "冒頭文がコピーされました",
             "value": "64",
             "delta": "+31%"
           }
         ],
         "chartLabel": "資格のある見込み客",
-        "chartTitle": "ウェブサイトをスキャンして保存されたプロスペクトを確認",
+        "chartTitle": "Webサイトをスキャンして保存されたプロスペクトを確認",
         "chartBadge": "+24 件保存しました",
         "mixLabel": "機会の組み合わせ",
         "mix": [
@@ -2259,7 +2259,7 @@
             "tone": "サンゴ"
           }
         ],
-        "highFitLabel": "適合性の高い Web サイト",
+        "highFitLabel": "適合性の高い Webサイト",
         "highFitSites": [
           {
             "company": "ノーススター アナリティクス",
@@ -2290,12 +2290,12 @@
       "map": {
         "eyebrow": "製品ツアー",
         "title": "購入者がスキャンを開始する前に必要なものすべて",
-        "copy": "LeadCue の機能、スキャンの仕組み、見込み客カードの内容、価格設定の方法など、重要な部分に進みます。",
+        "copy": "LeadCue 機能、スキャンの仕組み、見込み客カードの内容、価格設定の方法など、重要な部分に進みます。",
         "items": [
           {
             "href": "#features",
-            "eyebrow": "の機能",
-            "title": "Web サイト周辺のすべてをスキャンします",
+            "eyebrow": "機能",
+            "title": "Webサイト周辺のすべてをスキャンします",
             "copy": "フィット スコアリング、シグナル、エクスポート、チーム コンテキストが 1 つのカードに収まります。"
           },
           {
@@ -2308,11 +2308,11 @@
             "href": "#card",
             "eyebrow": "サンプルカード",
             "title": "サインアップ前に出力を検査する",
-            "copy": "適合スコア、Web サイトのキュー、最初の行、短いメールを一緒に確認します。"
+            "copy": "適合スコア、Webサイトのキュー、冒頭文、短いメールを一緒に確認します。"
           },
           {
             "href": "#pricing",
-            "eyebrow": "価格",
+            "eyebrow": "料金",
             "title": "毎週の見込み客向けに構築されたクレジット",
             "copy": "無料で始めて、ワークフローが実証されるにつれてスキャン量を拡大します。"
           },
@@ -2320,7 +2320,7 @@
             "href": "#resources",
             "eyebrow": "リソース",
             "title": "アウトバウンドの品質を高める",
-            "copy": "証拠に基づいたプロスペクティングとアカウントの適格性の向上のためのガイドを使用します。"
+            "copy": "証拠に基づいた見込み客調査とアカウントの適格性の向上のためのガイドを使用します。"
           }
         ]
       },
@@ -2329,29 +2329,29 @@
         "title": "これ以上ランダムなリードは必要ありません。手を差し伸べるには理由が必要です。",
         "questions": [
           "この会社は私たちのオファーに適合しますか?",
-          "彼らの Web サイトでは何が明らかになりましたか?",
+          "彼らの Webサイトでは何が明らかになりましたか?",
           "信頼できる問題として提案できるのはどれですか?",
-          "最初の行には何を言うべきですか?"
+          "冒頭文には何を言うべきですか?"
         ]
       },
       "features": {
-        "eyebrow": "ウェブサイトファーストのワークフロー",
+        "eyebrow": "Webサイトファーストのワークフロー",
         "title": "1 つの探査デスクから調査、認定、エクスポートを行う",
-        "copy": "LeadCue は Web サイトの観察結果をパイプライン データに変換するため、代理店はどの見込み客を保存し、パーソナライズし、アウトリーチに移行する価値があるかを判断できます。",
+        "copy": "LeadCue は Webサイトの観察結果をパイプライン データに変換するため、代理店はどの見込み客を保存し、パーソナライズし、アウトリーチに移行する価値があるかを判断できます。",
         "items": [
           {
             "title": "意図を示すプロスペクト分析",
-            "copy": "ウェブサイトのスキャン、保存率、適合スコア、コピーされた最初の行を追跡して、どの調査がアウトリーチにつながるかをチームが確認できるようにします。",
+            "copy": "Webサイトのスキャン、保存率、適合スコア、コピーされた冒頭文を追跡して、どの調査がアウトリーチにつながるかをチームが確認できるようにします。",
             "meta": "ライブ パイプライン"
           },
           {
             "title": "代理店オファーの ICP スコアリング",
-            "copy": "保存する前に、サービスの種類、業界、地域、企業規模、オファーに基づいて各 Web サイトにスコアを付けます。",
+            "copy": "保存する前に、サービスの種類、業界、地域、企業規模、オファーに基づいて各 Webサイトにスコアを付けます。",
             "meta": "フィットスコアリング"
           },
           {
-            "title": "すべてのカードにウェブサイトの証拠が含まれています",
-            "copy": "ページの観察、販売の手がかり、アウトリーチの角度、最初の行をまとめて、担当者が見込み客がなぜ重要なのかを理解できるようにします。",
+            "title": "すべてのカードにWebサイトの証拠が含まれています",
+            "copy": "ページの観察、営業シグナル、アウトリーチの角度、冒頭文をまとめて、担当者が見込み客がなぜ重要なのかを理解できるようにします。",
             "meta": "ソースが裏付けられています"
           },
           {
@@ -2363,10 +2363,10 @@
       },
       "workflow": {
         "eyebrow": "仕組み",
-        "title": "企業 Web サイトからアウトリーチ角度まで数分で完了",
+        "title": "企業 Webサイトからアウトリーチ角度まで数分で完了",
         "steps": [
           {
-            "title": "見込み客の Web サイトを開く",
+            "title": "見込み客の Webサイトを開く",
             "copy": "スクレイピングされた連絡先リストではなく、チームがすでにレビューしている企業サイトから始めます。"
           },
           {
@@ -2375,40 +2375,40 @@
           },
           {
             "title": "見込み顧客カードを取得する",
-            "copy": "フィット スコア、ウェブサイトに基づくキュー、アウトリーチ アングル、最初のライン、エクスポート可能なメモを取得します。"
+            "copy": "フィット スコア、Webサイトに基づくキュー、アウトリーチ アングル、最初のライン、エクスポート可能なメモを取得します。"
           }
         ]
       },
       "method": {
         "eyebrow": "代理店の調査方法",
         "titleLead": "推測を次のものに置き換えます",
-        "titleAccent": "ウェブサイトに裏付けられた証拠",
-        "copy": "LeadCue は、セールス キューを作成した正確な Web サイトの観察に関連付けて保持するため、チームはシーケンスを作成する前に見込み顧客を絞り込むことができます。",
+        "titleAccent": "Webサイトに裏付けられた証拠",
+        "copy": "LeadCue は、営業シグナルを作成した正確な Webサイトの観察に関連付けて保持するため、チームはシーケンスを作成する前に見込み顧客を絞り込むことができます。",
         "checklist": [
           "代理店のオファーに適合するスコア",
           "CTA、プルーフ、SEO、ポジショニングのギャップを把握する",
           "信頼できるアウトリーチ理由があるアカウントのみをエクスポートします"
         ],
         "frameTitle": "リサーチデスク",
-        "frameCopy": "ICP フィット、ウェブサイトの観察、アウトリーチ ノートは常につながりを保っています。"
+        "frameCopy": "ICP フィット、Webサイトの観察、アウトリーチ ノートは常につながりを保っています。"
       },
       "researchVisual": {
         "headline": "リサーチデスク",
-        "fitLabel": "認定されたフィット感",
+        "fitLabel": "適合スコア",
         "fitValue": "92",
-        "cueLabel": "ウェブサイトの合図",
+        "cueLabel": "サイトシグナル",
         "cueValue": "3+",
         "stackTitle": "ソースに裏付けられたメモ",
         "stackItems": [
           "CTA がスクロールせずに見える範囲に隠れています",
           "メインナビゲーションに目に見える証拠がない",
-          "最初の行は CRM エクスポートの準備ができました"
+          "冒頭文は CRM エクスポートの準備ができました"
         ]
       },
       "sampleCard": {
         "eyebrow": "サンプル出力",
         "title": "見込み客カードはすべての見込み客に理由を与えます",
-        "copy": "各カードは、フィット感、ウェブサイトの証拠、連絡経路、アウトリーチ角度、コピー準備の最初の行を結びつけるので、チームは何を言うべきか、そしてなぜ言うべきかを理解できます。",
+        "copy": "各カードは、フィット感、Webサイトの証拠、連絡経路、アウトリーチ角度、コピー準備の冒頭文を結びつけるので、チームは何を言うべきか、そしてなぜ言うべきかを理解できます。",
         "previewEyebrow": "見込みカード",
         "previewAriaLabel": "コンパクトなサンプル プロスペクト カード",
         "summaryAriaLabel": "見込み客の概要のサンプル",
@@ -2417,24 +2417,24 @@
         "confidenceLabel": "自信",
         "signalsLabel": "信号",
         "contactPathsLabel": "連絡先パス",
-        "websiteEvidenceLabel": "ウェブサイトの証拠",
+        "websiteEvidenceLabel": "Webサイトの証拠",
         "cuesSuffix": "キュー",
         "sourceLabel": "ソース",
-        "bestFirstLineLabel": "最高の最初の行",
-        "noFirstLineLabel": "最初の行はまだ生成されていません。",
+        "bestFirstLineLabel": "最高の冒頭文",
+        "noFirstLineLabel": "冒頭文はまだ生成されていません。",
         "copyReadyLabel": "コピー対応",
         "shortEmailLabel": "ショートメール",
         "replyReadyLabel": "返信準備完了",
         "noneLabel": "なし",
         "exportFields": [
           "CRM CSV",
-          "最初の行",
+          "冒頭文",
           "ソースノート"
         ],
         "stats": [
           {
             "value": "3",
-            "label": "ウェブサイトの合図"
+            "label": "Webサイトの合図"
           },
           {
             "value": "86",
@@ -2449,7 +2449,7 @@
         "secondaryCta": "スキャン文書を読む"
       },
       "useCases": {
-        "eyebrow": "使用例",
+        "eyebrow": "ユースケース",
         "title": "アウトリーチにプレースホルダーではなく証拠が必要な場合は LeadCue を使用してください",
         "items": [
           {
@@ -2459,7 +2459,7 @@
           },
           {
             "title": "SEO 代理店",
-            "copy": "調整された最初の行を作成する前に、薄いメタデータ、古いブログ、弱いサービス ページ、コンテンツのギャップを見つけます。",
+            "copy": "調整された冒頭文を作成する前に、薄いメタデータ、古いブログ、弱いサービス ページ、コンテンツのギャップを見つけます。",
             "cta": "SEO のギャップから始める"
           },
           {
@@ -2487,51 +2487,51 @@
           [
             "CRM",
             "パイプラインの追跡",
-            "アウトリーチ前のウェブサイトの洞察"
+            "アウトリーチ前のWebサイトの洞察"
           ],
           [
-            "リードキュー",
+            "LeadCue",
             "認定見込み客カード",
             "アウトリーチ ツールでシーケンスを送信する"
           ]
         ]
       },
       "pricing": {
-        "eyebrow": "価格",
+        "eyebrow": "料金",
         "title": "毎週の見込み客と一致するクレジット",
-        "copy": "Web サイトのスキャンの小規模なバッチから始めて、LeadCue が代理店のアウトバウンド調査リズムの一部になったときに拡張します。",
+        "copy": "Webサイトのスキャンの小規模なバッチから始めて、LeadCue が代理店のアウトバウンド調査リズムの一部になったときに拡張します。",
         "mostUseful": "最も便利",
         "scansSuffix": "スキャン",
         "perMonth": "/mo",
-        "startFreeScan": "無料スキャンの開始",
+        "startFreeScan": "無料スキャンを始める",
         "startAgencySetup": "代理店のセットアップを開始する",
         "startPlan": "__PLAN__ を開始する",
         "ariaStartFree": "__PLAN__ プランで無料で始めましょう",
         "ariaSubscribe": "__PLAN__ プランで購読する",
         "planBenefits": {
           "free": [
-            "20 件の Web サイト スキャン/月",
+            "20 件の Webサイト スキャン/月",
             "サンプル プロスペクト カード",
-            "基本的な最初の行のコピー"
+            "基本的な冒頭文のコピー"
           ],
           "starter": [
-            "300 件の Web サイト スキャン/月",
+            "300 件の Webサイト スキャン/月",
             "保存された見込み顧客リスト",
             "CSV エクスポート"
           ],
           "pro": [
-            "1,500 件の Web サイト スキャン/月",
+            "1,500 件の Webサイト スキャン/月",
             "カスタム ICP 設定",
             "優先分析"
           ],
           "agency": [
-            "5,000 件の Web サイト スキャン/月",
+            "5,000 件の Webサイト スキャン/月",
             "3 つの代理店ワークスペース",
             "共有スキャン クレジット"
           ]
         },
         "planUseCases": {
-          "free": "有料ロールアウトの前に、実際の Web サイトでワークフローを検証します。",
+          "free": "有料ロールアウトの前に、実際の Webサイトでワークフローを検証します。",
           "starter": "毎週のアウトバウンド習慣を構築している 1 人のオペレーターに最適です。",
           "pro": "見込み客の調査を反復可能なパイプラインに変える代理店に最適です。",
           "agency": "複数のクライアント オファー間でスキャン クレジットを共有するチームに最適です。"
@@ -2539,24 +2539,24 @@
       },
       "faqSection": {
         "eyebrow": "よくある質問",
-        "title": "別の連絡先データベースではなく、Web サイト調査を中心に構築されています",
+        "title": "別の連絡先データベースではなく、Webサイト調査を中心に構築されています",
         "copy": "LeadCue は意図的に範囲を狭めています。見込み客のサイトを分析し、機会を特定し、より良いメモをすでに使用しているアウトリーチ ワークフローに移します。",
         "items": [
           {
             "question": "LeadCue は電子メール ファインダーですか?",
-            "answer": "いいえ。LeadCue は Web サイトからパブリック コンタクト パスを表示できますが、その主な仕事は、分析対象として選択したページに基づいてセールス キュー、適合シグナル、アウトリーチ アングル、および最初の行を見つけることです。"
+            "answer": "いいえ。LeadCue は Webサイトからパブリック コンタクト パスを表示できますが、その主な仕事は、分析対象として選択したページに基づいて営業シグナル、適合シグナル、アウトリーチ アングル、および冒頭文を見つけることです。"
           },
           {
             "question": "LeadCue は LinkedIn をスクレイピングするか、バックグラウンドでブラウズしますか?",
-            "answer": "いいえ。Chrome 拡張機能は、ユーザーがトリガーする Web サイト分析を中心に設計されています。 LinkedIn を収集したり、閲覧履歴を収集したり、バックグラウンドでプロスペクティング ジョブを実行したりすることはありません。"
+            "answer": "いいえ。Chrome 拡張機能は、ユーザーがトリガーする Webサイト分析を中心に設計されています。 LinkedIn を収集したり、閲覧履歴を収集したり、バックグラウンドで見込み客調査 ジョブを実行したりすることはありません。"
           },
           {
             "question": "LeadCue からキャンペーンを送信できますか?",
-            "answer": "いいえ。LeadCue は、アウトリーチの前にリサーチ層を準備します。見込み客カードを保存したり、最初の行をコピーしたり、条件を満たす見込み客を既存のツールにエクスポートしたりできます。"
+            "answer": "いいえ。LeadCue は、アウトリーチの前にリサーチ層を準備します。見込み客カードを保存したり、冒頭文をコピーしたり、条件を満たす見込み客を既存のツールにエクスポートしたりできます。"
           },
           {
             "question": "LeadCue は誰のために最初に構築されましたか?",
-            "answer": "LeadCue は、まず、アウトバウンドを行い、見込み顧客に連絡するために Web サイトに裏付けられた特定の理由を必要とする小規模な SEO、Web デザイン、再デザイン、および成長の代理店向けに構築されています。"
+            "answer": "LeadCue は、まず、アウトバウンドを行い、見込み顧客に連絡するために Webサイトに裏付けられた特定の理由を必要とする小規模な SEO、Web デザイン、再デザイン、および成長の代理店向けに構築されています。"
           }
         ]
       },
@@ -2570,7 +2570,7 @@
         "browseTitle": "16 の検索目的のページ、ツール、CRM ガイド",
         "items": [
           {
-            "title": "見込み客の Web サイトをコールドメールの角度に変える方法",
+            "title": "見込み客の Webサイトをコールドメールの角度に変える方法",
             "copy": "目に見えるページの証拠から信頼できるアウトリーチに移行するための実践的なワークフロー。",
             "label": "アウトバウンド プレイブック",
             "href": "/guides/turn-website-into-cold-email-angle"
@@ -2578,11 +2578,11 @@
           {
             "title": "代理店が見込み客を保存する前にスコアを付ける必要があるもの",
             "copy": "リスト構築のノイズを避けるために、適合性、緊急性、プルーフ ギャップ、およびコンタクト パスを使用します。",
-            "label": "資格",
+            "label": "適合判断",
             "href": "/guides/score-prospect-website"
           },
           {
-            "title": "なぜウェブサイトファーストの見込み顧客リストが一般的な見込み客リストに勝るのか",
+            "title": "なぜWebサイトファーストの見込み顧客リストが一般的な見込み客リストに勝るのか",
             "copy": "LeadCue は、保存されたすべてのアカウントを、チームが実際に使用できる理由に関連付けて保持します。",
             "label": "戦略",
             "href": "/website-prospecting"
@@ -2594,23 +2594,23 @@
           "kicker": "アウトバウンド プレイブック",
           "title": "コールドメールの角度",
           "items": [
-            "ウェブサイトに表示されるキュー",
+            "Webサイトに表示されるキュー",
             "ビジネスへの影響",
             "低圧 CTA"
           ]
         },
         "qualification": {
-          "kicker": "資格",
+          "kicker": "適合判断",
           "title": "しきい値を保存",
           "items": [
             "適合スコア 80+",
             "2 つのソースベースのキュー",
-            "最初の行の準備が完了しました"
+            "冒頭文の準備が完了しました"
           ]
         },
         "strategy": {
           "kicker": "戦略",
-          "title": "ウェブサイトファーストのプロスペクティング",
+          "title": "Webサイトファーストの見込み客調査",
           "items": [
             "このアカウントを使用する理由",
             "サイトが証明するもの",
@@ -2621,29 +2621,29 @@
       "launch": {
         "eyebrow": "スキャンを開始します",
         "title": "代理店ワークスペースを作成し、最初の見込み客スキャンを実行します",
-        "copy": "無料プランから始めて、代理店のオファーを接続し、LeadCue を使用して企業の Web サイトをソースに裏付けられた見込み客カードに変えます。",
+        "copy": "無料プランから始めて、代理店のオファーを接続し、LeadCue を使用して企業の Webサイトをソースに裏付けられた見込み客カードに変えます。",
         "points": [
           "20 スキャンが無料で含まれています",
           "LinkedIn スクレイピングなし",
           "CSV エクスポート パス"
         ],
         "cardKicker": "商業ローンチ パス",
-        "cardTitle": "無料プランは、月あたり 20 回の Web サイト スキャンから始まります。",
+        "cardTitle": "無料プランは、月あたり 20 回の Webサイト スキャンから始まります。",
         "cardCopy": "有料プランでは、月間スキャン量の増加、見込み客のワークフローの保存、アウトバウンド チームの優先分析が可能になります。",
-        "quickScanLabel": "最初の見込み客の Web サイト",
+        "quickScanLabel": "最初の見込み客の Webサイト",
         "quickScanPlaceholder": "https://prospect.example.com",
-        "quickScanAria": "最初の見込み客の Web サイト",
+        "quickScanAria": "最初の見込み客の Webサイト",
         "queueScan": "キュースキャン",
-        "startFree": "無料で始めましょう"
+        "startFree": "無料で始める"
       },
       "footer": {
-        "brandCopy": "連絡を取るためのより強力な理由が必要な代理店をウェブサイトから最初に探索します。",
+        "brandCopy": "連絡を取るためのより強力な理由が必要な代理店をWebサイトから最初に探索します。",
         "productTitle": "製品",
         "resourcesTitle": "リソース",
         "legalTitle": "法的",
         "dashboard": "ダッシュボード",
         "docs": "ドキュメント",
-        "contact": "連絡先",
+        "contact": "お問い合わせ",
         "privacy": "プライバシー",
         "terms": "規約",
         "support": "サポート",
@@ -2655,38 +2655,38 @@
     "content": {
       "seoNav": {
         "strategy": "戦略",
-        "useCases": "使用例",
+        "useCases": "ユースケース",
         "guides": "ガイド",
-        "qualification": "資格"
+        "qualification": "適合判断"
       },
       "productNav": {
-        "csvTool": "CSV ツール",
-        "firstLines": "最初の行",
+        "csvTool": "CSVツール",
+        "firstLines": "冒頭文",
         "checklist": "チェックリスト",
-        "integrations": "統合"
+        "integrations": "連携"
       },
       "commercialNav": {
         "docs": "ドキュメント",
         "support": "サポート",
-        "contact": "連絡先"
+        "contact": "お問い合わせ"
       },
       "breadcrumbs": {
         "home": "ホーム",
         "resources": "リソース"
       },
       "faqTitle": "よくある質問",
-      "ctaTitleSeo": "1 つの見込み客 Web サイトをソースに裏付けられた見込み客カードに変えます。",
-      "ctaTitleProduct": "LeadCue 内でワークフローを実行し、選択した見込み客をエクスポートします。",
+      "ctaTitleSeo": "1つの見込み客サイトを、根拠付きの Prospect Card に変える。",
+      "ctaTitleProduct": "LeadCue でワークフローを実行し、選択した見込み客をエクスポート。",
       "toolBand": {
-        "eyebrow": "テンプレートをパイプライン出力に変換します",
-        "title": "実際の見込み客の Web サイトでも同じワークフローを使用します。",
-        "copy": "無料のワークスペースから開始し、Web サイトのスキャンを実行して、フィット スコア、ソース ノート、最初の行、および CRM エクスポート フィールドを手動でコピーするのではなく一緒に保存します。",
-        "primaryCta": "このワークフローを無料で始めましょう",
-        "secondaryCta": "サンプルの見込みカードを開く",
+        "eyebrow": "テンプレートをパイプラインの成果に変える",
+        "title": "実際の見込み客サイトで同じワークフローを使う。",
+        "copy": "無料ワークスペースから始め、Webサイトをスキャンし、適合スコア、ソースノート、冒頭文、CRMエクスポート項目を手作業でコピーせずにまとめて保持します。",
+        "primaryCta": "このワークフローを無料で試す",
+        "secondaryCta": "サンプルの Prospect Card を開く",
         "points": [
-          "実際の Web サイトでワークフローをテストするための 20 回の無料スキャン",
-          "アプリのエクスポート フローで使用されるのと同じ CRM 命名プリセット",
-          "インポートまたはアウトリーチの前に、適格なアカウントのみを保存します"
+          "実在サイトで試せる無料スキャン20回",
+          "アプリのエクスポートと同じCRM命名プリセット",
+          "適格なアカウントだけを保存してからインポートやアプローチへ"
         ]
       }
     },
@@ -2714,13 +2714,13 @@
           },
           {
             "title": "セキュリティとプライバシー",
-            "copy": "データ境界、OAuth、Web サイトファーストの処理を確認します。",
+            "copy": "データ境界、OAuth、Webサイトファーストの処理を確認します。",
             "href": "/privacy"
           }
         ]
       },
       "nextStepEyebrow": "次のステップ",
-      "nextStepTitle": "1 つの実際の Web サイトを最初の見込みカードに変えます。"
+      "nextStepTitle": "1 つの実際の Webサイトを最初の見込みカードに変えます。"
     },
     "auth": {
       "errors": {
@@ -2733,39 +2733,39 @@
         "google_exchange_failed": "Google はサインインを完了できませんでした。もう一度試すか、職場の電子メール設定を使用してください。"
       },
       "login": {
-        "heroEyebrow": "AI の見通し調査",
-        "heroTitle": "ウェブサイトの調査をランク付けされたアカウントに変えます。",
-        "heroCopy": "ソースに裏付けられたシグナル、適合スコア、アウトリーチ コンテキストを 1 つのワークスペースにまとめます。",
+        "heroEyebrow": "AI 見込み客リサーチ",
+        "heroTitle": "サイト調査を優先度の高いアカウントへ",
+        "heroCopy": "根拠あるシグナル、適合スコア、営業文脈を1か所に。",
         "proofItems": [
           {
-            "label": "認定されたフィット感",
+            "label": "適合スコア",
             "value": "92"
           },
           {
-            "label": "ウェブサイトの合図",
+            "label": "サイトシグナル",
             "value": "3+"
           },
           {
-            "label": "CRM 対応",
+            "label": "CRM 連携",
             "value": "CSV"
           }
         ],
         "cardEyebrow": "おかえりなさい",
-        "cardTitle": "サインイン",
+        "cardTitle": "ログイン",
         "cardCopy": "Google または仕事用メールを使用して、見込み客リサーチ ワークスペースを再度開きます。",
-        "googleCta": "Google を続ける",
-        "divider": "またはメールでサインインしてください",
+        "googleCta": "Googleで続ける",
+        "divider": "またはメールでログイン",
         "emailLabel": "電子メール",
         "emailPlaceholder": "you@agency.com",
         "passwordLabel": "パスワード",
         "passwordPlaceholder": "8 文字以上",
-        "show": "ショー",
+        "show": "表示",
         "hide": "非表示",
         "emailCta": "電子メールでサインインする",
         "emailLoading": "サインイン中...",
         "forgotPassword": "パスワードをお忘れですか?",
         "hideReset": "リセット オプションを非表示にする",
-        "needHelp": "サインインについてサポートが必要ですか?",
+        "needHelp": "ログインでお困りですか？",
         "resetTitle": "パスワードをリセットしてください",
         "resetCopy": "ワークスペースに添付されている同じ仕事用電子メールを使用します。ワンタイムリセットリンクをご用意させていただきます。",
         "resetEmailLabel": "ワークスペースの電子メール",
@@ -2774,9 +2774,9 @@
         "resetOpenLink": "リセットリンクを開く",
         "resetDevNote": "ローカル ビルドでは、LeadCue はリセット リンクを直接表示するため、フローをエンドツーエンドでテストできます。",
         "sessionNote": "パスワード サインインでは、Google OAuth と同じ安全なワークスペース セッションを使用します。",
-        "signupLead": "LeadCue は初めてですか?",
-        "signupCopy": "無料のワークスペースを作成し、最初の見込み客スキャンを実行します。",
-        "signupCta": "空きワークスペースを作成する",
+        "signupLead": "LeadCue は初めてですか？",
+        "signupCopy": "無料ワークスペースを作成し、最初の見込み客スキャンを実行します。",
+        "signupCta": "無料ワークスペースを作成",
         "validation": {
           "invalidLogin": "有効な仕事用メールアドレスと 8 文字以上のパスワードを入力してください。",
           "emailLoginFailed": "電子メール パスワードによるサインインに失敗しました。もう一度やり直してください。",
@@ -2787,13 +2787,13 @@
         }
       },
       "reset": {
-        "eyebrow": "アカウントの回復",
-        "title": "新しいパスワードを選択してください",
+        "eyebrow": "アカウント復旧",
+        "title": "新しいパスワードを設定",
         "copy": "これにより、LeadCue ワークスペース ログインのパスワードが更新され、Google サインインと同じ安全なセッション モデルが維持されます。",
         "passwordLabel": "新しいパスワード",
         "confirmLabel": "パスワードを確認してください",
         "confirmPlaceholder": "新しいパスワードを繰り返します",
-        "submit": "パスワードを更新する",
+        "submit": "パスワードを更新",
         "loading": "パスワードを更新しています...",
         "missingToken": "このパスワード リセット リンクにはトークンがありません。ログイン ページから新しいリセットをリクエストします。",
         "shortPassword": "新しいパスワードには少なくとも 8 文字を使用してください。",
@@ -2803,12 +2803,12 @@
         "genericError": "現在、パスワードをリセットできません。"
       },
       "signup": {
-        "heroEyebrow": "始めましょう",
-        "heroTitle": "ワークスペースの作成",
+        "heroEyebrow": "始める",
+        "heroTitle": "ワークスペースを作成",
         "heroCopy": "プランを選択し、LeadCue がスコアを付ける必要がある代理店コンテキストを追加します。",
         "summaryProspects": "プロスペクトカード + CSV",
         "planLabel": "計画",
-        "oauthCta": "Google を続ける",
+        "oauthCta": "Googleで続ける",
         "oauthCopy": "Google がワークスペースを作成するか、再度ログインします。",
         "divider": "または仕事用メールを使用してください",
         "successTitle": "ワークスペース設定が保存されました。",
@@ -2821,7 +2821,7 @@
         "workEmail": "仕事用メール",
         "password": "パスワード",
         "agencyFocus": "代理店の焦点",
-        "agencyWebsite": "代理店のウェブサイト",
+        "agencyWebsite": "代理店のWebサイト",
         "agencyWebsitePlaceholder": "https://youragency.com",
         "continue": "続行",
         "step2Lead": "ステップ 2/2",
@@ -2832,8 +2832,8 @@
         "firstProspectUrl": "最初のプロスペクト URL",
         "setupNote": "これにより、商用ワークスペースのセットアップが作成され、プランベースのクレジットが準備されます。",
         "back": "戻る",
-        "createWorkspace": "ワークスペースの作成",
-        "continueToBilling": "課金を続ける",
+        "createWorkspace": "ワークスペースを作成",
+        "continueToBilling": "支払いへ進む",
         "focusOptions": {
           "web_design": "Web デザイン / 再デザイン",
           "seo": "SEO 代理店",
@@ -2873,8 +2873,8 @@
         "readyMissingCopy": "が見つかりません: __MISSING__。これらのフィールドは通常、所有権の破損やインポートの重複を防ぎます。",
         "readyCompleteCopy": "このヘッダーは、選択されたリードのエクスポートと最初の CRM インポート パスの準備ができています。",
         "bestPractice": "ベスト プラクティス",
-        "bestPracticeTitle": "スキャンされたすべての Web サイトではなく、選択した保存済みリードをインポートします。",
-        "bestPracticeCopy": "これにより、CRM は適合性、証拠、および使用可能な最初の行を備えたアカウントに焦点を当て続けることができます。",
+        "bestPracticeTitle": "スキャンされたすべての Webサイトではなく、選択した保存済みリードをインポートします。",
+        "bestPracticeCopy": "これにより、CRM は適合性、証拠、および使用可能な冒頭文を備えたアカウントに焦点を当て続けることができます。",
         "modes": [
           {
             "value": "hubspot",
@@ -2911,20 +2911,20 @@
             "description": "アカウントまたは組織の名前。"
           },
           {
-            "key": "ウェブサイト",
+            "key": "Webサイト",
             "group": "アイデンティティ",
             "labels": {
-              "hubspot": "ウェブサイトの URL",
-              "salesforce": "ウェブサイト",
-              "pipedrive": "ウェブサイト",
-              "custom": "ウェブサイト_url"
+              "hubspot": "Webサイトの URL",
+              "salesforce": "Webサイト",
+              "pipedrive": "Webサイト",
+              "custom": "Webサイト_url"
             },
             "sample": "https://northstaranalytics.example",
-            "description": "調査に使用される見込み客の Web サイト。"
+            "description": "調査に使用される見込み客の Webサイト。"
           },
           {
             "key": "フィット",
-            "group": "資格",
+            "group": "適合判断",
             "labels": {
               "hubspot": "適合スコア",
               "salesforce": "フィットスコア",
@@ -2936,7 +2936,7 @@
           },
           {
             "key": "自信",
-            "group": "資格",
+            "group": "適合判断",
             "labels": {
               "hubspot": "信頼スコア",
               "salesforce": "信頼スコア",
@@ -2944,13 +2944,13 @@
               "custom": "信頼度スコア"
             },
             "sample": "82%",
-            "description": "ウェブサイトの証拠がどれほど強力であるか。"
+            "description": "Webサイトの証拠がどれほど強力であるか。"
           },
           {
             "key": "信号",
-            "group": "ウェブサイトの証拠",
+            "group": "Webサイトの証拠",
             "labels": {
-              "hubspot": "トップ Web サイトのシグナル",
+              "hubspot": "トップ Webサイトのシグナル",
               "salesforce": "トップ信号",
               "pipedrive": "トップ信号",
               "custom": "トップシグナル"
@@ -2959,20 +2959,20 @@
             "description": "情報源に裏付けられた、連絡を取るための最も強力な理由。"
           },
           {
-            "key": "最初の行",
+            "key": "冒頭文",
             "group": "アウトリーチ",
             "labels": {
-              "hubspot": "コールドメールの最初の行",
-              "salesforce": "最初の行",
-              "pipedrive": "最初の行",
-              "custom": "の最初の行"
+              "hubspot": "コールドメールの冒頭文",
+              "salesforce": "冒頭文",
+              "pipedrive": "冒頭文",
+              "custom": "の冒頭文"
             },
             "sample": "Northstar は製品について明確に説明していますが、最初のスクロール後にデモ パスが始まることに気付きました。",
-            "description": "ウェブサイトの証拠に基づいたコピー対応のオープナー。"
+            "description": "Webサイトの証拠に基づいたコピー対応のオープナー。"
           },
           {
             "key": "ソースノート",
-            "group": "ウェブサイトの証拠",
+            "group": "Webサイトの証拠",
             "labels": {
               "hubspot": "ソースノート",
               "salesforce": "説明",
@@ -3021,17 +3021,17 @@
         ]
       },
       "firstLine": {
-        "eyebrow": "最初の行ビルダー",
-        "pickerCopy": "ウェブサイトのシグナルを選択し、オファーに合わせて調整し、会話を前進させるすぐに返信できるオープナーをコピーします。",
+        "eyebrow": "冒頭文ビルダー",
+        "pickerCopy": "Webサイトのシグナルを選択し、オファーに合わせて調整し、会話を前進させるすぐに返信できるオープナーをコピーします。",
         "copyEmail": "メールをコピー",
-        "firstLineLabel": "最初の行",
+        "firstLineLabel": "冒頭文",
         "bridgeLabel": "ブリッジ",
         "ctaLabel": "CTA",
         "whyLabel": "これに返信が来る理由",
         "whyCopy": "購入者が検証できる観察結果を提示し、それを納得のいくビジネス成果に結びつけます。",
         "avoidLabel": "これは避けてください",
         "avoidCopy": "一般的な賞賛は自動化されているように聞こえ、購入者が読み続ける理由がありません。",
-        "copyFirstLine": "最初の行をコピーします",
+        "copyFirstLine": "冒頭文をコピーします",
         "runInLeadCue": "LeadCue でこれを実行します",
         "badExample": "御社のサイトが気に入り、当社は企業の成長を支援しているため、ご連絡させていただきたいと思いました。",
         "modeLabels": {
@@ -3075,30 +3075,30 @@
             "defaultNextSentence": "これにより、購入者が営業と話す前に検索を通じて調査すると、需要獲得の機会が隠れてしまう可能性があります。",
             "seoCta": "最初にテストする 2 つの検索主導の修正を送信したいですか?",
             "defaultCta": "ここで使用する SEO の観点を最初に送信したいですか?",
-            "why": "目に見える Web サイトの問題を検索需要と結びつけ、次のステップを軽く感じさせます。"
+            "why": "目に見える Webサイトの問題を検索需要と結びつけ、次のステップを軽く感じさせます。"
           },
           "marketing": {
             "trustNextSentence": "これにより、ユーザーが十分な自信を持って返信したり予約したりする前に、有料トラフィックや送信トラフィックがバウンスする可能性があります。",
             "defaultNextSentence": "これにより通常、クリックと購入者に取ってもらいたいアクションとの間に摩擦が生じます。",
             "cta": "最初にテストする変換角度を送信したいですか?",
-            "why": "これは、ウェブサイトの手がかりをファネルの摩擦に結び付け、返信をピッチダンプではなく小さなレビューとして組み立てます。"
+            "why": "これは、Webサイトの手がかりをファネルの摩擦に結び付け、返信をピッチダンプではなく小さなレビューとして組み立てます。"
           },
           "web_design": {
-            "why": "これは、実際の Web サイトの観察結果に名前を付け、それを購入者の行動に結び付け、圧力の低い質問で終わります。"
+            "why": "これは、実際の Webサイトの観察結果に名前を付け、それを購入者の行動に結び付け、圧力の低い質問で終わります。"
           }
         }
       },
       "checklist": {
-        "eyebrow": "ウェブサイトの見込み客チェックリスト",
+        "eyebrow": "Webサイトの見込み客チェックリスト",
         "coverage": "__SCORE__% の証拠網羅率",
-        "copy": "アウトリーチにアカウントを保存、エクスポート、または割り当てる前に、見込み顧客の Web サイトで確認できるシグナルを確認してください。",
+        "copy": "アウトリーチにアカウントを保存、エクスポート、または割り当てる前に、見込み顧客の Webサイトで確認できるシグナルを確認してください。",
         "copySummary": "コピーの概要",
         "summaryTitle": "プロスペクトカード形式の概要",
         "summaryEmpty": "信号がまだ選択されていません。",
         "summaryCount": "__TOTAL__ 件中 __COUNT__ 件の信号が確認されました",
         "nextStepLead": "最適な次のステップ:",
-        "nextStepReady": "リードを保存し、最初の行を下書きします",
-        "nextStepMore": "エクスポート前にさらに多くの Web サイトの証拠を収集します",
+        "nextStepReady": "リードを保存し、冒頭文を下書きします",
+        "nextStepMore": "エクスポート前にさらに多くの Webサイトの証拠を収集します",
         "copyShareLink": "共有リンクをコピー",
         "runChecklist": "LeadCue でチェックリストを実行する",
         "summaryMode": "モード",
@@ -3150,7 +3150,7 @@
       "integration": {
         "eyebrow": "__PLATFORM__ インポート キット",
         "title": "__PLATFORM__ CSV ヘッダーとサンプル行",
-        "copy": "これらのヘッダーは、Web サイトファーストの調査ワークフローから選択して保存されたリードの開始点として使用します。",
+        "copy": "これらのヘッダーは、Webサイトファーストの調査ワークフローから選択して保存されたリードの開始点として使用します。",
         "copyHeader": "__PLATFORM__ ヘッダーをコピーします",
         "recommendedRecord": "推奨レコード",
         "includedColumns": "含まれる列",
@@ -3167,7 +3167,7 @@
             "recordType": "最初に会社をインポートします",
             "quickWins": [
               "適合スコアと信頼スコアを会社のカスタム プロパティにマップします。",
-              "レコードが到着するとすぐに、最初の行とソース ノートが SDR に表示されるようにします。",
+              "レコードが到着するとすぐに、冒頭文とソース ノートが SDR に表示されるようにします。",
               "選択した保存済みリードのみをインポートして、リストの衛生状態を維持します。"
             ],
             "mistakes": [
@@ -3179,7 +3179,7 @@
           "Salesforce": {
             "recordType": "研究分野のリードインポート",
             "quickWins": [
-              "より明確なレポートを作成するには、見込み顧客ソースを Web サイト見込み客または LeadCue に設定します。",
+              "より明確なレポートを作成するには、見込み顧客ソースを Webサイト見込み客または LeadCue に設定します。",
               "ソースに基づいた概要には、説明または長いテキストのカスタム フィールドを使用します。",
               "キャンペーン引き継ぎ前のルート所有者とリードのステータス。"
             ],
@@ -3192,7 +3192,7 @@
           "Pipedrive": {
             "recordType": "組織またはリードのインポート",
             "quickWins": [
-              "Web サイト ID には組織フィールドを使用し、調査目的にはメモ フィールドを使用します。",
+              "Webサイト ID には組織フィールドを使用し、調査目的にはメモ フィールドを使用します。",
               "アカウントがアウトリーチを受ける前に、段階を調査中または認定済みにマップします。",
               "引き継ぎに責任を持たせるために、所有者を接続したままにします。"
             ],
@@ -3217,53 +3217,53 @@
       "fr": "프랑스어"
     },
     "common": {
-      "brand": "리드큐",
+      "brand": "LeadCue",
       "home": "홈",
       "resources": "리소스",
-      "faq": "FAQ",
-      "example": "예",
+      "faq": "자주 묻는 질문",
+      "example": "예시",
       "searchIntent": "검색 의도",
-      "relatedResources": "관련 리소스",
-      "keepBuilding": "계속해서 워크플로우 구축",
-      "useOnRealAccount": "실계좌에서 사용하세요",
-      "startFree": "무료로 시작하세요",
+      "relatedResources": "관련 자료",
+      "keepBuilding": "워크플로를 계속 다듬기",
+      "useOnRealAccount": "실제 계정에 적용하기",
+      "startFree": "무료로 시작하기",
       "startFreeScan": "무료 스캔 시작",
       "signIn": "로그인",
       "updatedLabel": "업데이트됨",
       "onThisPage": "이 페이지에서",
-      "tool": "Tool",
+      "tool": "도구",
       "languageLabel": "언어",
       "backHome": "홈",
       "backToSignIn": "로그인으로 돌아가기",
       "contactSupport": "지원팀에 문의",
       "openDashboard": "대시보드 열기",
-      "reviewPlans": "계획 검토",
-      "openSampleCard": "샘플 잠재 고객 카드 열기"
+      "reviewPlans": "요금제 보기",
+      "openSampleCard": "샘플 Prospect Card 열기"
     },
     "nav": {
       "features": "기능",
       "howItWorks": "작동 방식",
       "sampleCard": "샘플 카드",
-      "pricing": "가격",
+      "pricing": "요금",
       "resources": "리소스",
       "signIn": "로그인",
-      "startFree": "무료로 시작하세요"
+      "startFree": "무료로 시작하기"
     },
     "home": {
       "seo": {
-        "title": "LeadCue - 대행사를 위한 웹사이트 전망 도우미",
-        "description": "LeadCue는 회사 웹사이트를 적합한 점수, 소스 지원 판매 단서, 봉사 활동 각도 및 콜드 이메일 첫 줄을 통해 자격을 갖춘 잠재 고객 카드로 전환합니다.",
-        "structuredDescription": "LeadCue는 회사 웹사이트를 적합한 점수, 소스 지원 판매 단서, 봉사 활동 각도 및 콜드 이메일 첫 줄을 통해 자격을 갖춘 잠재 고객 카드로 전환합니다."
+        "title": "LeadCue | 에이전시를 위한 웹사이트 잠재고객 리서치",
+        "description": "LeadCue는 기업 웹사이트를 적합도 점수, 근거 기반 시그널, 아웃리치 각도, 콜드 이메일 첫 문장이 담긴 Prospect Card로 바꿉니다.",
+        "structuredDescription": "LeadCue는 기업 웹사이트를 적합도 점수, 근거 기반 시그널, 아웃리치 각도, 콜드 이메일 첫 문장이 담긴 Prospect Card로 바꿉니다."
       },
       "hero": {
-        "eyebrow": "대행사 아웃바운드 팀을 위한 LeadCue",
-        "titleLead": "웹사이트를 다음과 같이 전환하세요.",
-        "titleAccent": "자격을 갖춘 잠재 고객",
-        "subhead": "팀이 또 다른 일반 리드를 저장하기 전에 적합한 점수를 매기고, 웹사이트 증거를 캡처하고, 첫 줄을 작성하세요.",
+        "eyebrow": "에이전시 아웃바운드 팀을 위한 LeadCue",
+        "titleLead": "웹사이트를",
+        "titleAccent": "우선순위 잠재고객으로",
+        "subhead": "적합도를 평가하고 웹사이트 근거를 기록해, 팀이 또 하나의 평범한 리드를 저장하기 전에 첫 문장을 준비하세요.",
         "primaryCta": "무료 스캔 시작",
         "secondaryCta": "샘플 카드 보기",
-        "microcopy": "20번의 무료 스캔. 구글 로그인. LinkedIn 스크래핑이나 연락처 데이터베이스 종속성이 없습니다.",
-        "visualNote": "하나의 작업 공간에 있는 웹사이트 증거, ICP 적합성 및 첫 번째 단서"
+        "microcopy": "무료 스캔 20회. Google 로그인 지원. LinkedIn 스크래핑이나 연락처 데이터베이스에 의존하지 않습니다.",
+        "visualNote": "웹사이트 근거, ICP 적합도, 첫 문장 힌트를 한 워크스페이스에"
       },
       "heroVisual": {
         "browserChip": "라이브 웹사이트 스캔",
@@ -3346,7 +3346,7 @@
             "fit": 74
           }
         ],
-        "footerReady": "봉사 활동 준비가 된 잠재 고객 3명",
+        "footerReady": "아웃리치 준비가 된 잠재 고객 3명",
         "footerUsage": "12/300 스캔 사용"
       },
       "trustBadges": [
@@ -3359,7 +3359,7 @@
       "map": {
         "eyebrow": "제품 둘러보기",
         "title": "구매자가 스캔을 시작하기 전에 필요한 모든 것",
-        "copy": "LeadCue의 기능, 스캔 작동 방식, 전망 카드에 포함된 내용, 가격 책정 방식 등 중요한 부분을 살펴보세요.",
+        "copy": "LeadCue의 기능, 스캔 작동 방식, 잠재고객 카드에 포함된 내용, 가격 책정 방식 등 중요한 부분을 살펴보세요.",
         "items": [
           {
             "href": "#features",
@@ -3371,17 +3371,17 @@
             "href": "#how",
             "eyebrow": "작동 방식",
             "title": "3단계 연구 작업흐름",
-            "copy": "회사 사이트에서 시작하여 증거를 캡처한 후 전망 카드를 저장하세요."
+            "copy": "회사 사이트에서 시작하여 증거를 캡처한 후 잠재고객 카드를 저장하세요."
           },
           {
             "href": "#card",
             "eyebrow": "샘플 카드",
             "title": "가입 전 출력 검사",
-            "copy": "적합성 점수, 웹사이트 단서, 첫 번째 줄, 짧은 이메일을 함께 확인하세요."
+            "copy": "적합도 점수, 웹사이트 단서, 첫 번째 줄, 짧은 이메일을 함께 확인하세요."
           },
           {
             "href": "#pricing",
-            "eyebrow": "가격",
+            "eyebrow": "요금",
             "title": "주간 잠재고객 발굴을 위해 구축된 크레딧",
             "copy": "무료로 시작한 다음 작업 흐름이 입증됨에 따라 스캔 볼륨을 확장하세요."
           },
@@ -3410,7 +3410,7 @@
         "items": [
           {
             "title": "의도를 보여주는 잠재 고객 분석",
-            "copy": "웹사이트 스캔, 저장률, 적합 점수 및 첫 번째 줄 복사를 추적하여 팀에서 어떤 연구가 지원 활동으로 전환되는지 확인할 수 있습니다.",
+            "copy": "웹사이트 스캔, 저장률, 적합 점수 및 첫 번째 줄 복사를 추적하여 팀에서 어떤 연구가 아웃리치으로 전환되는지 확인할 수 있습니다.",
             "meta": "라이브 파이프라인"
           },
           {
@@ -3420,11 +3420,11 @@
           },
           {
             "title": "모든 카드에 포함된 웹사이트 증거",
-            "copy": "담당자가 잠재 고객이 중요한 이유를 알 수 있도록 페이지 관찰, 판매 신호, 홍보 각도 및 첫 번째 라인을 함께 유지하십시오.",
-            "meta": "소스 지원"
+            "copy": "담당자가 잠재 고객이 중요한 이유를 알 수 있도록 페이지 관찰, 판매 신호, 홍보 각도 및 첫 문장을 함께 유지하십시오.",
+            "meta": "근거 기반"
           },
           {
-            "title": "봉사 활동 스택을 위한 내보내기",
+            "title": "아웃리치 스택을 위한 내보내기",
             "copy": "자격 없는 잠재 고객을 자격 없는 목록을 보유하지 않고도 Sheets, Smartlead, Instantly, Lemlist 또는 CRM으로 이동합니다.",
             "meta": "깨끗한 핸드오프"
           }
@@ -3444,7 +3444,7 @@
           },
           {
             "title": "잠재 고객 카드 받기",
-            "copy": "적합성 점수, 웹사이트 지원 단서, 봉사 활동 각도, 첫 줄, 내보내기 가능한 메모를 받으세요."
+            "copy": "적합도 점수, 웹사이트 지원 단서, 아웃리치 각도, 첫 문장, 내보내기 가능한 메모를 받으세요."
           }
         ]
       },
@@ -3459,19 +3459,19 @@
           "신뢰할 수 있는 연락 사유가 있는 계정만 내보내기"
         ],
         "frameTitle": "연구 데스크",
-        "frameCopy": "ICP 적합성, 웹사이트 관찰 및 봉사 활동 메모가 계속 연결됩니다."
+        "frameCopy": "ICP 적합성, 웹사이트 관찰 및 아웃리치 메모가 계속 연결됩니다."
       },
       "researchVisual": {
         "headline": "연구 데스크",
-        "fitLabel": "적격 적합",
+        "fitLabel": "적합도 점수",
         "fitValue": "92",
-        "cueLabel": "웹사이트 단서",
+        "cueLabel": "웹사이트 신호",
         "cueValue": "3+",
         "stackTitle": "소스 기반 노트",
         "stackItems": [
           "스크롤 없이 볼 수 있는 부분에 숨겨진 CTA",
           "기본 탐색에 눈에 보이는 증거가 없습니다.",
-          "CRM 내보내기를 위한 첫 번째 라인 준비"
+          "CRM 내보내기를 위한 첫 문장 준비"
         ]
       },
       "sampleCard": {
@@ -3479,7 +3479,7 @@
         "title": "잠재 고객 카드는 모든 리드에 이유를 제공합니다.",
         "copy": "각 카드는 적합성, 웹사이트 증거, 연락 경로, 홍보 각도 및 복사 가능한 첫 번째 줄을 연결하므로 팀에서 무엇을 말해야 할지, 왜 말할지 알 수 있습니다.",
         "previewEyebrow": "잠재 고객 카드",
-        "previewAriaLabel": "소형 샘플 전망 카드",
+        "previewAriaLabel": "소형 샘플 잠재고객 카드",
         "summaryAriaLabel": "샘플 잠재 고객 요약",
         "proofAriaLabel": "샘플 잠재 고객 카드 결과",
         "fitLabel": "적합",
@@ -3507,7 +3507,7 @@
           },
           {
             "value": "86",
-            "label": "적합성 점수"
+            "label": "적합도 점수"
           },
           {
             "value": "1",
@@ -3518,8 +3518,8 @@
         "secondaryCta": "스캔 문서 읽기"
       },
       "useCases": {
-        "eyebrow": "사용 사례",
-        "title": "지원 활동에 자리 표시자가 아닌 증거가 필요한 경우 LeadCue를 사용하십시오.",
+        "eyebrow": "활용 사례",
+        "title": "아웃리치에 자리 표시자가 아닌 증거가 필요한 경우 LeadCue를 사용하십시오.",
         "items": [
           {
             "title": "웹 디자인 에이전시",
@@ -3528,7 +3528,7 @@
           },
           {
             "title": "SEO 대행사",
-            "copy": "맞춤형 첫 줄을 작성하기 전에 빈약한 메타데이터, 오래된 블로그, 취약한 서비스 페이지, 콘텐츠 격차를 찾아보세요.",
+            "copy": "맞춤형 첫 문장을 작성하기 전에 빈약한 메타데이터, 오래된 블로그, 취약한 서비스 페이지, 콘텐츠 격차를 찾아보세요.",
             "cta": "SEO 격차부터 시작하세요"
           },
           {
@@ -3559,14 +3559,14 @@
             "지원 전 웹사이트 통찰력"
           ],
           [
-            "리드큐",
+            "LeadCue",
             "적격 잠재 고객 카드",
-            "봉사 활동 도구에서 시퀀스 보내기"
+            "아웃리치 도구에서 시퀀스 보내기"
           ]
         ]
       },
       "pricing": {
-        "eyebrow": "가격",
+        "eyebrow": "요금",
         "title": "주간 잠재고객 발굴과 일치하는 크레딧",
         "copy": "소규모 웹사이트 스캔으로 시작한 다음 LeadCue가 대행사의 아웃바운드 연구 리듬의 일부가 되면 확장하세요.",
         "mostUseful": "가장 유용함",
@@ -3581,7 +3581,7 @@
           "free": [
             "웹사이트 스캔 20개/월",
             "샘플 잠재 고객 카드",
-            "기본 첫 줄 사본"
+            "기본 첫 문장 사본"
           ],
           "starter": [
             "웹사이트 스캔 300개/월",
@@ -3607,13 +3607,13 @@
         }
       },
       "faqSection": {
-        "eyebrow": "FAQ",
+        "eyebrow": "자주 묻는 질문",
         "title": "다른 연락처 데이터베이스가 아닌 웹사이트 조사를 중심으로 구축됨",
         "copy": "LeadCue는 의도적으로 범위를 좁혔습니다. 잠재 고객 사이트를 분석하고, 기회를 검증하고, 이미 사용하고 있는 홍보 워크플로에 더 나은 메모를 옮깁니다.",
         "items": [
           {
             "question": "LeadCue는 이메일 찾기인가요?",
-            "answer": "아니요. LeadCue는 웹사이트에서 공개 접촉 경로를 표시할 수 있지만 주요 업무는 분석하기로 선택한 페이지에 기반을 둔 판매 단서, 적합한 신호, 봉사 활동 각도 및 첫 번째 라인을 찾는 것입니다."
+            "answer": "아니요. LeadCue는 웹사이트에서 공개 접촉 경로를 표시할 수 있지만 주요 업무는 분석하기로 선택한 페이지에 기반을 둔 판매 단서, 적합한 신호, 아웃리치 각도 및 첫 문장을 찾는 것입니다."
           },
           {
             "question": "LeadCue는 LinkedIn을 긁거나 백그라운드에서 탐색합니까?",
@@ -3647,7 +3647,7 @@
           {
             "title": "잠재 고객을 저장하기 전에 어떤 대행사가 점수를 매겨야 하는지",
             "copy": "적합성, 긴급성, 증거 격차 및 연락 경로를 사용하여 목록 작성 소음을 방지합니다.",
-            "label": "자격",
+            "label": "적합도 판단",
             "href": "/guides/score-prospect-website"
           },
           {
@@ -3669,11 +3669,11 @@
           ]
         },
         "qualification": {
-          "kicker": "자격",
+          "kicker": "적합도 판단",
           "title": "저장 임계값",
           "items": [
             "적합도 80+",
-            "2개의 소스 지원 큐",
+            "2개의 근거 기반 큐",
             "첫 번째 줄 준비됨"
           ]
         },
@@ -3690,7 +3690,7 @@
       "launch": {
         "eyebrow": "스캔 시작",
         "title": "대행사 작업 공간을 만들고 첫 번째 잠재 고객 스캔을 실행하세요.",
-        "copy": "무료 플랜으로 시작하여 대행사 제안을 연결하고 LeadCue를 사용하여 회사 웹사이트를 소스 지원 전망 카드로 전환하세요.",
+        "copy": "무료 플랜으로 시작하여 대행사 제안을 연결하고 LeadCue를 사용하여 회사 웹사이트를 근거 기반 잠재고객 카드로 전환하세요.",
         "points": [
           "무료에는 20개 스캔이 포함되어 있습니다.",
           "LinkedIn 스크래핑 없음",
@@ -3703,7 +3703,7 @@
         "quickScanPlaceholder": "https://prospect.example.com",
         "quickScanAria": "첫 번째 잠재 고객 웹사이트",
         "queueScan": "큐 스캔",
-        "startFree": "무료로 시작하세요"
+        "startFree": "무료로 시작하기"
       },
       "footer": {
         "brandCopy": "더 강력한 연락 이유가 필요한 대행사를 위한 웹사이트 우선 잠재고객 발굴.",
@@ -3712,7 +3712,7 @@
         "legalTitle": "법적",
         "dashboard": "대시보드",
         "docs": "문서",
-        "contact": "연락처",
+        "contact": "문의",
         "privacy": "개인정보 보호",
         "terms": "용어",
         "support": "지원",
@@ -3724,34 +3724,34 @@
     "content": {
       "seoNav": {
         "strategy": "전략",
-        "useCases": "사용 사례",
+        "useCases": "활용 사례",
         "guides": "가이드",
-        "qualification": "자격"
+        "qualification": "적합도 판단"
       },
       "productNav": {
         "csvTool": "CSV 도구",
-        "firstLines": "첫 번째 줄",
+        "firstLines": "첫 문장",
         "checklist": "체크리스트",
-        "integrations": "통합"
+        "integrations": "연동"
       },
       "commercialNav": {
         "docs": "문서",
         "support": "지원",
-        "contact": "연락처"
+        "contact": "문의"
       },
       "breadcrumbs": {
         "home": "홈",
         "resources": "리소스"
       },
-      "faqTitle": "일반적인 질문",
-      "ctaTitleSeo": "하나의 잠재 고객 웹사이트를 소스 기반 잠재 고객 카드로 전환하세요.",
-      "ctaTitleProduct": "LeadCue 내에서 워크플로를 실행하고 선택한 잠재 고객을 내보냅니다.",
+      "faqTitle": "자주 묻는 질문",
+      "ctaTitleSeo": "하나의 잠재고객 사이트를 근거 기반 Prospect Card로 바꾸세요.",
+      "ctaTitleProduct": "LeadCue 안에서 워크플로를 실행하고 선택한 잠재고객을 내보내세요.",
       "toolBand": {
-        "eyebrow": "템플릿을 파이프라인 출력으로 전환",
-        "title": "실제 잠재 고객 웹사이트에서도 동일한 작업 흐름을 사용하세요.",
-        "copy": "무료 작업 공간에서 시작하여 웹사이트 스캔을 실행한 다음 맞춤 점수, 소스 메모, 첫 번째 줄 및 CRM 내보내기 필드를 직접 복사하는 대신 함께 유지하세요.",
-        "primaryCta": "이 워크플로를 무료로 시작해보세요",
-        "secondaryCta": "샘플 잠재 고객 카드 열기",
+        "eyebrow": "템플릿을 파이프라인 성과로 전환",
+        "title": "실제 잠재고객 웹사이트에 같은 워크플로를 적용하세요.",
+        "copy": "무료 워크스페이스로 시작해 웹사이트를 스캔하고, 적합도 점수, 출처 메모, 첫 문장, CRM 내보내기 필드를 따로 복사하지 말고 한곳에 보관하세요.",
+        "primaryCta": "이 워크플로를 무료로 시작하기",
+        "secondaryCta": "샘플 Prospect Card 열기",
         "points": [
           "실제 웹사이트의 작업 흐름을 테스트하기 위한 20개의 무료 스캔",
           "앱 내보내기 흐름에 사용된 것과 동일한 CRM 이름 지정 사전 설정",
@@ -3802,20 +3802,20 @@
         "google_exchange_failed": "Google에서 로그인을 완료할 수 없습니다. 다시 시도하거나 직장 이메일 설정을 사용하세요."
       },
       "login": {
-        "heroEyebrow": "AI 전망 연구",
-        "heroTitle": "웹사이트 조사를 순위 계정으로 전환하세요.",
-        "heroCopy": "하나의 작업 공간에서 소스 기반 신호, 적합성 점수 및 봉사 활동 컨텍스트를 제공합니다.",
+        "heroEyebrow": "AI 잠재고객 리서치",
+        "heroTitle": "웹사이트 조사를 우선순위 계정으로",
+        "heroCopy": "출처 기반 신호, 적합도 점수, 아웃리치 맥락을 한곳에.",
         "proofItems": [
           {
-            "label": "적격 적합",
+            "label": "적합도 점수",
             "value": "92"
           },
           {
-            "label": "웹사이트 단서",
+            "label": "웹사이트 신호",
             "value": "3+"
           },
           {
-            "label": "CRM 준비됨",
+            "label": "CRM 준비",
             "value": "CSV"
           }
         ],
@@ -3834,7 +3834,7 @@
         "emailLoading": "로그인 중...",
         "forgotPassword": "비밀번호를 잊으셨나요?",
         "hideReset": "재설정 옵션 숨기기",
-        "needHelp": "로그인하는 데 도움이 필요하십니까?",
+        "needHelp": "로그인에 도움이 필요하신가요?",
         "resetTitle": "비밀번호 재설정",
         "resetCopy": "작업공간에 첨부된 동일한 업무 이메일을 사용하세요. 일회성 재설정 링크를 준비하겠습니다.",
         "resetEmailLabel": "작업공간 이메일",
@@ -3843,9 +3843,9 @@
         "resetOpenLink": "재설정 링크 열기",
         "resetDevNote": "로컬 빌드에서 LeadCue는 재설정 링크를 직접 표시하므로 흐름을 처음부터 끝까지 테스트할 수 있습니다.",
         "sessionNote": "비밀번호 로그인은 Google OAuth와 동일한 보안 작업공간 세션을 사용합니다.",
-        "signupLead": "LeadCue를 처음 사용하시나요?",
-        "signupCopy": "무료 작업 공간을 만들고 첫 번째 잠재 고객 스캔을 실행하세요.",
-        "signupCta": "무료 작업 공간 만들기",
+        "signupLead": "LeadCue가 처음이신가요?",
+        "signupCopy": "무료 워크스페이스를 만들고 첫 잠재고객 스캔을 실행하세요.",
+        "signupCta": "무료 워크스페이스 만들기",
         "validation": {
           "invalidLogin": "유효한 직장 이메일과 8자 이상의 비밀번호를 입력하세요.",
           "emailLoginFailed": "이메일 비밀번호 로그인에 실패했습니다. 다시 시도해 보세요.",
@@ -3857,7 +3857,7 @@
       },
       "reset": {
         "eyebrow": "계정 복구",
-        "title": "새 비밀번호를 선택하세요",
+        "title": "새 비밀번호 설정",
         "copy": "LeadCue 작업 공간 로그인 비밀번호를 업데이트하고 Google 로그인과 동일한 보안 세션 모델을 유지합니다.",
         "passwordLabel": "새 비밀번호",
         "confirmLabel": "비밀번호 확인",
@@ -3873,7 +3873,7 @@
       },
       "signup": {
         "heroEyebrow": "시작하기",
-        "heroTitle": "작업공간 생성",
+        "heroTitle": "워크스페이스 만들기",
         "heroCopy": "계획을 선택하고 LeadCue가 점수를 매겨야 하는 대행사 컨텍스트를 추가하세요.",
         "summaryProspects": "잠재 고객 카드 + CSV",
         "planLabel": "계획",
@@ -3901,8 +3901,8 @@
         "firstProspectUrl": "첫 번째 잠재고객 URL",
         "setupNote": "이는 상업용 작업 공간 설정을 생성하고 계획 기반 크레딧을 준비합니다.",
         "back": "뒤로",
-        "createWorkspace": "작업공간 생성",
-        "continueToBilling": "결제 계속",
+        "createWorkspace": "워크스페이스 만들기",
+        "continueToBilling": "결제로 계속",
         "focusOptions": {
           "web_design": "웹 디자인 / 재설계",
           "seo": "SEO 대행사",
@@ -3943,7 +3943,7 @@
         "readyCompleteCopy": "이 헤더는 선택된 리드 내보내기 및 첫 번째 CRM 가져오기 패스에 준비되어 있습니다.",
         "bestPractice": "모범 사례",
         "bestPracticeTitle": "스캔한 모든 웹사이트가 아닌 선택된 저장된 리드를 가져옵니다.",
-        "bestPracticeCopy": "이를 통해 귀하의 CRM은 적합성, 증거 및 사용 가능한 첫 번째 라인이 있는 계정에 집중할 수 있습니다.",
+        "bestPracticeCopy": "이를 통해 귀하의 CRM은 적합성, 증거 및 사용 가능한 첫 문장이 있는 계정에 집중할 수 있습니다.",
         "modes": [
           {
             "value": "hubspot",
@@ -3993,10 +3993,10 @@
           },
           {
             "key": "적합",
-            "group": "자격",
+            "group": "적합도 판단",
             "labels": {
               "hubspot": "적합도 점수",
-              "salesforce": "적합성 점수",
+              "salesforce": "적합도 점수",
               "pipedrive": "적합도 점수",
               "custom": "적합_점수"
             },
@@ -4005,7 +4005,7 @@
           },
           {
             "key": "자신감",
-            "group": "자격",
+            "group": "적합도 판단",
             "labels": {
               "hubspot": "신뢰도 점수",
               "salesforce": "신뢰도 점수",
@@ -4025,11 +4025,11 @@
               "custom": "top_signal"
             },
             "sample": "데모 CTA는 스크롤 없이 볼 수 있는 부분 위에 표시되지 않습니다.",
-            "description": "연락해야 할 가장 강력한 소스 지원 이유입니다."
+            "description": "연락해야 할 가장 강력한 근거 기반 이유입니다."
           },
           {
             "key": "첫 번째 줄",
-            "group": "봉사 활동",
+            "group": "아웃리치",
             "labels": {
               "hubspot": "콜드 이메일 첫 번째 줄",
               "salesforce": "첫 번째 줄",
@@ -4073,7 +4073,7 @@
               "custom": "스테이지"
             },
             "sample": "연구 중",
-            "description": "봉사 활동 이전에 계정이 있는 위치입니다."
+            "description": "아웃리치 이전에 계정이 있는 위치입니다."
           },
           {
             "key": "내보냈습니다.",
@@ -4166,7 +4166,7 @@
         "summaryEmpty": "아직 선택된 신호가 없습니다.",
         "summaryCount": "__TOTAL__개 신호 중 __COUNT__개 확인됨",
         "nextStepLead": "최선의 다음 단계:",
-        "nextStepReady": "리드를 저장하고 첫 번째 라인 초안 작성",
+        "nextStepReady": "리드를 저장하고 첫 문장 초안 작성",
         "nextStepMore": "내보내기 전에 더 많은 웹사이트 증거를 캡처합니다.",
         "copyShareLink": "공유 링크 복사",
         "runChecklist": "LeadCue에서 체크리스트 실행",
@@ -4235,7 +4235,7 @@
           "HubSpot": {
             "recordType": "회사 수입 우선",
             "quickWins": [
-              "적합성 점수와 신뢰도 점수를 사용자 정의 회사 속성에 매핑합니다.",
+              "적합도 점수와 신뢰도 점수를 사용자 정의 회사 속성에 매핑합니다.",
               "레코드가 도착하자마자 SDR이 첫 번째 줄과 소스 메모를 볼 수 있도록 유지합니다.",
               "목록 위생이 깔끔하게 유지되도록 선택된 저장된 리드만 가져옵니다."
             ],
@@ -4249,7 +4249,7 @@
             "recordType": "연구 분야의 리드 가져오기",
             "quickWins": [
               "보다 명확한 보고를 위해 리드 소스를 웹사이트 발굴 또는 LeadCue로 설정합니다.",
-              "소스 지원 요약을 위해 설명 또는 긴 텍스트 사용자 정의 필드를 사용하세요.",
+              "근거 기반 요약을 위해 설명 또는 긴 텍스트 사용자 정의 필드를 사용하세요.",
               "캠페인 전달 전 경로 소유자 및 리드 상태."
             ],
             "mistakes": [
@@ -4262,7 +4262,7 @@
             "recordType": "조직 또는 리드 가져오기",
             "quickWins": [
               "웹사이트 ID에는 조직 필드를 사용하고 조사 이유에는 메모 필드를 사용합니다.",
-              "지원 활동을 통해 해당 계정을 다루기 전에 단계를 조사 또는 자격 검증에 매핑합니다.",
+              "아웃리치을 통해 해당 계정을 다루기 전에 단계를 조사 또는 자격 검증에 매핑합니다.",
               "소유자를 연결하여 핸드오프에 대한 책임을 유지합니다."
             ],
             "mistakes": [
@@ -4287,32 +4287,32 @@
     },
     "common": {
       "brand": "LeadCue",
-      "home": "Zuhause",
+      "home": "Startseite",
       "resources": "Ressourcen",
       "faq": "FAQ",
       "example": "Beispiel",
-      "searchIntent": "Suchabsicht",
+      "searchIntent": "Suchintention",
       "relatedResources": "Verwandte Ressourcen",
-      "keepBuilding": "Bauen Sie den Workflow weiter auf",
-      "useOnRealAccount": "Verwenden Sie es auf einem echten Konto",
+      "keepBuilding": "Workflow weiter ausbauen",
+      "useOnRealAccount": "In einem echten Account nutzen",
       "startFree": "Kostenlos starten",
-      "startFreeScan": "Starten Sie den kostenlosen Scan",
+      "startFreeScan": "Kostenlosen Scan starten",
       "signIn": "Anmelden",
       "updatedLabel": "Aktualisiert",
       "onThisPage": "Auf dieser Seite",
       "tool": "Tool",
       "languageLabel": "Sprache",
-      "backHome": "Zuhause",
+      "backHome": "Startseite",
       "backToSignIn": "Zurück zur Anmeldung",
       "contactSupport": "Support kontaktieren",
       "openDashboard": "Dashboard öffnen",
-      "reviewPlans": "Pläne überprüfen",
-      "openSampleCard": "Öffnen Sie die Beispiel-Prospektkarte"
+      "reviewPlans": "Tarife ansehen",
+      "openSampleCard": "Beispielkarte öffnen"
     },
     "nav": {
       "features": "Funktionen",
-      "howItWorks": "Wie es funktioniert",
-      "sampleCard": "Musterkarte",
+      "howItWorks": "So funktioniert's",
+      "sampleCard": "Beispielkarte",
       "pricing": "Preise",
       "resources": "Ressourcen",
       "signIn": "Anmelden",
@@ -4320,19 +4320,19 @@
     },
     "home": {
       "seo": {
-        "title": "LeadCue – Website-Prospecting-Assistent für Agenturen",
-        "description": "LeadCue verwandelt Unternehmenswebsites in qualifizierte Interessentenkarten mit Eignungsbewertungen, quellengestützten Verkaufshinweisen, Outreach-Ansätzen und Kalt-E-Mail-Erstzeilen.",
-        "structuredDescription": "LeadCue verwandelt Unternehmenswebsites in qualifizierte Interessentenkarten mit Eignungsbewertungen, quellengestützten Verkaufshinweisen, Outreach-Ansätzen und Kalt-E-Mail-Erstzeilen."
+        "title": "LeadCue | Website-Prospecting für Agenturen",
+        "description": "LeadCue verwandelt Unternehmenswebsites in qualifizierte Prospect Cards mit Fit-Score, belegten Signalen, Outreach-Ansätzen und Cold-Email-Einstiegen.",
+        "structuredDescription": "LeadCue verwandelt Unternehmenswebsites in qualifizierte Prospect Cards mit Fit-Score, belegten Signalen, Outreach-Ansätzen und Cold-Email-Einstiegen."
       },
       "hero": {
-        "eyebrow": "LeadCue für Outbound-Teams von Agenturen",
-        "titleLead": "Verwandeln Sie Websites in",
-        "titleAccent": "qualifizierte Interessenten",
-        "subhead": "Bewerten Sie die Eignung, erfassen Sie Website-Beweise und schreiben Sie die ersten Zeilen, bevor Ihr Team einen weiteren generischen Lead speichert.",
-        "primaryCta": "Starten Sie den kostenlosen Scan",
-        "secondaryCta": "Beispielkarte anzeigen",
-        "microcopy": "20 kostenlose Scans. Google-Anmeldung. Kein LinkedIn-Scraping oder Kontaktdatenbankabhängigkeit.",
-        "visualNote": "Website-Beweise, ICP-Anpassung und erste Hinweise in einem Arbeitsbereich"
+        "eyebrow": "LeadCue für Agentur-Outbound-Teams",
+        "titleLead": "Websites in",
+        "titleAccent": "qualifizierte Prospects verwandeln",
+        "subhead": "Bewerten Sie Fit, erfassen Sie Website-Belege und schreiben Sie Erstzeilen, bevor Ihr Team wieder einen generischen Lead speichert.",
+        "primaryCta": "Kostenlosen Scan starten",
+        "secondaryCta": "Beispielkarte ansehen",
+        "microcopy": "20 kostenlose Scans. Google-Anmeldung. Kein LinkedIn-Scraping und keine Kontaktdatenbank nötig.",
+        "visualNote": "Website-Belege, ICP-Fit und Erstzeilen-Hinweise in einem Arbeitsbereich"
       },
       "heroVisual": {
         "browserChip": "Live-Website-Scan",
@@ -4438,13 +4438,13 @@
           },
           {
             "href": "#how",
-            "eyebrow": "Wie es funktioniert",
+            "eyebrow": "So funktioniert's",
             "title": "Ein dreistufiger Forschungsworkflow",
             "copy": "Beginnen Sie auf der Unternehmensseite, erfassen Sie Beweise und speichern Sie dann eine Interessentenkarte."
           },
           {
             "href": "#card",
-            "eyebrow": "Musterkarte",
+            "eyebrow": "Beispielkarte",
             "title": "Überprüfen Sie die Ausgabe vor der Anmeldung",
             "copy": "Sehen Sie sich den Fit-Score, Website-Hinweise, die erste Zeile und eine kurze E-Mail zusammen an."
           },
@@ -4475,7 +4475,7 @@
       "features": {
         "eyebrow": "Website-First-Workflow",
         "title": "Recherche, Qualifizierung und Export von einem einzigen Prospektionsschalter aus",
-        "copy": "LeadCue wandelt Website-Beobachtungen in Pipeline-Daten um, sodass Agenturen erkennen können, welche Interessenten es wert sind, gespeichert, personalisiert und in die Öffentlichkeitsarbeit aufgenommen zu werden.",
+        "copy": "LeadCue wandelt Website-Beobachtungen in Pipeline-Daten um, sodass Agenturen erkennen können, welche Interessenten es wert sind, gespeichert, personalisiert und in die Ansprache aufgenommen zu werden.",
         "items": [
           {
             "title": "Interessentenanalysen, die Absichten zeigen",
@@ -4500,7 +4500,7 @@
         ]
       },
       "workflow": {
-        "eyebrow": "Wie es funktioniert",
+        "eyebrow": "So funktioniert's",
         "title": "Von der Unternehmenswebsite zum Outreach-Winkel in wenigen Minuten",
         "steps": [
           {
@@ -4532,9 +4532,9 @@
       },
       "researchVisual": {
         "headline": "Forschungsschalter",
-        "fitLabel": "Qualifizierte Passform",
+        "fitLabel": "Fit-Score",
         "fitValue": "92",
-        "cueLabel": "Website-Hinweise",
+        "cueLabel": "Website-Signale",
         "cueValue": "3+",
         "stackTitle": "Quellengestützte Notizen",
         "stackItems": [
@@ -4587,12 +4587,12 @@
         "secondaryCta": "Scandokumente lesen"
       },
       "useCases": {
-        "eyebrow": "Anwendungsfälle",
-        "title": "Verwenden Sie LeadCue, wenn für die Öffentlichkeitsarbeit Beweise und keine Platzhalter erforderlich sind",
+        "eyebrow": "Einsatzfelder",
+        "title": "Verwenden Sie LeadCue, wenn für die Ansprache Beweise und keine Platzhalter erforderlich sind",
         "items": [
           {
             "title": "Webdesign-Agenturen",
-            "copy": "Finden Sie schwache CTAs, vergrabene Demo-Pfade, dünne Beweise, verwirrende Navigation und Gründe für die Neugestaltung, die Sie in der Öffentlichkeitsarbeit erwähnen können.",
+            "copy": "Finden Sie schwache CTAs, vergrabene Demo-Pfade, dünne Beweise, verwirrende Navigation und Gründe für die Neugestaltung, die Sie in der Ansprache erwähnen können.",
             "cta": "Beginnen Sie mit der Neugestaltung von Winkeln"
           },
           {
@@ -4641,7 +4641,7 @@
         "mostUseful": "Am nützlichsten",
         "scansSuffix": "Scans",
         "perMonth": "/mo",
-        "startFreeScan": "Starten Sie den kostenlosen Scan",
+        "startFreeScan": "Kostenlosen Scan starten",
         "startAgencySetup": "Agentureinrichtung starten",
         "startPlan": "Start __PLAN__",
         "ariaStartFree": "Starten Sie kostenlos mit dem __PLAN__-Plan",
@@ -4708,15 +4708,15 @@
         "browseTitle": "16 Suchabsichtsseiten, Tools und CRM-Anleitungen",
         "items": [
           {
-            "title": "So verwandeln Sie die Website eines potenziellen Kunden in einen kalten E-Mail-Winkel",
-            "copy": "Ein praktischer Workflow für den Übergang von sichtbaren Seitenbeweisen zu glaubwürdiger Öffentlichkeitsarbeit.",
+            "title": "So wird aus einer Prospect-Website ein Cold-Email-Ansatz",
+            "copy": "Ein praktischer Workflow für den Übergang von sichtbaren Seitenbeweisen zu glaubwürdiger Ansprache.",
             "label": "Outbound-Playbook",
             "href": "/guides/turn-website-into-cold-email-angle"
           },
           {
             "title": "Welche Agenturen bewerten sollten, bevor sie einen Interessenten speichern?",
             "copy": "Verwenden Sie Eignung, Dringlichkeit, Nachweislücken und Kontaktpfade, um Listenbildungslärm zu vermeiden.",
-            "label": "Qualifikation",
+            "label": "Qualifizierung",
             "href": "/guides/score-prospect-website"
           },
           {
@@ -4738,7 +4738,7 @@
           ]
         },
         "qualification": {
-          "kicker": "Qualifikation",
+          "kicker": "Qualifizierung",
           "title": "Schwellenwert speichern",
           "items": [
             "Fit-Score 80+",
@@ -4780,11 +4780,11 @@
         "resourcesTitle": "Ressourcen",
         "legalTitle": "Legal",
         "dashboard": "Dashboard",
-        "docs": "Dokumente",
+        "docs": "Dokumentation",
         "contact": "Kontakt",
         "privacy": "Datenschutz",
         "terms": "Bedingungen",
-        "support": "Unterstützung",
+        "support": "Support",
         "copyright": "Copyright © 2026 LeadCue. Alle Rechte vorbehalten.",
         "privacyPolicy": "Datenschutzrichtlinie",
         "termsAndConditions": "Allgemeine Geschäftsbedingungen"
@@ -4793,38 +4793,38 @@
     "content": {
       "seoNav": {
         "strategy": "Strategie",
-        "useCases": "Anwendungsfälle",
-        "guides": "Anleitungen",
-        "qualification": "Qualifikation"
+        "useCases": "Einsatzfelder",
+        "guides": "Leitfäden",
+        "qualification": "Qualifizierung"
       },
       "productNav": {
         "csvTool": "CSV-Tool",
-        "firstLines": "Erste Zeilen",
+        "firstLines": "Erstzeilen",
         "checklist": "Checkliste",
         "integrations": "Integrationen"
       },
       "commercialNav": {
-        "docs": "Dokumente",
-        "support": "Unterstützung",
+        "docs": "Dokumentation",
+        "support": "Support",
         "contact": "Kontakt"
       },
       "breadcrumbs": {
-        "home": "Zuhause",
+        "home": "Startseite",
         "resources": "Ressourcen"
       },
       "faqTitle": "Häufige Fragen",
-      "ctaTitleSeo": "Verwandeln Sie eine potenzielle Website in eine quellengestützte Prospect Card.",
-      "ctaTitleProduct": "Führen Sie den Workflow in LeadCue aus und exportieren Sie ausgewählte Interessenten.",
+      "ctaTitleSeo": "Website in Prospect Card mit Quellen verwandeln.",
+      "ctaTitleProduct": "LeadCue-Workflow starten und Prospects exportieren.",
       "toolBand": {
-        "eyebrow": "Wandeln Sie die Vorlage in eine Pipeline-Ausgabe um",
-        "title": "Verwenden Sie denselben Workflow auf einer Website für echte Interessenten.",
-        "copy": "Beginnen Sie mit einem freien Arbeitsbereich, führen Sie den Website-Scan durch und behalten Sie dann die Felder „Fit Score“, „Quellnotizen“, „Erste Zeile“ und „CRM-Export“ zusammen, anstatt sie manuell zu kopieren.",
-        "primaryCta": "Beginnen Sie kostenlos mit diesem Workflow",
-        "secondaryCta": "Öffnen Sie die Beispiel-Prospektkarte",
+        "eyebrow": "Die Vorlage in Pipeline-Output verwandeln",
+        "title": "Den gleichen Workflow auf einer echten Prospect-Website nutzen.",
+        "copy": "Starten Sie mit einem kostenlosen Arbeitsbereich, scannen Sie die Website und halten Sie Fit-Score, Quellnotizen, Erstzeile und CRM-Exportfelder zusammen, statt alles von Hand zu kopieren.",
+        "primaryCta": "Mit Workflow gratis starten",
+        "secondaryCta": "Beispielkarte öffnen",
         "points": [
-          "20 kostenlose Scans, um den Workflow auf echten Websites zu testen",
-          "Dieselben CRM-Benennungsvoreinstellungen, die im App-Exportablauf verwendet werden",
-          "Speichern Sie vor dem Import oder der Weitergabe nur qualifizierte Konten"
+          "20 kostenlose Scans zum Testen des Workflows auf echten Websites",
+          "Die gleichen CRM-Feldvorgaben wie im App-Export",
+          "Nur qualifizierte Accounts vor Import oder Outreach speichern"
         ]
       }
     },
@@ -4871,50 +4871,50 @@
         "google_exchange_failed": "Google konnte die Anmeldung nicht abschließen. Versuchen Sie es erneut oder verwenden Sie Ihre geschäftliche E-Mail-Einrichtung."
       },
       "login": {
-        "heroEyebrow": "KI-Interessentenforschung",
-        "heroTitle": "Verwandeln Sie Website-Recherchen in bewertete Konten.",
-        "heroCopy": "Quellengestützte Signale, Eignungsbewertungen und Outreach-Kontext in einem Arbeitsbereich.",
+        "heroEyebrow": "KI-Prospect-Recherche",
+        "heroTitle": "Website-Recherche in priorisierte Accounts",
+        "heroCopy": "Quellenbasierte Signale, Fit-Scores und Outreach-Kontext in einem Arbeitsbereich.",
         "proofItems": [
           {
-            "label": "Qualifizierte Passform",
+            "label": "Fit-Score",
             "value": "92"
           },
           {
-            "label": "Website-Hinweise",
+            "label": "Website-Signale",
             "value": "3+"
           },
           {
-            "label": "CRM bereit",
+            "label": "CRM-bereit",
             "value": "CSV"
           }
         ],
         "cardEyebrow": "Willkommen zurück",
         "cardTitle": "Anmelden",
-        "cardCopy": "Verwenden Sie Google oder Ihre geschäftliche E-Mail-Adresse, um Ihren Arbeitsbereich für die Interessentenforschung erneut zu öffnen.",
-        "googleCta": "Weiter mit Google",
-        "divider": "oder melden Sie sich per E-Mail an",
+        "cardCopy": "Mit Google oder Ihrer geschäftlichen E-Mail den Prospect-Workspace wieder öffnen.",
+        "googleCta": "Mit Google fortfahren",
+        "divider": "oder per E-Mail anmelden",
         "emailLabel": "E-Mail",
         "emailPlaceholder": "you@agency.com",
         "passwordLabel": "Passwort",
         "passwordPlaceholder": "8+ Zeichen",
         "show": "Anzeigen",
         "hide": "Ausblenden",
-        "emailCta": "Mit E-Mail anmelden",
+        "emailCta": "Per E-Mail anmelden",
         "emailLoading": "Anmelden...",
         "forgotPassword": "Passwort vergessen?",
         "hideReset": "Optionen zum Zurücksetzen ausblenden",
-        "needHelp": "Benötigen Sie Hilfe bei der Anmeldung?",
-        "resetTitle": "Setzen Sie Ihr Passwort zurück",
-        "resetCopy": "Verwenden Sie dieselbe geschäftliche E-Mail, die an den Arbeitsbereich angehängt ist. Wir bereiten einen einmaligen Reset-Link vor.",
+        "needHelp": "Hilfe bei der Anmeldung?",
+        "resetTitle": "Passwort zurücksetzen",
+        "resetCopy": "Nutzen Sie dieselbe geschäftliche E-Mail wie im Workspace. Wir erstellen einen einmaligen Reset-Link.",
         "resetEmailLabel": "Workspace-E-Mail",
         "resetLoading": "Link zum Zurücksetzen wird vorbereitet...",
-        "resetCta": "Schicken Sie mir einen Link zum Zurücksetzen per E-Mail",
+        "resetCta": "Reset-Link anfordern",
         "resetOpenLink": "Link zum Zurücksetzen öffnen",
         "resetDevNote": "Bei lokalen Builds zeigt LeadCue den Link zum Zurücksetzen direkt an, sodass der Ablauf durchgehend getestet werden kann.",
         "sessionNote": "Die Passwortanmeldung verwendet dieselbe sichere Workspace-Sitzung wie Google OAuth.",
         "signupLead": "Neu bei LeadCue?",
-        "signupCopy": "Erstellen Sie einen kostenlosen Arbeitsbereich und führen Sie Ihren ersten Interessentenscan durch.",
-        "signupCta": "Erstellen Sie einen kostenlosen Arbeitsbereich",
+        "signupCopy": "Kostenlos starten und den ersten Prospect-Scan ausführen.",
+        "signupCta": "Workspace kostenlos erstellen",
         "validation": {
           "invalidLogin": "Geben Sie eine gültige geschäftliche E-Mail-Adresse und ein Passwort mit mehr als 8 Zeichen ein.",
           "emailLoginFailed": "Anmeldung mit E-Mail-Passwort fehlgeschlagen. Versuchen Sie es erneut.",
@@ -4925,8 +4925,8 @@
         }
       },
       "reset": {
-        "eyebrow": "Kontowiederherstellung",
-        "title": "Wählen Sie ein neues Passwort",
+        "eyebrow": "Konto wiederherstellen",
+        "title": "Neues Passwort festlegen",
         "copy": "Dadurch wird das Passwort für Ihre LeadCue-Workspace-Anmeldung aktualisiert und das gleiche sichere Sitzungsmodell wie bei der Google-Anmeldung beibehalten.",
         "passwordLabel": "Neues Passwort",
         "confirmLabel": "Passwort bestätigen",
@@ -4941,12 +4941,12 @@
         "genericError": "Das Passwort kann derzeit nicht zurückgesetzt werden."
       },
       "signup": {
-        "heroEyebrow": "Fangen Sie an",
+        "heroEyebrow": "Loslegen",
         "heroTitle": "Arbeitsbereich erstellen",
         "heroCopy": "Wählen Sie einen Plan und fügen Sie den Agenturkontext hinzu, in dem LeadCue punkten soll.",
         "summaryProspects": "Interessentenkarten + CSV",
         "planLabel": "Plan",
-        "oauthCta": "Weiter mit Google",
+        "oauthCta": "Mit Google fortfahren",
         "oauthCopy": "Google erstellt einen Arbeitsbereich oder meldet Sie erneut an.",
         "divider": "oder geschäftliche E-Mail-Adresse verwenden",
         "successTitle": "Arbeitsbereich-Setup gespeichert.",
@@ -4971,7 +4971,7 @@
         "setupNote": "Dadurch wird die Einrichtung Ihres kommerziellen Arbeitsbereichs erstellt und planbasierte Credits vorbereitet.",
         "back": "Zurück",
         "createWorkspace": "Arbeitsbereich erstellen",
-        "continueToBilling": "Weiter zur Abrechnung",
+        "continueToBilling": "Zur Abrechnung",
         "focusOptions": {
           "web_design": "Webdesign / Redesign",
           "seo": "SEO-Agentur",
@@ -5062,7 +5062,7 @@
           },
           {
             "key": "fit",
-            "group": "Qualifikation",
+            "group": "Qualifizierung",
             "labels": {
               "hubspot": "Fit-Score",
               "salesforce": "Fit-Score",
@@ -5074,7 +5074,7 @@
           },
           {
             "key": "Selbstvertrauen",
-            "group": "Qualifikation",
+            "group": "Qualifizierung",
             "labels": {
               "hubspot": "Vertrauenswert",
               "salesforce": "Vertrauenswert",
@@ -5356,27 +5356,27 @@
     },
     "common": {
       "brand": "LeadCue",
-      "home": "Thuis",
+      "home": "Startpagina",
       "resources": "Bronnen",
       "faq": "Veelgestelde vragen",
       "example": "Voorbeeld",
       "searchIntent": "Zoekintentie",
       "relatedResources": "Gerelateerde bronnen",
-      "keepBuilding": "Blijf de workflow opbouwen",
+      "keepBuilding": "Werk de workflow verder uit",
       "useOnRealAccount": "Gebruik het op een echt account",
-      "startFree": "Begin gratis",
-      "startFreeScan": "Start gratis scan",
-      "signIn": "Log in",
+      "startFree": "Gratis starten",
+      "startFreeScan": "Gratis scan starten",
+      "signIn": "Inloggen",
       "updatedLabel": "Bijgewerkt",
       "onThisPage": "Op deze pagina",
       "tool": "Tool",
       "languageLabel": "Taal",
-      "backHome": "Thuis",
-      "backToSignIn": "Terug om in te loggen",
-      "contactSupport": "Neem contact op met ondersteuning",
+      "backHome": "Startpagina",
+      "backToSignIn": "Terug naar inloggen",
+      "contactSupport": "Contact opnemen met support",
       "openDashboard": "Dashboard openen",
-      "reviewPlans": "Plannen beoordelen",
-      "openSampleCard": "Open voorbeeld prospectkaart"
+      "reviewPlans": "Abonnementen bekijken",
+      "openSampleCard": "Voorbeeldkaart openen"
     },
     "nav": {
       "features": "Functies",
@@ -5384,24 +5384,24 @@
       "sampleCard": "Voorbeeldkaart",
       "pricing": "Prijzen",
       "resources": "Bronnen",
-      "signIn": "Log in",
-      "startFree": "Begin gratis"
+      "signIn": "Inloggen",
+      "startFree": "Gratis starten"
     },
     "home": {
       "seo": {
-        "title": "LeadCue - Websiteprospectieassistent voor bureaus",
-        "description": "LeadCue verandert bedrijfswebsites in gekwalificeerde prospectkaarten met fitscores, door bronnen ondersteunde verkoopaanwijzingen, outreach-invalshoeken en koude eerste e-mailregels.",
-        "structuredDescription": "LeadCue verandert bedrijfswebsites in gekwalificeerde prospectkaarten met fitscores, door bronnen ondersteunde verkoopaanwijzingen, outreach-invalshoeken en koude eerste e-mailregels."
+        "title": "LeadCue | Websiteprospectie-assistent voor bureaus",
+        "description": "LeadCue zet bedrijfswebsites om in gekwalificeerde Prospect Cards met fitscore, onderbouwde signalen, outreach-hoeken en eerste zinnen voor koude e-mails.",
+        "structuredDescription": "LeadCue zet bedrijfswebsites om in gekwalificeerde Prospect Cards met fitscore, onderbouwde signalen, outreach-hoeken en eerste zinnen voor koude e-mails."
       },
       "hero": {
-        "eyebrow": "LeadCue voor uitgaande teams van bureaus",
-        "titleLead": "Verander websites in",
+        "eyebrow": "LeadCue voor outboundteams van bureaus",
+        "titleLead": "Zet websites om in",
         "titleAccent": "gekwalificeerde prospects",
-        "subhead": "Scoor een goede score, leg bewijsmateriaal van de website vast en schrijf de eerste regels voordat uw team nog een generieke lead opslaat.",
-        "primaryCta": "Start gratis scan",
+        "subhead": "Beoordeel fit, leg websitebewijs vast en schrijf eerste zinnen voordat je team weer een generieke lead opslaat.",
+        "primaryCta": "Gratis scan starten",
         "secondaryCta": "Bekijk voorbeeldkaart",
-        "microcopy": "20 gratis scans. Google-aanmelding. Geen LinkedIn-scraping of afhankelijkheid van contactdatabases.",
-        "visualNote": "Websitebewijs, ICP-fit en eerstelijnsaanwijzingen in één werkruimte"
+        "microcopy": "20 gratis scans. Inloggen met Google. Geen LinkedIn-scraping of afhankelijkheid van contactdatabases.",
+        "visualNote": "Websitebewijs, ICP-fit en first-line cues in één werkruimte"
       },
       "heroVisual": {
         "browserChip": "Live websitescan",
@@ -5601,9 +5601,9 @@
       },
       "researchVisual": {
         "headline": "Onderzoeksbureau",
-        "fitLabel": "Gekwalificeerde pasvorm",
+        "fitLabel": "Fitscore",
         "fitValue": "92",
-        "cueLabel": "Websiteaanwijzingen",
+        "cueLabel": "Websitesignalen",
         "cueValue": "3+",
         "stackTitle": "Aantekeningen met bronondersteuning",
         "stackItems": [
@@ -5656,7 +5656,7 @@
         "secondaryCta": "Scandocumenten lezen"
       },
       "useCases": {
-        "eyebrow": "Gebruiksscenario's",
+        "eyebrow": "Use cases",
         "title": "Gebruik LeadCue wanneer outreach bewijs nodig heeft, geen tijdelijke aanduidingen",
         "items": [
           {
@@ -5710,7 +5710,7 @@
         "mostUseful": "Meest nuttig",
         "scansSuffix": "scans",
         "perMonth": "/mo",
-        "startFreeScan": "Start gratis scan",
+        "startFreeScan": "Gratis scan starten",
         "startAgencySetup": "Start het instellen van een bureau",
         "startPlan": "Start __PLAN__",
         "ariaStartFree": "Begin gratis met het __PLAN__ abonnement",
@@ -5777,7 +5777,7 @@
         "browseTitle": "16 zoekintentiepagina's, tools en CRM-handleidingen",
         "items": [
           {
-            "title": "Hoe u van een potentiële website een koude e-mailhoek kunt maken",
+            "title": "Zo maak je van een prospectwebsite een invalshoek voor koude e-mail",
             "copy": "Een praktische workflow om van zichtbaar paginabewijs naar geloofwaardig bereik te gaan.",
             "label": "Uitgaand draaiboek",
             "href": "/guides/turn-website-into-cold-email-angle"
@@ -5841,7 +5841,7 @@
         "quickScanPlaceholder": "https://prospect.example.com",
         "quickScanAria": "Eerste potentiële website",
         "queueScan": "Wachtrijscan",
-        "startFree": "Begin gratis"
+        "startFree": "Gratis starten"
       },
       "footer": {
         "brandCopy": "Website-first prospectie voor bureaus die sterkere redenen nodig hebben om contact op te nemen.",
@@ -5849,11 +5849,11 @@
         "resourcesTitle": "Bronnen",
         "legalTitle": "Juridisch",
         "dashboard": "Dashboard",
-        "docs": "Documenten",
-        "contact": "Contactpersoon",
+        "docs": "Documentatie",
+        "contact": "Contact",
         "privacy": "Privacy",
         "terms": "Voorwaarden",
-        "support": "Ondersteuning",
+        "support": "Support",
         "copyright": "Auteursrecht © 2026 LeadCue. Alle rechten voorbehouden.",
         "privacyPolicy": "Privacybeleid",
         "termsAndConditions": "Algemene voorwaarden"
@@ -5862,38 +5862,38 @@
     "content": {
       "seoNav": {
         "strategy": "Strategie",
-        "useCases": "Gebruiksscenario's",
+        "useCases": "Use cases",
         "guides": "Gidsen",
         "qualification": "Kwalificatie"
       },
       "productNav": {
         "csvTool": "CSV-tool",
-        "firstLines": "Eerste regels",
-        "checklist": "Controlelijst",
+        "firstLines": "Eerste zinnen",
+        "checklist": "Checklist",
         "integrations": "Integraties"
       },
       "commercialNav": {
-        "docs": "Documenten",
-        "support": "Ondersteuning",
-        "contact": "Contactpersoon"
+        "docs": "Documentatie",
+        "support": "Support",
+        "contact": "Contact"
       },
       "breadcrumbs": {
-        "home": "Thuis",
+        "home": "Startpagina",
         "resources": "Bronnen"
       },
       "faqTitle": "Veelgestelde vragen",
-      "ctaTitleSeo": "Verander één prospectwebsite in een brongebaseerde prospectkaart.",
-      "ctaTitleProduct": "Voer de workflow uit binnen LeadCue en exporteer geselecteerde prospects.",
+      "ctaTitleSeo": "Zet website om in een Prospect Card met bronbewijs.",
+      "ctaTitleProduct": "Voer de LeadCue-workflow uit en exporteer prospects.",
       "toolBand": {
-        "eyebrow": "Zet de sjabloon om in pijplijnuitvoer",
+        "eyebrow": "Maak van het template pipeline-output",
         "title": "Gebruik dezelfde workflow op een echte prospectwebsite.",
-        "copy": "Begin met een vrije werkruimte, voer de websitescan uit en bewaar vervolgens de fitscore, bronnotities, eerste regel en CRM-exportvelden bij elkaar in plaats van ze met de hand te kopiëren.",
-        "primaryCta": "Begin gratis met deze workflow",
-        "secondaryCta": "Open voorbeeld prospectkaart",
+        "copy": "Begin met een gratis werkruimte, voer de websitescan uit en houd fitscore, bronnotities, eerste zin en CRM-exportvelden bij elkaar in plaats van alles handmatig te kopiëren.",
+        "primaryCta": "Gratis starten met deze workflow",
+        "secondaryCta": "Voorbeeldkaart openen",
         "points": [
           "20 gratis scans om de workflow op echte websites te testen",
-          "Dezelfde CRM-naamgevingsvoorinstellingen die worden gebruikt in de app-exportstroom",
-          "Bewaar alleen gekwalificeerde accounts vóór import of outreach"
+          "Dezelfde CRM-naamgevingspresets als in de app-export",
+          "Sla alleen gekwalificeerde accounts op vóór import of outreach"
         ]
       }
     },
@@ -5940,50 +5940,50 @@
         "google_exchange_failed": "Google kan het inloggen niet voltooien. Probeer het opnieuw of gebruik uw zakelijke e-mailinstellingen."
       },
       "login": {
-        "heroEyebrow": "Onderzoek naar AI-prospects",
-        "heroTitle": "Zet websiteonderzoek om in gerangschikte accounts.",
-        "heroCopy": "Brongestuurde signalen, fitscores en outreach-context in één werkruimte.",
+        "heroEyebrow": "AI-prospectonderzoek",
+        "heroTitle": "Websiteonderzoek naar geprioriteerde accounts",
+        "heroCopy": "Bronnen, fitscores en outreach-context samen in één werkruimte.",
         "proofItems": [
           {
-            "label": "Gekwalificeerde pasvorm",
+            "label": "Fitscore",
             "value": "92"
           },
           {
-            "label": "Websiteaanwijzingen",
+            "label": "Websitesignalen",
             "value": "3+"
           },
           {
-            "label": "Klaar voor CRM",
+            "label": "CRM-klaar",
             "value": "CSV"
           }
         ],
         "cardEyebrow": "Welkom terug",
-        "cardTitle": "Log in",
-        "cardCopy": "Gebruik Google of uw zakelijke e-mailadres om uw onderzoekswerkruimte voor potentiële klanten te heropenen.",
-        "googleCta": "Ga verder met Google",
-        "divider": "of log in met e-mail",
+        "cardTitle": "Inloggen",
+        "cardCopy": "Gebruik Google of je zakelijke e-mail om je prospectwerkruimte weer te openen.",
+        "googleCta": "Doorgaan met Google",
+        "divider": "of inloggen met e-mail",
         "emailLabel": "E-mail",
         "emailPlaceholder": "jij@agency.com",
         "passwordLabel": "Wachtwoord",
         "passwordPlaceholder": "8+ tekens",
         "show": "Tonen",
         "hide": "Verbergen",
-        "emailCta": "Log in met e-mailadres",
+        "emailCta": "Inloggen met e-mail",
         "emailLoading": "Aanmelden...",
         "forgotPassword": "Wachtwoord vergeten?",
         "hideReset": "Reset-opties verbergen",
         "needHelp": "Hulp nodig bij het inloggen?",
-        "resetTitle": "Reset uw wachtwoord",
-        "resetCopy": "Gebruik hetzelfde zakelijke e-mailadres als bijlage bij de werkruimte. We zullen een eenmalige resetlink voorbereiden.",
+        "resetTitle": "Wachtwoord resetten",
+        "resetCopy": "Gebruik hetzelfde zakelijke e-mailadres dat aan je werkruimte is gekoppeld. We maken een eenmalige resetlink.",
         "resetEmailLabel": "Werkruimte-e-mail",
         "resetLoading": "Resetlink voorbereiden...",
-        "resetCta": "E-mail mij een resetlink",
+        "resetCta": "Resetlink mailen",
         "resetOpenLink": "Open de resetlink",
         "resetDevNote": "Bij lokale builds toont LeadCue de resetlink rechtstreeks, zodat de stroom van begin tot eind kan worden getest.",
         "sessionNote": "Wachtwoordaanmelding gebruikt dezelfde beveiligde werkruimtesessie als Google OAuth.",
         "signupLead": "Nieuw bij LeadCue?",
-        "signupCopy": "Creëer een vrije werkruimte en voer uw eerste prospectscan uit.",
-        "signupCta": "Creëer vrije werkruimte",
+        "signupCopy": "Maak een gratis werkruimte en voer je eerste prospectscan uit.",
+        "signupCta": "Gratis werkruimte maken",
         "validation": {
           "invalidLogin": "Voer een geldig zakelijk e-mailadres en een wachtwoord van meer dan 8 tekens in.",
           "emailLoginFailed": "Inloggen met e-mailwachtwoord mislukt. Probeer het opnieuw.",
@@ -6011,11 +6011,11 @@
       },
       "signup": {
         "heroEyebrow": "Aan de slag",
-        "heroTitle": "Werkruimte creëren",
+        "heroTitle": "Werkruimte maken",
         "heroCopy": "Kies een plan en voeg de bureaucontext toe waar LeadCue tegen moet scoren.",
         "summaryProspects": "Prospectkaarten + CSV",
         "planLabel": "Plan",
-        "oauthCta": "Ga verder met Google",
+        "oauthCta": "Doorgaan met Google",
         "oauthCopy": "Google maakt een werkruimte of meldt u weer aan.",
         "divider": "of gebruik zakelijke e-mail",
         "successTitle": "Werkruimte-instellingen opgeslagen.",
@@ -6039,8 +6039,8 @@
         "firstProspectUrl": "Eerste prospect-URL",
         "setupNote": "Hiermee creëert u de inrichting van uw commerciële werkruimte en bereidt u plangebaseerde credits voor.",
         "back": "Terug",
-        "createWorkspace": "Werkruimte creëren",
-        "continueToBilling": "Ga door naar facturering",
+        "createWorkspace": "Werkruimte maken",
+        "continueToBilling": "Verder naar facturatie",
         "focusOptions": {
           "web_design": "Webdesign/redesign",
           "seo": "SEO-bureau",
@@ -6430,47 +6430,47 @@
       "faq": "FAQ",
       "example": "Exemple",
       "searchIntent": "Intention de recherche",
-      "relatedResources": "Ressources connexes",
-      "keepBuilding": "Continuez à développer le flux de travail",
-      "useOnRealAccount": "Utilisez-le sur un compte réel",
-      "startFree": "Commencez gratuitement",
-      "startFreeScan": "Démarrer l'analyse gratuite",
-      "signIn": "Connectez-vous",
+      "relatedResources": "Ressources associées",
+      "keepBuilding": "Poursuivre l'optimisation du workflow",
+      "useOnRealAccount": "L'utiliser sur un vrai compte",
+      "startFree": "Commencer gratuitement",
+      "startFreeScan": "Démarrer une analyse gratuite",
+      "signIn": "Se connecter",
       "updatedLabel": "Mis à jour",
       "onThisPage": "Sur cette page",
-      "tool": "Tool",
+      "tool": "Outil",
       "languageLabel": "Langue",
       "backHome": "Accueil",
-      "backToSignIn": "Retour pour me connecter",
-      "contactSupport": "Contacter l'assistance",
+      "backToSignIn": "Retour à la connexion",
+      "contactSupport": "Contacter le support",
       "openDashboard": "Ouvrir le tableau de bord",
-      "reviewPlans": "Réviser les plans",
-      "openSampleCard": "Ouvrir un exemple de carte de prospect"
+      "reviewPlans": "Voir les offres",
+      "openSampleCard": "Ouvrir la carte exemple"
     },
     "nav": {
-      "features": "Caractéristiques",
+      "features": "Fonctionnalités",
       "howItWorks": "Comment ça marche",
-      "sampleCard": "Exemple de carte",
+      "sampleCard": "Carte d'exemple",
       "pricing": "Tarifs",
       "resources": "Ressources",
-      "signIn": "Connectez-vous",
-      "startFree": "Commencez gratuitement"
+      "signIn": "Se connecter",
+      "startFree": "Commencer gratuitement"
     },
     "home": {
       "seo": {
-        "title": "LeadCue - Assistant de prospection de sites Web pour les agences",
-        "description": "LeadCue transforme les sites Web d'entreprise en cartes de prospects qualifiés avec des scores d'adéquation, des indices de vente basés sur la source, des angles de sensibilisation et des premières lignes d'e-mails froids.",
-        "structuredDescription": "LeadCue transforme les sites Web d'entreprise en cartes de prospects qualifiés avec des scores d'adéquation, des indices de vente basés sur la source, des angles de sensibilisation et des premières lignes d'e-mails froids."
+        "title": "LeadCue | Assistant de prospection web pour les agences",
+        "description": "LeadCue transforme les sites d’entreprise en Prospect Cards qualifiées avec score d’adéquation, preuves sources, angles d’approche et premières lignes d’e-mails à froid.",
+        "structuredDescription": "LeadCue transforme les sites d’entreprise en Prospect Cards qualifiées avec score d’adéquation, preuves sources, angles d’approche et premières lignes d’e-mails à froid."
       },
       "hero": {
-        "eyebrow": "LeadCue pour les équipes sortantes des agences",
-        "titleLead": "Transformez les sites Web en",
+        "eyebrow": "LeadCue pour les équipes outbound en agence",
+        "titleLead": "Transformez les sites web en",
         "titleAccent": "prospects qualifiés",
-        "subhead": "Évaluez l'adéquation, capturez les preuves du site Web et rédigez les premières lignes avant que votre équipe n'enregistre un autre prospect générique.",
-        "primaryCta": "Démarrer l'analyse gratuite",
-        "secondaryCta": "Voir un exemple de carte",
-        "microcopy": "20 analyses gratuites. Connectez-vous à Google. Pas de scraping LinkedIn ni de dépendance à la base de données de contacts.",
-        "visualNote": "Preuves de sites Web, ajustement ICP et indices de première ligne dans un seul espace de travail"
+        "subhead": "Évaluez l'adéquation, capturez les preuves du site et rédigez vos premières lignes avant que votre équipe n'enregistre encore un lead générique.",
+        "primaryCta": "Démarrer une analyse gratuite",
+        "secondaryCta": "Voir une carte d'exemple",
+        "microcopy": "20 analyses gratuites. Connexion Google. Sans scraping LinkedIn ni base de contacts.",
+        "visualNote": "Preuves site web, adéquation ICP et idées de premières lignes dans un seul espace"
       },
       "heroVisual": {
         "browserChip": "Analyse de site Web en direct",
@@ -6570,7 +6570,7 @@
         "items": [
           {
             "href": "#features",
-            "eyebrow": "Caractéristiques",
+            "eyebrow": "Fonctionnalités",
             "title": "Tout autour de l'analyse du site Web",
             "copy": "La notation d'ajustement, les signaux, les exportations et le contexte de l'équipe restent sur une seule carte."
           },
@@ -6582,7 +6582,7 @@
           },
           {
             "href": "#card",
-            "eyebrow": "Exemple de carte",
+            "eyebrow": "Carte d'exemple",
             "title": "Inspectez la sortie avant de vous inscrire",
             "copy": "Consultez ensemble le score d'ajustement, les indices du site Web, la première ligne et le court e-mail."
           },
@@ -6613,11 +6613,11 @@
       "features": {
         "eyebrow": "Flux de travail axé sur le site Web",
         "title": "Recherchez, qualifiez et exportez à partir d'un seul bureau de prospection",
-        "copy": "LeadCue transforme les observations du site Web en données de pipeline, afin que les agences puissent voir quels prospects valent la peine d'être sauvegardés, personnalisés et transférés vers la sensibilisation.",
+        "copy": "LeadCue transforme les observations du site Web en données de pipeline, afin que les agences puissent voir quels prospects valent la peine d'être sauvegardés, personnalisés et transférés vers la prospection.",
         "items": [
           {
             "title": "Analyses de prospects qui montrent l'intention",
-            "copy": "Suivez les sites Web analysés, enregistrez le taux, les scores d'ajustement et les premières lignes copiées afin que votre équipe puisse voir quelle recherche se transforme en sensibilisation.",
+            "copy": "Suivez les sites Web analysés, enregistrez le taux, les scores d'ajustement et les premières lignes copiées afin que votre équipe puisse voir quelle recherche se transforme en prospection.",
             "meta": "Pipeline en direct"
           },
           {
@@ -6627,11 +6627,11 @@
           },
           {
             "title": "Preuve du site Web dans chaque carte",
-            "copy": "Gardez l'observation de la page, l'indice de vente, l'angle de sensibilisation et la première ligne ensemble afin que les commerciaux sachent pourquoi le prospect est important.",
+            "copy": "Gardez l'observation de la page, l'indice de vente, l'angle de prospection et la première ligne ensemble afin que les commerciaux sachent pourquoi le prospect est important.",
             "meta": "Source sauvegardée"
           },
           {
-            "title": "Exportations pour votre pile de sensibilisation",
+            "title": "Exportations pour votre pile de prospection",
             "copy": "Déplacez les prospects qualifiés vers Sheets, Smartlead, Instantly, Lemlist ou votre CRM sans avoir à transporter de listes non qualifiées.",
             "meta": "Transfert propre"
           }
@@ -6639,7 +6639,7 @@
       },
       "workflow": {
         "eyebrow": "Comment ça marche",
-        "title": "Du site Web de l'entreprise à l'angle de sensibilisation en quelques minutes",
+        "title": "Du site Web de l'entreprise à l'angle de prospection en quelques minutes",
         "steps": [
           {
             "title": "Ouvrir un site Web de prospects",
@@ -6663,16 +6663,16 @@
         "checklist": [
           "Score en adéquation avec l'offre de votre agence",
           "Capturez les écarts de CTA, de preuve, de référencement et de positionnement",
-          "Exporter uniquement les comptes avec un motif de sensibilisation crédible"
+          "Exporter uniquement les comptes avec un motif de prospection crédible"
         ],
         "frameTitle": "Bureau de recherche",
-        "frameCopy": "L'adéquation du PCI, les observations sur le site Web et les notes de sensibilisation restent connectés."
+        "frameCopy": "L'adéquation du PCI, les observations sur le site Web et les notes de prospection restent connectés."
       },
       "researchVisual": {
         "headline": "Bureau de recherche",
-        "fitLabel": "Ajustement qualifié",
+        "fitLabel": "Score d'adéquation",
         "fitValue": "92",
-        "cueLabel": "Indices du site Web",
+        "cueLabel": "Signaux web",
         "cueValue": "3+",
         "stackTitle": "Notes adossées à la source",
         "stackItems": [
@@ -6684,7 +6684,7 @@
       "sampleCard": {
         "eyebrow": "Exemple de sortie",
         "title": "La Prospect Card donne à chaque prospect une raison",
-        "copy": "Chaque carte relie l'adéquation, les preuves du site Web, les chemins de contact, les angles de sensibilisation et les premières lignes prêtes à être copiées afin que votre équipe sache quoi dire et pourquoi.",
+        "copy": "Chaque carte relie l'adéquation, les preuves du site Web, les chemins de contact, les angles de prospection et les premières lignes prêtes à être copiées afin que votre équipe sache quoi dire et pourquoi.",
         "previewEyebrow": "Carte de prospect",
         "previewAriaLabel": "Exemple compact de carte de prospect",
         "summaryAriaLabel": "Exemple de résumé du prospect",
@@ -6725,12 +6725,12 @@
         "secondaryCta": "Lire les documents d'analyse"
       },
       "useCases": {
-        "eyebrow": "Cas d'utilisation",
-        "title": "Utilisez LeadCue lorsque la sensibilisation a besoin de preuves, pas d'espaces réservés",
+        "eyebrow": "Cas d'usage",
+        "title": "Utilisez LeadCue lorsque la prospection a besoin de preuves, pas d'espaces réservés",
         "items": [
           {
             "title": "Agences de création de sites Web",
-            "copy": "Trouvez des CTA faibles, des chemins de démonstration enterrés, des preuves minces, une navigation déroutante et des raisons de refonte que vous pouvez mentionner dans la sensibilisation.",
+            "copy": "Trouvez des CTA faibles, des chemins de démonstration enterrés, des preuves minces, une navigation déroutante et des raisons de refonte que vous pouvez mentionner dans la prospection.",
             "cta": "Commencez par repenser les angles"
           },
           {
@@ -6768,7 +6768,7 @@
           [
             "LeadCue",
             "Cartes de prospects qualifiés",
-            "Envoi de séquences dans votre outil de sensibilisation"
+            "Envoi de séquences dans votre outil de prospection"
           ]
         ]
       },
@@ -6779,7 +6779,7 @@
         "mostUseful": "Le plus utile",
         "scansSuffix": "analyses",
         "perMonth": "/mo",
-        "startFreeScan": "Démarrer l'analyse gratuite",
+        "startFreeScan": "Démarrer une analyse gratuite",
         "startAgencySetup": "Démarrer la configuration de l'agence",
         "startPlan": "Démarrer __PLAN__",
         "ariaStartFree": "Commencez gratuitement avec le plan __PLAN__",
@@ -6816,11 +6816,11 @@
       "faqSection": {
         "eyebrow": "FAQ",
         "title": "Construit autour de la recherche sur un site Web, pas d'une autre base de données de contacts",
-        "copy": "LeadCue est intentionnellement restreint : analysez le site prospect, qualifiez l'opportunité et déplacez de meilleures notes dans le flux de travail de sensibilisation que vous utilisez déjà.",
+        "copy": "LeadCue est intentionnellement restreint : analysez le site prospect, qualifiez l'opportunité et déplacez de meilleures notes dans le flux de travail de prospection que vous utilisez déjà.",
         "items": [
           {
             "question": "LeadCue est-il un outil de recherche d'e-mails ?",
-            "answer": "Non. LeadCue peut faire apparaître des chemins de contact publics à partir d'un site Web, mais sa tâche principale est de trouver des indices de vente, des signaux d'ajustement, des angles de sensibilisation et des premières lignes ancrées dans les pages que vous choisissez d'analyser."
+            "answer": "Non. LeadCue peut faire apparaître des chemins de contact publics à partir d'un site Web, mais sa tâche principale est de trouver des indices de vente, des signaux d'ajustement, des angles de prospection et des premières lignes ancrées dans les pages que vous choisissez d'analyser."
           },
           {
             "question": "LeadCue supprime-t-il LinkedIn ou navigue-t-il en arrière-plan ?",
@@ -6828,7 +6828,7 @@
           },
           {
             "question": "Puis-je envoyer des campagnes depuis LeadCue ?",
-            "answer": "Non. LeadCue prépare la couche de recherche avant la sensibilisation. Enregistrez les fiches de prospects, copiez les premières lignes ou exportez les prospects qualifiés dans vos outils existants."
+            "answer": "Non. LeadCue prépare la couche de recherche avant la prospection. Enregistrez les fiches de prospects, copiez les premières lignes ou exportez les prospects qualifiés dans vos outils existants."
           },
           {
             "question": "Pour qui LeadCue est-il conçu en premier ?",
@@ -6846,7 +6846,7 @@
         "browseTitle": "16 pages d'intention de recherche, outils et guides CRM",
         "items": [
           {
-            "title": "Comment transformer un site Web de prospects en un angle d'e-mail froid",
+            "title": "Transformer un site prospect en angle d’e-mail à froid",
             "copy": "Un flux de travail pratique pour passer d'une page de preuve visible à une diffusion crédible.",
             "label": "Playbook sortant",
             "href": "/guides/turn-website-into-cold-email-angle"
@@ -6854,7 +6854,7 @@
           {
             "title": "Quelles agences doivent noter avant de sauvegarder un prospect",
             "copy": "Utilisez l'ajustement, l'urgence, les lacunes de preuve et les chemins de contact pour éviter le bruit de création de liste.",
-            "label": "Diplôme",
+            "label": "Qualification",
             "href": "/guides/score-prospect-website"
           },
           {
@@ -6876,7 +6876,7 @@
           ]
         },
         "qualification": {
-          "kicker": "Diplôme",
+          "kicker": "Qualification",
           "title": "Seuil de sauvegarde",
           "items": [
             "Score d'ajustement 80+",
@@ -6910,7 +6910,7 @@
         "quickScanPlaceholder": "https://prospect.example.com",
         "quickScanAria": "Site Web du premier prospect",
         "queueScan": "Analyse de la file d'attente",
-        "startFree": "Commencez gratuitement"
+        "startFree": "Commencer gratuitement"
       },
       "footer": {
         "brandCopy": "Prospection axée sur le site Web pour les agences qui ont besoin de raisons plus solides pour tendre la main.",
@@ -6918,11 +6918,11 @@
         "resourcesTitle": "Ressources",
         "legalTitle": "Légal",
         "dashboard": "Tableau de bord",
-        "docs": "Documents",
-        "contact": "Contacter",
+        "docs": "Documentation",
+        "contact": "Contact",
         "privacy": "Confidentialité",
         "terms": "Conditions",
-        "support": "Assistance",
+        "support": "Support",
         "copyright": "Copyright © 2026 LeadCue. Tous droits réservés.",
         "privacyPolicy": "Politique de confidentialité",
         "termsAndConditions": "Conditions générales"
@@ -6931,38 +6931,38 @@
     "content": {
       "seoNav": {
         "strategy": "Stratégie",
-        "useCases": "Cas d'utilisation",
+        "useCases": "Cas d'usage",
         "guides": "Guides",
-        "qualification": "Diplôme"
+        "qualification": "Qualification"
       },
       "productNav": {
         "csvTool": "Outil CSV",
         "firstLines": "Premières lignes",
-        "checklist": "Liste de contrôle",
+        "checklist": "Checklist",
         "integrations": "Intégrations"
       },
       "commercialNav": {
-        "docs": "Documents",
-        "support": "Assistance",
-        "contact": "Contacter"
+        "docs": "Documentation",
+        "support": "Support",
+        "contact": "Contact"
       },
       "breadcrumbs": {
         "home": "Accueil",
         "resources": "Ressources"
       },
-      "faqTitle": "Questions courantes",
-      "ctaTitleSeo": "Transformez un site Web de prospect en une carte de prospect soutenue par une source.",
-      "ctaTitleProduct": "Exécutez le workflow dans LeadCue et exportez les prospects sélectionnés.",
+      "faqTitle": "Questions fréquentes",
+      "ctaTitleSeo": "Transformez un site prospect en carte sourcée.",
+      "ctaTitleProduct": "Lancez LeadCue puis exportez les prospects.",
       "toolBand": {
-        "eyebrow": "Transformez le modèle en sortie de pipeline",
-        "title": "Utilisez le même flux de travail sur un vrai site Web de prospects.",
-        "copy": "Commencez avec un espace de travail libre, exécutez l'analyse du site Web, puis conservez le score d'ajustement, les notes source, la première ligne et les champs d'exportation CRM ensemble au lieu de les copier à la main.",
-        "primaryCta": "Démarrez gratuitement avec ce workflow",
-        "secondaryCta": "Ouvrir un exemple de carte de prospect",
+        "eyebrow": "Transformez le modèle en sortie pipeline",
+        "title": "Utilisez le même workflow sur un vrai site prospect.",
+        "copy": "Commencez avec un espace de travail gratuit, lancez l'analyse du site, puis gardez score d'adéquation, notes sources, première ligne et champs d'export CRM ensemble au lieu de tout copier à la main.",
+        "primaryCta": "Essayer ce workflow",
+        "secondaryCta": "Ouvrir la carte exemple",
         "points": [
-          "20 scans gratuits pour tester le flux de travail sur de vrais sites Web",
-          "Les mêmes préréglages de dénomination CRM utilisés dans le flux d'exportation de l'application",
-          "Enregistrez uniquement les comptes qualifiés avant l'importation ou la diffusion."
+          "20 analyses gratuites pour tester le workflow sur de vrais sites",
+          "Les mêmes préréglages CRM que dans le flux d’export de l’app",
+          "N’enregistrez que les comptes qualifiés avant import ou outreach"
         ]
       }
     },
@@ -7010,49 +7010,49 @@
       },
       "login": {
         "heroEyebrow": "Recherche de prospects IA",
-        "heroTitle": "Transformez la recherche sur votre site Web en comptes classés.",
-        "heroCopy": "Signaux basés sur la source, scores d'ajustement et contexte de sensibilisation dans un seul espace de travail.",
+        "heroTitle": "Transformez la recherche web en comptes prioritaires",
+        "heroCopy": "Signaux sourcés, scores d'adéquation et contexte d'approche au même endroit.",
         "proofItems": [
           {
-            "label": "Ajustement qualifié",
+            "label": "Score d'adéquation",
             "value": "92"
           },
           {
-            "label": "Indices du site Web",
+            "label": "Signaux web",
             "value": "3+"
           },
           {
-            "label": "Prêt pour le CRM",
+            "label": "Prêt CRM",
             "value": "CSV"
           }
         ],
         "cardEyebrow": "Bon retour",
-        "cardTitle": "Connectez-vous",
-        "cardCopy": "Utilisez Google ou votre messagerie professionnelle pour rouvrir votre espace de travail de recherche de prospects.",
+        "cardTitle": "Se connecter",
+        "cardCopy": "Utilisez Google ou votre e-mail pro pour rouvrir votre espace prospects.",
         "googleCta": "Continuer avec Google",
-        "divider": "ou connectez-vous avec votre e-mail",
+        "divider": "ou continuer par e-mail",
         "emailLabel": "E-mail",
         "emailPlaceholder": "vous@agency.com",
         "passwordLabel": "Mot de passe",
         "passwordPlaceholder": "8+ caractères",
         "show": "Afficher",
         "hide": "Masquer",
-        "emailCta": "Connectez-vous avec votre e-mail",
+        "emailCta": "Se connecter par e-mail",
         "emailLoading": "Connexion...",
         "forgotPassword": "Mot de passe oublié ?",
         "hideReset": "Masquer les options de réinitialisation",
-        "needHelp": "Besoin d'aide pour vous connecter ?",
-        "resetTitle": "Réinitialisez votre mot de passe",
-        "resetCopy": "Utilisez le même e-mail professionnel joint à l'espace de travail. Nous préparerons un lien de réinitialisation unique.",
+        "needHelp": "Besoin d'aide pour vous connecter ?",
+        "resetTitle": "Réinitialiser le mot de passe",
+        "resetCopy": "Utilisez l’e-mail pro lié à l’espace de travail. Nous créerons un lien unique.",
         "resetEmailLabel": "E-mail de l'espace de travail",
         "resetLoading": "Préparation du lien de réinitialisation...",
-        "resetCta": "Envoyez-moi un lien de réinitialisation par e-mail",
+        "resetCta": "Recevoir le lien",
         "resetOpenLink": "Ouvrir le lien de réinitialisation",
         "resetDevNote": "Sur les builds locales, LeadCue affiche directement le lien de réinitialisation afin que le flux puisse être testé de bout en bout.",
         "sessionNote": "La connexion par mot de passe utilise la même session d'espace de travail sécurisé que Google OAuth.",
-        "signupLead": "Vous êtes nouveau sur LeadCue ?",
-        "signupCopy": "Créez un espace de travail gratuit et lancez votre première analyse de prospects.",
-        "signupCta": "Créer un espace de travail libre",
+        "signupLead": "Nouveau sur LeadCue ?",
+        "signupCopy": "Créez un espace gratuit et lancez votre première analyse.",
+        "signupCta": "Créer un espace gratuit",
         "validation": {
           "invalidLogin": "Saisissez une adresse e-mail professionnelle valide et un mot de passe de plus de 8 caractères.",
           "emailLoginFailed": "La connexion par mot de passe par e-mail a échoué. Essayer à nouveau.",
@@ -7063,7 +7063,7 @@
         }
       },
       "reset": {
-        "eyebrow": "Récupération de compte",
+        "eyebrow": "Récupération du compte",
         "title": "Choisissez un nouveau mot de passe",
         "copy": "Cela met à jour le mot de passe de connexion à votre espace de travail LeadCue et conserve le même modèle de session sécurisée que la connexion Google.",
         "passwordLabel": "Nouveau mot de passe",
@@ -7079,8 +7079,8 @@
         "genericError": "Impossible de réinitialiser le mot de passe pour le moment."
       },
       "signup": {
-        "heroEyebrow": "Commencez",
-        "heroTitle": "Créer un espace de travail",
+        "heroEyebrow": "Commencer",
+        "heroTitle": "Créer l'espace de travail",
         "heroCopy": "Choisissez un plan et ajoutez le contexte de l'agence par rapport auquel LeadCue devrait marquer.",
         "summaryProspects": "Cartes de prospects + CSV\nForfait",
         "planLabel": "Plan",
@@ -7108,7 +7108,7 @@
         "firstProspectUrl": "URL du premier prospect",
         "setupNote": "Cela crée la configuration de votre espace de travail commercial et prépare les crédits basés sur le plan.",
         "back": "Retour",
-        "createWorkspace": "Créer un espace de travail",
+        "createWorkspace": "Créer l'espace de travail",
         "continueToBilling": "Continuer vers la facturation",
         "focusOptions": {
           "web_design": "Conception / refonte web",
@@ -7200,7 +7200,7 @@
           },
           {
             "key": "en forme",
-            "group": "Diplôme",
+            "group": "Qualification",
             "labels": {
               "hubspot": "Score d'ajustement",
               "salesforce": "Score d'ajustement",
@@ -7212,7 +7212,7 @@
           },
           {
             "key": "confiance",
-            "group": "Diplôme",
+            "group": "Qualification",
             "labels": {
               "hubspot": "Score de confiance",
               "salesforce": "Niveau de confiance",
@@ -7280,7 +7280,7 @@
               "custom": "stage"
             },
             "sample": "Recherche",
-            "description": "Où se trouve le compte avant la sensibilisation."
+            "description": "Où se trouve le compte avant la prospection."
           },
           {
             "key": "exporté",
@@ -7367,7 +7367,7 @@
       "checklist": {
         "eyebrow": "Liste de contrôle pour la prospection de sites Web",
         "coverage": "__SCORE__ % de couverture des preuves",
-        "copy": "Vérifiez les signaux que vous pouvez vérifier sur un site Web de prospect avant d'enregistrer, d'exporter ou d'attribuer le compte à la sensibilisation.",
+        "copy": "Vérifiez les signaux que vous pouvez vérifier sur un site Web de prospect avant d'enregistrer, d'exporter ou d'attribuer le compte à la prospection.",
         "copySummary": "Copier le résumé",
         "summaryTitle": "Résumé de style carte de prospect",
         "summaryEmpty": "Aucun signal sélectionné pour l'instant.",
@@ -7469,7 +7469,7 @@
             "recordType": "Importation d'une organisation ou d'un prospect",
             "quickWins": [
               "Utilisez les champs d'organisation pour l'identité du site Web et les champs de note pour le motif de la recherche.",
-              "Map Stage vers la recherche ou la qualification avant que le compte ne soit touché par la sensibilisation.",
+              "Map Stage vers la recherche ou la qualification avant que le compte ne soit touché par la prospection.",
               "Gardez le propriétaire attaché afin que le transfert reste responsable."
             ],
             "mistakes": [

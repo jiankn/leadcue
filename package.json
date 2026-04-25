@@ -15,6 +15,10 @@
     "lint": "npm run typecheck",
     "preview:web": "npm --workspace @leadcue/web run preview",
     "visual:check": "node scripts/capture-visuals.mjs",
+    "visual:audit:locales": "node scripts/capture-public-locale-audit.mjs",
+    "audit:locales:body": "node scripts/audit-public-body-locales.mjs",
+    "seo:assets": "node scripts/generate-seo-assets.mjs",
+    "audit:seo": "node scripts/audit-seo-readiness.mjs",
     "peek": "node scripts/peek-file.mjs"
   },
   "engines": {

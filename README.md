@@ -103,6 +103,8 @@ AI_PROVIDER_API_KEY=
 AI_MODEL=gpt-4.1-mini
 ```
 
+For multilingual SEO deployment and monitoring, use `qa/multilingual-seo-operations.md`.
+
 ## Current MVP Coverage
 
 - Landing page using the PRD copy and positioning.

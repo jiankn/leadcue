@@ -230,13 +230,13 @@
     "docs": {
       "eyebrow": "文档",
       "title": "运行网站优先勘探，无需构建另一个列表工具。",
-      "summary": "使用这些文档来设置工作区、运行扫描、解释潜在客户卡、管理积分以及将合格的研究交给 CRM 或出站工具。",
+      "summary": "使用这些文档来设置工作区、运行扫描、解释潜在客户卡、管理积分以及将合格的研究交给 CRM 或外联工具。",
       "primaryAction": {
-        "label": "打开仪表板",
+        "label": "打开仪表盘",
         "href": "/app"
       },
       "secondaryAction": {
-        "label": "联系支持人员",
+        "label": "联系支持",
         "href": "/support"
       },
       "sections": [
@@ -275,7 +275,7 @@
     "support": {
       "eyebrow": "支持",
       "title": "获取有关帐户访问、计费、扫描、导出和部署问题的帮助。",
-      "summary": "支持是围绕实际的出站工作流程构建的：登录、配置工作区、扫描网站、导出潜在客户以及保持在计划限制内。",
+      "summary": "支持是围绕实际的外联工作流程构建的：登录、配置工作区、扫描网站、导出潜在客户以及保持在计划限制内。",
       "primaryAction": {
         "label": "电子邮件支持",
         "href": "mailto:support@leadcue.app"
@@ -312,13 +312,13 @@
             "计费门户和订阅状态问题首先被优先考虑。",
             "计划适合问题应包括预期的每月扫描量和座位数。",
             "安全或隐私问题应直接发送至 support@leadcue.app。",
-            "功能请求应描述他们将解锁的出站工作流程。"
+            "功能请求应描述他们将解锁的外联工作流程。"
           ]
         }
       ]
     },
     "contact": {
-      "eyebrow": "联系方式",
+      "eyebrow": "联系我们",
       "title": "与 LeadCue 讨论机构勘探工作流程、计划配合和部署设置。",
       "summary": "当您需要帮助确定产品是否符合您的工作流程、如何将字段映射到 CRM 或如何向团队引入网站优先研究时，请使用联系方式。",
       "primaryAction": {
@@ -352,7 +352,7 @@
         },
         {
           "title": "LeadCue 无法取代的内容",
-          "copy": "当期望明确时，该产品最适合：它提高了研究质量并转移到下游工具，但它不是您完整的出站堆栈。",
+          "copy": "当期望明确时，该产品最适合：它提高了研究质量并转移到下游工具，但它不是您完整的外联堆栈。",
           "items": [
             "LeadCue 不发送营销活动。",
             "LeadCue 不会抓取 LinkedIn 或建立联系人数据库。",
@@ -364,8 +364,8 @@
     },
     "privacy": {
       "eyebrow": "隐私",
-      "title": "网站优先前景研究的隐私原则。",
-      "summary": "LeadCue 围绕用户触发的网站分析、工作区设置数据、安全帐户会话以及机构出站操作所需的已保存研究而构建。",
+      "title": "网站优先潜客研究的隐私原则。",
+      "summary": "LeadCue 围绕用户触发的网站分析、工作区设置数据、安全帐户会话以及机构外联操作所需的已保存研究而构建。",
       "primaryAction": {
         "label": "联系隐私支持",
         "href": "mailto:support@leadcue.app"
@@ -456,34 +456,34 @@
   "ja": {
     "docs": {
       "eyebrow": "ドキュメント",
-      "title": "別のリスト ツールを構築せずに、Web サイトファーストのプロスペクティングを実行します。",
+      "title": "別のリスト ツールを構築せずに、Webサイトファーストの見込み客調査を実行します。",
       "summary": "これらのドキュメントを使用して、ワークスペースの設定、スキャンの実行、プロスペクト カードの解釈、クレジットの管理、適切な調査を CRM またはアウトバウンド ツールに渡します。",
       "primaryAction": {
         "label": "ダッシュボードを開く",
         "href": "/app"
       },
       "secondaryAction": {
-        "label": "サポートにお問い合わせください",
+        "label": "サポートに連絡",
         "href": "/support"
       },
       "sections": [
         {
           "title": "クイックスタート",
-          "copy": "LeadCue は、各スキャンが実際の企業 Web サイト、定義された代理店オファー、およびアカウントが重要である理由を理解している所有者から開始される場合に最適に機能します。",
+          "copy": "LeadCue は、各スキャンが実際の企業 Webサイト、定義された代理店オファー、およびアカウントが重要である理由を理解している所有者から開始される場合に最適に機能します。",
           "items": [
             "Google または仕事用メールでワークスペースを作成し、スコアリング プロファイルを完成させます。",
-            "チームが Web サイトをレビューする頻度に合わせて、毎月のスキャン量を選択してください。",
-            "実際のプロスペクト URL を 1 つロードし、表示される Web サイトのメモを追加して、最初のスキャンを実行します。",
-            "最初の行をコピーしたりリードをエクスポートしたりする前に、見込み客カードを確認してください。"
+            "チームが Webサイトをレビューする頻度に合わせて、毎月のスキャン量を選択してください。",
+            "実際のプロスペクト URL を 1 つロードし、表示される Webサイトのメモを追加して、最初のスキャンを実行します。",
+            "冒頭文をコピーしたりリードをエクスポートしたりする前に、見込み客カードを確認してください。"
           ]
         },
         {
           "title": "プロスペクトカードの読み方",
-          "copy": "保存されたすべてのカードは、このアカウントがなぜ適合するのか、Web サイトが何を証明しているのか、担当者が次に何を言うべきかという 3 つの質問にすぐに答えることができます。",
+          "copy": "保存されたすべてのカードは、このアカウントがなぜ適合するのか、Webサイトが何を証明しているのか、担当者が次に何を言うべきかという 3 つの質問にすぐに答えることができます。",
           "items": [
             "適合スコアは、オファー、業界、地理、信号品質を組み合わせたものです。",
-            "シグナルとソースノートにより、目に見える Web サイトの証拠に主張が添付されます。",
-            "最初の行と短い電子メールは、一般的なパーソナライズではなく、保存された証拠に基づいたままになります。",
+            "シグナルとソースノートにより、目に見える Webサイトの証拠に主張が添付されます。",
+            "冒頭文と短い電子メールは、一般的なパーソナライズではなく、保存された証拠に基づいたままになります。",
             "エクスポート フィールドは、同じリード レコードに関連付けられた CRM 対応コンテキストを保持します。"
           ]
         },
@@ -492,7 +492,7 @@
           "copy": "LeadCue は、アウトリーチ前のリサーチ層です。それは資格を強化するものであり、人間によるレビュー、CRM の所有権、またはコンプライアンスチェックに取って代わるものではありません。",
           "items": [
             "チームが実際に評価したいアカウントに対してのみスキャンを実行します。",
-            "ウェブサイトの証拠が連絡を正当化するのに十分具体的である場合は、リードを保存します。",
+            "Webサイトの証拠が連絡を正当化するのに十分具体的である場合は、リードを保存します。",
             "CSV エクスポートまたは CRM フィールド マッピングを使用して、適格な調査のみを下流に移動します。",
             "オファー、地域、対象業界が変更されるたびに ICP 設定を更新します。"
           ]
@@ -502,7 +502,7 @@
     "support": {
       "eyebrow": "サポート",
       "title": "アカウント アクセス、請求、スキャン、エクスポート、ロールアウトに関する質問についてサポートを受けます。",
-      "summary": "サポートは、サインイン、ワークスペースの構成、Web サイトのスキャン、リードのエクスポート、プラン制限内での維持など、実際のアウトバウンド ワークフローを中心に構成されています。",
+      "summary": "サポートは、サインイン、ワークスペースの構成、Webサイトのスキャン、リードのエクスポート、プラン制限内での維持など、実際のアウトバウンド ワークフローを中心に構成されています。",
       "primaryAction": {
         "label": "電子メールによるサポート",
         "href": "mailto:support@leadcue.app"
@@ -545,21 +545,21 @@
       ]
     },
     "contact": {
-      "eyebrow": "連絡先",
+      "eyebrow": "お問い合わせ",
       "title": "代理店の見込み客ワークフロー、計画の適合、展開の設定について LeadCue に相談してください。",
-      "summary": "製品がワークフローに適合するかどうか、フィールドを CRM にマッピングする方法、または Web サイトファーストの調査をチームに導入する方法を決定する際にサポートが必要な場合は、お問い合わせを使用してください。",
+      "summary": "製品がワークフローに適合するかどうか、フィールドを CRM にマッピングする方法、または Webサイトファーストの調査をチームに導入する方法を決定する際にサポートが必要な場合は、お問い合わせを使用してください。",
       "primaryAction": {
         "label": "LeadCue にメールで送信する",
         "href": "mailto:support@leadcue.app"
       },
       "secondaryAction": {
-        "label": "無料で始めましょう",
+        "label": "無料で始める",
         "href": "/signup?plan=free"
       },
       "sections": [
         {
           "title": "Who LeadCue is for",
-          "copy": "LeadCue は、Web デザイン、SEO、CRO、ポジショニング、または Web サイトの目に見える証拠が信頼できるアウトリーチ角度を生み出す関連サービスをすでに販売しているチームにとって最も強力です。",
+          "copy": "LeadCue は、Web デザイン、SEO、CRO、ポジショニング、または Webサイトの目に見える証拠が信頼できるアウトリーチ角度を生み出す関連サービスをすでに販売しているチームにとって最も強力です。",
           "items": [
             "毎週のアウトバウンド習慣を構築しているソロの創業者。",
             "リストをエクスポートする前に、より適切な資格が必要な小規模代理店。",
@@ -573,7 +573,7 @@
           "items": [
             "代理店にとって適格なアカウントとはどのようなものですか。",
             "保存された見込み客カードはレビュー後にどこに移動する必要があります。",
-            "オファーにとって最も重要な Web サイトのシグナル。",
+            "オファーにとって最も重要な Webサイトのシグナル。",
             "チームが実際に使用する月間スキャン量。"
           ]
         },
@@ -591,8 +591,8 @@
     },
     "privacy": {
       "eyebrow": "プライバシー",
-      "title": "ウェブサイトファーストの見込み客調査のためのプライバシー原則。",
-      "summary": "LeadCue は、ユーザーがトリガーする Web サイト分析、ワークスペース設定データ、安全なアカウント セッション、および代理店のアウトバウンド業務に必要な保存されたリサーチを中心に構築されています。",
+      "title": "Webサイトファーストの見込み客調査のためのプライバシー原則。",
+      "summary": "LeadCue は、ユーザーがトリガーする Webサイト分析、ワークスペース設定データ、安全なアカウント セッション、および代理店のアウトバウンド業務に必要な保存されたリサーチを中心に構築されています。",
       "primaryAction": {
         "label": "プライバシー サポートに問い合わせる",
         "href": "mailto:support@leadcue.app"
@@ -608,8 +608,8 @@
           "items": [
             "Google OAuth または仕事用メールのサインアップからのアカウント ID。",
             "ワークスペース プラン、サブスクリプションの状態、およびスキャン クレジットの使用状況。",
-            "見込み客の Web サイトをスコアリングするために使用される代理店の ICP 設定。",
-            "プロスペクト Web サイトのスナップショット、生成されたメモ、アクティビティ ログの変更、および保存されたプロスペクト カード。"
+            "見込み客の Webサイトをスコアリングするために使用される代理店の ICP 設定。",
+            "プロスペクト Webサイトのスナップショット、生成されたメモ、アクティビティ ログの変更、および保存されたプロスペクト カード。"
           ]
         },
         {
@@ -618,7 +618,7 @@
           "items": [
             "スキャンはユーザーによってトリガーされるか、顧客によって API 経由で送信されます。",
             "LinkedIn のスクレイピングとバックグラウンド ブラウジングの収集は製品の範囲外です。",
-            "連絡先の詳細は、スキャンされたページに表示される場合、公開 Web サイトのパスに限定されます。",
+            "連絡先の詳細は、スキャンされたページに表示される場合、公開 Webサイトのパスに限定されます。",
             "エクスポートには、購入したデータではなく、保存されたリサーチとマップされたフィールドが含まれます。"
           ]
         },
@@ -637,9 +637,9 @@
     "terms": {
       "eyebrow": "規約",
       "title": "LeadCue ワークスペースの商用利用規約。",
-      "summary": "これらの用語は、Web サイト調査、見込み客の認定、安全なアカウント アクセス、代理店のアウトバウンド チーム向けの輸出準備完了メモなど、対象となる製品の境界を説明します。",
+      "summary": "これらの用語は、Webサイト調査、見込み客の認定、安全なアカウント アクセス、代理店のアウトバウンド チーム向けの輸出準備完了メモなど、対象となる製品の境界を説明します。",
       "primaryAction": {
-        "label": "無料で始めましょう",
+        "label": "無料で始める",
         "href": "/signup?plan=free"
       },
       "secondaryAction": {
@@ -649,17 +649,17 @@
       "sections": [
         {
           "title": "許容される使用法",
-          "copy": "LeadCue を使用して公開企業の Web サイトを分析し、より適切なアウトバウンド調査を準備します。お客様は、合法的な使用とメッセージの遵守について引き続き責任を負います。",
+          "copy": "LeadCue を使用して公開企業の Webサイトを分析し、より適切なアウトバウンド調査を準備します。お客様は、合法的な使用とメッセージの遵守について引き続き責任を負います。",
           "items": [
             "合法的なビジネス見込み客ワークフローに対してのみスキャンを実行します。",
-            "ウェブサイト、プラットフォーム、アウトリーチツールのポリシーを尊重します。",
+            "Webサイト、プラットフォーム、アウトリーチツールのポリシーを尊重します。",
             "スパムを自動化したり、不要な連絡先リストを作成したりするために LeadCue を使用しないでください。",
             "生成されたコピーを送信する前に確認します。"
           ]
         },
         {
           "title": "プラン、クレジット、サブスクリプション",
-          "copy": "プランは、毎月の Web サイト スキャン容量を中心に編成されており、構成するとより多くのクレジットを使用してより詳細な分析が行われます。",
+          "copy": "プランは、毎月の Webサイト スキャン容量を中心に編成されており、構成するとより多くのクレジットを使用してより詳細な分析が行われます。",
           "items": [
             "無料のワークスペースには、毎月のスキャン量が制限されています。",
             "ディープ スキャンでは、公開されたプラン ルールに基づいて追加のクレジットを消費する可能性があります。",
@@ -701,14 +701,14 @@
             "Google 또는 업무 이메일로 작업공간을 만들고 점수 프로필을 완성하세요.",
             "팀에서 웹 사이트를 검토하는 빈도와 일치하는 월간 검사 볼륨을 선택하세요.",
             "하나의 실제 잠재 고객 URL을 로드하고 눈에 보이는 웹사이트 메모를 추가한 후 첫 번째 스캔을 실행하세요.",
-            "첫 번째 라인을 복사하거나 리드를 내보내기 전에 잠재 고객 카드를 검토하세요."
+            "첫 문장을 복사하거나 리드를 내보내기 전에 잠재 고객 카드를 검토하세요."
           ]
         },
         {
           "title": "잠재 고객 카드를 읽는 방법",
           "copy": "저장된 모든 카드는 이 계정이 적합한 이유, 웹사이트에서 증명하는 내용, 담당자가 다음에 해야 할 말 등 세 가지 질문에 빠르게 답하기 위한 것입니다.",
           "items": [
-            "적합성 점수는 제안, 산업, 지역 및 신호 품질을 결합합니다.",
+            "적합도 점수는 제안, 산업, 지역 및 신호 품질을 결합합니다.",
             "신호 및 소스 메모는 눈에 보이는 웹사이트 증거에 대한 주장을 계속 첨부합니다.",
             "첫 번째 줄과 짧은 이메일은 일반적인 개인화 대신 저장된 증거를 기반으로 합니다.",
             "내보내기 필드는 동일한 리드 레코드에 연결된 CRM 지원 컨텍스트를 유지합니다."
@@ -716,7 +716,7 @@
         },
         {
           "title": "운영 모델",
-          "copy": "LeadCue는 봉사 활동 이전의 연구 계층입니다. 이는 인적 검토, CRM 소유권 또는 규정 준수 확인을 대체하는 것이 아니라 자격을 강화해야 합니다.",
+          "copy": "LeadCue는 아웃리치 이전의 연구 계층입니다. 이는 인적 검토, CRM 소유권 또는 규정 준수 확인을 대체하는 것이 아니라 자격을 강화해야 합니다.",
           "items": [
             "팀에서 실제로 평가하려는 계정에 대해서만 검사를 실행하세요.",
             "웹사이트 증거가 연락을 정당화할 만큼 충분히 구체적이면 리드를 저장하세요.",
@@ -772,7 +772,7 @@
       ]
     },
     "contact": {
-      "eyebrow": "연락처",
+      "eyebrow": "문의",
       "title": "대행사 발굴 워크플로, 계획 적합성 및 출시 설정에 대해 LeadCue와 상담하세요.",
       "summary": "제품이 워크플로와 일치하는지 결정하는 데 도움이 필요할 때, CRM에 필드를 매핑하는 방법, 팀에 웹사이트 우선 조사를 도입하는 방법에 대해 도움이 필요할 때 문의하세요.",
       "primaryAction": {
@@ -780,7 +780,7 @@
         "href": "mailto:support@leadcue.app"
       },
       "secondaryAction": {
-        "label": "무료로 시작하세요",
+        "label": "무료로 시작하기",
         "href": "/signup?plan=free"
       },
       "sections": [
@@ -866,7 +866,7 @@
       "title": "LeadCue 작업공간에 대한 상업적 사용 조건.",
       "summary": "이 용어는 웹사이트 조사, 잠재 고객 자격, 보안 계정 액세스, 대행사 아웃바운드 팀을 위한 수출 준비 메모 등 의도된 제품 범위를 설명합니다.",
       "primaryAction": {
-        "label": "무료로 시작하세요",
+        "label": "무료로 시작하기",
         "href": "/signup?plan=free"
       },
       "secondaryAction": {
@@ -943,7 +943,7 @@
         },
         {
           "title": "Betriebsmodell",
-          "copy": "LeadCue ist die Rechercheschicht vor der Öffentlichkeitsarbeit. Es sollte die Qualifikation schärfen und nicht die menschliche Überprüfung, die CRM-Verantwortung oder Compliance-Prüfungen ersetzen.",
+          "copy": "LeadCue ist die Rechercheschicht vor der Ansprache. Es sollte die Qualifikation schärfen und nicht die menschliche Überprüfung, die CRM-Verantwortung oder Compliance-Prüfungen ersetzen.",
           "items": [
             "Führen Sie Scans nur für Konten durch, die Ihr Team tatsächlich auswerten möchte.",
             "Speichern Sie Leads, wenn die Website-Beweise spezifisch genug sind, um eine Kontaktaufnahme zu rechtfertigen.",
@@ -954,7 +954,7 @@
       ]
     },
     "support": {
-      "eyebrow": "Unterstützung",
+      "eyebrow": "Support",
       "title": "Erhalten Sie Hilfe bei Kontozugriff, Abrechnung, Scans, Exporten und Rollout-Fragen.",
       "summary": "Der Support ist rund um den eigentlichen Outbound-Workflow strukturiert: Anmelden, Konfigurieren des Arbeitsbereichs, Scannen von Websites, Exportieren von Leads und Einhaltung der Plangrenzen.",
       "primaryAction": {
@@ -1018,7 +1018,7 @@
             "Solo-Gründer entwickeln eine wöchentliche Outbound-Gewohnheit.",
             "Kleine Agenturen, die vor dem Listenexport eine bessere Qualifizierung benötigen.",
             "Outbound-Teams, die CRM-fähige Recherchen anstelle allgemeiner Leads wünschen.",
-            "Betriebsleiter, die eine klare Übergabe zwischen Forschung und Öffentlichkeitsarbeit benötigen."
+            "Betriebsleiter, die eine klare Übergabe zwischen Forschung und Ansprache benötigen."
           ]
         },
         {
@@ -1123,7 +1123,7 @@
         },
         {
           "title": "Produktgrenze und Verantwortung",
-          "copy": "LeadCue ist die Rechercheebene vor der Öffentlichkeitsarbeit. Es garantiert keine Verkaufsergebnisse und sollte als Entscheidungshilfe und strukturierter Export betrachtet werden.",
+          "copy": "LeadCue ist die Rechercheebene vor der Ansprache. Es garantiert keine Verkaufsergebnisse und sollte als Entscheidungshilfe und strukturierter Export betrachtet werden.",
           "items": [
             "LeadCue versendet keine Kampagnen.",
             "LeadCue ersetzt nicht die CRM-Governance oder Compliance-Überprüfung.",
@@ -1144,7 +1144,7 @@
         "href": "/app"
       },
       "secondaryAction": {
-        "label": "Neem contact op met ondersteuning",
+        "label": "Contact opnemen met support",
         "href": "/support"
       },
       "sections": [
@@ -1181,7 +1181,7 @@
       ]
     },
     "support": {
-      "eyebrow": "Ondersteuning",
+      "eyebrow": "Support",
       "title": "Krijg hulp bij accounttoegang, facturering, scans, exports en vragen over de implementatie.",
       "summary": "Ondersteuning is opgebouwd rond de daadwerkelijke uitgaande workflow: inloggen, de werkruimte configureren, websites scannen, leads exporteren en binnen de planlimieten blijven.",
       "primaryAction": {
@@ -1226,7 +1226,7 @@
       ]
     },
     "contact": {
-      "eyebrow": "Contactpersoon",
+      "eyebrow": "Contact",
       "title": "Praat met LeadCue over de workflows voor prospectie van bureaus, de planning en het opzetten van de implementatie.",
       "summary": "Gebruik contact als u hulp nodig heeft bij het beslissen of het product aansluit bij uw workflow, hoe u velden in CRM kunt toewijzen of hoe u website-first-onderzoek aan een team kunt introduceren.",
       "primaryAction": {
@@ -1234,7 +1234,7 @@
         "href": "mailto:support@leadcue.app"
       },
       "secondaryAction": {
-        "label": "Begin gratis",
+        "label": "Gratis starten",
         "href": "/signup?plan=free"
       },
       "sections": [
@@ -1320,7 +1320,7 @@
       "title": "Commerciële gebruiksvoorwaarden voor LeadCue-werkruimten.",
       "summary": "Deze termen beschrijven de beoogde productgrens: websiteonderzoek, kwalificatie van potentiële klanten, beveiligde accounttoegang en exportklare notities voor uitgaande teams van bureaus.",
       "primaryAction": {
-        "label": "Begin gratis",
+        "label": "Gratis starten",
         "href": "/signup?plan=free"
       },
       "secondaryAction": {
@@ -1371,7 +1371,7 @@
         "href": "/app"
       },
       "secondaryAction": {
-        "label": "Contacter l'assistance",
+        "label": "Contacter le support",
         "href": "/support"
       },
       "sections": [
@@ -1397,7 +1397,7 @@
         },
         {
           "title": "Modèle opérationnel",
-          "copy": "LeadCue est la couche de recherche avant la sensibilisation. Il doit affiner les qualifications et non remplacer l'examen humain, la propriété du CRM ou les contrôles de conformité.",
+          "copy": "LeadCue est la couche de recherche avant la prospection. Il doit affiner les qualifications et non remplacer l'examen humain, la propriété du CRM ou les contrôles de conformité.",
           "items": [
             "Exécutez des analyses uniquement sur les comptes que votre équipe souhaite réellement évaluer.",
             "Enregistrez les prospects lorsque les preuves du site Web sont suffisamment spécifiques pour justifier le contact.",
@@ -1408,7 +1408,7 @@
       ]
     },
     "support": {
-      "eyebrow": "Assistance",
+      "eyebrow": "Support",
       "title": "Obtenez de l'aide sur l'accès au compte, la facturation, les analyses, les exportations et les questions de déploiement.",
       "summary": "L'assistance est structurée autour du flux de travail sortant réel : connexion, configuration de l'espace de travail, analyse des sites Web, exportation de prospects et respect des limites du plan.",
       "primaryAction": {
@@ -1453,7 +1453,7 @@
       ]
     },
     "contact": {
-      "eyebrow": "Contacter",
+      "eyebrow": "Contact",
       "title": "Parlez à LeadCue des flux de travail de prospection des agences, de l'adéquation du plan et de la configuration du déploiement.",
       "summary": "Utilisez Contact lorsque vous avez besoin d'aide pour décider si le produit correspond à votre flux de travail, comment mapper les champs dans CRM ou comment présenter la recherche sur le site Web à une équipe.",
       "primaryAction": {
@@ -1461,18 +1461,18 @@
         "href": "mailto:support@leadcue.app"
       },
       "secondaryAction": {
-        "label": "Commencez gratuitement",
+        "label": "Commencer gratuitement",
         "href": "/signup?plan=free"
       },
       "sections": [
         {
           "title": "À qui s'adresse LeadCue",
-          "copy": "LeadCue est le plus puissant pour les équipes qui vendent déjà des services de conception Web, de référencement, de CRO, de positionnement ou connexes, où les preuves visibles du site Web créent un angle de sensibilisation crédible.",
+          "copy": "LeadCue est le plus puissant pour les équipes qui vendent déjà des services de conception Web, de référencement, de CRO, de positionnement ou connexes, où les preuves visibles du site Web créent un angle de prospection crédible.",
           "items": [
             "Les fondateurs solo développent une habitude hebdomadaire de sorties.",
             "Petites agences qui ont besoin d'une meilleure qualification avant l'exportation de la liste.",
             "Équipes sortantes qui souhaitent des recherches prêtes pour le CRM plutôt que des prospects génériques.",
-            "Propriétaires d'opérations qui ont besoin d'un transfert clair entre la recherche et la sensibilisation."
+            "Propriétaires d'opérations qui ont besoin d'un transfert clair entre la recherche et la prospection."
           ]
         },
         {
@@ -1547,7 +1547,7 @@
       "title": "Conditions d'utilisation commerciale des espaces de travail LeadCue.",
       "summary": "Ces termes décrivent les limites du produit prévu : recherche de sites Web, qualification de prospects, accès sécurisé au compte et notes prêtes à l'exportation pour les équipes sortantes de l'agence.",
       "primaryAction": {
-        "label": "Commencez gratuitement",
+        "label": "Commencer gratuitement",
         "href": "/signup?plan=free"
       },
       "secondaryAction": {
@@ -1560,7 +1560,7 @@
           "copy": "Utilisez LeadCue pour analyser les sites Web des entreprises publiques et préparer de meilleures recherches sortantes. Les clients restent responsables de l’utilisation licite et du respect des messages.",
           "items": [
             "Exécutez des analyses uniquement pour les flux de travail de prospection commerciale légaux.",
-            "Respectez les politiques du site Web, de la plateforme et des outils de sensibilisation.",
+            "Respectez les politiques du site Web, de la plateforme et des outils de prospection.",
             "N'utilisez pas LeadCue pour automatiser le spam ou créer des listes de contacts indésirables.",
             "Examinez la copie générée avant qu'elle ne soit envoyée n'importe où."
           ]
@@ -1577,12 +1577,12 @@
         },
         {
           "title": "Limite et responsabilité du produit",
-          "copy": "LeadCue est la couche de recherche avant la sensibilisation. Il ne garantit pas les résultats des ventes et doit être traité comme une aide à la décision et une exportation structurée.",
+          "copy": "LeadCue est la couche de recherche avant la prospection. Il ne garantit pas les résultats des ventes et doit être traité comme une aide à la décision et une exportation structurée.",
           "items": [
             "LeadCue n'envoie pas de campagnes.",
             "LeadCue ne remplace pas la gouvernance CRM ou la vérification de la conformité.",
             "Les cartes de prospect générées sont informatives et doivent être examinées par le client.",
-            "Les clients restent responsables de la manière dont les données exportées et les copies de sensibilisation sont utilisées."
+            "Les clients restent responsables de la manière dont les données exportées et les copies de prospection sont utilisées."
           ]
         }
       ]

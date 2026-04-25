@@ -1,0 +1,104 @@
+/app
+  X-Robots-Tag: noindex, nofollow
+
+/app/*
+  X-Robots-Tag: noindex, nofollow
+
+/login
+  X-Robots-Tag: noindex, nofollow
+
+/signup
+  X-Robots-Tag: noindex, nofollow
+
+/reset-password
+  X-Robots-Tag: noindex, nofollow
+
+/zh/app
+  X-Robots-Tag: noindex, nofollow
+
+/zh/app/*
+  X-Robots-Tag: noindex, nofollow
+
+/zh/login
+  X-Robots-Tag: noindex, nofollow
+
+/zh/signup
+  X-Robots-Tag: noindex, nofollow
+
+/zh/reset-password
+  X-Robots-Tag: noindex, nofollow
+
+/ja/app
+  X-Robots-Tag: noindex, nofollow
+
+/ja/app/*
+  X-Robots-Tag: noindex, nofollow
+
+/ja/login
+  X-Robots-Tag: noindex, nofollow
+
+/ja/signup
+  X-Robots-Tag: noindex, nofollow
+
+/ja/reset-password
+  X-Robots-Tag: noindex, nofollow
+
+/ko/app
+  X-Robots-Tag: noindex, nofollow
+
+/ko/app/*
+  X-Robots-Tag: noindex, nofollow
+
+/ko/login
+  X-Robots-Tag: noindex, nofollow
+
+/ko/signup
+  X-Robots-Tag: noindex, nofollow
+
+/ko/reset-password
+  X-Robots-Tag: noindex, nofollow
+
+/de/app
+  X-Robots-Tag: noindex, nofollow
+
+/de/app/*
+  X-Robots-Tag: noindex, nofollow
+
+/de/login
+  X-Robots-Tag: noindex, nofollow
+
+/de/signup
+  X-Robots-Tag: noindex, nofollow
+
+/de/reset-password
+  X-Robots-Tag: noindex, nofollow
+
+/nl/app
+  X-Robots-Tag: noindex, nofollow
+
+/nl/app/*
+  X-Robots-Tag: noindex, nofollow
+
+/nl/login
+  X-Robots-Tag: noindex, nofollow
+
+/nl/signup
+  X-Robots-Tag: noindex, nofollow
+
+/nl/reset-password
+  X-Robots-Tag: noindex, nofollow
+
+/fr/app
+  X-Robots-Tag: noindex, nofollow
+
+/fr/app/*
+  X-Robots-Tag: noindex, nofollow
+
+/fr/login
+  X-Robots-Tag: noindex, nofollow
+
+/fr/signup
+  X-Robots-Tag: noindex, nofollow
+
+/fr/reset-password
+  X-Robots-Tag: noindex, nofollow

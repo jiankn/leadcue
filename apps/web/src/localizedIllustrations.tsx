@@ -1,3 +1,5 @@
+import type { SiteLocaleCode } from "./siteLocale";
+
 type HeroVisualCopy = {
   browserChip: string;
   browserTitle: string;
@@ -31,6 +33,16 @@ type LoginVisualCopy = {
   title: string;
   copy: string;
   proofItems: Array<{ label: string; value: string }>;
+};
+
+const loginVisualSources: Record<SiteLocaleCode, string> = {
+  en: "/images/login-visuals/leadcue-login-en.png",
+  zh: "/images/login-visuals/leadcue-login-zh.png",
+  ja: "/images/login-visuals/leadcue-login-ja.png",
+  ko: "/images/login-visuals/leadcue-login-ko.png",
+  de: "/images/login-visuals/leadcue-login-de.png",
+  nl: "/images/login-visuals/leadcue-login-nl.png",
+  fr: "/images/login-visuals/leadcue-login-fr.png"
 };
 
 export function HeroVisualIllustration({ copy }: { copy: HeroVisualCopy }) {
@@ -108,22 +120,8 @@ export function ResourceIllustration({ copy }: { copy: ResourceVisualCopy }) {
   );
 }
 
-export function LoginWorkspaceIllustration({ copy }: { copy: LoginVisualCopy }) {
+export function LoginWorkspaceIllustration({ locale }: { copy: LoginVisualCopy; locale: SiteLocaleCode }) {
   return (
-    <div className="localized-visual localized-visual-login" aria-hidden="true">
-      <div className="login-visual-copy">
-        <small>{copy.eyebrow}</small>
-        <strong>{copy.title}</strong>
-        <p>{copy.copy}</p>
-      </div>
-      <div className="login-visual-proof">
-        {copy.proofItems.map((item) => (
-          <div key={item.label}>
-            <span>{item.label}</span>
-            <strong>{item.value}</strong>
-          </div>
-        ))}
-      </div>
-    </div>
+    <img className="localized-login-image" src={loginVisualSources[locale]} alt="" aria-hidden="true" loading="eager" decoding="async" />
   );
 }

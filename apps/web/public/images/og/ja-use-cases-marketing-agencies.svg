@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">マーケティング代理店向けのWebサイトの見込み客 |成長支援</title>
+  <desc id="desc">Webサイト調査を使用して、マーケティング代理店のアウトバウンド向けに、不明確なポジショニング、弱いキャンペーン パス、不足している証拠、見込み顧客発掘の機会を見つけます。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="630" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#073733" />
+      <stop offset="1" stop-color="#0B504A" />
+    </linearGradient>
+    <linearGradient id="glow" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#96FF6A" />
+      <stop offset="1" stop-color="#D9FF85" />
+    </linearGradient>
+    <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse">
+      <path d="M48 0H0V48" stroke="#165A54" stroke-width="1" opacity="0.45" />
+      <circle cx="24" cy="24" r="2.8" fill="#165A54" opacity="0.72" />
+    </pattern>
+  </defs>
+  <rect width="1200" height="630" rx="32" fill="url(#bg)" />
+  <rect width="1200" height="630" rx="32" fill="url(#grid)" />
+  <circle cx="1030" cy="92" r="120" fill="#96FF6A" opacity="0.16" />
+  <circle cx="1140" cy="510" r="150" fill="#FFFFFF" opacity="0.05" />
+  <rect x="62" y="56" width="140" height="140" rx="34" fill="#96FF6A" />
+  <path d="M149 105C138 93 120 91 106 100C91 109 85 128 91 145C96 161 111 171 127 171C141 171 153 164 161 152" stroke="#083A36" stroke-width="16" stroke-linecap="round" />
+  <path d="M162 153L187 178" stroke="#083A36" stroke-width="16" stroke-linecap="round" />
+  <circle cx="118" cy="138" r="12" fill="#083A36" />
+  <text x="232" y="126" fill="#F7FFFC" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="58" font-weight="800">LeadCue</text>
+  <text x="232" y="170" fill="#BFE7DD" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="26" font-weight="600">日本語</text>
+  <g transform="translate(900, 66)">
+    <rect width="238" height="58" rx="29" fill="#0D4540" stroke="#1E6A63" />
+    <text x="28" y="38" fill="#DFFBF3" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="24" font-weight="700">マーケティング代理店</text>
+  </g>
+  <g transform="translate(78, 236)">
+    <rect width="330" height="46" rx="23" fill="#0D4540" stroke="#1E6A63" />
+    <text x="22" y="30" fill="#96FF6A" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="22" font-weight="700">使用例</text>
+  </g>
+  <text x="78" y="336" fill="#F7FFFC" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="72" font-weight="800">マーケティング代理店向けのWebサイトの見込み客</text>
+<text x="78" y="420" fill="#F7FFFC" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="72" font-weight="800">|成長支援</text>
+  <text x="78" y="514" fill="#D3EEE7" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="30" font-weight="600">Webサイト調査を使用して、マーケティング代理店のアウトバウンド向けに、不明確なポジショニング、弱いキャンペーン</text>
+<text x="78" y="554" fill="#D3EEE7" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="30" font-weight="600">パス、不足している証拠、見込み顧客発掘の機会を見つけます。</text>
+  <g transform="translate(78, 548)">
+    <rect width="262" height="44" rx="22" fill="#114b45" stroke="#1f6d66" />
+    <text x="22" y="29" fill="#dffbf3" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="20" font-weight="700">マーケティング代理店向けの Webサイトの見込み客</text>
+  </g>
+  <g transform="translate(364, 548)">
+    <rect width="262" height="44" rx="22" fill="#114b45" stroke="#1f6d66" />
+    <text x="22" y="29" fill="#dffbf3" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="20" font-weight="700">マーケティング代理店の見込み顧客探し</text>
+  </g>
+  <g transform="translate(650, 548)">
+    <rect width="262" height="44" rx="22" fill="#114b45" stroke="#1f6d66" />
+    <text x="22" y="29" fill="#dffbf3" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="20" font-weight="700">成長代理店のリード発掘</text>
+  </g>
+  <rect x="882" y="246" width="258" height="274" rx="28" fill="#0D4540" stroke="#1E6A63" />
+  <text x="914" y="302" fill="#BFE7DD" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="24" font-weight="700">Qualified fit</text>
+  <text x="914" y="386" fill="url(#glow)" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="92" font-weight="800">92</text>
+  <text x="914" y="432" fill="#D3EEE7" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="24" font-weight="600">成長代理店およびマーケティング代理店に、企業の Webサイトから証拠に裏付けられたアウトリーチを構築する方法を示します。</text>
+  <rect x="914" y="458" width="194" height="14" rx="7" fill="#135852" />
+  <rect x="914" y="458" width="138" height="14" rx="7" fill="#96FF6A" />
+</svg>

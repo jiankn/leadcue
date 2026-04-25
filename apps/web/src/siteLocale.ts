@@ -1,11 +1,11 @@
 export const siteLocaleLabels = {
-  en: { nativeName: "English", htmlLang: "en" },
-  zh: { nativeName: "简体中文", htmlLang: "zh-CN" },
-  ja: { nativeName: "日本語", htmlLang: "ja" },
-  ko: { nativeName: "한국어", htmlLang: "ko" },
-  de: { nativeName: "Deutsch", htmlLang: "de" },
-  nl: { nativeName: "Nederlands", htmlLang: "nl" },
-  fr: { nativeName: "Français", htmlLang: "fr" }
+  en: { nativeName: "English", switcherLabel: "EN", htmlLang: "en" },
+  zh: { nativeName: "简体中文", switcherLabel: "ZH", htmlLang: "zh-CN" },
+  ja: { nativeName: "日本語", switcherLabel: "JA", htmlLang: "ja" },
+  ko: { nativeName: "한국어", switcherLabel: "KO", htmlLang: "ko" },
+  de: { nativeName: "Deutsch", switcherLabel: "DE", htmlLang: "de" },
+  nl: { nativeName: "Nederlands", switcherLabel: "NL", htmlLang: "nl" },
+  fr: { nativeName: "Français", switcherLabel: "FR", htmlLang: "fr" }
 } as const;
 
 export type SiteLocaleCode = keyof typeof siteLocaleLabels;

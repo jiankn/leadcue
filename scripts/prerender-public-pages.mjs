@@ -1,30 +1,19 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
+import {
+  buildLocalePath,
+  escapeHtml,
+  generatedDir,
+  getSeoImageAlt,
+  getSeoImagePath,
+  homeKeywordPath,
+  localeMeta,
+  renderVerificationMetaTags,
+  repoRoot,
+  siteUrl
+} from "./seo-utils.mjs";
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const repoRoot = path.resolve(__dirname, "..");
 const distDir = path.join(repoRoot, "apps", "web", "dist");
-const generatedDir = path.join(repoRoot, "apps", "web", "src", "content", "generated");
-const siteUrl = "https://leadcue.app";
-
-const localeMeta = [
-  { code: "en", hrefLang: "en", htmlLang: "en" },
-  { code: "zh", hrefLang: "zh-CN", htmlLang: "zh-CN" },
-  { code: "ja", hrefLang: "ja", htmlLang: "ja" },
-  { code: "ko", hrefLang: "ko", htmlLang: "ko" },
-  { code: "de", hrefLang: "de", htmlLang: "de" },
-  { code: "nl", hrefLang: "nl", htmlLang: "nl" },
-  { code: "fr", hrefLang: "fr", htmlLang: "fr" }
-];
-
-function escapeHtml(value) {
-  return value
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
-}
 
 function normalizePath(pathname) {
   if (!pathname) {
@@ -33,11 +22,6 @@ function normalizePath(pathname) {
 
   const normalized = pathname.startsWith("/") ? pathname : `/${pathname}`;
   return normalized !== "/" ? normalized.replace(/\/+$/, "") || "/" : normalized;
-}
-
-function buildLocalePath(locale, pathname) {
-  const normalized = normalizePath(pathname);
-  return locale === "en" ? normalized : normalized === "/" ? `/${locale}` : `/${locale}${normalized}`;
 }
 
 function localizeHref(locale, href) {
@@ -56,20 +40,60 @@ function canonicalFor(localizedPath) {
   return `${siteUrl}${localizedPath === "/" ? "/" : localizedPath}`;
 }
 
+function makeContentAnchor(value) {
+  const asciiAnchor = value
+    .toLowerCase()
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+
+  if (asciiAnchor) {
+    return asciiAnchor;
+  }
+
+  const unicodeAnchor = Array.from(value.trim())
+    .map((char) => char.codePointAt(0)?.toString(16) ?? "")
+    .filter(Boolean)
+    .join("-");
+
+  return unicodeAnchor ? `section-${unicodeAnchor}` : "section";
+}
+
 async function loadBundles() {
-  const [siteUi, seoPages, productPages, commercialPages] = await Promise.all([
+  const [siteUi, seoPages, productPages, commercialPages, homeKeywords] = await Promise.all([
     readFile(path.join(generatedDir, "site-ui.locales.json"), "utf8"),
     readFile(path.join(generatedDir, "seo-pages.locales.json"), "utf8"),
     readFile(path.join(generatedDir, "product-pages.locales.json"), "utf8"),
-    readFile(path.join(generatedDir, "commercial-pages.locales.json"), "utf8")
+    readFile(path.join(generatedDir, "commercial-pages.locales.json"), "utf8"),
+    readFile(homeKeywordPath, "utf8")
   ]);
 
   return {
     siteUi: JSON.parse(siteUi),
     seoPages: JSON.parse(seoPages),
     productPages: JSON.parse(productPages),
-    commercialPages: JSON.parse(commercialPages)
+    commercialPages: JSON.parse(commercialPages),
+    homeKeywords: JSON.parse(homeKeywords)
   };
+}
+
+function buildRelatedLinks(slugs, seoPageMap, productPageMap) {
+  return slugs
+    .map((slug) => {
+      const page = productPageMap[slug] ?? seoPageMap[slug];
+
+      if (!page) {
+        return null;
+      }
+
+      return {
+        href: `/${page.slug}`,
+        label: page.title,
+        meta: page.category
+      };
+    })
+    .filter(Boolean);
 }
 
 function buildRoutes(bundles) {
@@ -80,6 +104,9 @@ function buildRoutes(bundles) {
     const seoPages = bundles.seoPages[locale.code] ?? bundles.seoPages.en;
     const productPages = bundles.productPages[locale.code] ?? bundles.productPages.en;
     const commercialPages = bundles.commercialPages[locale.code] ?? bundles.commercialPages.en;
+    const homeKeywords = bundles.homeKeywords[locale.code] ?? bundles.homeKeywords.en;
+    const seoPageMap = Object.fromEntries(seoPages.map((page) => [page.slug, page]));
+    const productPageMap = Object.fromEntries(productPages.map((page) => [page.slug, page]));
 
     routes.push({
       locale: locale.code,
@@ -88,8 +115,36 @@ function buildRoutes(bundles) {
       basePath: "/",
       localizedPath: buildLocalePath(locale.code, "/"),
       title: siteUi.home.seo.title,
+      heading: `${siteUi.home.hero.titleLead} ${siteUi.home.hero.titleAccent}`,
       description: siteUi.home.seo.description,
-      sections: [siteUi.home.hero.subhead, siteUi.home.features.copy, siteUi.home.resources.copy],
+      keywords: [homeKeywords.primaryKeyword, ...homeKeywords.secondaryKeywords],
+      sections: [
+        {
+          title: siteUi.home.features.title,
+          copy: siteUi.home.features.copy,
+          items: siteUi.home.features.items.map((item) => item.title)
+        },
+        {
+          title: siteUi.home.workflow.title,
+          copy: siteUi.home.hero.subhead,
+          items: siteUi.home.workflow.steps.map((step) => step.title)
+        },
+        {
+          title: siteUi.home.resources.titleLead,
+          copy: siteUi.home.resources.copy,
+          items: siteUi.home.resources.items.map((item) => item.title)
+        }
+      ],
+      faqItems: siteUi.home.faqSection.items,
+      relatedLinks: [...seoPages.slice(0, 3), ...productPages.slice(0, 3)].map((page) => ({
+        href: `/${page.slug}`,
+        label: page.title,
+        meta: page.category
+      })),
+      cta: {
+        href: "/signup?plan=free",
+        label: siteUi.common.startFreeScan
+      },
       siteUi,
       structuredType: "WebSite",
       ogType: "website"
@@ -103,8 +158,19 @@ function buildRoutes(bundles) {
         basePath: `/${slug}`,
         localizedPath: buildLocalePath(locale.code, `/${slug}`),
         title: `${page.title} | ${siteUi.common.brand}`,
+        heading: page.title,
         description: page.summary,
-        sections: page.sections.map((section) => section.title),
+        keywords: [page.eyebrow, ...page.sections.map((section) => section.title)],
+        sections: page.sections,
+        faqItems: [],
+        relatedLinks: [page.primaryAction, page.secondaryAction]
+          .filter(Boolean)
+          .map((action) => ({
+            href: action.href,
+            label: action.label,
+            meta: page.eyebrow
+          })),
+        cta: page.primaryAction,
         siteUi,
         structuredType: "WebPage",
         ogType: "website"
@@ -119,8 +185,17 @@ function buildRoutes(bundles) {
         basePath: `/${page.slug}`,
         localizedPath: buildLocalePath(locale.code, `/${page.slug}`),
         title: page.seoTitle,
+        heading: page.title,
         description: page.description,
-        sections: page.heroBullets,
+        keywords: [page.primaryKeyword, ...page.secondaryKeywords],
+        sections: page.sections,
+        example: page.example,
+        faqItems: page.faqs,
+        relatedLinks: buildRelatedLinks(page.related, seoPageMap, productPageMap),
+        cta: {
+          href: "/signup?plan=free",
+          label: siteUi.common.startFreeScan
+        },
         siteUi,
         structuredType: "Article",
         ogType: "article"
@@ -135,8 +210,16 @@ function buildRoutes(bundles) {
         basePath: `/${page.slug}`,
         localizedPath: buildLocalePath(locale.code, `/${page.slug}`),
         title: page.seoTitle,
+        heading: page.title,
         description: page.description,
-        sections: page.heroBullets,
+        keywords: [page.primaryKeyword, ...page.secondaryKeywords],
+        sections: page.sections,
+        faqItems: page.faqs,
+        relatedLinks: buildRelatedLinks(page.related, seoPageMap, productPageMap),
+        cta: {
+          href: "/signup?plan=free",
+          label: siteUi.common.startFreeScan
+        },
         siteUi,
         structuredType: page.slug.startsWith("integrations/") ? "TechArticle" : "WebPage",
         ogType: page.slug.startsWith("integrations/") ? "article" : "website"
@@ -158,20 +241,67 @@ function renderAlternateLinks(basePath) {
 }
 
 function renderStaticRoot(route) {
-  const homeHref = buildLocalePath(route.locale, "/");
-  const resourcesHref = `${buildLocalePath(route.locale, "/")}#resources`;
-  const startHref = localizeHref(route.locale, "/signup?plan=free");
-  const navTrail =
-    route.basePath === "/"
-      ? `<a href="${homeHref}">${escapeHtml(route.siteUi.common.brand)}</a>`
-      : `<a href="${homeHref}">${escapeHtml(route.siteUi.common.brand)}</a> / <a href="${resourcesHref}">${escapeHtml(route.siteUi.common.resources)}</a>`;
+  const breadcrumbItems = [
+    `<a href="${buildLocalePath(route.locale, "/")}">${escapeHtml(route.siteUi.common.brand)}</a>`,
+    route.basePath === "/" ? "" : `<span>/</span><a href="${buildLocalePath(route.locale, "/")}#resources">${escapeHtml(route.siteUi.common.resources)}</a>`,
+    route.basePath === "/" ? "" : `<span>/</span><strong>${escapeHtml(route.heading)}</strong>`
+  ]
+    .filter(Boolean)
+    .join("");
+  const keywordList = route.keywords.length
+    ? `<div class="prerender-keywords">${route.keywords.map((keyword) => `<span>${escapeHtml(keyword)}</span>`).join("")}</div>`
+    : "";
+  const sections = route.sections
+    .map(
+      (section) => `<section class="prerender-section" id="${makeContentAnchor(section.title)}">
+        <h2>${escapeHtml(section.title)}</h2>
+        <p>${escapeHtml(section.copy)}</p>
+        <ul>${section.items.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>
+      </section>`
+    )
+    .join("");
+  const example = route.example
+    ? `<section class="prerender-section" id="example">
+      <h2>${escapeHtml(route.example.title)}</h2>
+      <p>${escapeHtml(route.example.copy)}</p>
+      <ul>${route.example.items.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>
+    </section>`
+    : "";
+  const faq = route.faqItems.length
+    ? `<section class="prerender-section" id="faq">
+      <h2>${escapeHtml(route.siteUi.common.faq)}</h2>
+      ${route.faqItems
+        .map(
+          (item) => `<details><summary>${escapeHtml(item.question)}</summary><p>${escapeHtml(item.answer)}</p></details>`
+        )
+        .join("")}
+    </section>`
+    : "";
+  const relatedLinks = route.relatedLinks.length
+    ? `<section class="prerender-section">
+      <h2>${escapeHtml(route.siteUi.common.relatedResources)}</h2>
+      <ul>${route.relatedLinks
+        .map(
+          (item) =>
+            `<li><a href="${escapeHtml(localizeHref(route.locale, item.href))}">${escapeHtml(item.label)}</a><span> - ${escapeHtml(item.meta)}</span></li>`
+        )
+        .join("")}</ul>
+    </section>`
+    : "";
+  const cta = route.cta
+    ? `<p class="prerender-cta"><a href="${escapeHtml(localizeHref(route.locale, route.cta.href))}">${escapeHtml(route.cta.label)}</a></p>`
+    : "";
 
-  return `<main class="prerendered-seo" aria-label="${escapeHtml(route.title)}">
-    <nav>${navTrail}</nav>
-    <h1>${escapeHtml(route.title.replace(" | LeadCue", ""))}</h1>
+  return `<main class="prerendered-seo" aria-label="${escapeHtml(route.heading)}">
+    <nav>${breadcrumbItems}</nav>
+    <h1>${escapeHtml(route.heading)}</h1>
     <p>${escapeHtml(route.description)}</p>
-    <ul>${route.sections.map((section) => `<li>${escapeHtml(section)}</li>`).join("")}</ul>
-    <p><a href="${startHref}">${escapeHtml(route.siteUi.common.startFreeScan)}</a></p>
+    ${keywordList}
+    ${sections}
+    ${example}
+    ${faq}
+    ${relatedLinks}
+    ${cta}
   </main>`;
 }
 
@@ -195,7 +325,10 @@ function upsertDescriptionMeta(baseHtml, description) {
 
 function injectHead(baseHtml, route) {
   const canonical = canonicalFor(route.localizedPath);
-  const image = canonicalFor("/images/leadcue-og-card.svg");
+  const imagePath = getSeoImagePath(route.locale, route.basePath);
+  const image = canonicalFor(imagePath);
+  const imageAlt = getSeoImageAlt(route.title);
+  const verificationMetaTags = renderVerificationMetaTags("    ");
   const structuredData = JSON.stringify({
     "@context": "https://schema.org",
     "@type": route.structuredType,
@@ -203,6 +336,8 @@ function injectHead(baseHtml, route) {
     description: route.description,
     url: canonical,
     inLanguage: route.htmlLang,
+    image,
+    keywords: route.keywords.join(", "),
     publisher: {
       "@type": "Organization",
       name: route.siteUi.common.brand,
@@ -224,11 +359,15 @@ function injectHead(baseHtml, route) {
     <meta property="og:site_name" content="${escapeHtml(route.siteUi.common.brand)}" />
     <meta property="og:locale" content="${route.hrefLang}" />
     <meta property="og:image" content="${image}" />
+    <meta property="og:image:alt" content="${escapeHtml(imageAlt)}" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="${escapeHtml(route.title)}" />
     <meta name="twitter:description" content="${escapeHtml(route.description)}" />
     <meta name="twitter:image" content="${image}" />
-    <script type="application/ld+json">${structuredData.replace(/</g, "\\u003c")}</script>
+    <meta name="twitter:image:alt" content="${escapeHtml(imageAlt)}" />
+${verificationMetaTags}    <script type="application/ld+json">${structuredData.replace(/</g, "\\u003c")}</script>
   </head>`
   );
 
@@ -242,7 +381,7 @@ const publicRoutes = buildRoutes(bundles);
 await Promise.all(
   publicRoutes.map(async (route) => {
     const html = injectHead(baseHtml, route);
-    const targetDir = route.localizedPath === "/" ? distDir : path.join(distDir, route.localizedPath.slice(1));
+    const targetDir = route.localizedPath === "/" ? distDir : path.join(distDir, normalizePath(route.localizedPath).slice(1));
     await mkdir(targetDir, { recursive: true });
     await writeFile(path.join(targetDir, "index.html"), html);
   })

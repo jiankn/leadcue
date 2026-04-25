@@ -695,44 +695,63 @@ h3 {
   align-content: space-between;
   gap: 24px;
   padding: 34px 24px 24px;
+  z-index: 0;
+  isolation: isolate;
+  overflow: hidden;
+  color: #f7fff2;
   background:
-    radial-gradient(circle at 12% 0%, rgba(255, 255, 255, 0.96), transparent 34%),
-    linear-gradient(110deg, rgba(251, 255, 247, 0.82), rgba(156, 255, 120, 0.14) 40%, rgba(3, 40, 35, 0.16) 60%, rgba(3, 40, 35, 0.88)),
-    linear-gradient(180deg, rgba(2, 54, 46, 0.18), rgba(2, 47, 41, 0.94));
+    radial-gradient(circle at 20% 12%, rgba(156, 255, 120, 0.28), transparent 30%),
+    linear-gradient(112deg, rgba(2, 47, 41, 0.98), rgba(4, 91, 76, 0.94) 52%, rgba(2, 31, 28, 0.98));
+}
+
+.localized-visual-login::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image: radial-gradient(circle, rgba(217, 255, 198, 0.18) 1px, transparent 1px);
+  background-size: 22px 22px;
+  opacity: 0.55;
+  pointer-events: none;
 }
 
 .login-visual-copy,
 .login-visual-proof {
   position: relative;
-  z-index: 4;
+  z-index: 2;
 }
 
 .login-visual-copy {
   width: min(500px, calc(100% - 48px));
   display: grid;
   gap: 12px;
+  padding: 22px;
+  background: rgba(2, 47, 41, 0.82);
+  border: 1px solid rgba(156, 255, 120, 0.28);
+  box-shadow: 0 22px 58px rgba(0, 18, 16, 0.36);
+  backdrop-filter: blur(8px);
 }
 
 .login-visual-copy small {
-  color: var(--primary-dark);
+  color: #9cff78;
 }
 
 .login-visual-copy strong {
   max-width: 500px;
-  color: #042722;
+  color: #fff;
   font-size: clamp(34px, 3.25vw, 56px);
   font-weight: 900;
   line-height: 1.02;
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.62), 0 10px 30px rgba(250, 248, 241, 0.28);
+  text-shadow: 0 14px 36px rgba(0, 18, 16, 0.52);
 }
 
 .login-visual-copy p {
   max-width: 460px;
   margin: 0;
-  color: rgba(3, 40, 35, 0.9);
+  color: rgba(247, 255, 242, 0.86);
   font-size: 17px;
   line-height: 1.55;
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.68);
+  text-shadow: none;
 }
 
 .login-visual-proof {
@@ -746,16 +765,17 @@ h3 {
   gap: 8px;
   min-height: 86px;
   padding: 14px;
-  background: rgba(4, 34, 29, 0.72);
+  background: rgba(247, 255, 242, 0.94);
+  border-color: rgba(156, 255, 120, 0.36);
   backdrop-filter: blur(14px);
 }
 
 .login-visual-proof span {
-  color: rgba(255, 255, 255, 0.7);
+  color: #006252;
 }
 
 .login-visual-proof strong {
-  color: #fff;
+  color: #032f29;
 }
 
 .hero-visual-note {
@@ -3539,24 +3559,23 @@ h3 {
   transform: scale(1.01);
 }
 
+.login-showcase .localized-login-image {
+  z-index: 0;
+  object-position: left center;
+}
+
 .login-showcase-overlay {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  background:
-    radial-gradient(ellipse at 0% 0%, rgba(250, 248, 241, 0.98) 0%, rgba(250, 248, 241, 0.94) 30%, rgba(250, 248, 241, 0.58) 52%, transparent 70%),
-    linear-gradient(90deg, rgba(250, 248, 241, 0.74), rgba(250, 248, 241, 0.42) 36%, rgba(4, 34, 29, 0.1) 58%, rgba(4, 34, 29, 0.68)),
-    linear-gradient(180deg, rgba(253, 249, 237, 0.5), transparent 38%, rgba(4, 34, 29, 0.86));
+  display: none;
 }
 
 .login-showcase::after {
   content: "";
   position: absolute;
   inset: 0;
-  z-index: 2;
+  z-index: 1;
   background-image: radial-gradient(circle, rgba(255, 255, 255, 0.42) 1px, transparent 1px);
   background-size: 24px 24px;
-  opacity: 0.14;
+  opacity: 0.08;
   pointer-events: none;
 }
 
@@ -3720,9 +3739,9 @@ h3 {
 
 .auth-signup-row {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 1fr) minmax(196px, 232px);
   gap: 14px;
-  align-items: center;
+  align-items: start;
   border-top: 1px solid rgba(222, 216, 204, 0.82);
   padding-top: 16px;
 }
@@ -3742,7 +3761,11 @@ h3 {
 
 .auth-signup-button {
   min-height: 44px;
-  white-space: nowrap;
+  width: 100%;
+  padding-inline: 14px;
+  white-space: normal;
+  text-align: center;
+  line-height: 1.2;
 }
 
 .content-topbar {

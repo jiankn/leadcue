@@ -1,6 +1,8 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { curateLocalizedString, protectedTerms } from "./public-locale-curation.mjs";
+import { siteUrl } from "./seo-utils.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(__dirname, "..");
@@ -8,7 +10,6 @@ const generatedDir = path.join(repoRoot, "apps", "web", "src", "content", "gener
 const sourceDir = path.join(repoRoot, "apps", "web", "src", "content", "source");
 const cachePath = path.join(repoRoot, "scripts", ".translation-cache.json");
 const publicDir = path.join(repoRoot, "apps", "web", "public");
-const siteUrl = "https://leadcue.app";
 
 const localeTargets = {
   en: "en",
@@ -32,12 +33,52 @@ const siteLocales = [
 
 const batchSize = 24;
 
+function protectTermsInString(value) {
+  const protectedEntries = [];
+  let output = value;
+
+  protectedTerms.forEach((term, index) => {
+    const placeholder = `__KEEP_${index}__`;
+    const escaped = term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const pattern = new RegExp(escaped, "g");
+
+    if (!pattern.test(output)) {
+      return;
+    }
+
+    output = output.replace(pattern, placeholder);
+    protectedEntries.push([placeholder, term]);
+  });
+
+  return { output, protectedEntries };
+}
+
+function restoreProtectedTerms(value, protectedEntries) {
+  return protectedEntries.reduce((current, [placeholder, term]) => current.replaceAll(placeholder, term), value);
+}
+
 function normalizeForCache(value) {
   return value.replace(/\r\n/g, "\n").trim();
 }
 
 function isPlainObject(value) {
   return Boolean(value) && typeof value === "object" && !Array.isArray(value);
+}
+
+function shouldSkipObjectKey(key, item) {
+  if (key === "related" || key === "platform" || key === "href" || key === "value") {
+    return true;
+  }
+
+  if (key === "slug") {
+    return true;
+  }
+
+  if (key === "tool" && typeof item === "string" && /^[a-z-]+$/.test(item)) {
+    return true;
+  }
+
+  return false;
 }
 
 function shouldKeepString(value) {
@@ -144,7 +185,8 @@ async function writeCache(cache) {
 }
 
 async function googleTranslate(targetLocale, segments) {
-  const joined = segments.map((segment, index) => `__SEG_${index}__ ${segment}`).join("\n");
+  const protectedSegments = segments.map((segment) => protectTermsInString(segment));
+  const joined = protectedSegments.map((segment, index) => `__SEG_${index}__ ${segment.output}`).join("\n");
   const url =
     "https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&dt=t&tl=" +
     encodeURIComponent(targetLocale) +
@@ -173,8 +215,8 @@ async function googleTranslate(targetLocale, segments) {
     }
 
     const raw = translated.slice(start + marker.length, end === -1 ? translated.length : end).trim();
-    restored.push(raw || segments[index]);
-  }
+      restored.push(restoreProtectedTerms(raw || protectedSegments[index].output, protectedSegments[index].protectedEntries));
+    }
 
   return restored;
 }
@@ -194,7 +236,7 @@ async function translateStrings(strings, locale, cache) {
     const cached = cacheBucket[normalized];
 
     if (cached) {
-      results[index] = cached;
+      results[index] = curateLocalizedString(locale, value, cached);
       return;
     }
 
@@ -210,8 +252,9 @@ async function translateStrings(strings, locale, cache) {
       const sourceValue = batch[offset];
       const index = missingIndexes[start + offset];
       const normalized = normalizeForCache(sourceValue);
-      cacheBucket[normalized] = translated;
-      results[index] = translated;
+      const curated = curateLocalizedString(locale, sourceValue, translated);
+      cacheBucket[normalized] = curated;
+      results[index] = curated;
     });
   }
 
@@ -226,7 +269,7 @@ function collectStrings(value, strings = []) {
 
   if (isPlainObject(value)) {
     Object.entries(value).forEach(([key, item]) => {
-      if (key === "slug" || key === "related" || key === "tool" || key === "platform" || key === "href" || key === "value") {
+      if (shouldSkipObjectKey(key, item)) {
         return;
       }
 
@@ -250,7 +293,7 @@ function applyTranslations(value, iterator) {
   if (isPlainObject(value)) {
     return Object.fromEntries(
       Object.entries(value).map(([key, item]) => {
-        if (key === "slug" || key === "related" || key === "tool" || key === "platform" || key === "href" || key === "value") {
+        if (shouldSkipObjectKey(key, item)) {
           return [key, item];
         }
 

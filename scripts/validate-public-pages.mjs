@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import { authNoIndexPaths, getSearchEngineVerifications, localeMeta } from "./seo-utils.mjs";
 
 const distDir = process.argv[2] ? path.resolve(process.argv[2]) : path.resolve("apps/web/dist");
 
@@ -27,6 +28,7 @@ function walk(dir) {
 walk(distDir);
 
 const findings = [];
+const verificationEntries = getSearchEngineVerifications();
 
 for (const file of htmlFiles) {
   const html = fs.readFileSync(file, "utf8");
@@ -60,10 +62,35 @@ for (const file of htmlFiles) {
   if (!/script\s+type=["']application\/ld\+json["']/i.test(html)) {
     findings.push(`${publicPath}: missing JSON-LD`);
   }
+
+  if (!/meta\s+property=["']og:image["']\s+content=["']https?:\/\//i.test(html)) {
+    findings.push(`${publicPath}: missing og:image`);
+  }
+
+  if (!/meta\s+property=["']og:image:alt["']\s+content=["'][^"']+/i.test(html)) {
+    findings.push(`${publicPath}: missing og:image:alt`);
+  }
+
+  if (!/meta\s+name=["']twitter:image["']\s+content=["']https?:\/\//i.test(html)) {
+    findings.push(`${publicPath}: missing twitter:image`);
+  }
+
+  if (!/meta\s+name=["']twitter:image:alt["']\s+content=["'][^"']+/i.test(html)) {
+    findings.push(`${publicPath}: missing twitter:image:alt`);
+  }
+
+  verificationEntries.forEach((entry) => {
+    const pattern = new RegExp(`meta\\s+${entry.attribute}=["']${entry.value}["']\\s+content=["'][^"']+`, "i");
+
+    if (!pattern.test(html)) {
+      findings.push(`${publicPath}: missing ${entry.value} verification meta`);
+    }
+  });
 }
 
 const sitemapPath = path.join(distDir, "sitemap.xml");
 const robotsPath = path.join(distDir, "robots.txt");
+const headersPath = path.join(distDir, "_headers");
 
 if (!fs.existsSync(sitemapPath)) {
   findings.push("/sitemap.xml: missing from dist");
@@ -71,6 +98,38 @@ if (!fs.existsSync(sitemapPath)) {
 
 if (!fs.existsSync(robotsPath)) {
   findings.push("/robots.txt: missing from dist");
+} else {
+  const robots = fs.readFileSync(robotsPath, "utf8");
+  const expectedNoIndexPaths = [
+    ...authNoIndexPaths,
+    ...localeMeta
+      .filter((locale) => locale.code !== "en")
+      .flatMap((locale) => authNoIndexPaths.map((pathname) => `/${locale.code}${pathname}`))
+  ];
+
+  expectedNoIndexPaths.forEach((pathname) => {
+    if (!robots.includes(`Disallow: ${pathname}`)) {
+      findings.push(`/robots.txt: missing ${pathname} disallow rule`);
+    }
+  });
+}
+
+if (!fs.existsSync(headersPath)) {
+  findings.push("/_headers: missing from dist");
+} else {
+  const headers = fs.readFileSync(headersPath, "utf8");
+  const expectedHeaderPaths = [
+    ...authNoIndexPaths,
+    ...localeMeta
+      .filter((locale) => locale.code !== "en")
+      .flatMap((locale) => authNoIndexPaths.map((pathname) => `/${locale.code}${pathname}`))
+  ];
+
+  expectedHeaderPaths.forEach((pathname) => {
+    if (!headers.includes(pathname)) {
+      findings.push(`/_headers: missing ${pathname} noindex header rule`);
+    }
+  });
 }
 
 if (findings.length) {
