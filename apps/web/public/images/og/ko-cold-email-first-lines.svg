@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
-  <title id="title">웹사이트 증거의 콜드 이메일 첫 문장</title>
-  <desc id="desc">웹사이트 관찰을 통해 개인화된 콜드 이메일 첫 문장을 작성하고, 일반적인 시작 문구를 피하고, 각 줄을 신뢰할 수 있는 비즈니스 관점에 연결하는 방법을 알아보세요.</desc>
+  <title id="title">콜드메일 첫 문장 예시</title>
+  <desc id="desc">잠재고객 웹사이트에서 확인한 구체적인 신호로 자연스럽고 검증 가능한 콜드메일 첫 문장을 만듭니다.</desc>
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="630" gradientUnits="userSpaceOnUse">
       <stop stop-color="#073733" />
@@ -34,25 +34,25 @@
     <rect width="330" height="46" rx="23" fill="#0D4540" stroke="#1E6A63" />
     <text x="22" y="30" fill="#96FF6A" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="22" font-weight="700">아웃바운드 사본</text>
   </g>
-  <text x="78" y="336" fill="#F7FFFC" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="72" font-weight="800">웹사이트 증거의 콜드 이메일 첫 문장</text>
-  <text x="78" y="514" fill="#D3EEE7" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="30" font-weight="600">웹사이트 관찰을 통해 개인화된 콜드 이메일 첫 문장을 작성하고, 일반적인 시작 문구를 피하고,</text>
-<text x="78" y="554" fill="#D3EEE7" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="30" font-weight="600">각 줄을 신뢰할 수 있는 비즈니스 관점에 연결하는 방법을 알아보세요.</text>
+  <text x="78" y="336" fill="#F7FFFC" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="72" font-weight="800">콜드메일 첫 문장 예시</text>
+  <text x="78" y="514" fill="#D3EEE7" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="30" font-weight="600">잠재고객 웹사이트에서 확인한 구체적인 신호로 자연스럽고 검증 가능한 콜드메일 첫 문장을</text>
+<text x="78" y="554" fill="#D3EEE7" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="30" font-weight="600">만듭니다.</text>
   <g transform="translate(78, 548)">
     <rect width="262" height="44" rx="22" fill="#114b45" stroke="#1f6d66" />
-    <text x="22" y="29" fill="#dffbf3" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="20" font-weight="700">콜드 이메일 첫 번째 줄</text>
+    <text x="22" y="29" fill="#dffbf3" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="20" font-weight="700">콜드메일 첫 문장</text>
   </g>
   <g transform="translate(364, 548)">
     <rect width="262" height="44" rx="22" fill="#114b45" stroke="#1f6d66" />
-    <text x="22" y="29" fill="#dffbf3" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="20" font-weight="700">맞춤형 콜드 이메일 오프너</text>
+    <text x="22" y="29" fill="#dffbf3" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="20" font-weight="700">콜드메일 개인화</text>
   </g>
   <g transform="translate(650, 548)">
     <rect width="262" height="44" rx="22" fill="#114b45" stroke="#1f6d66" />
-    <text x="22" y="29" fill="#dffbf3" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="20" font-weight="700">콜드 이메일 1차 생성기</text>
+    <text x="22" y="29" fill="#dffbf3" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="20" font-weight="700">웹사이트 근거 이메일</text>
   </g>
   <rect x="882" y="246" width="258" height="274" rx="28" fill="#0D4540" stroke="#1E6A63" />
   <text x="914" y="302" fill="#BFE7DD" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="24" font-weight="700">Qualified fit</text>
   <text x="914" y="386" fill="url(#glow)" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="92" font-weight="800">92</text>
-  <text x="914" y="432" fill="#D3EEE7" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="24" font-weight="600">아웃바운드 팀에게 연구된 느낌이 드는 첫 문장을 만드는 방법을 가르칩니다.</text>
+  <text x="914" y="432" fill="#D3EEE7" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="24" font-weight="600">잠재고객 웹사이트 근거로 자연스럽고 검증 가능한 콜드메일 첫 문장을 만드는 방법을 보여줍니다.</text>
   <rect x="914" y="458" width="194" height="14" rx="7" fill="#135852" />
   <rect x="914" y="458" width="138" height="14" rx="7" fill="#96FF6A" />
 </svg>

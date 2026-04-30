@@ -1,0 +1,1070 @@
+{
+  "zh": {
+    "siteUi": {
+      "auth": {
+        "login": {
+          "heroEyebrow": "网站研究工作区",
+          "cardCopy": "使用 Google 或工作邮箱重新打开你的网站研究工作区。",
+          "signupCopy": "创建免费工作区，并完成第一次网站审查。"
+        },
+        "signup": {
+          "summaryProspects": "研究卡片 + CSV",
+          "step2Copy": "定义你的服务报价和目标客户画像，让第一批研究卡片从一开始就带有可用的匹配信号。",
+          "selectedPlanPaid": "__PRICE__ · 每月 __CREDITS__ 次扫描"
+        }
+      },
+      "content": {
+        "ctaTitleSeo": "把一个公司网站转成带来源证据的研究卡片。",
+        "ctaTitleProduct": "在 LeadCue 里运行这个流程，并导出已筛选客户。",
+        "toolBand": {
+          "eyebrow": "把模板转成真实线索流程",
+          "title": "在一个真实公司网站上使用同样的流程。",
+          "copy": "从免费工作区开始，运行网站扫描，把匹配分、来源备注、开场白和 CRM 导出字段集中保存，不再手动来回复制。",
+          "primaryCta": "免费开始这个流程",
+          "secondaryCta": "打开示例线索卡片",
+          "points": [
+            "20 次免费扫描，用真实网站测试流程",
+            "使用应用内导出流程相同的 CRM 字段命名",
+            "导入或外联前，只保存合格客户"
+          ]
+        }
+      },
+      "commercial": {
+        "nextStepEyebrow": "下一步",
+        "nextStepTitle": "把一个真实网站转成你的第一张研究卡片。"
+      }
+    }
+  },
+  "ja": {
+    "siteUi": {
+      "auth": {
+        "login": {
+          "heroEyebrow": "Webサイトリサーチ用ワークスペース",
+          "cardCopy": "Google または仕事用メールで、Webサイトリサーチのワークスペースを再開できます。",
+          "signupCopy": "無料ワークスペースを作成し、最初のWebサイトレビューを実行します。"
+        },
+        "signup": {
+          "summaryProspects": "リサーチカード + CSV",
+          "step2Copy": "提供サービスとターゲット像を定義し、最初のリサーチカードから有用な適合シグナルを出せるようにします。",
+          "selectedPlanPaid": "__PRICE__ · 月 __CREDITS__ 件のスキャン"
+        }
+      },
+      "content": {
+        "ctaTitleSeo": "1つの企業サイトを、根拠付きのリサーチカードに変換します。",
+        "ctaTitleProduct": "LeadCue 内で同じワークフローを実行し、選定済みアカウントをエクスポートします。",
+        "toolBand": {
+          "eyebrow": "テンプレートを営業パイプラインへ",
+          "title": "実際の企業サイトでも同じワークフローを使えます。",
+          "copy": "無料ワークスペースから始め、Webサイトをスキャンし、適合スコア、ソースメモ、冒頭文、CRMエクスポート項目を手作業でコピーせずにまとめて保持します。",
+          "primaryCta": "このワークフローを無料で始める",
+          "secondaryCta": "サンプルのリサーチカードを開く",
+          "points": [
+            "実際のWebサイトで試せる無料スキャン20回",
+            "アプリのエクスポートと同じ CRM 項目プリセット",
+            "インポートや営業前に、選定済みアカウントだけを保存"
+          ]
+        }
+      },
+      "commercial": {
+        "nextStepEyebrow": "次のステップ",
+        "nextStepTitle": "実際のWebサイトを、最初のリサーチカードに変換します。"
+      }
+    }
+  },
+  "ko": {
+    "siteUi": {
+      "home": {
+        "heroVisual": {
+          "browserChip": "실시간 웹사이트 스캔",
+          "browserTitle": "노스스타 애널리틱스",
+          "browserSubtitle": "데모 CTA가 첫 화면 아래에 있음",
+          "fitLabel": "적합",
+          "signalTitle": "신호 요약",
+          "signalItems": [
+            "데모 CTA가 첫 스크롤 이후에 나타남",
+            "사회적 증거가 히어로 아래에 배치됨",
+            "내비게이션에서 금융 사례를 찾기 어려움"
+          ],
+          "footerLeft": "웹사이트 근거 수집 완료",
+          "footerRight": "리서치 카드 준비 완료",
+          "firstLineLabel": "가장 강한 아웃리치 첫 문장",
+          "firstLineText": "데모 CTA가 첫 스크롤 뒤에 보여서 적합도가 높은 방문자의 전환 의도를 놓치고 있을 수 있습니다. 금융 업종 트래픽이라면 첫 화면에서 더 선명한 CTA를 테스트해볼 만합니다.",
+          "firstLineMeta": "홈페이지 근거로 생성"
+        },
+        "analytics": {
+          "kicker": "웹사이트 리서치 라이브",
+          "title": "에이전시 파이프라인 스냅샷",
+          "live": "라이브",
+          "timeframe": "지난 24시간",
+          "metrics": [
+            {
+              "label": "스캔한 웹사이트",
+              "value": "214",
+              "delta": "+18%"
+            },
+            {
+              "label": "선별 비율",
+              "value": "42%",
+              "delta": "+7점"
+            },
+            {
+              "label": "평균 적합도",
+              "value": "86",
+              "delta": "높음"
+            },
+            {
+              "label": "복사된 첫 문장",
+              "value": "64",
+              "delta": "+31%"
+            }
+          ],
+          "chartLabel": "선별된 계정",
+          "chartTitle": "웹사이트 검토에서 저장된 계정까지",
+          "chartBadge": "+24 저장됨",
+          "mixLabel": "기회 구성",
+          "mix": [
+            {
+              "label": "웹디자인",
+              "value": 48,
+              "tone": "primary"
+            },
+            {
+              "label": "SEO",
+              "value": 31,
+              "tone": "amber"
+            },
+            {
+              "label": "그로스",
+              "value": 21,
+              "tone": "coral"
+            }
+          ],
+          "highFitLabel": "적합도가 높은 웹사이트",
+          "highFitSites": [
+            {
+              "company": "노스스타 애널리틱스",
+              "cue": "CTA가 첫 화면 아래에 있음",
+              "fit": 86
+            },
+            {
+              "company": "비컨 덴탈",
+              "cue": "눈에 띄는 신뢰 근거가 부족함",
+              "fit": 82
+            },
+            {
+              "company": "루멘 로지스틱스",
+              "cue": "서비스 페이지 정보가 얕음",
+              "fit": 74
+            }
+          ],
+          "footerReady": "아웃리치 준비가 된 잠재고객 3건",
+          "footerUsage": "12 / 300 스캔 사용"
+        },
+        "trustBadges": [
+          "LinkedIn 스크래핑 없음",
+          "저권한 Chrome MV3",
+          "CSV 내보내기 준비 완료",
+          "출처가 남는 메모"
+        ],
+        "map": {
+          "eyebrow": "제품 둘러보기",
+          "title": "아웃리치 리서치 전에 팀이 확인해야 할 모든 것",
+          "copy": "LeadCue가 하는 일, 웹사이트 검토 흐름, 카드 구성, 요금 확장 방식을 빠르게 살펴보세요.",
+          "items": [
+            {
+              "href": "#features",
+              "eyebrow": "기능",
+              "title": "웹사이트 검토에 필요한 것을 한곳에",
+              "copy": "적합도 점수, 신호, 내보내기 항목, 팀 문맥을 한 장의 카드에 모읍니다."
+            },
+            {
+              "href": "#how",
+              "eyebrow": "작동 방식",
+              "title": "3단계 리서치 워크플로우",
+              "copy": "회사 웹사이트에서 시작해 근거를 캡처하고 리서치 카드를 저장합니다."
+            },
+            {
+              "href": "#card",
+              "eyebrow": "샘플 카드",
+              "title": "가입 전에 결과물 확인",
+              "copy": "적합도 점수, 웹사이트 단서, 첫 문장, 짧은 이메일을 한 번에 확인하세요."
+            },
+            {
+              "href": "#pricing",
+              "eyebrow": "요금",
+              "title": "주간 웹사이트 리서치에 맞춘 스캔 크레딧",
+              "copy": "무료로 시작한 뒤 리서치 워크플로우가 자리 잡으면 스캔량을 늘리세요."
+            },
+            {
+              "href": "#resources",
+              "eyebrow": "리소스",
+              "title": "아웃바운드 품질 높이기",
+              "copy": "근거 기반 아웃리치 리서치와 더 나은 계정 선별에 도움이 되는 가이드를 활용하세요."
+            }
+          ]
+        },
+        "features": {
+          "eyebrow": "웹사이트 우선 워크플로우",
+          "title": "웹사이트를 먼저 선별하고, 아웃리치 각도를 찾고, 깔끔하게 넘기세요",
+          "copy": "LeadCue는 웹사이트 관찰을 아웃리치에 바로 쓸 수 있는 문맥으로 바꿔, 어떤 계정을 저장하고 개인화해 다음 단계로 넘길지 에이전시가 판단하게 도와줍니다.",
+          "items": [
+            {
+              "title": "의도가 보이는 잠재고객 분석",
+              "copy": "스캔한 웹사이트, 저장률, 적합도 점수, 복사된 첫 문장을 추적해 어떤 리서치가 실제 아웃리치로 이어지는지 팀이 확인할 수 있습니다.",
+              "meta": "라이브 파이프라인"
+            },
+            {
+              "title": "에이전시 오퍼에 맞춘 ICP 스코어링",
+              "copy": "서비스 유형, 업종, 지역, 회사 규모, 오퍼 적합도를 기준으로 각 웹사이트를 평가한 뒤 저장 여부를 결정합니다.",
+              "meta": "적합도 점수"
+            },
+            {
+              "title": "모든 카드에 웹사이트 근거 포함",
+              "copy": "페이지 관찰, 영업 신호, 아웃리치 각도, 첫 문장을 함께 보관해 왜 중요한 잠재고객인지 바로 이해할 수 있게 합니다.",
+              "meta": "출처 연결"
+            },
+            {
+              "title": "아웃리치 스택으로 깔끔하게 내보내기",
+              "copy": "선별된 잠재고객만 Sheets, Smartlead, Instantly, Lemlist 또는 CRM으로 넘기고, 적합하지 않은 리스트는 아래 단계로 보내지 않습니다.",
+              "meta": "깔끔한 인계"
+            }
+          ]
+        },
+        "workflow": {
+          "eyebrow": "작동 방식",
+          "title": "찾아낸 웹사이트를 몇 분 안에 아웃리치용 문맥으로 전환",
+          "steps": [
+            {
+              "title": "회사 웹사이트 열기",
+              "copy": "검색, 디렉터리, 소개, 리스트 내보내기로 이미 찾은 회사 사이트에서 시작합니다."
+            },
+            {
+              "title": "LeadCue 실행",
+              "copy": "보이는 페이지, 메타데이터, CTA, 링크, 연락 경로, 콘텐츠 신호를 스캔합니다."
+            },
+            {
+              "title": "리서치 카드 받기",
+              "copy": "적합도 점수, 웹사이트 근거, 아웃리치 각도, 첫 문장, 내보낼 수 있는 메모를 받습니다."
+            }
+          ]
+        },
+        "sampleCard": {
+          "title": "저장된 모든 계정에는 연락할 이유가 함께 남습니다."
+        },
+        "comparison": {
+          "title": "LeadCue는 또 하나의 이메일 찾기 도구가 아닙니다",
+          "copy": "이메일 찾기 도구가 연락처를 찾는 데 도움을 준다면, LeadCue는 첫 메시지를 보내기 전에 왜 이 회사를 연락할 가치가 있는지 판단하게 도와줍니다."
+        },
+        "pricing": {
+          "title": "주간 아웃리치 리서치에 맞는 스캔 크레딧",
+          "copy": "적은 수의 웹사이트 스캔으로 시작한 뒤, LeadCue가 에이전시의 아웃바운드 리듬에 자리 잡으면 확장하세요.",
+          "planUseCases": {
+            "free": "유료 전환 전에 실제 웹사이트로 워크플로우를 검증하려는 팀에 적합합니다.",
+            "starter": "매주 아웃바운드 리서치 습관을 만들고 있는 1인 운영자에게 적합합니다.",
+            "pro": "웹사이트 리서치를 반복 가능한 아웃바운드 파이프라인으로 만들고 싶은 에이전시에 적합합니다.",
+            "agency": "여러 클라이언트 오퍼 사이에서 스캔 크레딧을 공유하는 팀에 적합합니다."
+          }
+        },
+        "faqSection": {
+          "copy": "LeadCue의 역할은 분명합니다. 회사 웹사이트를 검토하고, 기회를 선별하고, 이미 사용 중인 아웃리치 워크플로우에 더 나은 문맥을 넘겨줍니다."
+        },
+        "resources": {
+          "titleLead": "더 좋은 신호로",
+          "titleAccent": "더 정교한 아웃리치 리서치 시스템을 구축하세요",
+          "items": [
+            {
+              "title": "잠재고객 웹사이트를 콜드메일 각도로 바꾸는 방법",
+              "copy": "눈에 보이는 웹사이트 근거를 믿을 수 있는 아웃리치 흐름으로 바꾸는 실전 가이드입니다.",
+              "label": "아웃바운드 플레이북",
+              "href": "/guides/turn-website-into-cold-email-angle"
+            },
+            {
+              "title": "잠재고객을 저장하기 전에 에이전시가 평가해야 할 항목",
+              "copy": "적합도, 시급성, 신뢰 근거 부족, 연락 경로를 기준으로 리스트 노이즈를 줄입니다.",
+              "label": "적합도 판단",
+              "href": "/guides/score-prospect-website"
+            },
+            {
+              "title": "왜 웹사이트 우선 리서치가 일반 리드 리스트보다 강한가",
+              "copy": "LeadCue는 저장된 모든 계정을 팀이 실제로 사용할 수 있는 근거와 연결해 둡니다.",
+              "label": "전략",
+              "href": "/website-prospecting"
+            }
+          ]
+        },
+        "resourceVisuals": {
+          "playbook": {
+            "kicker": "아웃바운드 플레이북",
+            "title": "콜드메일 각도",
+            "items": [
+              "눈에 보이는 웹사이트 단서",
+              "비즈니스 영향",
+              "부담 없는 CTA"
+            ]
+          },
+          "qualification": {
+            "kicker": "적합도 판단",
+            "title": "저장 기준선",
+            "items": [
+              "적합도 점수 80+",
+              "출처가 남는 단서 2개",
+              "첫 문장 준비 완료"
+            ]
+          },
+          "strategy": {
+            "kicker": "전략",
+            "title": "웹사이트 우선 아웃리치 리서치",
+            "items": [
+              "왜 이 계정인가",
+              "사이트가 말해주는 것",
+              "다음에 무엇을 말할지"
+            ]
+          }
+        },
+        "launch": {
+          "eyebrow": "스캔 시작",
+          "title": "에이전시 워크스페이스를 만들고 첫 웹사이트 검토를 실행하세요",
+          "copy": "무료 플랜으로 시작해 에이전시 오퍼를 연결하고, 회사 웹사이트를 출처가 남는 아웃리치 리서치 카드로 바꾸세요.",
+          "points": [
+            "무료 플랜에 스캔 20회 포함",
+            "LinkedIn 스크래핑 없음",
+            "CSV 내보내기 경로 제공"
+          ],
+          "cardKicker": "도입 시작 경로",
+          "cardTitle": "무료 플랜은 매월 20회 웹사이트 스캔부터 시작합니다.",
+          "cardCopy": "유료 플랜에서는 월간 스캔량 확대, 잠재고객 워크플로우 저장, 아웃바운드 팀용 우선 분석까지 사용할 수 있습니다.",
+          "queueScan": "큐 스캔",
+          "startFree": "무료로 시작"
+        },
+        "footer": {
+          "brandCopy": "더 강한 연락 이유가 필요한 에이전시를 위한 웹사이트 우선 아웃바운드 리서치."
+        }
+      },
+      "auth": {
+        "login": {
+          "heroEyebrow": "웹사이트 리서치 워크스페이스",
+          "cardCopy": "Google 또는 업무용 이메일로 웹사이트 리서치 워크스페이스를 다시 열 수 있습니다.",
+          "signupCopy": "무료 워크스페이스를 만들고 첫 웹사이트 검토를 실행하세요."
+        },
+        "signup": {
+          "summaryProspects": "리서치 카드 + CSV",
+          "step2Copy": "제공 서비스와 타깃 고객 프로필을 정의해 첫 리서치 카드부터 유용한 적합도 신호가 나오도록 합니다.",
+          "selectedPlanPaid": "__PRICE__ · 월 __CREDITS__회 스캔"
+        }
+      },
+      "content": {
+        "ctaTitleSeo": "하나의 회사 웹사이트를 근거가 담긴 리서치 카드로 바꾸세요.",
+        "ctaTitleProduct": "LeadCue 안에서 워크플로우를 실행하고 선별된 계정을 내보내세요.",
+        "toolBand": {
+          "eyebrow": "템플릿을 파이프라인 결과로",
+          "title": "실제 회사 웹사이트에도 같은 워크플로우를 적용하세요.",
+          "copy": "무료 워크스페이스에서 웹사이트 스캔을 실행하고 적합도 점수, 출처 메모, 첫 문장, CRM 내보내기 필드를 한곳에 보관하세요.",
+          "primaryCta": "이 워크플로우 무료로 시작",
+          "secondaryCta": "샘플 리서치 카드 열기",
+          "points": [
+            "실제 웹사이트로 테스트할 수 있는 무료 스캔 20회",
+            "앱 내보내기 흐름과 같은 CRM 필드 프리셋",
+            "가져오기나 아웃리치 전에 선별된 계정만 저장"
+          ]
+        }
+      },
+      "commercial": {
+        "nextStepEyebrow": "다음 단계",
+        "nextStepTitle": "실제 웹사이트 하나를 첫 리서치 카드로 바꾸세요."
+      }
+    }
+  },
+  "de": {
+    "siteUi": {
+      "home": {
+        "heroVisual": {
+          "browserChip": "Website-Scan in Echtzeit",
+          "browserTitle": "Nordstern Analytics",
+          "browserSubtitle": "Demo-CTA unterhalb des ersten Screens",
+          "fitLabel": "Passend",
+          "signalTitle": "Signalübersicht",
+          "signalItems": [
+            "Demo-CTA erscheint erst nach dem ersten Scrollen",
+            "Social Proof steht unter dem Hero-Bereich",
+            "Im Menü ist keine Finanz-Fallstudie sichtbar"
+          ],
+          "footerLeft": "Website-Belege erfasst",
+          "footerRight": "Recherchekarte bereit",
+          "firstLineLabel": "Stärkster Akquise-Einstieg",
+          "firstLineText": "Ihre Demo-CTA erscheint erst nach dem ersten Scrollen. Dadurch könnte Conversion-Absicht bei gut passenden Besuchern verloren gehen. Für Finance-Traffic wäre ein klarerer CTA im sichtbaren Bereich einen Test wert.",
+          "firstLineMeta": "Aus Homepage-Belegen erzeugt"
+        },
+        "analytics": {
+          "kicker": "Website-Recherche live",
+          "chartLabel": "Qualifizierte Accounts",
+          "chartTitle": "Von der Website-Prüfung zum gespeicherten Account",
+          "chartBadge": "+24 gespeichert",
+          "highFitSites": [
+            {
+              "company": "Nordstern Analytics",
+              "cue": "CTA unterhalb des sichtbaren Bereichs",
+              "fit": 86
+            },
+            {
+              "company": "Beacon Dental",
+              "cue": "Wenig sichtbare Vertrauensbelege",
+              "fit": 82
+            },
+            {
+              "company": "Lumen Logistik",
+              "cue": "Dünne Serviceseiten",
+              "fit": 74
+            }
+          ]
+        },
+        "trustBadges": [
+          "Kein LinkedIn-Scraping",
+          "Chrome MV3 mit wenig Berechtigungen",
+          "CSV-Export bereit",
+          "Quellengestützte Notizen"
+        ],
+        "map": {
+          "eyebrow": "Produkttour",
+          "title": "Alles, was ein Team vor der Outreach-Recherche braucht",
+          "copy": "Springen Sie direkt zu den wichtigen Bereichen: was LeadCue macht, wie die Website-Prüfung läuft, was die Karte enthält und wie sich das Pricing skalieren lässt.",
+          "items": [
+            {
+              "href": "#features",
+              "eyebrow": "Funktionen",
+              "title": "Alles rund um die Website-Prüfung",
+              "copy": "Fit-Score, Signale, Exportfelder und Teamkontext bleiben in einer einzigen Karte zusammen."
+            },
+            {
+              "href": "#how",
+              "eyebrow": "So funktioniert's",
+              "title": "Ein Recherche-Workflow in drei Schritten",
+              "copy": "Starten Sie auf der Unternehmenswebsite, erfassen Sie Belege und speichern Sie daraus eine Recherchekarte."
+            },
+            {
+              "href": "#card",
+              "eyebrow": "Beispielkarte",
+              "title": "Ergebnis vor der Anmeldung prüfen",
+              "copy": "Sehen Sie Fit-Score, Website-Hinweise, Einstiegssatz und Kurzmail zusammen an."
+            },
+            {
+              "href": "#pricing",
+              "eyebrow": "Preise",
+              "title": "Credits für wöchentliche Website-Recherche",
+              "copy": "Starten Sie kostenlos und erhöhen Sie das Scanvolumen, sobald sich der Recherche-Workflow bewährt."
+            },
+            {
+              "href": "#resources",
+              "eyebrow": "Ressourcen",
+              "title": "Outbound-Qualität verbessern",
+              "copy": "Nutzen Sie Leitfäden für beleggestützte Akquise-Recherche und eine bessere Account-Qualifizierung."
+            }
+          ]
+        },
+        "features": {
+          "eyebrow": "Website-First-Workflow",
+          "title": "Website prüfen, Ansatz finden und sauber übergeben",
+          "copy": "LeadCue verwandelt Website-Beobachtungen in akquisebereiten Kontext, damit Agenturen entscheiden können, welche Accounts gespeichert, personalisiert und in die Ansprache überführt werden sollten."
+        },
+        "workflow": {
+          "eyebrow": "So funktioniert's",
+          "title": "Von der entdeckten Website in Minuten zu akquisebereitem Kontext",
+          "steps": [
+            {
+              "title": "Eine Unternehmenswebsite öffnen",
+              "copy": "Starten Sie auf einer Unternehmenswebsite, die Ihr Team bereits über Suche, Verzeichnisse, Empfehlungen oder Listenexporte gefunden hat."
+            },
+            {
+              "title": "Auf LeadCue klicken",
+              "copy": "Scannen Sie sichtbare Seiten, Metadaten, CTAs, Links, Kontaktpfade und Inhaltssignale."
+            },
+            {
+              "title": "Recherchekarte erhalten",
+              "copy": "Erhalten Sie Fit-Score, websitegestützte Hinweise, Akquise-Winkel, Einstiegssätze und exportfähige Notizen."
+            }
+          ]
+        },
+        "sampleCard": {
+          "title": "Jeder gespeicherte Account behält seinen Kontaktgrund."
+        },
+        "pricing": {
+          "title": "Credits, die zu wöchentlicher Outreach-Recherche passen",
+          "copy": "Beginnen Sie mit wenigen Website-Scans und skalieren Sie, sobald LeadCue Teil Ihres Agentur-Rhythmus in der Akquise wird.",
+          "planUseCases": {
+            "free": "Ideal, um den Workflow vor einem bezahlten Rollout an echten Websites zu prüfen.",
+            "starter": "Ideal für Einzelpersonen, die eine wöchentliche Akquise-Recherche-Routine aufbauen.",
+            "pro": "Ideal für Agenturen, die Website-Recherche in eine wiederholbare Akquise-Pipeline verwandeln wollen.",
+            "agency": "Ideal für Teams, die Scan-Credits über mehrere Kundenangebote hinweg teilen."
+          }
+        },
+        "faqSection": {
+          "copy": "LeadCue bleibt bewusst fokussiert: Unternehmenswebsite prüfen, Chance qualifizieren und besseren Kontext in Ihren bestehenden Akquise-Workflow übergeben."
+        },
+        "resources": {
+          "titleLead": "Bauen Sie ein präziseres Akquise-Recherche-System mit",
+          "titleAccent": "besseren Signalen",
+          "items": [
+            {
+              "title": "Wie Sie eine Prospect-Website in einen Kaltakquise-Einstieg verwandeln",
+              "copy": "Ein praktischer Ablauf, um sichtbare Website-Belege in glaubwürdige Akquise-Anlässe zu übersetzen.",
+              "label": "Akquise-Playbook",
+              "href": "/guides/turn-website-into-cold-email-angle"
+            },
+            {
+              "title": "Was Agenturen prüfen sollten, bevor sie einen Prospect speichern",
+              "copy": "Nutzen Sie Fit, Dringlichkeit, Beleglücken und Kontaktpfade, um Rauschen in der Liste zu vermeiden.",
+              "label": "Qualifizierung",
+              "href": "/guides/score-prospect-website"
+            },
+            {
+              "title": "Warum websitebasierte Recherche stärker ist als generische Lead-Listen",
+              "copy": "LeadCue verknüpft jeden gespeicherten Account mit Gründen, die Ihr Team tatsächlich in der Ansprache nutzen kann.",
+              "label": "Strategie",
+              "href": "/website-prospecting"
+            }
+          ]
+        },
+        "resourceVisuals": {
+          "playbook": {
+            "kicker": "Akquise-Playbook",
+            "title": "Kaltakquise-Winkel",
+            "items": [
+              "Sichtbare Website-Hinweise",
+              "Geschäftlicher Effekt",
+              "Niedrigschwelliger CTA"
+            ]
+          },
+          "qualification": {
+            "kicker": "Qualifizierung",
+            "title": "Speicherschwelle",
+            "items": [
+              "Fit-Score 80+",
+              "Zwei quellenbasierte Hinweise",
+              "Einstiegssatz bereit"
+            ]
+          },
+          "strategy": {
+            "kicker": "Strategie",
+            "title": "Websitebasierte Akquise-Recherche",
+            "items": [
+              "Warum dieser Account",
+              "Was die Website belegt",
+              "Was Sie als Nächstes sagen sollten"
+            ]
+          }
+        },
+        "launch": {
+          "eyebrow": "Scan starten",
+          "title": "Erstellen Sie Ihren Agentur-Workspace und führen Sie Ihre erste Website-Prüfung durch",
+          "copy": "Starten Sie mit dem kostenlosen Plan, richten Sie Ihr Agenturangebot ein und verwandeln Sie Unternehmenswebsites in quellenbasierte Recherchekarten für die Akquise.",
+          "points": [
+            "20 kostenlose Scans inklusive",
+            "Kein LinkedIn-Scraping",
+            "CSV-Export-Pfad enthalten"
+          ],
+          "cardKicker": "Einführungspfad",
+          "cardTitle": "Der kostenlose Plan startet mit 20 Website-Scans pro Monat.",
+          "cardCopy": "Bezahlte Pläne erhöhen das monatliche Scanvolumen, speichern Prospect-Workflows und geben Outbound-Teams Prioritätsanalysen.",
+          "queueScan": "Queue scannen",
+          "startFree": "Kostenlos starten"
+        },
+        "footer": {
+          "brandCopy": "Websitebasierte Akquise-Recherche für Agenturen, die stärkere Gründe für die Kontaktaufnahme brauchen."
+        }
+      },
+      "auth": {
+        "login": {
+          "heroEyebrow": "Workspace für Website-Recherche",
+          "cardCopy": "Melden Sie sich mit Google oder Ihrer geschäftlichen E-Mail an, um Ihren Website-Recherche-Workspace wieder zu öffnen.",
+          "signupCopy": "Erstellen Sie einen kostenlosen Workspace und führen Sie Ihre erste Website-Prüfung durch."
+        },
+        "signup": {
+          "summaryProspects": "Recherchekarten + CSV",
+          "step2Copy": "Definieren Sie Ihr Angebot und Ihr Zielprofil, damit die ersten Recherchekarten mit nützlichen Fit-Signalen starten.",
+          "selectedPlanPaid": "__PRICE__ · __CREDITS__ Scans/Monat"
+        }
+      },
+      "content": {
+        "ctaTitleSeo": "Verwandeln Sie eine Unternehmenswebsite in eine Recherchekarte mit Quellenbelegen.",
+        "ctaTitleProduct": "Führen Sie den Workflow in LeadCue aus und exportieren Sie ausgewählte Accounts.",
+        "toolBand": {
+          "eyebrow": "Vom Template zum Pipeline-Ergebnis",
+          "title": "Nutzen Sie denselben Workflow auf einer echten Unternehmenswebsite.",
+          "copy": "Starten Sie mit einem kostenlosen Workspace, führen Sie den Website-Scan aus und halten Sie Fit-Score, Quellen-Notizen, Einstiegssatz und CRM-Exportfelder zusammen.",
+          "primaryCta": "Diesen Workflow kostenlos starten",
+          "secondaryCta": "Beispiel-Recherchekarte öffnen",
+          "points": [
+            "20 kostenlose Scans zum Testen mit echten Websites",
+            "Dieselben CRM-Feldpresets wie im Exportflow der App",
+            "Nur qualifizierte Accounts vor Import oder Akquise speichern"
+          ]
+        }
+      },
+      "commercial": {
+        "nextStepEyebrow": "Nächster Schritt",
+        "nextStepTitle": "Verwandeln Sie eine echte Website in Ihre erste Recherchekarte."
+      }
+    }
+  },
+  "nl": {
+    "siteUi": {
+      "home": {
+        "heroVisual": {
+          "browserChip": "Live websitescan",
+          "browserTitle": "Northstar Analytics",
+          "browserSubtitle": "Demo-CTA staat onder de eerste schermvouw",
+          "fitLabel": "Passend",
+          "signalTitle": "Signaaloverzicht",
+          "signalItems": [
+            "Demo-CTA verschijnt pas na de eerste scroll",
+            "Klantbewijs staat onder de hero",
+            "In de navigatie ontbreekt een financiële case"
+          ],
+          "footerLeft": "Websitebewijs vastgelegd",
+          "footerRight": "Prospectkaart klaar",
+          "firstLineLabel": "Sterkste openingszin",
+          "firstLineText": "Jullie demo-CTA verschijnt pas na de eerste scroll. Daardoor kan conversie-intentie van goed passende bezoekers uit beeld raken. Voor financeverkeer is een duidelijkere CTA boven de vouw het testen waard.",
+          "firstLineMeta": "Gegenereerd uit homepage-bewijs"
+        },
+        "analytics": {
+          "kicker": "Websiteonderzoek live",
+          "chartLabel": "Gekwalificeerde accounts",
+          "chartTitle": "Van websitebeoordeling naar opgeslagen account",
+          "chartBadge": "+24 opgeslagen",
+          "highFitSites": [
+            {
+              "company": "Northstar Analytics",
+              "cue": "CTA onder de eerste vouw",
+              "fit": 86
+            },
+            {
+              "company": "Beacon Dental",
+              "cue": "Te weinig zichtbaar bewijs",
+              "fit": 82
+            },
+            {
+              "company": "Lumen Logistiek",
+              "cue": "Dunne servicepagina's",
+              "fit": 74
+            }
+          ]
+        },
+        "trustBadges": [
+          "Geen LinkedIn-scraping",
+          "Chrome MV3 met minimale rechten",
+          "CSV-export gereed",
+          "Bronondersteunde notities"
+        ],
+        "map": {
+          "eyebrow": "Productrondleiding",
+          "title": "Alles wat een team nodig heeft vóór outreachonderzoek",
+          "copy": "Spring direct naar de onderdelen die ertoe doen: wat LeadCue doet, hoe de websitebeoordeling werkt, wat er op de kaart staat en hoe de prijs meegroeit.",
+          "items": [
+            {
+              "href": "#features",
+              "eyebrow": "Functies",
+              "title": "Alles rond de websitescan op één plek",
+              "copy": "Fitscores, signalen, exportvelden en teamcontext blijven samen op één kaart."
+            },
+            {
+              "href": "#how",
+              "eyebrow": "Hoe het werkt",
+              "title": "Een onderzoeksworkflow in drie stappen",
+              "copy": "Begin op de bedrijfswebsite, leg bewijs vast en sla daarna een onderzoekskaart op."
+            },
+            {
+              "href": "#card",
+              "eyebrow": "Voorbeeldkaart",
+              "title": "Bekijk de output vóór je aanmelding",
+              "copy": "Zie fitscore, websitesignalen, openingszin en korte e-mail in één overzicht."
+            },
+            {
+              "href": "#pricing",
+              "eyebrow": "Prijzen",
+              "title": "Credits voor wekelijks websiteonderzoek",
+              "copy": "Begin gratis en schaal het scanvolume zodra de onderzoeksworkflow zich bewijst."
+            },
+            {
+              "href": "#resources",
+              "eyebrow": "Bronnen",
+              "title": "Verbeter de kwaliteit van outreach",
+              "copy": "Gebruik gidsen voor bewijsgestuurd outreachonderzoek en betere accountkwalificatie."
+            }
+          ]
+        },
+        "features": {
+          "eyebrow": "Website-eerst workflow",
+          "title": "Beoordeel de website, vind de invalshoek en draag schoon over",
+          "copy": "LeadCue zet website-observaties om in outreachklare context, zodat bureaus weten welke accounts het waard zijn om te bewaren, te personaliseren en op te volgen."
+        },
+        "workflow": {
+          "eyebrow": "Hoe het werkt",
+          "title": "Van gevonden website naar outreachklare context in een paar minuten",
+          "steps": [
+            {
+              "title": "Open een bedrijfswebsite",
+              "copy": "Begin op een bedrijfswebsite die je team al heeft gevonden via zoekopdrachten, gidsen, referrals of lijsten."
+            },
+            {
+              "title": "Start LeadCue",
+              "copy": "Scan zichtbare pagina's, metadata, CTA's, links, contactroutes en inhoudssignalen."
+            },
+            {
+              "title": "Ontvang een onderzoekskaart",
+              "copy": "Ontvang fitscore, websitebewijs, outreachhoeken, openingszinnen en exportklare notities."
+            }
+          ]
+        },
+        "sampleCard": {
+          "title": "Elke opgeslagen account bewaart de reden om contact op te nemen."
+        },
+        "pricing": {
+          "title": "Credits die passen bij wekelijks outreachonderzoek",
+          "copy": "Begin met een kleine reeks websitescans en schaal op zodra LeadCue onderdeel wordt van het acquisitieritme van je bureau.",
+          "planUseCases": {
+            "free": "Geschikt om de workflow op echte websites te valideren voordat je opschaalt.",
+            "starter": "Geschikt voor één operator die een wekelijkse prospectieroutine opbouwt.",
+            "pro": "Geschikt voor bureaus die websiteonderzoek willen omzetten in een herhaalbare prospectiepijplijn.",
+            "agency": "Geschikt voor teams die scancredits over meerdere klantaanbiedingen delen."
+          }
+        },
+        "faqSection": {
+          "copy": "LeadCue blijft bewust smal: beoordeel de bedrijfswebsite, kwalificeer de kans en geef betere context door aan de outreachworkflow die je al gebruikt."
+        },
+        "resources": {
+          "titleLead": "Bouw een scherper acquisitieonderzoekssysteem met",
+          "titleAccent": "betere signalen",
+          "items": [
+            {
+              "title": "Hoe je een prospectwebsite omzet in een koude e-mail invalshoek",
+              "copy": "Een praktische route van zichtbaar websitebewijs naar een geloofwaardige outreachaanpak.",
+              "label": "Outreach-playbook",
+              "href": "/guides/turn-website-into-cold-email-angle"
+            },
+            {
+              "title": "Wat bureaus moeten beoordelen voordat ze een prospect opslaan",
+              "copy": "Gebruik fit, urgentie, bewijsgebrek en contactroutes om ruis uit je lijst te halen.",
+              "label": "Kwalificatie",
+              "href": "/guides/score-prospect-website"
+            },
+            {
+              "title": "Waarom websitegerichte research sterker is dan generieke leadlijsten",
+              "copy": "LeadCue koppelt elke opgeslagen account aan redenen die je team echt in outreach kan gebruiken.",
+              "label": "Strategie",
+              "href": "/website-prospecting"
+            }
+          ]
+        },
+        "resourceVisuals": {
+          "playbook": {
+            "kicker": "Outreach-playbook",
+            "title": "Koude e-mail invalshoek",
+            "items": [
+              "Zichtbare website-aanwijzingen",
+              "Zakelijke impact",
+              "Laagdrempelige CTA"
+            ]
+          },
+          "qualification": {
+            "kicker": "Kwalificatie",
+            "title": "Opslagdrempel",
+            "items": [
+              "Fitscore 80+",
+              "Twee aanwijzingen met bronbewijs",
+              "Openingszin klaar"
+            ]
+          },
+          "strategy": {
+            "kicker": "Strategie",
+            "title": "Websitegedreven acquisitieonderzoek",
+            "items": [
+              "Waarom deze account",
+              "Wat de site bewijst",
+              "Wat je hierna zegt"
+            ]
+          }
+        },
+        "launch": {
+          "eyebrow": "Start je scan",
+          "title": "Maak je bureauwerkruimte en voer je eerste websitebeoordeling uit",
+          "copy": "Begin met het gratis plan, verbind je bureauaanbod en zet bedrijfswebsites om in onderzoekskaarten met bronbewijs.",
+          "points": [
+            "20 gratis scans inbegrepen",
+            "Geen LinkedIn-scraping",
+            "CSV-exportpad inbegrepen"
+          ],
+          "cardKicker": "Startpad",
+          "cardTitle": "Het gratis plan begint met 20 websitescans per maand.",
+          "cardCopy": "Betaalde plannen geven meer maandelijkse scans, opgeslagen prospectieworkflows en prioriteitsanalyse voor outreachteams.",
+          "queueScan": "Queue scannen",
+          "startFree": "Gratis starten"
+        },
+        "footer": {
+          "brandCopy": "Websitegerichte outboundresearch voor bureaus die sterkere redenen nodig hebben om contact op te nemen."
+        }
+      },
+      "auth": {
+        "login": {
+          "heroEyebrow": "Werkruimte voor websiteonderzoek",
+          "cardCopy": "Gebruik Google of je zakelijke e-mail om je werkruimte voor websiteonderzoek opnieuw te openen.",
+          "signupCopy": "Maak een gratis werkruimte en voer je eerste websitebeoordeling uit."
+        },
+        "signup": {
+          "summaryProspects": "Onderzoekskaarten + CSV",
+          "step2Copy": "Definieer je aanbod en doelprofiel, zodat de eerste onderzoekskaarten starten met bruikbare fitsignalen.",
+          "selectedPlanPaid": "__PRICE__ · __CREDITS__ scans/maand"
+        }
+      },
+      "content": {
+        "ctaTitleSeo": "Zet één bedrijfswebsite om in een onderzoekskaart met bronbewijs.",
+        "ctaTitleProduct": "Voer de workflow uit in LeadCue en exporteer geselecteerde accounts.",
+        "toolBand": {
+          "eyebrow": "Van template naar pipeline-output",
+          "title": "Gebruik dezelfde workflow op een echte bedrijfswebsite.",
+          "copy": "Begin met een gratis werkruimte, voer de websitescan uit en bewaar fitscore, bronnotities, openingszin en CRM-exportvelden op één plek.",
+          "primaryCta": "Start deze workflow gratis",
+          "secondaryCta": "Open voorbeeld-onderzoekskaart",
+          "points": [
+            "20 gratis scans om de workflow op echte websites te testen",
+            "Dezelfde CRM-veldinstellingen als in de exportflow van de app",
+            "Sla alleen gekwalificeerde accounts op vóór import of outreach"
+          ]
+        }
+      },
+      "commercial": {
+        "nextStepEyebrow": "Volgende stap",
+        "nextStepTitle": "Zet één echte website om in je eerste onderzoekskaart."
+      }
+    }
+  },
+  "fr": {
+    "siteUi": {
+      "home": {
+        "heroVisual": {
+          "browserChip": "Analyse du site en direct",
+          "browserTitle": "Northstar Analytics",
+          "browserSubtitle": "CTA principal sous la ligne de flottaison",
+          "fitLabel": "Adéquation",
+          "signalTitle": "Résumé des signaux",
+          "signalItems": [
+            "Le CTA démo n'apparaît qu'après le premier défilement",
+            "Les preuves clients sont placées sous le hero",
+            "Aucun cas client finance n'est visible dans la navigation"
+          ],
+          "footerLeft": "Preuves du site capturées",
+          "footerRight": "Carte prospect prête",
+          "firstLineLabel": "Meilleure accroche de prospection",
+          "firstLineText": "Votre CTA démo n'apparaît qu'après le premier défilement. Cela peut masquer l'intention de conversion des visiteurs les plus qualifiés. Pour un trafic finance, un CTA plus visible au premier écran mérite d'être testé.",
+          "firstLineMeta": "Généré à partir des preuves de la page d'accueil"
+        },
+        "analytics": {
+          "kicker": "Recherche site web en direct",
+          "chartLabel": "Comptes qualifiés",
+          "chartTitle": "De l'analyse du site au compte enregistré",
+          "chartBadge": "+24 enregistrés",
+          "highFitSites": [
+            {
+              "company": "Northstar Analytics",
+              "cue": "CTA sous la ligne de flottaison",
+              "fit": 86
+            },
+            {
+              "company": "Beacon Dental",
+              "cue": "Peu de preuves visibles",
+              "fit": 82
+            },
+            {
+              "company": "Lumen Logistique",
+              "cue": "Pages services trop légères",
+              "fit": 74
+            }
+          ]
+        },
+        "trustBadges": [
+          "Sans scraping LinkedIn",
+          "Chrome MV3 à permissions légères",
+          "Export CSV prêt",
+          "Notes reliées à la source"
+        ],
+        "map": {
+          "eyebrow": "Visite du produit",
+          "title": "Tout ce qu'une équipe doit voir avant de lancer sa prospection",
+          "copy": "Accédez directement à l'essentiel : ce que fait LeadCue, comment fonctionne l'analyse du site, ce que contient la carte et comment le volume évolue avec l'usage.",
+          "items": [
+            {
+              "href": "#features",
+              "eyebrow": "Fonctionnalités",
+              "title": "Tout le contexte de l'analyse de site au même endroit",
+              "copy": "Score d'adéquation, signaux, champs d'export et contexte d'équipe restent réunis sur une seule carte."
+            },
+            {
+              "href": "#how",
+              "eyebrow": "Comment ça marche",
+              "title": "Un workflow de recherche en trois étapes",
+              "copy": "Partez du site de l'entreprise, capturez les preuves, puis enregistrez une carte de recherche."
+            },
+            {
+              "href": "#card",
+              "eyebrow": "Carte d'exemple",
+              "title": "Vérifiez la sortie avant l'inscription",
+              "copy": "Consultez ensemble le score d'adéquation, les indices du site, la première phrase et l'e-mail court."
+            },
+            {
+              "href": "#pricing",
+              "eyebrow": "Tarifs",
+              "title": "Des crédits adaptés à la recherche de sites chaque semaine",
+              "copy": "Commencez gratuitement puis augmentez le volume d'analyses quand le workflow prouve sa valeur."
+            },
+            {
+              "href": "#resources",
+              "eyebrow": "Ressources",
+              "title": "Améliorer la qualité de la prospection",
+              "copy": "Utilisez des guides pour une recherche de prospection fondée sur les preuves et une meilleure qualification des comptes."
+            }
+          ]
+        },
+        "features": {
+          "eyebrow": "Workflow centré sur le site web",
+          "title": "Qualifier le site, trouver l'angle et transmettre proprement",
+          "copy": "LeadCue transforme les observations du site en contexte prêt pour la prospection, afin que les agences sachent quels comptes méritent d'être enregistrés, personnalisés puis transmis à l'équipe commerciale."
+        },
+        "workflow": {
+          "eyebrow": "Comment ça marche",
+          "title": "Passer d'un site repéré à un contexte prêt pour la prospection en quelques minutes",
+          "steps": [
+            {
+              "title": "Ouvrir le site d'une entreprise",
+              "copy": "Partez d'un site que votre équipe a déjà trouvé via la recherche, un annuaire, une recommandation ou un export de liste."
+            },
+            {
+              "title": "Lancer LeadCue",
+              "copy": "Analysez les pages visibles, les métadonnées, les CTA, les liens, les chemins de contact et les signaux de contenu."
+            },
+            {
+              "title": "Obtenir une carte de recherche",
+              "copy": "Récupérez le score d'adéquation, les indices issus du site, les angles de prospection, les premières phrases et les notes prêtes à l'export."
+            }
+          ]
+        },
+        "sampleCard": {
+          "title": "Chaque compte enregistré conserve sa raison de contact."
+        },
+        "pricing": {
+          "title": "Des crédits pensés pour la recherche de prospection hebdomadaire",
+          "copy": "Commencez avec quelques analyses de sites puis augmentez le volume quand LeadCue devient un vrai rythme de travail pour votre agence.",
+          "planUseCases": {
+            "free": "Idéal pour valider le workflow sur de vrais sites avant de passer au payant.",
+            "starter": "Idéal pour un opérateur qui met en place une routine hebdomadaire de prospection.",
+            "pro": "Idéal pour les agences qui veulent transformer la recherche de sites en pipeline de prospection reproductible.",
+            "agency": "Idéal pour les équipes qui partagent les crédits d'analyse entre plusieurs offres clients."
+          }
+        },
+        "faqSection": {
+          "copy": "LeadCue reste volontairement ciblé : analyser le site de l'entreprise, qualifier l'opportunité et transmettre un meilleur contexte à votre workflow de prospection existant."
+        },
+        "resources": {
+          "titleLead": "Construisez un système de recherche commerciale plus précis avec",
+          "titleAccent": "de meilleurs signaux",
+          "items": [
+            {
+              "title": "Transformer un site prospect en angle d'email de prospection",
+              "copy": "Un guide concret pour passer de preuves visibles sur le site à une accroche crédible.",
+              "label": "Playbook prospection",
+              "href": "/guides/turn-website-into-cold-email-angle"
+            },
+            {
+              "title": "Ce qu'une agence doit évaluer avant d'enregistrer un prospect",
+              "copy": "Appuyez-vous sur l'adéquation, l'urgence, les preuves manquantes et les chemins de contact pour réduire le bruit dans vos listes.",
+              "label": "Qualification",
+              "href": "/guides/score-prospect-website"
+            },
+            {
+              "title": "Pourquoi la recherche à partir du site surpasse les listes de leads génériques",
+              "copy": "LeadCue relie chaque compte enregistré à des raisons que votre équipe peut réellement réutiliser dans sa prospection.",
+              "label": "Stratégie",
+              "href": "/website-prospecting"
+            }
+          ]
+        },
+        "resourceVisuals": {
+          "playbook": {
+            "kicker": "Playbook prospection",
+            "title": "Angle d'email à froid",
+            "items": [
+              "Indices visibles sur le site",
+              "Impact business",
+              "CTA sans pression"
+            ]
+          },
+          "qualification": {
+            "kicker": "Qualification",
+            "title": "Seuil d'enregistrement",
+            "items": [
+              "Score d'adéquation 80+",
+              "Deux indices sourcés",
+              "Première phrase prête"
+            ]
+          },
+          "strategy": {
+            "kicker": "Stratégie",
+            "title": "Recherche de prospection basée sur le site",
+            "items": [
+              "Pourquoi ce compte",
+              "Ce que le site prouve",
+              "Ce qu'il faut dire ensuite"
+            ]
+          }
+        },
+        "launch": {
+          "eyebrow": "Lancer l'analyse",
+          "title": "Créez votre espace agence et lancez votre première analyse de site",
+          "copy": "Commencez avec le plan gratuit, reliez votre offre agence et transformez les sites d'entreprise en cartes de recherche sourcées prêtes pour la prospection.",
+          "points": [
+            "20 analyses incluses dans le plan gratuit",
+            "Sans scraping LinkedIn",
+            "Chemin d'export CSV inclus"
+          ],
+          "cardKicker": "Parcours de démarrage",
+          "cardTitle": "Le plan gratuit démarre avec 20 analyses de sites par mois.",
+          "cardCopy": "Les plans payants ajoutent plus de volume mensuel, l'enregistrement des workflows prospects et des analyses prioritaires pour les équipes de prospection.",
+          "queueScan": "Analyser la file",
+          "startFree": "Commencer gratuitement"
+        },
+        "footer": {
+          "brandCopy": "Recherche outbound fondée sur le site pour les agences qui ont besoin de raisons plus solides pour prendre contact."
+        }
+      },
+      "auth": {
+        "login": {
+          "heroEyebrow": "Espace de recherche de sites web",
+          "cardCopy": "Utilisez Google ou votre e-mail professionnel pour rouvrir votre espace de recherche de sites web.",
+          "signupCopy": "Créez un espace gratuit et lancez votre première analyse de site."
+        },
+        "signup": {
+          "summaryProspects": "Cartes de recherche + CSV",
+          "step2Copy": "Définissez votre offre et votre profil cible afin que les premières cartes de recherche commencent avec des signaux d'adéquation utiles.",
+          "selectedPlanPaid": "__PRICE__ · __CREDITS__ analyses/mois"
+        }
+      },
+      "content": {
+        "ctaTitleSeo": "Transformez un site d'entreprise en carte de recherche sourcée.",
+        "ctaTitleProduct": "Lancez le workflow dans LeadCue et exportez les comptes sélectionnés.",
+        "toolBand": {
+          "eyebrow": "Du modèle au pipeline",
+          "title": "Utilisez le même workflow sur un vrai site d'entreprise.",
+          "copy": "Commencez avec un espace gratuit, lancez l'analyse du site, puis gardez le score d'adéquation, les notes sources, la première phrase et les champs d'export CRM au même endroit.",
+          "primaryCta": "Commencer ce workflow gratuitement",
+          "secondaryCta": "Ouvrir une carte de recherche exemple",
+          "points": [
+            "20 analyses gratuites pour tester le workflow sur de vrais sites",
+            "Les mêmes préréglages de champs CRM que dans l'export de l'app",
+            "Enregistrer uniquement les comptes qualifiés avant import ou prospection"
+          ]
+        }
+      },
+      "commercial": {
+        "nextStepEyebrow": "Étape suivante",
+        "nextStepTitle": "Transformez un vrai site en votre première carte de recherche."
+      }
+    }
+  }
+}

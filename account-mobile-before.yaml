@@ -1,0 +1,108 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - link "LeadCue Home" [ref=e5] [cursor=pointer]:
+      - /url: /
+      - img [ref=e6]
+    - generic [ref=e12]:
+      - button "Language" [ref=e14]:
+        - img [ref=e16]
+        - generic [ref=e18]: EN
+        - img [ref=e20]
+      - button [ref=e23] [cursor=pointer]:
+        - generic [ref=e24]: "?"
+        - img [ref=e26]
+  - generic [ref=e28]:
+    - complementary [ref=e29]:
+      - navigation "Overview" [ref=e30]:
+        - link "Overview" [ref=e31] [cursor=pointer]:
+          - /url: /app
+          - img [ref=e32]
+          - text: Overview
+        - link "Import" [ref=e34] [cursor=pointer]:
+          - /url: /app/import
+          - img [ref=e35]
+          - text: Import
+        - link "Review queue" [ref=e37] [cursor=pointer]:
+          - /url: /app/leads
+          - img [ref=e38]
+          - text: Review queue
+        - link "Saved accounts" [ref=e40] [cursor=pointer]:
+          - /url: /app/accounts
+          - img [ref=e41]
+          - text: Saved accounts
+        - link "ICP" [ref=e43] [cursor=pointer]:
+          - /url: /app/settings/icp
+          - img [ref=e44]
+          - text: ICP
+        - link "Billing" [ref=e46] [cursor=pointer]:
+          - /url: /app/billing
+          - img [ref=e47]
+          - text: Billing
+        - link "Workflow" [ref=e49] [cursor=pointer]:
+          - /url: /app/analytics
+          - img [ref=e50]
+          - text: Workflow
+        - link "Account" [ref=e52] [cursor=pointer]:
+          - /url: /app/account
+          - img [ref=e53]
+          - text: Account
+    - main [ref=e55]:
+      - generic [ref=e56]:
+        - generic [ref=e57]:
+          - paragraph [ref=e58]: Account
+          - heading "Account" [level=1] [ref=e59]
+          - paragraph [ref=e60]: Update workspace identity, password access, and billing ownership without breaking the workflow.
+        - button "Manage billing" [ref=e62] [cursor=pointer]:
+          - img [ref=e63]
+          - text: Manage billing
+      - status
+      - status [ref=e101]:
+        - generic [ref=e102]: Sign in to reopen your real workspace, or start free to create one before you import websites into the queue.
+        - generic [ref=e103]:
+          - link "Continue with Google" [ref=e104] [cursor=pointer]:
+            - /url: /login
+            - img [ref=e105]
+            - text: Continue with Google
+          - link "Start free" [ref=e107] [cursor=pointer]:
+            - /url: /signup?plan=free
+            - img [ref=e108]
+            - text: Start free
+      - generic [ref=e66]:
+        - generic [ref=e67]:
+          - paragraph [ref=e68]: Workspace profile
+          - heading "Identity and ownership" [level=2] [ref=e69]
+          - paragraph [ref=e70]: Sign in to reopen your real workspace, or start free to create one before you import websites into the queue.
+          - generic [ref=e71]:
+            - link "Continue with Google" [ref=e72] [cursor=pointer]:
+              - /url: /login
+              - img [ref=e73]
+              - text: Continue with Google
+            - link "Start free" [ref=e75] [cursor=pointer]:
+              - /url: /signup?plan=free
+              - img [ref=e76]
+              - text: Start free
+        - generic [ref=e78]:
+          - paragraph [ref=e79]: Session summary
+          - heading "What this workspace is using" [level=2] [ref=e80]
+          - generic [ref=e81]:
+            - generic [ref=e82]:
+              - generic [ref=e83]: Signed-in email
+              - strong [ref=e84]: Not set
+            - generic [ref=e85]:
+              - generic [ref=e86]: Workspace
+              - strong [ref=e87]: LeadCue Demo Workspace
+            - generic [ref=e88]:
+              - generic [ref=e89]: Plan
+              - strong [ref=e90]: Free
+            - generic [ref=e91]:
+              - generic [ref=e92]: Next credit reset
+              - strong [ref=e93]: 2026年5月1日
+          - generic [ref=e94]:
+            - link "Continue with Google" [ref=e95] [cursor=pointer]:
+              - /url: /login
+              - img [ref=e96]
+              - text: Continue with Google
+            - link "Start free" [ref=e98] [cursor=pointer]:
+              - /url: /signup?plan=free
+              - img [ref=e99]
+              - text: Start free

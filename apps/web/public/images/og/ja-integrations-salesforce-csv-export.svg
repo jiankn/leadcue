@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
-  <title id="title">適格見込み客調査のための Salesforce CSV エクスポート |LeadCue</title>
-  <desc id="desc">適合スコア、ソースノート、冒頭文、およびリードソースを保持しながら、Webサイトの見込み客調査を Salesforce リードインポートフィールドにマッピングします。</desc>
+  <title id="title">Salesforce リード CSV項目</title>
+  <desc id="desc">Webサイト根拠、Lead Source、説明、適合スコアを含めてSalesforceへリードを渡すためのCSV設計。</desc>
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="630" gradientUnits="userSpaceOnUse">
       <stop stop-color="#073733" />
@@ -28,32 +28,31 @@
   <text x="232" y="170" fill="#BFE7DD" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="26" font-weight="600">日本語</text>
   <g transform="translate(900, 66)">
     <rect width="238" height="58" rx="29" fill="#0D4540" stroke="#1E6A63" />
-    <text x="28" y="38" fill="#DFFBF3" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="24" font-weight="700">セールスフォース</text>
+    <text x="28" y="38" fill="#DFFBF3" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="24" font-weight="700">Salesforce連携</text>
   </g>
   <g transform="translate(78, 236)">
     <rect width="330" height="46" rx="23" fill="#0D4540" stroke="#1E6A63" />
     <text x="22" y="30" fill="#96FF6A" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="22" font-weight="700">統合ガイド</text>
   </g>
-  <text x="78" y="336" fill="#F7FFFC" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="72" font-weight="800">適格見込み客調査のための Salesforce</text>
-<text x="78" y="420" fill="#F7FFFC" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="72" font-weight="800">CSV エクスポート |LeadCue</text>
-  <text x="78" y="514" fill="#D3EEE7" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="30" font-weight="600">適合スコア、ソースノート、冒頭文、およびリードソースを保持しながら、Webサイトの見込み客調査を</text>
-<text x="78" y="554" fill="#D3EEE7" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="30" font-weight="600">Salesforce リードインポートフィールドにマッピングします。</text>
+  <text x="78" y="336" fill="#F7FFFC" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="72" font-weight="800">Salesforce リード CSV項目</text>
+  <text x="78" y="514" fill="#D3EEE7" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="30" font-weight="600">Webサイト根拠、Lead</text>
+<text x="78" y="554" fill="#D3EEE7" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="30" font-weight="600">Source、説明、適合スコアを含めてSalesforceへリードを渡すためのCSV設計。</text>
   <g transform="translate(78, 548)">
     <rect width="262" height="44" rx="22" fill="#114b45" stroke="#1f6d66" />
     <text x="22" y="29" fill="#dffbf3" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="20" font-weight="700">Salesforce リード CSV フィールド</text>
   </g>
   <g transform="translate(364, 548)">
     <rect width="262" height="44" rx="22" fill="#114b45" stroke="#1f6d66" />
-    <text x="22" y="29" fill="#dffbf3" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="20" font-weight="700">Salesforce CSV インポートのリード</text>
+    <text x="22" y="29" fill="#dffbf3" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="20" font-weight="700">Salesforce リード インポート</text>
   </g>
   <g transform="translate(650, 548)">
     <rect width="262" height="44" rx="22" fill="#114b45" stroke="#1f6d66" />
-    <text x="22" y="29" fill="#dffbf3" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="20" font-weight="700">Salesforce の見込み客調査フィールド</text>
+    <text x="22" y="29" fill="#dffbf3" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="20" font-weight="700">Salesforce CSV インポート</text>
   </g>
   <rect x="882" y="246" width="258" height="274" rx="28" fill="#0D4540" stroke="#1E6A63" />
   <text x="914" y="302" fill="#BFE7DD" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="24" font-weight="700">Qualified fit</text>
   <text x="914" y="386" fill="url(#glow)" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="92" font-weight="800">92</text>
-  <text x="914" y="432" fill="#D3EEE7" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="24" font-weight="600">Salesforce チームが、営業フォローアップのための十分なコンテキストを含む適格な見込み客調査をインポートできるようにします。</text>
+  <text x="914" y="432" fill="#D3EEE7" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="24" font-weight="600">Salesforceへ文脈付きの見込み客リサーチを渡し、営業フォローをしやすくします。</text>
   <rect x="914" y="458" width="194" height="14" rx="7" fill="#135852" />
   <rect x="914" y="458" width="138" height="14" rx="7" fill="#96FF6A" />
 </svg>

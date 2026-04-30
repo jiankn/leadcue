@@ -229,3 +229,61 @@
     min-width: 200px;
   }
 }
+
+/* ── Dashboard Type Scale ──
+   将着陆页级别的字号缩放到工具仪表盘级别
+   通过 .app-shell 作用域隔离，不影响营销页面
+*/
+
+.app-shell h1 {
+  font-size: clamp(28px, 2.5vw, 36px);
+  line-height: 1.12;
+}
+
+.app-shell h2 {
+  font-size: clamp(20px, 1.8vw, 26px);
+  line-height: 1.18;
+}
+
+.app-shell h3 {
+  font-size: 18px;
+  line-height: 1.25;
+}
+
+/* KPI 数字提权 —— 成为卡片内视觉焦点 */
+.app-shell .overview-kpi-row strong {
+  font-size: 30px;
+}
+
+.app-shell .analytics-kpi-grid strong {
+  font-size: 28px;
+}
+
+/* Billing 用量面板 —— 保留稍大字号以突出余额 */
+.app-shell .billing-usage-panel h2 {
+  font-size: clamp(26px, 2.3vw, 34px);
+}
+
+/* 页面空状态标题 —— 适配新层级 */
+.app-shell .page-empty-state > strong {
+  font-size: clamp(22px, 2vw, 28px);
+}
+
+/* Overview state panel 标题（error 面板）—— 适配新层级 */
+.app-shell .overview-state-copy h2 {
+  font-size: clamp(22px, 2vw, 28px);
+}
+
+@media (max-width: 680px) {
+  .app-shell h1 {
+    font-size: 26px;
+  }
+
+  .app-shell h2 {
+    font-size: 20px;
+  }
+
+  .app-shell .billing-usage-panel h2 {
+    font-size: 26px;
+  }
+}

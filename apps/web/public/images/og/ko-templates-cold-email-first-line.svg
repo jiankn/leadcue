@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
-  <title id="title">콜드 이메일 첫 문장 템플릿 라이브러리</title>
-  <desc id="desc">숨겨진 CTA, 누락된 증명, 오래된 콘텐츠, 불명확한 위치 지정과 같은 실제 웹사이트 신호를 기반으로 첫 문장 템플릿을 복사합니다.</desc>
+  <title id="title">콜드메일 첫 문장 템플릿</title>
+  <desc id="desc">CTA, 사례, 콘텐츠 공백 같은 웹사이트 신호를 바탕으로 첫 문장을 빠르게 만드는 템플릿입니다.</desc>
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="630" gradientUnits="userSpaceOnUse">
       <stop stop-color="#073733" />
@@ -34,25 +34,25 @@
     <rect width="330" height="46" rx="23" fill="#0D4540" stroke="#1E6A63" />
     <text x="22" y="30" fill="#96FF6A" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="22" font-weight="700">템플릿 라이브러리</text>
   </g>
-  <text x="78" y="336" fill="#F7FFFC" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="72" font-weight="800">콜드 이메일 첫 문장 템플릿 라이브러리</text>
-  <text x="78" y="514" fill="#D3EEE7" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="30" font-weight="600">숨겨진 CTA, 누락된 증명, 오래된 콘텐츠, 불명확한 위치 지정과 같은 실제 웹사이트 신호를</text>
-<text x="78" y="554" fill="#D3EEE7" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="30" font-weight="600">기반으로 첫 문장 템플릿을 복사합니다.</text>
+  <text x="78" y="336" fill="#F7FFFC" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="72" font-weight="800">콜드메일 첫 문장 템플릿</text>
+  <text x="78" y="514" fill="#D3EEE7" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="30" font-weight="600">CTA, 사례, 콘텐츠 공백 같은 웹사이트 신호를 바탕으로 첫 문장을 빠르게 만드는</text>
+<text x="78" y="554" fill="#D3EEE7" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="30" font-weight="600">템플릿입니다.</text>
   <g transform="translate(78, 548)">
     <rect width="262" height="44" rx="22" fill="#114b45" stroke="#1f6d66" />
-    <text x="22" y="29" fill="#dffbf3" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="20" font-weight="700">콜드 이메일 첫 문장 템플릿</text>
+    <text x="22" y="29" fill="#dffbf3" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="20" font-weight="700">콜드메일 첫 문장 템플릿</text>
   </g>
   <g transform="translate(364, 548)">
     <rect width="262" height="44" rx="22" fill="#114b45" stroke="#1f6d66" />
-    <text x="22" y="29" fill="#dffbf3" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="20" font-weight="700">콜드 이메일 오프너 템플릿</text>
+    <text x="22" y="29" fill="#dffbf3" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="20" font-weight="700">콜드메일 오프너 템플릿</text>
   </g>
   <g transform="translate(650, 548)">
     <rect width="262" height="44" rx="22" fill="#114b45" stroke="#1f6d66" />
-    <text x="22" y="29" fill="#dffbf3" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="20" font-weight="700">개인화된 첫 문장 템플릿</text>
+    <text x="22" y="29" fill="#dffbf3" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="20" font-weight="700">개인화된 첫 문장</text>
   </g>
   <rect x="882" y="246" width="258" height="274" rx="28" fill="#0D4540" stroke="#1E6A63" />
   <text x="914" y="302" fill="#BFE7DD" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="24" font-weight="700">Qualified fit</text>
   <text x="914" y="386" fill="url(#glow)" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="92" font-weight="800">92</text>
-  <text x="914" y="432" fill="#D3EEE7" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="24" font-weight="600">아웃바운드 팀에게 웹사이트 관찰 내용을 신뢰할 수 있는 콜드 이메일 오프너로 전환할 수 있는 재사용 가능한 패턴을 제공합니다.</text>
+  <text x="914" y="432" fill="#D3EEE7" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="24" font-weight="600">사이트 관찰을 복사 가능한 콜드메일 첫 문장으로 바꾸는 템플릿을 제공합니다.</text>
   <rect x="914" y="458" width="194" height="14" rx="7" fill="#135852" />
   <rect x="914" y="458" width="138" height="14" rx="7" fill="#96FF6A" />
 </svg>

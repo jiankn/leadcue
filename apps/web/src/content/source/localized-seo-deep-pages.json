@@ -1,0 +1,2246 @@
+{
+  "ko": {
+    "seoPages": {
+      "use-cases/web-design-agencies": {
+        "title": "웹디자인 에이전시 리드 발굴: 웹사이트에서 리뉴얼 이유 찾기",
+        "seoTitle": "웹디자인 에이전시 리드 발굴 | LeadCue",
+        "description": "웹디자인 에이전시가 히어로, CTA, 사례, 문의 경로 같은 웹사이트 신호로 리뉴얼 제안 각도를 찾는 방법입니다.",
+        "intent": "웹디자인 에이전시가 웹사이트 근거로 더 설득력 있는 영업 계정을 선별하는 방법을 설명합니다.",
+        "primaryKeyword": "웹디자인 에이전시 리드 발굴",
+        "secondaryKeywords": ["웹사이트 리뉴얼 영업", "웹디자인 영업 리스트", "사이트 개선 영업"],
+        "heroBullets": [
+          "히어로, CTA, 사례 구조에서 바로 확인 가능한 리뉴얼 근거를 찾습니다.",
+          "막연한 재제안 대신 실제 화면 관찰을 영업 각도로 바꿉니다.",
+          "사이트 근거와 첫 문장을 함께 저장해 다음 단계로 넘깁니다."
+        ],
+        "sections": [
+          {
+            "title": "웹디자인 제안에 잘 맞는 사이트 신호",
+            "copy": "웹디자인 에이전시는 사이트에서 바로 보이는 마찰을 근거로 제안할 때 응답을 얻기 쉽습니다. 첫 화면 메시지가 흐리거나 CTA가 늦게 보이거나, 사례와 신뢰 요소가 너무 뒤에 있으면 리뉴얼 각도가 분명해집니다.",
+            "items": ["첫 화면에서 대상 고객과 다음 행동이 분명한가", "문의나 데모 CTA가 충분히 눈에 띄는가", "사례와 신뢰 요소가 구매 판단 전에 보이는가"]
+          },
+          {
+            "title": "리뉴얼 근거를 영업 문장으로 바꾸는 방법",
+            "copy": "첫 메일에서 사이트 전체를 비판할 필요는 없습니다. 한 가지 관찰을 짚고, 그것이 신뢰나 전환에 어떤 영향을 줄 수 있는지 연결한 뒤, 작은 개선 아이디어 몇 가지를 보내겠다고 제안하는 편이 자연스럽습니다.",
+            "items": ["구체적인 화면 위치를 첫 문장에 넣기", "관찰을 전환 또는 신뢰 문제와 연결하기", "회의 요청 대신 짧은 아이디어 3개를 제안하기"]
+          }
+        ],
+        "example": {
+          "title": "웹디자인 영업 각도 예시",
+          "copy": "홈페이지가 서비스는 잘 설명하지만 첫 화면에서 상담 CTA가 약해, 이미 관심 있는 방문자도 다음 행동을 찾는 데 한 번 더 멈출 수 있습니다.",
+          "items": ["신호: 첫 화면 CTA 약함", "각도: 문의 경로가 전환 의도를 늦춤", "다음 단계: 히어로와 사례 노출 개선 아이디어 3개 제안"]
+        },
+        "faqs": [
+          {
+            "question": "웹디자인 영업은 어떤 계정부터 봐야 하나요?",
+            "answer": "사이트 구조, 메시지, CTA, 사례 노출에 분명한 마찰이 있고 서비스 단가가 맞는 계정부터 우선 보세요."
+          },
+          {
+            "question": "첫 메일에서 사이트가 별로라고 직접 말해야 하나요?",
+            "answer": "아니요. 확인 가능한 관찰을 개선 기회로 표현하는 쪽이 훨씬 자연스럽고 반응도 좋습니다."
+          }
+        ]
+      },
+      "use-cases/seo-agencies": {
+        "title": "SEO 에이전시 리드 발굴: 콘텐츠 공백에서 제안 이유 찾기",
+        "seoTitle": "SEO 에이전시 리드 발굴 | LeadCue",
+        "description": "SEO 에이전시가 콘텐츠 신선도, 서비스 페이지 깊이, 검색 의도 공백으로 영업 각도를 만드는 방법입니다.",
+        "intent": "SEO 에이전시가 웹사이트 근거로 어떤 잠재고객을 우선 공략할지 판단하는 방법을 설명합니다.",
+        "primaryKeyword": "SEO 에이전시 리드 발굴",
+        "secondaryKeywords": ["SEO 영업 리서치", "SEO 잠재고객 발굴", "웹사이트 분석 SEO 영업"],
+        "heroBullets": [
+          "블로그 업데이트, 서비스 페이지 깊이, 검색 의도 공백을 먼저 봅니다.",
+          "보이는 콘텐츠 부족을 구체적인 아웃리치 각도로 바꿉니다.",
+          "후속 제안과 CRM 메모까지 같은 근거를 유지합니다."
+        ],
+        "sections": [
+          {
+            "title": "SEO 아웃리치 전에 확인할 사이트 신호",
+            "copy": "좋은 SEO 계정은 산업군만으로 결정되지 않습니다. 블로그가 오래 멈췄거나, 서비스 페이지가 얕거나, 구매 직전 검색 의도를 받는 페이지가 없으면 SEO 제안으로 연결하기 좋은 계정일 가능성이 큽니다.",
+            "items": ["콘텐츠가 최근에도 꾸준히 갱신되는가", "서비스 페이지가 구매자 질문에 충분히 답하는가", "비교·도입·문제 해결형 검색 의도 페이지가 있는가"]
+          },
+          {
+            "title": "콘텐츠 공백을 영업 이유로 만드는 법",
+            "copy": "첫 메일에서 'SEO가 필요합니다'라고 쓰는 건 약합니다. 대신 보이는 공백 하나를 짚고, 그 공백 때문에 검색 단계의 고의도 수요를 놓칠 수 있다고 설명하면 더 믿을 만한 각도가 됩니다.",
+            "items": ["빠진 주제나 페이지 유형을 구체적으로 언급하기", "검색 수요와 데모 전환의 연결고리 설명하기", "우선순위가 높은 콘텐츠 아이디어 몇 개 제안하기"]
+          }
+        ],
+        "example": {
+          "title": "SEO 영업 각도 예시",
+          "copy": "서비스 페이지는 정리되어 있지만, 비교형 콘텐츠와 구매 기준을 설명하는 페이지가 없어 검색 단계 후반 수요를 놓치고 있을 수 있습니다.",
+          "items": ["신호: 고의도 콘텐츠 공백", "각도: 구매 직전 검색 수요를 받지 못함", "다음 단계: 우선 테스트할 콘텐츠 주제 3개 제안"]
+        },
+        "faqs": [
+          {
+            "question": "첫 메일에서 키워드를 직접 언급해도 되나요?",
+            "answer": "가능하지만 많이 넣을 필요는 없습니다. 비즈니스와 연결된 주제 1~2개만 언급하는 편이 더 자연스럽습니다."
+          },
+          {
+            "question": "사이트만 보고도 SEO 리드를 저장해도 되나요?",
+            "answer": "초기 선별은 가능합니다. 다만 제안 단계로 가기 전에는 검색량, 경쟁도, 현재 노출 데이터까지 함께 확인하는 편이 좋습니다."
+          }
+        ]
+      },
+      "use-cases/marketing-agencies": {
+        "title": "마케팅 에이전시 리드 발굴: 전환 경로에서 영업 각도 찾기",
+        "seoTitle": "마케팅 에이전시 리드 발굴 | LeadCue",
+        "description": "마케팅 에이전시가 CTA, 신뢰 요소, 랜딩 구조, 전환 마찰을 근거로 영업 각도를 만드는 방법입니다.",
+        "intent": "마케팅 에이전시가 사이트 전환 신호를 바탕으로 영업 우선순위와 메시지를 정리하는 방법을 설명합니다.",
+        "primaryKeyword": "마케팅 에이전시 리드 발굴",
+        "secondaryKeywords": ["마케팅 영업 리드", "웹사이트 분석 영업", "그로스 에이전시 영업"],
+        "heroBullets": [
+          "랜딩 구조, CTA, 증거 노출, 전환 경로를 먼저 살핍니다.",
+          "추상적인 성장 제안 대신 보이는 전환 마찰을 짚습니다.",
+          "연구 메모와 첫 문장을 CRM 전달 문맥까지 그대로 이어갑니다."
+        ],
+        "sections": [
+          {
+            "title": "마케팅 서비스와 잘 맞는 사이트 신호",
+            "copy": "마케팅 기회는 전환 경로 안에 숨어 있는 경우가 많습니다. 제품 설명은 분명하지만 사례가 늦게 나오거나, 유료 유입이 들어와도 다음 행동이 모호하거나, CTA가 흩어져 있으면 좋은 아웃리치 각도가 됩니다.",
+            "items": ["첫 화면이 타깃 고객과 결과를 바로 설명하는가", "증거와 사례가 CTA 전에 충분히 보이는가", "문의 또는 데모 경로가 분명한가"]
+          },
+          {
+            "title": "전환 마찰을 작은 테스트 제안으로 바꾸기",
+            "copy": "첫 메일에서 큰 성장 계획을 파는 것보다, 전환 마찰 하나를 짚고 작은 실험 아이디어를 제안하는 편이 부담이 적고 답장을 얻기 쉽습니다.",
+            "items": ["보이는 마찰을 신뢰 있게 설명하기", "전환율·예약률·CAC와 연결하기", "히어로, 증거, CTA 중심의 작은 테스트 제안하기"]
+          }
+        ],
+        "example": {
+          "title": "마케팅 아웃리치 각도 예시",
+          "copy": "제품 설명은 명확하지만 사례와 수치형 증거가 첫 화면 근처에 없어, 광고나 아웃바운드 유입이 바로 예약까지 가지 못할 수 있습니다.",
+          "items": ["신호: 증거 노출이 늦음", "각도: 전환 전에 신뢰 정보가 부족함", "다음 단계: 첫 화면 증거와 CTA 테스트 아이디어 3개 제안"]
+        },
+        "faqs": [
+          {
+            "question": "마케팅 에이전시는 어떤 계정을 먼저 봐야 하나요?",
+            "answer": "명확한 오퍼와 유입이 이미 있는데, 사이트 전환 경로와 신뢰 설계가 부족한 계정을 우선 보세요."
+          },
+          {
+            "question": "첫 메일에서 예산 이야기를 꺼내야 하나요?",
+            "answer": "보통은 아직 이릅니다. 먼저 사이트 근거로 신뢰를 만들고, 이후 대화에서 채널과 예산을 다루는 편이 좋습니다."
+          }
+        ]
+      },
+      "guides/turn-website-into-cold-email-angle": {
+        "title": "잠재고객 웹사이트를 콜드메일 각도로 바꾸는 방법",
+        "seoTitle": "웹사이트 기반 콜드메일 각도 | LeadCue",
+        "description": "웹사이트 관찰을 구체적인 콜드메일 첫 문장과 영업 각도로 바꾸는 실전 가이드입니다.",
+        "intent": "웹사이트의 실제 근거를 개인화된 콜드메일 각도로 바꾸는 방법을 설명합니다.",
+        "primaryKeyword": "웹사이트 기반 콜드메일 각도",
+        "secondaryKeywords": ["콜드메일 개인화", "웹사이트 영업 각도", "잠재고객 리서치 워크플로우"],
+        "heroBullets": [
+          "보이는 사이트 신호를 첫 문장과 영업 각도로 연결합니다.",
+          "문제 지적보다 구체적인 관찰과 영향 설명에 집중합니다.",
+          "가벼운 다음 단계 CTA까지 함께 설계합니다."
+        ],
+        "sections": [
+          {
+            "title": "좋은 콜드메일 각도의 구조",
+            "copy": "좋은 각도는 사이트에서 본 사실, 그 사실이 줄 수 있는 영향, 그리고 제안할 수 있는 작은 다음 단계로 구성됩니다. 이 구조가 있어야 메일이 연구 기반으로 읽히고 템플릿처럼 보이지 않습니다.",
+            "items": ["첫 문장에 검증 가능한 관찰 넣기", "관찰을 전환·신뢰·검색과 연결하기", "다음 단계는 짧고 부담 없게 제안하기"]
+          },
+          {
+            "title": "사이트 신호를 메일 문장으로 바꾸는 방법",
+            "copy": "CTA가 늦게 보이거나 사례가 숨겨져 있거나 서비스 설명이 얕다면, 그 자체가 훌륭한 첫 문장 재료가 됩니다. 핵심은 추측을 덜고 사이트에서 바로 확인 가능한 표현을 쓰는 것입니다.",
+            "items": ["페이지 위치와 요소를 구체적으로 언급하기", "과장 없이 가능한 영향만 설명하기", "서비스 오퍼와 연결되는 각도만 남기기"]
+          }
+        ],
+        "example": {
+          "title": "콜드메일 각도 예시",
+          "copy": "제품 설명은 명확한데 데모 CTA가 첫 스크롤 뒤에 있어, 이미 관심 있는 방문자도 한 번 더 찾아야 할 수 있습니다.",
+          "items": ["첫 문장: 구체적이고 검증 가능함", "각도: 전환 의도 손실 가능성", "다음 단계: 첫 화면 CTA 아이디어 3개 제안"]
+        },
+        "faqs": [
+          {
+            "question": "각도는 항상 사이트 문제여야 하나요?",
+            "answer": "꼭 그렇진 않습니다. 강점도 각도가 될 수 있지만, 보통은 전환 마찰이나 정보 공백처럼 행동에 연결되는 신호가 더 유용합니다."
+          },
+          {
+            "question": "AI가 각도를 써도 되나요?",
+            "answer": "가능하지만, 최종 발송 전에는 반드시 원본 사이트 근거와 문장이 일치하는지 확인해야 합니다."
+          }
+        ]
+      },
+      "guides/score-prospect-website": {
+        "title": "아웃리치 전에 잠재고객 웹사이트 점수 매기는 방법",
+        "seoTitle": "잠재고객 웹사이트 점수 매기기 | LeadCue",
+        "description": "적합도, 사이트 신호, 신뢰도, 연락 경로를 기준으로 잠재고객 웹사이트를 평가하는 가이드입니다.",
+        "intent": "웹사이트를 저장하거나 아웃리치하기 전에 어떤 기준으로 점수를 매길지 설명합니다.",
+        "primaryKeyword": "잠재고객 웹사이트 점수",
+        "secondaryKeywords": ["잠재고객 적합도 점수", "리드 검증 점수", "웹사이트 영업 신호"],
+        "heroBullets": [
+          "ICP 적합도와 웹사이트 신호를 함께 봅니다.",
+          "감으로 저장하지 않고 일관된 기준으로 선별합니다.",
+          "저장 기준을 팀 전체가 공유할 수 있게 만듭니다."
+        ],
+        "sections": [
+          {
+            "title": "점수 모델에 꼭 들어가야 할 항목",
+            "copy": "사이트 점수는 예쁘게 보이는지 평가하는 것이 아닙니다. ICP 적합도, 사이트에서 보이는 신호, 신뢰도, 연락 경로 준비도를 함께 봐야 실제 영업 우선순위에 쓸 수 있습니다.",
+            "items": ["ICP와 오퍼 적합도", "전환·신뢰·콘텐츠 같은 사이트 신호", "연락 경로와 내보내기 준비도"]
+          },
+          {
+            "title": "저장 기준선을 만드는 방법",
+            "copy": "점수 모델의 목적은 숫자를 만드는 것이 아니라 저장 여부를 빠르게 판단하는 데 있습니다. 적합도는 높지만 신호가 약한 계정과, 신호는 많지만 ICP가 맞지 않는 계정을 분리해야 합니다.",
+            "items": ["저장 최소 점수선 정하기", "근거가 2개 이상 있는 계정 우선", "첫 문장까지 나오는 계정을 고우선순위로 보기"]
+          }
+        ],
+        "example": {
+          "title": "간단한 점수 규칙 예시",
+          "copy": "ICP 적합 40점, 사이트 신호 35점, 신뢰도 15점, 연락 경로 준비도 10점처럼 나누면 저장 기준을 정하기 쉽습니다.",
+          "items": ["80점 이상 + 근거 2개 이상", "첫 문장이 자연스럽게 나오면 저장", "근거가 약하면 보류 또는 제외"]
+        },
+        "faqs": [
+          {
+            "question": "점수는 팀마다 달라도 되나요?",
+            "answer": "가중치는 달라질 수 있지만, 저장 기준과 필수 근거 수는 팀 안에서 통일하는 편이 좋습니다."
+          },
+          {
+            "question": "점수만 높으면 바로 CRM으로 보내도 되나요?",
+            "answer": "점수는 시작점일 뿐입니다. 출처 메모와 첫 문장까지 검토한 뒤 내보내는 편이 안전합니다."
+          }
+        ]
+      },
+      "guides/website-audit-outreach": {
+        "title": "웹사이트 진단 영업 메일: 유용한 제안을 먼저 보내는 법",
+        "seoTitle": "웹사이트 진단 영업 메일 | LeadCue",
+        "description": "가벼운 웹사이트 진단을 실제 답장을 부르는 첫 아웃리치 메일로 바꾸는 방법을 설명합니다.",
+        "intent": "웹사이트 진단 관찰을 활용해 더 유용하고 부담 없는 첫 영업 메일을 만드는 방법을 설명합니다.",
+        "primaryKeyword": "웹사이트 진단 영업 메일",
+        "secondaryKeywords": ["웹사이트 감사 아웃리치", "웹사이트 분석 영업", "콜드메일 개인화"],
+        "heroBullets": [
+          "진단을 무료 컨설팅처럼 길게 보내지 않습니다.",
+          "가장 강한 관찰 한두 개만 골라 첫 메일에 씁니다.",
+          "회의 요청보다 답장하기 쉬운 다음 단계를 제안합니다."
+        ],
+        "sections": [
+          {
+            "title": "진단형 아웃리치의 핵심",
+            "copy": "웹사이트 진단형 메일은 '여기에 문제가 많습니다'가 아니라 '이 부분은 이렇게 개선할 수 있겠습니다'라는 톤에 가깝습니다. 첫 메일은 가볍게 시작해야 답장 장벽이 낮습니다.",
+            "items": ["가장 강한 관찰 1~2개만 선택하기", "관찰을 비즈니스 영향과 연결하기", "짧은 제안이나 아이디어 전송을 다음 단계로 두기"]
+          },
+          {
+            "title": "첫 메일에 넣기 좋은 진단 포인트",
+            "copy": "첫 화면 CTA, 사례 노출, 서비스 설명, 문의 경로, 콘텐츠 공백처럼 바로 확인 가능한 요소가 좋습니다. 이런 신호는 상대가 읽는 순간 사실 여부를 검증할 수 있기 때문입니다.",
+            "items": ["CTA와 히어로는 웹디자인·CRO 각도", "사례와 증거는 신뢰·전환 각도", "콘텐츠와 서비스 페이지는 SEO 각도"]
+          }
+        ],
+        "example": {
+          "title": "진단형 영업 메일 예시",
+          "copy": "홈페이지 설명은 분명한데 사례 블록이 메인 CTA 아래에 있어, 이미 관심 있는 방문자도 데모 전에 충분한 신뢰 근거를 보지 못할 수 있습니다.",
+          "items": ["관찰: 증거 노출이 늦음", "각도: 예약 전 신뢰 정보 부족", "다음 단계: 사례와 CTA 개선 아이디어 3개 제안"]
+        },
+        "faqs": [
+          {
+            "question": "이런 메일이 무료 컨설팅처럼 보이지 않나요?",
+            "answer": "범위를 작게 잡으면 괜찮습니다. 첫 메일에는 관찰 1개와 짧은 제안 정도면 충분합니다."
+          },
+          {
+            "question": "모든 계정에 진단형 메일을 써도 되나요?",
+            "answer": "아니요. 사이트에서 보이는 신호가 있고 그 신호가 당신의 서비스와 직접 연결될 때만 쓰는 편이 좋습니다."
+          }
+        ]
+      }
+    },
+    "productPages": {
+      "tools/prospect-research-chrome-extension": {
+        "title": "잠재고객 리서치 Chrome 확장",
+        "seoTitle": "잠재고객 리서치 Chrome 확장 | LeadCue",
+        "description": "브라우저에서 잠재고객 웹사이트를 보며 근거, 적합도, 첫 문장을 함께 저장하는 워크플로우입니다.",
+        "intent": "브라우저 안에서 웹사이트 근거와 아웃리치 문맥을 바로 저장하는 방법을 설명합니다.",
+        "primaryKeyword": "잠재고객 리서치 Chrome 확장",
+        "secondaryKeywords": ["영업 리서치 Chrome 확장", "웹사이트 기반 리드 발굴", "웹사이트 분석 영업"],
+        "heroBullets": [
+          "웹사이트를 보면서 근거를 바로 저장합니다.",
+          "적합도 점수와 첫 문장을 같은 카드에 묶어 둡니다.",
+          "고가치 계정을 수동 검토할 때 특히 유용합니다."
+        ],
+        "sections": [
+          {
+            "title": "브라우저 안에서 리서치하는 이유",
+            "copy": "잠재고객 리서치는 대부분 브라우저에서 시작합니다. 이때 관찰을 나중에 따로 복사하면 연락 이유와 첫 문장 재료가 쉽게 사라집니다.",
+            "items": ["사이트를 보는 순간 근거를 저장하기", "도메인과 근거를 같이 묶기", "모든 사이트를 자동으로 리드로 만들지 않기"]
+          },
+          {
+            "title": "확장 프로그램이 남겨야 할 정보",
+            "copy": "좋은 확장은 URL만 저장하지 않습니다. 사이트 신호, 적합도 이유, 아웃리치 각도, 첫 문장, 출처 메모까지 같이 남겨야 실제 영업에 쓸 수 있습니다.",
+            "items": ["페이지 위치와 사이트 신호", "적합도와 서비스 방향", "검토 가능한 첫 문장과 출처 메모"]
+          }
+        ],
+        "faqs": [
+          {
+            "question": "이건 스크래핑 확장인가요?",
+            "answer": "아니요. 공개된 웹사이트를 사람이 검토하는 흐름을 돕고, 그 근거를 저장하는 확장입니다."
+          },
+          {
+            "question": "언제 확장을 쓰고 언제 배치 큐를 쓰나요?",
+            "answer": "개별 고가치 계정을 볼 때는 확장, 이미 도메인 목록이 있을 때는 배치 검토 큐가 더 적합합니다."
+          }
+        ]
+      },
+      "tools/batch-website-review-queue": {
+        "title": "대량 웹사이트 검토 큐",
+        "seoTitle": "대량 웹사이트 검토 큐 | LeadCue",
+        "description": "도메인 목록을 바로 아웃리치로 넘기지 않고, 먼저 검토하고 선별하는 배치 워크플로우입니다.",
+        "intent": "배치로 수집한 웹사이트를 선별하고 우선순위를 정하는 방법을 설명합니다.",
+        "primaryKeyword": "대량 웹사이트 검토 큐",
+        "secondaryKeywords": ["웹사이트 검토 큐", "B2B 리드 발굴 툴", "리드 검증 워크플로우"],
+        "heroBullets": [
+          "도메인 목록을 먼저 검토 큐로 가져옵니다.",
+          "저장할 계정과 버릴 계정을 아웃리치 전에 분리합니다.",
+          "적합도와 신뢰도로 우선순위를 잡습니다."
+        ],
+        "sections": [
+          {
+            "title": "검토 큐가 필요한 이유",
+            "copy": "많은 팀이 도메인 목록을 바로 시퀀스 도구로 보내지만, 그 과정에서 품질이 무너집니다. 검토 큐는 스캔된 사이트와 실제 저장할 잠재고객을 분리해 노이즈를 줄여줍니다.",
+            "items": ["스프레드시트·CRM·수동 리서치에서 도메인 가져오기", "같은 기준으로 사이트 신호 평가하기", "연락 이유가 있는 계정만 저장하기"]
+          },
+          {
+            "title": "팀이 큐를 쓰는 방식",
+            "copy": "연구 담당자와 발송 담당자가 나뉜 팀일수록 큐가 효과적입니다. 조사 결과와 첫 문장을 함께 남겨두면, 다음 단계로 넘길 때 다시 조사할 필요가 없습니다.",
+            "items": ["고적합도 계정부터 처리하기", "저장 전 소유자와 단계 정하기", "내보낼 때 출처 메모와 첫 문장 유지하기"]
+          }
+        ],
+        "faqs": [
+          {
+            "question": "가져온 사이트를 모두 저장해야 하나요?",
+            "answer": "아니요. 큐의 목적은 필터링입니다. 근거가 충분한 계정만 저장하는 편이 좋습니다."
+          },
+          {
+            "question": "스프레드시트와 다른 점은 뭔가요?",
+            "answer": "검토 상태, 적합도, 근거, 첫 문장, 내보내기 상태까지 함께 관리한다는 점이 가장 큰 차이입니다."
+          }
+        ]
+      },
+      "tools/outreach-context-workspace": {
+        "title": "아웃리치 문맥 워크스페이스",
+        "seoTitle": "아웃리치 문맥 워크스페이스 | LeadCue",
+        "description": "웹사이트 근거, 적합도, 첫 문장, 출처 메모, CRM 필드를 한곳에 유지하는 워크스페이스입니다.",
+        "intent": "리서치에서 CRM 또는 시퀀스 도구로 넘어가기 전 문맥을 잃지 않는 방법을 설명합니다.",
+        "primaryKeyword": "아웃리치 문맥 워크스페이스",
+        "secondaryKeywords": ["콜드메일 개인화", "잠재고객 리서치 툴", "리드 검증 워크플로우"],
+        "heroBullets": [
+          "웹사이트 근거와 첫 문장을 함께 보관합니다.",
+          "발송 전 모든 주장에 대한 출처를 다시 확인할 수 있습니다.",
+          "리서치 팀과 세일즈 팀 사이 인계용으로 좋습니다."
+        ],
+        "sections": [
+          {
+            "title": "왜 아웃리치 문맥이 사라지는가",
+            "copy": "많은 팀이 조사, 메모, CRM 입력을 다른 도구에서 합니다. 그래서 막상 메일을 보낼 때 왜 이 계정을 고른 건지 설명할 수 없는 경우가 많습니다.",
+            "items": ["회사명과 URL만으로는 연락 이유가 부족함", "출처 없는 첫 문장은 신뢰 검토가 어려움", "세일즈는 우선순위 이유까지 알아야 함"]
+          },
+          {
+            "title": "워크스페이스가 붙잡아야 할 정보",
+            "copy": "좋은 워크스페이스는 사이트 신호, 비즈니스 의미, 적합도, 첫 문장, 출처 메모, 담당자, 단계, 내보내기 상태를 끊기지 않게 이어줍니다.",
+            "items": ["관찰과 비즈니스 의미 연결", "우선순위용 적합도와 신뢰도", "CRM으로 넘어가도 남는 문맥 필드"]
+          }
+        ],
+        "faqs": [
+          {
+            "question": "이게 CRM을 대신하나요?",
+            "answer": "아니요. CRM 이전 단계에서 어떤 계정을 넘길지 판단하고 문맥을 준비하는 역할입니다."
+          },
+          {
+            "question": "발송 도구도 대체하나요?",
+            "answer": "아니요. LeadCue는 리서치와 문맥을 준비하고, 실제 발송은 CRM이나 이메일 도구에서 진행할 수 있습니다."
+          }
+        ]
+      },
+      "templates/crm-csv-field-mapping": {
+        "title": "잠재고객 리서치를 위한 CRM CSV 필드 매핑",
+        "seoTitle": "CRM CSV 필드 매핑 | LeadCue",
+        "description": "HubSpot, Salesforce, Pipedrive 또는 사용자 정의 CSV에 리서치 필드를 어떻게 옮길지 정리하는 템플릿입니다.",
+        "intent": "리드 리서치 필드를 CRM CSV 헤더와 맞추는 방법을 설명합니다.",
+        "primaryKeyword": "CRM CSV 필드 매핑",
+        "secondaryKeywords": ["HubSpot CSV 내보내기 필드", "Salesforce 리드 CSV 필드", "Pipedrive CSV 가져오기 필드"],
+        "heroBullets": [
+          "CRM별 필드 이름을 맞춰서 헤더를 준비합니다.",
+          "적합도, 첫 문장, 출처 메모를 잃지 않게 매핑합니다.",
+          "내보내기 전에 팀 표준 필드를 통일합니다."
+        ],
+        "sections": [
+          {
+            "title": "CSV 매핑에서 자주 빠지는 필드",
+            "copy": "회사명과 URL만 맞추고 끝내면 리서치 가치가 사라집니다. 적합도, 출처 메모, 첫 문장, 상태 같은 필드를 함께 가져가야 세일즈가 실제로 활용할 수 있습니다.",
+            "items": ["회사·웹사이트·소유자·단계", "적합도와 신뢰도", "첫 문장과 출처 메모"]
+          },
+          {
+            "title": "CRM별로 확인할 포인트",
+            "copy": "HubSpot은 회사 속성과 메모, Salesforce는 Lead Source와 Description, Pipedrive는 조직 필드와 노트가 핵심입니다. 같은 리서치라도 CRM마다 담는 방식이 다릅니다.",
+            "items": ["HubSpot: 회사 속성과 사용자 정의 속성", "Salesforce: Lead Source와 수치 필드", "Pipedrive: 조직 필드와 긴 메모"]
+          }
+        ],
+        "faqs": [
+          {
+            "question": "모든 CRM에 같은 헤더를 써도 되나요?",
+            "answer": "핵심 의미는 같아도 필드 이름과 수용 방식이 달라서 CRM별 매핑 표를 따로 두는 편이 안전합니다."
+          },
+          {
+            "question": "첫 문장도 CSV에 넣어야 하나요?",
+            "answer": "발송 전에 세일즈가 검토하거나 복사해야 한다면 함께 넣는 편이 좋습니다."
+          }
+        ]
+      },
+      "templates/cold-email-first-line": {
+        "title": "웹사이트 신호로 만드는 콜드메일 첫 문장 템플릿",
+        "seoTitle": "콜드메일 첫 문장 템플릿 | LeadCue",
+        "description": "CTA, 사례, 콘텐츠 공백 같은 웹사이트 신호를 바탕으로 첫 문장을 빠르게 만드는 템플릿입니다.",
+        "intent": "사이트 관찰을 복사 가능한 콜드메일 첫 문장으로 바꾸는 템플릿을 제공합니다.",
+        "primaryKeyword": "콜드메일 첫 문장 템플릿",
+        "secondaryKeywords": ["콜드메일 오프너 템플릿", "개인화된 첫 문장", "웹사이트 신호 아웃리치"],
+        "heroBullets": [
+          "사이트 신호를 고르면 바로 쓸 수 있는 첫 문장을 만듭니다.",
+          "다음 문장과 가벼운 CTA까지 같이 설계합니다.",
+          "근거 없는 칭찬 문장을 줄입니다."
+        ],
+        "sections": [
+          {
+            "title": "템플릿은 구조를 고정하고 내용은 바꾸기",
+            "copy": "좋은 템플릿은 모든 메일을 똑같이 만들지 않습니다. 관찰, 영향, 다음 단계라는 구조는 유지하되, 실제 내용은 계정마다 사이트 근거로 바꿔야 합니다.",
+            "items": ["페이지 위치와 요소를 계정별로 바꾸기", "확인 불가능한 문장은 삭제하기", "서비스와 연결되는 각도만 남기기"]
+          },
+          {
+            "title": "첫 문장 다음에 무엇을 붙일까",
+            "copy": "첫 문장만 좋고 두 번째 문장이 약하면 메일이 끊깁니다. 관찰 뒤에는 왜 중요한지, 그리고 어떤 작은 제안을 할 수 있는지 자연스럽게 이어야 합니다.",
+            "items": ["관찰 뒤에 영향 한 문장 덧붙이기", "마지막은 가벼운 CTA로 마무리", "회의 요청보다 아이디어 제안이 초반엔 유리함"]
+          }
+        ],
+        "faqs": [
+          {
+            "question": "첫 문장은 얼마나 길어야 하나요?",
+            "answer": "보통 한 문장, 길어도 두 문장이면 충분합니다. 모바일에서도 바로 읽혀야 합니다."
+          },
+          {
+            "question": "템플릿을 써도 너무 자동화처럼 보이지 않나요?",
+            "answer": "사이트 근거와 페이지 위치가 바뀌면 충분히 자연스럽습니다. 문제는 구조보다 내용의 반복입니다."
+          }
+        ]
+      },
+      "templates/website-prospecting-checklist": {
+        "title": "에이전시 아웃바운드를 위한 웹사이트 잠재고객 발굴 체크리스트",
+        "seoTitle": "웹사이트 잠재고객 발굴 체크리스트 | LeadCue",
+        "description": "CTA, 신뢰 요소, SEO, 내비게이션, 연락 경로를 빠르게 점검하는 체크리스트입니다.",
+        "intent": "리드를 저장하기 전에 어떤 사이트 신호를 수동으로 점검해야 하는지 정리합니다.",
+        "primaryKeyword": "웹사이트 잠재고객 발굴 체크리스트",
+        "secondaryKeywords": ["잠재고객 웹사이트 체크리스트", "에이전시 아웃바운드 체크리스트", "웹사이트 감사 체크리스트"],
+        "heroBullets": [
+          "아웃리치 근거가 되는 사이트 신호를 빠르게 점검합니다.",
+          "체크 결과를 리서치 카드식 요약으로 바꿉니다.",
+          "내보내기 전 수동 QA 단계로 활용합니다."
+        ],
+        "sections": [
+          {
+            "title": "체크리스트에 꼭 들어갈 항목",
+            "copy": "체크리스트는 단순한 디자인 감상이 아니라 영업 근거를 찾기 위한 도구여야 합니다. CTA, 증거, 콘텐츠, 내비게이션, 연락 경로는 거의 모든 서비스에 공통으로 중요합니다.",
+            "items": ["첫 화면 메시지와 CTA", "사례·후기·결과 같은 신뢰 근거", "서비스 설명·콘텐츠·문의 경로"]
+          },
+          {
+            "title": "체크 결과를 저장 기준으로 바꾸기",
+            "copy": "체크리스트를 본 뒤에는 저장할지 보류할지 결론이 나와야 합니다. 그래서 체크한 항목을 적합도, 신뢰도, 연락 이유와 연결해 해석하는 단계가 필요합니다.",
+            "items": ["체크 결과를 적합도와 연결하기", "가장 강한 신호 2개만 요약하기", "ICP에 맞는 계정만 내보내기"]
+          }
+        ],
+        "faqs": [
+          {
+            "question": "체크리스트는 누가 써야 하나요?",
+            "answer": "리서치 담당자, SDR, 세일즈, 에이전시 운영팀 모두 쓸 수 있지만, 저장 기준은 팀 차원에서 통일하는 편이 좋습니다."
+          },
+          {
+            "question": "모든 계정에 전체 체크리스트를 다 적용해야 하나요?",
+            "answer": "고가치 계정은 전체 체크가 좋고, 대량 목록은 핵심 항목만 먼저 보는 방식이 효율적입니다."
+          }
+        ]
+      },
+      "integrations/hubspot-csv-export": {
+        "title": "HubSpot CSV 내보내기: 아웃리치 문맥을 CRM에 유지하기",
+        "seoTitle": "HubSpot CSV 내보내기 필드 | LeadCue",
+        "description": "웹사이트 근거, 적합도, 첫 문장, 출처 메모를 HubSpot으로 옮길 때 필요한 필드 구조를 설명합니다.",
+        "intent": "HubSpot으로 선별된 리드를 넘기면서 연락 이유를 잃지 않는 방법을 설명합니다.",
+        "primaryKeyword": "HubSpot CSV 내보내기 필드",
+        "secondaryKeywords": ["HubSpot 리드 가져오기", "HubSpot CRM CSV", "아웃리치 문맥 CRM"],
+        "heroBullets": [
+          "선별된 계정만 HubSpot으로 보냅니다.",
+          "적합도와 출처 메모를 눈에 보이는 속성으로 남깁니다.",
+          "세일즈가 왜 이 계정을 봐야 하는지 바로 이해하게 만듭니다."
+        ],
+        "sections": [
+          {
+            "title": "HubSpot에 남겨야 할 핵심 필드",
+            "copy": "회사명과 URL만 있으면 세일즈는 다시 조사해야 합니다. 적합도, 주요 사이트 신호, 첫 문장, 출처 메모를 함께 넣어야 HubSpot 안에서도 문맥이 살아 있습니다.",
+            "items": ["회사·웹사이트·담당자·단계", "적합도와 주요 사이트 신호", "첫 문장·출처 메모·내보내기 상태"]
+          },
+          {
+            "title": "CRM을 더럽히지 않는 가져오기 원칙",
+            "copy": "모든 스캔 결과를 넣지 말고 저장된 계정만 가져오는 편이 좋습니다. 사용자 정의 속성과 뷰를 잘 쓰면 LeadCue 출처 계정을 세일즈가 따로 관리하기도 쉽습니다.",
+            "items": ["저신뢰 계정은 제외하기", "사용자 정의 속성에 점수와 출처 넣기", "LeadCue 전용 리스트 또는 뷰 구성하기"]
+          }
+        ],
+        "faqs": [
+          {
+            "question": "회사 속성과 연락처 속성 중 어디에 넣어야 하나요?",
+            "answer": "웹사이트 근거와 적합도는 보통 회사 레벨이 더 자연스럽고, 연락처는 이후 단계에서 추가하는 편이 좋습니다."
+          },
+          {
+            "question": "첫 문장도 HubSpot에 넣어야 하나요?",
+            "answer": "세일즈가 HubSpot 안에서 바로 검토하거나 복사해 쓸 계획이라면 함께 보관하는 편이 좋습니다."
+          }
+        ]
+      },
+      "integrations/salesforce-csv-export": {
+        "title": "Salesforce CSV 내보내기: 근거 있는 리드를 컨텍스트와 함께 전달",
+        "seoTitle": "Salesforce 리드 CSV 필드 | LeadCue",
+        "description": "Lead Source, Description, 점수, 출처 메모를 활용해 Salesforce로 리서치 문맥을 넘기는 방법입니다.",
+        "intent": "Salesforce 팀이 리드 연구 결과를 읽기 좋은 형태로 가져오는 방법을 설명합니다.",
+        "primaryKeyword": "Salesforce 리드 CSV 필드",
+        "secondaryKeywords": ["Salesforce 리드 가져오기", "Salesforce CSV 가져오기", "B2B 리드 리서치 CRM"],
+        "heroBullets": [
+          "Lead Source로 웹사이트 리서치 출처를 구분합니다.",
+          "Description과 수치 필드에 연구 문맥을 남깁니다.",
+          "저장 기준을 통과한 계정만 Salesforce로 보냅니다."
+        ],
+        "sections": [
+          {
+            "title": "Salesforce에서 중요한 필드 구조",
+            "copy": "Salesforce는 보고와 후속 작업까지 생각해야 합니다. Lead Source, Description, owner, status, fit score가 보여야 세일즈가 바로 다음 행동을 정할 수 있습니다.",
+            "items": ["Lead Source에 LeadCue 또는 Website research 사용", "Description에 신호·각도·첫 문장 기록", "Fit score와 confidence는 숫자 필드 사용"]
+          },
+          {
+            "title": "후속 가능한 형태로 가져오기",
+            "copy": "리드를 넣기 전에 담당자와 상태를 정하고, 출처 메모를 숨은 필드가 아닌 보이는 필드에 넣어야 합니다. 그래야 조사와 세일즈가 끊기지 않습니다.",
+            "items": ["가져오기 전 owner와 status 결정", "출처 메모를 읽기 쉬운 위치에 배치", "URL과 export status로 중복 방지"]
+          }
+        ],
+        "faqs": [
+          {
+            "question": "Lead로 넣어야 하나요, Account로 넣어야 하나요?",
+            "answer": "첫 접점 전에는 보통 Lead가 자연스럽습니다. 기존 고객사가 있으면 Account나 활동 기록에 연구 내용을 연결해도 됩니다."
+          },
+          {
+            "question": "fit score는 어디에 넣는 게 좋나요?",
+            "answer": "정렬과 리포트가 가능하도록 사용자 정의 숫자 필드에 넣는 편이 가장 실용적입니다."
+          }
+        ]
+      },
+      "integrations/pipedrive-csv-export": {
+        "title": "Pipedrive CSV 가져오기: 웹사이트 리서치를 조직 기록에 남기기",
+        "seoTitle": "Pipedrive CSV 가져오기 필드 | LeadCue",
+        "description": "조직, 웹사이트, 단계, 메모 필드로 LeadCue 리서치 문맥을 Pipedrive에 옮기는 방법입니다.",
+        "intent": "Pipedrive 조직과 메모 안에 웹사이트 근거와 연락 이유를 유지하는 방법을 설명합니다.",
+        "primaryKeyword": "Pipedrive CSV 가져오기 필드",
+        "secondaryKeywords": ["Pipedrive 조직 가져오기", "Pipedrive CRM CSV", "영업 메모 Pipedrive"],
+        "heroBullets": [
+          "회사와 웹사이트는 조직 레코드에 넣습니다.",
+          "사이트 근거와 첫 문장은 메모에 남깁니다.",
+          "실제 기회가 생길 때까지 Deal 생성을 늦춥니다."
+        ],
+        "sections": [
+          {
+            "title": "Pipedrive에서 리서치를 받는 구조",
+            "copy": "Pipedrive에서는 조직이 회사 컨텍스트를 담고, 메모가 연락 이유를 담는 역할을 합니다. 그래서 웹사이트 근거와 첫 문장을 메모에 남겨두면 세일즈가 훨씬 빨리 맥락을 이해합니다.",
+            "items": ["조직에 회사명·URL·담당자 저장", "메모에 신호·출처 페이지·첫 문장 저장", "단계로 연구·아웃리치·내보내기 상태 구분"]
+          },
+          {
+            "title": "Deal은 언제 만들어야 하나",
+            "copy": "반응도 없는데 Deal을 먼저 만들면 파이프라인이 금방 지저분해집니다. 초반에는 조직과 메모로 충분하고, 답장이나 미팅이 잡힌 뒤 Deal을 만드는 편이 더 명확합니다.",
+            "items": ["초기에는 조직과 메모 중심", "관심이 생기면 Deal 생성", "URL과 export status로 중복 방지"]
+          }
+        ],
+        "faqs": [
+          {
+            "question": "조직과 Deal 중 무엇을 먼저 만들어야 하나요?",
+            "answer": "콜드 아웃리치 초기 단계라면 조직과 메모를 먼저 만들고, 실제 기회가 생길 때 Deal을 추가하는 편이 좋습니다."
+          },
+          {
+            "question": "웹사이트 근거는 필드와 메모 중 어디에 두나요?",
+            "answer": "짧은 점수는 필드, 길고 설명이 필요한 사이트 관찰은 메모가 더 잘 맞습니다."
+          }
+        ]
+      }
+    }
+  },
+  "de": {
+    "seoPages": {
+      "use-cases/web-design-agencies": {
+        "title": "Webdesign-Agentur-Leads finden: Redesign-Anlässe auf Websites erkennen",
+        "seoTitle": "Webdesign-Agentur-Leads finden | LeadCue",
+        "description": "Wie Webdesign-Agenturen Hero, CTA, Proof und Kontaktpfade nutzen, um belastbare Redesign-Anlässe für die Akquise zu finden.",
+        "intent": "Zeigt, wie Webdesign-Agenturen sichtbare Website-Signale in glaubwürdige Akquise-Anlässe übersetzen.",
+        "primaryKeyword": "Webdesign-Agentur-Leads finden",
+        "secondaryKeywords": ["Webdesign Akquise", "Website Audit Akquise", "Redesign Leads Agentur"],
+        "heroBullets": [
+          "Hero, CTA, Proof und Kontaktweg liefern oft den klarsten Redesign-Anlass.",
+          "Die Ansprache startet mit einer nützlichen Beobachtung statt mit einem großen Relaunch-Pitch.",
+          "Erste Zeile, Quelle und nächster Schritt bleiben zusammen."
+        ],
+        "sections": [
+          {
+            "title": "Welche Website-Signale für Webdesign zählen",
+            "copy": "Webdesign-Akquise funktioniert am besten, wenn der Anlass direkt sichtbar ist. Ein schwacher Hero, ein spät auftauchender CTA, versteckte Referenzen oder ein komplizierter Kontaktpfad geben einen klaren, überprüfbaren Ansatz.",
+            "items": ["Ist im ersten Screen klar, für wen das Angebot gedacht ist?", "Ist Demo, Anfrage oder Kontakt leicht zu finden?", "Sind Cases und Vertrauensbelege früh genug sichtbar?"]
+          },
+          {
+            "title": "Wie aus der Beobachtung eine Outreach-Nachricht wird",
+            "copy": "Die erste Nachricht sollte keine komplette Website-Kritik sein. Nennen Sie eine überprüfbare Beobachtung, verbinden Sie sie mit Vertrauen oder Conversion und schlagen Sie drei kleine Ideen statt eines Meetings vor.",
+            "items": ["Ein konkretes Element oder einen Bereich nennen", "Mit Nachfrage, Vertrauen oder Conversion verknüpfen", "Leichten nächsten Schritt statt großem Pitch anbieten"]
+          }
+        ],
+        "example": {
+          "title": "Beispiel für einen Redesign-Winkel",
+          "copy": "Die Startseite erklärt das Angebot gut, aber der Demo-CTA ist im sichtbaren Bereich kaum präsent. Interessierte Besucher müssen erst weitersuchen.",
+          "items": ["Signal: CTA im Hero zu schwach", "Winkel: Reibung vor der Kontaktaufnahme", "Nächster Schritt: drei Ideen für Hero, Proof und CTA senden"]
+        },
+        "faqs": [
+          {
+            "question": "Welche Accounts sollten Webdesign-Agenturen priorisieren?",
+            "answer": "Accounts mit sichtbaren Reibungen in Struktur, Hero, CTA oder Proof und gleichzeitig passender Projektgröße und ICP."
+          },
+          {
+            "question": "Sollte man direkt sagen, dass die Website schlecht ist?",
+            "answer": "Besser nicht. Eine sichtbare Beobachtung als Optimierungschance zu formulieren wirkt glaubwürdiger und hilfreicher."
+          }
+        ]
+      },
+      "use-cases/seo-agencies": {
+        "title": "SEO-Agentur-Neukunden gewinnen: Content-Lücken als Akquise-Anlass nutzen",
+        "seoTitle": "SEO-Agentur Neukunden gewinnen | LeadCue",
+        "description": "Wie SEO-Agenturen Content-Frische, Seitentiefe und Suchintentionen auf Prospect-Websites als Akquise-Winkel nutzen.",
+        "intent": "Erklärt, wie SEO-Agenturen Website-Belege zur Priorisierung und Personalisierung der Akquise einsetzen.",
+        "primaryKeyword": "SEO-Agentur Neukunden gewinnen",
+        "secondaryKeywords": ["SEO Akquise", "Website Analyse SEO", "B2B Lead Recherche Tool"],
+        "heroBullets": [
+          "Content-Frische, Service-Seiten und Suchintentionen zeigen oft den stärksten SEO-Bedarf.",
+          "Sichtbare Lücken sind überzeugender als ein generischer SEO-Pitch.",
+          "Quelle, erste Zeile und CRM-Kontext bleiben am gleichen Account."
+        ],
+        "sections": [
+          {
+            "title": "Welche SEO-Signale auf Prospect-Websites wichtig sind",
+            "copy": "Gute SEO-Accounts erkennt man nicht nur am Markt oder an der Firmengröße. Oft zeigen schon Blog, Service-Seiten oder fehlende Intent-Seiten, wo Nachfrage verloren gehen kann.",
+            "items": ["Werden Blog, Ressourcen oder Cases noch gepflegt?", "Beantworten Service-Seiten die Fragen von Käufern?", "Fehlen Vergleichs-, Problem- oder Use-Case-Seiten?"]
+          },
+          {
+            "title": "Wie aus einer Content-Lücke ein Outreach-Winkel wird",
+            "copy": "Statt pauschal SEO zu verkaufen, ist es stärker, eine sichtbare Lücke zu nennen und zu erklären, warum dadurch relevante Suchnachfrage oder Demo-Chancen verloren gehen könnten.",
+            "items": ["Eine konkrete fehlende Seite oder Themenlücke nennen", "Mit Suche, Nachfrage oder Demo-Pfad verbinden", "Drei priorisierte Content-Ideen als nächsten Schritt anbieten"]
+          }
+        ],
+        "example": {
+          "title": "Beispiel für einen SEO-Winkel",
+          "copy": "Die Service-Seiten sind klar, aber Vergleichs- und Auswahlinhalte fehlen. Für Suchanfragen kurz vor der Kaufentscheidung gibt es damit keinen passenden Einstieg.",
+          "items": ["Signal: High-Intent-Content fehlt", "Winkel: Nachfrage vor dem Kauf wird nicht abgeholt", "Nächster Schritt: drei Themen mit hoher Priorität senden"]
+        },
+        "faqs": [
+          {
+            "question": "Sollte man Keywords schon in der ersten Nachricht nennen?",
+            "answer": "Ja, aber sparsam. Ein bis zwei geschäftsnahe Themen reichen meist aus und wirken natürlicher als eine lange Liste."
+          },
+          {
+            "question": "Reicht die Website für die Qualifizierung aus?",
+            "answer": "Für die erste Priorisierung ja. Vor einem echten Angebot sollten Suchvolumen, Wettbewerb und Rankings ergänzt werden."
+          }
+        ]
+      },
+      "use-cases/marketing-agencies": {
+        "title": "Marketingagentur-Leads finden: Conversion-Signale auf Websites nutzen",
+        "seoTitle": "Marketingagentur Leads finden | LeadCue",
+        "description": "Wie Marketing- und Growth-Agenturen CTA, Proof, Landingpages und Messaging als Outreach-Anlass nutzen.",
+        "intent": "Zeigt, wie Marketing-Agenturen sichtbare Conversion-Reibung in Outreach-Winkel übersetzen.",
+        "primaryKeyword": "Marketingagentur Leads finden",
+        "secondaryKeywords": ["Growth Agentur Akquise", "Website Conversion Analyse", "Marketing Akquise Tool"],
+        "heroBullets": [
+          "Landingpages, CTA und Belege geben oft die stärksten Signale für Marketing-Angebote.",
+          "Statt abstrakter Growth-Versprechen nennen Sie sichtbare Conversion-Reibung.",
+          "Recherche, erste Zeile und CRM-Felder bleiben konsistent."
+        ],
+        "sections": [
+          {
+            "title": "Welche Website-Signale für Marketing-Angebote zählen",
+            "copy": "Marketing-Chancen liegen oft im Conversion-Pfad. Die Produktstory ist da, aber Proof fehlt; der CTA ist unklar; Landingpages beantworten Einwände zu spät. Genau solche Reibungen eignen sich für Outreach.",
+            "items": ["Passt die Seite zum Paid- oder Outbound-Traffic?", "Sind Zielgruppe, Nutzen und nächster Schritt sofort klar?", "Tauchen Cases und Zahlen früh genug auf?"]
+          },
+          {
+            "title": "Wie aus Reibung ein kleiner Test wird",
+            "copy": "Die erste Nachricht sollte keinen großen Growth-Plan verkaufen. Besser ist es, einen kleinen Test rund um Hero, Proof oder CTA vorzuschlagen und damit das Gespräch zu öffnen.",
+            "items": ["Mit einer sichtbaren Beobachtung Vertrauen schaffen", "Mit Conversion-Rate, CAC oder Demo-Rate verbinden", "Einen kleinen Test statt kompletter Strategie vorschlagen"]
+          }
+        ],
+        "example": {
+          "title": "Beispiel für einen Marketing-Winkel",
+          "copy": "Die Produktgeschichte ist klar, aber Referenzen und Kennzahlen tauchen erst spät auf. Besucher aus Kampagnen bekommen damit vor der Demo-Anfrage zu wenig Sicherheit.",
+          "items": ["Signal: Proof erscheint zu spät", "Winkel: Conversion-Reibung vor der Anfrage", "Nächster Schritt: drei Tests für Proof und CTA senden"]
+        },
+        "faqs": [
+          {
+            "question": "Welche Accounts passen zu Marketing-Akquise?",
+            "answer": "Unternehmen mit klarem Angebot, bestehender Nachfrage und sichtbarer Reibung im Conversion-Pfad."
+          },
+          {
+            "question": "Muss im ersten Kontakt schon über Budget gesprochen werden?",
+            "answer": "Meist nicht. Starten Sie mit der Website-Beobachtung und verlagern Sie Budgetfragen in spätere Gespräche."
+          }
+        ]
+      },
+      "guides/turn-website-into-cold-email-angle": {
+        "title": "So wird aus einer Prospect-Website ein Cold-Email-Winkel",
+        "seoTitle": "Cold-Email-Winkel aus Website-Belegen | LeadCue",
+        "description": "Eine sichtbare Website-Beobachtung in einen konkreten Cold-Email-Einstieg und einen glaubwürdigen Akquise-Winkel übersetzen.",
+        "intent": "Erklärt, wie sichtbare Website-Belege in personalisierte Cold-Email-Winkel umgewandelt werden.",
+        "primaryKeyword": "Cold-Email-Winkel aus Website-Belegen",
+        "secondaryKeywords": ["Website-Outreach-Winkel", "Kaltakquise E-Mail Personalisierung", "Prospect Research Workflow"],
+        "heroBullets": [
+          "Sichtbare Website-Signale werden direkt in Akquise-Winkel übersetzt.",
+          "Nicht Kritik, sondern beobachtbare Wirkung steht im Vordergrund.",
+          "Auch der leichte nächste Schritt wird gleich mitgedacht."
+        ],
+        "sections": [
+          {
+            "title": "Woraus ein guter Cold-Email-Winkel besteht",
+            "copy": "Ein starker Winkel verbindet eine konkrete Beobachtung, eine plausible geschäftliche Wirkung und einen kleinen nächsten Schritt. So wirkt die Mail wie echte Recherche statt wie eine Vorlage.",
+            "items": ["Mit einer überprüfbaren Beobachtung öffnen", "Die Beobachtung mit Vertrauen, Conversion oder Nachfrage verbinden", "Einen kleinen CTA statt eines harten Pitchs wählen"]
+          },
+          {
+            "title": "Wie aus Website-Signalen konkrete Sätze werden",
+            "copy": "Ein später CTA, versteckte Cases oder dünne Service-Seiten sind gutes Rohmaterial für eine erste Zeile. Wichtig ist, bei überprüfbaren Formulierungen zu bleiben und keine Behauptungen ohne Beleg einzubauen.",
+            "items": ["Seitenelement und Position konkret nennen", "Nur wahrscheinliche Effekte beschreiben", "Den Winkel an das eigene Angebot koppeln"]
+          }
+        ],
+        "example": {
+          "title": "Beispiel für einen Cold-Email-Winkel",
+          "copy": "Die Produktstory ist klar, aber der Demo-CTA erscheint erst nach dem ersten Scrollen. Interessierte Besucher müssen also erst weiter suchen, bevor sie handeln können.",
+          "items": ["Erste Zeile: konkret und prüfbar", "Winkel: mögliche Reibung vor der Demo-Anfrage", "Nächster Schritt: drei Ideen für den Hero senden"]
+        },
+        "faqs": [
+          {
+            "question": "Muss ein Winkel immer ein Problem benennen?",
+            "answer": "Nicht zwingend. Auch eine Stärke kann ein Winkel sein, aber Reibung oder Lücken erzeugen oft den klareren Anlass für Outreach."
+          },
+          {
+            "question": "Kann KI solche Winkel formulieren?",
+            "answer": "Ja, solange jede Aussage vor dem Versand mit der eigentlichen Website-Beobachtung abgeglichen wird."
+          }
+        ]
+      },
+      "guides/score-prospect-website": {
+        "title": "So bewerten Sie eine Prospect-Website vor dem Outreach",
+        "seoTitle": "Prospect-Website bewerten | LeadCue",
+        "description": "Mit ICP-Fit, Website-Signalen, Confidence und Kontaktpfad systematisch entscheiden, welche Accounts gespeichert werden sollten.",
+        "intent": "Zeigt, welche Kriterien in ein Scoring-Modell für Prospect-Websites gehören und wie daraus eine Speicherregel wird.",
+        "primaryKeyword": "Prospect-Website bewerten",
+        "secondaryKeywords": ["Lead-Qualifizierung für Agenturen", "Prospect Fit Score", "Website Verkaufssignale"],
+        "heroBullets": [
+          "ICP-Fit und Website-Signale werden gemeinsam bewertet.",
+          "Accounts werden nicht aus dem Bauchgefühl gespeichert.",
+          "Das Team arbeitet mit derselben Speichergrenze."
+        ],
+        "sections": [
+          {
+            "title": "Welche Kriterien in das Scoring gehören",
+            "copy": "Ein Website-Score bewertet nicht nur das Design. Er verbindet ICP-Fit, sichtbare Website-Hinweise, Confidence und den Stand des Kontaktpfads zu einer praxistauglichen Priorisierung.",
+            "items": ["Fit zum Angebot und ICP", "Sichtbare Website-Signale rund um Conversion und Proof", "Kontaktpfad und Exportbereitschaft"]
+          },
+          {
+            "title": "Wie aus einem Score eine Speicherregel wird",
+            "copy": "Das Ziel eines Scores ist nicht die Zahl selbst, sondern die Entscheidung. Ein hoher Fit ohne Belege sollte anders behandelt werden als viele Belege bei schlechtem ICP-Fit.",
+            "items": ["Mindestscore für das Speichern definieren", "Accounts mit mehreren Quellenhinweisen bevorzugen", "Erste Zeile als zusätzliche Qualitätsprüfung nutzen"]
+          }
+        ],
+        "example": {
+          "title": "Ein einfaches Bewertungsmodell",
+          "copy": "40 Punkte für ICP-Fit, 35 für Website-Hinweise, 15 für Confidence und 10 für Kontaktpfad und Exportbereitschaft ergeben eine gut nutzbare Speicherlogik.",
+          "items": ["80+ Punkte plus zwei Quellenhinweise", "Erste Zeile muss sendbar wirken", "Schwache Belege führen zu Pause oder Ausschluss"]
+        },
+        "faqs": [
+          {
+            "question": "Darf jedes Team ein anderes Modell haben?",
+            "answer": "Gewichtungen können variieren, aber Speichergrenze und Mindestbelege sollten teamweit gleich bleiben."
+          },
+          {
+            "question": "Reicht ein hoher Score schon für den CRM-Export?",
+            "answer": "Noch nicht. Quellenhinweis und erste Zeile sollten immer mitgeprüft werden, bevor ein Account exportiert wird."
+          }
+        ]
+      },
+      "guides/website-audit-outreach": {
+        "title": "Website Audit Akquise: hilfreiche Ideen vor dem Pitch senden",
+        "seoTitle": "Website Audit Akquise | LeadCue",
+        "description": "Wie aus einem leichten Website-Audit eine erste Outreach-Mail wird, die nützlich wirkt und eher Antworten bekommt.",
+        "intent": "Erklärt, wie Website-Audit-Beobachtungen in hilfreiche, nicht überladene Akquise-Mails übersetzt werden.",
+        "primaryKeyword": "Website Audit Akquise",
+        "secondaryKeywords": ["Website Analyse Kaltakquise", "Kaltakquise E-Mail Personalisierung", "Agentur Akquise Tool"],
+        "heroBullets": [
+          "Das Audit bleibt leicht und wird nicht zum Gratis-Consulting.",
+          "Nur die stärksten Beobachtungen landen in der ersten Mail.",
+          "Der nächste Schritt ist leicht zu beantworten."
+        ],
+        "sections": [
+          {
+            "title": "Was Website-Audit-Outreach ausmacht",
+            "copy": "Eine Audit-Mail sollte nicht alle Fehler aufzählen. Sie nennt ein oder zwei sichtbare Beobachtungen, erklärt den möglichen Effekt und bietet eine kleine, nützliche nächste Idee an.",
+            "items": ["Nur die stärksten Beobachtungen wählen", "Mit Conversion, Vertrauen oder Suche verbinden", "Ideen statt Meeting-Forderung anbieten"]
+          },
+          {
+            "title": "Welche Audit-Punkte sich für die erste Mail eignen",
+            "copy": "Besonders gut funktionieren sichtbare Punkte wie Hero, CTA, Cases, Service-Tiefe oder Content-Lücken. Der Empfänger kann sie sofort prüfen, was die Glaubwürdigkeit erhöht.",
+            "items": ["Hero und CTA für Webdesign- oder CRO-Winkel", "Proof und Cases für Vertrauens-Themen", "Content-Tiefe für SEO- und Nachfrage-Winkel"]
+          }
+        ],
+        "example": {
+          "title": "Beispiel für Audit-Outreach",
+          "copy": "Die Startseite erklärt das Produkt gut, aber der Proof-Bereich erscheint erst unter dem Haupt-CTA. Finance-Besucher bekommen dadurch vor der Demo-Anfrage wenig Sicherheit.",
+          "items": ["Beobachtung: Proof kommt spät", "Winkel: Vertrauen vor der Anfrage fehlt", "Nächster Schritt: drei Ideen für Proof und CTA senden"]
+        },
+        "faqs": [
+          {
+            "question": "Wirkt das nicht wie kostenlose Beratung?",
+            "answer": "Nicht, wenn der Rahmen klein bleibt. Eine Beobachtung und ein kurzer Vorschlag reichen für die erste Mail völlig aus."
+          },
+          {
+            "question": "Kann man diesen Ansatz für jeden Account nutzen?",
+            "answer": "Am besten nur dann, wenn ein sichtbares Signal auf der Website klar mit Ihrem Angebot verbunden ist."
+          }
+        ]
+      }
+    },
+    "productPages": {
+      "tools/prospect-research-chrome-extension": {
+        "title": "Chrome-Erweiterung für Prospect-Recherche auf Websites",
+        "seoTitle": "Chrome-Erweiterung für Prospect-Recherche | LeadCue",
+        "description": "Website-Belege, Fit-Notizen und erste Zeilen direkt im Browser erfassen, während Sie den Prospect prüfen.",
+        "intent": "Erklärt, wie Teams Recherche-Kontext direkt im Browser festhalten, statt ihn später manuell zusammenzusuchen.",
+        "primaryKeyword": "Chrome-Erweiterung für Prospect-Recherche",
+        "secondaryKeywords": ["Akquise Chrome-Erweiterung", "Website Analyse Kaltakquise", "Prospect Research Chrome Extension"],
+        "heroBullets": [
+          "Belege werden gespeichert, solange die Website noch offen ist.",
+          "Fit, erste Zeile und Quelle landen in derselben Karte.",
+          "Ideal für manuell geprüfte Accounts mit hohem Potenzial."
+        ],
+        "sections": [
+          {
+            "title": "Warum Recherche im Browser bleiben sollte",
+            "copy": "Prospect-Recherche beginnt fast immer im Browser. Wenn Beobachtungen erst später in Sheets oder CRM übertragen werden, geht der eigentliche Kontaktgrund oft verloren.",
+            "items": ["Belege im Moment der Beobachtung sichern", "Kontaktgrund an Domain und Seite hängen", "Nicht jede geöffnete Website automatisch zum Lead machen"]
+          },
+          {
+            "title": "Welche Informationen die Erweiterung festhalten sollte",
+            "copy": "Eine gute Erweiterung speichert nicht nur URL und Firmennamen. Sie hält Signal, Fit, Service-Winkel, erste Zeile und Quellenhinweis so fest, dass der Account ohne neue Recherche übergeben werden kann.",
+            "items": ["Signal und Seitenkontext", "Fit und passender Angebotswinkel", "Prüfbare erste Zeile mit Quellenhinweis"]
+          }
+        ],
+        "faqs": [
+          {
+            "question": "Ist das eine Scraping-Erweiterung?",
+            "answer": "Nein. Sie unterstützt sichtbare Website-Recherche und das Speichern quellenbasierter Akquise-Kontexte."
+          },
+          {
+            "question": "Wann nutzt man die Erweiterung statt einer Batch-Queue?",
+            "answer": "Für einzelne hochwertige Accounts eignet sich die Erweiterung besser. Für bestehende Domain-Listen ist die Batch-Queue oft effizienter."
+          }
+        ]
+      },
+      "tools/batch-website-review-queue": {
+        "title": "Review-Queue für Website-Prüfungen in der Agentur-Akquise",
+        "seoTitle": "Website Review Queue für Agentur-Akquise | LeadCue",
+        "description": "Domain-Listen erst prüfen, priorisieren und qualifizieren, bevor sie in Outreach- oder CRM-Workflows gelangen.",
+        "intent": "Erklärt, wie Teams große Website-Listen in eine qualifizierte Review-Queue überführen.",
+        "primaryKeyword": "Website Review Queue",
+        "secondaryKeywords": ["Batch Website Review Queue", "Akquise Tool für Agenturen", "B2B Leads qualifizieren"],
+        "heroBullets": [
+          "Importierte Domains werden vor dem Outreach gefiltert.",
+          "Gespeicherte Prospects bleiben getrennt von bloß gescannten Websites.",
+          "Fit und Confidence helfen bei der Reihenfolge."
+        ],
+        "sections": [
+          {
+            "title": "Warum eine Review-Queue statt direkter Exporte",
+            "copy": "Viele Agenturen schicken Listen zu früh in Sequenz- oder CRM-Tools. Die Review-Queue trennt Import, Prüfung und Speicherung, damit nur Accounts mit echtem Kontaktgrund weitergehen.",
+            "items": ["Domains aus Sheets, CRM oder manueller Recherche importieren", "Website-Signale nach gleichem Standard prüfen", "Nur belastbare Accounts speichern"]
+          },
+          {
+            "title": "Wie Teams die Queue praktisch nutzen",
+            "copy": "Besonders hilfreich ist die Queue, wenn Recherche und Versand getrennt sind. Die Person, die prüft, hinterlässt genug Kontext, damit Sales später ohne zweite Recherche arbeiten kann.",
+            "items": ["Accounts mit hohem Fit zuerst bearbeiten", "Owner und Status vor Export festlegen", "Erste Zeile und Quellenhinweise mitgeben"]
+          }
+        ],
+        "faqs": [
+          {
+            "question": "Sollte jede importierte Website gespeichert werden?",
+            "answer": "Nein. Der Wert der Queue liegt gerade darin, schlechte oder unklare Accounts herauszufiltern."
+          },
+          {
+            "question": "Was ist der Unterschied zu einem Spreadsheet?",
+            "answer": "Die Queue hält Status, Fit, Quellen, erste Zeile und Export-Stand zusammen statt nur Zeilen mit Firmennamen."
+          }
+        ]
+      },
+      "tools/outreach-context-workspace": {
+        "title": "Akquise-Kontext-Arbeitsbereich für Website-Recherche",
+        "seoTitle": "Akquise-Kontext-Arbeitsbereich | LeadCue",
+        "description": "Website-Belege, Fit-Score, erste Zeile, Quellenhinweis und CRM-Felder zusammenhalten, bevor Outreach startet.",
+        "intent": "Zeigt, wie Recherche-Kontext bis zur Übergabe an CRM oder E-Mail-Tool erhalten bleibt.",
+        "primaryKeyword": "Akquise-Kontext-Arbeitsbereich",
+        "secondaryKeywords": ["Kaltakquise E-Mail Personalisierung", "B2B Lead Recherche Tool", "Akquise Workflow"],
+        "heroBullets": [
+          "Beobachtung, Business-Winkel und erste Zeile bleiben an einem Ort.",
+          "Vor dem Versand kann jede Behauptung mit Quellen geprüft werden.",
+          "Ideal für Übergaben von Recherche an Sales oder BD."
+        ],
+        "sections": [
+          {
+            "title": "Warum Akquise-Kontext oft verloren geht",
+            "copy": "Viele Teams recherchieren in einem Tool, notieren in einem anderen und exportieren in ein drittes. Wenn die Mail rausgeht, ist oft nicht mehr klar, warum der Account überhaupt ausgewählt wurde.",
+            "items": ["Firma und URL allein erklären keinen Kontaktgrund", "Erste Zeilen ohne Quelle sind schwer prüfbar", "Sales muss die Priorisierungslogik sehen"]
+          },
+          {
+            "title": "Was der Arbeitsbereich zusammenhalten sollte",
+            "copy": "Ein brauchbarer Arbeitsbereich verbindet Website-Signal, geschäftliche Bedeutung, Fit, erste Zeile, Quellenhinweis, Owner, Phase und Exportstatus ohne Medienbruch.",
+            "items": ["Beobachtung plus Relevanz für den Account", "Fit und Confidence für Priorisierung", "CRM-Felder, die Kontext bei der Übergabe erhalten"]
+          }
+        ],
+        "faqs": [
+          {
+            "question": "Ersetzt das ein CRM?",
+            "answer": "Nein. Der Arbeitsbereich liegt vor dem CRM und bereitet nur qualifizierte Accounts samt Kontext vor."
+          },
+          {
+            "question": "Ersetzt das ein Versandtool?",
+            "answer": "Nein. LeadCue bereitet Recherche und Kontext vor; der Versand kann weiter in CRM, CSV oder Sequenz-Software passieren."
+          }
+        ]
+      },
+      "templates/crm-csv-field-mapping": {
+        "title": "CRM-CSV-Feldzuordnung für Prospect-Recherche",
+        "seoTitle": "CRM-CSV-Feldzuordnung | LeadCue",
+        "description": "Felder für HubSpot, Salesforce, Pipedrive oder eigene CSV-Exporte so zuordnen, dass Fit, erste Zeile und Quellen erhalten bleiben.",
+        "intent": "Erklärt, wie Prospect-Recherche-Felder sauber in CRM-CSV-Header übertragen werden.",
+        "primaryKeyword": "CRM-CSV-Feldzuordnung",
+        "secondaryKeywords": ["HubSpot CSV-Exportfelder", "Salesforce-Lead-CSV-Felder", "Pipedrive CSV-Importfelder"],
+        "heroBullets": [
+          "CRM-spezifische Feldnamen sauber vorbereiten.",
+          "Fit, erste Zeile und Quellenhinweise beim Export erhalten.",
+          "Ein gemeinsamer Feldstandard reduziert Nacharbeit."
+        ],
+        "sections": [
+          {
+            "title": "Welche Felder beim Mapping oft fehlen",
+            "copy": "Wenn nur Firma und URL gemappt werden, geht der Wert der Recherche verloren. Teams brauchen auch Fit, Quellenhinweis, erste Zeile und Status im Ziel-CRM.",
+            "items": ["Firma, Website, Owner und Phase", "Fit-Score und Confidence", "Erste Zeile und Quellenhinweis"]
+          },
+          {
+            "title": "Was je CRM anders ist",
+            "copy": "HubSpot arbeitet stark mit Properties, Salesforce mit Lead Source und Description, Pipedrive eher mit Organisationen und Notizen. Die Bedeutung bleibt gleich, die Zielfelder unterscheiden sich jedoch.",
+            "items": ["HubSpot: Company Properties und Notes", "Salesforce: Lead Source und Numeric Fields", "Pipedrive: Organisationsfelder und Notizen"]
+          }
+        ],
+        "faqs": [
+          {
+            "question": "Kann ein Header für alle CRMs reichen?",
+            "answer": "Meist nicht. Die Kernfelder sind ähnlich, aber Namen und Speicherlogik unterscheiden sich deutlich."
+          },
+          {
+            "question": "Sollte die erste Zeile in den CSV-Export?",
+            "answer": "Ja, wenn Sales oder SDR sie im CRM prüfen oder direkt weiterverwenden sollen."
+          }
+        ]
+      },
+      "templates/cold-email-first-line": {
+        "title": "Vorlagen für Cold-Email-Erstzeilen aus Website-Signalen",
+        "seoTitle": "Vorlagen für Cold-Email-Erstzeilen | LeadCue",
+        "description": "Erstzeilen auf Basis von CTA-Problemen, fehlendem Proof, Content-Lücken und unklarer Positionierung strukturieren.",
+        "intent": "Bietet Vorlagen, um sichtbare Website-Belege in glaubwürdige Cold-Email-Erstzeilen zu übersetzen.",
+        "primaryKeyword": "Vorlagen für Cold-Email-Erstzeilen",
+        "secondaryKeywords": ["Kaltakquise E-Mail Einstieg", "personalisierte erste Zeile", "Website-Signal Outreach"],
+        "heroBullets": [
+          "Ein Website-Signal wird zu einer kopierbaren ersten Zeile.",
+          "Auch die Folgesatz-Logik und ein leichter CTA werden mitgedacht.",
+          "Generische Komplimente werden bewusst vermieden."
+        ],
+        "sections": [
+          {
+            "title": "Vorlagen geben Struktur, nicht den fertigen Text",
+            "copy": "Eine gute Vorlage hält den Aufbau konstant, nicht den Inhalt. Beobachtung, mögliche Wirkung und kleiner nächster Schritt bleiben als Muster, die Details müssen pro Account aus der Website kommen.",
+            "items": ["Seitenelement und Position je Account anpassen", "Nicht überprüfbare Formulierungen streichen", "Nur Winkel nutzen, die zum Angebot passen"]
+          },
+          {
+            "title": "Was nach der ersten Zeile folgen sollte",
+            "copy": "Die erste Zeile allein reicht selten aus. Direkt danach sollte klar werden, warum die Beobachtung zählt und welcher kleine nächste Schritt sinnvoll ist.",
+            "items": ["Mit einer Wirkungsaussage anschließen", "Leichten CTA statt Meeting-Forderung wählen", "Den Bogen zum Service ohne Pitch-Overload schlagen"]
+          }
+        ],
+        "faqs": [
+          {
+            "question": "Wie lang sollte eine Erstzeile sein?",
+            "answer": "Eine, maximal zwei Sätze. Sie muss mobil lesbar bleiben und die Beobachtung klar benennen."
+          },
+          {
+            "question": "Wirken Vorlagen nicht automatisch generisch?",
+            "answer": "Nur wenn der Inhalt gleich bleibt. Mit echter Seitenbeobachtung und passendem Winkel bleiben sie glaubwürdig."
+          }
+        ]
+      },
+      "templates/website-prospecting-checklist": {
+        "title": "Website-Prospecting-Checkliste für Agentur-Outbound",
+        "seoTitle": "Website-Prospecting-Checkliste | LeadCue",
+        "description": "CTA, Proof, SEO, Navigation und Kontaktpfade systematisch prüfen, bevor ein Account gespeichert oder exportiert wird.",
+        "intent": "Bündelt die wichtigsten Prüfpunkte für manuelle Website-Qualifizierung im Agentur-Outbound.",
+        "primaryKeyword": "Website-Prospecting-Checkliste",
+        "secondaryKeywords": ["Prospect-Website Checkliste", "Agentur-Outbound-Checkliste", "Website-Audit-Checkliste"],
+        "heroBullets": [
+          "Die wichtigsten Outreach-Signale auf der Website systematisch prüfen.",
+          "Ergebnisse in eine Prospect-Card-artige Zusammenfassung überführen.",
+          "Vor Export oder CRM-Übergabe als QA-Layer nutzen."
+        ],
+        "sections": [
+          {
+            "title": "Was in die Checkliste gehört",
+            "copy": "Eine Prospecting-Checkliste sollte nicht Designgeschmack messen, sondern Kontaktgründe sichtbar machen. Besonders wichtig sind Hero, CTA, Proof, Content-Tiefe, Navigation und Kontaktpfad.",
+            "items": ["Hero-Botschaft und CTA", "Cases, Logos, Testimonials und Zahlen", "Service-Erklärung, Navigation und Kontaktweg"]
+          },
+          {
+            "title": "Wie aus der Checkliste eine Speicherregel wird",
+            "copy": "Nach dem Abhaken braucht das Team eine Entscheidung. Deshalb sollten die wichtigsten Punkte in Fit, Kontaktgrund und Exportfreigabe übersetzt werden.",
+            "items": ["Die stärksten zwei Signale zusammenfassen", "Mit ICP und Service-Fit abgleichen", "Nur passende Accounts weitergeben"]
+          }
+        ],
+        "faqs": [
+          {
+            "question": "Wer sollte die Checkliste nutzen?",
+            "answer": "Recherche, SDR, Sales oder Operations. Wichtig ist vor allem, dass die Speicherregel im Team einheitlich bleibt."
+          },
+          {
+            "question": "Braucht jeder Account die komplette Checkliste?",
+            "answer": "Nicht immer. Für große Listen reichen zuerst Kernsignale; für hochwertige Accounts lohnt sich die vollständige Prüfung."
+          }
+        ]
+      },
+      "integrations/hubspot-csv-export": {
+        "title": "HubSpot CSV-Export: Akquise-Kontext im CRM behalten",
+        "seoTitle": "HubSpot CSV-Exportfelder | LeadCue",
+        "description": "Ausgewählte Accounts mit Website-Belegen, Fit-Score, erster Zeile und Quellenhinweisen sauber in HubSpot importieren.",
+        "intent": "Zeigt, wie HubSpot-Teams qualifizierte Website-Recherche importieren, ohne den Kontaktgrund zu verlieren.",
+        "primaryKeyword": "HubSpot CSV-Exportfelder",
+        "secondaryKeywords": ["HubSpot Lead Import", "HubSpot CRM CSV", "Akquise Kontext CRM"],
+        "heroBullets": [
+          "Nur geprüfte Accounts nach HubSpot übertragen.",
+          "Fit, Quellenhinweise und erste Zeile sichtbar halten.",
+          "Sales versteht sofort, warum der Account Priorität hat."
+        ],
+        "sections": [
+          {
+            "title": "Welche HubSpot-Felder sichtbar bleiben sollten",
+            "copy": "Firma und URL reichen nicht aus. HubSpot sollte auch bewahren, warum der Account ausgewählt wurde und mit welchem Einstieg Sales arbeiten kann.",
+            "items": ["Firma, Website, Owner und Phase", "Fit, Confidence und Hauptsignal", "Erste Zeile, Quellenhinweis und Exportstatus"]
+          },
+          {
+            "title": "Wie der Import sauber bleibt",
+            "copy": "Nicht jeder Scan gehört ins CRM. Gespeicherte und qualifizierte Accounts halten HubSpot nutzbar und machen Reporting zuverlässiger.",
+            "items": ["Low-Confidence-Accounts nicht importieren", "Scores und Quellen in Custom Properties ablegen", "LeadCue-Views oder Listen separat führen"]
+          }
+        ],
+        "faqs": [
+          {
+            "question": "Company Property oder Contact Property?",
+            "answer": "Website-Belege und Fit-Signale passen meist auf Unternehmensebene. Kontakte können später ergänzt werden."
+          },
+          {
+            "question": "Sollte die erste Zeile mit importiert werden?",
+            "answer": "Ja, wenn Sales sie in HubSpot prüfen oder für die erste Ansprache verwenden soll."
+          }
+        ]
+      },
+      "integrations/salesforce-csv-export": {
+        "title": "Salesforce CSV-Export: qualifizierte Leads mit Kontext übergeben",
+        "seoTitle": "Salesforce Lead CSV-Felder | LeadCue",
+        "description": "Lead Source, Description, Fit-Score und Quellenhinweise so strukturieren, dass Website-Recherche in Salesforce nutzbar bleibt.",
+        "intent": "Erklärt, wie Salesforce-Teams qualifizierte Recherche mit genug Kontext für Sales importieren.",
+        "primaryKeyword": "Salesforce Lead CSV-Felder",
+        "secondaryKeywords": ["Salesforce Lead Import", "Salesforce CSV Import", "B2B Lead Recherche CRM"],
+        "heroBullets": [
+          "Lead Source trennt Website-Recherche von anderen Quellen.",
+          "Description und Zahlenfelder tragen den eigentlichen Kontext.",
+          "Nur Accounts oberhalb der Speichergrenze werden importiert."
+        ],
+        "sections": [
+          {
+            "title": "Welche Felder Salesforce wirklich braucht",
+            "copy": "Salesforce braucht mehr als Stammdaten. Der Auswahlgrund muss für Sales sichtbar sein, damit Follow-up und Reporting sinnvoll funktionieren.",
+            "items": ["Lead Source auf LeadCue oder Website research setzen", "Signal, Winkel und erste Zeile in Description festhalten", "Fit und Confidence in Numeric Fields speichern"]
+          },
+          {
+            "title": "Wie die Übergabe follow-up-fähig wird",
+            "copy": "Vor dem Import sollten Owner, Status und nächste Aktion feststehen. So wird Recherche nicht zu Datenmüll, sondern zu einer arbeitsfähigen Sales-Pipeline.",
+            "items": ["Owner und Status vorab definieren", "Quellenhinweise in sichtbare Felder legen", "URL und Exportstatus gegen Dubletten nutzen"]
+          }
+        ],
+        "faqs": [
+          {
+            "question": "Lead oder Account?",
+            "answer": "Für kalte Erstansprache ist meist Lead sinnvoll. Bei bestehenden Firmen kann die Recherche an Account oder Aktivität hängen."
+          },
+          {
+            "question": "Wo sollte der Fit-Score gespeichert werden?",
+            "answer": "In einem benutzerdefinierten Zahlenfeld, damit Sortierung und Reporting sauber möglich bleiben."
+          }
+        ]
+      },
+      "integrations/pipedrive-csv-export": {
+        "title": "Pipedrive CSV-Import: Website-Recherche als Organisationskontext speichern",
+        "seoTitle": "Pipedrive CSV-Importfelder | LeadCue",
+        "description": "Organisation, Website, Phase und Akquise-Notizen so importieren, dass Pipedrive den Recherche-Kontext nicht verliert.",
+        "intent": "Zeigt, wie Pipedrive-Teams Website-Belege und Akquise-Kontext in Organisationen und Notizen übernehmen.",
+        "primaryKeyword": "Pipedrive CSV-Importfelder",
+        "secondaryKeywords": ["Pipedrive Organisation Import", "Pipedrive CRM CSV", "Akquise Notizen Pipedrive"],
+        "heroBullets": [
+          "Firma und Website landen auf der Organisation.",
+          "Belege und erste Zeile bleiben in Notizen oder Custom Fields sichtbar.",
+          "Deals entstehen erst, wenn eine echte Chance vorliegt."
+        ],
+        "sections": [
+          {
+            "title": "Wie Pipedrive Recherche am besten aufnimmt",
+            "copy": "In Pipedrive eignet sich die Organisation für Unternehmenskontext, die Notiz für den eigentlichen Kontaktgrund. So kann Sales sofort sehen, was auf der Website aufgefallen ist.",
+            "items": ["Organisation mit Name, URL und Owner", "Notiz mit Signal, Quellseite und erster Zeile", "Phase für Recherche, Outreach und Exportstatus nutzen"]
+          },
+          {
+            "title": "Wann ein Deal wirklich Sinn ergibt",
+            "copy": "Deals zu früh anzulegen verwässert die Pipeline. Vor einer Reaktion reicht Organisation plus Notiz oft aus; erst bei echter Chance sollte ein Deal angelegt werden.",
+            "items": ["Vor Reaktion Organisation und Notiz bevorzugen", "Deal erst bei echtem Interesse anlegen", "URL und Exportstatus gegen Dubletten einsetzen"]
+          }
+        ],
+        "faqs": [
+          {
+            "question": "Organisation oder Deal zuerst?",
+            "answer": "Im kalten Outbound meist Organisation und Notiz zuerst, den Deal erst später bei realer Chance."
+          },
+          {
+            "question": "Wo gehören längere Website-Beobachtungen hin?",
+            "answer": "Kurze Scores passen in Felder, längere Beobachtungen und erste Zeilen meist besser in Notizen."
+          }
+        ]
+      }
+    }
+  },
+  "nl": {
+    "seoPages": {
+      "use-cases/web-design-agencies": {
+        "title": "Leads vinden voor webdesignbureaus via websitesignalen",
+        "seoTitle": "Leads vinden voor webdesignbureaus | LeadCue",
+        "description": "Hoe webdesignbureaus hero, CTA, bewijs en contactpaden gebruiken om geloofwaardige redesign-aanleidingen te vinden.",
+        "intent": "Laat zien hoe webdesignbureaus zichtbare websitesignalen gebruiken om betere acquisitieaccounts te kiezen.",
+        "primaryKeyword": "leads vinden voor webdesignbureaus",
+        "secondaryKeywords": ["webdesign acquisitie", "website audit acquisitie", "redesign leads bureau"],
+        "heroBullets": [
+          "Hero, CTA, bewijs en contactpad geven vaak de duidelijkste redesign-aanleiding.",
+          "De eerste outreach start met een bruikbare observatie in plaats van een grote redesignpitch.",
+          "Openingszin, bron en volgende stap blijven aan dezelfde account hangen."
+        ],
+        "sections": [
+          {
+            "title": "Welke websitesignalen tellen voor webdesign",
+            "copy": "Webdesign-acquisitie werkt het best wanneer de aanleiding direct zichtbaar is. Een zwakke hero, een CTA die te laat verschijnt, verborgen cases of een lastige contactroute vormen concrete en verifieerbare ingangen.",
+            "items": ["Is in de eerste schermvouw duidelijk voor wie het aanbod is?", "Is demo, offerte of contact eenvoudig te vinden?", "Zijn cases en vertrouwenssignalen vroeg genoeg zichtbaar?"]
+          },
+          {
+            "title": "Van observatie naar outreachmail",
+            "copy": "De eerste mail hoeft geen volledige sitekritiek te zijn. Noem één verifieerbare observatie, koppel die aan vertrouwen of conversie en bied een kleine volgende stap aan, zoals drie ideeën.",
+            "items": ["Een concreet element of blok benoemen", "De observatie koppelen aan vertrouwen of conversie", "Een lichte volgende stap in plaats van direct een meeting vragen"]
+          }
+        ],
+        "example": {
+          "title": "Voorbeeld van een redesignhoek",
+          "copy": "De homepage legt het aanbod goed uit, maar de demo-CTA valt boven de vouw nauwelijks op. Geïnteresseerde bezoekers moeten daardoor verder zoeken naar de volgende stap.",
+          "items": ["Signaal: zwakke CTA in de hero", "Hoek: wrijving vóór het contactmoment", "Volgende stap: drie ideeën voor hero, bewijs en CTA sturen"]
+        },
+        "faqs": [
+          {
+            "question": "Welke accounts moeten webdesignbureaus voorrang geven?",
+            "answer": "Accounts met zichtbare frictie in hero, CTA, bewijs of informatiestructuur én voldoende projectwaarde."
+          },
+          {
+            "question": "Moet je in de eerste mail zeggen dat de site slecht is?",
+            "answer": "Liever niet. Een zichtbare observatie als verbeterkans formuleren werkt geloofwaardiger."
+          }
+        ]
+      },
+      "use-cases/seo-agencies": {
+        "title": "Nieuwe SEO-klanten vinden via contentgaten op websites",
+        "seoTitle": "Nieuwe SEO-klanten vinden | LeadCue",
+        "description": "Hoe SEO-bureaus contentversheid, diepte van servicepagina's en zoekintenties gebruiken om betere outreachhoeken te vinden.",
+        "intent": "Helpt SEO-bureaus websitedata gebruiken om prospects te prioriteren en hun outreach te personaliseren.",
+        "primaryKeyword": "SEO bureau leads vinden",
+        "secondaryKeywords": ["SEO acquisitie", "leadonderzoek tool", "website analyse SEO"],
+        "heroBullets": [
+          "Contentversheid, servicepagina's en zoekintentie laten vaak de grootste SEO-kans zien.",
+          "Een zichtbare contentlacune is sterker dan een generieke SEO-pitch.",
+          "Bronnotities, openingszin en CRM-context blijven gekoppeld."
+        ],
+        "sections": [
+          {
+            "title": "Welke SEO-signalen op prospectsites belangrijk zijn",
+            "copy": "Goede SEO-prospects herken je niet alleen aan branche of omvang. Vaak laat de site zelf al zien waar vraag weglekt: verouderde content, dunne servicepagina's of ontbrekende pagina's voor kopers dicht bij aankoop.",
+            "items": ["Worden blog, resources of cases nog bijgewerkt?", "Beantwoorden servicepagina's de vragen van kopers?", "Ontbreken vergelijking-, probleem- of use-case-pagina's?"]
+          },
+          {
+            "title": "Hoe je een contentgat omzet in een outreachhoek",
+            "copy": "In plaats van zomaar SEO te verkopen, is het sterker om een zichtbare lacune te noemen en uit te leggen waarom daardoor relevante zoekvraag of demo-intentie verloren gaat.",
+            "items": ["Een concrete ontbrekende pagina of thema noemen", "De lacune koppelen aan vraag, verkeer of demo's", "Drie prioritaire contentideeën als volgende stap aanbieden"]
+          }
+        ],
+        "example": {
+          "title": "Voorbeeld van een SEO-hoek",
+          "copy": "De servicepagina's zijn helder, maar vergelijkings- en keuzepagina's ontbreken. Daardoor krijgt zoekvraag vlak voor aankoop geen logische instappagina.",
+          "items": ["Signaal: high-intent-content ontbreekt", "Hoek: vraag dicht bij aankoop wordt niet opgevangen", "Volgende stap: drie onderwerpen met prioriteit sturen"]
+        },
+        "faqs": [
+          {
+            "question": "Moet je al keywords noemen in de eerste mail?",
+            "answer": "Ja, maar beperkt. Eén of twee zakelijke thema's zijn meestal genoeg en voelen natuurlijker dan een hele lijst."
+          },
+          {
+            "question": "Is de site alleen genoeg voor kwalificatie?",
+            "answer": "Voor een eerste prioritering wel. Voor een voorstel is extra data over volume, concurrentie en rankings verstandig."
+          }
+        ]
+      },
+      "use-cases/marketing-agencies": {
+        "title": "Leads vinden voor marketingbureaus via conversiesignalen",
+        "seoTitle": "Leads vinden voor marketingbureaus | LeadCue",
+        "description": "Hoe marketing- en growthbureaus CTA, bewijs, landingspagina's en messaging inzetten als outreach-aanleiding.",
+        "intent": "Laat zien hoe marketingbureaus zichtbare conversiefrictie vertalen naar een geloofwaardige acquisitiehoek.",
+        "primaryKeyword": "marketingbureau leads vinden",
+        "secondaryKeywords": ["growth bureau acquisitie", "website conversie analyse", "marketing acquisitie tool"],
+        "heroBullets": [
+          "Landingspagina's, CTA en bewijs leveren vaak de sterkste marketinghoek op.",
+          "Zichtbare conversiefrictie werkt beter dan een abstract groeiverhaal.",
+          "Onderzoek, openingszin en CRM-velden blijven consistent."
+        ],
+        "sections": [
+          {
+            "title": "Welke websitesignalen passen bij marketingaanbod",
+            "copy": "Marketingkansen zitten vaak in het conversiepad. De productstory staat er, maar bewijs ontbreekt; CTA's zijn verspreid; landingspagina's beantwoorden bezwaren te laat. Dat zijn sterke ingangen voor outreach.",
+            "items": ["Past de pagina bij paid- of outboundverkeer?", "Zijn doelgroep, waarde en volgende stap direct duidelijk?", "Verschijnen cases en cijfers vroeg genoeg?"]
+          },
+          {
+            "title": "Hoe je frictie omzet in een kleine test",
+            "copy": "Verkoop in de eerste mail geen groot groeiplan. Een klein experiment rond hero, bewijs of CTA is concreter, minder zwaar en makkelijker om op te reageren.",
+            "items": ["Vertrouwen opbouwen met een zichtbare observatie", "De observatie koppelen aan conversie, CAC of demo-rate", "Een kleine test voorstellen in plaats van een volledige strategie"]
+          }
+        ],
+        "example": {
+          "title": "Voorbeeld van een marketinghoek",
+          "copy": "Het productverhaal is helder, maar cases en cijfers verschijnen pas laat. Campagneverkeer kan daardoor vóór de demo-aanvraag te weinig vertrouwen opbouwen.",
+          "items": ["Signaal: bewijs verschijnt te laat", "Hoek: conversiefrictie vóór de aanvraag", "Volgende stap: drie testideeën voor bewijs en CTA sturen"]
+        },
+        "faqs": [
+          {
+            "question": "Welke accounts passen bij marketingacquisitie?",
+            "answer": "Bedrijven met een helder aanbod, bestaande vraag en zichtbare frictie in het conversiepad."
+          },
+          {
+            "question": "Moet budget al in het eerste contact ter sprake komen?",
+            "answer": "Meestal niet. Begin met de site-observatie en bespreek budget of kanalen later."
+          }
+        ]
+      },
+      "guides/turn-website-into-cold-email-angle": {
+        "title": "Zo maak je van een prospectwebsite een hoek voor koude e-mail",
+        "seoTitle": "Koude e-mailhoek uit websitebewijs | LeadCue",
+        "description": "Een zichtbare website-observatie vertalen naar een concrete koude-e-mailopening en een geloofwaardige acquisitiehoek.",
+        "intent": "Laat zien hoe zichtbare websitebewijzen worden omgezet in gepersonaliseerde koude-e-mailhoeken.",
+        "primaryKeyword": "koude e-mailhoek uit websitebewijs",
+        "secondaryKeywords": ["website outreachhoek", "koude e-mail personalisatie", "prospectonderzoek workflow"],
+        "heroBullets": [
+          "Zichtbare websitesignalen worden direct omgezet in outreachhoeken.",
+          "Niet kritiek, maar een observeerbaar effect staat centraal.",
+          "Ook de lichte volgende stap wordt meteen meegenomen."
+        ],
+        "sections": [
+          {
+            "title": "Waar een sterke koude-e-mailhoek uit bestaat",
+            "copy": "Een goede hoek verbindt een concrete observatie, een plausibele zakelijke impact en een kleine volgende stap. Zo voelt de mail als echt onderzoek en niet als een standaardtemplate.",
+            "items": ["Openen met een verifieerbare observatie", "Die observatie koppelen aan vertrouwen, conversie of vraag", "Een lichte CTA kiezen in plaats van een harde pitch"]
+          },
+          {
+            "title": "Hoe websitesignalen concrete zinnen worden",
+            "copy": "Een late CTA, verborgen cases of dunne servicepagina's zijn goed materiaal voor een openingszin. Het belangrijkste is dat je bij controleerbare formuleringen blijft en niet gaat gissen.",
+            "items": ["Paginablok en positie concreet noemen", "Alleen waarschijnlijke impact beschrijven", "De hoek koppelen aan het eigen aanbod"]
+          }
+        ],
+        "example": {
+          "title": "Voorbeeld van een koude-e-mailhoek",
+          "copy": "Het productverhaal is duidelijk, maar de demo-CTA verschijnt pas na de eerste scroll. Bezoekers met interesse moeten dus eerst verder zoeken voordat ze kunnen handelen.",
+          "items": ["Openingszin: concreet en controleerbaar", "Hoek: mogelijke frictie vóór de demo-aanvraag", "Volgende stap: drie ideeën voor de hero sturen"]
+        },
+        "faqs": [
+          {
+            "question": "Moet een hoek altijd een probleem benoemen?",
+            "answer": "Niet per se. Ook een sterkte kan een hoek zijn, maar wrijving of een zichtbare lacune geeft vaak een duidelijkere outreach-aanleiding."
+          },
+          {
+            "question": "Mag AI zulke hoeken formuleren?",
+            "answer": "Ja, zolang elke zin vóór verzending wordt gecontroleerd aan de hand van de echte website-observatie."
+          }
+        ]
+      },
+      "guides/score-prospect-website": {
+        "title": "Hoe je een prospectwebsite beoordeelt vóór outreach",
+        "seoTitle": "Prospectwebsite beoordelen | LeadCue",
+        "description": "Met ICP-fit, websitesignalen, confidence en contactpad systematisch bepalen welke accounts het waard zijn om op te slaan.",
+        "intent": "Laat zien welke criteria in een scoremodel voor prospectwebsites horen en hoe daaruit een opslagregel ontstaat.",
+        "primaryKeyword": "prospectwebsite beoordelen",
+        "secondaryKeywords": ["leadkwalificatie voor bureaus", "prospect fitscore", "website verkoopsignalen"],
+        "heroBullets": [
+          "ICP-fit en websitesignalen worden samen beoordeeld.",
+          "Accounts worden niet op gevoel opgeslagen.",
+          "Het team werkt met dezelfde opslaggrens."
+        ],
+        "sections": [
+          {
+            "title": "Welke criteria in een scoremodel horen",
+            "copy": "Een websitescore beoordeelt niet alleen hoe een site eruitziet. Hij combineert ICP-fit, zichtbare signalen, confidence en contactpad tot een bruikbare prioritering voor outreach.",
+            "items": ["Fit met aanbod en ICP", "Zichtbare signalen rond conversie en bewijs", "Contactpad en exportgereedheid"]
+          },
+          {
+            "title": "Hoe een score verandert in een opslagregel",
+            "copy": "Het doel van een score is niet het getal zelf, maar de beslissing. Een account met hoge fit maar weinig bewijs moet anders worden behandeld dan een account met veel signalen maar slechte ICP-fit.",
+            "items": ["Een minimale opslagscore definiëren", "Accounts met meerdere bronbewijzen voorrang geven", "De openingszin als extra kwaliteitscheck gebruiken"]
+          }
+        ],
+        "example": {
+          "title": "Een eenvoudig beoordelingsmodel",
+          "copy": "40 punten voor ICP-fit, 35 voor websitesignalen, 15 voor confidence en 10 voor contactpad en exportgereedheid geven een werkbare opslaglogica.",
+          "items": ["80+ punten plus twee bronbewijzen", "Openingszin moet verzendbaar aanvoelen", "Zwak bewijs leidt tot pauze of uitsluiting"]
+        },
+        "faqs": [
+          {
+            "question": "Mag elk team een ander model gebruiken?",
+            "answer": "Gewichten mogen verschillen, maar opslaggrens en minimumbewijs blijven het best team-breed gelijk."
+          },
+          {
+            "question": "Is een hoge score genoeg voor CRM-export?",
+            "answer": "Nog niet. Bronnotitie en openingszin moeten altijd mee worden gecontroleerd vóór export."
+          }
+        ]
+      },
+      "guides/website-audit-outreach": {
+        "title": "Website-audit acquisitie: stuur eerst nuttige ideeën",
+        "seoTitle": "Website-audit acquisitie | LeadCue",
+        "description": "Hoe je van een lichte website-audit een eerste outreachmail maakt die nuttig voelt en eerder antwoord krijgt.",
+        "intent": "Legt uit hoe website-auditobservaties worden vertaald naar behulpzame, niet te zware acquisitiemails.",
+        "primaryKeyword": "website-audit acquisitie",
+        "secondaryKeywords": ["website analyse acquisitie", "koude e-mail personalisatie", "acquisitie tool voor bureaus"],
+        "heroBullets": [
+          "De audit blijft licht en voelt niet als gratis consultancy.",
+          "Alleen de sterkste observaties gaan in de eerste mail.",
+          "De volgende stap is makkelijk om op te reageren."
+        ],
+        "sections": [
+          {
+            "title": "Wat website-audit-outreach sterk maakt",
+            "copy": "Een auditmail hoeft niet elk probleem op te sommen. Eén of twee zichtbare observaties, een plausibel effect en een kleine behulpzame volgende stap zijn meestal voldoende.",
+            "items": ["Alleen de sterkste observaties kiezen", "Die verbinden aan conversie, vertrouwen of zoekvraag", "Ideeën aanbieden in plaats van direct een meeting eisen"]
+          },
+          {
+            "title": "Welke auditpunten goed werken in de eerste mail",
+            "copy": "Zichtbare punten zoals hero, CTA, cases, servicediepte of contentgaten werken goed. De ontvanger kan ze meteen controleren, wat de geloofwaardigheid vergroot.",
+            "items": ["Hero en CTA voor webdesign- of CRO-hoeken", "Proof en cases voor vertrouwen", "Contentdiepte voor SEO- en vraaghoeken"]
+          }
+        ],
+        "example": {
+          "title": "Voorbeeld van audit-outreach",
+          "copy": "De homepage legt het product helder uit, maar het bewijsblok verschijnt pas onder de hoofd-CTA. Bezoekers uit finance krijgen daardoor te laat zekerheid vóór de demo-aanvraag.",
+          "items": ["Observatie: bewijs komt laat", "Hoek: te weinig vertrouwen vóór aanvraag", "Volgende stap: drie ideeën voor bewijs en CTA sturen"]
+        },
+        "faqs": [
+          {
+            "question": "Lijkt dit niet op gratis advies?",
+            "answer": "Niet als de scope klein blijft. Eén observatie en een kort voorstel zijn voor de eerste mail genoeg."
+          },
+          {
+            "question": "Kun je deze aanpak voor elk account gebruiken?",
+            "answer": "Het werkt het best wanneer er een zichtbaar signaal op de site staat dat duidelijk aansluit op je aanbod."
+          }
+        ]
+      }
+    },
+    "productPages": {
+      "tools/prospect-research-chrome-extension": {
+        "title": "Chrome-extensie voor leadonderzoek op websites",
+        "seoTitle": "Chrome-extensie voor leadonderzoek | LeadCue",
+        "description": "Websitebewijs, fitscore en openingszin direct in de browser vastleggen terwijl je een prospectsite bekijkt.",
+        "intent": "Legt uit hoe teams onderzoek direct in de browser vastleggen in plaats van later handmatig samen te voegen.",
+        "primaryKeyword": "Chrome-extensie voor leadonderzoek",
+        "secondaryKeywords": ["prospectie Chrome-extensie", "website analyse voor acquisitie", "leadonderzoek tool"],
+        "heroBullets": [
+          "Bewijs opslaan terwijl de site nog open staat.",
+          "Fit, openingszin en bron blijven in dezelfde kaart.",
+          "Vooral handig bij handmatig beoordeelde accounts met hoge waarde."
+        ],
+        "sections": [
+          {
+            "title": "Waarom onderzoek in de browser moet blijven",
+            "copy": "Leadonderzoek begint bijna altijd in de browser. Als observaties daarna pas in sheets of CRM belanden, verdwijnt de echte contactreden vaak onderweg.",
+            "items": ["Bewijs vastleggen op het moment van observatie", "De contactreden koppelen aan domein en pagina", "Niet elke geopende site automatisch als lead opslaan"]
+          },
+          {
+            "title": "Welke gegevens de extensie moet bewaren",
+            "copy": "Een goede extensie bewaart meer dan URL en bedrijfsnaam. Signaal, fit, servicehoek, openingszin en bronnotitie moeten direct meegaan naar de accountkaart.",
+            "items": ["Signaal en paginacontext", "Fit en relevante servicehoek", "Controleerbare openingszin met bronnotitie"]
+          }
+        ],
+        "faqs": [
+          {
+            "question": "Is dit een scraping-extensie?",
+            "answer": "Nee. De extensie ondersteunt zichtbare websitebeoordeling en het opslaan van brononderbouwde acquisitiecontext."
+          },
+          {
+            "question": "Wanneer gebruik je de extensie in plaats van een batchqueue?",
+            "answer": "Voor individuele accounts is de extensie handiger. Voor bestaande domeinlijsten werkt een batchqueue vaak beter."
+          }
+        ]
+      },
+      "tools/batch-website-review-queue": {
+        "title": "Website-reviewqueue voor bureau-acquisitie",
+        "seoTitle": "Website-reviewqueue voor bureau-acquisitie | LeadCue",
+        "description": "Domeinlijsten eerst beoordelen, prioriteren en kwalificeren voordat ze naar outreach- of CRM-workflows gaan.",
+        "intent": "Legt uit hoe teams grote websitelijsten omzetten in een gekwalificeerde reviewqueue.",
+        "primaryKeyword": "website-reviewqueue",
+        "secondaryKeywords": ["batch website reviewqueue", "B2B prospectie tool", "leads kwalificeren"],
+        "heroBullets": [
+          "Geïmporteerde domeinen eerst filteren voor outreach.",
+          "Opgeslagen prospects scheiden van alleen gescande websites.",
+          "Fit en confidence gebruiken voor de volgorde."
+        ],
+        "sections": [
+          {
+            "title": "Waarom een reviewqueue beter is dan direct exporteren",
+            "copy": "Veel bureaus sturen lijsten te snel door naar sequencing- of CRM-tools. Een reviewqueue splitst import, beoordeling en opslag, zodat alleen accounts met een echte contactreden doorgaan.",
+            "items": ["Domeinen importeren uit sheets, CRM of handmatig onderzoek", "Website-signalen tegen dezelfde standaard beoordelen", "Alleen sterke accounts opslaan"]
+          },
+          {
+            "title": "Hoe teams de queue in de praktijk gebruiken",
+            "copy": "Vooral wanneer onderzoek en verzending gescheiden zijn, is de queue waardevol. De onderzoeker laat genoeg context achter zodat sales niet opnieuw hoeft te beginnen.",
+            "items": ["Eerst accounts met hoge fit verwerken", "Owner en status voor export bepalen", "Openingszin en bronnotities meegeven"]
+          }
+        ],
+        "faqs": [
+          {
+            "question": "Moet elke geïmporteerde website worden opgeslagen?",
+            "answer": "Nee. Het nut van de queue is juist dat zwakke of onduidelijke accounts eruit worden gefilterd."
+          },
+          {
+            "question": "Wat is het verschil met een spreadsheet?",
+            "answer": "De queue bewaart status, fit, bronnen, openingszin en exportstatus samen in plaats van alleen rijen met bedrijfsnamen."
+          }
+        ]
+      },
+      "tools/outreach-context-workspace": {
+        "title": "Outreachcontext werkruimte voor websiteprospectie",
+        "seoTitle": "Outreachcontext werkruimte | LeadCue",
+        "description": "Websitebewijs, fitscore, openingszin, bronnotitie en CRM-velden bij elkaar houden voordat outreach start.",
+        "intent": "Laat zien hoe onderzoekcontext behouden blijft tot aan CRM of e-mailtool.",
+        "primaryKeyword": "outreachcontext werkruimte",
+        "secondaryKeywords": ["koude e-mail personalisatie", "leadonderzoek tool", "B2B prospectie tool"],
+        "heroBullets": [
+          "Observatie, zakelijke hoek en openingszin blijven op één plek.",
+          "Voor verzending kan elke claim aan de bron worden getoetst.",
+          "Handig voor overdracht van research naar sales of BD."
+        ],
+        "sections": [
+          {
+            "title": "Waarom outreachcontext vaak verdwijnt",
+            "copy": "Veel teams onderzoeken in het ene tool, noteren in het andere en exporteren naar een derde. Tegen de tijd dat de mail eruit gaat, is de reden voor selectie vaak onduidelijk geworden.",
+            "items": ["Bedrijf en URL verklaren geen contactreden", "Openingszinnen zonder bron zijn lastig te checken", "Sales moet de prioriteit kunnen begrijpen"]
+          },
+          {
+            "title": "Wat de werkruimte moet vasthouden",
+            "copy": "Een bruikbare werkruimte verbindt websitesignaal, zakelijke betekenis, fit, openingszin, bronnotitie, owner, fase en exportstatus zonder contextverlies.",
+            "items": ["Observatie plus betekenis voor de account", "Fit en confidence voor prioritering", "CRM-velden die context behouden bij overdracht"]
+          }
+        ],
+        "faqs": [
+          {
+            "question": "Vervangt dit een CRM?",
+            "answer": "Nee. De werkruimte zit vóór het CRM en bereidt alleen gekwalificeerde accounts met context voor."
+          },
+          {
+            "question": "Vervangt dit een e-mailtool?",
+            "answer": "Nee. LeadCue bereidt onderzoek en context voor; verzending kan in CRM, CSV of sequencingtools plaatsvinden."
+          }
+        ]
+      },
+      "templates/crm-csv-field-mapping": {
+        "title": "CRM CSV-veldmapping voor leadonderzoek",
+        "seoTitle": "CRM CSV-veldmapping | LeadCue",
+        "description": "Velden voor HubSpot, Salesforce, Pipedrive of een eigen CSV-uitvoer zo mappen dat fit, openingszin en bronnen behouden blijven.",
+        "intent": "Legt uit hoe leadonderzoeksvelden correct naar CRM-CSV-koppen worden vertaald.",
+        "primaryKeyword": "CRM CSV-veldmapping",
+        "secondaryKeywords": ["HubSpot CSV-exportvelden", "CSV-velden voor Salesforce-leads", "Pipedrive CSV-importvelden"],
+        "heroBullets": [
+          "CRM-specifieke veldnamen voorbereiden.",
+          "Fit, openingszin en bronnotities in de export behouden.",
+          "Een gedeelde veldstandaard voorkomt extra handwerk."
+        ],
+        "sections": [
+          {
+            "title": "Welke velden vaak ontbreken in CSV-mapping",
+            "copy": "Als je alleen bedrijf en URL meeneemt, gaat de waarde van het onderzoek verloren. Teams hebben ook fit, bronnotities, openingszin en status nodig in het doel-CRM.",
+            "items": ["Bedrijf, website, owner en fase", "Fitscore en confidence", "Openingszin en bronnotitie"]
+          },
+          {
+            "title": "Wat per CRM verschilt",
+            "copy": "HubSpot gebruikt vooral properties, Salesforce werkt veel met Lead Source en Description, en Pipedrive leunt meer op organisaties en notities. De betekenis is gelijk, de veldstructuur niet.",
+            "items": ["HubSpot: company properties en notes", "Salesforce: Lead Source en numerieke velden", "Pipedrive: organisatievelden en notities"]
+          }
+        ],
+        "faqs": [
+          {
+            "question": "Kan één CSV-header voor alle CRM's werken?",
+            "answer": "Meestal niet. De kernvelden lijken op elkaar, maar namen en opslaglogica verschillen te veel."
+          },
+          {
+            "question": "Moet de openingszin mee in de export?",
+            "answer": "Ja, als sales die in het CRM wil controleren of direct wil gebruiken."
+          }
+        ]
+      },
+      "templates/cold-email-first-line": {
+        "title": "Templates voor eerste zinnen van koude e-mails op basis van websitesignalen",
+        "seoTitle": "Templates voor eerste zinnen van koude e-mails | LeadCue",
+        "description": "Eerste zinnen structureren op basis van CTA-frictie, ontbrekend bewijs, contentgaten en onduidelijke positionering.",
+        "intent": "Biedt templates om zichtbare websitebewijzen om te zetten in geloofwaardige eerste zinnen voor koude e-mail.",
+        "primaryKeyword": "templates voor eerste zinnen van koude e-mails",
+        "secondaryKeywords": ["koude e-mail openingszin", "gepersonaliseerde eerste zin", "website signaal outreach"],
+        "heroBullets": [
+          "Een websitesignaal wordt een kopieerbare eerste zin.",
+          "Ook de vervolgzinslogica en lichte CTA worden meegenomen.",
+          "Algemene complimenten verdwijnen uit de mail."
+        ],
+        "sections": [
+          {
+            "title": "Templates geven structuur, geen vaste inhoud",
+            "copy": "Een goede template houdt de opbouw vast, niet de tekst zelf. Observatie, mogelijk effect en kleine volgende stap vormen het frame; de inhoud komt altijd van de prospectsite.",
+            "items": ["Pagina-element en positie per account aanpassen", "Niet-verifieerbare claims schrappen", "Alleen hoeken gebruiken die bij het aanbod passen"]
+          },
+          {
+            "title": "Wat na de eerste zin moet komen",
+            "copy": "Een sterke eerste zin heeft een logische vervolgzin nodig. Daarna moet snel duidelijk worden waarom de observatie telt en welke kleine stap jij voorstelt.",
+            "items": ["Aansluiten met een effectverklaring", "Een lichte CTA gebruiken in plaats van meteen een meeting", "De brug slaan naar het aanbod zonder over te pitchen"]
+          }
+        ],
+        "faqs": [
+          {
+            "question": "Hoe lang moet een eerste zin zijn?",
+            "answer": "Eén zin is meestal genoeg, hooguit twee. De tekst moet mobiel snel te lezen zijn."
+          },
+          {
+            "question": "Klinken templates niet automatisch generiek?",
+            "answer": "Alleen als de inhoud hetzelfde blijft. Met echte paginabewijzen en een passende hoek blijven ze geloofwaardig."
+          }
+        ]
+      },
+      "templates/website-prospecting-checklist": {
+        "title": "Websiteprospectie-checklist voor bureau-outbound",
+        "seoTitle": "Websiteprospectie-checklist | LeadCue",
+        "description": "CTA, bewijs, SEO, navigatie en contactpaden systematisch controleren voordat een account wordt opgeslagen of geëxporteerd.",
+        "intent": "Bundelt de belangrijkste controlepunten voor handmatige websitekwalificatie bij bureau-outbound.",
+        "primaryKeyword": "websiteprospectie-checklist",
+        "secondaryKeywords": ["prospectwebsite checklist", "bureau-outbound checklist", "website-audit checklist"],
+        "heroBullets": [
+          "De belangrijkste outreachsignalen op een site systematisch nalopen.",
+          "Resultaten omzetten naar een Prospect Card-achtige samenvatting.",
+          "Gebruiken als QA-laag vóór export of CRM-overdracht."
+        ],
+        "sections": [
+          {
+            "title": "Wat in de checklist moet staan",
+            "copy": "Een prospectiechecklist meet geen smaak, maar maakt contactredenen zichtbaar. Vooral hero, CTA, bewijs, contentdiepte, navigatie en contactpad zijn bijna altijd relevant.",
+            "items": ["Hero-boodschap en CTA", "Cases, testimonials, logo's en cijfers", "Service-uitleg, navigatie en contactroute"]
+          },
+          {
+            "title": "Van checklist naar opslagregel",
+            "copy": "Na het afvinken moet het team een besluit kunnen nemen. Daarom moeten de belangrijkste punten worden vertaald naar fit, contactreden en exporttoelating.",
+            "items": ["De sterkste twee signalen samenvatten", "Koppelen aan ICP en servicefit", "Alleen passende accounts doorzetten"]
+          }
+        ],
+        "faqs": [
+          {
+            "question": "Wie gebruikt deze checklist?",
+            "answer": "Research, SDR, sales of operations. Belangrijker dan de rol is dat de opslagregel teambreed hetzelfde blijft."
+          },
+          {
+            "question": "Heeft elke account de volledige checklist nodig?",
+            "answer": "Niet altijd. Voor grote lijsten kun je starten met kernsignalen; voor waardevolle accounts loont de volledige check."
+          }
+        ]
+      },
+      "integrations/hubspot-csv-export": {
+        "title": "HubSpot CSV-export: acquisitiecontext in CRM behouden",
+        "seoTitle": "HubSpot CSV-exportvelden | LeadCue",
+        "description": "Geselecteerde accounts met websitebewijs, fitscore, openingszin en bronnotities netjes in HubSpot importeren.",
+        "intent": "Laat zien hoe HubSpot-teams gekwalificeerd websiteonderzoek importeren zonder de contactreden te verliezen.",
+        "primaryKeyword": "HubSpot CSV-exportvelden",
+        "secondaryKeywords": ["HubSpot leadimport", "HubSpot CRM CSV", "acquisitiecontext CRM"],
+        "heroBullets": [
+          "Alleen beoordeelde accounts naar HubSpot sturen.",
+          "Fitscore, bronnotities en openingszin zichtbaar houden.",
+          "Sales ziet meteen waarom een account prioriteit heeft."
+        ],
+        "sections": [
+          {
+            "title": "Welke HubSpot-velden zichtbaar moeten blijven",
+            "copy": "Bedrijf en URL zijn niet genoeg. HubSpot moet ook bewaren waarom de account gekozen is en welke openingszin sales kan gebruiken.",
+            "items": ["Bedrijf, website, owner en fase", "Fitscore, confidence en hoofdsignaal", "Openingszin, bronnotitie en exportstatus"]
+          },
+          {
+            "title": "Hoe de import schoon blijft",
+            "copy": "Niet elke scan hoort in het CRM. Opgeslagen en gekwalificeerde accounts houden HubSpot bruikbaar en maken rapportage betrouwbaarder.",
+            "items": ["Low-confidence-accounts niet importeren", "Scores en bronnen in custom properties opslaan", "LeadCue-lijsten of views apart beheren"]
+          }
+        ],
+        "faqs": [
+          {
+            "question": "Company property of contact property?",
+            "answer": "Websitebewijs en fitsignalen horen meestal op bedrijfsniveau. Contacten kunnen later worden toegevoegd."
+          },
+          {
+            "question": "Moet de openingszin worden meegeïmporteerd?",
+            "answer": "Ja, als sales die in HubSpot wil controleren of gebruiken."
+          }
+        ]
+      },
+      "integrations/salesforce-csv-export": {
+        "title": "Salesforce CSV-export: gekwalificeerde leads met context doorgeven",
+        "seoTitle": "Salesforce lead CSV-velden | LeadCue",
+        "description": "Lead Source, Description, fitscore en bronnotities zo structureren dat websiteonderzoek in Salesforce bruikbaar blijft.",
+        "intent": "Legt uit hoe Salesforce-teams gekwalificeerd onderzoek importeren met genoeg context voor follow-up.",
+        "primaryKeyword": "Salesforce lead CSV-velden",
+        "secondaryKeywords": ["Salesforce leadimport", "Salesforce CSV import", "B2B leadonderzoek CRM"],
+        "heroBullets": [
+          "Lead Source scheidt websiteresearch van andere bronnen.",
+          "Description en numerieke velden dragen de echte context.",
+          "Alleen accounts boven de opslaggrens worden geïmporteerd."
+        ],
+        "sections": [
+          {
+            "title": "Welke Salesforce-velden echt nodig zijn",
+            "copy": "Salesforce heeft meer nodig dan stamgegevens. De reden voor selectie moet zichtbaar zijn zodat sales logisch kan opvolgen en rapporteren.",
+            "items": ["Lead Source op LeadCue of Website research zetten", "Signaal, hoek en openingszin in Description bewaren", "Fitscore en confidence in numerieke velden opslaan"]
+          },
+          {
+            "title": "Hoe de overdracht follow-upklaar wordt",
+            "copy": "Owner, status en volgende actie moeten vóór import duidelijk zijn. Zo verandert onderzoek in een werkbaar salesproces in plaats van CRM-ruis.",
+            "items": ["Owner en status vooraf vastleggen", "Bronnotities in zichtbare velden zetten", "URL en exportstatus tegen duplicaten gebruiken"]
+          }
+        ],
+        "faqs": [
+          {
+            "question": "Lead of Account?",
+            "answer": "Voor koude eerste outreach past meestal Lead. Bij bestaande bedrijven kan het onderzoek aan Account of Activity worden gehangen."
+          },
+          {
+            "question": "Waar hoort de fitscore?",
+            "answer": "In een custom number field, zodat sorteren en rapporteren eenvoudig blijft."
+          }
+        ]
+      },
+      "integrations/pipedrive-csv-export": {
+        "title": "Pipedrive CSV-import: websiteresearch als organisatiecontext bewaren",
+        "seoTitle": "Pipedrive CSV-importvelden | LeadCue",
+        "description": "Organisatie, website, fase en acquisitienotities zo importeren dat Pipedrive de onderzoekcontext bewaart.",
+        "intent": "Laat zien hoe Pipedrive-teams websitebewijs en acquisitiecontext in organisaties en notities vasthouden.",
+        "primaryKeyword": "Pipedrive CSV-importvelden",
+        "secondaryKeywords": ["Pipedrive organisatie import", "Pipedrive CRM CSV", "acquisitienotities Pipedrive"],
+        "heroBullets": [
+          "Bedrijf en website gaan naar de organisatie.",
+          "Bewijs en openingszin blijven zichtbaar in notities of custom fields.",
+          "Deals ontstaan pas wanneer er echte kans is."
+        ],
+        "sections": [
+          {
+            "title": "Hoe Pipedrive onderzoek het best opvangt",
+            "copy": "In Pipedrive is de organisatie logisch voor bedrijfscontext en de notitie voor de contactreden. Daardoor ziet sales meteen welk websitesignaal relevant is.",
+            "items": ["Organisatie met naam, URL en owner", "Notitie met signaal, bronpagina en openingszin", "Fase gebruiken voor research, outreach en export"]
+          },
+          {
+            "title": "Wanneer een deal zin heeft",
+            "copy": "Deals te vroeg aanmaken maakt de pijplijn vaag. Voor een reactie is organisatie plus notitie meestal genoeg; pas bij echte kans wordt een deal nuttig.",
+            "items": ["Voor reactie vooral organisatie en notitie", "Deal aanmaken bij echte interesse", "URL en exportstatus gebruiken tegen duplicaten"]
+          }
+        ],
+        "faqs": [
+          {
+            "question": "Organisatie of deal eerst?",
+            "answer": "Bij koude acquisitie meestal eerst organisatie en notitie, de deal pas later als de kans concreet wordt."
+          },
+          {
+            "question": "Waar bewaren we langere website-observaties?",
+            "answer": "Korte scores in velden, langere observaties en openingszinnen meestal in notities."
+          }
+        ]
+      }
+    }
+  },
+  "fr": {
+    "seoPages": {
+      "use-cases/web-design-agencies": {
+        "title": "Trouver des prospects pour agence web grâce aux signaux du site",
+        "seoTitle": "Prospection agence web | LeadCue",
+        "description": "Comment les agences web design utilisent hero, CTA, preuves et parcours de contact pour ouvrir une prospection crédible.",
+        "intent": "Explique comment les agences web exploitent des signaux visibles sur le site pour mieux choisir leurs comptes à prospecter.",
+        "primaryKeyword": "prospection agence web",
+        "secondaryKeywords": ["outil prospection agence web", "audit de site prospection", "prospection refonte site"],
+        "heroBullets": [
+          "Hero, CTA, preuves et parcours de contact donnent souvent le meilleur angle de refonte.",
+          "Le premier email part d'une observation utile, pas d'un grand pitch de redesign.",
+          "Première phrase, source et prochaine étape restent liées au même compte."
+        ],
+        "sections": [
+          {
+            "title": "Quels signaux de site comptent pour une offre web design",
+            "copy": "La prospection web design fonctionne mieux quand la raison est visible tout de suite. Un hero faible, un CTA tardif, des cas clients cachés ou un contact compliqué donnent un angle clair et vérifiable.",
+            "items": ["Le premier écran dit-il clairement pour qui l'offre est faite ?", "La démo, le devis ou le contact sont-ils faciles à trouver ?", "Les cas clients et preuves apparaissent-ils assez tôt ?"]
+          },
+          {
+            "title": "Transformer l'observation en email de prospection",
+            "copy": "Le premier message n'a pas besoin de critiquer tout le site. Il suffit de citer une observation vérifiable, de la relier à la conversion ou à la confiance, puis de proposer une petite prochaine étape.",
+            "items": ["Nommer un élément précis de page", "Relier l'observation à la conversion ou à la confiance", "Proposer trois idées courtes plutôt qu'un rendez-vous immédiat"]
+          }
+        ],
+        "example": {
+          "title": "Exemple d'angle redesign",
+          "copy": "La page d'accueil explique bien l'offre, mais le CTA de démo reste discret au premier écran. Un visiteur intéressé doit encore chercher l'étape suivante.",
+          "items": ["Signal : CTA trop faible dans le hero", "Angle : friction avant la prise de contact", "Prochaine étape : envoyer trois idées pour hero, preuves et CTA"]
+        },
+        "faqs": [
+          {
+            "question": "Quels comptes prioriser pour une agence web ?",
+            "answer": "Ceux qui montrent une friction visible sur le hero, le CTA, les preuves ou la structure du site, avec une valeur projet suffisante."
+          },
+          {
+            "question": "Faut-il dire que le site est mauvais ?",
+            "answer": "Mieux vaut formuler une observation vérifiable comme une opportunité d'amélioration. Le ton reste plus crédible et plus utile."
+          }
+        ]
+      },
+      "use-cases/seo-agencies": {
+        "title": "Trouver des clients SEO grâce aux lacunes de contenu",
+        "seoTitle": "Prospection SEO pour agence | LeadCue",
+        "description": "Comment les agences SEO utilisent fraîcheur du contenu, profondeur des pages et intentions de recherche pour bâtir un meilleur angle de prospection.",
+        "intent": "Montre comment les agences SEO utilisent les preuves du site pour prioriser et personnaliser la prospection.",
+        "primaryKeyword": "recherche de prospects pour agence SEO",
+        "secondaryKeywords": ["prospection SEO", "analyse site SEO prospection", "outil de recherche de prospects"],
+        "heroBullets": [
+          "Fraîcheur du contenu, pages services et intentions de recherche révèlent souvent le besoin SEO.",
+          "Une lacune visible est plus convaincante qu'un pitch SEO générique.",
+          "Source, première phrase et contexte CRM restent liés au compte."
+        ],
+        "sections": [
+          {
+            "title": "Quels signaux SEO repérer sur un site prospect",
+            "copy": "Les bons prospects SEO ne se résument pas à la taille ou au secteur. Le site montre souvent si le contenu vieillit, si les pages services sont trop légères ou si des pages à forte intention manquent.",
+            "items": ["Le blog, les ressources ou les cas clients sont-ils encore mis à jour ?", "Les pages services répondent-elles aux questions des acheteurs ?", "Manque-t-il des pages comparaison, problème ou cas d'usage ?"]
+          },
+          {
+            "title": "Transformer une lacune en angle de prospection",
+            "copy": "Au lieu de vendre le SEO de façon abstraite, il est plus fort de nommer une lacune visible et d'expliquer pourquoi elle peut laisser filer de la demande qualifiée ou des prises de démo.",
+            "items": ["Citer une page manquante ou un thème absent", "Relier la lacune à la recherche, la demande ou la démo", "Proposer trois idées de contenu prioritaires"]
+          }
+        ],
+        "example": {
+          "title": "Exemple d'angle SEO",
+          "copy": "Les pages services sont claires, mais les contenus de comparaison et de critères de choix manquent. La demande proche de l'achat n'a donc pas de point d'entrée dédié.",
+          "items": ["Signal : contenu à forte intention absent", "Angle : la demande proche achat n'est pas captée", "Prochaine étape : envoyer trois thèmes prioritaires"]
+        },
+        "faqs": [
+          {
+            "question": "Faut-il citer des mots-clés dans le premier email ?",
+            "answer": "Oui, mais avec mesure. Un ou deux thèmes liés au business valent mieux qu'une longue liste."
+          },
+          {
+            "question": "Le site suffit-il pour qualifier un compte SEO ?",
+            "answer": "Pour un premier tri oui. Avant proposition, il est préférable d'ajouter volume, concurrence et données de visibilité."
+          }
+        ]
+      },
+      "use-cases/marketing-agencies": {
+        "title": "Trouver des prospects pour agence marketing via les signaux de conversion",
+        "seoTitle": "Prospection agence marketing | LeadCue",
+        "description": "Comment les agences marketing et growth utilisent CTA, preuves, landing pages et messaging comme angle de prospection.",
+        "intent": "Explique comment les agences marketing transforment une friction de conversion visible en angle de prospection crédible.",
+        "primaryKeyword": "prospection agence marketing",
+        "secondaryKeywords": ["prospection commerciale agence", "analyse conversion site", "outil prospection B2B"],
+        "heroBullets": [
+          "Landing pages, CTA et preuves donnent souvent le meilleur angle marketing.",
+          "Une friction visible vaut mieux qu'une promesse abstraite de croissance.",
+          "Recherche, première phrase et champs CRM restent cohérents."
+        ],
+        "sections": [
+          {
+            "title": "Quels signaux de site correspondent aux offres marketing",
+            "copy": "Les opportunités marketing se trouvent souvent dans le parcours de conversion. La proposition de valeur existe, mais les preuves manquent ; les CTA sont dispersés ; la landing page répond trop tard aux objections.",
+            "items": ["La page est-elle adaptée au trafic paid ou outbound ?", "Cible, bénéfice et prochaine étape sont-ils clairs ?", "Les cas clients et chiffres arrivent-ils assez tôt ?"]
+          },
+          {
+            "title": "Transformer la friction en petit test",
+            "copy": "Le premier email ne doit pas vendre un grand plan growth. Il est plus efficace de proposer un petit test autour du hero, du bloc de preuve ou du CTA.",
+            "items": ["Créer la confiance avec une observation visible", "Relier l'observation à la conversion, au CAC ou aux démos", "Proposer un test léger comme prochaine étape"]
+          }
+        ],
+        "example": {
+          "title": "Exemple d'angle marketing",
+          "copy": "L'histoire produit est claire, mais les cas clients et chiffres apparaissent tard. Le trafic campagne peut donc manquer de preuves avant la demande de démo.",
+          "items": ["Signal : preuve trop tardive", "Angle : friction de conversion avant la demande", "Prochaine étape : envoyer trois idées de test pour preuves et CTA"]
+        },
+        "faqs": [
+          {
+            "question": "Quels comptes visent bien une agence marketing ?",
+            "answer": "Des entreprises avec une offre claire, de la demande existante et une friction visible dans le parcours de conversion."
+          },
+          {
+            "question": "Faut-il parler budget dès le premier contact ?",
+            "answer": "Le plus souvent non. Commencez par l'observation du site, puis abordez budget et canaux plus tard."
+          }
+        ]
+      },
+      "guides/turn-website-into-cold-email-angle": {
+        "title": "Transformer un site prospect en angle d'e-mail à froid",
+        "seoTitle": "Angle d'e-mail à froid à partir du site | LeadCue",
+        "description": "Une observation visible sur le site devient une première phrase précise et un angle de prospection crédible.",
+        "intent": "Explique comment transformer des preuves visibles du site en angle d'e-mail à froid personnalisé.",
+        "primaryKeyword": "angle d'e-mail à froid à partir du site",
+        "secondaryKeywords": ["angle de prospection par site web", "email de prospection personnalisé", "workflow de recherche de prospects"],
+        "heroBullets": [
+          "Les signaux visibles du site deviennent des angles de prospection concrets.",
+          "L'idée n'est pas de juger, mais de relier une observation à un impact plausible.",
+          "Le prochain pas léger est pensé dès le départ."
+        ],
+        "sections": [
+          {
+            "title": "De quoi se compose un bon angle d'e-mail à froid",
+            "copy": "Un bon angle relie une observation concrète, un impact business crédible et une petite prochaine étape. C'est ce qui fait sentir que l'email repose sur une vraie recherche.",
+            "items": ["Ouvrir avec une observation vérifiable", "La relier à la confiance, à la conversion ou à la demande", "Choisir un CTA léger plutôt qu'un pitch dur"]
+          },
+          {
+            "title": "Comment passer d'un signal du site à une phrase prête à envoyer",
+            "copy": "Un CTA tardif, des cas clients cachés ou des pages services trop faibles donnent souvent une bonne première phrase. Le plus important est de rester sur des éléments que le destinataire peut vérifier lui-même.",
+            "items": ["Nommer le bloc ou l'emplacement précis", "Décrire seulement un effet probable", "Garder un angle cohérent avec votre offre"]
+          }
+        ],
+        "example": {
+          "title": "Exemple d'angle pour email à froid",
+          "copy": "L'histoire produit est claire, mais le CTA de démo n'apparaît qu'après le premier scroll. Les visiteurs déjà intéressés doivent donc chercher avant de passer à l'action.",
+          "items": ["Première phrase : concrète et vérifiable", "Angle : friction potentielle avant la démo", "Prochaine étape : proposer trois idées pour le hero"]
+        },
+        "faqs": [
+          {
+            "question": "Un angle doit-il toujours pointer un problème ?",
+            "answer": "Pas forcément. Une force peut aussi devenir un angle, mais une friction visible ou une lacune donne souvent un meilleur motif de contact."
+          },
+          {
+            "question": "L'IA peut-elle rédiger ce type d'angle ?",
+            "answer": "Oui, tant que chaque phrase est contrôlée avant l'envoi face à l'observation réelle du site."
+          }
+        ]
+      },
+      "guides/score-prospect-website": {
+        "title": "Comment évaluer un site prospect avant l'outreach",
+        "seoTitle": "Évaluer un site prospect | LeadCue",
+        "description": "Décider quels comptes méritent d'être sauvegardés en combinant adéquation ICP, signaux du site, confiance et chemin de contact.",
+        "intent": "Montre quels critères doivent entrer dans un modèle de scoring de site prospect et comment en faire une règle de sauvegarde.",
+        "primaryKeyword": "évaluer un site prospect",
+        "secondaryKeywords": ["qualification de lead pour les agences", "score d'adéquation prospect", "signaux commerciaux du site"],
+        "heroBullets": [
+          "L'adéquation ICP et les signaux du site sont évalués ensemble.",
+          "Les comptes ne sont pas sauvegardés au ressenti.",
+          "Toute l'équipe peut partager le même seuil de sauvegarde."
+        ],
+        "sections": [
+          {
+            "title": "Quels critères inclure dans le score",
+            "copy": "Un score de site ne sert pas à noter l'esthétique. Il combine adéquation avec l'offre, signaux visibles, confiance et état du chemin de contact pour prioriser les comptes utiles.",
+            "items": ["Adéquation avec l'offre et l'ICP", "Signaux visibles autour de la conversion et des preuves", "Chemin de contact et préparation à l'export"]
+          },
+          {
+            "title": "Comment transformer le score en règle de sauvegarde",
+            "copy": "Le but n'est pas d'avoir un chiffre élégant, mais une décision fiable. Un compte très compatible sans preuves doit être traité différemment d'un compte riche en signaux mais hors ICP.",
+            "items": ["Définir un score minimum de sauvegarde", "Prioriser les comptes avec plusieurs preuves sources", "Utiliser la première phrase comme contrôle qualité supplémentaire"]
+          }
+        ],
+        "example": {
+          "title": "Un modèle de scoring simple",
+          "copy": "40 points pour l'ICP, 35 pour les signaux du site, 15 pour la confiance et 10 pour le chemin de contact et la préparation à l'export donnent une règle simple à appliquer.",
+          "items": ["80+ points et deux preuves sources", "Première phrase qui semble réellement envoyable", "Preuves faibles = pause ou exclusion"]
+        },
+        "faqs": [
+          {
+            "question": "Chaque équipe peut-elle garder son propre modèle ?",
+            "answer": "Les pondérations peuvent varier, mais le seuil de sauvegarde et le minimum de preuves doivent idéalement rester partagés."
+          },
+          {
+            "question": "Un score élevé suffit-il pour exporter vers le CRM ?",
+            "answer": "Pas encore. La note source et la première phrase doivent toujours être revues avant l'export."
+          }
+        ]
+      },
+      "guides/website-audit-outreach": {
+        "title": "Audit de site pour la prospection : envoyer d'abord des idées utiles",
+        "seoTitle": "Audit de site prospection | LeadCue",
+        "description": "Comment transformer un audit léger de site en premier email de prospection utile et plus facile à faire répondre.",
+        "intent": "Explique comment convertir des observations d'audit de site en messages de prospection utiles, sans en faire trop.",
+        "primaryKeyword": "audit de site prospection",
+        "secondaryKeywords": ["prospection par audit de site", "email de prospection personnalisé", "outil prospection agence web"],
+        "heroBullets": [
+          "L'audit reste léger et ne ressemble pas à du conseil gratuit.",
+          "Seules les observations les plus fortes entrent dans le premier email.",
+          "La prochaine étape reste facile à accepter."
+        ],
+        "sections": [
+          {
+            "title": "Ce qui rend l'outreach par audit efficace",
+            "copy": "Un email d'audit n'a pas besoin de tout lister. Une ou deux observations visibles, un effet plausible et une petite prochaine étape utile suffisent souvent à lancer une bonne conversation.",
+            "items": ["Choisir seulement les observations les plus fortes", "Les relier à la conversion, à la confiance ou à la recherche", "Proposer des idées plutôt qu'exiger un rendez-vous"]
+          },
+          {
+            "title": "Quels points d'audit marchent bien dans le premier email",
+            "copy": "Les points visibles comme le hero, le CTA, les cas clients, la profondeur des pages services ou les lacunes de contenu fonctionnent bien. Le destinataire peut les vérifier immédiatement, ce qui renforce la crédibilité.",
+            "items": ["Hero et CTA pour web design ou CRO", "Preuves et cas clients pour la confiance", "Profondeur du contenu pour SEO et capture de demande"]
+          }
+        ],
+        "example": {
+          "title": "Exemple d'outreach basé sur un audit",
+          "copy": "La page d'accueil explique bien le produit, mais le bloc de preuve apparaît seulement sous le CTA principal. Les visiteurs finance obtiennent donc tardivement les éléments de réassurance avant la demande de démo.",
+          "items": ["Observation : preuve trop tardive", "Angle : manque de confiance avant la demande", "Prochaine étape : envoyer trois idées pour preuves et CTA"]
+        },
+        "faqs": [
+          {
+            "question": "Est-ce que cela ressemble à du conseil gratuit ?",
+            "answer": "Pas si le périmètre reste petit. Une observation et une courte idée suffisent largement pour un premier email."
+          },
+          {
+            "question": "Peut-on appliquer cette approche à tous les comptes ?",
+            "answer": "Elle fonctionne surtout lorsqu'un signal visible sur le site se relie clairement à votre offre."
+          }
+        ]
+      }
+    },
+    "productPages": {
+      "tools/prospect-research-chrome-extension": {
+        "title": "Extension Chrome pour la recherche de prospects sur site web",
+        "seoTitle": "Extension Chrome recherche de prospects | LeadCue",
+        "description": "Capturer preuves du site, score d'adéquation et première phrase directement dans le navigateur pendant l'analyse.",
+        "intent": "Explique comment les équipes gardent le contexte de recherche dans le navigateur au lieu de le reconstruire plus tard.",
+        "primaryKeyword": "extension Chrome recherche de prospects",
+        "secondaryKeywords": ["prospection commerciale agence", "analyse site prospect", "outil de recherche de prospects"],
+        "heroBullets": [
+          "Les preuves sont enregistrées tant que le site est encore ouvert.",
+          "Score, première phrase et source restent dans la même carte.",
+          "Idéal pour les comptes à forte valeur examinés à la main."
+        ],
+        "sections": [
+          {
+            "title": "Pourquoi la recherche doit rester dans le navigateur",
+            "copy": "La recherche de prospects commence presque toujours dans le navigateur. Si les observations sont recopiées plus tard dans un autre outil, la vraie raison de contact se perd facilement.",
+            "items": ["Sauvegarder la preuve au moment de l'observation", "Lier la raison de contact au domaine et à la page", "Ne pas transformer chaque site ouvert en lead automatiquement"]
+          },
+          {
+            "title": "Ce que l'extension doit conserver",
+            "copy": "Une bonne extension ne garde pas seulement l'URL et le nom de l'entreprise. Elle retient le signal, l'adéquation, l'angle de service, la première phrase et la note source pour permettre une vraie transmission.",
+            "items": ["Signal et contexte de page", "Adéquation et angle de service", "Première phrase vérifiable avec note source"]
+          }
+        ],
+        "faqs": [
+          {
+            "question": "Est-ce une extension de scraping ?",
+            "answer": "Non. Elle soutient l'examen visible du site et la sauvegarde d'un contexte de prospection sourcé."
+          },
+          {
+            "question": "Quand utiliser l'extension plutôt que la file batch ?",
+            "answer": "Pour des comptes individuels l'extension est plus pratique. Pour des listes de domaines, la file batch est souvent plus efficace."
+          }
+        ]
+      },
+      "tools/batch-website-review-queue": {
+        "title": "File d'analyse de sites pour la prospection en agence",
+        "seoTitle": "File d'analyse de sites pour agence | LeadCue",
+        "description": "Examiner, prioriser et qualifier des listes de domaines avant qu'elles n'entrent dans l'outreach ou le CRM.",
+        "intent": "Explique comment transformer de grandes listes de sites en file d'analyse qualifiée.",
+        "primaryKeyword": "file d'analyse de sites prospects",
+        "secondaryKeywords": ["outil de prospection B2B", "qualification de leads B2B", "analyse site prospect"],
+        "heroBullets": [
+          "Les domaines importés sont filtrés avant la prospection.",
+          "Les prospects sauvegardés restent séparés des simples scans.",
+          "Fit et confidence servent à prioriser."
+        ],
+        "sections": [
+          {
+            "title": "Pourquoi une file d'analyse plutôt qu'un export direct",
+            "copy": "Beaucoup d'agences envoient les listes trop tôt vers les outils de séquences ou le CRM. La file sépare import, analyse et sauvegarde pour que seuls les comptes avec une vraie raison de contact avancent.",
+            "items": ["Importer des domaines depuis sheets, CRM ou recherche manuelle", "Évaluer les signaux de site avec un standard commun", "Ne conserver que les comptes solides"]
+          },
+          {
+            "title": "Comment les équipes l'utilisent au quotidien",
+            "copy": "La file est particulièrement utile quand la recherche et l'envoi sont séparés. La personne qui qualifie laisse assez de contexte pour que sales n'ait pas à refaire le travail.",
+            "items": ["Traiter d'abord les comptes à forte adéquation", "Définir propriétaire et statut avant export", "Transmettre première phrase et notes sources"]
+          }
+        ],
+        "faqs": [
+          {
+            "question": "Chaque site importé doit-il être sauvegardé ?",
+            "answer": "Non. La valeur de la file est justement de filtrer les comptes faibles ou peu clairs."
+          },
+          {
+            "question": "Quelle différence avec un tableur ?",
+            "answer": "La file garde ensemble statut, score, sources, première phrase et état d'export, pas seulement des lignes."
+          }
+        ]
+      },
+      "tools/outreach-context-workspace": {
+        "title": "Espace de contexte pour la prospection basée sur le site",
+        "seoTitle": "Espace de contexte prospection | LeadCue",
+        "description": "Garder preuves du site, score d'adéquation, première phrase, note source et champs CRM ensemble avant la prospection.",
+        "intent": "Montre comment préserver le contexte de recherche jusqu'au CRM ou à l'outil d'emailing.",
+        "primaryKeyword": "espace de contexte prospection",
+        "secondaryKeywords": ["email de prospection personnalisé", "outil de recherche de prospects", "qualification de leads B2B"],
+        "heroBullets": [
+          "Observation, angle business et première phrase restent au même endroit.",
+          "Avant l'envoi, chaque affirmation peut être vérifiée avec la source.",
+          "Utile pour passer la recherche à sales ou BD."
+        ],
+        "sections": [
+          {
+            "title": "Pourquoi le contexte de prospection disparaît",
+            "copy": "Beaucoup d'équipes recherchent dans un outil, notent ailleurs puis exportent dans un troisième. Au moment d'écrire l'email, la raison du choix du compte n'est plus claire.",
+            "items": ["Entreprise et URL ne suffisent pas comme raison de contact", "Une première phrase sans source est difficile à vérifier", "Sales doit comprendre la logique de priorité"]
+          },
+          {
+            "title": "Ce que l'espace doit garder ensemble",
+            "copy": "Un bon espace relie signal du site, signification business, score d'adéquation, première phrase, note source, propriétaire, étape et statut d'export sans rupture.",
+            "items": ["Observation plus impact business", "Score et confiance pour prioriser", "Champs CRM qui gardent le contexte à la transmission"]
+          }
+        ],
+        "faqs": [
+          {
+            "question": "Est-ce un CRM ?",
+            "answer": "Non. L'espace se situe avant le CRM et prépare seulement les comptes qualifiés avec leur contexte."
+          },
+          {
+            "question": "Remplace-t-il un outil d'envoi ?",
+            "answer": "Non. LeadCue prépare la recherche et le contexte ; l'envoi peut continuer dans le CRM, un CSV ou un outil de séquences."
+          }
+        ]
+      },
+      "templates/crm-csv-field-mapping": {
+        "title": "Mapping des champs CRM CSV pour la recherche de prospects",
+        "seoTitle": "Mapping des champs CRM CSV | LeadCue",
+        "description": "Mapper les champs pour HubSpot, Salesforce, Pipedrive ou un export CSV personnalisé sans perdre score, première phrase et sources.",
+        "intent": "Explique comment traduire proprement les champs de recherche de prospects vers les en-têtes CSV CRM.",
+        "primaryKeyword": "mapping des champs CRM CSV",
+        "secondaryKeywords": ["champs export CSV HubSpot", "champs CSV Salesforce Lead", "champs import CSV Pipedrive"],
+        "heroBullets": [
+          "Préparer des noms de champs adaptés à chaque CRM.",
+          "Conserver score, première phrase et notes sources dans l'export.",
+          "Un standard partagé réduit le travail manuel."
+        ],
+        "sections": [
+          {
+            "title": "Quels champs manquent souvent dans le mapping",
+            "copy": "Si vous mappez seulement l'entreprise et l'URL, la valeur de la recherche disparaît. Il faut aussi transmettre score, source, première phrase et statut.",
+            "items": ["Entreprise, site, propriétaire et étape", "Score d'adéquation et confiance", "Première phrase et note source"]
+          },
+          {
+            "title": "Ce qui change selon le CRM",
+            "copy": "HubSpot fonctionne surtout avec des propriétés, Salesforce avec Lead Source et Description, et Pipedrive avec organisations et notes. Le sens reste le même mais la structure change.",
+            "items": ["HubSpot : properties société et notes", "Salesforce : Lead Source et champs numériques", "Pipedrive : champs organisation et notes"]
+          }
+        ],
+        "faqs": [
+          {
+            "question": "Un seul header CSV peut-il suffire pour tous les CRM ?",
+            "answer": "En général non. Les champs de base se ressemblent, mais les noms et la logique de stockage diffèrent trop."
+          },
+          {
+            "question": "Faut-il exporter aussi la première phrase ?",
+            "answer": "Oui, si sales doit la relire ou la réutiliser dans le CRM."
+          }
+        ]
+      },
+      "templates/cold-email-first-line": {
+        "title": "Modèles de premières lignes d'e-mails à froid à partir de signaux web",
+        "seoTitle": "Modèles de premières lignes d'e-mails à froid | LeadCue",
+        "description": "Structurer des premières lignes à partir de CTA faibles, preuves absentes, lacunes de contenu et positionnement flou.",
+        "intent": "Fournit des modèles pour transformer des preuves visibles du site en premières lignes crédibles.",
+        "primaryKeyword": "modèles de premières lignes d'e-mails à froid",
+        "secondaryKeywords": ["première phrase email de prospection", "première ligne personnalisée", "signal du site prospection"],
+        "heroBullets": [
+          "Un signal du site devient une première phrase réutilisable.",
+          "La logique de la phrase suivante et du CTA léger est incluse.",
+          "Les compliments génériques disparaissent de l'email."
+        ],
+        "sections": [
+          {
+            "title": "Le modèle donne la structure, pas le texte final",
+            "copy": "Un bon modèle fige la structure, pas le contenu. Observation, effet possible et petite prochaine étape restent le cadre ; les détails doivent venir du site du prospect.",
+            "items": ["Adapter l'élément de page et sa position pour chaque compte", "Supprimer les affirmations non vérifiables", "Garder seulement les angles cohérents avec votre offre"]
+          },
+          {
+            "title": "Que mettre après la première phrase",
+            "copy": "Une bonne première phrase appelle une suite logique. Il faut ensuite expliquer pourquoi l'observation compte et quelle petite étape vous proposez.",
+            "items": ["Ajouter une phrase d'impact", "Utiliser un CTA léger plutôt qu'un rendez-vous immédiat", "Créer le lien avec l'offre sans sur-vendre"]
+          }
+        ],
+        "faqs": [
+          {
+            "question": "Quelle longueur pour une première ligne ?",
+            "answer": "Une phrase suffit généralement, deux au maximum. Elle doit rester lisible sur mobile."
+          },
+          {
+            "question": "Les modèles ne rendent-ils pas les emails trop génériques ?",
+            "answer": "Seulement si le contenu ne change pas. Avec de vraies observations de page, ils restent crédibles."
+          }
+        ]
+      },
+      "templates/website-prospecting-checklist": {
+        "title": "Checklist de prospection web pour l'outbound en agence",
+        "seoTitle": "Checklist de prospection web | LeadCue",
+        "description": "Contrôler CTA, preuves, SEO, navigation et parcours de contact avant de sauvegarder ou d'exporter un compte.",
+        "intent": "Rassemble les points de contrôle essentiels pour la qualification manuelle de sites en agence.",
+        "primaryKeyword": "checklist de prospection web",
+        "secondaryKeywords": ["checklist site prospect", "checklist outbound agence", "checklist audit de site"],
+        "heroBullets": [
+          "Passer systématiquement en revue les signaux utiles à la prospection.",
+          "Transformer le résultat en résumé de type Prospect Card.",
+          "L'utiliser comme couche QA avant export ou CRM."
+        ],
+        "sections": [
+          {
+            "title": "Ce qui doit entrer dans la checklist",
+            "copy": "Une checklist de prospection ne mesure pas le goût visuel ; elle rend visibles les raisons de contact. Hero, CTA, preuves, profondeur du contenu, navigation et parcours de contact sont presque toujours prioritaires.",
+            "items": ["Message du hero et CTA", "Cas clients, témoignages, logos et chiffres", "Explication du service, navigation et accès au contact"]
+          },
+          {
+            "title": "Comment passer de la checklist à une règle de sauvegarde",
+            "copy": "Après la revue, l'équipe doit pouvoir décider. Les points clés doivent donc être traduits en adéquation, raison de contact et autorisation d'export.",
+            "items": ["Résumer les deux signaux les plus forts", "Relier au fit ICP et au service", "Ne transmettre que les comptes adaptés"]
+          }
+        ],
+        "faqs": [
+          {
+            "question": "Qui doit utiliser cette checklist ?",
+            "answer": "Recherche, SDR, sales ou operations. L'essentiel est que la règle de sauvegarde reste commune à l'équipe."
+          },
+          {
+            "question": "Tous les comptes ont-ils besoin de la checklist complète ?",
+            "answer": "Pas forcément. Sur de grosses listes, commencez par les signaux clés ; sur les comptes importants, la revue complète vaut la peine."
+          }
+        ]
+      },
+      "integrations/hubspot-csv-export": {
+        "title": "Export CSV HubSpot : garder le contexte de prospection dans le CRM",
+        "seoTitle": "Champs export CSV HubSpot | LeadCue",
+        "description": "Importer dans HubSpot des comptes sélectionnés avec preuves du site, score d'adéquation, première phrase et notes sources.",
+        "intent": "Montre comment les équipes HubSpot importent une recherche qualifiée sans perdre la raison de contact.",
+        "primaryKeyword": "champs export CSV HubSpot",
+        "secondaryKeywords": ["import leads HubSpot", "HubSpot CRM CSV", "contexte prospection CRM"],
+        "heroBullets": [
+          "N'envoyer vers HubSpot que les comptes qualifiés.",
+          "Garder score, sources et première phrase visibles.",
+          "Sales comprend tout de suite pourquoi le compte est prioritaire."
+        ],
+        "sections": [
+          {
+            "title": "Quels champs HubSpot doivent rester visibles",
+            "copy": "Entreprise et URL ne suffisent pas. HubSpot doit aussi conserver pourquoi le compte a été choisi et quelle première phrase sales peut utiliser.",
+            "items": ["Entreprise, site, propriétaire et étape", "Score, confiance et signal principal", "Première phrase, note source et statut d'export"]
+          },
+          {
+            "title": "Comment garder un import propre",
+            "copy": "Toutes les analyses ne doivent pas aller dans le CRM. Les comptes sauvegardés et qualifiés gardent HubSpot plus utile et les vues plus fiables.",
+            "items": ["Écarter les comptes à faible confiance", "Stocker scores et sources dans des propriétés personnalisées", "Séparer les vues ou listes LeadCue"]
+          }
+        ],
+        "faqs": [
+          {
+            "question": "Propriété entreprise ou contact ?",
+            "answer": "Les preuves du site et les scores s'attachent le plus souvent à l'entreprise. Les contacts peuvent venir après."
+          },
+          {
+            "question": "Faut-il importer aussi la première phrase ?",
+            "answer": "Oui, si sales doit la relire ou l'utiliser directement dans HubSpot."
+          }
+        ]
+      },
+      "integrations/salesforce-csv-export": {
+        "title": "Export CSV Salesforce : transmettre des leads qualifiés avec contexte",
+        "seoTitle": "Champs CSV Salesforce Lead | LeadCue",
+        "description": "Structurer Lead Source, Description, score et notes sources pour que la recherche web reste exploitable dans Salesforce.",
+        "intent": "Explique comment les équipes Salesforce importent une recherche qualifiée avec assez de contexte pour le suivi.",
+        "primaryKeyword": "champs CSV Salesforce Lead",
+        "secondaryKeywords": ["import leads Salesforce", "import CSV Salesforce", "recherche prospects CRM"],
+        "heroBullets": [
+          "Lead Source sépare la recherche web des autres sources.",
+          "Description et champs numériques portent le vrai contexte.",
+          "Seuls les comptes au-dessus du seuil de sauvegarde sont importés."
+        ],
+        "sections": [
+          {
+            "title": "Quels champs Salesforce sont vraiment utiles",
+            "copy": "Salesforce a besoin de plus que des données entreprise. La raison de sélection doit rester visible pour que sales puisse suivre et reporter correctement.",
+            "items": ["Lead Source sur LeadCue ou Website research", "Signal, angle et première phrase dans Description", "Score d'adéquation et confiance dans des champs numériques"]
+          },
+          {
+            "title": "Comment rendre l'import prêt pour le suivi",
+            "copy": "Avant l'import, propriétaire, statut et prochaine action doivent être clairs. La recherche devient ainsi un vrai processus commercial, pas juste des données en plus.",
+            "items": ["Définir propriétaire et statut avant import", "Mettre les notes sources dans des champs visibles", "Utiliser URL et statut d'export contre les doublons"]
+          }
+        ],
+        "faqs": [
+          {
+            "question": "Lead ou Account ?",
+            "answer": "Pour une première prospection froide, Lead convient souvent mieux. Sur un compte existant, rattachez la recherche à l'Account ou à l'activité."
+          },
+          {
+            "question": "Où mettre le score d'adéquation ?",
+            "answer": "Dans un champ numérique personnalisé, pour garder tri et reporting simples."
+          }
+        ]
+      },
+      "integrations/pipedrive-csv-export": {
+        "title": "Import CSV Pipedrive : garder la recherche web comme contexte d'organisation",
+        "seoTitle": "Champs import CSV Pipedrive | LeadCue",
+        "description": "Importer organisation, site, étape et notes de prospection sans perdre le contexte de recherche dans Pipedrive.",
+        "intent": "Montre comment les équipes Pipedrive conservent preuves du site et contexte de prospection dans les organisations et notes.",
+        "primaryKeyword": "champs import CSV Pipedrive",
+        "secondaryKeywords": ["import organisation Pipedrive", "Pipedrive CRM CSV", "notes prospection Pipedrive"],
+        "heroBullets": [
+          "Entreprise et site vont sur l'organisation.",
+          "Preuves et première phrase restent visibles dans les notes ou champs personnalisés.",
+          "Les deals n'arrivent que lorsqu'une vraie opportunité existe."
+        ],
+        "sections": [
+          {
+            "title": "Comment Pipedrive reçoit le mieux la recherche",
+            "copy": "Dans Pipedrive, l'organisation porte le contexte entreprise et la note porte la raison de contact. Sales peut ainsi lire immédiatement quel signal de site compte.",
+            "items": ["Organisation avec nom, URL et propriétaire", "Note avec signal, page source et première phrase", "Étape pour recherche, prospection et export"]
+          },
+          {
+            "title": "Quand créer un deal",
+            "copy": "Créer un deal trop tôt brouille le pipeline. Avant une réponse, organisation et note suffisent souvent ; le deal devient utile seulement quand l'opportunité est réelle.",
+            "items": ["Avant réponse, organisation et note d'abord", "Créer le deal quand l'intérêt devient concret", "Utiliser URL et statut d'export contre les doublons"]
+          }
+        ],
+        "faqs": [
+          {
+            "question": "Organisation ou deal en premier ?",
+            "answer": "En prospection froide, commencez généralement par organisation et note, puis ajoutez le deal quand la chance est réelle."
+          },
+          {
+            "question": "Où garder les observations longues sur le site ?",
+            "answer": "Les scores courts vont bien dans des champs ; les observations détaillées et la première phrase tiennent mieux dans les notes."
+          }
+        ]
+      }
+    }
+  }
+}

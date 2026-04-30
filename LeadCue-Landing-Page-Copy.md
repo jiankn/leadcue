@@ -11,25 +11,25 @@
 
 ### Title
 
-LeadCue - AI Website Prospecting Assistant for Agencies
+LeadCue - Website-First Outbound Research for Agencies
 
 ### Meta Description
 
-LeadCue turns any company website into a qualified prospect with website signals, outreach angles, and personalized cold email openers. Built for SEO and web design agencies.
+LeadCue helps agencies qualify company websites, surface the reason to reach out, and prepare outreach-ready context before leads hit CRM or email tools.
 
 ### Primary H1
 
-Turn Any Website Into a Qualified Prospect
+Turn Company Websites Into Qualified Outreach Opportunities
 
 ### Secondary H1 Options
 
-1. Find Better Leads From Company Websites
-2. Get Sales Cues From Any Company Website
-3. AI Prospect Research for SEO & Web Design Agencies
+1. Find the reason to contact before you hunt for the email
+2. Turn website evidence into outreach-ready context
+3. Website-first outbound research for SEO & Web Design agencies
 
 推荐使用：
 
-> Turn Any Website Into a Qualified Prospect
+> Turn Company Websites Into Qualified Outreach Opportunities
 
 ---
 
@@ -37,15 +37,15 @@ Turn Any Website Into a Qualified Prospect
 
 ### Eyebrow
 
-Built for SEO & Web Design Agencies
+Built for agency teams doing website-first outbound
 
 ### Headline
 
-Turn Any Website Into a Qualified Prospect
+Turn Company Websites Into Qualified Outreach Opportunities
 
 ### Subheadline
 
-LeadCue analyzes company websites and gives you the sales cues, outreach angles, and cold email openers you need to start better conversations.
+LeadCue helps agencies qualify a site, surface the sales angle, and prepare outreach-ready context before the account hits CRM or email tools.
 
 ### CTA Buttons
 
@@ -59,7 +59,7 @@ Secondary:
 
 ### Hero Microcopy
 
-No database scraping. No complex CRM. Just website-based prospect research in seconds.
+No database arms race. No bloated CRM. Just the website research layer before outreach.
 
 ### Hero Product Preview Text
 
@@ -105,13 +105,13 @@ LeadCue helps you answer those questions from the company website itself.
 
 ### Section Headline
 
-From Website to Outreach Angle in Three Steps
+From Discovered Website to Outreach Context in Three Steps
 
 ### Step 1
 
 #### Visit a Company Website
 
-Open any potential client website you are researching.
+Open the company site your team already found from search, directories, referrals, or a list export.
 
 ### Step 2
 
@@ -123,7 +123,7 @@ LeadCue scans public website signals like homepage copy, CTAs, blog activity, co
 
 #### Get a Prospect Card
 
-Receive a clear summary, fit score, website issues, sales cues, and personalized cold email openers.
+Receive fit score, website evidence, outreach angles, first lines, and export-ready notes.
 
 ---
 
@@ -131,7 +131,7 @@ Receive a clear summary, fit score, website issues, sales cues, and personalized
 
 ### Section Headline
 
-Built for Agency Prospecting, Not Generic Lead Lists
+Built for Agency Outreach Research, Not Generic Lead Lists
 
 ### Value Props
 
@@ -145,7 +145,7 @@ Score each company against your target customer profile so you know which prospe
 
 #### Personalized First Lines
 
-Generate cold email openers based on actual website signals instead of generic AI compliments.
+Generate first lines from actual website signals instead of generic AI compliments.
 
 #### Prospect Cards
 
@@ -370,4 +370,3 @@ Recommended first version:
 7. Waitlist
 8. FAQ
 9. Footer
-

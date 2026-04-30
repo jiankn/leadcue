@@ -1,4 +1,4 @@
-export type ProductSeoToolKind = "crm-mapping" | "first-line" | "checklist" | "integration";
+export type ProductSeoToolKind = "workflow" | "crm-mapping" | "first-line" | "checklist" | "integration";
 
 export type ProductSeoPage = {
   slug: string;
@@ -28,6 +28,186 @@ export type ProductSeoPage = {
 };
 
 export const productSeoPages: ProductSeoPage[] = [
+  {
+    slug: "tools/prospect-research-chrome-extension",
+    eyebrow: "Product workflow",
+    category: "Chrome extension",
+    title: "Prospect research Chrome extension for website review",
+    seoTitle: "Prospect Research Chrome Extension | LeadCue",
+    description:
+      "Review a prospect website from Chrome, capture visible evidence, and save a qualified outreach card without leaving the page.",
+    intent: "Help operators research a prospect while they are already looking at the company website.",
+    updatedAt: "2026-04-29",
+    readingTime: "Workflow",
+    primaryKeyword: "prospect research Chrome extension",
+    secondaryKeywords: ["website prospecting Chrome extension", "outreach research extension", "prospect website review"],
+    tool: "workflow",
+    heroBullets: [
+      "Capture website evidence while the page is still in view.",
+      "Save fit notes, first-line cues, and source context to the same Prospect Card.",
+      "Move only reviewed accounts into the web workspace for follow-up and export."
+    ],
+    sections: [
+      {
+        title: "Why a browser workflow matters",
+        copy:
+          "A Chrome extension fits the moment when a researcher is already inspecting a prospect website. Instead of copying notes into a sheet, the team can save visible evidence and keep it connected to the account.",
+        items: [
+          "Review the homepage, proof, content, and contact path in the same session.",
+          "Capture the reason to contact before it gets lost in a tab or spreadsheet.",
+          "Keep manual judgment in the workflow instead of turning every website into a lead automatically."
+        ]
+      },
+      {
+        title: "What should be saved",
+        copy:
+          "The extension should not only save a URL. It should preserve the smallest useful research package: source observation, fit reason, outreach angle, first line, and next step.",
+        items: [
+          "Website signal and the page context behind it.",
+          "Fit score, confidence, and the service angle that makes the account relevant.",
+          "A first line or short note the rep can verify before sending."
+        ]
+      }
+    ],
+    faqs: [
+      {
+        question: "Is this a scraping extension?",
+        answer:
+          "No. The workflow is designed around visible public website review, human judgment, and saving source-backed outreach context."
+      },
+      {
+        question: "When should an agency use the extension instead of batch import?",
+        answer:
+          "Use the extension when a researcher is browsing one account at a time. Use batch import when the team already has a list of domains to review."
+      },
+      {
+        question: "Can extension notes be exported later?",
+        answer:
+          "Yes. Saved accounts can carry the same fit score, source notes, and first-line context into CSV or CRM export workflows."
+      }
+    ],
+    related: ["website-prospecting", "tools/outreach-context-workspace", "templates/cold-email-first-line"]
+  },
+  {
+    slug: "tools/batch-website-review-queue",
+    eyebrow: "Product workflow",
+    category: "Review queue",
+    title: "Batch website review queue for agency prospecting",
+    seoTitle: "Batch Website Review Queue for Agency Prospecting | LeadCue",
+    description:
+      "Import prospect websites into a review queue, prioritize accounts, and keep qualification work moving before outreach.",
+    intent: "Help agencies review many prospect websites without sending unqualified accounts into campaigns.",
+    updatedAt: "2026-04-29",
+    readingTime: "Workflow",
+    primaryKeyword: "batch website review queue",
+    secondaryKeywords: ["batch website prospecting", "website review workflow", "agency prospect review queue"],
+    tool: "workflow",
+    heroBullets: [
+      "Import domain lists and review accounts before campaign handoff.",
+      "Separate scanned websites from saved, qualified prospects.",
+      "Use fit score and confidence to decide which accounts deserve outreach first."
+    ],
+    sections: [
+      {
+        title: "The queue job",
+        copy:
+          "A review queue keeps volume from becoming noise. It gives researchers a place to move through many websites, compare signals, and save only the accounts with a clear reason to contact.",
+        items: [
+          "Batch import prospect domains from a spreadsheet, CRM list, or manual research.",
+          "Review accounts in a consistent order instead of jumping between tabs.",
+          "Keep rejected or low-confidence accounts out of outbound tools."
+        ]
+      },
+      {
+        title: "How teams use the queue",
+        copy:
+          "The queue is strongest when one person prepares accounts and another person writes or approves outreach. The handoff works because each saved account includes the evidence behind the recommendation.",
+        items: [
+          "Prioritize high-fit accounts for same-day outreach.",
+          "Assign owners before export or sequence creation.",
+          "Export only selected accounts with source notes and first lines attached."
+        ]
+      }
+    ],
+    faqs: [
+      {
+        question: "Should every imported website become a lead?",
+        answer:
+          "No. The point of a review queue is to filter. Imported websites should become saved prospects only when the evidence supports outreach."
+      },
+      {
+        question: "What makes a batch review queue different from a spreadsheet?",
+        answer:
+          "A spreadsheet stores rows. A review queue stores the research state, fit score, source notes, first-line cues, and export readiness for each account."
+      },
+      {
+        question: "Can the queue support manual QA?",
+        answer:
+          "Yes. Human review is part of the workflow, especially before a prospect is saved, assigned, exported, or used in email copy."
+      }
+    ],
+    related: ["website-prospecting", "agency-lead-qualification", "templates/website-prospecting-checklist"]
+  },
+  {
+    slug: "tools/outreach-context-workspace",
+    eyebrow: "Product workflow",
+    category: "Outreach workspace",
+    title: "Outreach context workspace for website-based prospecting",
+    seoTitle: "Outreach Context Workspace for Agencies | LeadCue",
+    description:
+      "Keep website evidence, fit scores, first lines, source notes, and CRM export fields together before launching outreach.",
+    intent: "Help teams preserve the reason behind outreach from research through CRM or email handoff.",
+    updatedAt: "2026-04-29",
+    readingTime: "Workflow",
+    primaryKeyword: "outreach context workspace",
+    secondaryKeywords: ["qualified outreach workflow", "website research workspace", "outreach-ready context"],
+    tool: "workflow",
+    heroBullets: [
+      "Keep the website observation, business angle, and first line together.",
+      "Give reps enough context to verify a claim before sending.",
+      "Export CRM fields without losing the source-backed reason to contact."
+    ],
+    sections: [
+      {
+        title: "Why outreach context gets lost",
+        copy:
+          "Many teams research accounts in one place, write notes in another, and export leads somewhere else. By the time outreach starts, the reason to contact has often turned into a generic sentence.",
+        items: [
+          "Source notes disappear when only company name and URL are exported.",
+          "First lines get copied without the evidence needed for review.",
+          "Reps cannot explain why a prospect was selected."
+        ]
+      },
+      {
+        title: "What the workspace should preserve",
+        copy:
+          "A useful outreach workspace connects each account to a compact evidence chain: website signal, fit reason, first line, source note, owner, stage, and export status.",
+        items: [
+          "Website evidence and a plain-language business implication.",
+          "Fit score and confidence so teams can prioritize cleanly.",
+          "CRM-ready fields that keep context attached during handoff."
+        ]
+      }
+    ],
+    faqs: [
+      {
+        question: "Is an outreach context workspace the same as a CRM?",
+        answer:
+          "No. The workspace sits before the CRM. It helps teams decide which accounts are worth outreach and what context should be handed off."
+      },
+      {
+        question: "Does this replace an email sending tool?",
+        answer:
+          "No. LeadCue prepares the research and context before the account enters tools such as CRM, CSV, or email sequencing software."
+      },
+      {
+        question: "What context should be reviewed before sending?",
+        answer:
+          "Review the source observation, fit reason, first line, and any claim that will appear in the outbound message."
+      }
+    ],
+    related: ["prospect-research-tool-for-agencies", "templates/crm-csv-field-mapping", "cold-email-first-lines"]
+  },
   {
     slug: "templates/crm-csv-field-mapping",
     eyebrow: "Interactive template",

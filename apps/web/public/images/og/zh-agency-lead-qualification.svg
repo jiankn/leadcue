@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
-  <title id="title">代理机构线索资格判断流程 | 匹配评分与网站信号</title>
-  <desc id="desc">在外展之前建立一个机构领导资格认证工作流程，该工作流程使用适合度分数、置信度、网站信号、联系路径和来源支持的注释。</desc>
+  <title id="title">销售线索筛选流程</title>
+  <desc id="desc">用网站证据、匹配评分和开发理由筛选线索，避免把不合适的客户直接推进 CRM 或开发信序列。</desc>
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="630" gradientUnits="userSpaceOnUse">
       <stop stop-color="#073733" />
@@ -28,26 +28,25 @@
   <text x="232" y="170" fill="#BFE7DD" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="26" font-weight="600">简体中文</text>
   <g transform="translate(900, 66)">
     <rect width="238" height="58" rx="29" fill="#0D4540" stroke="#1E6A63" />
-    <text x="28" y="38" fill="#DFFBF3" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="24" font-weight="700">领先资格</text>
+    <text x="28" y="38" fill="#DFFBF3" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="24" font-weight="700">线索筛选</text>
   </g>
   <g transform="translate(78, 236)">
     <rect width="330" height="46" rx="23" fill="#0D4540" stroke="#1E6A63" />
     <text x="22" y="30" fill="#96FF6A" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="22" font-weight="700">资格判断</text>
   </g>
-  <text x="78" y="336" fill="#F7FFFC" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="72" font-weight="800">代理机构线索资格判断流程 | 匹配评分与网站信号</text>
-  <text x="78" y="514" fill="#D3EEE7" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="30" font-weight="600">在外展之前建立一个机构领导资格认证工作流程，该工作流程使用适合度分数、置信度、网站信号、联系路径和来源支</text>
-<text x="78" y="554" fill="#D3EEE7" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="30" font-weight="600">持的注释。</text>
+  <text x="78" y="336" fill="#F7FFFC" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="72" font-weight="800">销售线索筛选流程</text>
+  <text x="78" y="514" fill="#D3EEE7" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="30" font-weight="600">用网站证据、匹配评分和开发理由筛选线索，避免把不合适的客户直接推进 CRM 或开发信序列。</text>
   <g transform="translate(78, 548)">
     <rect width="262" height="44" rx="22" fill="#114b45" stroke="#1f6d66" />
-    <text x="22" y="29" fill="#dffbf3" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="20" font-weight="700">机构牵头资质</text>
+    <text x="22" y="29" fill="#dffbf3" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="20" font-weight="700">销售线索筛选工具</text>
   </g>
   <g transform="translate(364, 548)">
     <rect width="262" height="44" rx="22" fill="#114b45" stroke="#1f6d66" />
-    <text x="22" y="29" fill="#dffbf3" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="20" font-weight="700">代理机构领先资格</text>
+    <text x="22" y="29" fill="#dffbf3" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="20" font-weight="700">线索评分工具</text>
   </g>
   <g transform="translate(650, 548)">
     <rect width="262" height="44" rx="22" fill="#114b45" stroke="#1f6d66" />
-    <text x="22" y="29" fill="#dffbf3" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="20" font-weight="700">适合分数</text>
+    <text x="22" y="29" fill="#dffbf3" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="20" font-weight="700">客户开发筛选</text>
   </g>
   <rect x="882" y="246" width="258" height="274" rx="28" fill="#0D4540" stroke="#1E6A63" />
   <text x="914" y="302" fill="#BFE7DD" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="24" font-weight="700">Qualified fit</text>

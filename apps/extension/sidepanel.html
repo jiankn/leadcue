@@ -105,7 +105,7 @@
           <div>
             <p class="eyebrow" data-i18n="labels.prospectCard">Prospect Card</p>
             <h2 id="companyName"></h2>
-            <span id="domain" class="muted"></span>
+            <span id="domain" class="muted result-domain"></span>
           </div>
           <div class="result-score">
             <strong id="fitScore"></strong>
@@ -191,6 +191,20 @@
         <p id="permissionNote" class="inline-note compact-note">
           LeadCue only reads the active website after you click "Analyze website".
         </p>
+
+        <div id="webResearchCallout" class="workspace-callout" hidden>
+          <p id="webResearchNote" class="inline-note compact-note">
+            Need multi-site research, review, or export? Continue in the web app.
+          </p>
+          <button
+            id="openDashboardButton"
+            class="button secondary subtle block"
+            type="button"
+            data-i18n="buttons.openWebWorkspace"
+          >
+            Open web workspace
+          </button>
+        </div>
       </section>
 
       <section id="settings" class="panel settings" hidden>

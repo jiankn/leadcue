@@ -96,7 +96,7 @@ export const commercialPages: Record<CommercialPageSlug, CommercialPageDefinitio
     summary:
       "Use contact when you need help deciding if the product matches your workflow, how to map fields into CRM, or how to introduce website-first research to a team.",
     primaryAction: { label: "Email LeadCue", href: "mailto:support@leadcue.app" },
-    secondaryAction: { label: "Start free", href: "/signup?plan=free" },
+    secondaryAction: { label: "Start free", href: "/signup" },
     sections: [
       {
         title: "Who LeadCue is for",
@@ -175,7 +175,7 @@ export const commercialPages: Record<CommercialPageSlug, CommercialPageDefinitio
     title: "Commercial usage terms for LeadCue workspaces.",
     summary:
       "These terms describe the intended product boundary: website research, prospect qualification, secure account access, and export-ready notes for agency outbound teams.",
-    primaryAction: { label: "Start free", href: "/signup?plan=free" },
+    primaryAction: { label: "Start free", href: "/signup" },
     secondaryAction: { label: "Ask a question", href: "/contact" },
     sections: [
       {

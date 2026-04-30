@@ -1,4 +1,4 @@
-# PRD: LeadCue - AI Website Prospecting Assistant for Agencies
+# PRD: LeadCue - Website-First Outbound Research Workspace for Agencies
 
 版本：v1.1  
 日期：2026-04-19  
@@ -18,15 +18,15 @@
 
 产品应定位为：
 
-> LeadCue: AI Website Prospecting Assistant for SEO & Web Design Agencies
+> LeadCue: The website research layer between finding an account and starting outreach.
 
 一句话描述：
 
-> LeadCue turns any company website into a qualified prospect with sales cues, outreach angles, and personalized cold email openers.
+> LeadCue turns company websites into qualified outreach opportunities with fit scoring, visible website evidence, and outreach-ready context.
 
 中文解释：
 
-> LeadCue 帮 SEO / Web Design / Marketing agency 打开任意公司网站后，一键判断这个客户值不值得联系、网站有什么销售机会、应该怎么写第一句话。
+> LeadCue 帮 SEO / Web Design / Marketing agency 在发现网站之后，快速判断这个客户值不值得联系、为什么值得联系、以及外拓时第一句话应该怎么开口。
 
 核心产品价值不是“找到邮箱”，而是：
 
@@ -38,7 +38,12 @@
 
 ### 2.1 我们是什么
 
-LeadCue 是一个面向小型海外 agency 和 B2B founder 的 Chrome 插件 + Web SaaS。
+LeadCue 是一个面向小型海外 agency 和 B2B founder 的 Chrome 插件 + Web SaaS 研究工作台。
+
+用户可通过两种入口进入 LeadCue：
+
+- 在 Chrome 浏览单个公司网站时即时分析
+- 在 Web 后台导入一批域名并进入 review queue 逐站筛选
 
 用户打开潜在客户的网站，点击 Chrome 插件，即可生成一张 Prospect Card，内容包括：
 
@@ -69,16 +74,16 @@ LeadCue 是一个面向小型海外 agency 和 B2B founder 的 Chrome 插件 + W
 
 主定位：
 
-- AI Website Prospecting Assistant
-- Website Prospecting Tool for Agencies
-- AI Sales Research Assistant
+- Website-first outbound research
+- Website research layer for agencies
+- Qualified outreach workflow
 
 辅助定位：
 
 - Prospect Research Chrome Extension
-- Cold Email First Line Generator
-- Website Lead Extractor
-- Website Audit Cold Email Generator
+- Batch website review queue
+- Outreach context workspace
+- Website audit outreach workflow
 
 ---
 

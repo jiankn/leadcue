@@ -1,0 +1,148 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - link "LeadCue Home" [ref=e5] [cursor=pointer]:
+      - /url: /
+      - img [ref=e6]
+      - generic [ref=e11]: LeadCue
+    - generic [ref=e12]:
+      - button "Language" [ref=e14]:
+        - img [ref=e16]
+        - generic [ref=e18]: EN
+        - img [ref=e20]
+      - button [ref=e23] [cursor=pointer]:
+        - generic [ref=e24]: "?"
+        - img [ref=e26]
+  - generic [ref=e28]:
+    - complementary [ref=e29]:
+      - navigation "Overview" [ref=e30]:
+        - link "Overview" [ref=e31] [cursor=pointer]:
+          - /url: /app
+          - img [ref=e32]
+          - text: Overview
+        - link "Import" [ref=e34] [cursor=pointer]:
+          - /url: /app/import
+          - img [ref=e35]
+          - text: Import
+        - link "Review queue" [ref=e37] [cursor=pointer]:
+          - /url: /app/leads
+          - img [ref=e38]
+          - text: Review queue
+        - link "Saved accounts" [ref=e40] [cursor=pointer]:
+          - /url: /app/accounts
+          - img [ref=e41]
+          - text: Saved accounts
+        - link "ICP" [ref=e43] [cursor=pointer]:
+          - /url: /app/settings/icp
+          - img [ref=e44]
+          - text: ICP
+        - link "Billing" [ref=e46] [cursor=pointer]:
+          - /url: /app/billing
+          - img [ref=e47]
+          - text: Billing
+        - link "Workflow" [ref=e49] [cursor=pointer]:
+          - /url: /app/analytics
+          - img [ref=e50]
+          - text: Workflow
+        - link "Account" [ref=e52] [cursor=pointer]:
+          - /url: /app/account
+          - img [ref=e53]
+          - text: Account
+    - main [ref=e55]:
+      - generic [ref=e56]:
+        - generic [ref=e57]:
+          - paragraph [ref=e58]: Billing
+          - heading "Billing" [level=1] [ref=e59]
+          - paragraph [ref=e60]: Monitor credits, subscription status, and export capacity without leaving the workspace.
+        - button "Manage billing" [ref=e62] [cursor=pointer]:
+          - img [ref=e63]
+          - text: Manage billing
+      - status [ref=e65]: Loading workspace data...
+      - generic [ref=e66]:
+        - generic [ref=e67]:
+          - paragraph [ref=e68]: Credit balance
+          - heading "20 scans left" [level=2] [ref=e69]
+          - paragraph [ref=e70]: 0 credits used this month on the Free plan. Credits are charged only when a scan creates and saves a usable Prospect Card.
+          - generic [ref=e71]:
+            - generic [ref=e72]:
+              - generic [ref=e73]: Subscription
+              - strong [ref=e74]: Active
+            - generic [ref=e75]:
+              - generic [ref=e76]: Credit reset
+              - strong [ref=e77]: 2026年4月28日
+            - generic [ref=e78]:
+              - generic [ref=e79]: Billing period end
+              - strong [ref=e80]: Not set
+          - generic "Monthly credit usage" [ref=e81]
+        - generic [ref=e83]:
+          - paragraph [ref=e84]: Plan path
+          - heading "Scale credits without changing the workflow" [level=2] [ref=e85]
+          - generic [ref=e86]:
+            - article [ref=e87]:
+              - generic [ref=e88]:
+                - strong [ref=e89]: Free
+                - generic [ref=e90]: 20 scans / month
+              - paragraph [ref=e91]: Validate the workflow with real websites before a paid rollout.
+              - button "Current plan" [disabled] [ref=e92]
+            - article [ref=e93]:
+              - generic [ref=e94]:
+                - strong [ref=e95]: Starter
+                - generic [ref=e96]: 300 scans / month
+              - paragraph [ref=e97]: Best for one operator building a weekly outbound habit.
+              - button "Choose Starter" [ref=e98] [cursor=pointer]
+            - article [ref=e99]:
+              - generic [ref=e100]:
+                - strong [ref=e101]: Pro
+                - generic [ref=e102]: 1,500 scans / month
+              - paragraph [ref=e103]: Best for agencies turning prospect research into a repeatable pipeline.
+              - button "Choose Pro" [ref=e104] [cursor=pointer]
+            - article [ref=e105]:
+              - generic [ref=e106]:
+                - strong [ref=e107]: Agency
+                - generic [ref=e108]: 5,000 scans / month
+              - paragraph [ref=e109]: Best for teams sharing scan credits across multiple client offers.
+              - button "Choose Agency" [ref=e110] [cursor=pointer]
+        - generic [ref=e111]:
+          - paragraph [ref=e112]: Credit policy
+          - heading "No charge on failed scans" [level=2] [ref=e113]
+          - generic [ref=e114]:
+            - generic [ref=e115]:
+              - img [ref=e116]
+              - text: Validation errors use 0 credits.
+            - generic [ref=e118]:
+              - img [ref=e119]
+              - text: Website access or generation failures use 0 credits.
+            - generic [ref=e121]:
+              - img [ref=e122]
+              - text: Duplicate retries use an idempotency key to prevent double charging.
+            - generic [ref=e124]:
+              - img [ref=e125]
+              - text: Basic scans charge 1 credit only after a Prospect Card is saved.
+            - generic [ref=e127]:
+              - img [ref=e128]
+              - text: Deep scans charge 3 credits only after a Prospect Card is saved.
+        - generic [ref=e130]:
+          - paragraph [ref=e131]: Account status
+          - heading "Know why the workspace can or cannot scan" [level=2] [ref=e132]
+          - paragraph [ref=e133]: Sign in to reopen your real workspace, or start free to create one before you import websites into the queue.
+          - generic [ref=e134]:
+            - generic [ref=e135]:
+              - generic [ref=e136]: Workspace status
+              - strong [ref=e137]: Not set
+            - generic [ref=e138]:
+              - generic [ref=e139]: Subscription state
+              - strong [ref=e140]: Active
+            - generic [ref=e141]:
+              - generic [ref=e142]: Remaining credits
+              - strong [ref=e143]: "20"
+            - generic [ref=e144]:
+              - generic [ref=e145]: Export mode
+              - strong [ref=e146]: CRM export / HubSpot
+          - generic [ref=e147]:
+            - link "Continue with Google" [ref=e148] [cursor=pointer]:
+              - /url: /login
+              - img [ref=e149]
+              - text: Continue with Google
+            - link "Start free" [ref=e151] [cursor=pointer]:
+              - /url: /signup?plan=free
+              - img [ref=e152]
+              - text: Start free

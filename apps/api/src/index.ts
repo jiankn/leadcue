@@ -1610,6 +1610,10 @@ function validateScanRequest(request: ScanRequest): string | null {
     return "locale is invalid.";
   }
 
+  if (looksLikeSearchResultsPage(request.page.url)) {
+    return "page.url must be a public company website, not a search results page.";
+  }
+
   if (!request.page.title) {
     return "page.title is required.";
   }
@@ -1623,6 +1627,35 @@ function validateScanRequest(request: ScanRequest): string | null {
   }
 
   return null;
+}
+
+const searchResultsHostRules = [
+  { hostPattern: /(^|\.)google\./i, pathPattern: /^\/search$/i, queryKeys: ["q"] },
+  { hostPattern: /(^|\.)bing\.com$/i, pathPattern: /^\/search$/i, queryKeys: ["q"] },
+  { hostPattern: /(^|\.)duckduckgo\.com$/i, pathPattern: /^\/(?:|html\/?)$/i, queryKeys: ["q"] },
+  { hostPattern: /(^|\.)search\.yahoo\.com$/i, pathPattern: /^\/search$/i, queryKeys: ["p"] },
+  { hostPattern: /(^|\.)yahoo\.com$/i, pathPattern: /^\/search$/i, queryKeys: ["p"] },
+  { hostPattern: /(^|\.)baidu\.com$/i, pathPattern: /^\/s$/i, queryKeys: ["wd", "word"] },
+  { hostPattern: /(^|\.)ecosia\.org$/i, pathPattern: /^\/search$/i, queryKeys: ["q"] },
+  { hostPattern: /(^|\.)yandex\./i, pathPattern: /^\/search\/?$/i, queryKeys: ["text"] }
+] as const;
+
+function looksLikeSearchResultsPage(url: string): boolean {
+  try {
+    const parsed = new URL(url);
+    const hostname = parsed.hostname.toLowerCase();
+    const pathname = parsed.pathname.toLowerCase();
+
+    return searchResultsHostRules.some((rule) => {
+      if (!rule.hostPattern.test(hostname) || !rule.pathPattern.test(pathname)) {
+        return false;
+      }
+
+      return rule.queryKeys.some((key) => parsed.searchParams.has(key));
+    });
+  } catch {
+    return false;
+  }
 }
 
 function normalizeTone(value?: string | null) {

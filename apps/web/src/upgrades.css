@@ -53,7 +53,50 @@
 }
 
 .account-page-grid {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 1.18fr) minmax(300px, 0.82fr);
+  align-items: start;
+}
+
+.account-main-stack,
+.account-side-stack {
+  display: grid;
+  gap: 1rem;
+  align-content: start;
+}
+
+.account-preview-panel,
+.account-profile-panel,
+.account-password-panel,
+.account-summary-panel,
+.account-utility-panel,
+.account-alert-panel {
+  display: grid;
+  gap: 1rem;
+  align-content: start;
+}
+
+.account-alert-panel {
+  border-color: rgba(255, 187, 84, 0.34);
+  background: linear-gradient(180deg, rgba(255, 252, 245, 0.96) 0%, rgba(255, 248, 238, 0.98) 100%);
+}
+
+.account-alert-copy {
+  display: grid;
+  gap: 0.65rem;
+  max-width: 72ch;
+}
+
+.account-alert-message {
+  margin: 0;
+  color: var(--ink);
+  line-height: 1.55;
+  font-weight: 800;
+}
+
+.account-alert-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
 }
 
 .account-form-grid {
@@ -62,34 +105,56 @@
   gap: 1rem 1.2rem;
 }
 
+.account-password-form-grid {
+  display: grid;
+  gap: 1rem;
+}
+
 .account-form-wide {
   grid-column: 1 / -1;
 }
 
 .account-password-actions {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: center;
+  display: grid;
   gap: 1rem;
+  justify-items: start;
 }
 
 .account-password-visibility {
-  flex: 1 1 16rem;
+  min-width: 0;
+}
+
+.account-password-panel .button,
+.account-alert-actions .button,
+.account-utility-panel .button {
+  justify-content: center;
 }
 
 .account-summary-panel {
   align-self: start;
 }
 
+.account-summary-panel strong {
+  overflow-wrap: anywhere;
+}
+
+.account-utility-panel .billing-actions {
+  flex-direction: column;
+  align-items: stretch;
+}
+
 .account-card-list {
   display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.85rem;
-  margin-top: 1rem;
+  margin-top: 0.25rem;
 }
 
 .account-card-list > div,
-.billing-kpis > div {
+.billing-kpis > div,
+.billing-summary-card,
+.billing-featured-meta > div,
+.billing-plan-card-meta {
   display: grid;
   gap: 0.22rem;
   padding: 0.9rem 1rem;
@@ -98,7 +163,11 @@
 }
 
 .account-card-list span,
-.billing-kpis span {
+.billing-kpis span,
+.billing-summary-card span,
+.billing-featured-meta span,
+.billing-plan-card-meta span,
+.billing-meter-meta span {
   font-size: 0.8rem;
   text-transform: uppercase;
   letter-spacing: 0.02em;
@@ -106,45 +175,158 @@
 }
 
 .account-card-list strong,
-.billing-kpis strong {
+.billing-kpis strong,
+.billing-summary-card strong,
+.billing-featured-meta strong,
+.billing-plan-card-meta strong,
+.billing-meter-meta strong {
   font-size: 1rem;
+}
+
+.billing-page-grid {
+  grid-template-columns: 1fr;
+}
+
+.billing-summary-strip {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.85rem;
+}
+
+.billing-summary-card {
+  min-width: 0;
+}
+
+.billing-summary-card strong {
+  color: var(--ink);
+  font-size: 1.05rem;
+}
+
+.billing-main-grid,
+.billing-secondary-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.billing-main-grid {
+  grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+}
+
+.billing-secondary-grid {
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 0.9fr);
+}
+
+.billing-featured-plan-panel,
+.billing-plan-panel,
+.billing-status-panel {
+  display: grid;
+  gap: 1rem;
+  align-content: start;
+}
+
+.billing-panel-header {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.billing-panel-header .status-pill,
+.billing-status-panel .status-pill {
+  flex-shrink: 0;
+}
+
+.billing-usage-copy {
+  max-width: 62ch;
 }
 
 .billing-kpis {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0.85rem;
-  margin: 1rem 0 1.1rem;
+  margin: 0.25rem 0 0;
 }
 
-.billing-plan-list {
+.billing-meter-meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.85rem;
+}
+
+.billing-meter-meta strong {
+  color: #fff;
+}
+
+.billing-usage-points {
   display: grid;
-  gap: 0.9rem;
-  margin-top: 1rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
 }
 
+.billing-usage-points span {
+  display: flex;
+  align-items: start;
+  gap: 0.55rem;
+  padding: 0.85rem 0.9rem;
+  border: 1px solid rgba(156, 255, 120, 0.18);
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.88);
+  line-height: 1.5;
+  font-weight: 700;
+}
+
+.billing-usage-points .icon {
+  margin-top: 0.2rem;
+  color: var(--primary);
+}
+
+.billing-featured-plan-card,
 .billing-plan-card {
   display: grid;
-  gap: 0.7rem;
+  gap: 0.9rem;
   padding: 1rem;
   border: 1px solid rgba(12, 77, 69, 0.14);
   background: rgba(247, 251, 248, 0.88);
 }
 
-.billing-plan-card > div {
+.billing-featured-plan-card.is-recommended,
+.billing-plan-card.is-recommended {
+  border-color: rgba(121, 255, 97, 0.72);
+  box-shadow: inset 0 0 0 1px rgba(121, 255, 97, 0.34);
+  background: rgba(241, 255, 233, 0.92);
+}
+
+.billing-featured-plan-card.is-current,
+.billing-plan-card.is-current {
+  border-color: rgba(12, 77, 69, 0.18);
+  box-shadow: inset 0 0 0 1px rgba(12, 77, 69, 0.06);
+}
+
+.billing-featured-plan-top,
+.billing-plan-card-header {
   display: flex;
   justify-content: space-between;
-  align-items: baseline;
-  gap: 0.75rem;
+  align-items: start;
+  gap: 1rem;
 }
 
-.billing-plan-card strong {
-  font-size: 1rem;
+.billing-plan-heading {
+  display: grid;
+  gap: 0.45rem;
 }
 
-.billing-plan-card span {
+.billing-plan-heading strong {
+  font-size: 1.15rem;
+  line-height: 1.15;
+  color: var(--ink);
+}
+
+.billing-plan-heading small,
+.billing-plan-card p,
+.billing-plan-price span {
   color: rgba(12, 77, 69, 0.72);
-  font-size: 0.92rem;
+  line-height: 1.5;
 }
 
 .billing-plan-card p {
@@ -152,9 +334,88 @@
   color: rgba(12, 77, 69, 0.82);
 }
 
-.billing-plan-card.is-current {
-  border-color: rgba(121, 255, 97, 0.7);
-  box-shadow: inset 0 0 0 1px rgba(121, 255, 97, 0.4);
+.billing-plan-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.plan-status-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 26px;
+  padding: 0.15rem 0.55rem;
+  border: 1px solid rgba(12, 77, 69, 0.14);
+  background: rgba(255, 255, 255, 0.72);
+  color: rgba(12, 77, 69, 0.78);
+  font-size: 0.74rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.plan-status-badge.is-current {
+  border-color: rgba(12, 77, 69, 0.18);
+}
+
+.plan-status-badge.is-recommended {
+  border-color: rgba(121, 255, 97, 0.46);
+  background: rgba(121, 255, 97, 0.18);
+  color: rgba(12, 77, 69, 0.9);
+}
+
+.billing-plan-price {
+  display: grid;
+  justify-items: end;
+  gap: 0.25rem;
+  text-align: right;
+}
+
+.billing-plan-price strong {
+  color: var(--ink);
+  font-size: 1.15rem;
+  line-height: 1.1;
+}
+
+.billing-featured-meta {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.billing-plan-list {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.9rem;
+}
+
+.billing-plan-card {
+  align-content: start;
+}
+
+.billing-plan-card .button,
+.billing-featured-plan-card .button {
+  width: 100%;
+  justify-content: center;
+}
+
+.billing-status-copy,
+.billing-status-next-step strong {
+  color: rgba(12, 77, 69, 0.82);
+}
+
+.billing-status-next-step {
+  display: grid;
+  gap: 0.25rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid rgba(12, 77, 69, 0.14);
+  background: rgba(247, 251, 248, 0.88);
+}
+
+.billing-status-next-step span {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  color: rgba(12, 77, 69, 0.68);
 }
 
 .status-pill.is-success {
@@ -336,6 +597,8 @@
 @media (max-width: 1100px) {
   .account-page-grid,
   .billing-kpis,
+  .billing-main-grid,
+  .billing-secondary-grid,
   .account-form-grid,
   .tool-kpi-strip,
   .tool-advice-grid,
@@ -345,7 +608,107 @@
     grid-template-columns: 1fr;
   }
 
+  .billing-summary-strip,
+  .billing-plan-list,
+  .billing-usage-points,
+  .billing-featured-meta,
+  .account-card-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .account-password-actions {
     align-items: stretch;
+  }
+}
+
+@media (max-width: 720px) {
+  .billing-summary-strip,
+  .account-card-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .billing-featured-meta,
+  .billing-kpis {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .billing-featured-meta > div:last-child,
+  .billing-kpis > div:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .billing-usage-points {
+    grid-template-columns: 1fr;
+  }
+
+  .billing-plan-list {
+    display: flex;
+    gap: 0.75rem;
+    overflow-x: auto;
+    padding: 0 0.35rem 0.2rem 0;
+    scroll-padding-inline: 0;
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .billing-plan-card {
+    flex: 0 0 min(78vw, 300px);
+    scroll-snap-align: start;
+  }
+
+  .billing-summary-card,
+  .billing-kpis > div,
+  .billing-featured-meta > div,
+  .billing-plan-card-meta,
+  .account-card-list > div,
+  .billing-featured-plan-card,
+  .billing-plan-card {
+    padding: 0.85rem;
+  }
+
+  .billing-panel-header,
+  .billing-featured-plan-top,
+  .billing-plan-card-header {
+    flex-direction: column;
+    align-items: start;
+  }
+
+  .billing-plan-price {
+    justify-items: start;
+    text-align: left;
+  }
+
+  .billing-meter-meta {
+    flex-direction: column;
+    align-items: start;
+  }
+
+  .billing-usage-points span {
+    padding: 0.75rem 0.85rem;
+  }
+
+  .account-main-stack,
+  .account-side-stack {
+    gap: 0.85rem;
+  }
+
+  .account-alert-actions,
+  .account-preview-panel .page-empty-actions {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .account-alert-actions .button,
+  .account-preview-panel .page-empty-actions .button,
+  .account-password-actions .button,
+  .account-utility-panel .billing-actions .button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 520px) {
+  .account-card-list {
+    grid-template-columns: 1fr;
   }
 }

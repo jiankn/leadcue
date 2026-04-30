@@ -17,6 +17,58 @@ type DeepPartial<T> = T extends string
       : T;
 
 const en = {
+  nav: {
+    dashboard: "Overview",
+    import: "Import",
+    leads: "Review queue",
+    saved: "Saved accounts",
+    icp: "ICP",
+    credits: "Billing",
+    analytics: "Workflow",
+    account: "Account"
+  },
+  pages: {
+    dashboard: {
+      eyebrow: "Workspace",
+      title: "Overview",
+      copy: "Move from imported websites to qualified accounts and export-ready handoff without losing website context."
+    },
+    leads: {
+      eyebrow: "Review queue",
+      title: "Review queue",
+      copy: "Work through imported or researching accounts before they move into the saved handoff list."
+    },
+    icp: {
+      eyebrow: "ICP",
+      title: "ICP",
+      copy: "Define how LeadCue should score fit, urgency, and actionability before the team scans more websites."
+    },
+    billing: {
+      eyebrow: "Billing",
+      title: "Billing",
+      copy: "Monitor credits, subscription status, and export capacity without leaving the workspace."
+    },
+    import: {
+      eyebrow: "Batch research",
+      title: "Import websites",
+      copy: "Paste domains or upload a CSV to build a website-first review queue for this workspace."
+    },
+    saved: {
+      eyebrow: "Saved accounts",
+      title: "Saved accounts",
+      copy: "Export the accounts that already passed review and are ready for outreach or CRM handoff."
+    },
+    analytics: {
+      eyebrow: "Workflow",
+      title: "Workflow analytics",
+      copy: "Track how websites enter the queue, turn into qualified accounts, and leave the workspace as exports."
+    },
+    account: {
+      eyebrow: "Account",
+      title: "Account",
+      copy: "Update workspace identity, password access, and billing ownership without breaking the workflow."
+    }
+  },
   common: {
     loading: "Loading",
     sample: "Sample",
@@ -66,6 +118,7 @@ const en = {
       demoPreviewIntro: "Demo preview. Create a workspace to save prospects and track credits with a secure session.",
       sampleWorkspaceData: "__ERROR__ Showing sample workspace data.",
       sampleWorkspaceDataPlain: "Showing sample workspace data.",
+      workspaceDataUnavailable: "We couldn't load this workspace right now. Refresh and try again.",
       billingActiveSetup: "Billing is active. Finish the first setup below.",
       workspaceCreatedSetup: "Workspace created. Finish the first setup below.",
       signedIn: "Signed in.",
@@ -251,6 +304,74 @@ const en = {
     signalPanel: {
       eyebrow: "Signals",
       title: "Current scan mix"
+    },
+    workbench: {
+      title: "Workflow lanes",
+      import: {
+        eyebrow: "Import",
+        title: "Build the batch list",
+        copy: "Paste domains or upload a CSV before the team starts reviewing accounts.",
+        metricLabel: "Queued websites"
+      },
+      queue: {
+        eyebrow: "Review",
+        title: "Triage the next websites",
+        copy: "See which accounts still need a scan and which already need a human qualification pass.",
+        metricLabel: "Ready to review"
+      },
+      saved: {
+        eyebrow: "Saved",
+        title: "Hand off approved accounts",
+        copy: "Only move accounts here after the website evidence and angle are strong enough for outreach.",
+        metricLabel: "Ready for handoff"
+      },
+      scan: {
+        eyebrow: "Scan desk",
+        title: "Run the next website",
+        copy: "Keep single-site research available, but make it a lane inside the batch workflow instead of the whole app.",
+        metricLabel: "Researching now"
+      }
+    },
+    queuePanel: {
+      eyebrow: "Queue snapshot",
+      title: "What needs review next",
+      ready: "Ready",
+      researching: "Researching",
+      imported: "Imported",
+      workspaceSource: "Workspace lead",
+      openSite: "Open site",
+      moveToScanDesk: "Move to scan desk",
+      reviewCard: "Open card",
+      emptyTitle: "No websites waiting in the queue.",
+      emptyCopy: "Import a list or scan the first website to create work for the team."
+    },
+    savedPanel: {
+      eyebrow: "Saved handoff",
+      title: "What is already ready to export",
+      qualified: "Qualified",
+      outreachQueued: "Outreach queued",
+      exported: "Exports",
+      openCard: "Open card",
+      emptyTitle: "No saved accounts are ready yet.",
+      emptyCopy: "Move strong accounts out of the review queue once the owner, stage, and notes are ready."
+    },
+    nextAction: {
+      startWorkspace: "Start free",
+      importWebsites: "Import websites",
+      openQueue: "Open review queue",
+      manualScan: "Use manual scan instead",
+      sampleTitle: "This is the demo workspace preview",
+      sampleCopy:
+        "Sign in to reopen your real workspace, or start free to create one before you import websites into the queue.",
+      loadErrorTitle: "We couldn't reopen this workspace",
+      loadErrorCopy:
+        "Your saved queue and exported context are still protected. Refresh the workspace first, then sign back in if the issue keeps showing.",
+      retryWorkspace: "Refresh workspace",
+      manualEyebrow: "Manual lane",
+      manualTitle: "Need to research one website instead?",
+      manualCopy:
+        "Keep single-site scanning available for one-off research, but treat it as the side lane instead of the default homepage flow.",
+      openManual: "Open manual scan"
     }
   },
   leads: {
@@ -287,6 +408,84 @@ const en = {
     detailEmptyTitle: "Select a lead",
     detailEmptyCopy:
       "Click any saved account to review the complete Prospect Card, including source-backed signals and email copy."
+  },
+  reviewQueue: {
+    eyebrow: "Review queue",
+    title: "Review imported and researching accounts",
+    controlsLabel: "Review queue filters",
+    searchLabel: "Search queue",
+    statusLabel: "Status",
+    sourceLabel: "Source",
+    sourceAll: "All sources",
+    sourceImported: "Imported only",
+    workspaceSource: "Workspace lead",
+    statusAll: "All statuses",
+    statusReady: "Ready",
+    statusResearching: "Researching",
+    resultsSummary: "Showing __VISIBLE__ of __TOTAL__ queue items",
+    readySummary: "__COUNT__ ready right now",
+    tableLabel: "Review queue",
+    nextStepLabel: "Next step",
+    openSite: "Open site",
+    moveToScanDesk: "Move to scan desk",
+    openCard: "Open card",
+    emptyTitle: "No review queue yet.",
+    emptyCopy: "Import websites or scan the first account to create a review queue.",
+    emptyFilteredTitle: "No queue items match this filter.",
+    emptyFilteredCopy: "Relax the filters to bring more imported or researching accounts back into view.",
+    sideEyebrow: "Queue health",
+    sideTitle: "Keep the queue moving every day",
+    sideCopy: "The queue is where research becomes qualification. Focus on moving accounts from ready to researching, then into qualified handoff.",
+    importedCountLabel: "Imported websites"
+  },
+  importer: {
+    eyebrow: "Batch import",
+    title: "Import websites into the queue",
+    copy: "Add domains from Apollo, Clay, CSV exports, partner lists, or manual shortlist research.",
+    openQueue: "Open review queue",
+    sourceLabel: "Source",
+    notesLabel: "Context note",
+    textareaLabel: "Paste domains or URLs",
+    textareaPlaceholder: "acme.com\nnorthstar.io\nhttps://example.org",
+    submit: "Add to queue",
+    upload: "Upload CSV or TXT",
+    summaryEyebrow: "Queue summary",
+    summaryTitle: "What this import lane is feeding",
+    summaryImported: "Imported",
+    summaryReady: "Ready",
+    summaryResearching: "Researching",
+    historyEyebrow: "Imported websites",
+    historyTitle: "Queue history",
+    historyCount: "__COUNT__ websites",
+    statusLabel: "Status",
+    nextStepLabel: "Next step",
+    remove: "Remove",
+    emptyTitle: "No imported websites yet.",
+    emptyCopy: "Paste domains or upload a list to start building a review queue.",
+    sourceOptions: {
+      manual: "Manual shortlist",
+      csv: "CSV export",
+      apollo: "Apollo export",
+      clay: "Clay table",
+      directory: "Directory / list"
+    },
+    messages: {
+      added: "__COUNT__ websites added. __SKIPPED__ duplicates or invalid entries skipped.",
+      noWebsitesAdded: "No valid new websites were added. Check the domains and try again.",
+      fileReadFailed: "We could not read that file. Try CSV, TXT, or TSV.",
+      queueUpdated: "Import queue updated."
+    }
+  },
+  savedAccounts: {
+    eyebrow: "Saved accounts",
+    title: "Approved accounts ready for handoff",
+    tableLabel: "Saved accounts",
+    statusQualified: "Qualified",
+    resultsSummary: "Showing __VISIBLE__ of __TOTAL__ saved accounts",
+    emptyTitle: "No saved accounts are ready yet.",
+    emptyCopy: "Move an account out of researching once the fit, owner, and notes are ready for outreach.",
+    emptyFilteredTitle: "No saved accounts match this view.",
+    emptyFilteredCopy: "Relax the search or score filters to bring more saved accounts back into view."
   },
   prospectCard: {
     eyebrow: "Prospect Card",
@@ -513,12 +712,47 @@ const en = {
   },
   analytics: {
     overviewEyebrow: "Last 30 days",
-    overviewTitle: "What the workspace is actually doing",
+    overviewTitle: "How the workflow is moving",
+    emptyTitle: "No workflow data yet",
+    emptyCopy:
+      "Import websites first. Analytics will start filling in after the queue moves into research, qualification, and export.",
     kpis: {
-      trackedEvents: "Tracked events",
-      scansCompleted: "Scans completed",
-      leadsSaved: "Leads saved",
+      importedWebsites: "Imported websites",
+      reviewQueueReady: "Queue ready",
+      qualifiedAccounts: "Qualified accounts",
       exportsCompleted: "Exports completed"
+    },
+    workflowFunnel: {
+      eyebrow: "Workflow funnel",
+      title: "From import to outreach handoff",
+      imported: "Imported",
+      importedMeta: "Websites added into the workspace queue",
+      reviewing: "Researching",
+      reviewingMeta: "__PERCENT__ of imported websites",
+      qualified: "Qualified",
+      qualifiedMeta: "__PERCENT__ of the active review workload",
+      exported: "Exported",
+      exportedMeta: "__PERCENT__ of qualified accounts"
+    },
+    stageMix: {
+      eyebrow: "Stage mix",
+      title: "Where saved accounts sit right now",
+      accountsSuffix: "__COUNT__ accounts"
+    },
+    queueSources: {
+      eyebrow: "Import sources",
+      title: "Where the queue is being filled from",
+      accountsSuffix: "__COUNT__ websites"
+    },
+    scanOutcomes: {
+      eyebrow: "Scan outcomes",
+      title: "What happened after the queue hit the scan desk",
+      completed: "Completed",
+      failed: "Failed",
+      processing: "Processing",
+      failureSuffix: "__COUNT__ failures",
+      noFailures: "No recent failures",
+      noFailuresCopy: "Completed scans are flowing without a visible error cluster."
     },
     funnel: {
       eyebrow: "Research funnel",
@@ -550,6 +784,10 @@ const en = {
     recommendations: {
       eyebrow: "What to do next",
       title: "Operator recommendations",
+      reviewBacklog: "There are more ready websites than researching accounts, so the next move is assigning time to clear the review backlog.",
+      qualificationGap: "Researching accounts outnumber qualified accounts, which suggests the bottleneck is human qualification or ownership follow-up.",
+      exportGap: "Qualified accounts are building up faster than exports, so the handoff into CRM or outreach needs attention.",
+      keepMoving: "The workflow is balanced right now. Keep importing, reviewing, and exporting at the current pace.",
       toolPageCta:
         "Tool-page CTA clicks are healthy. Keep routing those users into signup with the same field template context.",
       exportsGap:
@@ -629,30 +867,53 @@ const en = {
     }
   },
   billing: {
+    summary: {
+      currentPlan: "Current plan",
+      scansLeft: "Scans left",
+      resetDate: "Reset date",
+      workspaceStatus: "Workspace status"
+    },
     usage: {
-      eyebrow: "Credit balance",
+      eyebrow: "Usage overview",
       title: "__COUNT__ scans left",
       summary:
-        "__USED__ credits used this month on the __PLAN__ plan. Credits are charged only when a scan creates and saves a usable Prospect Card."
+        "__USED__ credits used this month on the __PLAN__ plan. Credits are charged only when a scan creates and saves a usable Prospect Card.",
+      usedLabel: "Used this month",
+      remainingLabel: "Remaining now",
+      totalLabel: "Monthly scan allowance",
+      usagePercent: "__COUNT__% used"
     },
     kpis: {
       subscription: "Subscription",
       creditReset: "Credit reset",
-      billingPeriodEnd: "Billing period end"
+      billingPeriodEnd: "Billing cycle",
+      noPaidCycle: "No paid billing cycle yet"
     },
     meterLabel: "Monthly credit usage",
     actions: {
       manageBilling: "Manage billing",
       exportCsv: "Export CSV",
       exportCurrentFields: "Export current fields",
-      faq: "Billing FAQ"
+      faq: "Billing FAQ",
+      comparePlans: "Compare plans"
     },
     plans: {
-      eyebrow: "Plan path",
+      eyebrow: "Recommended plan",
       title: "Scale credits without changing the workflow",
+      compareEyebrow: "Plan comparison",
+      compareTitle: "Compare plans by monthly scan volume",
+      compareCopy: "Use the full comparison only when scan volume is the real bottleneck.",
       currentPlan: "Current plan",
+      currentPlanBadge: "Current",
+      recommendedBadge: "Recommended",
+      manageCurrent: "Manage current plan",
       choosePlan: "Choose __PLAN__",
       scansPerMonth: "__COUNT__ scans / month",
+      monthlyPrice: "$__PRICE__/month",
+      includedCredits: "Monthly credits",
+      creditLift: "Credit lift",
+      additionalCredits: "+__COUNT__ scans vs current",
+      highestVolume: "Highest volume",
       useCases: {
         free: "Validate the workflow with real websites before a paid rollout.",
         starter: "Best for one operator building a weekly outbound habit.",
@@ -670,15 +931,16 @@ const en = {
       deep: "Deep scans charge 3 credits only after a Prospect Card is saved."
     },
     status: {
-      eyebrow: "Account status",
-      title: "Know why the workspace can or cannot scan",
+      eyebrow: "Workspace access",
+      title: "Know what is connected before you upgrade",
       workspaceStatus: "Workspace status",
       authenticated: "Authenticated",
       demoPreview: "Demo preview",
       subscriptionState: "Subscription state",
       remainingCredits: "Remaining credits",
       exportMode: "Export mode",
-      nextStep: "Next step"
+      nextStep: "Next step",
+      unauthenticatedHint: "Use the sign-in bar above to connect a real workspace and sync billing state."
     },
     subscriptionDetails: {
       active: {
@@ -754,6 +1016,58 @@ export type AppUiExtra = WidenStrings<typeof en>;
 export type AppUiExtraOverride = DeepPartial<AppUiExtra>;
 
 const zh: AppUiExtra = {
+  nav: {
+    dashboard: "总览",
+    import: "导入",
+    leads: "复核队列",
+    saved: "已保存账户",
+    icp: "ICP",
+    credits: "账单",
+    analytics: "流程分析",
+    account: "账户"
+  },
+  pages: {
+    dashboard: {
+      eyebrow: "工作空间",
+      title: "总览",
+      copy: "把已导入网站逐步转成已通过判断、可导出的外拓账户，不丢失任何网站证据。"
+    },
+    leads: {
+      eyebrow: "复核队列",
+      title: "复核队列",
+      copy: "先处理新导入和 researching 阶段的账户，再把真正可推进的账户移入已保存列表。"
+    },
+    icp: {
+      eyebrow: "ICP",
+      title: "ICP",
+      copy: "先定义 LeadCue 如何判断匹配度、紧迫度和可执行性，再让团队继续扫描网站。"
+    },
+    billing: {
+      eyebrow: "账单",
+      title: "账单",
+      copy: "在工作空间内直接查看积分、订阅状态和导出能力。"
+    },
+    import: {
+      eyebrow: "批量导入",
+      title: "导入目标网站",
+      copy: "粘贴域名或上传 CSV，把要处理的网站先加入当前工作空间的复核队列。"
+    },
+    saved: {
+      eyebrow: "已保存账户",
+      title: "已保存账户",
+      copy: "这里保留已经通过判断、准备交给外拓或 CRM 的账户。"
+    },
+    analytics: {
+      eyebrow: "流程",
+      title: "流程分析",
+      copy: "看清网站如何进入队列、变成 qualified 账户，并最终从工作空间导出。"
+    },
+    account: {
+      eyebrow: "账户",
+      title: "账户",
+      copy: "更新工作空间身份、密码访问和账单归属，同时不打断当前 workflow。"
+    }
+  },
   common: {
     loading: "加载中",
     sample: "示例",
@@ -803,6 +1117,7 @@ const zh: AppUiExtra = {
       demoPreviewIntro: "当前为演示预览。创建工作空间后即可保存潜客并跟踪积分使用。",
       sampleWorkspaceData: "__ERROR__ 当前显示示例工作空间数据。",
       sampleWorkspaceDataPlain: "当前显示示例工作空间数据。",
+      workspaceDataUnavailable: "当前无法加载工作空间数据。请刷新后重试。",
       billingActiveSetup: "订阅已生效。请先完成下面的首次设置。",
       workspaceCreatedSetup: "工作空间已创建。请先完成下面的首次设置。",
       signedIn: "已登录。",
@@ -985,6 +1300,71 @@ const zh: AppUiExtra = {
     signalPanel: {
       eyebrow: "信号",
       title: "当前扫描分布"
+    },
+    workbench: {
+      title: "流程通道",
+      import: {
+        eyebrow: "导入",
+        title: "先建立批量名单",
+        copy: "粘贴域名或上传 CSV，再进入队列逐站判断。",
+        metricLabel: "已排队网站"
+      },
+      queue: {
+        eyebrow: "复核",
+        title: "处理下一批网站",
+        copy: "先分清哪些网站还没扫，哪些网站已经需要人工判断。",
+        metricLabel: "待复核"
+      },
+      saved: {
+        eyebrow: "已保存",
+        title: "交接已通过判断的账户",
+        copy: "只有当网站证据和联系角度都足够清晰时，才把账户推进到这里。",
+        metricLabel: "可交接"
+      },
+      scan: {
+        eyebrow: "扫描台",
+        title: "执行下一次扫描",
+        copy: "保留单站扫描，但让它成为批量流程中的一条通道，而不是整套后台的中心。",
+        metricLabel: "正在研究"
+      }
+    },
+    queuePanel: {
+      eyebrow: "队列快照",
+      title: "下一步该看什么",
+      ready: "待扫描",
+      researching: "研究中",
+      imported: "已导入",
+      workspaceSource: "工作空间线索",
+      openSite: "打开网站",
+      moveToScanDesk: "送去扫描台",
+      reviewCard: "打开卡片",
+      emptyTitle: "当前没有待处理的网站。",
+      emptyCopy: "先导入名单，或完成第一次扫描，为团队建立复核工作。"
+    },
+    savedPanel: {
+      eyebrow: "已保存交接",
+      title: "哪些账户已经可以导出",
+      qualified: "已通过判断",
+      outreachQueued: "待外拓",
+      exported: "已导出",
+      openCard: "打开卡片",
+      emptyTitle: "还没有可交接的已保存账户。",
+      emptyCopy: "当账户的匹配度、负责人和备注都准备好后，再把它从复核队列移过来。"
+    },
+    nextAction: {
+      startWorkspace: "免费开始",
+      importWebsites: "导入网站名单",
+      openQueue: "打开复核队列",
+      manualScan: "改用手工扫描",
+      sampleTitle: "当前显示的是演示工作台",
+      sampleCopy: "登录后可回到真实工作空间；如果你还没有工作空间，可以先开始免费版再导入网站。",
+      loadErrorTitle: "暂时无法重新打开这个工作空间",
+      loadErrorCopy: "你之前的队列和导出内容仍受保护。先刷新工作空间；如果问题持续，再重新登录。",
+      retryWorkspace: "刷新工作空间",
+      manualEyebrow: "手工通道",
+      manualTitle: "如果只想研究一个网站",
+      manualCopy: "把单站扫描保留下来做临时研究，但不要再让它占据首页主路径。",
+      openManual: "打开手工扫描"
     }
   },
   leads: {
@@ -1020,6 +1400,84 @@ const zh: AppUiExtra = {
     errorShowingPreview: "完整详情加载失败，当前显示列表预览。",
     detailEmptyTitle: "选择一条线索",
     detailEmptyCopy: "点击任意已保存账户，即可查看完整潜在客户卡片，包括带来源的信号与邮件文案。"
+  },
+  reviewQueue: {
+    eyebrow: "复核队列",
+    title: "复核已导入和 researching 阶段的账户",
+    controlsLabel: "复核队列筛选项",
+    searchLabel: "搜索队列",
+    statusLabel: "状态",
+    sourceLabel: "来源",
+    sourceAll: "全部来源",
+    sourceImported: "仅导入名单",
+    workspaceSource: "工作空间线索",
+    statusAll: "全部状态",
+    statusReady: "待扫描",
+    statusResearching: "研究中",
+    resultsSummary: "显示 __VISIBLE__ / __TOTAL__ 条队列项目",
+    readySummary: "当前有 __COUNT__ 条待处理",
+    tableLabel: "复核队列",
+    nextStepLabel: "下一步",
+    openSite: "打开网站",
+    moveToScanDesk: "送去扫描台",
+    openCard: "打开卡片",
+    emptyTitle: "还没有复核队列。",
+    emptyCopy: "先导入网站，或完成第一次扫描来建立复核队列。",
+    emptyFilteredTitle: "当前筛选下没有匹配项。",
+    emptyFilteredCopy: "放宽筛选条件，查看更多已导入或 researching 阶段的网站。",
+    sideEyebrow: "队列健康度",
+    sideTitle: "每天把队列向前推",
+    sideCopy: "复核队列是 research 进入 qualification 的地方。优先把待扫描网站推进到 researching，再从那里推进到 qualified。",
+    importedCountLabel: "已导入网站"
+  },
+  importer: {
+    eyebrow: "批量导入",
+    title: "把网站加入复核队列",
+    copy: "支持从 Apollo、Clay、CSV 文件、目录名单，或手动整理的名单中导入。",
+    openQueue: "打开复核队列",
+    sourceLabel: "来源",
+    notesLabel: "备注说明",
+    textareaLabel: "粘贴域名或网址",
+    textareaPlaceholder: "acme.com\nnorthstar.io\nhttps://example.org",
+    submit: "加入队列",
+    upload: "上传 CSV 或 TXT",
+    summaryEyebrow: "队列概览",
+    summaryTitle: "当前导入队列情况",
+    summaryImported: "已导入",
+    summaryReady: "待扫描",
+    summaryResearching: "研究中",
+    historyEyebrow: "已导入网站",
+    historyTitle: "导入记录",
+    historyCount: "共 __COUNT__ 个网站",
+    statusLabel: "状态",
+    nextStepLabel: "后续处理",
+    remove: "移除",
+    emptyTitle: "还没有导入网站。",
+    emptyCopy: "先粘贴域名或上传文件，这里会显示导入记录。",
+    sourceOptions: {
+      manual: "手动整理名单",
+      csv: "CSV 文件",
+      apollo: "Apollo",
+      clay: "Clay",
+      directory: "目录名单"
+    },
+    messages: {
+      added: "已加入 __COUNT__ 个网站，已跳过 __SKIPPED__ 条重复或无效内容。",
+      noWebsitesAdded: "没有识别到可导入的网站，请检查域名格式后重试。",
+      fileReadFailed: "文件读取失败，请上传 CSV、TXT 或 TSV 文件。",
+      queueUpdated: "导入队列已更新。"
+    }
+  },
+  savedAccounts: {
+    eyebrow: "已保存账户",
+    title: "已通过判断、可交接的账户",
+    tableLabel: "已保存账户",
+    statusQualified: "已通过判断",
+    resultsSummary: "显示 __VISIBLE__ / __TOTAL__ 个已保存账户",
+    emptyTitle: "还没有可交接的已保存账户。",
+    emptyCopy: "当账户的匹配度、负责人和备注都准备好后，再把它从 researching 推进过来。",
+    emptyFilteredTitle: "当前视图下没有匹配的已保存账户。",
+    emptyFilteredCopy: "放宽搜索或分数筛选，查看更多已保存账户。"
   },
   prospectCard: {
     eyebrow: "潜在客户卡片",
@@ -1246,12 +1704,46 @@ const zh: AppUiExtra = {
   },
   analytics: {
     overviewEyebrow: "最近 30 天",
-    overviewTitle: "工作空间的实际运行情况",
+    overviewTitle: "这条 research workflow 走得怎么样",
+    emptyTitle: "还没有流程数据",
+    emptyCopy: "先导入网站。等队列开始进入研究、判断和导出之后，这里的流程分析才会逐步出现。",
     kpis: {
-      trackedEvents: "追踪事件",
-      scansCompleted: "已完成扫描",
-      leadsSaved: "已保存线索",
+      importedWebsites: "已导入网站",
+      reviewQueueReady: "待复核",
+      qualifiedAccounts: "已通过判断",
       exportsCompleted: "已完成导出"
+    },
+    workflowFunnel: {
+      eyebrow: "流程漏斗",
+      title: "从导入到外拓交接",
+      imported: "已导入",
+      importedMeta: "已进入工作空间队列的网站",
+      reviewing: "研究中",
+      reviewingMeta: "占已导入网站的 __PERCENT__",
+      qualified: "已通过判断",
+      qualifiedMeta: "占活跃复核量的 __PERCENT__",
+      exported: "已导出",
+      exportedMeta: "占已通过判断账户的 __PERCENT__"
+    },
+    stageMix: {
+      eyebrow: "阶段分布",
+      title: "已保存账户目前停在哪",
+      accountsSuffix: "__COUNT__ 个账户"
+    },
+    queueSources: {
+      eyebrow: "导入来源",
+      title: "队列主要由哪些来源补充",
+      accountsSuffix: "__COUNT__ 个网站"
+    },
+    scanOutcomes: {
+      eyebrow: "扫描结果",
+      title: "队列进入扫描台后发生了什么",
+      completed: "已完成",
+      failed: "失败",
+      processing: "处理中",
+      failureSuffix: "__COUNT__ 次失败",
+      noFailures: "最近没有失败",
+      noFailuresCopy: "完成扫描正在稳定流转，没有明显的错误聚集。"
     },
     funnel: {
       eyebrow: "研究漏斗",
@@ -1283,6 +1775,10 @@ const zh: AppUiExtra = {
     recommendations: {
       eyebrow: "下一步建议",
       title: "运营建议",
+      reviewBacklog: "待扫描的网站多于正在研究的账户，建议先集中清一轮队列。",
+      qualificationGap: "正在研究的账户多于已通过判断的账户，当前更可能卡在人工判断或负责人跟进上。",
+      exportGap: "已通过判断的账户增长快于导出量，说明 CRM 或外拓交接环节还有堵点。",
+      keepMoving: "当前节奏正常，继续导入名单、推进处理并完成导出即可。",
       toolPageCta: "工具页 CTA 点击表现不错，继续把这批用户以相同字段模板场景引导到注册流程。",
       exportsGap: "导出量低于扫描量，下一个瓶颈很可能是资格判断信心或 CRM 交接时机。",
       crmTemplateTraffic: "CRM 字段映射模板目前带来了最多的产品驱动流量。"
@@ -1360,29 +1856,53 @@ const zh: AppUiExtra = {
     }
   },
   billing: {
+    summary: {
+      currentPlan: "当前套餐",
+      scansLeft: "剩余扫描次数",
+      resetDate: "重置日期",
+      workspaceStatus: "工作空间状态"
+    },
+
     usage: {
       eyebrow: "积分余额",
       title: "剩余 __COUNT__ 次扫描",
-      summary: "__USED__ 积分已在本月 __PLAN__ 套餐中使用。只有当扫描生成并保存了可用的潜在客户卡片后才会扣费。"
+      summary: "__USED__ 积分已在本月 __PLAN__ 套餐中使用。只有当扫描生成并保存了可用的潜在客户卡片后才会扣费。",
+      usedLabel: "本月已使用",
+      remainingLabel: "当前剩余",
+      totalLabel: "每月扫描额度",
+      usagePercent: "已使用 __COUNT__%"
     },
     kpis: {
       subscription: "订阅状态",
       creditReset: "积分重置时间",
-      billingPeriodEnd: "账单周期结束"
+      billingPeriodEnd: "账单周期结束",
+      noPaidCycle: "暂无付费账单周期"
     },
     meterLabel: "本月积分使用量",
     actions: {
       manageBilling: "管理账单",
       exportCsv: "导出 CSV",
       exportCurrentFields: "导出当前字段",
-      faq: "账单常见问题"
+      faq: "账单常见问题",
+      comparePlans: "对比套餐"
     },
     plans: {
       eyebrow: "套餐路径",
       title: "在不改变流程的情况下扩展积分",
+      compareEyebrow: "套餐对比",
+      compareTitle: "按每月扫描量对比套餐",
+      compareCopy: "只有当扫描量成为真正瓶颈时，再使用完整对比来升级。",
       currentPlan: "当前套餐",
+      currentPlanBadge: "当前",
+      recommendedBadge: "推荐",
+      manageCurrent: "管理当前套餐",
       choosePlan: "选择 __PLAN__",
       scansPerMonth: "每月 __COUNT__ 次扫描",
+      monthlyPrice: "$__PRICE__/月",
+      includedCredits: "每月积分",
+      creditLift: "积分提升",
+      additionalCredits: "比当前多 __COUNT__ 次扫描",
+      highestVolume: "最高额度",
       useCases: {
         free: "先用真实网站验证流程，再决定是否付费扩展。",
         starter: "适合单人运营者建立每周固定的外联节奏。",
@@ -1408,7 +1928,8 @@ const zh: AppUiExtra = {
       subscriptionState: "订阅状态",
       remainingCredits: "剩余积分",
       exportMode: "导出模式",
-      nextStep: "下一步"
+      nextStep: "下一步",
+      unauthenticatedHint: "请使用上方登录入口连接真实工作空间，并同步账单状态。"
     },
     subscriptionDetails: {
       active: {
@@ -1481,6 +2002,68 @@ const zh: AppUiExtra = {
 };
 
 const ja: AppUiExtraOverride = {
+  nav: {
+    dashboard: "ダッシュボード",
+    import: "インポート",
+    leads: "レビューキュー",
+    saved: "保存済みアカウント",
+    icp: "ICP",
+    credits: "請求",
+    analytics: "ワークフロー",
+    account: "アカウント"
+  },
+  pages: {
+    dashboard: {
+      eyebrow: "ワークスペース",
+      title: "概要",
+      copy: "インポート済みサイトから適格アカウントとエクスポート可能な引き渡し資料まで、サイトのコンテキストを失わずに進めます。"
+    },
+    leads: {
+      eyebrow: "レビューキュー",
+      title: "レビューキュー",
+      copy: "インポート済みまたは調査中のアカウントを処理してから、保存済みの引き渡しリストに移動します。"
+    },
+    icp: {
+      eyebrow: "ICP",
+      title: "ICP",
+      copy: "チームがさらにサイトをスキャンする前に、LeadCue が適合度・緊急度・実行可能性をどう評価するかを定義します。"
+    },
+    billing: {
+      eyebrow: "請求",
+      title: "請求",
+      copy: "ワークスペースを離れずにクレジット・サブスクリプション状態・エクスポート容量を確認します。"
+    },
+    import: {
+      eyebrow: "一括リサーチ",
+      title: "サイトをインポート",
+      copy: "ドメインを貼り付けるか CSV をアップロードして、このワークスペースのサイトファーストなレビューキューを作成します。"
+    },
+    saved: {
+      eyebrow: "保存済みアカウント",
+      title: "保存済みアカウント",
+      copy: "レビューを通過し、アウトリーチまたは CRM 引き渡しの準備ができたアカウントをエクスポートします。"
+    },
+    analytics: {
+      eyebrow: "ワークフロー",
+      title: "ワークフロー分析",
+      copy: "サイトがキューに入り、適格アカウントになり、エクスポートとしてワークスペースから出ていく流れを追跡します。"
+    },
+    account: {
+      eyebrow: "アカウント",
+      title: "アカウント",
+      copy: "ワークフローを中断することなく、ワークスペースの ID・パスワードアクセス・請求所有権を更新します。"
+    }
+  },
+  billing: {
+    plans: {
+      useCases: {
+        free: "有料展開前に実際のウェブサイトでワークフローを検証します。",
+        starter: "週次のアウトバウンド習慣を構築する1人のオペレーター向け。",
+        pro: "見込み客調査を再現可能なパイプラインに変えるエージェンシー向け。",
+        agency: "複数のクライアントオファー間でスキャンクレジットを共有するチーム向け。"
+      }
+    }
+  },
   common: {
     loading: "読み込み中",
     sample: "サンプル",
@@ -1521,24 +2104,37 @@ const ja: AppUiExtraOverride = {
     noData: "データなし",
     messages: {
       demoPreviewIntro: "デモプレビューです。ワークスペースを作成すると、見込み客の保存とクレジット追跡ができます。",
+      sampleWorkspaceData: "__ERROR__ サンプルのワークスペースデータを表示しています。",
+      sampleWorkspaceDataPlain: "サンプルのワークスペースデータを表示しています。",
+      workspaceDataUnavailable: "現在このワークスペースを読み込めません。更新して再試行してください。",
       billingActiveSetup: "請求は有効です。下の初期設定を完了してください。",
       workspaceCreatedSetup: "ワークスペースが作成されました。下の初期設定を完了してください。",
       signedIn: "ログインしました。",
+      scanDeskLoaded: "__URL__ をスキャンデスクに読み込みました。メモを確認してからスキャンを実行してください。",
+      scanDeskMissingTarget: "スキャンデスクに見込み客サイトを追加すると、最初の保存済みカードを作成できます。",
       samePlan: "現在すでに __PLAN__ プランです。",
       checkoutUnavailable: "現在このプランではチェックアウトを利用できません。",
       leadDetailUnavailable: "リード詳細を読み込めません。",
       scanInvalidUrl:
         "有効な見込み客サイト URL を入力してください。クレジットは消費されませんでした。URL を修正して再試行してください。",
+      scanSaved: "__COMPANY__ を Prospect Card として保存しました。消費クレジット: __COUNT__。",
       scanComplete: "スキャンが完了しました。エクスポートやメール作成の前に Prospect Card を確認してください。",
       scanFailed:
         "スキャンに失敗しました。クレジットは消費されませんでした。URL を修正して再試行してください。",
+      onboardingDismissed: "初期設定ガイドを閉じました。",
+      onboardingUpdateFailed: "オンボーディングを更新できません。",
+      csvExportPrepared: "__LABEL__ フィールドで CSV を準備しました。",
       csvExportFailed: "CSV エクスポートに失敗しました。",
       billingPortalUnavailable: "請求ポータルはまだ利用できません。",
       signedOutDemo: "ログアウトしました。デモプレビューを表示しています。",
+      selectLeadBeforeExport: "エクスポートする前に少なくとも 1 件のリードを選択してください。",
+      selectedLeadExported: "選択した __COUNT__ 件のリードを __LABEL__ フィールド付きでエクスポートしました。",
+      selectedLeadExportFailed: "選択したリードのエクスポートに失敗しました。",
       signInRequired: "続行するにはログインしてください。",
       workspaceNotFound: "ワークスペースが見つかりません。",
       subscriptionInactive: "サブスクリプションが有効ではありません。サイトをさらにスキャンする前に請求を更新してください。",
-      insufficientCredits: "このリクエストに必要なスキャンクレジットがワークスペースにありません。"
+      insufficientCredits: "このリクエストに必要なスキャンクレジットがワークスペースにありません。",
+      createFirstSavedCard: "ログインした状態で Chrome 拡張機能または POST /api/scans を使って最初の保存済みカードを作成してください。"
     }
   },
   options: {
@@ -1629,15 +2225,34 @@ const ja: AppUiExtraOverride = {
   dashboard: {
     onboarding: {
       eyebrow: "初期設定",
+      welcomeTitle: "__NAME__ さん、ようこそ。",
+      workspaceReadyTitle: "ワークスペースの準備ができました、__NAME__ さん。",
+      intro:
+        "LeadCue ではプランとスコアリングの既定値がすでに準備されています。1 回スキャンを完了すると、Prospect Card とエクスポート用メモを保存できるようになります。",
       progress: "__COUNT__/3 完了",
       markComplete: "完了としてマーク",
+      checklistLabel: "ワークスペースのオンボーディングチェックリスト",
       setupSnapshot: "設定概要",
       service: "サービス",
       industries: "業種",
       firstTarget: "最初の対象",
       prepareFirstScan: "最初のスキャンを準備",
       runFirstScan: "最初のスキャンを実行",
-      reviewIcp: "ICP を確認"
+      reviewIcp: "ICP を確認",
+      tasks: {
+        profileSaved: "ターゲティング設定を保存",
+        firstWebsiteQueued: "最初のウェブサイトをキューに追加",
+        firstProspectCard: "最初の Prospect Card"
+      },
+      descriptions: {
+        profileSaved: "スコアリングは __INDUSTRIES__ 向けに調整されています。",
+        profileTodo: "LeadCue が評価するオファーと業種を定義してください。",
+        websiteQueued: "スキャン準備完了: __URL__",
+        agencySaved: "エージェンシーサイトを保存しました: __URL__",
+        websiteTodo: "チームの準備ができたら最初の対象サイトを追加してください。",
+        firstCardDone: "保存済み見込み客がすでに __COUNT__ 件あります。",
+        firstCardTodo: "最初のサイトスキャンを実行して、保存済み Prospect Card とエクスポート用メモを作成してください。"
+      }
     },
     metrics: {
       ariaLabel: "ワークスペース指標",
@@ -1660,8 +2275,9 @@ const ja: AppUiExtraOverride = {
       tableLabel: "保存済みリード"
     },
     emptyProspect: {
-      eyebrow: "Prospect Card",
+      eyebrow: "見込み客カード",
       title: "最初の保存済みカードはここに表示されます",
+      copy: "LeadCue はスキャン完了後に適合スコア、サイトの根拠、アウトリーチの切り口、冒頭文、エクスポート用メモを保存します。",
       cta: "最初のスキャンを準備"
     },
     icpPanel: {
@@ -1676,6 +2292,73 @@ const ja: AppUiExtraOverride = {
     signalPanel: {
       eyebrow: "シグナル",
       title: "現在のスキャン構成"
+    },
+    workbench: {
+      title: "ワークフローレーン",
+      import: {
+        eyebrow: "インポート",
+        title: "一括リストを作成",
+        copy: "チームがアカウントのレビューを始める前に、ドメインを貼り付けるか CSV をアップロードします。",
+        metricLabel: "キュー内のウェブサイト"
+      },
+      queue: {
+        eyebrow: "レビュー",
+        title: "次のウェブサイトを仕分け",
+        copy: "まだスキャンが必要なアカウントと、すでに人手で適格性確認が必要なアカウントを確認します。",
+        metricLabel: "レビュー待ち"
+      },
+      saved: {
+        eyebrow: "保存済み",
+        title: "承認済みアカウントを引き渡す",
+        copy: "サイトの根拠とアウトリーチの切り口が十分に揃った場合のみ、ここへ移動してください。",
+        metricLabel: "引き渡し準備完了"
+      },
+      scan: {
+        eyebrow: "スキャンデスク",
+        title: "次のウェブサイトをスキャン",
+        copy: "単一サイトの調査は残しつつ、アプリ全体のホームフローではなく、一括ワークフロー内のレーンとして扱います。",
+        metricLabel: "調査中"
+      }
+    },
+    queuePanel: {
+      eyebrow: "キューの概要",
+      title: "次にレビューが必要なもの",
+      ready: "準備完了",
+      researching: "調査中",
+      imported: "インポート済み",
+      workspaceSource: "ワークスペースリード",
+      openSite: "サイトを開く",
+      moveToScanDesk: "スキャンデスクへ移動",
+      reviewCard: "カードを開く",
+      emptyTitle: "キューで待機中のウェブサイトはありません。",
+      emptyCopy: "リストをインポートするか、最初のウェブサイトをスキャンしてチームの作業を作成してください。"
+    },
+    savedPanel: {
+      eyebrow: "保存済み引き渡し",
+      title: "すでにエクスポート可能なもの",
+      qualified: "適格",
+      outreachQueued: "アウトリーチ待ち",
+      exported: "エクスポート済み",
+      openCard: "カードを開く",
+      emptyTitle: "準備ができた保存済みアカウントはまだありません。",
+      emptyCopy: "担当者、ステージ、メモが揃ったら、強いアカウントをレビューキューから移してください。"
+    },
+    nextAction: {
+      startWorkspace: "無料で始める",
+      importWebsites: "ウェブサイトをインポート",
+      openQueue: "レビューキューを開く",
+      manualScan: "代わりに手動スキャンを使う",
+      sampleTitle: "これはデモ用ワークスペースのプレビューです",
+      sampleCopy:
+        "実際のワークスペースを再度開くにはログインし、ウェブサイトをキューに入れる前に無料で開始してワークスペースを作成できます。",
+      loadErrorTitle: "このワークスペースを再度開けませんでした",
+      loadErrorCopy:
+        "保存済みキューとエクスポート済みコンテキストは保護されています。まずワークスペースを更新し、問題が続く場合は再度ログインしてください。",
+      retryWorkspace: "ワークスペースを更新",
+      manualEyebrow: "手動レーン",
+      manualTitle: "代わりに 1 件のウェブサイトだけ調査しますか？",
+      manualCopy: "単発の調査のために単一サイトのスキャンを残しつつ、ホームの標準フローではなく補助レーンとして扱います。",
+      openManual: "手動スキャンを開く"
     }
   },
   leads: {
@@ -1860,6 +2543,68 @@ const ja: AppUiExtraOverride = {
 };
 
 const ko: AppUiExtraOverride = {
+  billing: {
+    plans: {
+      useCases: {
+        free: "유료 확장 전에 실제 웹사이트로 워크플로우를 검증하세요.",
+        starter: "주간 아웃바운드 리듬을 구축하는 1인 운영자에게 적합합니다.",
+        pro: "잠재 고객 조사를 재현 가능한 파이프라인으로 전환하는 에이전시에 적합합니다.",
+        agency: "여러 클라이언트 오퍼 간에 스캔 크레딧을 공유하는 팀에 적합합니다."
+      }
+    }
+  },
+  nav: {
+    dashboard: "개요",
+    import: "가져오기",
+    leads: "검토 대기열",
+    saved: "저장된 계정",
+    icp: "ICP",
+    credits: "결제",
+    analytics: "워크플로우",
+    account: "계정"
+  },
+  pages: {
+    dashboard: {
+      eyebrow: "워크스페이스",
+      title: "개요",
+      copy: "가져온 웹사이트를 검증된 계정과 내보내기 가능한 인계 자료로 전환하면서 웹사이트 맥락을 잃지 않습니다."
+    },
+    leads: {
+      eyebrow: "검토 대기열",
+      title: "검토 대기열",
+      copy: "저장된 인계 목록으로 이동하기 전에 가져오거나 리서치 중인 계정을 먼저 검토하세요."
+    },
+    icp: {
+      eyebrow: "ICP",
+      title: "ICP",
+      copy: "더 많은 웹사이트를 스캔하기 전에 LeadCue가 적합도, 긴급도, 실행 가능성을 어떻게 평가할지 정의하세요."
+    },
+    billing: {
+      eyebrow: "결제",
+      title: "결제",
+      copy: "워크스페이스를 떠나지 않고 크레딧, 구독 상태, 내보내기 가능 여부를 확인하세요."
+    },
+    import: {
+      eyebrow: "일괄 리서치",
+      title: "웹사이트 가져오기",
+      copy: "도메인을 붙여넣거나 CSV를 업로드하여 이 워크스페이스의 웹사이트 우선 검토 대기열을 만드세요."
+    },
+    saved: {
+      eyebrow: "저장된 계정",
+      title: "저장된 계정",
+      copy: "이미 검토를 통과했고 아웃리치 또는 CRM 인계 준비가 된 계정을 내보내세요."
+    },
+    analytics: {
+      eyebrow: "워크플로우",
+      title: "워크플로우 분석",
+      copy: "웹사이트가 대기열에 들어오고, 검증된 계정이 되며, 내보내기로 워크스페이스를 떠나는 흐름을 추적하세요."
+    },
+    account: {
+      eyebrow: "계정",
+      title: "계정",
+      copy: "워크플로우를 중단하지 않고 워크스페이스 ID, 비밀번호 접근, 결제 소유권을 업데이트하세요."
+    }
+  },
   common: {
     loading: "로딩 중",
     sample: "샘플",
@@ -1900,36 +2645,177 @@ const ko: AppUiExtraOverride = {
     noData: "데이터 없음",
     messages: {
       demoPreviewIntro: "데모 미리보기입니다. 워크스페이스를 만들면 잠재고객 저장과 크레딧 추적이 가능합니다.",
+      sampleWorkspaceData: "__ERROR__ 샘플 워크스페이스 데이터를 표시합니다.",
+      sampleWorkspaceDataPlain: "샘플 워크스페이스 데이터를 표시합니다.",
+      workspaceDataUnavailable: "지금은 이 워크스페이스를 불러올 수 없습니다. 새로고침 후 다시 시도하세요.",
       billingActiveSetup: "결제가 활성화되었습니다. 아래 첫 설정을 완료하세요.",
       workspaceCreatedSetup: "워크스페이스가 생성되었습니다. 아래 첫 설정을 완료하세요.",
       signedIn: "로그인되었습니다.",
+      scanDeskLoaded: "__URL__ 가 스캔 데스크에 로드되었습니다. 메모를 검토한 뒤 스캔을 실행하세요.",
+      scanDeskMissingTarget: "첫 저장 카드를 만들려면 스캔 데스크에 잠재 고객 웹사이트를 추가하세요.",
       samePlan: "이미 __PLAN__ 플랜을 사용 중입니다.",
       checkoutUnavailable: "현재 이 플랜은 체크아웃을 사용할 수 없습니다.",
       leadDetailUnavailable: "리드 상세 정보를 불러올 수 없습니다.",
       scanInvalidUrl:
         "유효한 잠재고객 사이트 URL을 입력하세요. 크레딧은 차감되지 않았습니다. URL을 수정한 뒤 다시 시도하세요.",
+      scanSaved: "__COMPANY__ 가 Prospect Card로 저장되었습니다. 사용한 크레딧: __COUNT__.",
       scanComplete: "스캔이 완료되었습니다. 내보내기나 아웃리치 작성 전에 Prospect Card를 확인하세요.",
       scanFailed: "스캔에 실패했습니다. 크레딧은 차감되지 않았습니다. URL을 수정한 뒤 다시 시도하세요.",
+      onboardingDismissed: "설정 가이드를 닫았습니다.",
+      onboardingUpdateFailed: "온보딩을 업데이트할 수 없습니다.",
+      csvExportPrepared: "__LABEL__ 필드로 CSV를 준비했습니다.",
       csvExportFailed: "CSV 내보내기에 실패했습니다.",
       billingPortalUnavailable: "결제 포털을 아직 사용할 수 없습니다.",
       signedOutDemo: "로그아웃되었습니다. 데모 미리보기를 표시합니다.",
+      selectLeadBeforeExport: "내보내기 전에 최소 한 개의 리드를 선택하세요.",
+      selectedLeadExported: "선택한 __COUNT__개 리드를 __LABEL__ 필드로 내보냈습니다.",
+      selectedLeadExportFailed: "선택한 리드 내보내기에 실패했습니다.",
       signInRequired: "계속하려면 로그인하세요.",
       workspaceNotFound: "워크스페이스를 찾을 수 없습니다.",
       subscriptionInactive: "구독이 활성화되어 있지 않습니다. 사이트를 더 스캔하기 전에 결제를 업데이트하세요.",
-      insufficientCredits: "이 요청을 처리하기에 워크스페이스의 스캔 크레딧이 부족합니다."
+      insufficientCredits: "이 요청을 처리하기에 워크스페이스의 스캔 크레딧이 부족합니다.",
+      createFirstSavedCard: "로그인한 상태에서 Chrome 확장 프로그램이나 POST /api/scans 를 사용해 첫 저장 카드를 만드세요."
+    }
+  },
+  dashboard: {
+    onboarding: {
+      eyebrow: "첫 실행",
+      welcomeTitle: "환영합니다, __NAME__님.",
+      workspaceReadyTitle: "워크스페이스가 준비되었습니다, __NAME__님.",
+      intro:
+        "LeadCue는 이미 플랜과 기본 스코어링 설정을 준비했습니다. 첫 스캔을 완료해 Prospect Card와 내보내기 가능한 메모를 저장하세요.",
+      progress: "__COUNT__/3 준비됨",
+      markComplete: "완료로 표시",
+      checklistLabel: "워크스페이스 온보딩 체크리스트",
+      setupSnapshot: "설정 스냅샷",
+      service: "서비스",
+      industries: "업종",
+      firstTarget: "첫 대상",
+      prepareFirstScan: "첫 스캔 준비",
+      runFirstScan: "첫 스캔 실행",
+      reviewIcp: "ICP 검토",
+      tasks: {
+        profileSaved: "타겟팅 프로필 저장됨",
+        firstWebsiteQueued: "첫 웹사이트 대기열 추가됨",
+        firstProspectCard: "첫 Prospect Card"
+      },
+      descriptions: {
+        profileSaved: "스코어링이 __INDUSTRIES__에 맞게 조정되었습니다.",
+        profileTodo: "LeadCue가 평가할 오퍼와 대상 업종을 정의하세요.",
+        websiteQueued: "스캔 준비 완료: __URL__",
+        agencySaved: "에이전시 사이트 저장됨: __URL__",
+        websiteTodo: "팀이 스캔할 준비가 되면 첫 대상 웹사이트를 추가하세요.",
+        firstCardDone: "이미 __COUNT__개의 저장된 잠재 고객이 워크스페이스에 있습니다.",
+        firstCardTodo: "첫 웹사이트 스캔을 실행해 저장된 Prospect Card와 내보내기 가능한 메모를 만드세요."
+      }
+    },
+    metrics: {
+      ariaLabel: "워크스페이스 지표",
+      savedProspects: "저장된 잠재 고객",
+      currentPlan: "현재 플랜",
+      creditsLeft: "남은 크레딧",
+      subscription: "구독",
+      usedThisMonth: "이번 달 __COUNT__ 사용됨"
+    },
+    leadsPanel: {
+      eyebrow: "리드 목록",
+      title: "저장된 잠재 고객",
+      company: "회사",
+      industry: "업종",
+      fit: "적합도",
+      confidence: "신뢰도",
+      emptyTitle: "아직 저장된 잠재 고객이 없습니다.",
+      emptyCopy: "확장 프로그램이나 API에서 웹사이트 스캔을 실행하면 저장된 Prospect Card가 여기에 표시됩니다.",
+      filterLabel: "리드 필터",
+      tableLabel: "저장된 리드"
+    },
+    emptyProspect: {
+      eyebrow: "잠재 고객 카드",
+      title: "첫 저장 카드가 여기에 표시됩니다",
+      copy: "LeadCue는 스캔이 완료되면 적합도 점수, 웹사이트 근거, 아웃리치 각도, 첫 문장, 내보내기 메모를 저장합니다.",
+      cta: "첫 스캔 준비"
+    },
+    icpPanel: {
+      eyebrow: "ICP 설정",
+      title: "에이전시 모드",
+      serviceType: "서비스 유형",
+      targetIndustries: "대상 업종",
+      countries: "국가",
+      tone: "톤",
+      firstTarget: "첫 대상"
+    },
+    signalPanel: {
+      eyebrow: "시그널",
+      title: "현재 스캔 구성"
+    },
+    workbench: {
+      title: "워크플로우 레인",
+      import: {
+        eyebrow: "가져오기",
+        title: "일괄 목록 만들기",
+        copy: "팀이 계정 검토를 시작하기 전에 도메인을 붙여넣거나 CSV를 업로드하세요.",
+        metricLabel: "대기 중인 웹사이트"
+      },
+      queue: {
+        eyebrow: "검토",
+        title: "다음 웹사이트 선별",
+        copy: "아직 스캔이 필요한 계정과 사람이 검증해야 하는 계정을 확인하세요.",
+        metricLabel: "검토 준비됨"
+      },
+      saved: {
+        eyebrow: "저장됨",
+        title: "승인된 계정 인계",
+        copy: "웹사이트 근거와 각도가 아웃리치에 충분할 때만 계정을 이곳으로 이동하세요.",
+        metricLabel: "인계 준비됨"
+      },
+      scan: {
+        eyebrow: "스캔 데스크",
+        title: "다음 웹사이트 실행",
+        copy: "단일 사이트 리서치는 유지하되 전체 앱의 기본 흐름이 아니라 일괄 워크플로우 안의 보조 레인으로 사용하세요.",
+        metricLabel: "현재 리서치 중"
+      }
+    },
+    queuePanel: {
+      eyebrow: "대기열 개요",
+      title: "다음에 검토할 항목",
+      ready: "준비됨",
+      researching: "리서치 중",
+      imported: "가져옴",
+      workspaceSource: "워크스페이스 리드",
+      openSite: "사이트 열기",
+      moveToScanDesk: "스캔 데스크로 이동",
+      reviewCard: "카드 열기",
+      emptyTitle: "대기열에서 기다리는 웹사이트가 없습니다.",
+      emptyCopy: "목록을 가져오거나 첫 번째 웹사이트를 스캔해 팀의 작업을 만드세요."
+    },
+    savedPanel: {
+      eyebrow: "저장된 인계",
+      title: "이미 내보낼 준비가 된 항목",
+      qualified: "적격",
+      outreachQueued: "아웃리치 대기",
+      exported: "내보냄",
+      openCard: "카드 열기",
+      emptyTitle: "아직 준비된 저장 계정이 없습니다.",
+      emptyCopy: "담당자, 단계, 메모가 준비되면 강한 계정을 검토 대기열에서 이동하세요."
+    },
+    nextAction: {
+      startWorkspace: "무료로 시작",
+      importWebsites: "웹사이트 가져오기",
+      openQueue: "검토 대기열 열기",
+      manualScan: "수동 스캔 사용",
+      sampleTitle: "데모 워크스페이스 미리보기입니다",
+      sampleCopy: "로그인해 실제 워크스페이스를 다시 열거나, 웹사이트를 대기열에 가져오기 전에 무료로 시작해 워크스페이스를 만드세요.",
+      loadErrorTitle: "이 워크스페이스를 다시 열 수 없습니다",
+      loadErrorCopy: "저장된 대기열과 내보낸 컨텍스트는 보호됩니다. 먼저 워크스페이스를 새로고침하고, 문제가 계속되면 다시 로그인하세요.",
+      retryWorkspace: "워크스페이스 새로고침",
+      manualEyebrow: "수동 레인",
+      manualTitle: "웹사이트 하나만 리서치해야 하나요?",
+      manualCopy: "일회성 리서치를 위해 단일 사이트 스캔은 유지하되 기본 홈 흐름이 아닌 보조 레인으로 사용하세요.",
+      openManual: "수동 스캔 열기"
     }
   },
   options: {
-    leadSort: {
-      newest: "최신 저장순",
-      fit_desc: "적합도",
-      confidence_desc: "신뢰도",
-      company_asc: "회사명 A-Z"
-    },
     scanHistoryFilters: {
-      all: "전체",
-      completed: "완료",
-      failed: "실패",
       replayed: "재사용",
       processing: "처리 중"
     },
@@ -2002,58 +2888,6 @@ const ko: AppUiExtraOverride = {
       replayed: "재사용",
       processing: "처리 중",
       unknown: "알 수 없는 이유"
-    }
-  },
-  dashboard: {
-    onboarding: {
-      eyebrow: "첫 설정",
-      progress: "__COUNT__/3 완료",
-      markComplete: "완료로 표시",
-      setupSnapshot: "설정 개요",
-      service: "서비스",
-      industries: "산업",
-      firstTarget: "첫 대상",
-      prepareFirstScan: "첫 스캔 준비",
-      runFirstScan: "첫 스캔 실행",
-      reviewIcp: "ICP 검토"
-    },
-    metrics: {
-      ariaLabel: "워크스페이스 지표",
-      savedProspects: "저장된 잠재고객",
-      currentPlan: "현재 플랜",
-      creditsLeft: "남은 크레딧",
-      subscription: "구독 상태",
-      usedThisMonth: "이번 달 __COUNT__ 사용"
-    },
-    leadsPanel: {
-      eyebrow: "리드 목록",
-      title: "저장된 잠재고객",
-      company: "회사",
-      industry: "산업",
-      fit: "적합도",
-      confidence: "신뢰도",
-      emptyTitle: "저장된 잠재고객이 아직 없습니다.",
-      emptyCopy: "확장 프로그램이나 API로 웹사이트를 스캔하면 저장된 Prospect Card가 여기에 표시됩니다.",
-      filterLabel: "리드 필터",
-      tableLabel: "저장된 리드"
-    },
-    emptyProspect: {
-      eyebrow: "Prospect Card",
-      title: "첫 저장 카드가 여기에 표시됩니다",
-      cta: "첫 스캔 준비"
-    },
-    icpPanel: {
-      eyebrow: "ICP 설정",
-      title: "에이전시 모드",
-      serviceType: "서비스 유형",
-      targetIndustries: "대상 산업",
-      countries: "국가",
-      tone: "톤",
-      firstTarget: "첫 대상"
-    },
-    signalPanel: {
-      eyebrow: "시그널",
-      title: "현재 스캔 구성"
     }
   },
   leads: {
@@ -2238,6 +3072,68 @@ const ko: AppUiExtraOverride = {
 };
 
 const de: AppUiExtraOverride = {
+  nav: {
+    dashboard: "Übersicht",
+    import: "Importe",
+    leads: "Review-Warteschlange",
+    saved: "Gespeicherte Accounts",
+    icp: "ICP",
+    credits: "Abrechnung",
+    analytics: "Ablauf",
+    account: "Konto"
+  },
+  pages: {
+    dashboard: {
+      eyebrow: "Arbeitsbereich",
+      title: "Übersicht",
+      copy: "Von importierten Websites zu qualifizierten Accounts und exportbereiter Übergabe, ohne Website-Kontext zu verlieren."
+    },
+    leads: {
+      eyebrow: "Review-Warteschlange",
+      title: "Review-Warteschlange",
+      copy: "Importierte oder in Recherche befindliche Accounts bearbeiten, bevor sie in die gespeicherte Übergabeliste verschoben werden."
+    },
+    icp: {
+      eyebrow: "ICP",
+      title: "ICP",
+      copy: "Definieren Sie, wie LeadCue Fit, Dringlichkeit und Umsetzbarkeit bewerten soll, bevor das Team weitere Websites scannt."
+    },
+    billing: {
+      eyebrow: "Abrechnung",
+      title: "Abrechnung",
+      copy: "Credits, Abonnementstatus und Exportkapazität überwachen, ohne den Workspace zu verlassen."
+    },
+    import: {
+      eyebrow: "Batch-Recherche",
+      title: "Websites importieren",
+      copy: "Domains einfügen oder CSV hochladen, um eine website-first Review-Warteschlange für diesen Workspace aufzubauen."
+    },
+    saved: {
+      eyebrow: "Gespeicherte Accounts",
+      title: "Gespeicherte Accounts",
+      copy: "Accounts exportieren, die bereits geprüft wurden und für Outbound- oder CRM-Übergabe bereit sind."
+    },
+    analytics: {
+      eyebrow: "Workflow",
+      title: "Workflow-Analytik",
+      copy: "Nachverfolgen, wie Websites in die Warteschlange gelangen, zu qualifizierten Accounts werden und als Exporte den Workspace verlassen."
+    },
+    account: {
+      eyebrow: "Konto",
+      title: "Konto",
+      copy: "Workspace-Identität, Passwortzugang und Abrechnungszuständigkeit aktualisieren, ohne den Workflow zu unterbrechen."
+    }
+  },
+  billing: {
+    plans: {
+      useCases: {
+        free: "Validieren Sie den Workflow mit echten Websites, bevor Sie kostenpflichtig erweitern.",
+        starter: "Für Einzelunternehmer, die einen wöchentlichen Outbound-Rhythmus aufbauen.",
+        pro: "Für Agenturen, die Prospect-Research in eine reproduzierbare Pipeline verwandeln.",
+        agency: "Für Teams, die Scan-Credits über mehrere Kundenangebote hinweg teilen."
+      }
+    }
+  },
   common: {
     loading: "Wird geladen",
     sample: "Beispiel",
@@ -2279,26 +3175,40 @@ const de: AppUiExtraOverride = {
     messages: {
       demoPreviewIntro:
         "Demo-Vorschau. Erstellen Sie einen Workspace, um Prospects zu speichern und Credits zu verfolgen.",
+      sampleWorkspaceData: "__ERROR__ Beispieldaten des Workspaces werden angezeigt.",
+      sampleWorkspaceDataPlain: "Beispieldaten des Workspaces werden angezeigt.",
+      workspaceDataUnavailable: "Dieser Workspace kann gerade nicht geladen werden. Aktualisieren Sie die Seite und versuchen Sie es erneut.",
       billingActiveSetup: "Abrechnung ist aktiv. Schließen Sie unten zuerst das Setup ab.",
       workspaceCreatedSetup: "Workspace erstellt. Schließen Sie unten zuerst das Setup ab.",
       signedIn: "Angemeldet.",
+      scanDeskLoaded: "__URL__ ist im Scan-Bereich geladen. Prüfen Sie die Notizen und starten Sie dann den Scan.",
+      scanDeskMissingTarget: "Fügen Sie im Scan-Bereich eine Prospect-Website hinzu, um die erste gespeicherte Karte zu erstellen.",
       samePlan: "Sie nutzen bereits den Tarif __PLAN__.",
       checkoutUnavailable: "Checkout ist für diesen Tarif derzeit nicht verfügbar.",
       leadDetailUnavailable: "Leaddetails konnten nicht geladen werden.",
       scanInvalidUrl:
         "Geben Sie eine gültige Prospect-URL ein. Es wurde kein Credit verbraucht. Korrigieren Sie die URL und versuchen Sie es erneut.",
+      scanSaved: "__COMPANY__ wurde als Prospect Card gespeichert. Verbrauchte Credits: __COUNT__.",
       scanComplete:
         "Scan abgeschlossen. Prüfen Sie zuerst die Prospect Card, bevor Sie exportieren oder Outreach schreiben.",
       scanFailed:
         "Scan fehlgeschlagen. Es wurde kein Credit verbraucht. Korrigieren Sie die URL und versuchen Sie es erneut.",
+      onboardingDismissed: "Setup-Anleitung ausgeblendet.",
+      onboardingUpdateFailed: "Onboarding konnte nicht aktualisiert werden.",
+      csvExportPrepared: "CSV mit __LABEL__ Feldern vorbereitet.",
       csvExportFailed: "CSV-Export fehlgeschlagen.",
       billingPortalUnavailable: "Das Billing-Portal ist noch nicht verfügbar.",
       signedOutDemo: "Abgemeldet. Die Demo-Vorschau wird angezeigt.",
+      selectLeadBeforeExport: "Wählen Sie vor dem Export mindestens einen Lead aus.",
+      selectedLeadExported: "__COUNT__ ausgewählte Leads mit __LABEL__ Feldern exportiert.",
+      selectedLeadExportFailed: "Export der ausgewählten Leads fehlgeschlagen.",
       signInRequired: "Melden Sie sich an, um fortzufahren.",
       workspaceNotFound: "Workspace nicht gefunden.",
       subscriptionInactive:
         "Ihr Abonnement ist nicht aktiv. Aktualisieren Sie die Abrechnung, bevor Sie weitere Websites scannen.",
-      insufficientCredits: "Dieser Workspace hat nicht genug Scan-Credits für diese Anfrage."
+      insufficientCredits: "Dieser Workspace hat nicht genug Scan-Credits für diese Anfrage.",
+      createFirstSavedCard:
+        "Melden Sie sich an und nutzen Sie die Chrome-Erweiterung oder POST /api/scans, um die erste gespeicherte Karte zu erstellen."
     }
   },
   options: {
@@ -2389,15 +3299,34 @@ const de: AppUiExtraOverride = {
   dashboard: {
     onboarding: {
       eyebrow: "Ersteinrichtung",
+      welcomeTitle: "Willkommen, __NAME__.",
+      workspaceReadyTitle: "Workspace bereit, __NAME__.",
+      intro:
+        "LeadCue hat Ihren Tarif und die Standardwerte für das Scoring bereits vorbereitet. Schließen Sie einen Scan ab, um Prospect Cards und exportbereite Notizen zu speichern.",
       progress: "__COUNT__/3 erledigt",
       markComplete: "Als erledigt markieren",
+      checklistLabel: "Onboarding-Checkliste des Workspaces",
       setupSnapshot: "Setup-Übersicht",
-      service: "Service",
+      service: "Leistung",
       industries: "Branchen",
       firstTarget: "Erstes Ziel",
       prepareFirstScan: "Ersten Scan vorbereiten",
       runFirstScan: "Ersten Scan starten",
-      reviewIcp: "ICP prüfen"
+      reviewIcp: "ICP prüfen",
+      tasks: {
+        profileSaved: "Targeting-Profil gespeichert",
+        firstWebsiteQueued: "Erste Website in der Warteschlange",
+        firstProspectCard: "Erste Prospect Card"
+      },
+      descriptions: {
+        profileSaved: "Das Scoring ist auf __INDUSTRIES__ abgestimmt.",
+        profileTodo: "Definieren Sie Angebot und Branchen, nach denen LeadCue bewerten soll.",
+        websiteQueued: "Bereit zum Scannen: __URL__",
+        agencySaved: "Agentur-Website gespeichert: __URL__",
+        websiteTodo: "Fügen Sie die erste Ziel-Website hinzu, sobald Ihr Team mit dem Scannen beginnen kann.",
+        firstCardDone: "__COUNT__ gespeicherte Prospects sind bereits im Workspace.",
+        firstCardTodo: "Starten Sie den ersten Website-Scan, um eine gespeicherte Prospect Card und exportbereite Notizen zu erstellen."
+      }
     },
     metrics: {
       ariaLabel: "Workspace-Kennzahlen",
@@ -2412,7 +3341,7 @@ const de: AppUiExtraOverride = {
       title: "Gespeicherte Prospects",
       company: "Unternehmen",
       industry: "Branche",
-      fit: "Fit",
+      fit: "Passung",
       confidence: "Vertrauen",
       emptyTitle: "Noch keine gespeicherten Prospects.",
       emptyCopy: "Führen Sie einen Website-Scan über die Erweiterung oder API aus, dann erscheinen gespeicherte Prospect Cards hier.",
@@ -2420,8 +3349,9 @@ const de: AppUiExtraOverride = {
       tableLabel: "Gespeicherte Leads"
     },
     emptyProspect: {
-      eyebrow: "Prospect Card",
+      eyebrow: "Prospect-Karte",
       title: "Ihre erste gespeicherte Karte erscheint hier",
+      copy: "LeadCue speichert nach einem abgeschlossenen Scan Passungs-Score, Website-Belege, Outreach-Ansätze, Einstiegszeilen und Exportnotizen.",
       cta: "Ersten Scan vorbereiten"
     },
     icpPanel: {
@@ -2436,6 +3366,74 @@ const de: AppUiExtraOverride = {
     signalPanel: {
       eyebrow: "Signale",
       title: "Aktueller Scan-Mix"
+    },
+    workbench: {
+      title: "Workflow-Bereiche",
+      import: {
+        eyebrow: "Importe",
+        title: "Batch-Liste aufbauen",
+        copy: "Fügen Sie Domains ein oder laden Sie eine CSV hoch, bevor das Team mit der Prüfung der Accounts beginnt.",
+        metricLabel: "Websites in der Warteschlange"
+      },
+      queue: {
+        eyebrow: "Prüfung",
+        title: "Die nächsten Websites priorisieren",
+        copy: "Sehen Sie, welche Accounts noch einen Scan brauchen und welche bereits eine manuelle Qualifizierung erfordern.",
+        metricLabel: "Bereit zur Prüfung"
+      },
+      saved: {
+        eyebrow: "Gespeichert",
+        title: "Freigegebene Accounts übergeben",
+        copy: "Verschieben Sie Accounts erst hierher, wenn Website-Belege und Outreach-Ansatz stark genug sind.",
+        metricLabel: "Bereit zur Übergabe"
+      },
+      scan: {
+        eyebrow: "Scan-Bereich",
+        title: "Die nächste Website scannen",
+        copy: "Halten Sie die Recherche einzelner Websites verfügbar, aber nutzen Sie sie als Bereich innerhalb des Batch-Workflows statt als gesamte App-Ansicht.",
+        metricLabel: "Gerade in Recherche"
+      }
+    },
+    queuePanel: {
+      eyebrow: "Warteschlangen-Überblick",
+      title: "Was als Nächstes geprüft werden muss",
+      ready: "Bereit",
+      researching: "In Recherche",
+      imported: "Importiert",
+      workspaceSource: "Workspace-Lead",
+      openSite: "Website öffnen",
+      moveToScanDesk: "In Scan-Bereich verschieben",
+      reviewCard: "Karte öffnen",
+      emptyTitle: "Keine Websites warten in der Warteschlange.",
+      emptyCopy: "Importieren Sie eine Liste oder scannen Sie die erste Website, um Arbeit für das Team zu erzeugen."
+    },
+    savedPanel: {
+      eyebrow: "Gespeicherte Übergabe",
+      title: "Was bereits exportbereit ist",
+      qualified: "Qualifiziert",
+      outreachQueued: "Outreach eingeplant",
+      exported: "Exporte",
+      openCard: "Karte öffnen",
+      emptyTitle: "Noch keine gespeicherten Accounts sind bereit.",
+      emptyCopy: "Verschieben Sie starke Accounts aus der Review-Warteschlange, sobald Verantwortliche, Phase und Notizen bereit sind."
+    },
+    nextAction: {
+      startWorkspace: "Kostenlos starten",
+      importWebsites: "Websites importieren",
+      openQueue: "Review-Warteschlange öffnen",
+      manualScan: "Stattdessen manuellen Scan nutzen",
+      sampleTitle: "Dies ist die Demo-Vorschau des Workspaces",
+      sampleCopy:
+        "Melden Sie sich an, um Ihren echten Workspace erneut zu öffnen, oder starten Sie kostenlos, um einen Workspace zu erstellen, bevor Sie Websites in die Warteschlange importieren.",
+      loadErrorTitle: "Dieser Workspace konnte nicht erneut geöffnet werden",
+      loadErrorCopy:
+        "Ihre gespeicherte Warteschlange und exportierten Kontexte sind weiterhin geschützt. Aktualisieren Sie zuerst den Workspace und melden Sie sich erneut an, wenn das Problem bleibt.",
+      retryWorkspace: "Workspace aktualisieren",
+      manualEyebrow: "Manueller Bereich",
+      manualTitle: "Möchten Sie stattdessen nur eine einzelne Website recherchieren?",
+      manualCopy:
+        "Behalten Sie den Scan einzelner Websites für punktuelle Recherche bei, aber behandeln Sie ihn als Nebenbereich statt als Standard-Workflow auf der Startseite.",
+      openManual: "Manuellen Scan öffnen"
     }
   },
   leads: {
@@ -2620,6 +3618,68 @@ const de: AppUiExtraOverride = {
 };
 
 const nl: AppUiExtraOverride = {
+  nav: {
+    dashboard: "Overzicht",
+    import: "Importeren",
+    leads: "Reviewwachtrij",
+    saved: "Opgeslagen accounts",
+    icp: "ICP",
+    credits: "Facturering",
+    analytics: "Proces",
+    account: "Profiel"
+  },
+  pages: {
+    dashboard: {
+      eyebrow: "Werkruimte",
+      title: "Overzicht",
+      copy: "Van geïmporteerde websites naar gekwalificeerde accounts en exportklare overdracht, zonder websitecontext te verliezen."
+    },
+    leads: {
+      eyebrow: "Reviewwachtrij",
+      title: "Reviewwachtrij",
+      copy: "Verwerk geïmporteerde of onderzochte accounts voordat ze naar de opgeslagen overdrachtslijst gaan."
+    },
+    icp: {
+      eyebrow: "ICP",
+      title: "ICP",
+      copy: "Bepaal hoe LeadCue fit, urgentie en uitvoerbaarheid moet scoren voordat het team meer websites scant."
+    },
+    billing: {
+      eyebrow: "Facturering",
+      title: "Facturering",
+      copy: "Credits, abonnementsstatus en exportcapaciteit volgen zonder de werkruimte te verlaten."
+    },
+    import: {
+      eyebrow: "Batch-onderzoek",
+      title: "Websites importeren",
+      copy: "Plak domeinen of upload een CSV om een website-first reviewwachtrij voor deze werkruimte te bouwen."
+    },
+    saved: {
+      eyebrow: "Opgeslagen accounts",
+      title: "Opgeslagen accounts",
+      copy: "Exporteer accounts die al zijn goedgekeurd en klaar voor outreach of CRM-overdracht."
+    },
+    analytics: {
+      eyebrow: "Workflow",
+      title: "Workflow-analyse",
+      copy: "Volg hoe websites de wachtrij in gaan, gekwalificeerde accounts worden en de werkruimte verlaten als exports."
+    },
+    account: {
+      eyebrow: "Account",
+      title: "Account",
+      copy: "Werkruimte-identiteit, wachtwoordtoegang en factureringseigendom bijwerken zonder de workflow te onderbreken."
+    }
+  },
+  billing: {
+    plans: {
+      useCases: {
+        free: "Valideer de workflow met echte websites voordat u betaald uitbreidt.",
+        starter: "Voor solo-operators die een wekelijks outbound-ritme opbouwen.",
+        pro: "Voor bureaus die prospect-onderzoek omzetten in een herhaalbare pipeline.",
+        agency: "Voor teams die scan-credits delen over meerdere klantaanbiedingen."
+      }
+    }
+  },
   common: {
     loading: "Laden",
     sample: "Voorbeeld",
@@ -2661,26 +3721,40 @@ const nl: AppUiExtraOverride = {
     messages: {
       demoPreviewIntro:
         "Demo-preview. Maak een workspace aan om prospects op te slaan en credits te volgen.",
+      sampleWorkspaceData: "__ERROR__ Voorbeeldgegevens van de workspace worden getoond.",
+      sampleWorkspaceDataPlain: "Voorbeeldgegevens van de workspace worden getoond.",
+      workspaceDataUnavailable: "We kunnen deze workspace nu niet laden. Vernieuw en probeer opnieuw.",
       billingActiveSetup: "Facturatie is actief. Rond eerst hieronder de eerste setup af.",
       workspaceCreatedSetup: "Workspace aangemaakt. Rond eerst hieronder de eerste setup af.",
       signedIn: "Ingelogd.",
+      scanDeskLoaded: "__URL__ staat in het scandesk klaar. Bekijk de notities en start daarna de scan.",
+      scanDeskMissingTarget: "Voeg een prospectwebsite toe in het scandesk om de eerste opgeslagen kaart te maken.",
       samePlan: "U gebruikt al het __PLAN__-abonnement.",
       checkoutUnavailable: "Checkout is momenteel niet beschikbaar voor dit abonnement.",
       leadDetailUnavailable: "Kan leaddetails niet laden.",
       scanInvalidUrl:
         "Voer een geldige prospectwebsite-URL in. Er zijn geen credits gebruikt. Corrigeer de URL en probeer het opnieuw.",
+      scanSaved: "__COMPANY__ opgeslagen als Prospect Card. Gebruikte credits: __COUNT__.",
       scanComplete:
         "Scan voltooid. Bekijk eerst de Prospect Card voordat u exporteert of outreach schrijft.",
       scanFailed:
         "Scan mislukt. Er zijn geen credits gebruikt. Corrigeer de URL en probeer het opnieuw.",
+      onboardingDismissed: "Setupgids gesloten.",
+      onboardingUpdateFailed: "Onboarding kon niet worden bijgewerkt.",
+      csvExportPrepared: "CSV voorbereid met __LABEL__ velden.",
       csvExportFailed: "CSV-export mislukt.",
       billingPortalUnavailable: "Het facturatieportaal is nog niet beschikbaar.",
       signedOutDemo: "Uitgelogd. De demo-preview wordt getoond.",
+      selectLeadBeforeExport: "Selecteer minstens één lead voordat u exporteert.",
+      selectedLeadExported: "__COUNT__ geselecteerde leads geëxporteerd met __LABEL__ velden.",
+      selectedLeadExportFailed: "Export van geselecteerde leads mislukt.",
       signInRequired: "Log in om door te gaan.",
       workspaceNotFound: "Workspace niet gevonden.",
       subscriptionInactive:
         "Uw abonnement is niet actief. Werk de facturatie bij voordat u meer websites scant.",
-      insufficientCredits: "Deze workspace heeft niet genoeg scancredits voor dit verzoek."
+      insufficientCredits: "Deze workspace heeft niet genoeg scancredits voor dit verzoek.",
+      createFirstSavedCard:
+        "Gebruik de Chrome-extensie of POST /api/scans terwijl u bent aangemeld om de eerste opgeslagen kaart te maken."
     }
   },
   options: {
@@ -2771,15 +3845,34 @@ const nl: AppUiExtraOverride = {
   dashboard: {
     onboarding: {
       eyebrow: "Eerste setup",
+      welcomeTitle: "Welkom, __NAME__.",
+      workspaceReadyTitle: "Workspace klaar, __NAME__.",
+      intro:
+        "LeadCue heeft uw plan en standaard scoringinstellingen al klaargezet. Rond één scan af om Prospect Cards en exportklare notities op te slaan.",
       progress: "__COUNT__/3 klaar",
       markComplete: "Markeer als voltooid",
+      checklistLabel: "Onboardingchecklist van de workspace",
       setupSnapshot: "Setup-overzicht",
-      service: "Service",
+      service: "Dienst",
       industries: "Branches",
       firstTarget: "Eerste doel",
       prepareFirstScan: "Eerste scan voorbereiden",
       runFirstScan: "Eerste scan uitvoeren",
-      reviewIcp: "ICP bekijken"
+      reviewIcp: "ICP bekijken",
+      tasks: {
+        profileSaved: "Targetingprofiel opgeslagen",
+        firstWebsiteQueued: "Eerste website in de wachtrij",
+        firstProspectCard: "Eerste Prospect Card"
+      },
+      descriptions: {
+        profileSaved: "De scoring is afgestemd op __INDUSTRIES__.",
+        profileTodo: "Bepaal het aanbod en de branches waarop LeadCue moet scoren.",
+        websiteQueued: "Klaar om te scannen: __URL__",
+        agencySaved: "Bureausite opgeslagen: __URL__",
+        websiteTodo: "Voeg de eerste doelwebsite toe zodra uw team klaar is om te scannen.",
+        firstCardDone: "__COUNT__ opgeslagen prospects staan al in de workspace.",
+        firstCardTodo: "Voer de eerste websitescan uit om een opgeslagen Prospect Card en exportklare notities te maken."
+      }
     },
     metrics: {
       ariaLabel: "Workspace-statistieken",
@@ -2794,7 +3887,7 @@ const nl: AppUiExtraOverride = {
       title: "Opgeslagen prospects",
       company: "Bedrijf",
       industry: "Branche",
-      fit: "Fit",
+      fit: "Match",
       confidence: "Vertrouwen",
       emptyTitle: "Nog geen opgeslagen prospects.",
       emptyCopy: "Voer een websitescan uit via de extensie of API, dan verschijnen opgeslagen Prospect Cards hier.",
@@ -2802,8 +3895,9 @@ const nl: AppUiExtraOverride = {
       tableLabel: "Opgeslagen leads"
     },
     emptyProspect: {
-      eyebrow: "Prospect Card",
+      eyebrow: "Prospectkaart",
       title: "Je eerste opgeslagen kaart verschijnt hier",
+      copy: "LeadCue slaat na een voltooide scan fit-score, websitebewijs, outreach-hoeken, openingszinnen en exportnotities op.",
       cta: "Eerste scan voorbereiden"
     },
     icpPanel: {
@@ -2818,6 +3912,73 @@ const nl: AppUiExtraOverride = {
     signalPanel: {
       eyebrow: "Signalen",
       title: "Huidige scanmix"
+    },
+    workbench: {
+      title: "Workflowbanen",
+      import: {
+        eyebrow: "Importeren",
+        title: "Batchlijst opbouwen",
+        copy: "Plak domeinen of upload een CSV voordat het team accounts gaat beoordelen.",
+        metricLabel: "Websites in de wachtrij"
+      },
+      queue: {
+        eyebrow: "Beoordeling",
+        title: "De volgende websites triëren",
+        copy: "Zie welke accounts nog een scan nodig hebben en welke al handmatige kwalificatie vereisen.",
+        metricLabel: "Klaar voor review"
+      },
+      saved: {
+        eyebrow: "Opgeslagen",
+        title: "Goedgekeurde accounts overdragen",
+        copy: "Verplaats accounts hierheen zodra het websitebewijs en de invalshoek sterk genoeg zijn voor outreach.",
+        metricLabel: "Klaar voor overdracht"
+      },
+      scan: {
+        eyebrow: "Scandesk",
+        title: "De volgende website scannen",
+        copy: "Houd onderzoek per site beschikbaar, maar gebruik het als zijbaan binnen de batchworkflow in plaats van als standaard app-flow.",
+        metricLabel: "Nu in onderzoek"
+      }
+    },
+    queuePanel: {
+      eyebrow: "Momentopname van de wachtrij",
+      title: "Wat nu review nodig heeft",
+      ready: "Klaar",
+      researching: "In onderzoek",
+      imported: "Geimporteerd",
+      workspaceSource: "Workspace-lead",
+      openSite: "Site openen",
+      moveToScanDesk: "Naar scandesk verplaatsen",
+      reviewCard: "Kaart openen",
+      emptyTitle: "Er wachten geen websites in de wachtrij.",
+      emptyCopy: "Importeer een lijst of scan de eerste website om werk voor het team te creëren."
+    },
+    savedPanel: {
+      eyebrow: "Opgeslagen overdracht",
+      title: "Wat al klaarstaat voor export",
+      qualified: "Gekwalificeerd",
+      outreachQueued: "Outreach ingepland",
+      exported: "Geexporteerd",
+      openCard: "Kaart openen",
+      emptyTitle: "Nog geen opgeslagen accounts zijn klaar.",
+      emptyCopy: "Verplaats sterke accounts uit de reviewwachtrij zodra eigenaar, fase en notities klaar zijn."
+    },
+    nextAction: {
+      startWorkspace: "Gratis starten",
+      importWebsites: "Websites importeren",
+      openQueue: "Reviewwachtrij openen",
+      manualScan: "In plaats daarvan handmatige scan gebruiken",
+      sampleTitle: "Dit is de demo-preview van de workspace",
+      sampleCopy:
+        "Meld u aan om uw echte workspace opnieuw te openen, of start gratis om er een te maken voordat u websites in de wachtrij importeert.",
+      loadErrorTitle: "We konden deze workspace niet opnieuw openen",
+      loadErrorCopy:
+        "Uw opgeslagen wachtrij en geëxporteerde context blijven beschermd. Vernieuw eerst de workspace en meld u opnieuw aan als het probleem blijft bestaan.",
+      retryWorkspace: "Workspace vernieuwen",
+      manualEyebrow: "Handmatige baan",
+      manualTitle: "Liever eerst één website onderzoeken?",
+      manualCopy: "Houd single-site scans beschikbaar voor incidenteel onderzoek, maar behandel ze als zijbaan in plaats van als de standaard startflow.",
+      openManual: "Handmatige scan openen"
     }
   },
   leads: {
@@ -3002,6 +4163,68 @@ const nl: AppUiExtraOverride = {
 };
 
 const fr: AppUiExtraOverride = {
+  nav: {
+    dashboard: "Tableau de bord",
+    import: "Importation",
+    leads: "File de revue",
+    saved: "Comptes enregistrés",
+    icp: "ICP",
+    credits: "Facturation",
+    analytics: "Flux",
+    account: "Compte"
+  },
+  pages: {
+    dashboard: {
+      eyebrow: "Espace de travail",
+      title: "Vue d'ensemble",
+      copy: "Des sites importés aux comptes qualifiés et à la remise exportable, sans perdre le contexte des sites."
+    },
+    leads: {
+      eyebrow: "File de revue",
+      title: "File de revue",
+      copy: "Traitez les comptes importés ou en cours de recherche avant de les déplacer dans la liste de remise enregistrée."
+    },
+    icp: {
+      eyebrow: "ICP",
+      title: "ICP",
+      copy: "Définissez comment LeadCue doit évaluer l'adéquation, l'urgence et la faisabilité avant que l'équipe scanne d'autres sites."
+    },
+    billing: {
+      eyebrow: "Facturation",
+      title: "Facturation",
+      copy: "Surveillez les crédits, l'état de l'abonnement et la capacité d'export sans quitter l'espace de travail."
+    },
+    import: {
+      eyebrow: "Recherche groupée",
+      title: "Importer des sites",
+      copy: "Collez des domaines ou téléversez un CSV pour constituer une file de revue site-first pour cet espace de travail."
+    },
+    saved: {
+      eyebrow: "Comptes enregistrés",
+      title: "Comptes enregistrés",
+      copy: "Exportez les comptes déjà approuvés et prêts pour l'outreach ou le transfert CRM."
+    },
+    analytics: {
+      eyebrow: "Workflow",
+      title: "Analyse du workflow",
+      copy: "Suivez comment les sites entrent dans la file, deviennent des comptes qualifiés et quittent l'espace en tant qu'exports."
+    },
+    account: {
+      eyebrow: "Compte",
+      title: "Compte",
+      copy: "Mettez à jour l'identité de l'espace, l'accès par mot de passe et la propriété de facturation sans interrompre le workflow."
+    }
+  },
+  billing: {
+    plans: {
+      useCases: {
+        free: "Validez le workflow avec de vrais sites web avant de passer à une extension payante.",
+        starter: "Pour les opérateurs solo qui construisent un rythme d'outbound hebdomadaire.",
+        pro: "Pour les agences qui transforment la recherche de prospects en pipeline reproductible.",
+        agency: "Pour les équipes qui partagent des crédits de scan entre plusieurs offres clients."
+      }
+    }
+  },
   common: {
     loading: "Chargement",
     sample: "Exemple",
@@ -3043,26 +4266,40 @@ const fr: AppUiExtraOverride = {
     messages: {
       demoPreviewIntro:
         "Aperçu démo. Créez un workspace pour enregistrer des prospects et suivre les crédits.",
+      sampleWorkspaceData: "__ERROR__ Affichage des données d'exemple du workspace.",
+      sampleWorkspaceDataPlain: "Affichage des données d'exemple du workspace.",
+      workspaceDataUnavailable: "Nous ne pouvons pas charger ce workspace pour le moment. Actualisez puis réessayez.",
       billingActiveSetup: "La facturation est active. Terminez d'abord la configuration ci-dessous.",
       workspaceCreatedSetup: "Workspace créé. Terminez d'abord la configuration ci-dessous.",
       signedIn: "Connecté.",
+      scanDeskLoaded: "__URL__ est chargé dans le bureau de scan. Vérifiez les notes puis lancez le scan.",
+      scanDeskMissingTarget: "Ajoutez un site prospect dans le bureau de scan pour créer la première carte enregistrée.",
       samePlan: "Vous êtes déjà sur l'offre __PLAN__.",
       checkoutUnavailable: "Le paiement n'est pas disponible pour cette offre pour le moment.",
       leadDetailUnavailable: "Impossible de charger le détail du lead.",
       scanInvalidUrl:
         "Saisissez une URL de site prospect valide. Aucun crédit n'a été consommé. Corrigez l'URL puis réessayez.",
+      scanSaved: "__COMPANY__ enregistré comme Prospect Card. Crédits utilisés : __COUNT__.",
       scanComplete:
         "Scan terminé. Vérifiez d'abord la Prospect Card avant d'exporter ou de rédiger un message.",
       scanFailed:
         "Le scan a échoué. Aucun crédit n'a été consommé. Corrigez l'URL puis réessayez.",
+      onboardingDismissed: "Guide de configuration masqué.",
+      onboardingUpdateFailed: "Impossible de mettre à jour l'onboarding.",
+      csvExportPrepared: "CSV préparé avec les champs __LABEL__.",
       csvExportFailed: "L'export CSV a échoué.",
       billingPortalUnavailable: "Le portail de facturation n'est pas encore disponible.",
       signedOutDemo: "Déconnecté. L'aperçu démo est affiché.",
+      selectLeadBeforeExport: "Sélectionnez au moins un lead avant d'exporter.",
+      selectedLeadExported: "__COUNT__ leads sélectionnés exportés avec les champs __LABEL__.",
+      selectedLeadExportFailed: "L'export des leads sélectionnés a échoué.",
       signInRequired: "Connectez-vous pour continuer.",
       workspaceNotFound: "Workspace introuvable.",
       subscriptionInactive:
         "Votre abonnement n'est pas actif. Mettez à jour la facturation avant de scanner d'autres sites.",
-      insufficientCredits: "Ce workspace n'a pas assez de crédits de scan pour cette demande."
+      insufficientCredits: "Ce workspace n'a pas assez de crédits de scan pour cette demande.",
+      createFirstSavedCard:
+        "Connectez-vous puis utilisez l'extension Chrome ou POST /api/scans pour créer la première carte enregistrée."
     }
   },
   options: {
@@ -3153,15 +4390,34 @@ const fr: AppUiExtraOverride = {
   dashboard: {
     onboarding: {
       eyebrow: "Première configuration",
+      welcomeTitle: "Bienvenue, __NAME__.",
+      workspaceReadyTitle: "Workspace prêt, __NAME__.",
+      intro:
+        "LeadCue a déjà préparé votre offre et les valeurs de scoring par défaut. Terminez un scan pour commencer à enregistrer des Prospect Cards et des notes prêtes à l'export.",
       progress: "__COUNT__/3 prêts",
       markComplete: "Marquer comme terminé",
+      checklistLabel: "Checklist d'onboarding du workspace",
       setupSnapshot: "Aperçu de la configuration",
-      service: "Service",
+      service: "Offre",
       industries: "Secteurs",
       firstTarget: "Première cible",
       prepareFirstScan: "Préparer le premier scan",
       runFirstScan: "Lancer le premier scan",
-      reviewIcp: "Vérifier l'ICP"
+      reviewIcp: "Vérifier l'ICP",
+      tasks: {
+        profileSaved: "Profil de ciblage enregistré",
+        firstWebsiteQueued: "Premier site mis en file",
+        firstProspectCard: "Première Prospect Card"
+      },
+      descriptions: {
+        profileSaved: "Le scoring est ajusté pour __INDUSTRIES__.",
+        profileTodo: "Définissez l'offre et les secteurs que LeadCue doit évaluer.",
+        websiteQueued: "Prêt à scanner : __URL__",
+        agencySaved: "Site agence enregistré : __URL__",
+        websiteTodo: "Ajoutez le premier site cible quand votre équipe est prête à scanner.",
+        firstCardDone: "__COUNT__ prospects enregistrés sont déjà dans le workspace.",
+        firstCardTodo: "Lancez le premier scan de site pour créer une Prospect Card enregistrée et des notes prêtes à l'export."
+      }
     },
     metrics: {
       ariaLabel: "Indicateurs du workspace",
@@ -3184,8 +4440,9 @@ const fr: AppUiExtraOverride = {
       tableLabel: "Leads enregistrés"
     },
     emptyProspect: {
-      eyebrow: "Prospect Card",
+      eyebrow: "Fiche prospect",
       title: "Votre première carte enregistrée apparaîtra ici",
+      copy: "Après un scan terminé, LeadCue enregistre le score d'adéquation, les preuves du site, les angles d'outreach, les premières phrases et les notes d'export.",
       cta: "Préparer le premier scan"
     },
     icpPanel: {
@@ -3200,6 +4457,73 @@ const fr: AppUiExtraOverride = {
     signalPanel: {
       eyebrow: "Signaux",
       title: "Répartition actuelle des scans"
+    },
+    workbench: {
+      title: "Voies du workflow",
+      import: {
+        eyebrow: "Importation",
+        title: "Construire la liste batch",
+        copy: "Collez des domaines ou téléversez un CSV avant que l'équipe commence la revue des comptes.",
+        metricLabel: "Sites en file"
+      },
+      queue: {
+        eyebrow: "Revue",
+        title: "Trier les prochains sites",
+        copy: "Voyez quels comptes ont encore besoin d'un scan et lesquels ont déjà besoin d'une qualification humaine.",
+        metricLabel: "Prêt pour la revue"
+      },
+      saved: {
+        eyebrow: "Enregistré",
+        title: "Transmettre les comptes approuvés",
+        copy: "Déplacez les comptes ici seulement quand les preuves du site et l'angle sont assez solides pour l'outreach.",
+        metricLabel: "Prêt pour la remise"
+      },
+      scan: {
+        eyebrow: "Bureau de scan",
+        title: "Lancer le prochain site",
+        copy: "Gardez la recherche site par site disponible, mais comme une voie latérale dans le workflow batch plutôt que comme le flux principal de l'app.",
+        metricLabel: "En recherche"
+      }
+    },
+    queuePanel: {
+      eyebrow: "Aperçu de la file",
+      title: "Ce qui doit être revu ensuite",
+      ready: "Prêt",
+      researching: "En recherche",
+      imported: "Importé",
+      workspaceSource: "Lead du workspace",
+      openSite: "Ouvrir le site",
+      moveToScanDesk: "Déplacer vers le bureau de scan",
+      reviewCard: "Ouvrir la fiche",
+      emptyTitle: "Aucun site n'attend dans la file.",
+      emptyCopy: "Importez une liste ou scannez le premier site pour créer du travail pour l'équipe."
+    },
+    savedPanel: {
+      eyebrow: "Remise enregistrée",
+      title: "Ce qui est déjà prêt à l'export",
+      qualified: "Qualifié",
+      outreachQueued: "Outreach en attente",
+      exported: "Exportations",
+      openCard: "Ouvrir la fiche",
+      emptyTitle: "Aucun compte enregistré n'est encore prêt.",
+      emptyCopy: "Déplacez les comptes solides hors de la file de revue quand le responsable, l'étape et les notes sont prêts."
+    },
+    nextAction: {
+      startWorkspace: "Commencer gratuitement",
+      importWebsites: "Importer des sites",
+      openQueue: "Ouvrir la file de revue",
+      manualScan: "Utiliser plutôt le scan manuel",
+      sampleTitle: "Ceci est l'aperçu du workspace démo",
+      sampleCopy:
+        "Connectez-vous pour rouvrir votre vrai workspace, ou commencez gratuitement pour en créer un avant d'importer des sites dans la file.",
+      loadErrorTitle: "Nous n'avons pas pu rouvrir ce workspace",
+      loadErrorCopy:
+        "Votre file enregistrée et le contexte exporté restent protégés. Actualisez d'abord le workspace, puis reconnectez-vous si le problème continue.",
+      retryWorkspace: "Actualiser le workspace",
+      manualEyebrow: "Voie manuelle",
+      manualTitle: "Besoin de rechercher un seul site à la place ?",
+      manualCopy: "Gardez le scan site par site pour les recherches ponctuelles, mais traitez-le comme une voie secondaire plutôt que comme le flux d'accueil par défaut.",
+      openManual: "Ouvrir le scan manuel"
     }
   },
   leads: {

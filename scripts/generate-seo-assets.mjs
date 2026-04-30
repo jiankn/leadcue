@@ -1,5 +1,6 @@
 import { mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
+import { applyLocalizedSeoStrategy, loadLocalizedSeoStrategy } from "./localized-seo-strategy.mjs";
 import {
   authNoIndexPaths,
   buildLocalePath,
@@ -146,6 +147,14 @@ function loadJson(filePath) {
   return readFile(filePath, "utf8").then((contents) => JSON.parse(contents));
 }
 
+function getHomeKeywordList(homeKeywordSet) {
+  return [
+    homeKeywordSet.primaryKeyword,
+    ...(homeKeywordSet.secondaryKeywords ?? []),
+    ...(homeKeywordSet.longTailKeywords ?? [])
+  ];
+}
+
 function buildRoutes(bundles, homeKeywords) {
   const routes = [];
 
@@ -164,7 +173,7 @@ function buildRoutes(bundles, homeKeywords) {
       eyebrow: siteUi.home.hero.eyebrow,
       title: siteUi.home.seo.title.replace(" | LeadCue", ""),
       description: siteUi.home.seo.description,
-      keywords: [homeKeywordSet.primaryKeyword, ...homeKeywordSet.secondaryKeywords],
+      keywords: getHomeKeywordList(homeKeywordSet),
       supportLine: siteUi.home.hero.subhead
     });
 
@@ -260,11 +269,32 @@ function renderHeaders() {
 }
 
 async function main() {
-  const bundles = {
+  const rawBundles = {
     siteUi: await loadJson(path.join(generatedDir, "site-ui.locales.json")),
     seoPages: await loadJson(path.join(generatedDir, "seo-pages.locales.json")),
     productPages: await loadJson(path.join(generatedDir, "product-pages.locales.json")),
     commercialPages: await loadJson(path.join(generatedDir, "commercial-pages.locales.json"))
+  };
+  const localizedSeoStrategy = await loadLocalizedSeoStrategy();
+  const localeData = applyLocalizedSeoStrategy(
+    Object.fromEntries(
+      localeMeta.map((locale) => [
+        locale.code,
+        {
+          siteUi: rawBundles.siteUi[locale.code] ?? rawBundles.siteUi.en,
+          seoPages: rawBundles.seoPages[locale.code] ?? rawBundles.seoPages.en,
+          productPages: rawBundles.productPages[locale.code] ?? rawBundles.productPages.en,
+          commercialPages: rawBundles.commercialPages[locale.code] ?? rawBundles.commercialPages.en
+        }
+      ])
+    ),
+    localizedSeoStrategy
+  );
+  const bundles = {
+    siteUi: Object.fromEntries(Object.entries(localeData).map(([locale, bundle]) => [locale, bundle.siteUi])),
+    seoPages: Object.fromEntries(Object.entries(localeData).map(([locale, bundle]) => [locale, bundle.seoPages])),
+    productPages: Object.fromEntries(Object.entries(localeData).map(([locale, bundle]) => [locale, bundle.productPages])),
+    commercialPages: Object.fromEntries(Object.entries(localeData).map(([locale, bundle]) => [locale, bundle.commercialPages]))
   };
   const homeKeywords = await loadJson(homeKeywordPath);
   const routes = buildRoutes(bundles, homeKeywords);

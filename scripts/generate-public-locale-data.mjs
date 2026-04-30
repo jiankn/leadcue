@@ -1,6 +1,7 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { applyLocalizedSeoStrategy, loadLocalizedSeoStrategy } from "./localized-seo-strategy.mjs";
 import { curateLocalizedString, protectedTerms } from "./public-locale-curation.mjs";
 import { siteUrl } from "./seo-utils.mjs";
 
@@ -32,6 +33,14 @@ const siteLocales = [
 ];
 
 const batchSize = 24;
+const translateRetryCount = 3;
+const shouldTranslateMissing = process.env.LEADCUE_TRANSLATE_MISSING !== "0";
+
+function wait(ms) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+}
 
 function protectTermsInString(value) {
   const protectedEntries = [];
@@ -193,7 +202,25 @@ async function googleTranslate(targetLocale, segments) {
     "&q=" +
     encodeURIComponent(joined);
 
-  const response = await fetch(url);
+  let response;
+  let lastError;
+
+  for (let attempt = 1; attempt <= translateRetryCount; attempt += 1) {
+    try {
+      response = await fetch(url);
+      break;
+    } catch (error) {
+      lastError = error;
+
+      if (attempt < translateRetryCount) {
+        await wait(attempt * 1500);
+      }
+    }
+  }
+
+  if (!response) {
+    throw lastError ?? new Error("Translate request failed before receiving a response");
+  }
 
   if (!response.ok) {
     throw new Error(`Translate request failed with ${response.status}`);
@@ -244,9 +271,22 @@ async function translateStrings(strings, locale, cache) {
     missingValues.push(value);
   });
 
+  if (!shouldTranslateMissing && missingValues.length > 0) {
+    console.warn(`Skipping machine translation for ${locale}; keeping ${missingValues.length} uncached source strings.`);
+    return results;
+  }
+
   for (let start = 0; start < missingValues.length; start += batchSize) {
     const batch = missingValues.slice(start, start + batchSize);
-    const translatedBatch = await googleTranslate(localeTargets[locale], batch);
+    let translatedBatch;
+
+    try {
+      translatedBatch = await googleTranslate(localeTargets[locale], batch);
+    } catch (error) {
+      console.warn(`Translate failed for ${locale}; keeping ${batch.length} source strings for this batch.`);
+      console.warn(error instanceof Error ? error.message : String(error));
+      translatedBatch = batch;
+    }
 
     translatedBatch.forEach((translated, offset) => {
       const sourceValue = batch[offset];
@@ -416,24 +456,27 @@ async function main() {
     console.log(`Prepared public locale data for ${locale}.`);
   }
 
+  const localizedSeoStrategy = await loadLocalizedSeoStrategy();
+  const finalLocaleData = applyLocalizedSeoStrategy(localeData, localizedSeoStrategy);
+
   await mkdir(generatedDir, { recursive: true });
 
   await Promise.all([
     writeFile(path.join(generatedDir, "site-ui.locales.json"), JSON.stringify(Object.fromEntries(
-      Object.entries(localeData).map(([locale, bundle]) => [locale, bundle.siteUi])
+      Object.entries(finalLocaleData).map(([locale, bundle]) => [locale, bundle.siteUi])
     ), null, 2) + "\n", "utf8"),
     writeFile(path.join(generatedDir, "seo-pages.locales.json"), JSON.stringify(Object.fromEntries(
-      Object.entries(localeData).map(([locale, bundle]) => [locale, bundle.seoPages])
+      Object.entries(finalLocaleData).map(([locale, bundle]) => [locale, bundle.seoPages])
     ), null, 2) + "\n", "utf8"),
     writeFile(path.join(generatedDir, "product-pages.locales.json"), JSON.stringify(Object.fromEntries(
-      Object.entries(localeData).map(([locale, bundle]) => [locale, bundle.productPages])
+      Object.entries(finalLocaleData).map(([locale, bundle]) => [locale, bundle.productPages])
     ), null, 2) + "\n", "utf8"),
     writeFile(path.join(generatedDir, "commercial-pages.locales.json"), JSON.stringify(Object.fromEntries(
-      Object.entries(localeData).map(([locale, bundle]) => [locale, bundle.commercialPages])
+      Object.entries(finalLocaleData).map(([locale, bundle]) => [locale, bundle.commercialPages])
     ), null, 2) + "\n", "utf8")
   ]);
 
-  await writeFile(path.join(publicDir, "sitemap.xml"), renderSitemap(localeData), "utf8");
+  await writeFile(path.join(publicDir, "sitemap.xml"), renderSitemap(finalLocaleData), "utf8");
 
   await writeCache(cache);
   console.log("Generated localized public content bundles.");

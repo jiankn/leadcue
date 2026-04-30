@@ -1,17 +1,17 @@
 # LeadCue
 
-LeadCue is an AI website prospecting assistant for SEO, web design, and marketing agencies.
+LeadCue is a website-first outbound research workspace for SEO, web design, and growth agencies.
 
-It turns an active company website into a Prospect Card with:
+It helps teams turn a company website into a qualified outreach opportunity before the account hits CRM or email tools, with:
 
 - company summary
 - ICP fit score
-- public contact points
-- website-based sales cues
+- visible website evidence
+- reason-to-contact cues
+- public contact paths
 - outreach angles
-- cold email first lines
-- a short cold email draft
-- source-backed notes
+- first lines
+- export-ready notes
 
 ## Repository Structure
 
@@ -107,7 +107,7 @@ For multilingual SEO deployment and monitoring, use `qa/multilingual-seo-operati
 
 ## Current MVP Coverage
 
-- Landing page using the PRD copy and positioning.
+- Landing page using the website-first research-layer positioning.
 - Dashboard prototype with saved leads, Prospect Card, ICP settings, credits, and signal mix.
 - Chrome side panel that extracts active page title, meta description, H1, visible text, links, emails, and phones.
 - `/api/scans` endpoint that returns a Prospect Card and saves it to D1 when configured.

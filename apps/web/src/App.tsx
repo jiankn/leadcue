@@ -73,16 +73,58 @@ type LeadSortOption = "newest" | "fit_desc" | "confidence_desc" | "company_asc";
 type ActivityChangedField = ProspectPipelineActivity["changedFields"][number];
 type ActivityFieldFilter = "all" | ActivityChangedField;
 type ProspectCardTab = "overview" | "signals" | "contacts" | "outreach" | "email" | "sources" | "export";
+type AppSection = "dashboard" | "leads" | "import" | "saved" | "icp" | "billing" | "analytics" | "account";
+type BatchSourceOption = "manual" | "csv" | "apollo" | "clay" | "directory";
+type ReviewQueueFilter = "all" | "ready" | "researching";
 type PipelineContextSaveResult = {
   context: ProspectPipelineContext;
   activity?: ProspectPipelineActivity | null;
 };
+type ImportedWebsiteRecord = {
+  id: string;
+  url: string;
+  domain: string;
+  companyName: string;
+  source: BatchSourceOption;
+  note: string;
+  createdAt: string;
+};
+type ReviewQueueRow =
+  | {
+      id: string;
+      kind: "import";
+      companyName: string;
+      domain: string;
+      websiteUrl: string;
+      source: BatchSourceOption;
+      status: "ready" | "researching" | "qualified";
+      fitScore: number | null;
+      confidencePercent: number | null;
+      leadId: string | null;
+      note: string;
+      createdAt: string;
+    }
+  | {
+      id: string;
+      kind: "lead";
+      companyName: string;
+      domain: string;
+      websiteUrl: string;
+      source: "workspace";
+      status: "researching";
+      fitScore: number;
+      confidencePercent: number;
+      leadId: string;
+      note: string;
+      createdAt: string;
+    };
 
 const scanHistoryFilters: ScanHistoryFilter[] = ["all", "completed", "failed", "replayed", "processing"];
 
 const historyDateFilters: HistoryDateFilter[] = ["all", "today", "7d", "30d"];
 
 const leadSortOptions: LeadSortOption[] = ["newest", "fit_desc", "confidence_desc", "company_asc"];
+const batchSourceOptions: BatchSourceOption[] = ["manual", "csv", "apollo", "clay", "directory"];
 
 const prospectCardTabs: ProspectCardTab[] = ["overview", "signals", "contacts", "outreach", "email", "sources", "export"];
 
@@ -97,6 +139,9 @@ const defaultProspectMeta: ProspectPipelineContext = {
   notes: "",
   updatedAt: null
 };
+
+const IMPORT_QUEUE_STORAGE_PREFIX = "leadcue_import_queue_v1";
+const SCAN_DRAFT_STORAGE_PREFIX = "leadcue_scan_draft_v1";
 
 function buildDemoLeads(locale: SiteLocaleCode): ProspectCardType[] {
   const sampleContent = getSampleLocaleContent(locale);
@@ -391,8 +436,6 @@ type IcpFormState = {
   tone: string;
   firstProspectUrl: string;
 };
-
-type AppSection = "dashboard" | "leads" | "icp" | "billing" | "analytics" | "account";
 
 function buildSampleWorkspace(locale: SiteLocaleCode, leadCount: number, firstProspectUrl: string): WorkspaceSnapshot {
   const plan = PRICING_PLANS[0];
@@ -692,6 +735,7 @@ function getProductSeoPage(pathname: string, locale: SiteLocaleCode): ProductSeo
 type SeoHeadProps = {
   title: string;
   description: string;
+  keywords?: string[];
   path: string;
   locale: SiteLocaleCode;
   noIndex?: boolean;
@@ -717,6 +761,10 @@ function setMetaTag(attribute: "name" | "property", value: string, content: stri
   }
 
   element.setAttribute("content", content);
+}
+
+function removeMetaTag(attribute: "name" | "property", value: string) {
+  document.head.querySelector<HTMLMetaElement>(`meta[${attribute}="${value}"]`)?.remove();
 }
 
 function setCanonicalLink(href: string) {
@@ -762,6 +810,7 @@ function setAlternateLinks(path: string, noIndex: boolean) {
 function SeoHead({
   title,
   description,
+  keywords = [],
   path,
   locale,
   noIndex = false,
@@ -775,11 +824,17 @@ function SeoHead({
   const imageUrl = absoluteUrl(resolvedImage);
   const resolvedImageAlt = imageAlt ?? getSeoImageAlt(title);
   const structuredDataJson = structuredData ? JSON.stringify(structuredData) : "";
+  const keywordContent = keywords.filter(Boolean).join(", ");
   const searchEngineVerifications = useMemo(() => getSearchEngineVerifications(), []);
 
   useEffect(() => {
     document.title = title;
     setMetaTag("name", "description", description);
+    if (!noIndex && keywordContent) {
+      setMetaTag("name", "keywords", keywordContent);
+    } else {
+      removeMetaTag("name", "keywords");
+    }
     setMetaTag("name", "robots", noIndex ? "noindex,nofollow" : "index,follow");
     setMetaTag("property", "og:title", title);
     setMetaTag("property", "og:description", description);
@@ -825,7 +880,7 @@ function SeoHead({
     if (!existingScript) {
       document.head.appendChild(script);
     }
-  }, [canonicalUrl, description, imageUrl, noIndex, path, resolvedImageAlt, searchEngineVerifications, structuredDataJson, title, type]);
+  }, [canonicalUrl, description, imageUrl, keywordContent, noIndex, path, resolvedImageAlt, searchEngineVerifications, structuredDataJson, title, type]);
 
   return null;
 }
@@ -953,6 +1008,11 @@ function MarketingSite() {
   const seoPages = getSeoPages(locale);
   const productPages = getProductPages(locale);
   const homeKeywordSet = homeSeoKeywords[locale] ?? homeSeoKeywords.en;
+  const homeKeywordsForStructuredData = [
+    homeKeywordSet.primaryKeyword,
+    ...homeKeywordSet.secondaryKeywords,
+    ...(homeKeywordSet.longTailKeywords ?? [])
+  ];
   const homeStructuredData = {
     "@context": "https://schema.org",
     "@graph": [
@@ -972,7 +1032,7 @@ function MarketingSite() {
         description: home.seo.structuredDescription,
         inLanguage: getLocaleHtmlLang(locale),
         image: absoluteUrl(getSeoImagePath(locale, "/")),
-        keywords: [homeKeywordSet.primaryKeyword, ...homeKeywordSet.secondaryKeywords].join(", ")
+        keywords: homeKeywordsForStructuredData.join(", ")
       },
       {
         "@type": "SoftwareApplication",
@@ -982,7 +1042,7 @@ function MarketingSite() {
         url: absoluteUrl("/", locale),
         inLanguage: getLocaleHtmlLang(locale),
         image: absoluteUrl(getSeoImagePath(locale, "/")),
-        keywords: [homeKeywordSet.primaryKeyword, ...homeKeywordSet.secondaryKeywords].join(", "),
+        keywords: homeKeywordsForStructuredData.join(", "),
         offers: PRICING_PLANS.map((plan) => ({
           "@type": "Offer",
           name: plan.name,
@@ -999,6 +1059,7 @@ function MarketingSite() {
       <SeoHead
         title={home.seo.title}
         description={home.seo.description}
+        keywords={homeKeywordsForStructuredData}
         path="/"
         locale={locale}
         structuredData={homeStructuredData}
@@ -1020,7 +1081,7 @@ function MarketingSite() {
           <a className="button button-small button-secondary" href={localizeHref("/login")}>
             {siteUi.nav.signIn}
           </a>
-          <a className="button button-small button-primary" href={localizeHref("/signup?plan=free")}>
+          <a className="button button-small button-primary" href={localizeHref("/login")}>
             <Icon name="mail" />
             {siteUi.nav.startFree}
           </a>
@@ -1036,7 +1097,7 @@ function MarketingSite() {
             </h1>
             <p className="hero-subhead">{home.hero.subhead}</p>
             <div className="hero-actions">
-              <a className="button button-primary" href={localizeHref("/signup?plan=free")}>
+              <a className="button button-primary" href={localizeHref("/signup")}>
                 <Icon name="mail" />
                 {home.hero.primaryCta}
               </a>
@@ -1280,7 +1341,7 @@ function MarketingSite() {
                 ))}
               </div>
               <div className="sample-card-actions">
-                <a className="button button-primary" href={localizeHref("/signup?plan=free&first=https%3A%2F%2Fnorthstaranalytics.example")}>
+                <a className="button button-primary" href={localizeHref("/signup?first=https%3A%2F%2Fnorthstaranalytics.example")}>
                   <Icon name="scan" />
                   {home.sampleCard.primaryCta}
                 </a>
@@ -1305,7 +1366,7 @@ function MarketingSite() {
                 <article className="use-case-card" key={item.title}>
                   <h3>{item.title}</h3>
                   <p>{item.copy}</p>
-                  <a href={localizeHref(`/signup?focus=${(["web_design", "seo", "marketing"] as const)[index]}&plan=free`)}>
+                  <a href={localizeHref(`/signup?focus=${(["web_design", "seo", "marketing"] as const)[index]}`)}>
                     {item.cta}
                     <Icon name="arrow" />
                   </a>
@@ -1506,7 +1567,7 @@ function MarketingSite() {
                   </button>
                 </div>
               </form>
-              <a className="button button-primary" href={localizeHref("/signup?plan=free")}>
+              <a className="button button-primary" href={localizeHref("/signup")}>
                 <Icon name="mail" />
                 {home.launch.startFree}
               </a>
@@ -1552,7 +1613,7 @@ function MarketingSite() {
           <div>
             <a href={localizeHref("/privacy")}>{home.footer.privacyPolicy}</a>
             <a href={localizeHref("/terms")}>{home.footer.termsAndConditions}</a>
-            <a href={localizeHref("/signup?plan=free")}>{home.launch.startFree}</a>
+            <a href={localizeHref("/signup")}>{home.launch.startFree}</a>
           </div>
         </div>
       </footer>
@@ -1653,6 +1714,7 @@ function SeoContentPageView({ page }: { page: SeoContentPage }) {
       <SeoHead
         title={page.seoTitle}
         description={page.description}
+        keywords={[page.primaryKeyword, ...page.secondaryKeywords]}
         path={path}
         locale={locale}
         type="article"
@@ -1670,7 +1732,7 @@ function SeoContentPageView({ page }: { page: SeoContentPage }) {
           <a href={localizeHref("/agency-lead-qualification")}>{siteUi.content.seoNav.qualification}</a>
         </nav>
         <LanguageSwitcher />
-        <a className="button button-small button-primary topbar-back" href={localizeHref("/signup?plan=free")}>
+        <a className="button button-small button-primary topbar-back" href={localizeHref("/signup")}>
           {siteUi.common.startFree}
         </a>
       </header>
@@ -1787,7 +1849,7 @@ function SeoContentPageView({ page }: { page: SeoContentPage }) {
             <p className="eyebrow">{siteUi.common.useOnRealAccount}</p>
             <h2>{siteUi.content.ctaTitleSeo}</h2>
           </div>
-          <a className="button button-primary" href={localizeHref("/signup?plan=free")}>
+          <a className="button button-primary" href={localizeHref("/signup")}>
             <Icon name="scan" />
             {siteUi.common.startFreeScan}
           </a>
@@ -1903,6 +1965,7 @@ function ProductSeoPageView({ page }: { page: ProductSeoPage }) {
       <SeoHead
         title={page.seoTitle}
         description={page.description}
+        keywords={[page.primaryKeyword, ...page.secondaryKeywords]}
         path={path}
         locale={locale}
         type="article"
@@ -1914,13 +1977,16 @@ function ProductSeoPageView({ page }: { page: ProductSeoPage }) {
           <span>{siteUi.common.brand}</span>
         </a>
         <nav className="content-nav" aria-label={siteUi.home.footer.resourcesTitle}>
+          <a href={localizeHref("/tools/prospect-research-chrome-extension")}>{siteUi.content.productNav.extension}</a>
+          <a href={localizeHref("/tools/batch-website-review-queue")}>{siteUi.content.productNav.reviewQueue}</a>
+          <a href={localizeHref("/tools/outreach-context-workspace")}>{siteUi.content.productNav.workspace}</a>
           <a href={localizeHref("/templates/crm-csv-field-mapping")}>{siteUi.content.productNav.csvTool}</a>
           <a href={localizeHref("/templates/cold-email-first-line")}>{siteUi.content.productNav.firstLines}</a>
           <a href={localizeHref("/templates/website-prospecting-checklist")}>{siteUi.content.productNav.checklist}</a>
           <a href={localizeHref("/integrations/hubspot-csv-export")}>{siteUi.content.productNav.integrations}</a>
         </nav>
         <LanguageSwitcher />
-        <a className="button button-small button-primary topbar-back" href={localizeHref("/signup?plan=free")}>
+        <a className="button button-small button-primary topbar-back" href={localizeHref("/signup")}>
           {siteUi.common.startFree}
         </a>
       </header>
@@ -1991,7 +2057,7 @@ function ProductSeoPageView({ page }: { page: ProductSeoPage }) {
               <div className="tool-conversion-actions">
                 <a
                   className="button button-primary"
-                  href={localizeHref(`/signup?plan=free${page.tool === "integration" ? "&focus=marketing" : page.tool === "first-line" ? "&focus=web_design" : ""}`)}
+                  href={localizeHref(`/signup${page.tool === "integration" ? "?focus=marketing" : page.tool === "first-line" ? "?focus=web_design" : ""}`)}
                   onClick={() => {
                     void trackEvent({
                       name: "product_tool_primary_click",
@@ -2082,7 +2148,7 @@ function ProductSeoPageView({ page }: { page: ProductSeoPage }) {
           </div>
           <a
             className="button button-primary"
-            href={localizeHref("/signup?plan=free")}
+            href={localizeHref("/signup")}
             onClick={() => {
               void trackEvent({
                 name: "product_tool_primary_click",
@@ -2104,6 +2170,10 @@ function ProductSeoPageView({ page }: { page: ProductSeoPage }) {
 }
 
 function ProductToolSurface({ page }: { page: ProductSeoPage }) {
+  if (page.tool === "workflow") {
+    return <ProductWorkflowTool page={page} />;
+  }
+
   if (page.tool === "crm-mapping") {
     return <CrmFieldMappingTool />;
   }
@@ -2117,6 +2187,66 @@ function ProductToolSurface({ page }: { page: ProductSeoPage }) {
   }
 
   return <IntegrationExportTool platform={page.platform ?? "HubSpot"} />;
+}
+
+function ProductWorkflowTool({ page }: { page: ProductSeoPage }) {
+  const { localizeHref, siteUi } = usePublicSite();
+  const workflowSections = page.sections.slice(0, 2);
+
+  return (
+    <div className="product-tool">
+      <div className="product-tool-head">
+        <div>
+          <p className="eyebrow">{page.category}</p>
+          <h2>{page.intent}</h2>
+          <p>{page.description}</p>
+        </div>
+        <div className="tool-actions">
+          <a className="button button-secondary" href={localizeHref("/templates/website-prospecting-checklist")}>
+            <Icon name="clipboard" />
+            {siteUi.content.productNav.checklist}
+          </a>
+          <a className="button button-primary" href={localizeHref("/signup")}>
+            <Icon name="scan" />
+            {siteUi.common.startFreeScan}
+          </a>
+        </div>
+      </div>
+
+      <div className="tool-kpi-strip">
+        <div>
+          <span>{page.secondaryKeywords[0]}</span>
+          <strong>{page.primaryKeyword}</strong>
+        </div>
+        <div>
+          <span>{siteUi.common.searchIntent}</span>
+          <strong>{page.readingTime}</strong>
+        </div>
+        <div>
+          <span>{siteUi.content.productNav.workspace}</span>
+          <strong>{siteUi.common.relatedResources}</strong>
+        </div>
+      </div>
+
+      <div className="tool-advice-grid">
+        {workflowSections.map((section) => (
+          <article className="tool-advice-card" key={section.title}>
+            <span>{page.category}</span>
+            <h3>{section.title}</h3>
+            <p>{section.copy}</p>
+            <ul>
+              {section.items.slice(0, 3).map((item) => (
+                <li key={item}>
+                  <Icon name="check" />
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </article>
+        ))}
+      </div>
+    </div>
+  );
 }
 
 function CrmFieldMappingTool() {
@@ -2401,7 +2531,7 @@ function FirstLineTemplateTool() {
         </button>
         <a
           className="button button-secondary"
-          href={localizeHref(`/signup?plan=free&focus=${agencyMode}`)}
+          href={localizeHref(`/signup?focus=${agencyMode}`)}
           onClick={() => {
             void trackEvent({
               name: "product_tool_primary_click",
@@ -2521,7 +2651,7 @@ function WebsiteProspectingChecklistTool() {
         </button>
         <a
           className="button button-secondary"
-          href={localizeHref(`/signup?plan=free&focus=${agencyMode}`)}
+          href={localizeHref(`/signup?focus=${agencyMode}`)}
           onClick={() => {
             void trackEvent({ name: "product_tool_primary_click", metadata: { tool: "checklist", agencyMode } });
           }}
@@ -2650,6 +2780,7 @@ function CommercialPage({ slug }: { slug: CommercialPageSlug }) {
       <SeoHead
         title={`${page.title} | LeadCue`}
         description={page.summary}
+        keywords={[page.eyebrow, ...page.sections.map((section) => section.title)]}
         path={path}
         locale={locale}
         structuredData={getCommercialStructuredData(page, slug, locale)}
@@ -2665,7 +2796,7 @@ function CommercialPage({ slug }: { slug: CommercialPageSlug }) {
           <a href={localizeHref("/contact")}>{siteUi.content.commercialNav.contact}</a>
         </nav>
         <LanguageSwitcher />
-        <a className="button button-small button-primary topbar-back" href={localizeHref("/signup?plan=free")}>
+        <a className="button button-small button-primary topbar-back" href={localizeHref("/signup")}>
           {siteUi.common.startFree}
         </a>
       </header>
@@ -2735,7 +2866,7 @@ function CommercialPage({ slug }: { slug: CommercialPageSlug }) {
             <p className="eyebrow">{siteUi.commercial.nextStepEyebrow}</p>
             <h2>{siteUi.commercial.nextStepTitle}</h2>
           </div>
-          <a className="button button-primary" href={localizeHref("/signup?plan=free")}>
+          <a className="button button-primary" href={localizeHref("/signup")}>
             <Icon name="scan" />
             {siteUi.common.startFreeScan}
           </a>
@@ -2928,7 +3059,7 @@ function translateAppErrorMessage(message: string, appUi: AppUi) {
     case "D1 is not initialized. Apply migrations to enable scan history.":
     case "D1 is not initialized. Apply migrations to enable persistence.":
     case "D1 is not initialized. Apply migrations to enable credit tracking.":
-      return appUi.common.messages.sampleWorkspaceDataPlain;
+      return appUi.common.messages.workspaceDataUnavailable;
     case "Sign in before managing billing.":
       return appUi.common.messages.signInRequired;
     case "Workspace not found.":
@@ -3030,6 +3161,10 @@ function formatToneLabel(value?: string | null, appUi?: AppUi) {
     fallbackAppUi.options.tones[value as keyof AppUi["options"]["tones"]] ||
     humanizeEnumLabel(value)
   );
+}
+
+function formatPipelineStage(value: ProspectPipelineStage, appUi?: AppUi) {
+  return appUi?.options.pipelineStages[value] || fallbackAppUi.options.pipelineStages[value] || humanizeEnumLabel(value);
 }
 
 function formatSignalCategory(value: OpportunitySignal["category"], appUi?: AppUi) {
@@ -3287,6 +3422,116 @@ function companyNameFromUrl(value: string) {
     .join(" ");
 }
 
+function getLeadPipelineStage(lead: LeadListItem) {
+  return normalizeProspectMeta(lead.pipelineContext).stage;
+}
+
+function importQueueStorageKey(workspaceId?: string | null) {
+  return `${IMPORT_QUEUE_STORAGE_PREFIX}:${workspaceId || "default"}`;
+}
+
+function scanDraftStorageKey(workspaceId?: string | null) {
+  return `${SCAN_DRAFT_STORAGE_PREFIX}:${workspaceId || "default"}`;
+}
+
+function normalizeBatchWebsiteCandidate(value: string) {
+  const trimmed = value.trim().replace(/^["']|["']$/g, "");
+  if (!trimmed || trimmed.includes("@")) {
+    return null;
+  }
+
+  if (/^https?:\/\//i.test(trimmed)) {
+    return normalizeWebsiteUrl(trimmed);
+  }
+
+  if (/^[a-z0-9.-]+\.[a-z]{2,}(?:\/.*)?$/i.test(trimmed)) {
+    return normalizeWebsiteUrl(`https://${trimmed}`);
+  }
+
+  return null;
+}
+
+function parseImportedWebsiteText(
+  value: string,
+  source: BatchSourceOption,
+  note: string,
+  existingDomains: Set<string>
+) {
+  const seenDomains = new Set(existingDomains);
+  const items: ImportedWebsiteRecord[] = [];
+  let skipped = 0;
+
+  value
+    .split(/\r?\n/)
+    .flatMap((line) => line.split(/[,\t;]+/))
+    .map((part) => part.trim())
+    .filter(Boolean)
+    .forEach((candidate) => {
+      const normalizedUrl = normalizeBatchWebsiteCandidate(candidate);
+      if (!normalizedUrl) {
+        skipped += 1;
+        return;
+      }
+
+      const domain = hostnameFromUrl(normalizedUrl);
+      if (!domain || seenDomains.has(domain)) {
+        skipped += 1;
+        return;
+      }
+
+      seenDomains.add(domain);
+      items.push({
+        id: `import_${crypto.randomUUID()}`,
+        url: normalizedUrl,
+        domain,
+        companyName: companyNameFromUrl(normalizedUrl),
+        source,
+        note: note.trim(),
+        createdAt: new Date().toISOString()
+      });
+    });
+
+  return { items, skipped };
+}
+
+function readStoredImportQueue(workspaceId?: string | null) {
+  if (typeof window === "undefined") {
+    return [] as ImportedWebsiteRecord[];
+  }
+
+  try {
+    const raw = localStorage.getItem(importQueueStorageKey(workspaceId));
+    if (!raw) {
+      return [];
+    }
+
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed)) {
+      return [];
+    }
+
+    return parsed
+      .filter((item): item is ImportedWebsiteRecord => Boolean(item && typeof item === "object"))
+      .map((item) => ({
+        id: typeof item.id === "string" ? item.id : `import_${crypto.randomUUID()}`,
+        url: typeof item.url === "string" ? item.url : "",
+        domain: typeof item.domain === "string" ? item.domain : hostnameFromUrl(item.url || ""),
+        companyName:
+          typeof item.companyName === "string" && item.companyName.trim()
+            ? item.companyName
+            : companyNameFromUrl(item.url || item.domain || ""),
+        source: batchSourceOptions.includes(item.source as BatchSourceOption)
+          ? (item.source as BatchSourceOption)
+          : "manual",
+        note: typeof item.note === "string" ? item.note : "",
+        createdAt: typeof item.createdAt === "string" ? item.createdAt : new Date().toISOString()
+      }))
+      .filter((item) => item.url && item.domain);
+  } catch {
+    return [];
+  }
+}
+
 function serviceTypeForFocus(value?: string | null): ServiceType {
   return value === "seo" || value === "web_design" || value === "marketing" || value === "custom"
     ? value
@@ -3308,6 +3553,12 @@ function parseEditableList(value: string, fallback: string[]): string[] {
 }
 
 function getAppSection(pathname: string): AppSection {
+  if (pathname.startsWith("/app/import")) {
+    return "import";
+  }
+  if (pathname.startsWith("/app/accounts")) {
+    return "saved";
+  }
   if (pathname.startsWith("/app/leads")) {
     return "leads";
   }
@@ -3694,7 +3945,7 @@ function LoginPage() {
             </div>
             <a
               className="button button-secondary auth-signup-button"
-              href={localizeHref("/signup?plan=free")}
+              href={localizeHref("/signup")}
               onClick={() => {
                 void trackEvent({ name: "auth_signup_cta_click", metadata: { source: "login_page" } });
               }}
@@ -3899,6 +4150,18 @@ function SignupPage() {
     { step: 1 as const, label: signupCopy.stepBasics },
     { step: 2 as const, label: signupCopy.stepScoring }
   ];
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+
+    if (params.get("plan") !== "free") {
+      return;
+    }
+
+    params.delete("plan");
+    const nextHref = `${buildLocalePath(locale, "/signup")}${params.toString() ? `?${params.toString()}` : ""}`;
+    window.history.replaceState(null, "", nextHref);
+  }, [locale]);
 
   function updateSignupField<Key extends keyof SignupFormState>(field: Key) {
     return (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -4302,7 +4565,8 @@ function DashboardApp() {
   const appUi = getAppUi(locale);
   const appQuery = useMemo(() => new URLSearchParams(window.location.search), []);
   const appSection = getAppSection(window.location.pathname);
-  const pageCopy = appUi.pages[appSection] ?? appUi.pages.dashboard;
+  const pageCopy =
+    (appUi.pages as Record<string, { eyebrow: string; title: string; copy: string }>)[appSection] || appUi.pages.dashboard;
   const sampleProspectCard = useMemo(() => buildSampleProspectCard(locale), [locale]);
   const demoLeadRows = useMemo(() => buildDemoLeadRows(locale), [locale]);
   const demoScanHistory = useMemo(() => buildDemoScanHistory(locale), [locale]);
@@ -4311,18 +4575,79 @@ function DashboardApp() {
     [demoLeadRows.length, locale, sampleProspectCard.website]
   );
   const sampleAnalyticsSummary = useMemo(() => buildSampleAnalyticsSummary(locale), [locale]);
+  const sampleDashboardProspect = useMemo(
+    () => ({
+      ...sampleProspectCard,
+      savedStatus: "saved" as const,
+      exportStatus: "not_exported" as const,
+      pipelineContext: { ...defaultProspectMeta }
+    }),
+    [sampleProspectCard]
+  );
+  const initialWorkspace = useMemo<WorkspaceSnapshot>(
+    () => ({
+      ...sampleWorkspace,
+      source: "d1",
+      workspace: {
+        ...sampleWorkspace.workspace,
+        name: siteUi.common.brand
+      },
+      setup: {
+        ...sampleWorkspace.setup,
+        targetIndustries: [],
+        targetCountries: [],
+        offerDescription: "",
+        agencyWebsite: null,
+        firstProspectUrl: null
+      },
+      onboarding: {
+        completedAt: null,
+        isComplete: false
+      },
+      credits: {
+        ...sampleWorkspace.credits,
+        used: 0,
+        remaining: sampleWorkspace.plan.monthlyCredits
+      },
+      leadCount: 0
+    }),
+    [sampleWorkspace, siteUi.common.brand]
+  );
+  const initialAnalyticsSummary = useMemo<AnalyticsSummary>(
+    () => ({
+      source: "d1",
+      totals: {
+        events: 0,
+        scansCompleted: 0,
+        leadsSaved: 0,
+        exportsCompleted: 0
+      },
+      funnel: {
+        ctaClicks: 0,
+        signupsCompleted: 0,
+        loginsCompleted: 0,
+        scansCompleted: 0,
+        exportsCompleted: 0
+      },
+      topPages: [],
+      topEvents: [],
+      recentEvents: [],
+      recommendations: []
+    }),
+    []
+  );
   const welcomeFlow = appQuery.get("welcome") === "1";
   const loginFlow = appQuery.get("login") === "1";
   const checkoutSuccess = appQuery.get("checkout") === "success";
-  const [snapshot, setSnapshot] = useState<WorkspaceSnapshot>(sampleWorkspace);
-  const [leads, setLeads] = useState<LeadListItem[]>(demoLeadRows);
-  const [scanHistory, setScanHistory] = useState<ScanHistoryItem[]>(demoScanHistory);
+  const [snapshot, setSnapshot] = useState<WorkspaceSnapshot>(initialWorkspace);
+  const [leads, setLeads] = useState<LeadListItem[]>([]);
+  const [scanHistory, setScanHistory] = useState<ScanHistoryItem[]>([]);
   const [historyState, setHistoryState] = useState<"loading" | "ready" | "sample" | "error">("loading");
   const [historyFilter, setHistoryFilter] = useState<ScanHistoryFilter>("all");
   const [historyDateFilter, setHistoryDateFilter] = useState<HistoryDateFilter>("all");
   const [historyReasonFilter, setHistoryReasonFilter] = useState("all");
   const [expandedScanId, setExpandedScanId] = useState<string | null>(null);
-  const [analyticsSummary, setAnalyticsSummary] = useState<AnalyticsSummary>(sampleAnalyticsSummary);
+  const [analyticsSummary, setAnalyticsSummary] = useState<AnalyticsSummary>(initialAnalyticsSummary);
   const [analyticsState, setAnalyticsState] = useState<"loading" | "ready" | "sample" | "error">("loading");
   const [leadSearch, setLeadSearch] = useState("");
   const [leadSort, setLeadSort] = useState<LeadSortOption>("newest");
@@ -4332,12 +4657,12 @@ function DashboardApp() {
   const [bulkExportPreset, setBulkExportPreset] = useState<Exclude<ProspectExportPresetKey, "custom">>("crm");
   const [bulkCrmFieldMode, setBulkCrmFieldMode] = useState<ProspectCrmFieldMode>("hubspot");
   const [bulkExportState, setBulkExportState] = useState<"idle" | "loading" | "error">("idle");
-  const [dashboardState, setDashboardState] = useState<"loading" | "ready" | "sample">("loading");
+  const [dashboardState, setDashboardState] = useState<"loading" | "ready" | "sample" | "error">("loading");
   const [dashboardMessage, setDashboardMessage] = useState("");
   const [auth, setAuth] = useState<AuthMeResponse>({ authenticated: false });
   const [profileForm, setProfileForm] = useState<AccountProfileFormState>({
     name: "",
-    workspaceName: sampleWorkspace.workspace.name
+    workspaceName: initialWorkspace.workspace.name
   });
   const [profileSaveState, setProfileSaveState] = useState<"idle" | "saving" | "saved" | "error">("idle");
   const [profileMessage, setProfileMessage] = useState("");
@@ -4350,40 +4675,43 @@ function DashboardApp() {
   const [accountPasswordMessage, setAccountPasswordMessage] = useState("");
   const [showAccountPassword, setShowAccountPassword] = useState(false);
   const [onboardingState, setOnboardingState] = useState<"idle" | "saving">("idle");
-  const [icpForm, setIcpForm] = useState<IcpFormState>(() => icpFormFromSetup(sampleWorkspace.setup));
+  const [icpForm, setIcpForm] = useState<IcpFormState>(() => icpFormFromSetup(initialWorkspace.setup));
   const [icpSaveState, setIcpSaveState] = useState<"idle" | "saving" | "saved" | "error">("idle");
   const [icpMessage, setIcpMessage] = useState("");
   const [scanForm, setScanForm] = useState<ScanFormState>(() => ({
-    url: sampleWorkspace.setup.firstProspectUrl || "",
-    companyName: sampleProspectCard.companyName,
+    url: "",
+    companyName: "",
     notes: "",
     deepScan: false
   }));
   const [scanState, setScanState] = useState<"idle" | "loading" | "done" | "error">("idle");
   const [scanMessage, setScanMessage] = useState("");
-  const [activeProspect, setActiveProspect] = useState<ProspectCardType>({
-    ...sampleProspectCard,
-    savedStatus: "saved" as const,
-    exportStatus: "not_exported" as const,
-    pipelineContext: { ...defaultProspectMeta }
-  });
+  const [activeProspect, setActiveProspect] = useState<ProspectCardType | null>(null);
   const [lastScanError, setLastScanError] = useState<ScanFailureResponse | null>(null);
-  const [selectedLeadId, setSelectedLeadId] = useState<string | null>(demoLeadRows[0]?.id || null);
-  const [selectedLead, setSelectedLead] = useState<ProspectCardType | null>({
-    ...sampleProspectCard,
-    savedStatus: "saved" as const,
-    exportStatus: "not_exported" as const,
-    pipelineContext: { ...defaultProspectMeta }
-  });
-  const [selectedLeadState, setSelectedLeadState] = useState<"idle" | "loading" | "ready" | "error">("ready");
+  const [selectedLeadId, setSelectedLeadId] = useState<string | null>(null);
+  const [selectedLead, setSelectedLead] = useState<ProspectCardType | null>(null);
+  const [selectedLeadState, setSelectedLeadState] = useState<"idle" | "loading" | "ready" | "error">("idle");
   const [isLeadDrawerOpen, setLeadDrawerOpen] = useState(false);
+  const importFileInputRef = useRef<HTMLInputElement | null>(null);
+  const [importDraft, setImportDraft] = useState("");
+  const [importSource, setImportSource] = useState<BatchSourceOption>("manual");
+  const [importNote, setImportNote] = useState("");
+  const [importMessage, setImportMessage] = useState("");
+  const [importState, setImportState] = useState<"idle" | "saving" | "error" | "saved">("idle");
+  const [importedWebsites, setImportedWebsites] = useState<ImportedWebsiteRecord[]>([]);
+  const [reviewSearch, setReviewSearch] = useState("");
+  const [reviewFilter, setReviewFilter] = useState<ReviewQueueFilter>("all");
+  const [reviewSourceFilter, setReviewSourceFilter] = useState<"all" | "import" | "workspace">("all");
+  const [overviewManualModeOpen, setOverviewManualModeOpen] = useState(
+    () => typeof window !== "undefined" && window.location.hash === "#scan-console"
+  );
   const topSignals = useMemo(
     () =>
-      sampleProspectCard.opportunitySignals.reduce<Record<string, number>>((acc, signal) => {
+      (activeProspect?.opportunitySignals ?? []).reduce<Record<string, number>>((acc, signal) => {
         acc[signal.category] = (acc[signal.category] ?? 0) + 1;
         return acc;
       }, {}),
-    [sampleProspectCard]
+    [activeProspect]
   );
 
   function fetchAppApi(path: string, init?: RequestInit) {
@@ -4398,6 +4726,8 @@ function DashboardApp() {
     const requestedLeadId = appQuery.get("lead") || appQuery.get("leadId");
 
     async function loadDashboard() {
+      let authData: AuthMeResponse = { authenticated: false };
+
       try {
         const [authResponse, workspaceResponse, leadsResponse, scansResponse, analyticsResponse] = await Promise.all([
           fetchAppApi("/api/auth/me", { credentials: "include" }),
@@ -4407,24 +4737,42 @@ function DashboardApp() {
           fetchAppApi("/api/analytics/summary", { credentials: "include" })
         ]);
 
+        authData = authResponse.ok
+          ? ((await authResponse.json()) as AuthMeResponse)
+          : ({ authenticated: false } as AuthMeResponse);
+
         if (!workspaceResponse.ok) {
           const result = (await workspaceResponse.json().catch(() => ({}))) as { error?: string };
           throw new Error(result.error || appUi.common.messages.workspaceNotFound);
         }
 
-        const authData = authResponse.ok
-          ? ((await authResponse.json()) as AuthMeResponse)
-          : ({ authenticated: false } as AuthMeResponse);
         const workspaceData = (await workspaceResponse.json()) as WorkspaceSnapshot;
+        const allowSampleMode = !authData.authenticated;
+
+        if (authData.authenticated && workspaceData.source === "sample") {
+          throw new Error("Workspace data is not available yet.");
+        }
+
         const leadsData = leadsResponse.ok
           ? ((await leadsResponse.json()) as { leads?: LeadListItem[] })
-          : { leads: demoLeadRows };
+          : { leads: allowSampleMode ? demoLeadRows : [] };
         const scansData = scansResponse.ok
           ? ((await scansResponse.json()) as { scans?: ScanHistoryItem[]; source?: "d1" | "sample" })
-          : { scans: demoScanHistory, source: "sample" as const };
+          : {
+              scans: allowSampleMode ? demoScanHistory : [],
+              source: allowSampleMode ? ("sample" as const) : ("d1" as const)
+            };
         const analyticsData = analyticsResponse.ok
           ? ((await analyticsResponse.json()) as AnalyticsSummary)
-          : sampleAnalyticsSummary;
+          : allowSampleMode
+            ? sampleAnalyticsSummary
+            : initialAnalyticsSummary;
+        const scanHistoryIsUnavailable = authData.authenticated && (!scansResponse.ok || scansData.source === "sample");
+        const analyticsIsUnavailable =
+          authData.authenticated && (!analyticsResponse.ok || analyticsData.source === "sample");
+        const leadsAreUnavailable = authData.authenticated && !leadsResponse.ok;
+        const hasPartialWorkspaceDataIssue =
+          authData.authenticated && (leadsAreUnavailable || scanHistoryIsUnavailable || analyticsIsUnavailable);
         const loadedLeads = leadsData.leads?.length ? leadsData.leads : [];
         const initialLeadRow =
           requestedLeadId && loadedLeads.length
@@ -4446,8 +4794,9 @@ function DashboardApp() {
         if (!cancelled) {
           const fallbackLeadDetail = initialLeadRow ? leadPreviewProspect(initialLeadRow, sampleProspectCard) : null;
           const resolvedLeadDetail =
-            initialLeadDetail || fallbackLeadDetail || (workspaceData.source === "sample" ? activeProspect : null);
-          const resolvedLeadId = initialLeadRow?.id || (workspaceData.source === "sample" ? demoLeadRows[0]?.id || null : null);
+            initialLeadDetail || fallbackLeadDetail || (workspaceData.source === "sample" ? sampleDashboardProspect : null);
+          const resolvedLeadId =
+            initialLeadRow?.id || (workspaceData.source === "sample" ? demoLeadRows[0]?.id || null : null);
           const routeMessage = checkoutSuccess
             ? appUi.common.messages.billingActiveSetup
             : welcomeFlow
@@ -4460,19 +4809,23 @@ function DashboardApp() {
           setLeads(loadedLeads);
           setSelectedLeadId(resolvedLeadDetail ? resolvedLeadId : null);
           setSelectedLead(resolvedLeadDetail);
-          setSelectedLeadState(initialLeadDetail || workspaceData.source === "sample" ? "ready" : fallbackLeadDetail ? "error" : "idle");
-          setLeadDrawerOpen(Boolean(requestedLeadId && resolvedLeadDetail && appSection === "leads"));
-          if (initialLeadDetail) {
-            setActiveProspect(initialLeadDetail);
-          }
-          setScanHistory(scansData.scans?.length ? scansData.scans : workspaceData.source === "sample" ? demoScanHistory : []);
-          setHistoryState(scansData.source === "sample" ? "sample" : "ready");
-          setAnalyticsSummary(analyticsData);
-          setAnalyticsState(analyticsData.source === "sample" ? "sample" : "ready");
+          setSelectedLeadState(
+            workspaceData.source === "sample" || initialLeadDetail ? "ready" : fallbackLeadDetail ? "error" : "idle"
+          );
+          setLeadDrawerOpen(Boolean(requestedLeadId && resolvedLeadDetail && (appSection === "leads" || appSection === "saved")));
+          setActiveProspect(resolvedLeadDetail);
+          setScanHistory(
+            scanHistoryIsUnavailable ? [] : scansData.scans?.length ? scansData.scans : workspaceData.source === "sample" ? demoScanHistory : []
+          );
+          setHistoryState(scanHistoryIsUnavailable ? "error" : scansData.source === "sample" ? "sample" : "ready");
+          setAnalyticsSummary(analyticsIsUnavailable ? initialAnalyticsSummary : analyticsData);
+          setAnalyticsState(analyticsIsUnavailable ? "error" : analyticsData.source === "sample" ? "sample" : "ready");
           setDashboardState(workspaceData.source === "sample" ? "sample" : "ready");
           setDashboardMessage(
             authData.authenticated
-              ? (workspaceData.warning ? translateAppErrorMessage(workspaceData.warning, appUi) : routeMessage)
+              ? workspaceData.warning
+                ? translateAppErrorMessage(workspaceData.warning, appUi)
+                : routeMessage || (hasPartialWorkspaceDataIssue ? appUi.common.messages.workspaceDataUnavailable : "")
               : appUi.common.messages.demoPreviewIntro
           );
 
@@ -4486,37 +4839,20 @@ function DashboardApp() {
         }
       } catch (error) {
         if (!cancelled) {
-          setAuth({ authenticated: false });
-          setSnapshot(sampleWorkspace);
-          setLeads(demoLeadRows);
-          setScanHistory(demoScanHistory);
-          setHistoryState("sample");
-          setAnalyticsSummary(sampleAnalyticsSummary);
-          setAnalyticsState("sample");
-          setSelectedLeadId(demoLeadRows[0]?.id || null);
-          setSelectedLead({
-            ...sampleProspectCard,
-            savedStatus: "saved",
-            exportStatus: "not_exported",
-            pipelineContext: { ...defaultProspectMeta }
-          });
-          setActiveProspect({
-            ...sampleProspectCard,
-            savedStatus: "saved",
-            exportStatus: "not_exported",
-            pipelineContext: { ...defaultProspectMeta }
-          });
-          setSelectedLeadState("ready");
-          setDashboardState("sample");
-          setDashboardMessage(
-            error instanceof Error
-              ? isGenericNetworkErrorMessage(error.message)
-                ? appUi.common.messages.sampleWorkspaceDataPlain
-                : formatMessage(appUi.common.messages.sampleWorkspaceData, {
-                    error: translateAppErrorMessage(error.message, appUi)
-                  })
-              : appUi.common.messages.sampleWorkspaceDataPlain
-          );
+          setAuth(authData);
+          setSnapshot(initialWorkspace);
+          setLeads([]);
+          setScanHistory([]);
+          setHistoryState("error");
+          setAnalyticsSummary(initialAnalyticsSummary);
+          setAnalyticsState("error");
+          setSelectedLeadId(null);
+          setSelectedLead(null);
+          setActiveProspect(null);
+          setSelectedLeadState("idle");
+          setLeadDrawerOpen(false);
+          setDashboardState("error");
+          setDashboardMessage(resolveAppErrorMessage(error, appUi.common.messages.workspaceDataUnavailable, appUi));
         }
       }
     }
@@ -4535,10 +4871,66 @@ function DashboardApp() {
         : {
             ...current,
             url: snapshot.setup.firstProspectUrl || snapshot.setup.agencyWebsite || "",
-            companyName: snapshot.workspace.name.replace(/\s*workspace$/i, "") || current.companyName
+            companyName: snapshot.setup.firstProspectUrl ? companyNameFromUrl(snapshot.setup.firstProspectUrl) : current.companyName
           }
     );
-  }, [snapshot.setup.agencyWebsite, snapshot.setup.firstProspectUrl, snapshot.workspace.name]);
+  }, [snapshot.setup.agencyWebsite, snapshot.setup.firstProspectUrl]);
+
+  useEffect(() => {
+    setImportedWebsites(readStoredImportQueue(snapshot.workspace.id));
+  }, [snapshot.workspace.id]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(importQueueStorageKey(snapshot.workspace.id), JSON.stringify(importedWebsites));
+    } catch {
+      // localStorage may be unavailable in some browser contexts.
+    }
+  }, [importedWebsites, snapshot.workspace.id]);
+
+  useEffect(() => {
+    function syncOverviewManualMode() {
+      if (typeof window === "undefined") {
+        return;
+      }
+      setOverviewManualModeOpen(window.location.hash === "#scan-console");
+    }
+
+    syncOverviewManualMode();
+    window.addEventListener("hashchange", syncOverviewManualMode);
+    return () => window.removeEventListener("hashchange", syncOverviewManualMode);
+  }, []);
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(scanDraftStorageKey(snapshot.workspace.id));
+      if (!raw) {
+        return;
+      }
+
+      const parsed = JSON.parse(raw) as { url?: string; companyName?: string; notes?: string };
+      const normalizedUrl = normalizeWebsiteUrl(parsed.url || "");
+      if (!normalizedUrl) {
+        localStorage.removeItem(scanDraftStorageKey(snapshot.workspace.id));
+        return;
+      }
+
+      setScanForm({
+        url: normalizedUrl,
+        companyName: parsed.companyName?.trim() || companyNameFromUrl(normalizedUrl),
+        notes: parsed.notes?.trim() || "",
+        deepScan: false
+      });
+      localStorage.removeItem(scanDraftStorageKey(snapshot.workspace.id));
+      setDashboardMessage(
+        formatMessage(appUi.common.messages.scanDeskLoaded, {
+          url: formatCompactUrl(normalizedUrl, normalizedUrl)
+        })
+      );
+    } catch {
+      // Ignore malformed stored scan drafts.
+    }
+  }, [appUi, formatMessage, snapshot.workspace.id]);
 
   useEffect(() => {
     setIcpForm(icpFormFromSetup(snapshot.setup));
@@ -4563,25 +4955,94 @@ function DashboardApp() {
     setProfileMessage("");
   }, [auth.authenticated, auth.authenticated ? auth.user.name : "", snapshot.workspace.name]);
 
-  function prepareFirstScan() {
+  function openImportFilePicker() {
+    importFileInputRef.current?.click();
+  }
+
+  function queueWebsiteForScanDesk(target: { url: string; companyName: string; notes?: string }) {
+    const normalizedUrl = normalizeWebsiteUrl(target.url);
+    if (!normalizedUrl) {
+      return;
+    }
+
+    try {
+      localStorage.setItem(
+        scanDraftStorageKey(snapshot.workspace.id),
+        JSON.stringify({
+          url: normalizedUrl,
+          companyName: target.companyName || companyNameFromUrl(normalizedUrl),
+          notes: target.notes || ""
+        })
+      );
+    } catch {
+      // Ignore storage failures and still navigate to the scan desk.
+    }
+
+    window.location.assign("/app#scan-console");
+  }
+
+  function addImportedWebsites(rawValue: string, source: BatchSourceOption) {
+    const existingDomains = new Set([
+      ...importedWebsites.map((item) => item.domain),
+      ...leads.map((lead) => lead.domain)
+    ]);
+    const result = parseImportedWebsiteText(rawValue, source, importNote, existingDomains);
+
+    if (!result.items.length) {
+      setImportState("error");
+      setImportMessage(appUi.importer.messages.noWebsitesAdded);
+      return;
+    }
+
+    setImportedWebsites((current) => [...result.items, ...current]);
+    setImportState("saved");
+    setImportMessage(
+      formatMessage(appUi.importer.messages.added, {
+        count: result.items.length,
+        skipped: result.skipped
+      })
+    );
+    setImportDraft("");
+    setDashboardMessage(appUi.importer.messages.queueUpdated);
     void trackEvent({
-      name: "workspace_prepare_first_scan",
+      name: "workspace_batch_import_added",
       metadata: {
-        hasSeedUrl: Boolean(snapshot.setup.firstProspectUrl)
+        count: result.items.length,
+        source,
+        skipped: result.skipped
       }
     });
-    setScanForm((current) => ({
-      ...current,
-      url: snapshot.setup.firstProspectUrl || current.url,
-      companyName: snapshot.workspace.name.replace(/\s*workspace$/i, "") || current.companyName
-    }));
-    setDashboardMessage(
-      snapshot.setup.firstProspectUrl
-        ? formatMessage(appUi.common.messages.scanDeskLoaded, {
-            url: formatCompactUrl(snapshot.setup.firstProspectUrl, appUi.common.notSet)
-          })
-        : appUi.common.messages.scanDeskMissingTarget
-    );
+  }
+
+  function submitImportedWebsites(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setImportState("saving");
+    setImportMessage("");
+    addImportedWebsites(importDraft, importSource);
+  }
+
+  async function handleImportFileChange(event: ChangeEvent<HTMLInputElement>) {
+    const file = event.currentTarget.files?.[0];
+    if (!file) {
+      return;
+    }
+
+    try {
+      const content = await file.text();
+      setImportState("saving");
+      setImportMessage("");
+      addImportedWebsites(content, importSource === "manual" ? "csv" : importSource);
+    } catch {
+      setImportState("error");
+      setImportMessage(appUi.importer.messages.fileReadFailed);
+    } finally {
+      event.currentTarget.value = "";
+    }
+  }
+
+  function removeImportedWebsite(recordId: string) {
+    setImportedWebsites((current) => current.filter((item) => item.id !== recordId));
+    setDashboardMessage(appUi.importer.messages.queueUpdated);
   }
 
   function updateScanField<Key extends keyof ScanFormState>(field: Key) {
@@ -4871,7 +5332,7 @@ function DashboardApp() {
         : current
     );
     setActiveProspect((current) =>
-      selectedLead && current.domain === selectedLead.domain
+      current && selectedLead && current.domain === selectedLead.domain
         ? {
             ...current,
             pipelineContext: normalized,
@@ -4902,7 +5363,9 @@ function DashboardApp() {
       setActiveProspect(result.lead);
       setSelectedLeadState("ready");
     } catch (error) {
-      setSelectedLead(leadPreviewProspect(lead, sampleProspectCard));
+      const fallbackLead = leadPreviewProspect(lead, sampleProspectCard);
+      setSelectedLead(fallbackLead);
+      setActiveProspect(fallbackLead);
       setSelectedLeadState("error");
       setDashboardMessage(resolveAppErrorMessage(error, appUi.common.messages.leadDetailUnavailable, appUi));
     }
@@ -4933,7 +5396,7 @@ function DashboardApp() {
 
     const companyName = scanForm.companyName.trim() || companyNameFromUrl(normalizedUrl);
     const domain = hostnameFromUrl(normalizedUrl);
-    const scanSeedCopy = scanForm.notes.trim() || snapshot.setup.offerDescription || getSampleLocaleContent(locale).offerDescription;
+    const scanSeedCopy = scanForm.notes.trim() || snapshot.setup.offerDescription || DEFAULT_ICP.offerDescription;
     const scanPayload: ScanRequest = {
       source: "web",
       locale,
@@ -5144,7 +5607,7 @@ function DashboardApp() {
       link.click();
       link.remove();
       URL.revokeObjectURL(url);
-      setActiveProspect((current) => ({ ...current, exportStatus: "exported" }));
+      setActiveProspect((current) => (current ? { ...current, exportStatus: "exported" } : current));
       void trackEvent({
         name: "export_completed",
         metadata: {
@@ -5206,18 +5669,8 @@ function DashboardApp() {
     setHistoryReasonFilter("all");
     setSelectedLeadIds([]);
     setSelectedLeadId(demoLeadRows[0]?.id || null);
-    setSelectedLead({
-      ...sampleProspectCard,
-      savedStatus: "saved",
-      exportStatus: "not_exported",
-      pipelineContext: { ...defaultProspectMeta }
-    });
-    setActiveProspect({
-      ...sampleProspectCard,
-      savedStatus: "saved",
-      exportStatus: "not_exported",
-      pipelineContext: { ...defaultProspectMeta }
-    });
+    setSelectedLead(sampleDashboardProspect);
+    setActiveProspect(sampleDashboardProspect);
     setSelectedLeadState("ready");
     setLeadDrawerOpen(false);
     setProfileSaveState("idle");
@@ -5329,14 +5782,79 @@ function DashboardApp() {
     setExpandedScanId(null);
   }
 
-  const metricRows = [
-    [appUi.dashboard.metrics.savedProspects, String(snapshot.leadCount || leads.length)],
-    [appUi.dashboard.metrics.currentPlan, snapshot.plan.name],
-    [appUi.dashboard.metrics.creditsLeft, snapshot.credits.remaining.toLocaleString()],
-    [appUi.dashboard.metrics.subscription, formatSubscriptionStatus(snapshot.subscription.status, appUi)]
-  ];
   const isSampleDashboard = dashboardState === "sample";
-  const sourceLeads = leads.length ? leads : isSampleDashboard ? demoLeadRows : [];
+  const workspaceLeads = leads.length ? leads : isSampleDashboard ? demoLeadRows : [];
+  const leadByDomain = useMemo(() => new Map(workspaceLeads.map((lead) => [lead.domain, lead] as const)), [workspaceLeads]);
+  const importedQueueRows = useMemo<Array<Extract<ReviewQueueRow, { kind: "import" }>>>(
+    () =>
+      importedWebsites.map((item) => {
+        const matchedLead = leadByDomain.get(item.domain);
+        const stage = matchedLead ? getLeadPipelineStage(matchedLead) : "ready";
+
+        return {
+          id: item.id,
+          kind: "import",
+          companyName: matchedLead?.companyName || item.companyName,
+          domain: item.domain,
+          websiteUrl: matchedLead?.websiteUrl || item.url,
+          source: item.source,
+          status: stage === "ready" ? "ready" : stage === "researching" ? "researching" : "qualified",
+          fitScore: matchedLead?.fitScore ?? null,
+          confidencePercent: matchedLead ? Math.round(matchedLead.confidenceScore * 100) : null,
+          leadId: matchedLead?.id || null,
+          note: item.note,
+          createdAt: item.createdAt
+        };
+      }),
+    [importedWebsites, leadByDomain]
+  );
+  const savedSourceLeads = useMemo(
+    () => workspaceLeads.filter((lead) => {
+      const stage = getLeadPipelineStage(lead);
+      return stage !== "researching" && stage !== "archived";
+    }),
+    [workspaceLeads]
+  );
+  const sourceLeads = savedSourceLeads;
+  const importedDomains = useMemo(() => new Set(importedWebsites.map((item) => item.domain)), [importedWebsites]);
+  const orphanResearchLeads = useMemo<ReviewQueueRow[]>(
+    () =>
+      workspaceLeads
+        .filter((lead) => getLeadPipelineStage(lead) === "researching" && !importedDomains.has(lead.domain))
+        .map((lead) => ({
+          id: lead.id,
+          kind: "lead",
+          companyName: lead.companyName,
+          domain: lead.domain,
+          websiteUrl: lead.websiteUrl,
+          source: "workspace" as const,
+          status: "researching" as const,
+          fitScore: lead.fitScore,
+          confidencePercent: Math.round(lead.confidenceScore * 100),
+          leadId: lead.id,
+          note: normalizeProspectMeta(lead.pipelineContext).notes,
+          createdAt: lead.createdAt
+        })),
+    [importedDomains, workspaceLeads]
+  );
+  const reviewQueueRows = useMemo(
+    () =>
+      [...importedQueueRows.filter((row) => row.status === "ready" || row.status === "researching"), ...orphanResearchLeads].sort(
+        (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      ),
+    [importedQueueRows, orphanResearchLeads]
+  );
+  const visibleReviewRows = useMemo(() => {
+    const query = reviewSearch.trim().toLowerCase();
+    return reviewQueueRows.filter((row) => {
+      const haystack = [row.companyName, row.domain, row.websiteUrl, row.note].join(" ").toLowerCase();
+      const statusMatches = reviewFilter === "all" || row.status === reviewFilter;
+      const sourceMatches =
+        reviewSourceFilter === "all" ||
+        (reviewSourceFilter === "import" ? row.kind === "import" : row.kind === "lead");
+      return (!query || haystack.includes(query)) && statusMatches && sourceMatches;
+    });
+  }, [reviewFilter, reviewQueueRows, reviewSearch, reviewSourceFilter]);
   const visibleLeads = useMemo(() => {
     const query = leadSearch.trim().toLowerCase();
     const filtered = sourceLeads.filter((lead) => {
@@ -5367,6 +5885,7 @@ function DashboardApp() {
   }, [leadMinConfidence, leadMinFit, leadSearch, leadSort, sourceLeads]);
   const leadFiltersActive =
     Boolean(leadSearch.trim()) || leadSort !== "newest" || leadMinFit > 0 || leadMinConfidence > 0;
+  const reviewFiltersActive = Boolean(reviewSearch.trim()) || reviewFilter !== "all" || reviewSourceFilter !== "all";
   const selectedSourceLeads = useMemo(
     () => sourceLeads.filter((lead) => selectedLeadIds.includes(lead.id)),
     [selectedLeadIds, sourceLeads]
@@ -5459,11 +5978,371 @@ function DashboardApp() {
   const welcomeName = auth.authenticated ? firstName(auth.user.name) || snapshot.workspace.name : snapshot.workspace.name;
   const subscriptionStatusDetails = getSubscriptionStatusDetails(snapshot.subscription.status, appUi);
   const subscriptionStatusLabel = formatSubscriptionStatus(snapshot.subscription.status, appUi);
+  const currentPlanIndex = Math.max(
+    0,
+    PRICING_PLANS.findIndex((plan) => plan.id === snapshot.plan.id)
+  );
+  const currentPlan = PRICING_PLANS[currentPlanIndex] ?? PRICING_PLANS[0];
+  const featuredPlan =
+    currentPlanIndex >= PRICING_PLANS.length - 1 ? currentPlan : PRICING_PLANS[currentPlanIndex + 1] ?? currentPlan;
+  const totalMonthlyCredits = Math.max(1, snapshot.credits.used + snapshot.credits.remaining);
+  const creditUsagePercent = Math.min(100, Math.round((snapshot.credits.used / totalMonthlyCredits) * 100));
+  const billingPeriodEndLabel = snapshot.subscription.currentPeriodEnd
+    ? formatCalendarDate(snapshot.subscription.currentPeriodEnd)
+    : appUi.billing.kpis.noPaidCycle;
+  const workspaceStatusLabel = auth.authenticated ? appUi.billing.status.authenticated : appUi.billing.status.demoPreview;
+  const featuredPlanIsCurrent = featuredPlan.id === currentPlan.id;
+  const featuredPlanDelta = Math.max(0, featuredPlan.monthlyCredits - currentPlan.monthlyCredits);
+  const billingSummaryCards = [
+    [appUi.billing.summary.currentPlan, currentPlan.name],
+    [appUi.billing.summary.scansLeft, snapshot.credits.remaining.toLocaleString()],
+    [appUi.billing.summary.resetDate, formatCalendarDate(snapshot.credits.reset)],
+    [appUi.billing.summary.workspaceStatus, workspaceStatusLabel]
+  ] as const;
   const shouldShowOnboarding =
     auth.authenticated &&
     dashboardState === "ready" &&
     !snapshot.onboarding.isComplete &&
     snapshot.leadCount === 0;
+  const dashboardTitle = auth.authenticated && appSection === "dashboard" ? snapshot.workspace.name : pageCopy.title;
+  const dashboardIntro = pageCopy.copy;
+  const needsIcpReview = shouldShowOnboarding && (!onboardingTasks[0].done || !onboardingTasks[1].done);
+  const reviewReadyCount = reviewQueueRows.filter((row) => row.status === "ready").length;
+  const reviewResearchingCount = reviewQueueRows.filter((row) => row.status === "researching").length;
+  const topSavedAccounts = useMemo(
+    () =>
+      [...savedSourceLeads]
+        .sort((a, b) => b.fitScore - a.fitScore || new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+        .slice(0, 5),
+    [savedSourceLeads]
+  );
+  const workflowStageCounts = useMemo(
+    () =>
+      workspaceLeads.reduce<Record<ProspectPipelineStage, number>>(
+        (counts, lead) => {
+          counts[getLeadPipelineStage(lead)] += 1;
+          return counts;
+        },
+        {
+          researching: 0,
+          qualified: 0,
+          outreach_queued: 0,
+          contacted: 0,
+          won: 0,
+          archived: 0
+        }
+      ),
+    [workspaceLeads]
+  );
+  const queueSourceCounts = useMemo(
+    () =>
+      importedWebsites.reduce<Record<BatchSourceOption, number>>(
+        (counts, item) => {
+          counts[item.source] += 1;
+          return counts;
+        },
+        {
+          manual: 0,
+          csv: 0,
+          apollo: 0,
+          clay: 0,
+          directory: 0
+        }
+      ),
+    [importedWebsites]
+  );
+  const workflowRecommendations = useMemo(() => {
+    const items: string[] = [];
+
+    if (reviewReadyCount > reviewResearchingCount) {
+      items.push(appUi.analytics.recommendations.reviewBacklog);
+    }
+    if (reviewResearchingCount > savedSourceLeads.length) {
+      items.push(appUi.analytics.recommendations.qualificationGap);
+    }
+    if (savedSourceLeads.length > 0 && analyticsSummary.totals.exportsCompleted < savedSourceLeads.length) {
+      items.push(appUi.analytics.recommendations.exportGap);
+    }
+
+    return items.length ? items : [appUi.analytics.recommendations.keepMoving];
+  }, [analyticsSummary.totals.exportsCompleted, appUi.analytics.recommendations, reviewReadyCount, reviewResearchingCount, savedSourceLeads.length]);
+  const qualifiedCount = savedSourceLeads.length;
+  const overviewHasQueueData = reviewQueueRows.length > 0;
+  const reviewQueueIsEmpty = reviewQueueRows.length === 0;
+  const showReviewQueueEmptyState = reviewQueueIsEmpty && !reviewFiltersActive;
+  const savedAccountsIsEmpty = sourceLeads.length === 0;
+  const showSavedAccountsEmptyState = savedAccountsIsEmpty && !leadFiltersActive;
+  const importHistoryIsEmpty = importedQueueRows.length === 0;
+  const overviewHasSavedData =
+    topSavedAccounts.length > 0 ||
+    workflowStageCounts.qualified > 0 ||
+    workflowStageCounts.outreach_queued > 0 ||
+    analyticsSummary.totals.exportsCompleted > 0;
+  const overviewHasWorkflowData = overviewHasQueueData || overviewHasSavedData;
+  const analyticsHasWorkflowData =
+    importedWebsites.length > 0 ||
+    reviewQueueRows.length > 0 ||
+    qualifiedCount > 0 ||
+    failureReasonEntries.length > 0 ||
+    scanHistory.length > 0 ||
+    (auth.authenticated &&
+      (analyticsSummary.totals.exportsCompleted > 0 || analyticsSummary.recentEvents.length > 0));
+  const workspaceStateBlocked = dashboardState === "error";
+  const isDemoPreviewWorkspace = !auth.authenticated && (dashboardState === "ready" || dashboardState === "sample");
+  const showsFormalWorkspaceState = workspaceStateBlocked;
+  const overviewPrimaryAction =
+    workspaceStateBlocked && dashboardState === "error"
+      ? {
+          kind: "refresh" as const,
+          icon: "browser" as const,
+          label: appUi.dashboard.nextAction.retryWorkspace
+        }
+      : workspaceStateBlocked && dashboardState === "sample"
+        ? {
+            kind: "link" as const,
+            href: buildLocalePath(locale, "/login"),
+            icon: "mail" as const,
+            label: appUi.actions.signIn
+          }
+        : !auth.authenticated
+          ? {
+              kind: "link" as const,
+              href: buildLocalePath(locale, "/signup"),
+              icon: "mail" as const,
+              label: appUi.dashboard.nextAction.startWorkspace
+            }
+          : needsIcpReview
+            ? {
+                kind: "link" as const,
+                href: "#icp-panel",
+                icon: "target" as const,
+                label: appUi.dashboard.onboarding.reviewIcp
+              }
+            : overviewHasQueueData
+              ? {
+                  kind: "link" as const,
+                  href: "/app/leads",
+                  icon: "filter" as const,
+                  label: appUi.dashboard.nextAction.openQueue
+                }
+              : {
+                  kind: "link" as const,
+                  href: "/app/import",
+                  icon: "database" as const,
+                  label: appUi.dashboard.nextAction.importWebsites
+                };
+  const overviewSecondaryAction =
+    dashboardState === "error"
+      ? {
+          href: buildLocalePath(locale, "/login"),
+          icon: "mail" as const,
+          label: appUi.actions.signIn
+        }
+      : dashboardState === "sample"
+        ? {
+            href: buildLocalePath(locale, "/signup"),
+            icon: "mail" as const,
+            label: appUi.dashboard.nextAction.startWorkspace
+          }
+        : {
+            href: "#scan-console",
+            icon: "scan" as const,
+            label: appUi.dashboard.nextAction.manualScan
+          };
+  const pagePrimaryAction =
+    appSection === "dashboard"
+      ? null
+      : workspaceStateBlocked
+        ? dashboardState === "error"
+          ? {
+              kind: "button" as const,
+              icon: "browser" as const,
+              label: appUi.dashboard.nextAction.retryWorkspace,
+              onClick: () => window.location.reload()
+            }
+          : {
+              kind: "link" as const,
+              href: buildLocalePath(locale, "/login"),
+              icon: "mail" as const,
+              label: appUi.actions.signIn
+            }
+        : appSection === "import"
+          ? {
+              kind: "button" as const,
+              icon: "download" as const,
+              label: appUi.importer.upload,
+              onClick: openImportFilePicker
+            }
+          : appSection === "leads"
+            ? {
+                kind: "link" as const,
+                href: "/app/import",
+                icon: "database" as const,
+                label: appUi.dashboard.nextAction.importWebsites
+              }
+            : appSection === "saved"
+              ? savedAccountsIsEmpty
+                ? {
+                    kind: "link" as const,
+                    href: "/app/leads",
+                    icon: "filter" as const,
+                    label: appUi.dashboard.nextAction.openQueue
+                  }
+                : {
+                    kind: "button" as const,
+                    icon: "download" as const,
+                    label: appUi.actions.exportCsv,
+                    onClick: downloadCsv
+                  }
+              : appSection === "icp"
+                ? {
+                    kind: "link" as const,
+                    href: "/app#scan-console",
+                    icon: "scan" as const,
+                    label: appUi.icp.actions.test
+                  }
+                : appSection === "billing"
+                  ? auth.authenticated
+                    ? {
+                        kind: "button" as const,
+                        icon: "shield" as const,
+                        label: appUi.billing.actions.manageBilling,
+                        onClick: () => {
+                          void openBillingPortal();
+                        }
+                      }
+                    : null
+                  : appSection === "analytics"
+                    ? overviewHasQueueData
+                      ? {
+                          kind: "link" as const,
+                          href: "/app/leads",
+                          icon: "filter" as const,
+                          label: appUi.dashboard.nextAction.openQueue
+                        }
+                      : {
+                          kind: "link" as const,
+                          href: "/app/import",
+                          icon: "database" as const,
+                          label: appUi.dashboard.nextAction.importWebsites
+                        }
+                    : {
+                        kind: "button" as const,
+                        icon: "shield" as const,
+                        label: appUi.account.summary.manageBilling,
+                        onClick: () => {
+                          void openBillingPortal();
+                        }
+                      };
+  const overviewShowsStatePanel = appSection === "dashboard" && showsFormalWorkspaceState;
+  const pageShowsWorkspaceStatePanel = appSection !== "dashboard" && showsFormalWorkspaceState;
+  const defaultDashboardStateMessage =
+    dashboardState === "loading"
+      ? appUi.status.loading
+      : dashboardState === "error"
+        ? appUi.common.messages.workspaceDataUnavailable
+        : "";
+  const workspaceAlertMessage =
+    dashboardState === "loading"
+      ? appUi.status.loading
+      : showsFormalWorkspaceState &&
+          (dashboardMessage === defaultDashboardStateMessage ||
+            dashboardMessage === "")
+        ? ""
+        : isDemoPreviewWorkspace &&
+            (dashboardMessage === appUi.common.messages.demoPreviewIntro ||
+              dashboardMessage === "")
+          ? ""
+          : dashboardMessage;
+  const workspaceStatePanel = showsFormalWorkspaceState ? (
+    <section
+      className="panel overview-state-panel is-error"
+      aria-labelledby="overview-state-title"
+    >
+      <div className="overview-state-copy">
+        <span className="status-pill">
+          {appUi.common.failed}
+        </span>
+        <h2 id="overview-state-title">
+          {appUi.dashboard.nextAction.loadErrorTitle}
+        </h2>
+        <p>
+          {appUi.dashboard.nextAction.loadErrorCopy}
+        </p>
+      </div>
+    </section>
+  ) : null;
+  const accountShowsWorkspaceAlertPanel = appSection === "account" && auth.authenticated && dashboardState === "error";
+  const accountSectionCopy = {
+    alert: {
+      eyebrow: appUi.common.failed,
+      title: appUi.common.messages.workspaceDataUnavailable,
+      note: appUi.dashboard.nextAction.sampleCopy
+    },
+    utility: {
+      eyebrow: appUi.account.summary.eyebrow,
+      title: appUi.account.summary.title,
+      copy: appUi.pages.account.copy
+    }
+  };
+  const workflowExportedCount = auth.authenticated || qualifiedCount > 0 ? analyticsSummary.totals.exportsCompleted : 0;
+  const workflowFunnelSteps = [
+    [appUi.analytics.workflowFunnel.imported, importedWebsites.length, appUi.analytics.workflowFunnel.importedMeta],
+    [
+      appUi.analytics.workflowFunnel.reviewing,
+      reviewResearchingCount,
+      formatMessage(appUi.analytics.workflowFunnel.reviewingMeta, {
+        percent: percentage(reviewResearchingCount, Math.max(1, importedWebsites.length))
+      })
+    ],
+    [
+      appUi.analytics.workflowFunnel.qualified,
+      qualifiedCount,
+      formatMessage(appUi.analytics.workflowFunnel.qualifiedMeta, {
+        percent: percentage(qualifiedCount, Math.max(1, reviewResearchingCount || importedWebsites.length))
+      })
+    ],
+    [
+      appUi.analytics.workflowFunnel.exported,
+      workflowExportedCount,
+      formatMessage(appUi.analytics.workflowFunnel.exportedMeta, {
+        percent: percentage(workflowExportedCount, Math.max(1, qualifiedCount))
+      })
+    ]
+  ] as const;
+  const scanOutcomeCards = [
+    [appUi.analytics.scanOutcomes.completed, historyCounts.completed + historyCounts.replayed],
+    [appUi.analytics.scanOutcomes.failed, historyCounts.failed],
+    [appUi.analytics.scanOutcomes.processing, historyCounts.processing]
+  ] as const;
+  const heroMetrics = [
+    [appUi.dashboard.metrics.currentPlan, snapshot.plan.name],
+    [appUi.dashboard.metrics.creditsLeft, snapshot.credits.remaining.toLocaleString()],
+    [appUi.dashboard.metrics.savedProspects, String(savedSourceLeads.length)]
+  ];
+  const handleBillingPlanAction = (plan: PricingPlan, isCurrent: boolean) => {
+    if (isCurrent) {
+      if (auth.authenticated) {
+        void openBillingPortal();
+      } else {
+        window.location.assign(buildLocalePath(locale, "/login"));
+      }
+      return;
+    }
+
+    if (!auth.authenticated) {
+      window.location.assign(`${buildLocalePath(locale, "/signup")}?plan=${plan.id}`);
+      return;
+    }
+
+    if (plan.id === "free") {
+      window.location.assign(buildLocalePath(locale, "/signup"));
+      return;
+    }
+
+    void startPlanCheckout(plan.id);
+  };
+  const hasActivePreview = Boolean(activeProspect && (workspaceLeads.length > 0 || isSampleDashboard || scanState === "done"));
 
   return (
     <div className="app-shell">
@@ -5485,9 +6364,17 @@ function DashboardApp() {
               <Icon name="browser" />
               {appUi.nav.dashboard}
             </a>
+            <a className={appSection === "import" ? "active" : ""} href="/app/import">
+              <Icon name="database" />
+              {appUi.nav.import}
+            </a>
             <a className={appSection === "leads" ? "active" : ""} href="/app/leads">
               <Icon name="filter" />
               {appUi.nav.leads}
+            </a>
+            <a className={appSection === "saved" ? "active" : ""} href="/app/accounts">
+              <Icon name="layers" />
+              {appUi.nav.saved}
             </a>
             <a className={appSection === "icp" ? "active" : ""} href="/app/settings/icp">
               <Icon name="scan" />
@@ -5509,540 +6396,964 @@ function DashboardApp() {
         </aside>
 
         <main className="dashboard-main">
-          <header className="dashboard-header">
-            <div>
+          <header className={appSection === "dashboard" ? "panel dashboard-header dashboard-hero" : "dashboard-header"}>
+            <div className="dashboard-hero-copy">
               <p className="eyebrow">{pageCopy.eyebrow}</p>
-              <h1>{pageCopy.title}</h1>
-              <p className="dashboard-page-copy">{pageCopy.copy}</p>
-              <div className="workspace-status-row">
-                <span>{snapshot.workspace.name}</span>
-                <span className="status-pill">{snapshot.plan.name} {appUi.status.plan}</span>
-                <span className={`status-pill ${subscriptionStatusDetails.tone}`}>{subscriptionStatusLabel}</span>
-                <span className="status-pill">{auth.authenticated ? appUi.status.signedIn : appUi.status.demoPreview}</span>
-              </div>
+              <h1>{dashboardTitle}</h1>
+              <p className="dashboard-page-copy">{dashboardIntro}</p>
             </div>
-            <div className="dashboard-actions">
-              <a className="button button-primary" href={appSection === "dashboard" ? "#scan-console" : "/app#scan-console"}>
-                <Icon name="scan" />
-                {appUi.actions.newScan}
-              </a>
-            </div>
-          </header>
-
-          <div className="workspace-alert" role="status" aria-live="polite">
-            {dashboardState === "loading" ? appUi.status.loading : dashboardMessage || " "}
-          </div>
-
-        {appSection === "dashboard" ? (
-          <>
-        <section className={`panel scan-console ${scanState === "loading" ? "is-loading" : ""}`} id="scan-console" aria-labelledby="scan-console-title">
-          <div className="scan-console-head">
-            <div className="scan-console-copy">
-              <p className="eyebrow">{appUi.scan.eyebrow}</p>
-              <h2 id="scan-console-title">{appUi.scan.title}</h2>
-              <p>{appUi.scan.copy}</p>
-            </div>
-            <div className="scan-flow-steps" aria-label={appUi.scan.title}>
-              {appUi.scan.steps.map((step, index) => (
-                <span className={index === 0 || scanState === "done" ? "is-active" : ""} key={step}>
-                  {index + 1}. {step}
-                </span>
-              ))}
-            </div>
-          </div>
-
-          <div className="scan-console-body">
-            <form className="scan-form" onSubmit={submitScan}>
-              <label>
-                {appUi.scan.prospectWebsite}
-                <input
-                  name="url"
-                  type="url"
-                  required
-                  placeholder={appUi.common.placeholders.prospectUrl}
-                  value={scanForm.url}
-                  onChange={updateScanField("url")}
-                />
-              </label>
-              <label>
-                {appUi.scan.companyName}
-                <input
-                  name="companyName"
-                  placeholder={appUi.common.placeholders.companyName}
-                  value={scanForm.companyName}
-                  onChange={updateScanField("companyName")}
-                />
-              </label>
-              <label className="scan-form-wide">
-                {appUi.scan.websiteNotes}
-                <textarea
-                  name="notes"
-                  rows={4}
-                  placeholder={appUi.scan.notesPlaceholder}
-                  value={scanForm.notes}
-                  onChange={updateScanField("notes")}
-                />
-              </label>
-              <label className="scan-depth-toggle">
-                <input type="checkbox" checked={scanForm.deepScan} onChange={updateScanField("deepScan")} />
-                <span>
-                  {appUi.scan.deepScan}
-                  <small>{appUi.scan.deepScanHint}</small>
-                </span>
-              </label>
-              <button className="button button-primary" type="submit" disabled={scanState === "loading"}>
-                <Icon name="scan" />
-                {scanState === "loading" ? appUi.scan.scanning : appUi.scan.runScan}
-              </button>
-              <p className={`form-status ${scanState === "error" ? "is-error" : scanState === "done" ? "is-success" : ""}`} role="status" aria-live="polite">
-                {scanMessage || " "}
-              </p>
-              {scanState === "error" && lastScanError ? (
-                <div className="scan-error-box" role="alert">
-                  <strong>{appUi.scan.noCredit}</strong>
-                  <span>{appUi.preview.reason}: {formatHistoryReason(lastScanError.reason, appUi)}</span>
-                  <button className="button button-secondary" type="submit">
-                    {appUi.scan.retryScan}
-                  </button>
-                </div>
-              ) : null}
-            </form>
-
-            <div className="scan-preview" aria-label={appUi.preview.outputPreview}>
-              <span className="side-label">{appUi.preview.outputPreview}</span>
-              {scanState === "loading" ? (
-                <div className="scan-skeleton" aria-label={appUi.status.loading}>
-                  <i />
-                  <i />
-                  <i />
-                  <i />
-                </div>
-              ) : (
-                <>
-                  <div className="scan-status-row">
-                    <span className="status-pill">{activeProspect.savedStatus === "saved" ? appUi.preview.saved : appUi.preview.unsaved}</span>
-                    <span className="status-pill">
-                      {activeProspect.exportStatus === "exported" ? appUi.preview.exported : appUi.preview.notExported}
-                    </span>
-                  </div>
-                  <div className="scan-preview-row">
-                    <strong>{activeProspect.companyName}</strong>
-                    <span>{activeProspect.domain}</span>
-                    <em>{activeProspect.fitScore} {appUi.preview.fit}</em>
-                  </div>
-                  <div className="scan-preview-evidence">
-                    {activeProspect.opportunitySignals.slice(0, 3).map((signal) => (
-                      <span key={signal.signal}>
-                        <Icon name="check" />
-                        {signal.signal}
-                      </span>
-                    ))}
-                  </div>
-                  <div className="scan-preview-first-line">
-                    <span>{appUi.preview.firstLine}</span>
-                    <p>{activeProspect.firstLines[0]}</p>
-                  </div>
-                </>
-              )}
-            </div>
-          </div>
-        </section>
-
-        {shouldShowOnboarding ? (
-          <section className="panel dashboard-onboarding" aria-labelledby="dashboard-onboarding-title">
-            <div className="dashboard-onboarding-head">
-              <div className="dashboard-onboarding-copy">
-                <p className="eyebrow">{appUi.dashboard.onboarding.eyebrow}</p>
-                <h2 id="dashboard-onboarding-title">
-                  {welcomeFlow || checkoutSuccess
-                    ? formatMessage(appUi.dashboard.onboarding.welcomeTitle, { name: welcomeName })
-                    : formatMessage(appUi.dashboard.onboarding.workspaceReadyTitle, { name: welcomeName })}
-                </h2>
-                <p>{appUi.dashboard.onboarding.intro}</p>
-              </div>
-              <div className="dashboard-onboarding-meta">
-                <span className="status-pill">{formatMessage(appUi.dashboard.onboarding.progress, { count: onboardingProgress })}</span>
-                <button
-                  className="button button-small button-secondary"
-                  type="button"
-                  onClick={completeOnboarding}
-                  disabled={onboardingState === "saving"}
-                >
-                  {onboardingState === "saving" ? appUi.common.saving : appUi.dashboard.onboarding.markComplete}
-                </button>
-              </div>
-            </div>
-
-            <div className="dashboard-onboarding-layout">
-              <div className="onboarding-checklist" role="list" aria-label={appUi.dashboard.onboarding.checklistLabel}>
-                {onboardingTasks.map((task, index) => (
-                  <div className={`onboarding-item ${task.done ? "is-done" : ""}`} key={task.label} role="listitem">
-                    <span className="onboarding-item-state">
-                      {task.done ? <Icon name="check" /> : index + 1}
-                    </span>
-                    <div>
-                      <strong>{task.label}</strong>
-                      <p>{task.description}</p>
+            {appSection === "dashboard" ? (
+              <div className="dashboard-hero-aside">
+                <div className="dashboard-hero-metrics" aria-label={appUi.dashboard.metrics.ariaLabel}>
+                  {heroMetrics.map(([label, value]) => (
+                    <div className="dashboard-hero-metric" key={label}>
+                      <span>{label}</span>
+                      <strong>{value}</strong>
                     </div>
-                  </div>
-                ))}
-              </div>
-
-              <div className="onboarding-setup">
-                <span className="side-label">{appUi.dashboard.onboarding.setupSnapshot}</span>
-                <div className="onboarding-field">
-                  <span>{appUi.dashboard.onboarding.service}</span>
-                  <strong>{formatAgencyFocus(snapshot.setup.agencyFocus || snapshot.setup.serviceType, appUi)}</strong>
+                  ))}
                 </div>
-                <div className="onboarding-field">
-                  <span>{appUi.dashboard.onboarding.industries}</span>
-                  <strong>{previewList(snapshot.setup.targetIndustries, 4, appUi.common.notSet)}</strong>
-                </div>
-                <div className="onboarding-field">
-                  <span>{appUi.dashboard.onboarding.firstTarget}</span>
-                  <strong>{formatCompactUrl(snapshot.setup.firstProspectUrl || snapshot.setup.agencyWebsite, appUi.common.notSet)}</strong>
-                </div>
-              </div>
-            </div>
-
-            <div className="dashboard-onboarding-footer">
-              <button className="button button-primary" type="button" onClick={prepareFirstScan}>
-                <Icon name="scan" />
-                {snapshot.setup.firstProspectUrl ? appUi.dashboard.onboarding.prepareFirstScan : appUi.dashboard.onboarding.runFirstScan}
-              </button>
-              <a className="button button-secondary" href="#icp-panel">
-                <Icon name="target" />
-                {appUi.dashboard.onboarding.reviewIcp}
-              </a>
-              {snapshot.plan.id !== "free" || snapshot.subscription.status !== "active" ? (
-                <button className="button button-secondary" type="button" onClick={openBillingPortal}>
-                  <Icon name="shield" />
-                  {appUi.actions.manageBilling}
-                </button>
-              ) : null}
-            </div>
-          </section>
-        ) : null}
-
-        <section className="metric-grid" aria-label={appUi.dashboard.metrics.ariaLabel}>
-          {metricRows.map(([label, value]) => (
-            <article className="metric-card" key={label}>
-              <span>{label}</span>
-              <strong>{value}</strong>
-              {label === appUi.dashboard.metrics.creditsLeft ? (
-                <small>{formatMessage(appUi.dashboard.metrics.usedThisMonth, { count: snapshot.credits.used.toLocaleString() })}</small>
-              ) : null}
-            </article>
-          ))}
-        </section>
-
-        <section className="dashboard-grid">
-          <div className="panel leads-panel">
-            <div className="panel-header">
-              <div>
-                <p className="eyebrow">{appUi.dashboard.leadsPanel.eyebrow}</p>
-                <h2>{appUi.dashboard.leadsPanel.title}</h2>
-              </div>
-              <button className="icon-button" type="button" aria-label={appUi.dashboard.leadsPanel.filterLabel}>
-                <Icon name="filter" />
-              </button>
-            </div>
-            <div className="lead-table" role="table" aria-label={appUi.dashboard.leadsPanel.tableLabel}>
-              <div className="lead-row lead-head" role="row">
-                <span>{appUi.dashboard.leadsPanel.company}</span>
-                <span>{appUi.dashboard.leadsPanel.industry}</span>
-                <span>{appUi.dashboard.leadsPanel.fit}</span>
-                <span>{appUi.dashboard.leadsPanel.confidence}</span>
-              </div>
-              {sourceLeads.length ? (
-                sourceLeads.map((lead) => (
-                  <div className="lead-row" role="row" key={lead.id || lead.domain}>
-                    <strong>{lead.companyName}</strong>
-                    <span>{lead.industry}</span>
-                    <span>{lead.fitScore}</span>
-                    <span>{Math.round(lead.confidenceScore * 100)}%</span>
-                  </div>
-                ))
-              ) : (
-                <div className="empty-table-state">
-                  <strong>{appUi.dashboard.leadsPanel.emptyTitle}</strong>
-                  <span>{appUi.dashboard.leadsPanel.emptyCopy}</span>
-                </div>
-              )}
-            </div>
-          </div>
-
-          {sourceLeads.length || isSampleDashboard ? (
-            <ProspectCard card={activeProspect} compact />
-          ) : (
-            <div className="panel empty-prospect-panel">
-              <p className="eyebrow">{appUi.dashboard.emptyProspect.eyebrow}</p>
-              <h2>{appUi.dashboard.emptyProspect.title}</h2>
-              <p>{appUi.dashboard.emptyProspect.copy}</p>
-              <button
-                className="button button-primary"
-                type="button"
-                onClick={() => setDashboardMessage(appUi.common.messages.createFirstSavedCard)}
-              >
-                <Icon name="scan" />
-                {appUi.dashboard.emptyProspect.cta}
-              </button>
-            </div>
-          )}
-
-          <div className="panel icp-panel" id="icp-panel">
-            <div className="panel-header">
-              <div>
-                <p className="eyebrow">{appUi.dashboard.icpPanel.eyebrow}</p>
-                <h2>{appUi.dashboard.icpPanel.title}</h2>
-              </div>
-            </div>
-            <div className="settings-list">
-              <Setting
-                label={appUi.dashboard.icpPanel.serviceType}
-                value={formatAgencyFocus(snapshot.setup.agencyFocus || snapshot.setup.serviceType, appUi)}
-              />
-              <Setting
-                label={appUi.dashboard.icpPanel.targetIndustries}
-                value={previewList(snapshot.setup.targetIndustries, 4, appUi.common.notSet)}
-              />
-              <Setting
-                label={appUi.dashboard.icpPanel.countries}
-                value={previewList(snapshot.setup.targetCountries, 4, appUi.common.notSet)}
-              />
-              <Setting label={appUi.dashboard.icpPanel.tone} value={formatToneLabel(snapshot.setup.tone, appUi)} />
-              <Setting
-                label={appUi.dashboard.icpPanel.firstTarget}
-                value={formatCompactUrl(snapshot.setup.firstProspectUrl || snapshot.setup.agencyWebsite, appUi.common.notSet)}
-              />
-            </div>
-          </div>
-
-          <div className="panel signal-panel">
-            <div className="panel-header">
-              <div>
-                <p className="eyebrow">{appUi.dashboard.signalPanel.eyebrow}</p>
-                <h2>{appUi.dashboard.signalPanel.title}</h2>
-              </div>
-            </div>
-            <div className="signal-bars">
-              {Object.entries(topSignals).map(([name, count]) => (
-                <div className="signal-bar" key={name}>
-                  <span>{formatSignalCategory(name as OpportunitySignal["category"], appUi)}</span>
-                  <div>
-                    <i style={{ width: `${Math.min(100, count * 34)}%` }} />
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-          </>
-        ) : null}
-
-        {appSection === "leads" ? (
-          <section className="app-page-grid leads-page-grid">
-            <div className="panel leads-panel leads-page-panel">
-              <div className="panel-header">
-                <div>
-                  <p className="eyebrow">{appUi.leads.eyebrow}</p>
-                  <h2>{appUi.leads.title}</h2>
-                </div>
-                <div className="panel-actions">
-                  <button className="button button-secondary" type="button" onClick={downloadCsv}>
-                    <Icon name="download" />
-                    {appUi.actions.exportCsv}
-                  </button>
-                  <a className="button button-primary" href="/app#scan-console">
-                    <Icon name="scan" />
-                    {appUi.actions.newScan}
+                <div className="dashboard-actions">
+                  {overviewPrimaryAction.kind === "refresh" ? (
+                    <button className="button button-primary" type="button" onClick={() => window.location.reload()}>
+                      <Icon name={overviewPrimaryAction.icon} />
+                      {overviewPrimaryAction.label}
+                    </button>
+                  ) : (
+                    <a className="button button-primary" href={overviewPrimaryAction.href}>
+                      <Icon name={overviewPrimaryAction.icon} />
+                      {overviewPrimaryAction.label}
+                    </a>
+                  )}
+                  <a
+                    className="button button-secondary"
+                    href={overviewSecondaryAction.href}
+                    onClick={overviewSecondaryAction.href === "#scan-console" ? () => setOverviewManualModeOpen(true) : undefined}
+                  >
+                    <Icon name={overviewSecondaryAction.icon} />
+                    {overviewSecondaryAction.label}
                   </a>
                 </div>
               </div>
-              <div className="lead-controls" aria-label={appUi.leads.controlsLabel}>
-                <label className="lead-search-field">
-                  {appUi.leads.searchLabel}
-                  <input
-                    type="search"
-                    value={leadSearch}
-                    onChange={(event) => setLeadSearch(event.currentTarget.value)}
-                    placeholder={appUi.common.placeholders.leadSearch}
-                  />
-                </label>
-                <label>
-                  {appUi.leads.sortLabel}
-                  <select value={leadSort} onChange={(event) => setLeadSort(event.currentTarget.value as LeadSortOption)}>
-                    {leadSortOptions.map((option) => (
-                      <option value={option} key={option}>
-                        {appUi.options.leadSort[option]}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-                <label>
-                  {appUi.leads.minFit}
-                  <span className="range-value">{leadMinFit}+</span>
-                  <input
-                    type="range"
-                    min="0"
-                    max="100"
-                    step="5"
-                    value={leadMinFit}
-                    onChange={(event) => setLeadMinFit(Number(event.currentTarget.value))}
-                  />
-                </label>
-                <label>
-                  {appUi.leads.minConfidence}
-                  <span className="range-value">{leadMinConfidence}%+</span>
-                  <input
-                    type="range"
-                    min="0"
-                    max="100"
-                    step="5"
-                    value={leadMinConfidence}
-                    onChange={(event) => setLeadMinConfidence(Number(event.currentTarget.value))}
-                  />
-                </label>
-                <button className="button button-secondary button-small" type="button" onClick={resetLeadControls} disabled={!leadFiltersActive}>
-                  {appUi.common.clearFilters}
-                </button>
+            ) : (
+              <div className="dashboard-actions">
+                {pagePrimaryAction?.kind === "button" ? (
+                  <button className="button button-primary" type="button" onClick={pagePrimaryAction.onClick}>
+                    <Icon name={pagePrimaryAction.icon} />
+                    {pagePrimaryAction.label}
+                  </button>
+                ) : pagePrimaryAction ? (
+                  <a className="button button-primary" href={pagePrimaryAction.href}>
+                    <Icon name={pagePrimaryAction.icon} />
+                    {pagePrimaryAction.label}
+                  </a>
+                ) : null}
               </div>
-              <div className="lead-result-meta" aria-live="polite">
-                <span>
-                  {formatMessage(appUi.leads.resultsSummary, { visible: visibleLeads.length, total: sourceLeads.length })}
-                </span>
-                <span>{appUi.options.leadSort[leadSort]}</span>
+            )}
+          </header>
+
+          <div
+            className={`workspace-alert ${!accountShowsWorkspaceAlertPanel && workspaceAlertMessage ? "" : "is-empty"}`}
+            role="status"
+            aria-live="polite"
+          >
+            {!accountShowsWorkspaceAlertPanel ? workspaceAlertMessage || " " : " "}
+          </div>
+
+          {isDemoPreviewWorkspace ? (
+            <div className="workspace-info-bar" role="status">
+              <span>{appUi.dashboard.nextAction.sampleCopy}</span>
+              <div className="workspace-info-bar-actions">
+                <a className="button button-small button-secondary" href={buildLocalePath(locale, "/login")}>
+                  <Icon name="mail" />
+                  {appUi.actions.signIn}
+                </a>
+                <a className="button button-small button-primary" href={buildLocalePath(locale, "/signup")}>
+                  <Icon name="mail" />
+                  {appUi.dashboard.nextAction.startWorkspace}
+                </a>
               </div>
-              <div className="lead-bulk-toolbar" aria-label={appUi.leads.title}>
-                <div>
-                  <strong>{formatMessage(appUi.leads.selectedCount, { count: selectedSourceLeads.length })}</strong>
-                  <span>
-                    {selectedSourceLeads.length
-                      ? appUi.leads.selectedReadyCopy
-                      : appUi.leads.selectedEmptyCopy}
-                  </span>
-                </div>
-                <div className="lead-bulk-template" aria-label={appUi.leads.templateLabel}>
-                  <label>
-                    {appUi.leads.templateLabel}
-                    <select
-                      value={bulkExportPreset}
-                      onChange={(event) => setBulkExportPreset(event.currentTarget.value as Exclude<ProspectExportPresetKey, "custom">)}
+            </div>
+          ) : null}
+
+          {pageShowsWorkspaceStatePanel ? workspaceStatePanel : null}
+
+        {appSection === "dashboard" ? (
+          <>
+            {overviewShowsStatePanel ? workspaceStatePanel : null}
+
+            {shouldShowOnboarding ? (
+              <section className="panel dashboard-onboarding" aria-labelledby="dashboard-onboarding-title">
+                <div className="dashboard-onboarding-head">
+                  <div className="dashboard-onboarding-copy">
+                    <p className="eyebrow">{appUi.dashboard.onboarding.eyebrow}</p>
+                    <h2 id="dashboard-onboarding-title">
+                      {welcomeFlow || checkoutSuccess
+                        ? formatMessage(appUi.dashboard.onboarding.welcomeTitle, { name: welcomeName })
+                        : formatMessage(appUi.dashboard.onboarding.workspaceReadyTitle, { name: welcomeName })}
+                    </h2>
+                  </div>
+                  <div className="dashboard-onboarding-meta">
+                    <span className="status-pill">{formatMessage(appUi.dashboard.onboarding.progress, { count: onboardingProgress })}</span>
+                    <button
+                      className="button button-small button-secondary"
+                      type="button"
+                      onClick={completeOnboarding}
+                      disabled={onboardingState === "saving"}
                     >
-                      {prospectExportPresets.map((preset) => (
-                        <option value={preset.key} key={preset.key}>
-                          {appUi.prospectCard.export.presets[preset.key].label}
+                      {onboardingState === "saving" ? appUi.common.saving : appUi.dashboard.onboarding.markComplete}
+                    </button>
+                  </div>
+                </div>
+
+                <div className="dashboard-onboarding-layout">
+                  <div className="onboarding-checklist" role="list" aria-label={appUi.dashboard.onboarding.checklistLabel}>
+                    {onboardingTasks.map((task, index) => (
+                      <div className={`onboarding-item ${task.done ? "is-done" : ""}`} key={task.label} role="listitem">
+                        <span className="onboarding-item-state">
+                          {task.done ? <Icon name="check" /> : index + 1}
+                        </span>
+                        <div>
+                          <strong>{task.label}</strong>
+                          <p>{task.description}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="onboarding-setup">
+                    <span className="side-label">{appUi.dashboard.onboarding.setupSnapshot}</span>
+                    <div className="onboarding-field">
+                      <span>{appUi.dashboard.onboarding.service}</span>
+                      <strong>{formatAgencyFocus(snapshot.setup.agencyFocus || snapshot.setup.serviceType, appUi)}</strong>
+                    </div>
+                    <div className="onboarding-field">
+                      <span>{appUi.dashboard.onboarding.industries}</span>
+                      <strong>{previewList(snapshot.setup.targetIndustries, 4, appUi.common.notSet)}</strong>
+                    </div>
+                    <div className="onboarding-field">
+                      <span>{appUi.dashboard.onboarding.firstTarget}</span>
+                      <strong>{formatCompactUrl(snapshot.setup.firstProspectUrl || snapshot.setup.agencyWebsite, appUi.common.notSet)}</strong>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            ) : null}
+
+            {overviewHasWorkflowData ? (
+              <section className={`overview-main-grid ${overviewHasSavedData ? "" : "is-single"}`}>
+                <div className="panel overview-queue-panel">
+                  <div className="panel-header">
+                    <div>
+                      <p className="eyebrow">{appUi.dashboard.queuePanel.eyebrow}</p>
+                      <h2>{appUi.dashboard.queuePanel.title}</h2>
+                    </div>
+                    <a className="button button-secondary button-small" href="/app/leads">
+                      {appUi.common.open}
+                    </a>
+                  </div>
+                  <div className="overview-kpi-row">
+                    <div>
+                      <span>{appUi.dashboard.queuePanel.ready}</span>
+                      <strong>{reviewReadyCount}</strong>
+                    </div>
+                    <div>
+                      <span>{appUi.dashboard.queuePanel.researching}</span>
+                      <strong>{reviewResearchingCount}</strong>
+                    </div>
+                    <div>
+                      <span>{appUi.dashboard.queuePanel.imported}</span>
+                      <strong>{importedWebsites.length}</strong>
+                    </div>
+                  </div>
+                  <div className="overview-queue-list">
+                    {reviewQueueRows.length ? (
+                      reviewQueueRows.slice(0, 5).map((row) => {
+                        const rowLead = row.leadId ? leadByDomain.get(row.domain) : null;
+                        return (
+                          <article key={row.id}>
+                            <div>
+                              <strong>{row.companyName}</strong>
+                              <span>{row.domain}</span>
+                            </div>
+                            <div className="overview-queue-meta">
+                              <span className="status-pill">{row.status === "ready" ? appUi.dashboard.queuePanel.ready : appUi.dashboard.queuePanel.researching}</span>
+                              <small>
+                                {row.kind === "import"
+                                  ? appUi.importer.sourceOptions[row.source]
+                                  : appUi.dashboard.queuePanel.workspaceSource}
+                              </small>
+                            </div>
+                            <div className="overview-inline-actions">
+                              <a className="button button-secondary button-small" href={row.websiteUrl} target="_blank" rel="noreferrer">
+                                {appUi.dashboard.queuePanel.openSite}
+                              </a>
+                              {rowLead ? (
+                                <button className="button button-primary button-small" type="button" onClick={() => void openLeadDetail(rowLead)}>
+                                  {appUi.dashboard.queuePanel.reviewCard}
+                                </button>
+                              ) : (
+                                <button
+                                  className="button button-primary button-small"
+                                  type="button"
+                                  onClick={() => queueWebsiteForScanDesk({ url: row.websiteUrl, companyName: row.companyName, notes: row.note })}
+                                >
+                                  {appUi.dashboard.queuePanel.moveToScanDesk}
+                                </button>
+                              )}
+                            </div>
+                          </article>
+                        );
+                      })
+                    ) : (
+                      <div className="empty-panel-copy">
+                        <strong>{appUi.dashboard.queuePanel.emptyTitle}</strong>
+                        <span>{appUi.dashboard.queuePanel.emptyCopy}</span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {overviewHasSavedData ? (
+                  <div className="panel overview-saved-panel">
+                    <div className="panel-header">
+                      <div>
+                        <p className="eyebrow">{appUi.dashboard.savedPanel.eyebrow}</p>
+                        <h2>{appUi.dashboard.savedPanel.title}</h2>
+                      </div>
+                      <a className="button button-secondary button-small" href="/app/accounts">
+                        {appUi.common.open}
+                      </a>
+                    </div>
+                    <div className="overview-kpi-row">
+                      <div>
+                        <span>{appUi.dashboard.savedPanel.qualified}</span>
+                        <strong>{workflowStageCounts.qualified}</strong>
+                      </div>
+                      <div>
+                        <span>{appUi.dashboard.savedPanel.outreachQueued}</span>
+                        <strong>{workflowStageCounts.outreach_queued}</strong>
+                      </div>
+                      <div>
+                        <span>{appUi.dashboard.savedPanel.exported}</span>
+                        <strong>{analyticsSummary.totals.exportsCompleted}</strong>
+                      </div>
+                    </div>
+                    <div className="overview-saved-list">
+                      {topSavedAccounts.length ? (
+                        topSavedAccounts.map((lead) => (
+                          <article key={lead.id}>
+                            <div>
+                              <strong>{lead.companyName}</strong>
+                              <span>{lead.domain}</span>
+                            </div>
+                            <div className="overview-queue-meta">
+                              <span className="status-pill">{formatPipelineStage(getLeadPipelineStage(lead), appUi)}</span>
+                              <small>{lead.fitScore} {appUi.preview.fit}</small>
+                            </div>
+                            <div className="overview-inline-actions">
+                              <button className="button button-primary button-small" type="button" onClick={() => void openLeadDetail(lead)}>
+                                {appUi.dashboard.savedPanel.openCard}
+                              </button>
+                            </div>
+                          </article>
+                        ))
+                      ) : (
+                        <div className="empty-panel-copy">
+                          <strong>{appUi.dashboard.savedPanel.emptyTitle}</strong>
+                          <span>{appUi.dashboard.savedPanel.emptyCopy}</span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ) : null}
+              </section>
+            ) : (
+              <section className="panel overview-step-grid" aria-label={appUi.dashboard.workbench.title}>
+                <article className="overview-step-card">
+                  <span className="side-label">{appUi.dashboard.workbench.import.eyebrow}</span>
+                  <strong>{appUi.dashboard.workbench.import.title}</strong>
+                  <p>{appUi.dashboard.workbench.import.copy}</p>
+                </article>
+                <article className="overview-step-card">
+                  <span className="side-label">{appUi.dashboard.workbench.queue.eyebrow}</span>
+                  <strong>{appUi.dashboard.workbench.queue.title}</strong>
+                  <p>{appUi.dashboard.workbench.queue.copy}</p>
+                </article>
+                <article className="overview-step-card">
+                  <span className="side-label">{appUi.dashboard.workbench.saved.eyebrow}</span>
+                  <strong>{appUi.dashboard.workbench.saved.title}</strong>
+                  <p>{appUi.dashboard.workbench.saved.copy}</p>
+                </article>
+              </section>
+            )}
+
+            {overviewManualModeOpen ? (
+              <section className={`panel scan-console ${scanState === "loading" ? "is-loading" : ""}`} id="scan-console" aria-labelledby="scan-console-title">
+                <div className="scan-console-head">
+                  <div className="scan-console-copy">
+                    <p className="eyebrow">{appUi.scan.eyebrow}</p>
+                    <h2 id="scan-console-title">{appUi.scan.title}</h2>
+                    <p>{appUi.scan.copy}</p>
+                  </div>
+                  <div className="scan-flow-steps" aria-label={appUi.scan.title}>
+                    {appUi.scan.steps.map((step, index) => (
+                      <span className={index === 0 || scanState === "done" ? "is-active" : ""} key={step}>
+                        {index + 1}. {step}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="scan-console-body">
+                <form className="scan-form" onSubmit={submitScan}>
+                  <label>
+                    {appUi.scan.prospectWebsite}
+                    <input
+                      name="url"
+                      type="url"
+                      required
+                      placeholder={appUi.common.placeholders.prospectUrl}
+                      value={scanForm.url}
+                      onChange={updateScanField("url")}
+                    />
+                  </label>
+                  <label>
+                    {appUi.scan.companyName}
+                    <input
+                      name="companyName"
+                      placeholder={appUi.common.placeholders.companyName}
+                      value={scanForm.companyName}
+                      onChange={updateScanField("companyName")}
+                    />
+                  </label>
+                  <label className="scan-form-wide">
+                    {appUi.scan.websiteNotes}
+                    <textarea
+                      name="notes"
+                      rows={4}
+                      placeholder={appUi.scan.notesPlaceholder}
+                      value={scanForm.notes}
+                      onChange={updateScanField("notes")}
+                    />
+                  </label>
+                  <label className="scan-depth-toggle">
+                    <input type="checkbox" checked={scanForm.deepScan} onChange={updateScanField("deepScan")} />
+                    <span>
+                      {appUi.scan.deepScan}
+                      <small>{appUi.scan.deepScanHint}</small>
+                    </span>
+                  </label>
+                  <button className="button button-primary" type="submit" disabled={scanState === "loading"}>
+                    <Icon name="scan" />
+                    {scanState === "loading" ? appUi.scan.scanning : appUi.scan.runScan}
+                  </button>
+                  <p className={`form-status ${scanState === "error" ? "is-error" : scanState === "done" ? "is-success" : ""}`} role="status" aria-live="polite">
+                    {scanMessage || " "}
+                  </p>
+                  {scanState === "error" && lastScanError ? (
+                    <div className="scan-error-box" role="alert">
+                      <strong>{appUi.scan.noCredit}</strong>
+                      <span>{appUi.preview.reason}: {formatHistoryReason(lastScanError.reason, appUi)}</span>
+                      <button className="button button-secondary" type="submit">
+                        {appUi.scan.retryScan}
+                      </button>
+                    </div>
+                  ) : null}
+                </form>
+
+                <div className="scan-preview" aria-label={appUi.preview.outputPreview}>
+                  <span className="side-label">{appUi.preview.outputPreview}</span>
+                  {scanState === "loading" ? (
+                    <div className="scan-skeleton" aria-label={appUi.status.loading}>
+                      <i />
+                      <i />
+                      <i />
+                      <i />
+                    </div>
+                  ) : hasActivePreview && activeProspect ? (
+                    <>
+                      <div className="scan-status-row">
+                        <span className="status-pill">{activeProspect.savedStatus === "saved" ? appUi.preview.saved : appUi.preview.unsaved}</span>
+                        <span className="status-pill">
+                          {activeProspect.exportStatus === "exported" ? appUi.preview.exported : appUi.preview.notExported}
+                        </span>
+                      </div>
+                      <div className="scan-preview-row">
+                        <strong>{activeProspect.companyName}</strong>
+                        <span>{activeProspect.domain}</span>
+                        <em>{activeProspect.fitScore} {appUi.preview.fit}</em>
+                      </div>
+                      <div className="scan-preview-evidence">
+                        {activeProspect.opportunitySignals.slice(0, 3).map((signal) => (
+                          <span key={signal.signal}>
+                            <Icon name="check" />
+                            {signal.signal}
+                          </span>
+                        ))}
+                      </div>
+                      <div className="scan-preview-first-line">
+                        <span>{appUi.preview.firstLine}</span>
+                        <p>{activeProspect.firstLines[0]}</p>
+                      </div>
+                    </>
+                  ) : (
+                    <div className="scan-preview-empty">
+                      <strong>{appUi.dashboard.emptyProspect.title}</strong>
+                      <p>{shouldShowOnboarding ? appUi.dashboard.onboarding.descriptions.firstCardTodo : appUi.dashboard.emptyProspect.copy}</p>
+                      <div className="scan-preview-empty-steps">
+                        {appUi.scan.steps.map((step) => (
+                          <span key={step}>{step}</span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+              </section>
+            ) : (
+              <section className="panel overview-manual-panel" id="scan-console" aria-labelledby="overview-manual-title">
+                <div className="overview-manual-copy">
+                  <p className="eyebrow">{appUi.dashboard.nextAction.manualEyebrow}</p>
+                  <h2 id="overview-manual-title">{appUi.dashboard.nextAction.manualTitle}</h2>
+                  <p>{appUi.dashboard.nextAction.manualCopy}</p>
+                </div>
+                <a className="button button-secondary" href="#scan-console" onClick={() => setOverviewManualModeOpen(true)}>
+                  <Icon name="scan" />
+                  {appUi.dashboard.nextAction.openManual}
+                </a>
+              </section>
+            )}
+          </>
+        ) : null}
+
+        {appSection === "import" && !workspaceStateBlocked ? (
+          <>
+            <section className="app-page-grid import-page-grid">
+              <div className="panel import-form-panel" id="import-form-panel">
+                <div className="panel-header">
+                  <div>
+                    <p className="eyebrow">{appUi.importer.eyebrow}</p>
+                    <h2>{appUi.importer.title}</h2>
+                  </div>
+                  <a className="button button-secondary" href="/app/leads">
+                    <Icon name="filter" />
+                    {appUi.importer.openQueue}
+                  </a>
+                </div>
+                <p className="panel-copy">{appUi.importer.copy}</p>
+                <form className="import-form" onSubmit={submitImportedWebsites}>
+                  <label className="import-form-wide">
+                    {appUi.importer.textareaLabel}
+                    <textarea
+                      rows={12}
+                      value={importDraft}
+                      onChange={(event) => setImportDraft(event.currentTarget.value)}
+                      placeholder={appUi.importer.textareaPlaceholder}
+                    />
+                  </label>
+                  <label>
+                    {appUi.importer.sourceLabel}
+                    <select value={importSource} onChange={(event) => setImportSource(event.currentTarget.value as BatchSourceOption)}>
+                      {batchSourceOptions.map((option) => (
+                        <option value={option} key={option}>
+                          {appUi.importer.sourceOptions[option]}
                         </option>
                       ))}
                     </select>
                   </label>
-                  {bulkExportPreset === "crm" ? (
+                  <label>
+                    {appUi.importer.notesLabel}
+                    <textarea rows={3} value={importNote} onChange={(event) => setImportNote(event.currentTarget.value)} />
+                  </label>
+                  <div className="import-form-actions">
+                    <button className="button button-primary" type="submit" disabled={!importDraft.trim()}>
+                      <Icon name="database" />
+                      {appUi.importer.submit}
+                    </button>
+                    <button className="button button-secondary" type="button" onClick={openImportFilePicker}>
+                      <Icon name="download" />
+                      {appUi.importer.upload}
+                    </button>
+                    <button
+                      className="button button-secondary"
+                      type="button"
+                      onClick={() => {
+                        setImportDraft("");
+                        setImportNote("");
+                        setImportMessage("");
+                        setImportState("idle");
+                      }}
+                    >
+                      {appUi.common.reset}
+                    </button>
+                    <input
+                      ref={importFileInputRef}
+                      type="file"
+                      accept=".csv,.txt,.tsv"
+                      hidden
+                      onChange={handleImportFileChange}
+                    />
+                  </div>
+                  <p className={`form-status ${importState === "error" ? "is-error" : importState === "saved" ? "is-success" : ""}`} role="status">
+                    {importMessage || " "}
+                  </p>
+                </form>
+              </div>
+
+              <div className="panel import-summary-panel">
+                <p className="eyebrow">{appUi.importer.summaryEyebrow}</p>
+                <h2>{appUi.importer.summaryTitle}</h2>
+                <div className="overview-kpi-row">
+                  <div>
+                    <span>{appUi.importer.summaryImported}</span>
+                    <strong>{importedWebsites.length}</strong>
+                  </div>
+                  <div>
+                    <span>{appUi.importer.summaryReady}</span>
+                    <strong>{reviewReadyCount}</strong>
+                  </div>
+                  <div>
+                    <span>{appUi.importer.summaryResearching}</span>
+                    <strong>{reviewResearchingCount}</strong>
+                  </div>
+                </div>
+                <div className="policy-list">
+                  {workflowRecommendations.map((item) => (
+                    <span key={item}>
+                      <Icon name="check" />
+                      {item}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </section>
+
+            <section className="panel import-history-panel">
+              <div className="panel-header">
+                <div>
+                  <p className="eyebrow">{appUi.importer.historyEyebrow}</p>
+                  <h2>{appUi.importer.historyTitle}</h2>
+                </div>
+                <span className="status-pill">{formatMessage(appUi.importer.historyCount, { count: importedWebsites.length })}</span>
+              </div>
+              {importHistoryIsEmpty ? (
+                <div className="page-empty-state is-compact">
+                  <strong>{appUi.importer.emptyTitle}</strong>
+                  <p>{appUi.importer.emptyCopy}</p>
+                </div>
+              ) : (
+                <div className="review-table" role="table" aria-label={appUi.importer.historyTitle}>
+                  <div className="review-row review-head" role="row">
+                    <span>{appUi.dashboard.leadsPanel.company}</span>
+                    <span>{appUi.importer.sourceLabel}</span>
+                    <span>{appUi.importer.statusLabel}</span>
+                    <span>{appUi.importer.nextStepLabel}</span>
+                  </div>
+                  {importedQueueRows.map((row) => {
+                    const rowLead = row.leadId ? leadByDomain.get(row.domain) : null;
+                    const statusLabel =
+                      row.status === "qualified"
+                        ? appUi.savedAccounts.statusQualified
+                        : row.status === "researching"
+                          ? appUi.reviewQueue.statusResearching
+                          : appUi.reviewQueue.statusReady;
+                    return (
+                      <article className="review-row" role="row" key={row.id}>
+                        <div className="review-row-company">
+                          <strong>{row.companyName}</strong>
+                          <span>{row.domain}</span>
+                          {row.note ? <small>{row.note}</small> : null}
+                        </div>
+                        <span>{appUi.importer.sourceOptions[row.source]}</span>
+                        <span><span className="status-pill">{statusLabel}</span></span>
+                        <div className="review-row-actions">
+                          <a className="button button-secondary button-small" href={row.websiteUrl} target="_blank" rel="noreferrer">
+                            {appUi.reviewQueue.openSite}
+                          </a>
+                          {rowLead ? (
+                            <button className="button button-primary button-small" type="button" onClick={() => void openLeadDetail(rowLead)}>
+                              {appUi.reviewQueue.openCard}
+                            </button>
+                          ) : (
+                            <button
+                              className="button button-primary button-small"
+                              type="button"
+                              onClick={() => queueWebsiteForScanDesk({ url: row.websiteUrl, companyName: row.companyName, notes: row.note })}
+                            >
+                              {appUi.reviewQueue.moveToScanDesk}
+                            </button>
+                          )}
+                          <button className="button button-secondary button-small" type="button" onClick={() => removeImportedWebsite(row.id)}>
+                            {appUi.importer.remove}
+                          </button>
+                        </div>
+                      </article>
+                    );
+                  })}
+                </div>
+              )}
+            </section>
+          </>
+        ) : null}
+
+        {appSection === "leads" && !workspaceStateBlocked ? (
+          <section className={`app-page-grid review-page-grid ${showReviewQueueEmptyState ? "is-empty" : ""}`}>
+            <div className="panel review-queue-panel">
+              <div className="panel-header">
+                <div>
+                  <p className="eyebrow">{appUi.reviewQueue.eyebrow}</p>
+                  <h2>{appUi.reviewQueue.title}</h2>
+                </div>
+              </div>
+              {showReviewQueueEmptyState ? (
+                <div className="page-empty-state">
+                  <strong>{appUi.reviewQueue.emptyTitle}</strong>
+                  <p>{appUi.reviewQueue.emptyCopy}</p>
+                  <div className="page-empty-actions">
+                    <a className="button button-primary" href="/app/import">
+                      <Icon name="database" />
+                      {appUi.dashboard.nextAction.importWebsites}
+                    </a>
+                    <a className="button button-secondary" href="/app#scan-console">
+                      <Icon name="scan" />
+                      {appUi.actions.newScan}
+                    </a>
+                  </div>
+                </div>
+              ) : (
+                <>
+                  <div className="review-controls" aria-label={appUi.reviewQueue.controlsLabel}>
+                    <label className="lead-search-field">
+                      {appUi.reviewQueue.searchLabel}
+                      <input
+                        type="search"
+                        value={reviewSearch}
+                        onChange={(event) => setReviewSearch(event.currentTarget.value)}
+                        placeholder={appUi.common.placeholders.leadSearch}
+                      />
+                    </label>
                     <label>
-                      {appUi.leads.crmFieldsLabel}
-                      <select
-                        value={bulkCrmFieldMode}
-                        onChange={(event) => setBulkCrmFieldMode(event.currentTarget.value as ProspectCrmFieldMode)}
-                      >
-                        {prospectCrmFieldModes.map((mode) => (
-                          <option value={mode.value} key={mode.value}>
-                            {appUi.prospectCard.export.crmModes[mode.value].label}
+                      {appUi.reviewQueue.statusLabel}
+                      <select value={reviewFilter} onChange={(event) => setReviewFilter(event.currentTarget.value as ReviewQueueFilter)}>
+                        <option value="all">{appUi.reviewQueue.statusAll}</option>
+                        <option value="ready">{appUi.reviewQueue.statusReady}</option>
+                        <option value="researching">{appUi.reviewQueue.statusResearching}</option>
+                      </select>
+                    </label>
+                    <label>
+                      {appUi.reviewQueue.sourceLabel}
+                      <select value={reviewSourceFilter} onChange={(event) => setReviewSourceFilter(event.currentTarget.value as "all" | "import" | "workspace")}>
+                        <option value="all">{appUi.reviewQueue.sourceAll}</option>
+                        <option value="import">{appUi.reviewQueue.sourceImported}</option>
+                        <option value="workspace">{appUi.reviewQueue.workspaceSource}</option>
+                      </select>
+                    </label>
+                    <button className="button button-secondary button-small" type="button" onClick={() => {
+                      setReviewSearch("");
+                      setReviewFilter("all");
+                      setReviewSourceFilter("all");
+                    }} disabled={!reviewFiltersActive}>
+                      {appUi.common.clearFilters}
+                    </button>
+                  </div>
+                  <div className="lead-result-meta" aria-live="polite">
+                    <span>{formatMessage(appUi.reviewQueue.resultsSummary, { visible: visibleReviewRows.length, total: reviewQueueRows.length })}</span>
+                    <span>{formatMessage(appUi.reviewQueue.readySummary, { count: reviewReadyCount })}</span>
+                  </div>
+                  <div className="review-table" role="table" aria-label={appUi.reviewQueue.tableLabel}>
+                    <div className="review-row review-head" role="row">
+                      <span>{appUi.dashboard.leadsPanel.company}</span>
+                      <span>{appUi.reviewQueue.sourceLabel}</span>
+                      <span>{appUi.reviewQueue.statusLabel}</span>
+                      <span>{appUi.reviewQueue.nextStepLabel}</span>
+                    </div>
+                    {visibleReviewRows.length ? (
+                      visibleReviewRows.map((row) => {
+                        const rowLead = row.leadId ? leadByDomain.get(row.domain) : null;
+                        return (
+                          <article className="review-row" role="row" key={row.id}>
+                            <div className="review-row-company">
+                              <strong>{row.companyName}</strong>
+                              <span>{row.domain}</span>
+                              {row.note ? <small>{row.note}</small> : null}
+                            </div>
+                            <span>
+                              {row.kind === "import"
+                                ? appUi.importer.sourceOptions[row.source]
+                                : appUi.reviewQueue.workspaceSource}
+                            </span>
+                            <span>
+                              <span className="status-pill">
+                                {row.status === "ready" ? appUi.reviewQueue.statusReady : appUi.reviewQueue.statusResearching}
+                              </span>
+                            </span>
+                            <div className="review-row-actions">
+                              <a className="button button-secondary button-small" href={row.websiteUrl} target="_blank" rel="noreferrer">
+                                {appUi.reviewQueue.openSite}
+                              </a>
+                              {rowLead ? (
+                                <button className="button button-primary button-small" type="button" onClick={() => void openLeadDetail(rowLead)}>
+                                  {appUi.reviewQueue.openCard}
+                                </button>
+                              ) : (
+                                <button
+                                  className="button button-primary button-small"
+                                  type="button"
+                                  onClick={() => queueWebsiteForScanDesk({ url: row.websiteUrl, companyName: row.companyName, notes: row.note })}
+                                >
+                                  {appUi.reviewQueue.moveToScanDesk}
+                                </button>
+                              )}
+                            </div>
+                          </article>
+                        );
+                      })
+                    ) : (
+                      <div className="empty-table-state">
+                        <strong>{reviewQueueRows.length ? appUi.reviewQueue.emptyFilteredTitle : appUi.reviewQueue.emptyTitle}</strong>
+                        <span>{reviewQueueRows.length ? appUi.reviewQueue.emptyFilteredCopy : appUi.reviewQueue.emptyCopy}</span>
+                      </div>
+                    )}
+                  </div>
+                </>
+              )}
+            </div>
+            {!showReviewQueueEmptyState ? (
+            <div className="panel review-side-panel">
+              <p className="eyebrow">{appUi.reviewQueue.sideEyebrow}</p>
+              <h2>{appUi.reviewQueue.sideTitle}</h2>
+              <p className="panel-copy">{appUi.reviewQueue.sideCopy}</p>
+              <div className="overview-kpi-row">
+                <div>
+                  <span>{appUi.reviewQueue.statusReady}</span>
+                  <strong>{reviewReadyCount}</strong>
+                </div>
+                <div>
+                  <span>{appUi.reviewQueue.statusResearching}</span>
+                  <strong>{reviewResearchingCount}</strong>
+                </div>
+                <div>
+                  <span>{appUi.reviewQueue.importedCountLabel}</span>
+                  <strong>{importedWebsites.length}</strong>
+                </div>
+              </div>
+              <div className="policy-list">
+                {workflowRecommendations.map((item) => (
+                  <span key={item}>
+                    <Icon name="check" />
+                    {item}
+                  </span>
+                ))}
+              </div>
+            </div>
+            ) : null}
+          </section>
+        ) : null}
+
+        {appSection === "saved" && !workspaceStateBlocked ? (
+          <section className={`app-page-grid leads-page-grid ${showSavedAccountsEmptyState ? "is-empty" : ""}`}>
+            <div className="panel leads-panel leads-page-panel">
+              <div className="panel-header">
+                <div>
+                  <p className="eyebrow">{appUi.savedAccounts.eyebrow}</p>
+                  <h2>{appUi.savedAccounts.title}</h2>
+                </div>
+              </div>
+              {showSavedAccountsEmptyState ? (
+                <div className="page-empty-state">
+                  <strong>{appUi.savedAccounts.emptyTitle}</strong>
+                  <p>{appUi.savedAccounts.emptyCopy}</p>
+                  <div className="page-empty-actions">
+                    <a className="button button-primary" href="/app/leads">
+                      <Icon name="filter" />
+                      {appUi.dashboard.nextAction.openQueue}
+                    </a>
+                    <a className="button button-secondary" href="/app/import">
+                      <Icon name="database" />
+                      {appUi.dashboard.nextAction.importWebsites}
+                    </a>
+                  </div>
+                </div>
+              ) : (
+                <>
+                  <div className="lead-controls" aria-label={appUi.leads.controlsLabel}>
+                    <label className="lead-search-field">
+                      {appUi.leads.searchLabel}
+                      <input
+                        type="search"
+                        value={leadSearch}
+                        onChange={(event) => setLeadSearch(event.currentTarget.value)}
+                        placeholder={appUi.common.placeholders.leadSearch}
+                      />
+                    </label>
+                    <label>
+                      {appUi.leads.sortLabel}
+                      <select value={leadSort} onChange={(event) => setLeadSort(event.currentTarget.value as LeadSortOption)}>
+                        {leadSortOptions.map((option) => (
+                          <option value={option} key={option}>
+                            {appUi.options.leadSort[option]}
                           </option>
                         ))}
                       </select>
                     </label>
-                  ) : null}
-                </div>
-                <div className="lead-bulk-actions">
-                  <button
-                    className="button button-secondary button-small"
-                    type="button"
-                    onClick={toggleAllVisibleLeads}
-                    disabled={!visibleLeads.length}
-                  >
-                    {allVisibleLeadsSelected ? appUi.common.clearVisible : appUi.common.selectVisible}
-                  </button>
-                  <button
-                    className="button button-secondary button-small"
-                    type="button"
-                    onClick={clearLeadSelection}
-                    disabled={!selectedSourceLeads.length}
-                  >
-                    {appUi.common.clearSelection}
-                  </button>
-                  <button
-                    className="button button-primary button-small"
-                    type="button"
-                    onClick={() => void exportSelectedLeads()}
-                    disabled={!selectedSourceLeads.length || bulkExportState === "loading"}
-                  >
-                    <Icon name="download" />
-                    {bulkExportState === "loading" ? appUi.common.exporting : appUi.common.exportSelected}
-                  </button>
-                </div>
-              </div>
-              <div className="lead-table lead-table-expanded" role="table" aria-label={appUi.leads.tableLabel}>
-                <div className="lead-row lead-head" role="row">
-                  <span className="lead-select-cell lead-select-heading">
-                    <input
-                      type="checkbox"
-                      aria-label={allVisibleLeadsSelected ? appUi.leads.clearAllVisible : appUi.leads.selectAllVisible}
-                      checked={allVisibleLeadsSelected}
-                      ref={(element) => {
-                        if (element) {
-                          element.indeterminate = !allVisibleLeadsSelected && someVisibleLeadsSelected;
-                        }
-                      }}
-                      onChange={toggleAllVisibleLeads}
-                      disabled={!visibleLeads.length}
-                    />
-                  </span>
-                  <span>{appUi.dashboard.leadsPanel.company}</span>
-                  <span>{appUi.dashboard.leadsPanel.industry}</span>
-                  <span>{appUi.dashboard.leadsPanel.fit}</span>
-                  <span>{appUi.dashboard.leadsPanel.confidence}</span>
-                </div>
-                {visibleLeads.length ? (
-                  visibleLeads.map((lead) => (
-                    <div
-                      className={`lead-row lead-row-record ${selectedLeadId === lead.id ? "is-selected" : ""} ${
-                        selectedLeadIds.includes(lead.id) ? "is-checked" : ""
-                      }`}
-                      role="row"
-                      key={lead.id || lead.domain}
-                    >
-                      <label className="lead-select-cell">
-                        <input
-                          type="checkbox"
-                          checked={selectedLeadIds.includes(lead.id)}
-                          onChange={() => toggleLeadSelection(lead.id)}
-                          aria-label={formatMessage(appUi.leads.selectLead, { company: lead.companyName })}
-                        />
+                    <label>
+                      {appUi.leads.minFit}
+                      <span className="range-value">{leadMinFit}+</span>
+                      <input
+                        type="range"
+                        min="0"
+                        max="100"
+                        step="5"
+                        value={leadMinFit}
+                        onChange={(event) => setLeadMinFit(Number(event.currentTarget.value))}
+                      />
+                    </label>
+                    <label>
+                      {appUi.leads.minConfidence}
+                      <span className="range-value">{leadMinConfidence}%+</span>
+                      <input
+                        type="range"
+                        min="0"
+                        max="100"
+                        step="5"
+                        value={leadMinConfidence}
+                        onChange={(event) => setLeadMinConfidence(Number(event.currentTarget.value))}
+                      />
+                    </label>
+                    <button className="button button-secondary button-small" type="button" onClick={resetLeadControls} disabled={!leadFiltersActive}>
+                      {appUi.common.clearFilters}
+                    </button>
+                  </div>
+                  <div className="lead-result-meta" aria-live="polite">
+                    <span>{formatMessage(appUi.savedAccounts.resultsSummary, { visible: visibleLeads.length, total: sourceLeads.length })}</span>
+                    <span>{appUi.options.leadSort[leadSort]}</span>
+                  </div>
+                  <div className="lead-bulk-toolbar" aria-label={appUi.savedAccounts.title}>
+                    <div>
+                      <strong>{formatMessage(appUi.leads.selectedCount, { count: selectedSourceLeads.length })}</strong>
+                      <span>{selectedSourceLeads.length ? appUi.leads.selectedReadyCopy : appUi.leads.selectedEmptyCopy}</span>
+                    </div>
+                    <div className="lead-bulk-template" aria-label={appUi.leads.templateLabel}>
+                      <label>
+                        {appUi.leads.templateLabel}
+                        <select
+                          value={bulkExportPreset}
+                          onChange={(event) => setBulkExportPreset(event.currentTarget.value as Exclude<ProspectExportPresetKey, "custom">)}
+                        >
+                          {prospectExportPresets.map((preset) => (
+                            <option value={preset.key} key={preset.key}>
+                              {appUi.prospectCard.export.presets[preset.key].label}
+                            </option>
+                          ))}
+                        </select>
                       </label>
+                      {bulkExportPreset === "crm" ? (
+                        <label>
+                          {appUi.leads.crmFieldsLabel}
+                          <select
+                            value={bulkCrmFieldMode}
+                            onChange={(event) => setBulkCrmFieldMode(event.currentTarget.value as ProspectCrmFieldMode)}
+                          >
+                            {prospectCrmFieldModes.map((mode) => (
+                              <option value={mode.value} key={mode.value}>
+                                {appUi.prospectCard.export.crmModes[mode.value].label}
+                              </option>
+                            ))}
+                          </select>
+                        </label>
+                      ) : null}
+                    </div>
+                    <div className="lead-bulk-actions">
                       <button
-                        className="lead-row-open"
+                        className="button button-secondary button-small"
                         type="button"
-                        onClick={() => void openLeadDetail(lead)}
-                        aria-label={formatMessage(appUi.leads.openProspectCard, { company: lead.companyName })}
+                        onClick={toggleAllVisibleLeads}
+                        disabled={!visibleLeads.length}
                       >
-                        <strong>{lead.companyName}</strong>
-                        <span>{lead.industry}</span>
-                        <span>{lead.fitScore}</span>
-                        <span>{Math.round(lead.confidenceScore * 100)}%</span>
+                        {allVisibleLeadsSelected ? appUi.common.clearVisible : appUi.common.selectVisible}
+                      </button>
+                      <button
+                        className="button button-secondary button-small"
+                        type="button"
+                        onClick={clearLeadSelection}
+                        disabled={!selectedSourceLeads.length}
+                      >
+                        {appUi.common.clearSelection}
+                      </button>
+                      <button
+                        className="button button-primary button-small"
+                        type="button"
+                        onClick={() => void exportSelectedLeads()}
+                        disabled={!selectedSourceLeads.length || bulkExportState === "loading"}
+                      >
+                        <Icon name="download" />
+                        {bulkExportState === "loading" ? appUi.common.exporting : appUi.common.exportSelected}
                       </button>
                     </div>
-                  ))
-                ) : (
-                  <div className="empty-table-state">
-                    <strong>{sourceLeads.length ? appUi.leads.noMatchingTitle : appUi.leads.noSavedTitle}</strong>
-                    <span>
-                      {sourceLeads.length
-                        ? appUi.leads.noMatchingCopy
-                        : appUi.leads.noSavedCopy}
-                    </span>
                   </div>
-                )}
-              </div>
+                  <div className="lead-table lead-table-expanded" role="table" aria-label={appUi.savedAccounts.tableLabel}>
+                    <div className="lead-row lead-head" role="row">
+                      <span className="lead-select-cell lead-select-heading">
+                        <input
+                          type="checkbox"
+                          aria-label={allVisibleLeadsSelected ? appUi.leads.clearAllVisible : appUi.leads.selectAllVisible}
+                          checked={allVisibleLeadsSelected}
+                          ref={(element) => {
+                            if (element) {
+                              element.indeterminate = !allVisibleLeadsSelected && someVisibleLeadsSelected;
+                            }
+                          }}
+                          onChange={toggleAllVisibleLeads}
+                          disabled={!visibleLeads.length}
+                        />
+                      </span>
+                      <span>{appUi.dashboard.leadsPanel.company}</span>
+                      <span>{appUi.dashboard.leadsPanel.industry}</span>
+                      <span>{appUi.dashboard.leadsPanel.fit}</span>
+                      <span>{appUi.dashboard.leadsPanel.confidence}</span>
+                    </div>
+                    {visibleLeads.length ? (
+                      visibleLeads.map((lead) => (
+                        <div
+                          className={`lead-row lead-row-record ${selectedLeadId === lead.id ? "is-selected" : ""} ${
+                            selectedLeadIds.includes(lead.id) ? "is-checked" : ""
+                          }`}
+                          role="row"
+                          key={lead.id || lead.domain}
+                        >
+                          <label className="lead-select-cell">
+                            <input
+                              type="checkbox"
+                              checked={selectedLeadIds.includes(lead.id)}
+                              onChange={() => toggleLeadSelection(lead.id)}
+                              aria-label={formatMessage(appUi.leads.selectLead, { company: lead.companyName })}
+                            />
+                          </label>
+                          <button
+                            className="lead-row-open"
+                            type="button"
+                            onClick={() => void openLeadDetail(lead)}
+                            aria-label={formatMessage(appUi.leads.openProspectCard, { company: lead.companyName })}
+                          >
+                            <strong>{lead.companyName}</strong>
+                            <span>{lead.industry}</span>
+                            <span>{lead.fitScore}</span>
+                            <span>{Math.round(lead.confidenceScore * 100)}%</span>
+                          </button>
+                        </div>
+                      ))
+                    ) : (
+                      <div className="empty-table-state">
+                        <strong>{sourceLeads.length ? appUi.savedAccounts.emptyFilteredTitle : appUi.savedAccounts.emptyTitle}</strong>
+                        <span>{sourceLeads.length ? appUi.savedAccounts.emptyFilteredCopy : appUi.savedAccounts.emptyCopy}</span>
+                      </div>
+                    )}
+                  </div>
+                </>
+              )}
             </div>
+            {!showSavedAccountsEmptyState ? (
+            <>
             <button
               className={`lead-detail-backdrop ${isLeadDrawerOpen ? "is-open" : ""}`}
               type="button"
@@ -6110,12 +7421,14 @@ function DashboardApp() {
                 </div>
               )}
             </aside>
+            </>
+            ) : null}
           </section>
         ) : null}
 
-        {appSection === "icp" ? (
+        {appSection === "icp" && !workspaceStateBlocked ? (
           <section className="app-page-grid">
-            <div className="panel icp-editor-panel">
+            <div className="panel icp-editor-panel" id="icp-editor">
               <div className="panel-header">
                 <div>
                   <p className="eyebrow">{appUi.icp.editorEyebrow}</p>
@@ -6206,15 +7519,39 @@ function DashboardApp() {
                   </div>
                 ))}
               </div>
-              <a className="button button-primary" href="/app#scan-console">
-                <Icon name="scan" />
-                {appUi.icp.actions.test}
-              </a>
             </div>
           </section>
         ) : null}
 
-        {appSection === "analytics" ? (
+        {appSection === "analytics" && !workspaceStateBlocked ? (
+          !analyticsHasWorkflowData ? (
+            <section className="app-page-grid analytics-page-grid is-empty">
+              <div className="panel analytics-overview-panel">
+                <p className="eyebrow">{appUi.analytics.overviewEyebrow}</p>
+                <h2>{appUi.analytics.emptyTitle}</h2>
+                <p className="panel-copy">{appUi.analytics.emptyCopy}</p>
+                <div className="page-empty-actions">
+                  <a className="button button-primary" href="/app/import">
+                    <Icon name="database" />
+                    {appUi.dashboard.nextAction.importWebsites}
+                  </a>
+                  <a className="button button-secondary" href="/app#scan-console">
+                    <Icon name="scan" />
+                    {appUi.actions.newScan}
+                  </a>
+                </div>
+                <div className="overview-step-grid">
+                  {workflowFunnelSteps.map(([label, _value, meta]) => (
+                    <article className="overview-step-card" key={label}>
+                      <span className="side-label">{label}</span>
+                      <strong>{label}</strong>
+                      <p>{meta}</p>
+                    </article>
+                  ))}
+                </div>
+              </div>
+            </section>
+          ) : (
           <section className="app-page-grid analytics-page-grid">
             <div className="panel analytics-overview-panel">
               <div className="panel-header">
@@ -6225,6 +7562,8 @@ function DashboardApp() {
                 <span className="status-pill">
                   {analyticsState === "loading"
                     ? appUi.common.loading
+                    : analyticsState === "error"
+                      ? appUi.common.failed
                     : analyticsState === "sample"
                       ? appUi.common.sample
                       : appUi.common.live}
@@ -6232,9 +7571,9 @@ function DashboardApp() {
               </div>
               <div className="analytics-kpi-grid">
                 {[
-                  [appUi.analytics.kpis.trackedEvents, analyticsSummary.totals.events.toLocaleString()],
-                  [appUi.analytics.kpis.scansCompleted, analyticsSummary.totals.scansCompleted.toLocaleString()],
-                  [appUi.analytics.kpis.leadsSaved, analyticsSummary.totals.leadsSaved.toLocaleString()],
+                  [appUi.analytics.kpis.importedWebsites, importedWebsites.length.toLocaleString()],
+                  [appUi.analytics.kpis.reviewQueueReady, reviewReadyCount.toLocaleString()],
+                  [appUi.analytics.kpis.qualifiedAccounts, qualifiedCount.toLocaleString()],
                   [appUi.analytics.kpis.exportsCompleted, analyticsSummary.totals.exportsCompleted.toLocaleString()]
                 ].map(([label, value]) => (
                   <div key={label}>
@@ -6246,36 +7585,10 @@ function DashboardApp() {
             </div>
 
             <div className="panel analytics-funnel-panel">
-              <p className="eyebrow">{appUi.analytics.funnel.eyebrow}</p>
-              <h2>{appUi.analytics.funnel.title}</h2>
+              <p className="eyebrow">{appUi.analytics.workflowFunnel.eyebrow}</p>
+              <h2>{appUi.analytics.workflowFunnel.title}</h2>
               <div className="analytics-funnel">
-                {[
-                  [appUi.analytics.funnel.ctaClicks, analyticsSummary.funnel.ctaClicks, appUi.analytics.funnel.ctaClicksMeta],
-                  [
-                    appUi.analytics.funnel.signups,
-                    analyticsSummary.funnel.signupsCompleted,
-                    formatMessage(appUi.analytics.funnel.signupsMeta, {
-                      percent: percentage(analyticsSummary.funnel.signupsCompleted, analyticsSummary.funnel.ctaClicks)
-                    })
-                  ],
-                  [
-                    appUi.analytics.funnel.scans,
-                    analyticsSummary.funnel.scansCompleted,
-                    formatMessage(appUi.analytics.funnel.scansMeta, {
-                      percent: percentage(
-                        analyticsSummary.funnel.scansCompleted,
-                        analyticsSummary.funnel.signupsCompleted || analyticsSummary.funnel.loginsCompleted
-                      )
-                    })
-                  ],
-                  [
-                    appUi.analytics.funnel.exports,
-                    analyticsSummary.funnel.exportsCompleted,
-                    formatMessage(appUi.analytics.funnel.exportsMeta, {
-                      percent: percentage(analyticsSummary.funnel.exportsCompleted, analyticsSummary.funnel.scansCompleted)
-                    })
-                  ]
-                ].map(([label, value, meta]) => (
+                {workflowFunnelSteps.map(([label, value, meta]) => (
                   <div className="analytics-funnel-step" key={label}>
                     <span>{label}</span>
                     <strong>{value}</strong>
@@ -6286,28 +7599,60 @@ function DashboardApp() {
             </div>
 
             <div className="panel analytics-list-panel">
-              <p className="eyebrow">{appUi.analytics.topPages.eyebrow}</p>
-              <h2>{appUi.analytics.topPages.title}</h2>
+              <p className="eyebrow">{appUi.analytics.stageMix.eyebrow}</p>
+              <h2>{appUi.analytics.stageMix.title}</h2>
               <div className="analytics-simple-list">
-                {analyticsSummary.topPages.map((page) => (
-                  <div key={page.path}>
-                    <strong>{page.path}</strong>
-                    <span>{formatMessage(appUi.analytics.topPages.eventsSuffix, { count: page.count })}</span>
+                {pipelineStageOptions
+                  .filter((stage) => workflowStageCounts[stage] > 0)
+                  .map((stage) => (
+                  <div key={stage}>
+                    <strong>{formatPipelineStage(stage, appUi)}</strong>
+                    <span>{formatMessage(appUi.analytics.stageMix.accountsSuffix, { count: workflowStageCounts[stage] })}</span>
                   </div>
                 ))}
               </div>
             </div>
 
             <div className="panel analytics-list-panel">
-              <p className="eyebrow">{appUi.analytics.topEvents.eyebrow}</p>
-              <h2>{appUi.analytics.topEvents.title}</h2>
+              <p className="eyebrow">{appUi.analytics.queueSources.eyebrow}</p>
+              <h2>{appUi.analytics.queueSources.title}</h2>
               <div className="analytics-simple-list">
-                {analyticsSummary.topEvents.map((event) => (
-                  <div key={event.name}>
-                    <strong>{formatAnalyticsEventName(event.name, appUi)}</strong>
-                    <span>{formatMessage(appUi.analytics.topEvents.eventsSuffix, { count: event.count })}</span>
+                {batchSourceOptions
+                  .filter((source) => queueSourceCounts[source] > 0)
+                  .map((source) => (
+                  <div key={source}>
+                    <strong>{appUi.importer.sourceOptions[source]}</strong>
+                    <span>{formatMessage(appUi.analytics.queueSources.accountsSuffix, { count: queueSourceCounts[source] })}</span>
                   </div>
                 ))}
+              </div>
+            </div>
+
+            <div className="panel analytics-events-panel">
+              <p className="eyebrow">{appUi.analytics.scanOutcomes.eyebrow}</p>
+              <h2>{appUi.analytics.scanOutcomes.title}</h2>
+              <div className="analytics-kpi-grid analytics-kpi-grid-compact">
+                {scanOutcomeCards.map(([label, value]) => (
+                  <div key={label}>
+                    <span>{label}</span>
+                    <strong>{value}</strong>
+                  </div>
+                ))}
+              </div>
+              <div className="analytics-simple-list">
+                {failureReasonEntries.length ? (
+                  failureReasonEntries.slice(0, 4).map(([reason, count]) => (
+                    <div key={reason}>
+                      <strong>{reason}</strong>
+                      <span>{formatMessage(appUi.analytics.scanOutcomes.failureSuffix, { count })}</span>
+                    </div>
+                  ))
+                ) : (
+                  <div>
+                    <strong>{appUi.analytics.scanOutcomes.noFailures}</strong>
+                    <span>{appUi.analytics.scanOutcomes.noFailuresCopy}</span>
+                  </div>
+                )}
               </div>
             </div>
 
@@ -6315,7 +7660,7 @@ function DashboardApp() {
               <p className="eyebrow">{appUi.analytics.recentEvents.eyebrow}</p>
               <h2>{appUi.analytics.recentEvents.title}</h2>
               <div className="analytics-event-list">
-                {analyticsSummary.recentEvents.map((event) => (
+                {analyticsSummary.recentEvents.slice(0, 6).map((event) => (
                   <article key={event.id}>
                     <div>
                       <strong>{formatAnalyticsEventName(event.name, appUi)}</strong>
@@ -6334,285 +7679,7 @@ function DashboardApp() {
               <p className="eyebrow">{appUi.analytics.recommendations.eyebrow}</p>
               <h2>{appUi.analytics.recommendations.title}</h2>
               <div className="policy-list">
-                {analyticsSummary.recommendations.map((item) => (
-                  <span key={item}>
-                    <Icon name="check" />
-                    {formatAnalyticsRecommendation(item, appUi)}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </section>
-        ) : null}
-
-        {appSection === "account" ? (
-          <section className="app-page-grid account-page-grid">
-            <div className="panel">
-              <div className="panel-header">
-                <div>
-                  <p className="eyebrow">{appUi.account.profile.eyebrow}</p>
-                  <h2>{appUi.account.profile.title}</h2>
-                </div>
-                <span className="status-pill">
-                  {profileSaveState === "saving"
-                    ? appUi.account.profile.statusSaving
-                    : profileSaveState === "saved"
-                      ? appUi.account.profile.statusSaved
-                      : appUi.account.profile.statusEditable}
-                </span>
-              </div>
-              <form className="icp-edit-form" onSubmit={submitProfile}>
-                <div className="account-form-grid">
-                  <label>
-                    {appUi.account.profile.ownerName}
-                    <input
-                      value={profileForm.name}
-                      onChange={updateProfileField("name")}
-                      placeholder={appUi.account.profile.ownerPlaceholder}
-                    />
-                    <small>{appUi.account.profile.ownerHelp}</small>
-                  </label>
-                  <label>
-                    {appUi.account.profile.workspaceName}
-                    <input
-                      value={profileForm.workspaceName}
-                      onChange={updateProfileField("workspaceName")}
-                      placeholder={appUi.account.profile.workspacePlaceholder}
-                    />
-                    <small>{appUi.account.profile.workspaceHelp}</small>
-                  </label>
-                </div>
-                <div className="icp-form-actions">
-                  <button className="button button-primary" type="submit" disabled={profileSaveState === "saving"}>
-                    <Icon name="check" />
-                    {profileSaveState === "saving" ? appUi.account.profile.saving : appUi.account.profile.save}
-                  </button>
-                </div>
-                <p
-                  className={`form-status ${
-                    profileSaveState === "error" ? "is-error" : profileSaveState === "saved" ? "is-success" : ""
-                  }`}
-                  role="status"
-                >
-                  {profileMessage || " "}
-                </p>
-              </form>
-            </div>
-
-            <div className="panel">
-              <div className="panel-header">
-                <div>
-                  <p className="eyebrow">{appUi.account.password.eyebrow}</p>
-                  <h2>{appUi.account.password.title}</h2>
-                </div>
-                <span className="status-pill">
-                  {accountPasswordState === "saving"
-                    ? appUi.account.password.statusUpdating
-                    : accountPasswordState === "saved"
-                      ? appUi.account.password.statusUpdated
-                      : appUi.account.password.statusEnabled}
-                </span>
-              </div>
-              <form className="icp-edit-form" onSubmit={submitPasswordChange}>
-                <div className="account-form-grid">
-                  <label>
-                    {appUi.account.password.currentPassword}
-                    <input
-                      type={showAccountPassword ? "text" : "password"}
-                      value={accountPasswordForm.currentPassword}
-                      onChange={updateAccountPasswordField("currentPassword")}
-                      autoComplete="current-password"
-                      placeholder={appUi.account.password.currentPlaceholder}
-                    />
-                    <small>{appUi.account.password.currentHelp}</small>
-                  </label>
-                  <label>
-                    {appUi.account.password.newPassword}
-                    <input
-                      type={showAccountPassword ? "text" : "password"}
-                      value={accountPasswordForm.nextPassword}
-                      onChange={updateAccountPasswordField("nextPassword")}
-                      autoComplete="new-password"
-                      minLength={8}
-                      placeholder={appUi.account.password.newPlaceholder}
-                    />
-                    <small>{appUi.account.password.newHelp}</small>
-                  </label>
-                  <label className="account-form-wide">
-                    {appUi.account.password.confirmPassword}
-                    <input
-                      type={showAccountPassword ? "text" : "password"}
-                      value={accountPasswordForm.confirmPassword}
-                      onChange={updateAccountPasswordField("confirmPassword")}
-                      autoComplete="new-password"
-                      minLength={8}
-                      placeholder={appUi.account.password.confirmPlaceholder}
-                    />
-                  </label>
-                </div>
-                <div className="account-password-actions">
-                  <label className="scan-depth-toggle account-password-visibility">
-                    <input
-                      type="checkbox"
-                      checked={showAccountPassword}
-                      onChange={() => setShowAccountPassword((current) => !current)}
-                    />
-                    <span>
-                      {appUi.account.password.showFields}
-                      <small>{appUi.account.password.showFieldsHelp}</small>
-                    </span>
-                  </label>
-                  <button className="button button-primary" type="submit" disabled={accountPasswordState === "saving"}>
-                    <Icon name="lock" />
-                    {accountPasswordState === "saving" ? appUi.account.password.updating : appUi.account.password.update}
-                  </button>
-                </div>
-                <p
-                  className={`form-status ${
-                    accountPasswordState === "error" ? "is-error" : accountPasswordState === "saved" ? "is-success" : ""
-                  }`}
-                  role="status"
-                >
-                  {accountPasswordMessage || " "}
-                </p>
-              </form>
-            </div>
-
-            <div className="panel account-summary-panel">
-              <p className="eyebrow">{appUi.account.summary.eyebrow}</p>
-              <h2>{appUi.account.summary.title}</h2>
-              <div className="account-card-list">
-                <div>
-                  <span>{appUi.account.summary.signedInEmail}</span>
-                  <strong>{auth.authenticated ? auth.user.email : appUi.account.summary.demoPreview}</strong>
-                </div>
-                <div>
-                  <span>{appUi.account.summary.workspace}</span>
-                  <strong>{snapshot.workspace.name}</strong>
-                </div>
-                <div>
-                  <span>{appUi.account.summary.plan}</span>
-                  <strong>{snapshot.plan.name}</strong>
-                </div>
-                <div>
-                  <span>{appUi.account.summary.nextCreditReset}</span>
-                  <strong>{formatCalendarDate(snapshot.credits.reset)}</strong>
-                </div>
-              </div>
-              <div className="billing-actions">
-                <button className="button button-secondary" type="button" onClick={openBillingPortal}>
-                  <Icon name="shield" />
-                  {appUi.account.summary.manageBilling}
-                </button>
-                <button className="button button-secondary" type="button" onClick={signOut}>
-                  <Icon name="lock" />
-                  {appUi.account.summary.signOut}
-                </button>
-              </div>
-            </div>
-          </section>
-        ) : null}
-
-        {appSection === "billing" ? (
-          <section className="app-page-grid billing-page-grid">
-            <div className="panel billing-usage-panel">
-              <p className="eyebrow">{appUi.billing.usage.eyebrow}</p>
-              <h2>{formatMessage(appUi.billing.usage.title, { count: snapshot.credits.remaining.toLocaleString() })}</h2>
-              <p>
-                {formatMessage(appUi.billing.usage.summary, {
-                  used: snapshot.credits.used.toLocaleString(),
-                  plan: snapshot.plan.name
-                })}
-              </p>
-              <div className="billing-kpis">
-                <div>
-                  <span>{appUi.billing.kpis.subscription}</span>
-                  <strong>{formatSubscriptionStatus(snapshot.subscription.status, appUi)}</strong>
-                </div>
-                <div>
-                  <span>{appUi.billing.kpis.creditReset}</span>
-                  <strong>{formatCalendarDate(snapshot.credits.reset)}</strong>
-                </div>
-                <div>
-                  <span>{appUi.billing.kpis.billingPeriodEnd}</span>
-                  <strong>{formatCalendarDate(snapshot.subscription.currentPeriodEnd)}</strong>
-                </div>
-              </div>
-              <div className="credit-meter" aria-label={appUi.billing.meterLabel}>
-                <i
-                  style={{
-                    width: `${Math.min(
-                      100,
-                      (snapshot.credits.used / Math.max(1, snapshot.credits.used + snapshot.credits.remaining)) * 100
-                    )}%`
-                  }}
-                />
-              </div>
-              <div className="billing-actions">
-                <button className="button button-primary" type="button" onClick={openBillingPortal}>
-                  <Icon name="shield" />
-                  {appUi.billing.actions.manageBilling}
-                </button>
-                <button className="button button-secondary" type="button" onClick={downloadCsv}>
-                  <Icon name="download" />
-                  {appUi.billing.actions.exportCsv}
-                </button>
-              </div>
-            </div>
-            <div className="panel billing-plan-panel">
-              <p className="eyebrow">{appUi.billing.plans.eyebrow}</p>
-              <h2>{appUi.billing.plans.title}</h2>
-              <div className="billing-plan-list">
-                {PRICING_PLANS.map((plan) => {
-                  const isCurrent = plan.id === snapshot.plan.id;
-                  const isFree = plan.id === "free";
-
-                  return (
-                    <article className={`billing-plan-card ${isCurrent ? "is-current" : ""}`} key={plan.id}>
-                      <div>
-                        <strong>{plan.name}</strong>
-                        <span>
-                          {formatMessage(appUi.billing.plans.scansPerMonth, {
-                            count: plan.monthlyCredits.toLocaleString()
-                          })}
-                        </span>
-                      </div>
-                      <p>{appUi.billing.plans.useCases[plan.id]}</p>
-                      <button
-                        className={`button ${isCurrent ? "button-secondary" : "button-primary"}`}
-                        type="button"
-                        onClick={() => {
-                          if (isCurrent) {
-                            return;
-                          }
-
-                          if (isFree) {
-                            window.location.assign("/support");
-                            return;
-                          }
-
-                          void startPlanCheckout(plan.id);
-                        }}
-                        disabled={isCurrent}
-                      >
-                        {isCurrent ? appUi.billing.plans.currentPlan : formatMessage(appUi.billing.plans.choosePlan, { plan: plan.name })}
-                      </button>
-                    </article>
-                  );
-                })}
-              </div>
-            </div>
-            <div className="panel billing-policy-panel">
-              <p className="eyebrow">{appUi.billing.policy.eyebrow}</p>
-              <h2>{appUi.billing.policy.title}</h2>
-              <div className="policy-list">
-                {[
-                  appUi.billing.policy.validation,
-                  appUi.billing.policy.access,
-                  appUi.billing.policy.duplicate,
-                  appUi.billing.policy.basic,
-                  appUi.billing.policy.deep
-                ].map((item) => (
+                {workflowRecommendations.map((item) => (
                   <span key={item}>
                     <Icon name="check" />
                     {item}
@@ -6620,42 +7687,469 @@ function DashboardApp() {
                 ))}
               </div>
             </div>
-            <div className="panel billing-status-panel">
-              <p className="eyebrow">{appUi.billing.status.eyebrow}</p>
-              <h2>{appUi.billing.status.title}</h2>
-              <p className="billing-status-copy">{subscriptionStatusDetails.summary}</p>
-              <div className="account-card-list">
-                <div>
-                  <span>{appUi.billing.status.workspaceStatus}</span>
-                  <strong>{auth.authenticated ? appUi.billing.status.authenticated : appUi.billing.status.demoPreview}</strong>
+          </section>
+          )
+        ) : null}
+
+        {appSection === "account" && !workspaceStateBlocked ? (
+          <section className="app-page-grid account-page-grid">
+            <div className="account-main-stack">
+              {auth.authenticated ? (
+                <>
+                  {accountShowsWorkspaceAlertPanel ? (
+                    <section className="panel account-alert-panel" aria-labelledby="account-alert-title">
+                      <div className="account-alert-copy">
+                        <p className="eyebrow">{accountSectionCopy.alert.eyebrow}</p>
+                        <h2 id="account-alert-title">{accountSectionCopy.alert.title}</h2>
+                        <p className="account-alert-message">{workspaceAlertMessage}</p>
+                        <p className="panel-copy">{accountSectionCopy.alert.note}</p>
+                      </div>
+                      <div className="account-alert-actions">
+                        <button className="button button-primary" type="button" onClick={() => window.location.reload()}>
+                          <Icon name="browser" />
+                          {appUi.dashboard.nextAction.retryWorkspace}
+                        </button>
+                      </div>
+                    </section>
+                  ) : null}
+
+                  <div className="panel account-profile-panel">
+                    <div className="panel-header">
+                      <div>
+                        <p className="eyebrow">{appUi.account.profile.eyebrow}</p>
+                        <h2>{appUi.account.profile.title}</h2>
+                      </div>
+                      {profileSaveState === "saving" || profileSaveState === "saved" ? (
+                        <span className="status-pill">
+                          {profileSaveState === "saving" ? appUi.account.profile.statusSaving : appUi.account.profile.statusSaved}
+                        </span>
+                      ) : null}
+                    </div>
+                    <form className="icp-edit-form" onSubmit={submitProfile}>
+                      <div className="account-form-grid">
+                        <label>
+                          {appUi.account.profile.ownerName}
+                          <input
+                            value={profileForm.name}
+                            onChange={updateProfileField("name")}
+                            placeholder={appUi.account.profile.ownerPlaceholder}
+                          />
+                          <small>{appUi.account.profile.ownerHelp}</small>
+                        </label>
+                        <label>
+                          {appUi.account.profile.workspaceName}
+                          <input
+                            value={profileForm.workspaceName}
+                            onChange={updateProfileField("workspaceName")}
+                            placeholder={appUi.account.profile.workspacePlaceholder}
+                          />
+                          <small>{appUi.account.profile.workspaceHelp}</small>
+                        </label>
+                      </div>
+                      <div className="icp-form-actions">
+                        <button className="button button-primary" type="submit" disabled={profileSaveState === "saving"}>
+                          <Icon name="check" />
+                          {profileSaveState === "saving" ? appUi.account.profile.saving : appUi.account.profile.save}
+                        </button>
+                      </div>
+                      <p
+                        className={`form-status ${
+                          profileSaveState === "error" ? "is-error" : profileSaveState === "saved" ? "is-success" : ""
+                        }`}
+                        role="status"
+                      >
+                        {profileMessage || " "}
+                      </p>
+                    </form>
+                  </div>
+
+                  <div className="panel account-password-panel">
+                    <div className="panel-header">
+                      <div>
+                        <p className="eyebrow">{appUi.account.password.eyebrow}</p>
+                        <h2>{appUi.account.password.title}</h2>
+                      </div>
+                      {accountPasswordState === "saving" || accountPasswordState === "saved" ? (
+                        <span className="status-pill">
+                          {accountPasswordState === "saving"
+                            ? appUi.account.password.statusUpdating
+                            : appUi.account.password.statusUpdated}
+                        </span>
+                      ) : null}
+                    </div>
+                    <form className="icp-edit-form" onSubmit={submitPasswordChange}>
+                      <div className="account-password-form-grid">
+                        <label>
+                          {appUi.account.password.currentPassword}
+                          <input
+                            type={showAccountPassword ? "text" : "password"}
+                            value={accountPasswordForm.currentPassword}
+                            onChange={updateAccountPasswordField("currentPassword")}
+                            autoComplete="current-password"
+                            placeholder={appUi.account.password.currentPlaceholder}
+                          />
+                          <small>{appUi.account.password.currentHelp}</small>
+                        </label>
+                        <label>
+                          {appUi.account.password.newPassword}
+                          <input
+                            type={showAccountPassword ? "text" : "password"}
+                            value={accountPasswordForm.nextPassword}
+                            onChange={updateAccountPasswordField("nextPassword")}
+                            autoComplete="new-password"
+                            minLength={8}
+                            placeholder={appUi.account.password.newPlaceholder}
+                          />
+                          <small>{appUi.account.password.newHelp}</small>
+                        </label>
+                        <label>
+                          {appUi.account.password.confirmPassword}
+                          <input
+                            type={showAccountPassword ? "text" : "password"}
+                            value={accountPasswordForm.confirmPassword}
+                            onChange={updateAccountPasswordField("confirmPassword")}
+                            autoComplete="new-password"
+                            minLength={8}
+                            placeholder={appUi.account.password.confirmPlaceholder}
+                          />
+                        </label>
+                      </div>
+                      <div className="account-password-actions">
+                        <label className="scan-depth-toggle account-password-visibility">
+                          <input
+                            type="checkbox"
+                            checked={showAccountPassword}
+                            onChange={() => setShowAccountPassword((current) => !current)}
+                          />
+                          <span>
+                            {appUi.account.password.showFields}
+                            <small>{appUi.account.password.showFieldsHelp}</small>
+                          </span>
+                        </label>
+                        <button className="button button-primary" type="submit" disabled={accountPasswordState === "saving"}>
+                          <Icon name="lock" />
+                          {accountPasswordState === "saving" ? appUi.account.password.updating : appUi.account.password.update}
+                        </button>
+                      </div>
+                      <p
+                        className={`form-status ${
+                          accountPasswordState === "error" ? "is-error" : accountPasswordState === "saved" ? "is-success" : ""
+                        }`}
+                        role="status"
+                      >
+                        {accountPasswordMessage || " "}
+                      </p>
+                    </form>
+                  </div>
+                </>
+              ) : (
+                <div className="panel account-preview-panel">
+                  <p className="eyebrow">{appUi.account.profile.eyebrow}</p>
+                  <h2>{appUi.account.profile.title}</h2>
+                  <p className="panel-copy">{appUi.dashboard.nextAction.sampleCopy}</p>
+                  <div className="page-empty-actions">
+                    <a className="button button-secondary" href={buildLocalePath(locale, "/login")}>
+                      <Icon name="mail" />
+                      {appUi.actions.signIn}
+                    </a>
+                    <a className="button button-primary" href={buildLocalePath(locale, "/signup")}>
+                      <Icon name="mail" />
+                      {appUi.dashboard.nextAction.startWorkspace}
+                    </a>
+                  </div>
                 </div>
-                <div>
-                  <span>{appUi.billing.status.subscriptionState}</span>
-                  <strong>{subscriptionStatusLabel}</strong>
-                </div>
-                <div>
-                  <span>{appUi.billing.status.remainingCredits}</span>
-                  <strong>{snapshot.credits.remaining.toLocaleString()}</strong>
-                </div>
-                <div>
-                  <span>{appUi.billing.status.exportMode}</span>
-                  <strong>{bulkExportLabel(bulkExportPreset, bulkCrmFieldMode, appUi)}</strong>
+              )}
+            </div>
+
+            <div className="account-side-stack">
+              <div className="panel account-summary-panel">
+                <p className="eyebrow">{appUi.account.summary.eyebrow}</p>
+                <h2>{appUi.account.summary.title}</h2>
+                <div className="account-card-list">
+                  <div>
+                    <span>{appUi.account.summary.signedInEmail}</span>
+                    <strong>{auth.authenticated ? auth.user.email : appUi.common.notSet}</strong>
+                  </div>
+                  <div>
+                    <span>{appUi.account.summary.workspace}</span>
+                    <strong>{snapshot.workspace.name}</strong>
+                  </div>
+                  <div>
+                    <span>{appUi.account.summary.plan}</span>
+                    <strong>{snapshot.plan.name}</strong>
+                  </div>
+                  <div>
+                    <span>{appUi.account.summary.nextCreditReset}</span>
+                    <strong>{formatCalendarDate(snapshot.credits.reset)}</strong>
+                  </div>
                 </div>
               </div>
-              <div className="billing-status-next-step">
-                <span>{appUi.billing.status.nextStep}</span>
-                <strong>{subscriptionStatusDetails.nextStep}</strong>
+
+              {auth.authenticated ? (
+                <div className="panel account-utility-panel">
+                  <p className="eyebrow">{accountSectionCopy.utility.eyebrow}</p>
+                  <h2>{accountSectionCopy.utility.title}</h2>
+                  <p className="panel-copy">{accountSectionCopy.utility.copy}</p>
+                  <div className="billing-actions">
+                    <button
+                      className="button button-secondary"
+                      type="button"
+                      onClick={() => {
+                        void openBillingPortal();
+                      }}
+                    >
+                      <Icon name="shield" />
+                      {appUi.account.summary.manageBilling}
+                    </button>
+                    <button className="button button-secondary" type="button" onClick={signOut}>
+                      <Icon name="lock" />
+                      {appUi.account.summary.signOut}
+                    </button>
+                  </div>
+                </div>
+              ) : null}
+            </div>
+          </section>
+        ) : null}
+
+        {appSection === "billing" && !workspaceStateBlocked ? (
+          <section className="app-page-grid billing-page-grid">
+            <div className="billing-summary-strip" aria-label={appUi.billing.meterLabel}>
+              {billingSummaryCards.map(([label, value]) => (
+                <div className="billing-summary-card" key={label}>
+                  <span>{label}</span>
+                  <strong>{value}</strong>
+                </div>
+              ))}
+            </div>
+
+            <div className="billing-main-grid">
+              <div className="panel billing-usage-panel">
+                <div className="billing-panel-header">
+                  <div>
+                    <p className="eyebrow">{appUi.billing.usage.eyebrow}</p>
+                    <h2>{formatMessage(appUi.billing.usage.title, { count: snapshot.credits.remaining.toLocaleString() })}</h2>
+                  </div>
+                  <span className={`status-pill ${subscriptionStatusDetails.tone}`}>{subscriptionStatusLabel}</span>
+                </div>
+                <p className="billing-usage-copy">
+                  {formatMessage(appUi.billing.usage.summary, {
+                    used: snapshot.credits.used.toLocaleString(),
+                    plan: currentPlan.name
+                  })}
+                </p>
+                <div className="credit-meter" aria-label={appUi.billing.meterLabel}>
+                  <i
+                    style={{
+                      width: `${Math.min(100, (snapshot.credits.used / totalMonthlyCredits) * 100)}%`
+                    }}
+                  />
+                </div>
+                <div className="billing-meter-meta">
+                  <span>
+                    {appUi.billing.usage.usedLabel} · {snapshot.credits.used.toLocaleString()} · {formatMessage(appUi.billing.usage.usagePercent, {
+                      count: creditUsagePercent.toLocaleString()
+                    })}
+                  </span>
+                  <strong>
+                    {appUi.billing.usage.totalLabel} · {totalMonthlyCredits.toLocaleString()}
+                  </strong>
+                </div>
+                <div className="billing-kpis">
+                  <div>
+                    <span>{appUi.billing.kpis.subscription}</span>
+                    <strong>{subscriptionStatusLabel}</strong>
+                  </div>
+                  <div>
+                    <span>{appUi.billing.kpis.creditReset}</span>
+                    <strong>{formatCalendarDate(snapshot.credits.reset)}</strong>
+                  </div>
+                  <div>
+                    <span>{appUi.billing.kpis.billingPeriodEnd}</span>
+                    <strong>{billingPeriodEndLabel}</strong>
+                  </div>
+                </div>
+                <div className="billing-usage-points">
+                  {[appUi.billing.policy.validation, appUi.billing.policy.access, appUi.billing.policy.basic].map((item) => (
+                    <span key={item}>
+                      <Icon name="check" />
+                      {item}
+                    </span>
+                  ))}
+                </div>
               </div>
-              <div className="billing-actions">
-                <button className="button button-secondary" type="button" onClick={downloadCsv}>
-                  <Icon name="download" />
-                  {appUi.billing.actions.exportCurrentFields}
-                </button>
-                <a className="button button-secondary" href="/support">
-                  {appUi.billing.actions.faq}
-                </a>
+
+              <div className="panel billing-featured-plan-panel">
+                <p className="eyebrow">{appUi.billing.plans.eyebrow}</p>
+                <h2>{appUi.billing.plans.title}</h2>
+                <p className="panel-copy">{subscriptionStatusDetails.nextStep}</p>
+                <article className={`billing-featured-plan-card ${featuredPlanIsCurrent ? "is-current" : "is-recommended"}`}>
+                  <div className="billing-featured-plan-top">
+                    <div className="billing-plan-heading">
+                      <span className={`plan-status-badge ${featuredPlanIsCurrent ? "is-current" : "is-recommended"}`}>
+                        {featuredPlanIsCurrent ? appUi.billing.plans.currentPlanBadge : appUi.billing.plans.recommendedBadge}
+                      </span>
+                      <strong>{featuredPlan.name}</strong>
+                      <small>{appUi.billing.plans.useCases[featuredPlan.id]}</small>
+                    </div>
+                    <div className="billing-plan-price">
+                      <strong>{formatMessage(appUi.billing.plans.monthlyPrice, { price: featuredPlan.price.toLocaleString() })}</strong>
+                      <span>{formatMessage(appUi.billing.plans.scansPerMonth, { count: featuredPlan.monthlyCredits.toLocaleString() })}</span>
+                    </div>
+                  </div>
+                  <div className="billing-featured-meta">
+                    <div>
+                      <span>{appUi.billing.summary.currentPlan}</span>
+                      <strong>{currentPlan.name}</strong>
+                    </div>
+                    <div>
+                      <span>{appUi.billing.plans.includedCredits}</span>
+                      <strong>{featuredPlan.monthlyCredits.toLocaleString()}</strong>
+                    </div>
+                    <div>
+                      <span>{featuredPlanIsCurrent ? appUi.billing.status.subscriptionState : appUi.billing.plans.creditLift}</span>
+                      <strong>
+                        {featuredPlanIsCurrent
+                          ? subscriptionStatusLabel
+                          : formatMessage(appUi.billing.plans.additionalCredits, { count: featuredPlanDelta.toLocaleString() })}
+                      </strong>
+                    </div>
+                  </div>
+                  <div className="billing-actions">
+                    <button
+                      className={`button ${featuredPlanIsCurrent ? "button-secondary" : "button-primary"}`}
+                      type="button"
+                      onClick={() => handleBillingPlanAction(featuredPlan, featuredPlanIsCurrent)}
+                    >
+                      {featuredPlanIsCurrent
+                        ? appUi.billing.plans.manageCurrent
+                        : formatMessage(appUi.billing.plans.choosePlan, { plan: featuredPlan.name })}
+                    </button>
+                    <a className="button button-secondary" href="#billing-plan-compare">
+                      {appUi.billing.actions.comparePlans}
+                    </a>
+                  </div>
+                </article>
               </div>
             </div>
+
+            <div className="panel billing-plan-panel" id="billing-plan-compare">
+              <div className="panel-header">
+                <div>
+                  <p className="eyebrow">{appUi.billing.plans.compareEyebrow}</p>
+                  <h2>{appUi.billing.plans.compareTitle}</h2>
+                </div>
+                <span className={`status-pill ${subscriptionStatusDetails.tone}`}>{subscriptionStatusLabel}</span>
+              </div>
+              <p className="panel-copy">{appUi.billing.plans.compareCopy}</p>
+              <div className="billing-plan-list">
+                {PRICING_PLANS.map((plan) => {
+                  const isCurrent = plan.id === currentPlan.id;
+                  const isRecommended = !featuredPlanIsCurrent && plan.id === featuredPlan.id;
+
+                  return (
+                    <article
+                      className={`billing-plan-card ${isCurrent ? "is-current" : ""} ${isRecommended ? "is-recommended" : ""}`.trim()}
+                      key={plan.id}
+                    >
+                      <div className="billing-plan-card-header">
+                        <div className="billing-plan-heading">
+                          <div className="billing-plan-tags">
+                            {isCurrent ? <span className="plan-status-badge is-current">{appUi.billing.plans.currentPlanBadge}</span> : null}
+                            {isRecommended ? <span className="plan-status-badge is-recommended">{appUi.billing.plans.recommendedBadge}</span> : null}
+                          </div>
+                          <strong>{plan.name}</strong>
+                          <small>{appUi.billing.plans.useCases[plan.id]}</small>
+                        </div>
+                        <div className="billing-plan-price">
+                          <strong>{formatMessage(appUi.billing.plans.monthlyPrice, { price: plan.price.toLocaleString() })}</strong>
+                          <span>{formatMessage(appUi.billing.plans.scansPerMonth, { count: plan.monthlyCredits.toLocaleString() })}</span>
+                        </div>
+                      </div>
+                      <div className="billing-plan-card-meta">
+                        <span>{appUi.billing.plans.includedCredits}</span>
+                        <strong>{plan.monthlyCredits.toLocaleString()}</strong>
+                      </div>
+                      <p>{appUi.billing.plans.useCases[plan.id]}</p>
+                      <button
+                        className={`button ${isCurrent ? "button-secondary" : isRecommended ? "button-primary" : "button-secondary"}`}
+                        type="button"
+                        onClick={() => handleBillingPlanAction(plan, isCurrent)}
+                      >
+                        {isCurrent
+                          ? auth.authenticated
+                            ? appUi.billing.plans.manageCurrent
+                            : appUi.actions.signIn
+                          : formatMessage(appUi.billing.plans.choosePlan, { plan: plan.name })}
+                      </button>
+                    </article>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div className="billing-secondary-grid">
+              <div className="panel billing-policy-panel">
+                <p className="eyebrow">{appUi.billing.policy.eyebrow}</p>
+                <h2>{appUi.billing.policy.title}</h2>
+                <p className="panel-copy">{appUi.billing.policy.basic}</p>
+                <div className="policy-list">
+                  {[
+                    appUi.billing.policy.validation,
+                    appUi.billing.policy.access,
+                    appUi.billing.policy.duplicate,
+                    appUi.billing.policy.basic,
+                    appUi.billing.policy.deep
+                  ].map((item) => (
+                    <span key={item}>
+                      <Icon name="check" />
+                      {item}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div className="panel billing-status-panel">
+                <div className="panel-header">
+                  <div>
+                    <p className="eyebrow">{appUi.billing.status.eyebrow}</p>
+                    <h2>{appUi.billing.status.title}</h2>
+                  </div>
+                  <span className={`status-pill ${subscriptionStatusDetails.tone}`}>{subscriptionStatusLabel}</span>
+                </div>
+                <p className="billing-status-copy">
+                  {auth.authenticated ? subscriptionStatusDetails.summary : appUi.billing.status.unauthenticatedHint}
+                </p>
+                <div className="account-card-list">
+                  <div>
+                    <span>{appUi.billing.status.workspaceStatus}</span>
+                    <strong>{workspaceStatusLabel}</strong>
+                  </div>
+                  <div>
+                    <span>{appUi.billing.status.subscriptionState}</span>
+                    <strong>{subscriptionStatusLabel}</strong>
+                  </div>
+                  <div>
+                    <span>{appUi.billing.status.remainingCredits}</span>
+                    <strong>{snapshot.credits.remaining.toLocaleString()}</strong>
+                  </div>
+                  <div>
+                    <span>{appUi.billing.status.exportMode}</span>
+                    <strong>{bulkExportLabel(bulkExportPreset, bulkCrmFieldMode, appUi)}</strong>
+                  </div>
+                </div>
+                <div className="billing-status-next-step">
+                  <span>{appUi.billing.status.nextStep}</span>
+                  <strong>{auth.authenticated ? subscriptionStatusDetails.nextStep : appUi.billing.status.unauthenticatedHint}</strong>
+                </div>
+                <div className="billing-actions">
+                  <a className="button button-secondary" href="/support">
+                    {appUi.billing.actions.faq}
+                  </a>
+                </div>
+              </div>
+            </div>
+            {auth.authenticated ? (
             <div className="panel scan-history-panel">
               <div className="panel-header">
                 <div>
@@ -6665,6 +8159,8 @@ function DashboardApp() {
                 <span className="status-pill">
                   {historyState === "loading"
                     ? appUi.common.loading
+                    : historyState === "error"
+                      ? appUi.common.failed
                     : historyState === "sample"
                       ? appUi.common.sample
                       : formatMessage(appUi.billing.scanHistory.records, { count: scanHistory.length })}
@@ -6853,6 +8349,7 @@ function DashboardApp() {
                 )}
               </div>
             </div>
+            ) : null}
           </section>
         ) : null}
       </main>

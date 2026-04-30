@@ -79,7 +79,7 @@ const manualByLocale = {
       salesCues: "Sales cues",
       homepage: "Homepage",
       unknown: "Unknown",
-      readyToScan: "Ready to scan",
+      readyToScan: "No company site detected",
       workspaceFallback: "LeadCue workspace",
       signedInWorkspace: "Signed-in workspace",
       planUnknown: "Unknown",
@@ -89,15 +89,17 @@ const manualByLocale = {
     buttons: {
       manageBilling: "Manage billing",
       signOut: "Sign out",
+      openWebWorkspace: "Open web workspace",
       saveSettings: "Save settings",
       useDefaults: "Use defaults",
       analyzeWebsite: "Analyze website",
-      refreshPage: "Refresh page",
+      grantSiteAccess: "Allow this site",
+      refreshPage: "Detect website again",
       openSavedLead: "Open saved lead",
       updateBilling: "Update billing",
       checkingAccess: "Checking access",
       signInToScan: "Sign in to scan",
-      openPublicSite: "Open a public site",
+      openPublicSite: "Switch to company site",
       notEnoughCredits: "Not enough credits"
     },
     session: {
@@ -115,13 +117,16 @@ const manualByLocale = {
     },
     notes: {
       permission: 'LeadCue only reads the active website after you click "Analyze website".',
+      bulkResearchWeb: "Need multi-site research, review, or export? Continue in the web app.",
       initialSignIn: "Sign in to a real LeadCue workspace before scanning from Chrome.",
       loading: "LeadCue is running a __MODE__ scan on the active website.",
       checking: "Checking workspace access before enabling scans.",
       apiUnavailable: "LeadCue API is not reachable. Open settings and confirm the production API URL.",
       signIn: "Sign in on the web once, then return here and refresh workspace access.",
       subscriptionInactive: "Your subscription status is __STATUS__. Open billing before scanning again.",
-      openPublicSite: "Open a public company website with an http(s) address before scanning."
+      sitePermission: "Allow LeadCue to read this website before scanning.",
+      unsupportedPage: "This tab cannot be scanned. Switch to a public company website.",
+      openPublicSite: "Switch to the company website tab you want to scan."
     },
     status: {
       initializing: "Checking LeadCue workspace access.",
@@ -132,12 +137,20 @@ const manualByLocale = {
       apiNotReady: "LeadCue API is not ready for extension sign-in on this environment.",
       signInReturn: "Sign in on the web, then return here to scan with your real workspace.",
       apiUnreachable: "LeadCue API is not reachable. Open settings and confirm the production API URL.",
-      activeTabRefreshed: "Active tab refreshed.",
-      openSiteBeforeScan: "Open a public company website before scanning.",
+      activeTabRefreshed: "Current website detected again.",
+      openSiteBeforeScan: "Switch to the company website you want to scan.",
+      sitePermissionRequired: "Allow access to this site before scanning.",
+      sitePermissionGranted: "This site is ready to scan.",
+      sitePermissionDenied: "LeadCue needs site access before it can scan this page.",
+      sitePermissionRequestFailed: "LeadCue could not request access to this site.",
       signInBeforeScan: "Sign in to LeadCue before scanning from the Chrome extension.",
       billingNeedsAttention: "Billing needs attention before scanning again. Current status: __STATUS__.",
       insufficientCredits: "This __MODE__ scan needs __CREDITS__. Remaining: __REMAINING__.",
       analyzeFailed: "LeadCue could not analyze this page.",
+      pageReadFailed: "LeadCue could not read this page from Chrome.",
+      pageTextUnavailable: "This page does not expose enough visible text to analyze.",
+      generationFailed: "LeadCue could not generate a Prospect Card right now. Try again.",
+      persistenceFailed: "LeadCue analyzed this page but could not save it to your workspace.",
       signedOut: "Signed out of LeadCue for this browser.",
       signOutFailed: "LeadCue could not sign out right now.",
       noFirstLine: "There is no first line available to copy from this Prospect Card.",
@@ -206,7 +219,7 @@ const manualByLocale = {
       salesCues: "销售信号",
       homepage: "首页",
       unknown: "未知",
-      readyToScan: "准备扫描",
+      readyToScan: "未识别到可扫描网站",
       workspaceFallback: "LeadCue 工作空间",
       signedInWorkspace: "已登录工作空间",
       planUnknown: "未知",
@@ -216,15 +229,17 @@ const manualByLocale = {
     buttons: {
       manageBilling: "管理账单",
       signOut: "退出登录",
+      openWebWorkspace: "打开网页工作台",
       saveSettings: "保存设置",
       useDefaults: "使用默认值",
       analyzeWebsite: "分析网站",
-      refreshPage: "刷新页面",
+      grantSiteAccess: "授权此网站",
+      refreshPage: "重新识别网页",
       openSavedLead: "打开已保存线索",
       updateBilling: "更新账单",
       checkingAccess: "检查访问中",
       signInToScan: "登录后扫描",
-      openPublicSite: "打开公开网站",
+      openPublicSite: "切换到公司网站",
       notEnoughCredits: "积分不足"
     },
     session: {
@@ -239,13 +254,16 @@ const manualByLocale = {
     },
     notes: {
       permission: "LeadCue 只会在你点击“分析网站”后读取当前网站。",
+      bulkResearchWeb: "需要批量调研、批量复核或导出时，请去网页端继续。",
       initialSignIn: "请先登录真实的 LeadCue 工作空间，再从 Chrome 发起扫描。",
       loading: "LeadCue 正在以 __MODE__ 模式扫描当前网站。",
       checking: "检查工作空间访问状态后才会启用扫描。",
       apiUnavailable: "LeadCue API 当前不可达。请打开设置并确认生产环境 API URL。",
       signIn: "请先在网页端登录一次，然后回到这里刷新工作空间访问状态。",
       subscriptionInactive: "你的订阅状态为 __STATUS__。请先打开账单页，再继续扫描。",
-      openPublicSite: "请先打开一个带有 http(s) 地址的公开公司网站再扫描。"
+      sitePermission: "先授权 LeadCue 读取这个网站，再开始扫描。",
+      unsupportedPage: "当前标签页不支持扫描。请切换到公开的公司网站。",
+      openPublicSite: "请切换到要扫描的公司网站标签页。"
     },
     status: {
       initializing: "正在检查 LeadCue 工作空间访问状态。",
@@ -256,12 +274,20 @@ const manualByLocale = {
       apiNotReady: "当前环境的 LeadCue API 还不能供扩展登录。",
       signInReturn: "请先在网页端登录，然后回到这里使用真实工作空间扫描。",
       apiUnreachable: "LeadCue API 当前不可达。请打开设置并确认生产环境 API URL。",
-      activeTabRefreshed: "当前标签页已刷新。",
-      openSiteBeforeScan: "请先打开一个公开的公司网站再扫描。",
+      activeTabRefreshed: "已重新识别当前网页。",
+      openSiteBeforeScan: "请切换到要扫描的公司网站。",
+      sitePermissionRequired: "请先授权 LeadCue 读取这个网站。",
+      sitePermissionGranted: "这个网站已可开始扫描。",
+      sitePermissionDenied: "LeadCue 需要网站访问权限后才能扫描此页面。",
+      sitePermissionRequestFailed: "LeadCue 当前无法请求这个网站的访问权限。",
       signInBeforeScan: "请先登录 LeadCue，再从 Chrome 扩展发起扫描。",
       billingNeedsAttention: "继续扫描前需要处理账单。当前状态：__STATUS__。",
       insufficientCredits: "此次 __MODE__ 扫描需要 __CREDITS__。剩余：__REMAINING__。",
       analyzeFailed: "LeadCue 无法分析此页面。",
+      pageReadFailed: "LeadCue 无法从当前网页读取可分析内容。",
+      pageTextUnavailable: "这个网页可见文本太少，暂时无法分析。",
+      generationFailed: "LeadCue 暂时无法生成潜在客户卡片，请稍后重试。",
+      persistenceFailed: "LeadCue 已完成分析，但暂时无法保存到你的工作空间。",
       signedOut: "已在此浏览器中退出 LeadCue。",
       signOutFailed: "LeadCue 当前无法退出登录。",
       noFirstLine: "这张 Prospect Card 里没有可复制的破冰话术。",
@@ -331,7 +357,7 @@ const manualByLocale = {
       salesCues: "営業シグナル",
       homepage: "ホームページ",
       unknown: "不明",
-      readyToScan: "スキャン準備完了",
+      readyToScan: "スキャン可能な企業サイトを検出できません",
       workspaceFallback: "LeadCue ワークスペース",
       signedInWorkspace: "ログイン中のワークスペース",
       planUnknown: "不明",
@@ -344,12 +370,13 @@ const manualByLocale = {
       saveSettings: "設定を保存",
       useDefaults: "デフォルトを使用",
       analyzeWebsite: "サイトを分析",
-      refreshPage: "ページを更新",
+      grantSiteAccess: "このサイトを許可",
+      refreshPage: "サイトを再検出",
       openSavedLead: "保存済みリードを開く",
       updateBilling: "請求を更新",
       checkingAccess: "アクセス確認中",
       signInToScan: "ログインしてスキャン",
-      openPublicSite: "公開サイトを開く",
+      openPublicSite: "企業サイトに切り替え",
       notEnoughCredits: "クレジット不足"
     },
     session: {
@@ -373,7 +400,9 @@ const manualByLocale = {
       apiUnavailable: "LeadCue API に接続できません。設定を開き、本番 API URL を確認してください。",
       signIn: "ウェブで一度ログインしてから、ここに戻ってワークスペースアクセスを更新してください。",
       subscriptionInactive: "現在のサブスクリプション状態は __STATUS__ です。再度スキャンする前に請求を開いてください。",
-      openPublicSite: "スキャンする前に、http(s) アドレスの公開企業サイトを開いてください。"
+      sitePermission: "スキャンの前に、LeadCue にこのサイトの読み取りを許可してください。",
+      unsupportedPage: "このタブはスキャンできません。公開されている企業サイトに切り替えてください。",
+      openPublicSite: "スキャンしたい企業サイトのタブに切り替えてください。"
     },
     status: {
       initializing: "LeadCue ワークスペースアクセスを確認しています。",
@@ -384,12 +413,20 @@ const manualByLocale = {
       apiNotReady: "この環境の LeadCue API は、拡張機能ログインにまだ対応していません。",
       signInReturn: "ウェブでログインしてから、ここに戻って実際のワークスペースでスキャンしてください。",
       apiUnreachable: "LeadCue API に接続できません。設定を開き、本番 API URL を確認してください。",
-      activeTabRefreshed: "現在のタブを更新しました。",
-      openSiteBeforeScan: "スキャンする前に公開企業サイトを開いてください。",
+      activeTabRefreshed: "現在のサイトを再検出しました。",
+      openSiteBeforeScan: "スキャンしたい企業サイトに切り替えてください。",
+      sitePermissionRequired: "スキャンする前に、このサイトへのアクセスを許可してください。",
+      sitePermissionGranted: "このサイトはスキャン可能になりました。",
+      sitePermissionDenied: "このページをスキャンするには、LeadCue にサイトアクセスが必要です。",
+      sitePermissionRequestFailed: "LeadCue はこのサイトへのアクセス許可を要求できませんでした。",
       signInBeforeScan: "Chrome 拡張機能からスキャンする前に LeadCue にログインしてください。",
       billingNeedsAttention: "再度スキャンする前に請求の確認が必要です。現在の状態: __STATUS__。",
       insufficientCredits: "この __MODE__ スキャンには __CREDITS__ が必要です。残り: __REMAINING__。",
       analyzeFailed: "LeadCue はこのページを分析できませんでした。",
+      pageReadFailed: "LeadCue は Chrome からこのページを読み取れませんでした。",
+      pageTextUnavailable: "このページには分析に十分な表示テキストがありません。",
+      generationFailed: "LeadCue は現在 Prospect Card を生成できません。後でもう一度お試しください。",
+      persistenceFailed: "LeadCue は分析を完了しましたが、ワークスペースに保存できませんでした。",
       signedOut: "このブラウザの LeadCue からログアウトしました。",
       signOutFailed: "現在 LeadCue からログアウトできません。",
       noFirstLine: "この Prospect Card にはコピーできるファーストラインがありません。",
@@ -459,7 +496,7 @@ const manualByLocale = {
       salesCues: "영업 신호",
       homepage: "홈페이지",
       unknown: "알 수 없음",
-      readyToScan: "스캔 준비 완료",
+      readyToScan: "스캔 가능한 회사 웹사이트를 찾지 못했습니다",
       workspaceFallback: "LeadCue 워크스페이스",
       signedInWorkspace: "로그인된 워크스페이스",
       planUnknown: "알 수 없음",
@@ -472,12 +509,13 @@ const manualByLocale = {
       saveSettings: "설정 저장",
       useDefaults: "기본값 사용",
       analyzeWebsite: "웹사이트 분석",
-      refreshPage: "페이지 새로고침",
+      grantSiteAccess: "이 사이트 허용",
+      refreshPage: "웹사이트 다시 감지",
       openSavedLead: "저장된 리드 열기",
       updateBilling: "결제 업데이트",
       checkingAccess: "접근 확인 중",
       signInToScan: "로그인 후 스캔",
-      openPublicSite: "공개 사이트 열기",
+      openPublicSite: "회사 웹사이트로 전환",
       notEnoughCredits: "크레딧 부족"
     },
     session: {
@@ -501,7 +539,9 @@ const manualByLocale = {
       apiUnavailable: "LeadCue API에 연결할 수 없습니다. 설정을 열고 운영 API URL을 확인하세요.",
       signIn: "웹에서 한 번 로그인한 뒤 여기로 돌아와 워크스페이스 접근을 새로고침하세요.",
       subscriptionInactive: "현재 구독 상태는 __STATUS__ 입니다. 다시 스캔하기 전에 결제 페이지를 여세요.",
-      openPublicSite: "스캔하기 전에 http(s) 주소가 있는 공개 회사 웹사이트를 여세요."
+      sitePermission: "스캔하기 전에 LeadCue가 이 웹사이트를 읽도록 먼저 허용하세요.",
+      unsupportedPage: "이 탭은 스캔할 수 없습니다. 공개 회사 웹사이트로 전환하세요.",
+      openPublicSite: "스캔할 회사 웹사이트 탭으로 전환하세요."
     },
     status: {
       initializing: "LeadCue 워크스페이스 접근을 확인하고 있습니다.",
@@ -512,12 +552,20 @@ const manualByLocale = {
       apiNotReady: "이 환경의 LeadCue API는 아직 확장 프로그램 로그인에 준비되지 않았습니다.",
       signInReturn: "웹에서 로그인한 뒤 여기로 돌아와 실제 워크스페이스로 스캔하세요.",
       apiUnreachable: "LeadCue API에 연결할 수 없습니다. 설정을 열고 운영 API URL을 확인하세요.",
-      activeTabRefreshed: "현재 탭을 새로고침했습니다.",
-      openSiteBeforeScan: "스캔하기 전에 공개 회사 웹사이트를 여세요.",
+      activeTabRefreshed: "현재 웹사이트를 다시 감지했습니다.",
+      openSiteBeforeScan: "스캔할 회사 웹사이트로 전환하세요.",
+      sitePermissionRequired: "스캔하기 전에 이 사이트 접근을 허용하세요.",
+      sitePermissionGranted: "이 사이트를 이제 스캔할 수 있습니다.",
+      sitePermissionDenied: "이 페이지를 스캔하려면 LeadCue에 사이트 접근 권한이 필요합니다.",
+      sitePermissionRequestFailed: "LeadCue가 이 사이트 접근 권한을 요청하지 못했습니다.",
       signInBeforeScan: "Chrome 확장 프로그램에서 스캔하기 전에 LeadCue에 로그인하세요.",
       billingNeedsAttention: "다시 스캔하기 전에 결제 확인이 필요합니다. 현재 상태: __STATUS__.",
       insufficientCredits: "이번 __MODE__ 스캔에는 __CREDITS__가 필요합니다. 남은 수량: __REMAINING__.",
       analyzeFailed: "LeadCue가 이 페이지를 분석하지 못했습니다.",
+      pageReadFailed: "LeadCue가 Chrome에서 이 페이지를 읽지 못했습니다.",
+      pageTextUnavailable: "이 페이지에는 분석할 만큼의 표시 텍스트가 부족합니다.",
+      generationFailed: "LeadCue가 지금 Prospect Card를 생성하지 못했습니다. 잠시 후 다시 시도하세요.",
+      persistenceFailed: "LeadCue가 분석은 완료했지만 워크스페이스에 저장하지 못했습니다.",
       signedOut: "이 브라우저에서 LeadCue 로그아웃을 완료했습니다.",
       signOutFailed: "지금은 LeadCue에서 로그아웃할 수 없습니다.",
       noFirstLine: "이 Prospect Card에는 복사할 첫 문장이 없습니다.",
@@ -587,7 +635,7 @@ const manualByLocale = {
       salesCues: "Vertriebssignale",
       homepage: "Startseite",
       unknown: "Unbekannt",
-      readyToScan: "Bereit zum Scannen",
+      readyToScan: "Keine scannbare Unternehmenswebsite erkannt",
       workspaceFallback: "LeadCue-Workspace",
       signedInWorkspace: "Angemeldeter Workspace",
       planUnknown: "Unbekannt",
@@ -600,12 +648,13 @@ const manualByLocale = {
       saveSettings: "Einstellungen speichern",
       useDefaults: "Standardwerte nutzen",
       analyzeWebsite: "Website analysieren",
-      refreshPage: "Seite aktualisieren",
+      grantSiteAccess: "Diese Website erlauben",
+      refreshPage: "Website erneut erkennen",
       openSavedLead: "Gespeicherten Lead oeffnen",
       updateBilling: "Abrechnung aktualisieren",
       checkingAccess: "Zugriff wird geprueft",
       signInToScan: "Zum Scannen anmelden",
-      openPublicSite: "Oeffentliche Website oeffnen",
+      openPublicSite: "Zur Unternehmenswebsite wechseln",
       notEnoughCredits: "Nicht genug Credits"
     },
     session: {
@@ -629,7 +678,9 @@ const manualByLocale = {
       apiUnavailable: "Die LeadCue-API ist nicht erreichbar. Oeffnen Sie die Einstellungen und pruefen Sie die Produktions-API-URL.",
       signIn: "Melden Sie sich einmal im Web an und kehren Sie dann hierher zurueck, um den Workspace-Zugriff zu aktualisieren.",
       subscriptionInactive: "Ihr Abo-Status ist __STATUS__. Oeffnen Sie die Abrechnung, bevor Sie erneut scannen.",
-      openPublicSite: "Oeffnen Sie vor dem Scannen eine oeffentliche Unternehmenswebsite mit http(s)-Adresse."
+      sitePermission: "Erlauben Sie LeadCue zuerst, diese Website zu lesen, bevor Sie scannen.",
+      unsupportedPage: "Dieser Tab kann nicht gescannt werden. Wechseln Sie zu einer oeffentlichen Unternehmenswebsite.",
+      openPublicSite: "Wechseln Sie zum Tab der Unternehmenswebsite, die Sie scannen moechten."
     },
     status: {
       initializing: "LeadCue-Workspace-Zugriff wird geprueft.",
@@ -640,12 +691,20 @@ const manualByLocale = {
       apiNotReady: "Die LeadCue-API dieser Umgebung ist noch nicht fuer die Anmeldung in der Erweiterung bereit.",
       signInReturn: "Melden Sie sich im Web an und kommen Sie dann hierher zurueck, um mit Ihrem echten Workspace zu scannen.",
       apiUnreachable: "Die LeadCue-API ist nicht erreichbar. Oeffnen Sie die Einstellungen und pruefen Sie die Produktions-API-URL.",
-      activeTabRefreshed: "Aktiver Tab aktualisiert.",
-      openSiteBeforeScan: "Oeffnen Sie vor dem Scannen eine oeffentliche Unternehmenswebsite.",
+      activeTabRefreshed: "Aktuelle Website erneut erkannt.",
+      openSiteBeforeScan: "Wechseln Sie zu der Unternehmenswebsite, die Sie scannen moechten.",
+      sitePermissionRequired: "Erlauben Sie zuerst den Zugriff auf diese Website, bevor Sie scannen.",
+      sitePermissionGranted: "Diese Website ist jetzt scanbereit.",
+      sitePermissionDenied: "LeadCue benoetigt Website-Zugriff, bevor diese Seite gescannt werden kann.",
+      sitePermissionRequestFailed: "LeadCue konnte keinen Zugriff auf diese Website anfordern.",
       signInBeforeScan: "Melden Sie sich bei LeadCue an, bevor Sie aus der Chrome-Erweiterung scannen.",
       billingNeedsAttention: "Vor dem naechsten Scan braucht die Abrechnung Aufmerksamkeit. Aktueller Status: __STATUS__.",
       insufficientCredits: "Dieser __MODE__-Scan benoetigt __CREDITS__. Verbleibend: __REMAINING__.",
       analyzeFailed: "LeadCue konnte diese Seite nicht analysieren.",
+      pageReadFailed: "LeadCue konnte diese Seite in Chrome nicht lesen.",
+      pageTextUnavailable: "Diese Seite stellt nicht genug sichtbaren Text fuer die Analyse bereit.",
+      generationFailed: "LeadCue konnte gerade keine Prospect Card erzeugen. Bitte versuchen Sie es erneut.",
+      persistenceFailed: "LeadCue hat die Analyse abgeschlossen, konnte sie aber nicht in Ihrem Workspace speichern.",
       signedOut: "In diesem Browser von LeadCue abgemeldet.",
       signOutFailed: "LeadCue konnte Sie gerade nicht abmelden.",
       noFirstLine: "In dieser Prospect Card ist keine erste Zeile zum Kopieren verfuegbar.",
@@ -715,7 +774,7 @@ const manualByLocale = {
       salesCues: "Verkoopsignalen",
       homepage: "Startpagina",
       unknown: "Onbekend",
-      readyToScan: "Klaar om te scannen",
+      readyToScan: "Geen scanbare bedrijfswebsite gedetecteerd",
       workspaceFallback: "LeadCue-workspace",
       signedInWorkspace: "Ingelogde workspace",
       planUnknown: "Onbekend",
@@ -728,12 +787,13 @@ const manualByLocale = {
       saveSettings: "Instellingen opslaan",
       useDefaults: "Standaardwaarden gebruiken",
       analyzeWebsite: "Website analyseren",
-      refreshPage: "Pagina verversen",
+      grantSiteAccess: "Deze site toestaan",
+      refreshPage: "Website opnieuw detecteren",
       openSavedLead: "Opgeslagen lead openen",
       updateBilling: "Facturatie bijwerken",
       checkingAccess: "Toegang controleren",
       signInToScan: "Inloggen om te scannen",
-      openPublicSite: "Openbare site openen",
+      openPublicSite: "Ga naar bedrijfswebsite",
       notEnoughCredits: "Niet genoeg credits"
     },
     session: {
@@ -757,7 +817,9 @@ const manualByLocale = {
       apiUnavailable: "De LeadCue-API is niet bereikbaar. Open de instellingen en controleer de productie-API-URL.",
       signIn: "Log een keer in op het web en kom hier terug om de workspace-toegang te verversen.",
       subscriptionInactive: "Je abonnementsstatus is __STATUS__. Open de facturatie voordat je opnieuw scant.",
-      openPublicSite: "Open voor het scannen een openbare bedrijfswebsite met een http(s)-adres."
+      sitePermission: "Geef LeadCue eerst toestemming om deze website te lezen voordat je scant.",
+      unsupportedPage: "Dit tabblad kan niet worden gescand. Ga naar een openbare bedrijfswebsite.",
+      openPublicSite: "Ga naar het tabblad van de bedrijfswebsite die je wilt scannen."
     },
     status: {
       initializing: "LeadCue-workspace-toegang wordt gecontroleerd.",
@@ -768,12 +830,20 @@ const manualByLocale = {
       apiNotReady: "De LeadCue-API in deze omgeving is nog niet klaar voor inloggen via de extensie.",
       signInReturn: "Log in op het web en kom dan hier terug om met je echte workspace te scannen.",
       apiUnreachable: "De LeadCue-API is niet bereikbaar. Open de instellingen en controleer de productie-API-URL.",
-      activeTabRefreshed: "Actief tabblad ververst.",
-      openSiteBeforeScan: "Open een openbare bedrijfswebsite voordat je scant.",
+      activeTabRefreshed: "Huidige website opnieuw gedetecteerd.",
+      openSiteBeforeScan: "Ga naar de bedrijfswebsite die je wilt scannen.",
+      sitePermissionRequired: "Sta eerst toegang tot deze website toe voordat je scant.",
+      sitePermissionGranted: "Deze website is nu klaar om te scannen.",
+      sitePermissionDenied: "LeadCue heeft toegang tot deze site nodig voordat deze pagina kan worden gescand.",
+      sitePermissionRequestFailed: "LeadCue kon geen toegang tot deze website aanvragen.",
       signInBeforeScan: "Log in op LeadCue voordat je scant vanuit de Chrome-extensie.",
       billingNeedsAttention: "Facturatie heeft aandacht nodig voordat je opnieuw scant. Huidige status: __STATUS__.",
       insufficientCredits: "Deze __MODE__-scan vereist __CREDITS__. Over: __REMAINING__.",
       analyzeFailed: "LeadCue kon deze pagina niet analyseren.",
+      pageReadFailed: "LeadCue kon deze pagina niet vanuit Chrome lezen.",
+      pageTextUnavailable: "Deze pagina bevat niet genoeg zichtbare tekst om te analyseren.",
+      generationFailed: "LeadCue kon nu geen Prospect Card genereren. Probeer het later opnieuw.",
+      persistenceFailed: "LeadCue heeft de analyse voltooid, maar kon deze niet in je workspace opslaan.",
       signedOut: "Uitgelogd bij LeadCue in deze browser.",
       signOutFailed: "LeadCue kon je nu niet uitloggen.",
       noFirstLine: "Er is geen eerste regel beschikbaar om uit deze Prospect Card te kopieren.",
@@ -843,7 +913,7 @@ const manualByLocale = {
       salesCues: "Signaux commerciaux",
       homepage: "Page d'accueil",
       unknown: "Inconnu",
-      readyToScan: "Pret a scanner",
+      readyToScan: "Aucun site d'entreprise scannable detecte",
       workspaceFallback: "Workspace LeadCue",
       signedInWorkspace: "Workspace connecte",
       planUnknown: "Inconnu",
@@ -856,12 +926,13 @@ const manualByLocale = {
       saveSettings: "Enregistrer les parametres",
       useDefaults: "Utiliser les valeurs par defaut",
       analyzeWebsite: "Analyser le site",
-      refreshPage: "Rafraichir la page",
+      grantSiteAccess: "Autoriser ce site",
+      refreshPage: "Redetecter le site",
       openSavedLead: "Ouvrir le lead enregistre",
       updateBilling: "Mettre a jour la facturation",
       checkingAccess: "Verification de l'acces",
       signInToScan: "Se connecter pour scanner",
-      openPublicSite: "Ouvrir un site public",
+      openPublicSite: "Aller au site de l'entreprise",
       notEnoughCredits: "Credits insuffisants"
     },
     session: {
@@ -885,7 +956,9 @@ const manualByLocale = {
       apiUnavailable: "L'API LeadCue est inaccessible. Ouvrez les parametres et verifiez l'URL de l'API de production.",
       signIn: "Connectez-vous une fois sur le web puis revenez ici pour rafraichir l'acces au workspace.",
       subscriptionInactive: "Votre statut d'abonnement est __STATUS__. Ouvrez la facturation avant de relancer un scan.",
-      openPublicSite: "Avant de scanner, ouvrez un site d'entreprise public avec une adresse http(s)."
+      sitePermission: "Autorisez d'abord LeadCue a lire ce site avant de lancer le scan.",
+      unsupportedPage: "Cet onglet ne peut pas etre scanne. Passez a un site d'entreprise public.",
+      openPublicSite: "Passez a l'onglet du site d'entreprise que vous voulez scanner."
     },
     status: {
       initializing: "Verification de l'acces au workspace LeadCue.",
@@ -896,12 +969,20 @@ const manualByLocale = {
       apiNotReady: "L'API LeadCue de cet environnement n'est pas encore prete pour la connexion via l'extension.",
       signInReturn: "Connectez-vous sur le web puis revenez ici pour scanner avec votre vrai workspace.",
       apiUnreachable: "L'API LeadCue est inaccessible. Ouvrez les parametres et verifiez l'URL de l'API de production.",
-      activeTabRefreshed: "Onglet actif rafraichi.",
-      openSiteBeforeScan: "Ouvrez un site d'entreprise public avant de lancer un scan.",
+      activeTabRefreshed: "Site actuel redetecte.",
+      openSiteBeforeScan: "Passez au site d'entreprise que vous voulez scanner.",
+      sitePermissionRequired: "Autorisez d'abord l'acces a ce site avant de scanner.",
+      sitePermissionGranted: "Ce site est maintenant pret a etre scanne.",
+      sitePermissionDenied: "LeadCue a besoin d'un acces au site avant de pouvoir scanner cette page.",
+      sitePermissionRequestFailed: "LeadCue n'a pas pu demander l'acces a ce site.",
       signInBeforeScan: "Connectez-vous a LeadCue avant de scanner depuis l'extension Chrome.",
       billingNeedsAttention: "La facturation demande une action avant un nouveau scan. Statut actuel : __STATUS__.",
       insufficientCredits: "Ce scan __MODE__ necessite __CREDITS__. Restant : __REMAINING__.",
       analyzeFailed: "LeadCue n'a pas pu analyser cette page.",
+      pageReadFailed: "LeadCue n'a pas pu lire cette page depuis Chrome.",
+      pageTextUnavailable: "Cette page ne contient pas assez de texte visible pour etre analysee.",
+      generationFailed: "LeadCue ne peut pas generer de Prospect Card pour le moment. Reessayez plus tard.",
+      persistenceFailed: "LeadCue a termine l'analyse mais n'a pas pu l'enregistrer dans votre workspace.",
       signedOut: "Deconnecte de LeadCue dans ce navigateur.",
       signOutFailed: "LeadCue ne peut pas vous deconnecter pour le moment.",
       noFirstLine: "Aucune phrase d'ouverture n'est disponible a copier depuis cette Prospect Card.",
@@ -1020,6 +1101,111 @@ const languagePanelTitleByLocale = {
   fr: "Langue d'affichage"
 };
 
+const runtimeCopyOverridesByLocale = {
+  en: {
+    session: {
+      unavailableApiCopy:
+        "LeadCue API is temporarily unreachable. Try again in a moment, then refresh workspace access."
+    },
+    notes: {
+      apiUnavailable: "LeadCue API is temporarily unreachable. Try again in a moment.",
+      searchResultsPage: "Search results are not company websites. Open the company site you want to scan."
+    },
+    status: {
+      initFailed: "LeadCue could not initialize. Refresh the panel and try again.",
+      apiUnreachable: "LeadCue API is temporarily unreachable. Try again in a moment.",
+      searchResultsPage: "Open the actual company website instead of a search results page."
+    }
+  },
+  zh: {
+    session: {
+      unavailableApiCopy: "LeadCue API 暂时不可达。请稍后再试，然后刷新工作空间访问状态。"
+    },
+    notes: {
+      apiUnavailable: "LeadCue API 暂时不可达，请稍后再试。",
+      searchResultsPage: "搜索结果页不能直接扫描。请先打开要研究的公司官网。"
+    },
+    status: {
+      initFailed: "LeadCue 初始化失败。请刷新面板后重试。",
+      apiUnreachable: "LeadCue API 暂时不可达，请稍后再试。",
+      searchResultsPage: "请先打开真实的公司官网，而不是搜索结果页。"
+    }
+  },
+  ja: {
+    session: {
+      unavailableApiCopy:
+        "LeadCue API に一時的に接続できません。しばらくしてから再度お試しのうえ、ワークスペースアクセスを更新してください。"
+    },
+    notes: {
+      apiUnavailable: "LeadCue API に一時的に接続できません。しばらくしてからもう一度お試しください。",
+      searchResultsPage: "検索結果ページは企業サイトではありません。調査したい企業サイトを開いてください。"
+    },
+    status: {
+      initFailed: "LeadCue を初期化できませんでした。パネルを更新してもう一度お試しください。",
+      apiUnreachable: "LeadCue API に一時的に接続できません。しばらくしてからもう一度お試しください。",
+      searchResultsPage: "検索結果ページではなく、実際の企業サイトを開いてください。"
+    }
+  },
+  ko: {
+    session: {
+      unavailableApiCopy: "LeadCue API에 일시적으로 연결할 수 없습니다. 잠시 후 다시 시도한 다음 워크스페이스 접근을 새로고침하세요."
+    },
+    notes: {
+      apiUnavailable: "LeadCue API에 일시적으로 연결할 수 없습니다. 잠시 후 다시 시도하세요.",
+      searchResultsPage: "검색 결과 페이지는 회사 웹사이트가 아닙니다. 조사할 회사 사이트를 여세요."
+    },
+    status: {
+      initFailed: "LeadCue를 초기화할 수 없습니다. 패널을 새로고침한 뒤 다시 시도하세요.",
+      apiUnreachable: "LeadCue API에 일시적으로 연결할 수 없습니다. 잠시 후 다시 시도하세요.",
+      searchResultsPage: "검색 결과 페이지 대신 실제 회사 웹사이트를 여세요."
+    }
+  },
+  de: {
+    session: {
+      unavailableApiCopy:
+        "Die LeadCue-API ist vorübergehend nicht erreichbar. Versuchen Sie es in einem Moment erneut und aktualisieren Sie dann den Workspace-Zugriff."
+    },
+    notes: {
+      apiUnavailable: "Die LeadCue-API ist vorübergehend nicht erreichbar. Bitte versuchen Sie es in einem Moment erneut.",
+      searchResultsPage: "Suchergebnisseiten sind keine Unternehmenswebsites. Öffnen Sie die Unternehmenswebsite, die Sie scannen möchten."
+    },
+    status: {
+      initFailed: "LeadCue konnte nicht initialisiert werden. Aktualisieren Sie das Panel und versuchen Sie es erneut.",
+      apiUnreachable: "Die LeadCue-API ist vorübergehend nicht erreichbar. Bitte versuchen Sie es in einem Moment erneut.",
+      searchResultsPage: "Öffnen Sie die echte Unternehmenswebsite statt einer Suchergebnisseite."
+    }
+  },
+  nl: {
+    session: {
+      unavailableApiCopy: "De LeadCue-API is tijdelijk niet bereikbaar. Probeer het zo opnieuw en ververs daarna de workspace-toegang."
+    },
+    notes: {
+      apiUnavailable: "De LeadCue-API is tijdelijk niet bereikbaar. Probeer het zo opnieuw.",
+      searchResultsPage: "Een zoekresultatenpagina is geen bedrijfswebsite. Open de bedrijfswebsite die je wilt scannen."
+    },
+    status: {
+      initFailed: "LeadCue kon niet worden gestart. Vernieuw het paneel en probeer het opnieuw.",
+      apiUnreachable: "De LeadCue-API is tijdelijk niet bereikbaar. Probeer het zo opnieuw.",
+      searchResultsPage: "Open de echte bedrijfswebsite in plaats van een zoekresultatenpagina."
+    }
+  },
+  fr: {
+    session: {
+      unavailableApiCopy:
+        "L'API LeadCue est temporairement indisponible. Réessayez dans un instant, puis actualisez l'accès à l'espace de travail."
+    },
+    notes: {
+      apiUnavailable: "L'API LeadCue est temporairement indisponible. Réessayez dans un instant.",
+      searchResultsPage: "Une page de résultats de recherche n'est pas un site d'entreprise. Ouvrez le site de l'entreprise à analyser."
+    },
+    status: {
+      initFailed: "LeadCue n'a pas pu s'initialiser. Actualisez le panneau puis réessayez.",
+      apiUnreachable: "L'API LeadCue est temporairement indisponible. Réessayez dans un instant.",
+      searchResultsPage: "Ouvrez le vrai site d'entreprise au lieu d'une page de résultats de recherche."
+    }
+  }
+};
+
 function valueAt(target, pathParts) {
   return pathParts.reduce((current, key) => current?.[key], target);
 }
@@ -1036,6 +1222,7 @@ function buildRuntimeLocale(locale) {
   const manual = manualByLocale[locale];
   const settingsToggle = settingsToggleCopyByLocale[locale] || settingsToggleCopyByLocale.en;
   const languagePanelTitle = languagePanelTitleByLocale[locale] || languagePanelTitleByLocale.en;
+  const overrides = runtimeCopyOverridesByLocale[locale] || runtimeCopyOverridesByLocale.en;
   const site = siteUi[locale] || siteUi.en;
   const app = appUi[locale] || appUi.en;
   const extra = appExtra[locale] || appExtra.en;
@@ -1095,16 +1282,18 @@ function buildRuntimeLocale(locale) {
       planUnknown: manual.labels.planUnknown,
       companyFallback: manual.labels.companyFallback
     },
-    buttons: {
-      signIn: pickFirst(site.common?.signIn, "Sign in"),
-      startFree: pickFirst(site.common?.startFree, "Start free"),
-      manageBilling: pickFirst(accountSummary.manageBilling, manual.buttons.manageBilling),
-      signOut: pickFirst(accountSummary.signOut, manual.buttons.signOut),
-      saveSettings: manual.buttons.saveSettings,
-      useDefaults: manual.buttons.useDefaults,
+      buttons: {
+        signIn: pickFirst(site.common?.signIn, "Sign in"),
+        startFree: pickFirst(site.common?.startFree, "Start free"),
+        manageBilling: pickFirst(accountSummary.manageBilling, manual.buttons.manageBilling),
+        signOut: pickFirst(accountSummary.signOut, manual.buttons.signOut),
+        openWebWorkspace: pickFirst(manual.buttons.openWebWorkspace, "Open web workspace"),
+        saveSettings: manual.buttons.saveSettings,
+        useDefaults: manual.buttons.useDefaults,
       showSettings: settingsToggle.buttons.show,
       hideSettings: settingsToggle.buttons.hide,
       analyzeWebsite: manual.buttons.analyzeWebsite,
+      grantSiteAccess: manual.buttons.grantSiteAccess,
       refreshPage: manual.buttons.refreshPage,
       copyFirstLine: pickFirst(prospectCard.copyMenu?.firstLine, "Copy first line"),
       copyEmail: pickFirst(prospectCard.actions?.copyEmail, "Copy email"),
@@ -1116,10 +1305,17 @@ function buildRuntimeLocale(locale) {
       notEnoughCredits: manual.buttons.notEnoughCredits,
       scanning: pickFirst(app.scan?.scanning, "Scanning...")
     },
-    session: manual.session,
-    notes: manual.notes,
+    session: {
+      ...manual.session,
+      ...overrides.session
+    },
+    notes: {
+      ...manual.notes,
+      ...overrides.notes
+    },
     status: {
       ...manual.status,
+      ...overrides.status,
       subscriptionInactiveGeneric: pickFirst(common.messages?.subscriptionInactive, manual.status.billingNeedsAttention),
       insufficientCreditsGeneric: pickFirst(common.messages?.insufficientCredits, manual.status.insufficientCredits),
       billingPortalUnavailable: pickFirst(common.messages?.billingPortalUnavailable, "Billing portal is not available yet.")

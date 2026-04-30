@@ -5,12 +5,16 @@
   "version": "0.2.0",
   "minimum_chrome_version": "114",
   "description": "__MSG_extensionDescription__",
-  "permissions": ["activeTab", "scripting", "storage", "sidePanel"],
+  "permissions": ["activeTab", "scripting", "storage", "sidePanel", "tabs"],
   "host_permissions": [
     "https://api.leadcue.app/*",
     "https://leadcue-api.jiankn.workers.dev/*",
     "http://localhost:8787/*",
     "http://127.0.0.1:8787/*"
+  ],
+  "optional_host_permissions": [
+    "https://*/*",
+    "http://*/*"
   ],
   "icons": {
     "16": "icons/icon-16.png",

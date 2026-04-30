@@ -31,6 +31,7 @@
 body {
   min-width: 332px;
   margin: 0;
+  overflow-x: hidden;
   background:
     radial-gradient(circle at top right, rgba(15, 118, 105, 0.1), transparent 34%),
     linear-gradient(180deg, #f7f4ec 0%, #f1ede2 100%);
@@ -89,6 +90,7 @@ h3 {
   display: grid;
   gap: 10px;
   padding: 12px;
+  overflow-x: clip;
 }
 
 .header,
@@ -106,6 +108,11 @@ h3 {
 .result-head {
   justify-content: space-between;
   gap: 10px;
+}
+
+.scan-head > div,
+.result-head > div {
+  min-width: 0;
 }
 
 .brand,
@@ -275,21 +282,31 @@ h3 {
 }
 
 .site-url,
+.result-domain,
 .compact-copy,
 .inline-note,
 .status,
 .summary,
 .signal p,
 .signal small,
-.first-line-card p {
+.first-line-card p,
+.highlight-card strong,
+.button span {
   line-height: 1.45;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .site-url,
+.result-domain,
 .compact-copy,
 .inline-note,
 .summary {
   font-size: 13px;
+}
+
+.result-domain {
+  display: block;
 }
 
 .compact-copy,
@@ -340,6 +357,7 @@ h3 {
 
 .button {
   display: inline-flex;
+  min-width: 0;
   min-height: 42px;
   align-items: center;
   justify-content: center;
@@ -455,6 +473,19 @@ h3 {
 .highlight-card strong {
   font-size: 13px;
   line-height: 1.35;
+}
+
+.workspace-callout {
+  display: grid;
+  gap: 8px;
+  padding: 10px;
+  border: 1px dashed rgba(15, 118, 105, 0.28);
+  border-radius: 12px;
+  background: linear-gradient(180deg, rgba(223, 245, 234, 0.62) 0%, rgba(255, 252, 245, 0.88) 100%);
+}
+
+.workspace-callout .button {
+  justify-content: center;
 }
 
 .highlight-grid {

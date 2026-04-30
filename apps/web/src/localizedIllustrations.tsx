@@ -8,6 +8,9 @@ type HeroVisualCopy = {
   fitValue: string;
   signalTitle: string;
   signalItems: string[];
+  firstLineLabel: string;
+  firstLineText: string;
+  firstLineMeta: string;
   footerLeft: string;
   footerRight: string;
 };
@@ -71,6 +74,11 @@ export function HeroVisualIllustration({ copy }: { copy: HeroVisualCopy }) {
             <li key={item}>{item}</li>
           ))}
         </ul>
+      </div>
+      <div className="visual-firstline-card">
+        <span>✦ {copy.firstLineLabel}</span>
+        <blockquote>{copy.firstLineText}</blockquote>
+        <small>{copy.firstLineMeta}</small>
       </div>
       <div className="visual-footer-row">
         <span>{copy.footerLeft}</span>

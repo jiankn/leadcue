@@ -2,7 +2,7 @@
   "name": "leadcue",
   "version": "0.1.0",
   "private": true,
-  "description": "LeadCue monorepo for the AI website prospecting assistant MVP.",
+  "description": "LeadCue monorepo for the website-first outbound research workspace MVP.",
   "workspaces": [
     "apps/*",
     "packages/*"

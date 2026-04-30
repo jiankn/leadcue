@@ -1,5 +1,6 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
+import { applyLocalizedSeoStrategy, loadLocalizedSeoStrategy } from "./localized-seo-strategy.mjs";
 import {
   buildLocalePath,
   escapeHtml,
@@ -40,6 +41,14 @@ function canonicalFor(localizedPath) {
   return `${siteUrl}${localizedPath === "/" ? "/" : localizedPath}`;
 }
 
+function getHomeKeywordList(homeKeywords) {
+  return [
+    homeKeywords.primaryKeyword,
+    ...(homeKeywords.secondaryKeywords ?? []),
+    ...(homeKeywords.longTailKeywords ?? [])
+  ];
+}
+
 function makeContentAnchor(value) {
   const asciiAnchor = value
     .toLowerCase()
@@ -75,6 +84,32 @@ async function loadBundles() {
     productPages: JSON.parse(productPages),
     commercialPages: JSON.parse(commercialPages),
     homeKeywords: JSON.parse(homeKeywords)
+  };
+}
+
+async function applySeoStrategyToBundles(bundles) {
+  const localizedSeoStrategy = await loadLocalizedSeoStrategy();
+  const localeData = applyLocalizedSeoStrategy(
+    Object.fromEntries(
+      localeMeta.map((locale) => [
+        locale.code,
+        {
+          siteUi: bundles.siteUi[locale.code] ?? bundles.siteUi.en,
+          seoPages: bundles.seoPages[locale.code] ?? bundles.seoPages.en,
+          productPages: bundles.productPages[locale.code] ?? bundles.productPages.en,
+          commercialPages: bundles.commercialPages[locale.code] ?? bundles.commercialPages.en
+        }
+      ])
+    ),
+    localizedSeoStrategy
+  );
+
+  return {
+    siteUi: Object.fromEntries(Object.entries(localeData).map(([locale, bundle]) => [locale, bundle.siteUi])),
+    seoPages: Object.fromEntries(Object.entries(localeData).map(([locale, bundle]) => [locale, bundle.seoPages])),
+    productPages: Object.fromEntries(Object.entries(localeData).map(([locale, bundle]) => [locale, bundle.productPages])),
+    commercialPages: Object.fromEntries(Object.entries(localeData).map(([locale, bundle]) => [locale, bundle.commercialPages])),
+    homeKeywords: bundles.homeKeywords
   };
 }
 
@@ -117,7 +152,7 @@ function buildRoutes(bundles) {
       title: siteUi.home.seo.title,
       heading: `${siteUi.home.hero.titleLead} ${siteUi.home.hero.titleAccent}`,
       description: siteUi.home.seo.description,
-      keywords: [homeKeywords.primaryKeyword, ...homeKeywords.secondaryKeywords],
+      keywords: getHomeKeywordList(homeKeywords),
       sections: [
         {
           title: siteUi.home.features.title,
@@ -323,6 +358,22 @@ function upsertDescriptionMeta(baseHtml, description) {
   return baseHtml.replace("</head>", `  ${tag}\n</head>`);
 }
 
+function upsertKeywordsMeta(baseHtml, keywords) {
+  const keywordContent = keywords.filter(Boolean).join(", ");
+
+  if (!keywordContent) {
+    return baseHtml.replace(/<meta\s+name="keywords"\s+content="[^"]*"\s*\/?>\s*/i, "");
+  }
+
+  const tag = `<meta name="keywords" content="${escapeHtml(keywordContent)}" />`;
+
+  if (/meta\s+name="keywords"/i.test(baseHtml)) {
+    return baseHtml.replace(/<meta\s+name="keywords"\s+content="[^"]*"\s*\/?>/i, tag);
+  }
+
+  return baseHtml.replace("</head>", `  ${tag}\n</head>`);
+}
+
 function injectHead(baseHtml, route) {
   const canonical = canonicalFor(route.localizedPath);
   const imagePath = getSeoImagePath(route.locale, route.basePath);
@@ -347,6 +398,7 @@ function injectHead(baseHtml, route) {
 
   let html = setHtmlLang(baseHtml, route.htmlLang).replace(/<title>[\s\S]*?<\/title>/i, `<title>${escapeHtml(route.title)}</title>`);
   html = upsertDescriptionMeta(html, route.description);
+  html = upsertKeywordsMeta(html, route.keywords);
   html = html.replace(
     "</head>",
     `    <link rel="canonical" href="${canonical}" />
@@ -375,7 +427,7 @@ ${verificationMetaTags}    <script type="application/ld+json">${structuredData.r
 }
 
 const baseHtml = await readFile(path.join(distDir, "index.html"), "utf8");
-const bundles = await loadBundles();
+const bundles = await applySeoStrategyToBundles(await loadBundles());
 const publicRoutes = buildRoutes(bundles);
 
 await Promise.all(

@@ -9,6 +9,16 @@ const SUPPORTED_LOCALES = Array.isArray(window.LEADCUE_EXTENSION_SUPPORTED_LOCAL
   ? window.LEADCUE_EXTENSION_SUPPORTED_LOCALES
   : [FALLBACK_LOCALE];
 const ACTIVE_SUBSCRIPTION_STATUSES = new Set(["active", "trialing"]);
+const SEARCH_RESULTS_HOST_RULES = [
+  { hostPattern: /(^|\.)google\./i, pathPattern: /^\/search$/i, queryKeys: ["q"] },
+  { hostPattern: /(^|\.)bing\.com$/i, pathPattern: /^\/search$/i, queryKeys: ["q"] },
+  { hostPattern: /(^|\.)duckduckgo\.com$/i, pathPattern: /^\/(?:|html\/?)$/i, queryKeys: ["q"] },
+  { hostPattern: /(^|\.)search\.yahoo\.com$/i, pathPattern: /^\/search$/i, queryKeys: ["p"] },
+  { hostPattern: /(^|\.)yahoo\.com$/i, pathPattern: /^\/search$/i, queryKeys: ["p"] },
+  { hostPattern: /(^|\.)baidu\.com$/i, pathPattern: /^\/s$/i, queryKeys: ["wd", "word"] },
+  { hostPattern: /(^|\.)ecosia\.org$/i, pathPattern: /^\/search$/i, queryKeys: ["q"] },
+  { hostPattern: /(^|\.)yandex\./i, pathPattern: /^\/search\/?$/i, queryKeys: ["text"] }
+];
 
 const els = {
   settingsToggle: document.querySelector("#settingsToggle"),
@@ -16,6 +26,9 @@ const els = {
   settings: document.querySelector("#settings"),
   brandTagline: document.querySelector("#brandTagline"),
   permissionNote: document.querySelector("#permissionNote"),
+  webResearchCallout: document.querySelector("#webResearchCallout"),
+  webResearchNote: document.querySelector("#webResearchNote"),
+  openDashboardButton: document.querySelector("#openDashboardButton"),
   localeSelect: document.querySelector("#localeSelect"),
   refreshSession: document.querySelector("#refreshSession"),
   authEyebrow: document.querySelector("#authEyebrow"),
@@ -111,11 +124,29 @@ function bindEvents() {
   els.copyEmail.addEventListener("click", () => void copyPrimaryEmail());
   els.openLead.addEventListener("click", openSavedLead);
   els.openBilling.addEventListener("click", () => void openBillingDestination());
+  els.openDashboardButton.addEventListener("click", openDashboardWorkspace);
 
-  window.addEventListener("focus", () => void refreshSession({ quiet: true }));
+  window.addEventListener("focus", () => {
+    void refreshActiveTab();
+    void refreshSession({ quiet: true });
+  });
   document.addEventListener("visibilitychange", () => {
     if (!document.hidden) {
+      void refreshActiveTab();
       void refreshSession({ quiet: true });
+    }
+  });
+
+  chrome.tabs.onActivated.addListener(() => {
+    void refreshActiveTab();
+  });
+  chrome.tabs.onUpdated.addListener((tabId, changeInfo) => {
+    if (!state.tab?.id || tabId !== state.tab.id) {
+      return;
+    }
+
+    if (changeInfo.status || changeInfo.url || changeInfo.title) {
+      void refreshActiveTab();
     }
   });
 }
@@ -237,18 +268,17 @@ async function resolveServiceBase() {
 }
 
 async function refreshActiveTab(showStatus = false) {
-  const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-  state.tab = tab
-    ? {
-        id: tab.id || null,
-        title: tab.title || t("labels.activeWebsite"),
-        url: tab.url || "",
-        canScan: Boolean(tab.url && /^https?:\/\//.test(tab.url))
-      }
-    : null;
+  const [tab] = await chrome.tabs.query({ active: true, lastFocusedWindow: true });
+  state.tab = await toTabState(tab);
 
   if (showStatus) {
-    setStatus(state.tab?.canScan ? t("status.activeTabRefreshed") : t("status.openSiteBeforeScan"), "neutral");
+    const statusKey =
+      state.tab?.reason === "search-results"
+        ? "status.searchResultsPage"
+        : state.tab?.canScan
+          ? "status.activeTabRefreshed"
+          : "status.openSiteBeforeScan";
+    setStatus(t(statusKey), "neutral");
   }
 
   render();
@@ -275,6 +305,11 @@ async function analyzeActiveTab() {
     return;
   }
 
+  if (state.tab?.reason === "search-results") {
+    setStatus(t("status.searchResultsPage"), "warning");
+    return;
+  }
+
   const remainingCredits = Number(state.session.credits?.remaining || 0);
   if (remainingCredits < currentScanCost()) {
     setStatus(
@@ -290,6 +325,11 @@ async function analyzeActiveTab() {
 
   if (!state.tab?.id || !state.tab.canScan) {
     setStatus(t("status.openSiteBeforeScan"), "warning");
+    return;
+  }
+
+  if (!state.tab.siteAccess) {
+    setStatus(t("status.sitePermissionRequired"), "warning");
     return;
   }
 
@@ -316,6 +356,7 @@ async function analyzeActiveTab() {
       },
       body: JSON.stringify({
         source: "extension",
+        locale: state.locale,
         page,
         deepScan: els.deepScan.checked,
         idempotencyKey: `ext_${crypto.randomUUID()}`
@@ -351,7 +392,10 @@ async function analyzeActiveTab() {
       await refreshSession({ quiet: true });
     }
 
-    if (reason === "insufficient_credits") {
+    if (isSitePermissionError(error)) {
+      await refreshActiveTab();
+      setStatus(t("status.sitePermissionRequired"), "warning");
+    } else if (reason === "insufficient_credits") {
       setStatus(t("status.insufficientCreditsGeneric"), "warning");
     } else if (reason === "subscription_inactive") {
       setStatus(t("status.subscriptionInactiveGeneric"), "warning");
@@ -370,6 +414,12 @@ async function handlePrimaryAction() {
   switch (state.primaryAction) {
     case "scan":
       await analyzeActiveTab();
+      return;
+    case "grant-access":
+      await grantCurrentSiteAccess();
+      return;
+    case "refresh-tab":
+      await refreshActiveTab(true);
       return;
     case "login":
       openLogin();
@@ -468,6 +518,10 @@ function openSavedLead() {
   chrome.tabs.create({ url: url.toString() });
 }
 
+function openDashboardWorkspace() {
+  chrome.tabs.create({ url: buildAppLink("/app") });
+}
+
 function openLogin() {
   chrome.tabs.create({ url: buildAppLink("/login") });
   setStatus(t("status.finishSignIn"), "neutral");
@@ -492,6 +546,7 @@ function localizeStaticContent() {
   document.title = sidePanelTitle === "meta.sidePanelTitle" ? t("meta.manifestName") : sidePanelTitle;
   els.brandTagline.textContent = t("meta.tagline");
   els.permissionNote.textContent = t("notes.permission");
+  els.webResearchNote.textContent = t("notes.bulkResearchWeb");
   els.deepScanHint.textContent = t("labels.deepScanHint");
   renderLocaleOptions();
   els.localeSelect.value = state.locale;
@@ -523,14 +578,15 @@ function syncSettingsToggle() {
 function renderSessionCard() {
   const session = state.session;
 
-  if (state.sessionLoading) {
-    setBadge(t("badges.checking"), "is-muted");
-    els.authEyebrow.textContent = t("labels.workspaceAccess");
-    els.authTitle.textContent = t("buttons.checkingAccess");
-    els.authCopy.textContent = t("notes.checking");
-    els.workspaceSummary.hidden = true;
-    els.planStats.hidden = true;
-    els.loginButton.hidden = true;
+    if (state.sessionLoading) {
+      setBadge(t("badges.checking"), "is-muted");
+      els.authEyebrow.textContent = t("labels.workspaceAccess");
+      els.authTitle.textContent = t("buttons.checkingAccess");
+      els.authCopy.textContent = t("notes.checking");
+      els.workspaceSummary.hidden = true;
+      els.planStats.hidden = true;
+      els.webResearchCallout.hidden = true;
+      els.loginButton.hidden = true;
     els.signupButton.hidden = true;
     els.billingButton.hidden = true;
     els.logoutButton.hidden = true;
@@ -540,28 +596,30 @@ function renderSessionCard() {
 
   els.refreshSession.disabled = false;
 
-  if (!session?.available) {
-    setBadge(t("badges.unavailable"), "is-danger");
-    els.authEyebrow.textContent = t("labels.setupNeeded");
-    els.authTitle.textContent = t("badges.unavailable");
-    els.authCopy.textContent = session?.reason === "database_unavailable" ? t("status.apiNotReady") : t("notes.apiUnavailable");
-    els.workspaceSummary.hidden = true;
-    els.planStats.hidden = true;
-    els.loginButton.hidden = true;
+    if (!session?.available) {
+      setBadge(t("badges.unavailable"), "is-danger");
+      els.authEyebrow.textContent = t("labels.setupNeeded");
+      els.authTitle.textContent = t("badges.unavailable");
+      els.authCopy.textContent = session?.reason === "database_unavailable" ? t("status.apiNotReady") : t("notes.apiUnavailable");
+      els.workspaceSummary.hidden = true;
+      els.planStats.hidden = true;
+      els.webResearchCallout.hidden = true;
+      els.loginButton.hidden = true;
     els.signupButton.hidden = session?.reason === "api_unreachable";
     els.billingButton.hidden = true;
     els.logoutButton.hidden = true;
     return;
   }
 
-  if (!session.authenticated) {
-    setBadge(t("badges.signIn"), "is-warning");
-    els.authEyebrow.textContent = t("labels.workspaceAccess");
-    els.authTitle.textContent = t("buttons.signInToScan");
-    els.authCopy.textContent = t("notes.initialSignIn");
-    els.workspaceSummary.hidden = true;
-    els.planStats.hidden = true;
-    els.loginButton.hidden = true;
+    if (!session.authenticated) {
+      setBadge(t("badges.signIn"), "is-warning");
+      els.authEyebrow.textContent = t("labels.workspaceAccess");
+      els.authTitle.textContent = t("buttons.signInToScan");
+      els.authCopy.textContent = t("notes.initialSignIn");
+      els.workspaceSummary.hidden = true;
+      els.planStats.hidden = true;
+      els.webResearchCallout.hidden = true;
+      els.loginButton.hidden = true;
     els.signupButton.hidden = false;
     els.billingButton.hidden = true;
     els.logoutButton.hidden = true;
@@ -585,13 +643,14 @@ function renderSessionCard() {
   els.workspaceName.textContent = session.workspace?.name || t("labels.workspaceFallback");
   els.workspaceUser.textContent = session.user?.email || t("labels.signedInWorkspace");
 
-  els.planStats.hidden = false;
-  els.planName.textContent = session.plan?.name || t("labels.planUnknown");
-  els.creditsRemaining.textContent = `${remainingCredits}`;
-  els.creditsUsed.textContent = `${Number(session.credits?.used || 0)}`;
-  els.creditsReset.textContent = formatDateLabel(session.credits?.reset);
+    els.planStats.hidden = false;
+    els.planName.textContent = session.plan?.name || t("labels.planUnknown");
+    els.creditsRemaining.textContent = `${remainingCredits}`;
+    els.creditsUsed.textContent = `${Number(session.credits?.used || 0)}`;
+    els.creditsReset.textContent = formatDateLabel(session.credits?.reset);
+    els.webResearchCallout.hidden = false;
 
-  els.loginButton.hidden = true;
+    els.loginButton.hidden = true;
   els.signupButton.hidden = true;
   els.billingButton.hidden = false;
   els.logoutButton.hidden = false;
@@ -601,13 +660,14 @@ function renderScanPanel() {
   const tab = state.tab;
   const session = state.session;
   const canScanTab = Boolean(tab?.canScan);
+  const hasSiteAccess = Boolean(tab?.siteAccess);
   const scanCost = currentScanCost();
   const remainingCredits = Number(session?.credits?.remaining || 0);
   const subscriptionStatus = session?.subscription?.status || "active";
   const activeSubscription = isSubscriptionActive(subscriptionStatus);
 
-  els.pageTitle.textContent = tab?.title || t("labels.readyToScan");
-  els.pageUrl.textContent = tab?.url || t("notes.openPublicSite");
+  els.pageTitle.textContent = formatTabHeading(tab);
+  els.pageUrl.textContent = formatTabSubtitle(tab);
 
   let note = t("notes.initialSignIn");
   let label = t("buttons.analyzeWebsite");
@@ -641,11 +701,21 @@ function renderScanPanel() {
     label = t("buttons.manageBilling");
     disabled = false;
     primaryAction = "billing";
-  } else if (!canScanTab) {
-    note = t("notes.openPublicSite");
+  } else if (tab?.reason === "search-results") {
+    note = t("notes.searchResultsPage");
     label = t("buttons.openPublicSite");
     disabled = true;
     primaryAction = "none";
+  } else if (canScanTab && !hasSiteAccess) {
+    note = t("notes.sitePermission");
+    label = t("buttons.grantSiteAccess");
+    disabled = false;
+    primaryAction = "grant-access";
+  } else if (!canScanTab) {
+    note = tab?.reason === "unsupported" ? t("notes.unsupportedPage") : t("notes.openPublicSite");
+    label = tab?.reason === "unsupported" ? t("buttons.openPublicSite") : t("buttons.refreshPage");
+    disabled = tab?.reason === "unsupported";
+    primaryAction = tab?.reason === "unsupported" ? "none" : "refresh-tab";
   } else if (remainingCredits < scanCost) {
     note = t("status.insufficientCredits", {
       mode: currentScanModeLabel(),
@@ -688,7 +758,7 @@ function renderResult() {
 
   els.result.hidden = false;
   els.companyName.textContent = prospect.companyName || prospect.domain || t("labels.companyFallback");
-  els.domain.textContent = prospect.website || prospect.domain || "";
+  els.domain.textContent = formatDisplayUrl(prospect.website || prospect.domain || "", { stripSearch: true }) || "";
   els.fitScore.textContent = `${prospect.fitScore ?? 0}`;
   els.summary.textContent = prospect.summary || t("result.summaryFallback");
   els.primaryEmail.textContent = emails[0] || t("labels.noEmailFound");
@@ -712,7 +782,11 @@ function renderResult() {
 }
 
 function renderStatus() {
-  els.status.textContent = state.status.text;
+  const text = typeof state.status.text === "string" ? state.status.text.trim() : "";
+  const duplicateScanNote = text && text === (els.scanNote.textContent || "").trim();
+
+  els.status.hidden = !text || duplicateScanNote;
+  els.status.textContent = text;
   els.status.className = `status is-${state.status.tone}`;
 }
 
@@ -753,7 +827,15 @@ function createSignalNode(signal) {
 }
 
 async function fetchJson(path, init = {}) {
-  const response = await fetch(`${state.apiBase.replace(/\/+$/, "")}${path}`, init);
+  const headers = new Headers(init.headers || {});
+  if (!headers.has("X-LeadCue-Locale")) {
+    headers.set("X-LeadCue-Locale", state.locale);
+  }
+
+  const response = await fetch(`${state.apiBase.replace(/\/+$/, "")}${path}`, {
+    ...init,
+    headers
+  });
   const contentType = response.headers.get("Content-Type") || "";
   const payload = contentType.includes("application/json")
     ? await response.json().catch(() => null)
@@ -775,6 +857,23 @@ async function fetchJson(path, init = {}) {
 
 function resolveErrorMessage(error, fallbackKey) {
   const reason = error?.payload?.reason;
+  const payloadError = typeof error?.payload?.error === "string" ? error.payload.error : "";
+  const normalizedPayloadError = payloadError.toLowerCase();
+
+  if (reason === "validation_failed") {
+    if (
+      normalizedPayloadError.includes("search results page") ||
+      normalizedPayloadError.includes("public company website")
+    ) {
+      return t("status.searchResultsPage");
+    }
+
+    if (payloadError.includes("page.text")) {
+      return t("status.pageTextUnavailable");
+    }
+
+    return t("status.pageReadFailed");
+  }
 
   if (reason === "insufficient_credits") {
     return t("status.insufficientCreditsGeneric");
@@ -788,11 +887,202 @@ function resolveErrorMessage(error, fallbackKey) {
     return t("status.workspaceUnavailable");
   }
 
+  if (reason === "generation_failed") {
+    return t("status.generationFailed");
+  }
+
+  if (reason === "persistence_failed") {
+    return t("status.persistenceFailed");
+  }
+
+  if (isSitePermissionError(error)) {
+    return t("status.sitePermissionRequired");
+  }
+
   return t(fallbackKey);
 }
 
 function currentScanCost() {
   return els.deepScan.checked ? 3 : 1;
+}
+
+async function toTabState(tab) {
+  if (!tab) {
+    return null;
+  }
+
+  const url = tab.url || tab.pendingUrl || "";
+  const normalizedTitle = typeof tab.title === "string" ? tab.title.trim() : "";
+  const scanState = inspectTabUrl(url);
+  const canScan = scanState.canScan;
+  const originPattern = canScan ? originPatternForUrl(url) : "";
+  const siteAccess = originPattern ? await hasOriginPermission(originPattern) : false;
+
+  let reason = scanState.reason;
+  if (canScan) {
+    reason = siteAccess ? "ready" : "permission";
+  } else if (!url && normalizedTitle) {
+    reason = "unresolved";
+  }
+
+  return {
+    id: tab.id || null,
+    title: normalizedTitle,
+    url,
+    hostname: url ? safeHostname(url) : "",
+    canScan,
+    siteAccess,
+    originPattern,
+    reason
+  };
+}
+
+function formatTabHeading(tab) {
+  if (!tab) {
+    return t("labels.readyToScan");
+  }
+
+  return tab.title || tab.hostname || t("labels.readyToScan");
+}
+
+function formatTabSubtitle(tab) {
+  if (!tab) {
+    return t("notes.openPublicSite");
+  }
+
+  return formatDisplayUrl(tab.url, { stripSearch: true }) || tab.hostname || t("notes.openPublicSite");
+}
+
+function isScannableUrl(url) {
+  return Boolean(url && /^https?:\/\//.test(url));
+}
+
+function inspectTabUrl(url) {
+  if (!url) {
+    return {
+      canScan: false,
+      reason: "missing"
+    };
+  }
+
+  if (!isScannableUrl(url)) {
+    return {
+      canScan: false,
+      reason: "unsupported"
+    };
+  }
+
+  if (isSearchResultsPage(url)) {
+    return {
+      canScan: false,
+      reason: "search-results"
+    };
+  }
+
+  return {
+    canScan: true,
+    reason: "ready"
+  };
+}
+
+function isSearchResultsPage(url) {
+  try {
+    const parsed = new URL(url);
+    const hostname = parsed.hostname.toLowerCase();
+    const pathname = parsed.pathname.toLowerCase();
+
+    return SEARCH_RESULTS_HOST_RULES.some((rule) => {
+      if (!rule.hostPattern.test(hostname) || !rule.pathPattern.test(pathname)) {
+        return false;
+      }
+
+      return rule.queryKeys.some((key) => parsed.searchParams.has(key));
+    });
+  } catch {
+    return false;
+  }
+}
+
+function formatDisplayUrl(value, options = {}) {
+  const raw = String(value || "").trim();
+  if (!raw) {
+    return "";
+  }
+
+  try {
+    const parsed = new URL(raw);
+    const stripSearch = options.stripSearch !== false;
+    if (stripSearch) {
+      parsed.search = "";
+    }
+    parsed.hash = "";
+
+    const pathname = parsed.pathname === "/" ? "" : parsed.pathname.replace(/\/+$/, "");
+    const compactPath = pathname.length > 48 ? `${pathname.slice(0, 45)}...` : pathname;
+
+    return `${parsed.origin}${compactPath}`;
+  } catch {
+    return raw;
+  }
+}
+
+function safeHostname(url) {
+  try {
+    return new URL(url).hostname;
+  } catch {
+    return "";
+  }
+}
+
+async function grantCurrentSiteAccess() {
+  if (!state.tab?.originPattern) {
+    setStatus(t("status.openSiteBeforeScan"), "warning");
+    return;
+  }
+
+  try {
+    const granted = await chrome.permissions.request({
+      origins: [state.tab.originPattern]
+    });
+
+    if (!granted) {
+      setStatus(t("status.sitePermissionDenied"), "warning");
+      return;
+    }
+
+    await refreshActiveTab();
+    setStatus(t("status.sitePermissionGranted"), "success");
+  } catch (error) {
+    console.warn("extension_site_permission_failed", error);
+    setStatus(t("status.sitePermissionRequestFailed"), "danger");
+  }
+}
+
+async function hasOriginPermission(originPattern) {
+  try {
+    return await chrome.permissions.contains({ origins: [originPattern] });
+  } catch {
+    return false;
+  }
+}
+
+function originPatternForUrl(url) {
+  try {
+    const parsed = new URL(url);
+    return `${parsed.protocol}//${parsed.host}/*`;
+  } catch {
+    return "";
+  }
+}
+
+function isSitePermissionError(error) {
+  const message = `${error?.message || ""} ${error?.cause?.message || ""}`.toLowerCase();
+  return (
+    message.includes("cannot access contents of url") ||
+    message.includes("missing host permission") ||
+    message.includes("host permission") ||
+    message.includes("cannot be scripted")
+  );
 }
 
 function currentScanModeLabel() {

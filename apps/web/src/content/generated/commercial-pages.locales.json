@@ -100,7 +100,7 @@
       },
       "secondaryAction": {
         "label": "Start free",
-        "href": "/signup?plan=free"
+        "href": "/signup"
       },
       "sections": [
         {
@@ -186,7 +186,7 @@
       "summary": "These terms describe the intended product boundary: website research, prospect qualification, secure account access, and export-ready notes for agency outbound teams.",
       "primaryAction": {
         "label": "Start free",
-        "href": "/signup?plan=free"
+        "href": "/signup"
       },
       "secondaryAction": {
         "label": "Ask a question",
@@ -327,7 +327,7 @@
       },
       "secondaryAction": {
         "label": "免费开始",
-        "href": "/signup?plan=free"
+        "href": "/signup"
       },
       "sections": [
         {
@@ -413,7 +413,7 @@
       "summary": "这些术语描述了预期的产品边界：网站研究、潜在客户资格、安全帐户访问以及代理外向团队的出口准备说明。",
       "primaryAction": {
         "label": "免费开始",
-        "href": "/signup?plan=free"
+        "href": "/signup"
       },
       "secondaryAction": {
         "label": "提出问题",
@@ -554,7 +554,7 @@
       },
       "secondaryAction": {
         "label": "無料で始める",
-        "href": "/signup?plan=free"
+        "href": "/signup"
       },
       "sections": [
         {
@@ -640,7 +640,7 @@
       "summary": "これらの用語は、Webサイト調査、見込み客の認定、安全なアカウント アクセス、代理店のアウトバウンド チーム向けの輸出準備完了メモなど、対象となる製品の境界を説明します。",
       "primaryAction": {
         "label": "無料で始める",
-        "href": "/signup?plan=free"
+        "href": "/signup"
       },
       "secondaryAction": {
         "label": "質問する",
@@ -781,7 +781,7 @@
       },
       "secondaryAction": {
         "label": "무료로 시작하기",
-        "href": "/signup?plan=free"
+        "href": "/signup"
       },
       "sections": [
         {
@@ -867,7 +867,7 @@
       "summary": "이 용어는 웹사이트 조사, 잠재 고객 자격, 보안 계정 액세스, 대행사 아웃바운드 팀을 위한 수출 준비 메모 등 의도된 제품 범위를 설명합니다.",
       "primaryAction": {
         "label": "무료로 시작하기",
-        "href": "/signup?plan=free"
+        "href": "/signup"
       },
       "secondaryAction": {
         "label": "질문하기",
@@ -1008,7 +1008,7 @@
       },
       "secondaryAction": {
         "label": "Kostenlos starten",
-        "href": "/signup?plan=free"
+        "href": "/signup"
       },
       "sections": [
         {
@@ -1094,7 +1094,7 @@
       "summary": "Diese Begriffe beschreiben die beabsichtigte Produktgrenze: Website-Recherche, Qualifizierung potenzieller Kunden, sicherer Kontozugriff und exportfähige Notizen für Outbound-Teams von Agenturen.",
       "primaryAction": {
         "label": "Kostenlos starten",
-        "href": "/signup?plan=free"
+        "href": "/signup"
       },
       "secondaryAction": {
         "label": "Stellen Sie eine Frage",
@@ -1235,7 +1235,7 @@
       },
       "secondaryAction": {
         "label": "Gratis starten",
-        "href": "/signup?plan=free"
+        "href": "/signup"
       },
       "sections": [
         {
@@ -1321,7 +1321,7 @@
       "summary": "Deze termen beschrijven de beoogde productgrens: websiteonderzoek, kwalificatie van potentiële klanten, beveiligde accounttoegang en exportklare notities voor uitgaande teams van bureaus.",
       "primaryAction": {
         "label": "Gratis starten",
-        "href": "/signup?plan=free"
+        "href": "/signup"
       },
       "secondaryAction": {
         "label": "Stel een vraag",
@@ -1462,7 +1462,7 @@
       },
       "secondaryAction": {
         "label": "Commencer gratuitement",
-        "href": "/signup?plan=free"
+        "href": "/signup"
       },
       "sections": [
         {
@@ -1548,7 +1548,7 @@
       "summary": "Ces termes décrivent les limites du produit prévu : recherche de sites Web, qualification de prospects, accès sécurisé au compte et notes prêtes à l'exportation pour les équipes sortantes de l'agence.",
       "primaryAction": {
         "label": "Commencer gratuitement",
-        "href": "/signup?plan=free"
+        "href": "/signup"
       },
       "secondaryAction": {
         "label": "Poser une question",

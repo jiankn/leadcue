@@ -1,6 +1,192 @@
 {
   "en": [
     {
+      "slug": "tools/prospect-research-chrome-extension",
+      "eyebrow": "Product workflow",
+      "category": "Chrome extension",
+      "title": "Prospect research Chrome extension for website review",
+      "seoTitle": "Prospect Research Chrome Extension | LeadCue",
+      "description": "Review a prospect website from Chrome, capture visible evidence, and save a qualified outreach card without leaving the page.",
+      "intent": "Help operators research a prospect while they are already looking at the company website.",
+      "updatedAt": "2026-04-29",
+      "readingTime": "Workflow",
+      "primaryKeyword": "prospect research Chrome extension",
+      "secondaryKeywords": [
+        "website prospecting Chrome extension",
+        "outreach research extension",
+        "prospect website review"
+      ],
+      "tool": "workflow",
+      "heroBullets": [
+        "Capture website evidence while the page is still in view.",
+        "Save fit notes, first-line cues, and source context to the same Prospect Card.",
+        "Move only reviewed accounts into the web workspace for follow-up and export."
+      ],
+      "sections": [
+        {
+          "title": "Why a browser workflow matters",
+          "copy": "A Chrome extension fits the moment when a researcher is already inspecting a prospect website. Instead of copying notes into a sheet, the team can save visible evidence and keep it connected to the account.",
+          "items": [
+            "Review the homepage, proof, content, and contact path in the same session.",
+            "Capture the reason to contact before it gets lost in a tab or spreadsheet.",
+            "Keep manual judgment in the workflow instead of turning every website into a lead automatically."
+          ]
+        },
+        {
+          "title": "What should be saved",
+          "copy": "The extension should not only save a URL. It should preserve the smallest useful research package: source observation, fit reason, outreach angle, first line, and next step.",
+          "items": [
+            "Website signal and the page context behind it.",
+            "Fit score, confidence, and the service angle that makes the account relevant.",
+            "A first line or short note the rep can verify before sending."
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "question": "Is this a scraping extension?",
+          "answer": "No. The workflow is designed around visible public website review, human judgment, and saving source-backed outreach context."
+        },
+        {
+          "question": "When should an agency use the extension instead of batch import?",
+          "answer": "Use the extension when a researcher is browsing one account at a time. Use batch import when the team already has a list of domains to review."
+        },
+        {
+          "question": "Can extension notes be exported later?",
+          "answer": "Yes. Saved accounts can carry the same fit score, source notes, and first-line context into CSV or CRM export workflows."
+        }
+      ],
+      "related": [
+        "website-prospecting",
+        "tools/outreach-context-workspace",
+        "templates/cold-email-first-line"
+      ]
+    },
+    {
+      "slug": "tools/batch-website-review-queue",
+      "eyebrow": "Product workflow",
+      "category": "Review queue",
+      "title": "Batch website review queue for agency prospecting",
+      "seoTitle": "Batch Website Review Queue for Agency Prospecting | LeadCue",
+      "description": "Import prospect websites into a review queue, prioritize accounts, and keep qualification work moving before outreach.",
+      "intent": "Help agencies review many prospect websites without sending unqualified accounts into campaigns.",
+      "updatedAt": "2026-04-29",
+      "readingTime": "Workflow",
+      "primaryKeyword": "batch website review queue",
+      "secondaryKeywords": [
+        "batch website prospecting",
+        "website review workflow",
+        "agency prospect review queue"
+      ],
+      "tool": "workflow",
+      "heroBullets": [
+        "Import domain lists and review accounts before campaign handoff.",
+        "Separate scanned websites from saved, qualified prospects.",
+        "Use fit score and confidence to decide which accounts deserve outreach first."
+      ],
+      "sections": [
+        {
+          "title": "The queue job",
+          "copy": "A review queue keeps volume from becoming noise. It gives researchers a place to move through many websites, compare signals, and save only the accounts with a clear reason to contact.",
+          "items": [
+            "Batch import prospect domains from a spreadsheet, CRM list, or manual research.",
+            "Review accounts in a consistent order instead of jumping between tabs.",
+            "Keep rejected or low-confidence accounts out of outbound tools."
+          ]
+        },
+        {
+          "title": "How teams use the queue",
+          "copy": "The queue is strongest when one person prepares accounts and another person writes or approves outreach. The handoff works because each saved account includes the evidence behind the recommendation.",
+          "items": [
+            "Prioritize high-fit accounts for same-day outreach.",
+            "Assign owners before export or sequence creation.",
+            "Export only selected accounts with source notes and first lines attached."
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "question": "Should every imported website become a lead?",
+          "answer": "No. The point of a review queue is to filter. Imported websites should become saved prospects only when the evidence supports outreach."
+        },
+        {
+          "question": "What makes a batch review queue different from a spreadsheet?",
+          "answer": "A spreadsheet stores rows. A review queue stores the research state, fit score, source notes, first-line cues, and export readiness for each account."
+        },
+        {
+          "question": "Can the queue support manual QA?",
+          "answer": "Yes. Human review is part of the workflow, especially before a prospect is saved, assigned, exported, or used in email copy."
+        }
+      ],
+      "related": [
+        "website-prospecting",
+        "agency-lead-qualification",
+        "templates/website-prospecting-checklist"
+      ]
+    },
+    {
+      "slug": "tools/outreach-context-workspace",
+      "eyebrow": "Product workflow",
+      "category": "Outreach workspace",
+      "title": "Outreach context workspace for website-based prospecting",
+      "seoTitle": "Outreach Context Workspace for Agencies | LeadCue",
+      "description": "Keep website evidence, fit scores, first lines, source notes, and CRM export fields together before launching outreach.",
+      "intent": "Help teams preserve the reason behind outreach from research through CRM or email handoff.",
+      "updatedAt": "2026-04-29",
+      "readingTime": "Workflow",
+      "primaryKeyword": "outreach context workspace",
+      "secondaryKeywords": [
+        "qualified outreach workflow",
+        "website research workspace",
+        "outreach-ready context"
+      ],
+      "tool": "workflow",
+      "heroBullets": [
+        "Keep the website observation, business angle, and first line together.",
+        "Give reps enough context to verify a claim before sending.",
+        "Export CRM fields without losing the source-backed reason to contact."
+      ],
+      "sections": [
+        {
+          "title": "Why outreach context gets lost",
+          "copy": "Many teams research accounts in one place, write notes in another, and export leads somewhere else. By the time outreach starts, the reason to contact has often turned into a generic sentence.",
+          "items": [
+            "Source notes disappear when only company name and URL are exported.",
+            "First lines get copied without the evidence needed for review.",
+            "Reps cannot explain why a prospect was selected."
+          ]
+        },
+        {
+          "title": "What the workspace should preserve",
+          "copy": "A useful outreach workspace connects each account to a compact evidence chain: website signal, fit reason, first line, source note, owner, stage, and export status.",
+          "items": [
+            "Website evidence and a plain-language business implication.",
+            "Fit score and confidence so teams can prioritize cleanly.",
+            "CRM-ready fields that keep context attached during handoff."
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "question": "Is an outreach context workspace the same as a CRM?",
+          "answer": "No. The workspace sits before the CRM. It helps teams decide which accounts are worth outreach and what context should be handed off."
+        },
+        {
+          "question": "Does this replace an email sending tool?",
+          "answer": "No. LeadCue prepares the research and context before the account enters tools such as CRM, CSV, or email sequencing software."
+        },
+        {
+          "question": "What context should be reviewed before sending?",
+          "answer": "Review the source observation, fit reason, first line, and any claim that will appear in the outbound message."
+        }
+      ],
+      "related": [
+        "prospect-research-tool-for-agencies",
+        "templates/crm-csv-field-mapping",
+        "cold-email-first-lines"
+      ]
+    },
+    {
       "slug": "templates/crm-csv-field-mapping",
       "eyebrow": "Interactive template",
       "category": "CRM export",
@@ -12,9 +198,9 @@
       "readingTime": "Tool",
       "primaryKeyword": "CRM CSV field mapping",
       "secondaryKeywords": [
+        "CRM export for prospect research",
         "HubSpot CSV export fields",
-        "Salesforce lead CSV fields",
-        "Pipedrive CSV import fields"
+        "Salesforce lead CSV fields"
       ],
       "tool": "crm-mapping",
       "heroBullets": [
@@ -75,8 +261,8 @@
       "primaryKeyword": "cold email first line template",
       "secondaryKeywords": [
         "cold email opener template",
-        "personalized first line template",
-        "website signal outreach"
+        "website signal outreach",
+        "personalized first line template"
       ],
       "tool": "first-line",
       "heroBullets": [
@@ -137,8 +323,8 @@
       "primaryKeyword": "website prospecting checklist",
       "secondaryKeywords": [
         "prospect website checklist",
-        "agency outbound checklist",
-        "website audit checklist"
+        "website audit checklist",
+        "agency outbound checklist"
       ],
       "tool": "checklist",
       "heroBullets": [
@@ -378,6 +564,192 @@
   ],
   "zh": [
     {
+      "slug": "tools/prospect-research-chrome-extension",
+      "eyebrow": "产品工作流",
+      "category": "Chrome 插件",
+      "title": "客户开发 Chrome 插件：边看官网边保存线索证据",
+      "seoTitle": "客户开发 Chrome 插件 | LeadCue",
+      "description": "在 Chrome 里审查客户官网，保存网站证据、匹配评分和开发信上下文，不用在表格和页面之间来回复制。",
+      "intent": "帮助团队在查看客户官网时完成线索研究、证据保存和开发信准备。",
+      "updatedAt": "2026-04-29",
+      "readingTime": "工作流程",
+      "primaryKeyword": "客户开发 Chrome 插件",
+      "secondaryKeywords": [
+        "网站客户开发插件",
+        "开发信 Chrome 插件",
+        "客户官网线索工具"
+      ],
+      "tool": "workflow",
+      "heroBullets": [
+        "浏览客户官网时直接保存网站证据。",
+        "把匹配评分、开发信线索和来源备注放进同一张线索卡。",
+        "适合逐个审查高价值客户，而不是批量导入后再猜。"
+      ],
+      "sections": [
+        {
+          "title": "为什么需要浏览器里的客户开发流程",
+          "copy": "很多客户开发发生在浏览器里：研究员打开客户官网，看首屏、案例、服务页和联系方式。如果这些观察只能手动复制到表格里，最有价值的开发理由很容易丢失。",
+          "items": [
+            "边看官网边记录可验证的页面证据。",
+            "把开发理由和公司域名绑定，减少后续回忆成本。",
+            "保留人工判断，不把每个打开的网站都自动当成线索。"
+          ]
+        },
+        {
+          "title": "插件应该保存什么",
+          "copy": "一个有效的 Chrome 插件不只是保存 URL，而是保存一套可用于外联的小研究包：官网观察点、匹配理由、开发信角度、第一句话和下一步建议。",
+          "items": [
+            "网站信号和对应页面位置。",
+            "匹配评分、置信度和适合的服务方向。",
+            "发送前可复核的开发信开场白和来源备注。"
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "question": "这是抓取插件吗？",
+          "answer": "不是。它围绕公开可见的官网信息和人工审查流程设计，用来保存有来源依据的客户开发上下文。"
+        },
+        {
+          "question": "什么时候用插件，什么时候用批量导入？",
+          "answer": "逐个浏览高价值客户时用插件；已经有一批域名列表时，用批量网站审查队列更合适。"
+        },
+        {
+          "question": "插件保存的内容能导出吗？",
+          "answer": "可以。保存后的线索可以继续带着匹配评分、来源备注和开发信上下文进入 CSV 或 CRM 导出流程。"
+        }
+      ],
+      "related": [
+        "website-prospecting",
+        "tools/outreach-context-workspace",
+        "templates/cold-email-first-line"
+      ]
+    },
+    {
+      "slug": "tools/batch-website-review-queue",
+      "eyebrow": "产品工作流",
+      "category": "批量审查队列",
+      "title": "批量网站客户开发：把客户官网导入审查队列",
+      "seoTitle": "批量网站客户开发工具 | LeadCue",
+      "description": "批量导入客户官网，按优先级审查线索、保存证据，并把真正值得开发的客户推进外联。",
+      "intent": "帮助团队批量审查客户官网，先筛选合格线索，再进入外联。",
+      "updatedAt": "2026-04-29",
+      "readingTime": "工作流程",
+      "primaryKeyword": "批量网站客户开发",
+      "secondaryKeywords": [
+        "批量网站审查",
+        "网站线索批量筛选",
+        "客户官网批量分析"
+      ],
+      "tool": "workflow",
+      "heroBullets": [
+        "把客户官网列表导入审查队列，而不是直接丢进开发信工具。",
+        "先筛选、评分、保存证据，再决定哪些客户值得外联。",
+        "适合团队批量处理域名列表、外贸客户名单或 CRM 待开发客户。"
+      ],
+      "sections": [
+        {
+          "title": "批量审查队列解决什么问题",
+          "copy": "批量获客最容易变成噪音：名单很多，但不知道哪些值得联系。审查队列的作用是把“导入的网站”和“值得开发的客户”分开，让团队先完成判断，再进入开发信或 CRM。",
+          "items": [
+            "从表格、CRM 或人工研究中导入域名。",
+            "按统一标准审查官网信号和匹配度。",
+            "只把有明确开发理由的客户保存为合格线索。"
+          ]
+        },
+        {
+          "title": "团队如何使用队列",
+          "copy": "队列适合研究和发送分工的团队。研究员负责把网站证据和开发理由整理清楚，销售或负责人再决定是否导出、分配或写入开发信序列。",
+          "items": [
+            "优先处理高匹配、高置信度客户。",
+            "为每个合格线索分配负责人和下一步阶段。",
+            "导出时保留来源备注和开发信开场白。"
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "question": "导入的网站都应该变成线索吗？",
+          "answer": "不应该。队列的价值就是筛选，只有官网证据支持开发时才保存为线索。"
+        },
+        {
+          "question": "它和表格有什么区别？",
+          "answer": "表格通常只存公司和网址；审查队列会存研究状态、匹配评分、来源证据、开发信线索和导出状态。"
+        },
+        {
+          "question": "可以做人工复核吗？",
+          "answer": "可以，而且建议在保存、分配、导出或发送开发信前做人工复核。"
+        }
+      ],
+      "related": [
+        "website-prospecting",
+        "agency-lead-qualification",
+        "templates/website-prospecting-checklist"
+      ]
+    },
+    {
+      "slug": "tools/outreach-context-workspace",
+      "eyebrow": "产品工作流",
+      "category": "外联上下文工作台",
+      "title": "开发信上下文工作台：把网站证据和开场白放在一起",
+      "seoTitle": "开发信上下文工作台 | LeadCue",
+      "description": "把客户官网证据、匹配评分、开发信开场白、来源备注和 CRM 字段保存在同一个外联工作区。",
+      "intent": "帮助团队从研究到 CRM 或开发信交接时保留完整外联上下文。",
+      "updatedAt": "2026-04-29",
+      "readingTime": "工作流程",
+      "primaryKeyword": "开发信上下文工作台",
+      "secondaryKeywords": [
+        "开发信个性化工具",
+        "外联上下文",
+        "网站证据开发信"
+      ],
+      "tool": "workflow",
+      "heroBullets": [
+        "把网站证据、开发信开场白和 CRM 字段放在同一个工作区。",
+        "让发送前复核更容易，避免只剩下一句泛泛的 AI 文案。",
+        "适合把研究结果交给销售、BD 或外包发送团队。"
+      ],
+      "sections": [
+        {
+          "title": "为什么外联上下文容易丢",
+          "copy": "很多团队在一个地方研究客户，在另一个地方写备注，再把名单导出到第三个工具。等到真正发送开发信时，最初为什么选择这个客户已经说不清了。",
+          "items": [
+            "只导出公司名和网址，会丢掉开发理由。",
+            "开场白如果没有来源备注，发送前很难判断是否可信。",
+            "销售接手时需要知道这个客户为什么被选中。"
+          ]
+        },
+        {
+          "title": "工作区应该保留哪些上下文",
+          "copy": "一个有用的外联工作区应该保留完整但简洁的证据链：官网信号、业务影响、匹配评分、开发信开场白、来源备注、负责人、阶段和导出状态。",
+          "items": [
+            "官网观察点和对应的业务含义。",
+            "匹配评分和置信度，用来安排优先级。",
+            "可导入 CRM 的字段，保证交接时上下文不丢。"
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "question": "外联上下文工作台是 CRM 吗？",
+          "answer": "不是。它位于 CRM 之前，帮助团队判断哪些客户值得外联，以及应该把哪些研究上下文交给 CRM。"
+        },
+        {
+          "question": "它会替代开发信发送工具吗？",
+          "answer": "不会。LeadCue 准备研究和上下文，发送仍然可以在 CRM、CSV 或邮件序列工具中完成。"
+        },
+        {
+          "question": "发送前最应该复核什么？",
+          "answer": "复核官网观察点、匹配理由、开场白和邮件中出现的任何判断，确保都能从来源备注里验证。"
+        }
+      ],
+      "related": [
+        "prospect-research-tool-for-agencies",
+        "templates/crm-csv-field-mapping",
+        "cold-email-first-lines"
+      ]
+    },
+    {
       "slug": "templates/crm-csv-field-mapping",
       "eyebrow": "交互式模板",
       "category": "CRM 导出",
@@ -387,11 +759,11 @@
       "intent": "在将选定的潜在客户导入 CRM 之前，帮助团队标准化潜在客户研究 CSV 导出。",
       "updatedAt": "2026-04-23",
       "readingTime": "工具",
-      "primaryKeyword": "CRM CSV 字段映射",
+      "primaryKeyword": "CRM线索字段导出",
       "secondaryKeywords": [
-        "HubSpot CSV 导出字段",
-        "Salesforce 潜在客户 CSV 字段",
-        "Pipedrive CSV 导入字段"
+        "CRM CSV 字段映射",
+        "线索导出字段",
+        "客户开发 CRM 导出"
       ],
       "tool": "crm-mapping",
       "heroBullets": [
@@ -449,11 +821,11 @@
       "intent": "为外发团队提供可重用的模式，将网站观察转化为可信的冷电子邮件开启方式。",
       "updatedAt": "2026-04-23",
       "readingTime": "模板",
-      "primaryKeyword": "冷电子邮件第一行模板",
+      "primaryKeyword": "开发信个性化开场白模板",
       "secondaryKeywords": [
-        "冷电子邮件开场白模板",
-        "个性化首行模板",
-        "网站信号外展"
+        "开发信开场白模板",
+        "冷邮件开场白模板",
+        "客户官网开发信"
       ],
       "tool": "first-line",
       "heroBullets": [
@@ -511,11 +883,11 @@
       "intent": "帮助团队在潜在客户网站进入外联营销活动之前对其进行资格鉴定。",
       "updatedAt": "2026-04-23",
       "readingTime": "清单",
-      "primaryKeyword": "网站勘探清单",
+      "primaryKeyword": "客户网站开发筛选清单",
       "secondaryKeywords": [
-        "潜在客户网站清单",
-        "代理机构出库清单",
-        "网站审核清单"
+        "网站客户开发清单",
+        "网站诊断清单",
+        "销售线索筛选清单"
       ],
       "tool": "checklist",
       "heroBullets": [
@@ -566,58 +938,58 @@
     {
       "slug": "integrations/hubspot-csv-export",
       "eyebrow": "集成指南",
-      "category": "HubSpot",
-      "title": "面向网站潜客研究的 HubSpot CSV 导出",
-      "seoTitle": "潜客研究的 HubSpot CSV 导出 | LeadCue",
-      "description": "为保存的潜在客户研究准备 HubSpot 友好的 CSV 字段，包括公司、网站、适合度分数、第一行、来源说明和潜在客户状态。",
-      "intent": "帮助 HubSpot 用户导入选定的 LeadCue 式潜客研究，而不会丢失外展背景。",
+      "category": "HubSpot 导出",
+      "title": "HubSpot CSV 导出：保留网站客户开发上下文",
+      "seoTitle": "HubSpot CSV 导出字段与客户开发上下文 | LeadCue",
+      "description": "把 LeadCue 中已筛选的客户、网站证据、匹配评分和开发信开场白导入 HubSpot，同时保留销售可用的上下文。",
+      "intent": "帮助 HubSpot 用户导入已筛选的网站客户开发线索，而不丢失开发理由。",
       "updatedAt": "2026-04-23",
       "readingTime": "指南",
       "primaryKeyword": "HubSpot CSV 导出字段",
       "secondaryKeywords": [
-        "HubSpot 潜在客户导入 CSV",
-        "HubSpot 潜客研究导入",
-        "HubSpot 公司 CSV 字段"
+        "HubSpot 线索导入字段",
+        "客户开发 HubSpot 导出",
+        "HubSpot CRM CSV 导入"
       ],
       "tool": "integration",
       "platform": "HubSpot",
       "heroBullets": [
-        "使用人类可读的标头进行公司和联系人列表导入。",
-        "将适合分数和源注释保留为自定义属性或注释。",
-        "导入选定的已保存潜在客户，而不是每个扫描的网站。"
+        "只导入已保存、已筛选的客户，而不是所有扫描过的网站。",
+        "把匹配评分、来源备注和开发信开场白带进 HubSpot。",
+        "让销售在公司记录里看到为什么这个客户值得跟进。"
       ],
       "sections": [
         {
-          "title": "推荐的 HubSpot 字段\n当 CSV 使用清晰的标签并保留销售代表可以看到的字段中的研究背景时，",
-          "copy": "HubSpot 导入效果最佳。",
+          "title": "HubSpot 里最应该保留的字段",
+          "copy": "HubSpot 导入不应该只包含公司名和网址。对于客户开发团队来说，真正有价值的是为什么这个客户值得联系，以及销售可以用什么角度开启对话。",
           "items": [
-            "公司名称、网站 URL、行业、潜在客户状态、所有者。",
-            "适合度分数、置信度分数、顶级网站信号。",
-            "第一行，简短的电子邮件，来源注释，联系路径。"
+            "公司名称、官网 URL、负责人和线索阶段。",
+            "匹配评分、置信度和主要网站信号。",
+            "开发信开场白、来源备注和导出状态。"
           ]
         },
         {
-          "title": "导入工作流程",
-          "copy": "导出选定的已保存潜在客户，确认所有者和生命周期阶段，然后作为公司记录、联系人记录或营销活动列表导入 HubSpot。",
+          "title": "导入前的清理原则",
+          "copy": "HubSpot 很容易变成所有名单的仓库。更好的做法是只把通过审查的客户导入，并用清晰字段保存网站证据，避免销售拿到一堆没有上下文的公司。",
           "items": [
-            "将 LeadCue 所有者映射到 HubSpot 所有者（如果可用）。",
-            "使用潜在客户状态或生命周期阶段来标记研究就绪帐户。",
-            "保持源注释可见，以便进行 QA 和回复指导。"
+            "不要导入低置信度或没有开发理由的客户。",
+            "用自定义属性保存评分和来源备注。",
+            "导入后用列表或视图区分网站客户开发来源。"
           ]
         }
       ],
       "faqs": [
         {
-          "question": "适合分数应该是 HubSpot 自定义属性吗？",
-          "answer": "是的。数字自定义属性可以更轻松地对研究就绪帐户进行排序和细分。"
+          "question": "HubSpot 里应该建公司属性还是联系人属性？",
+          "answer": "网站证据和匹配评分更适合公司属性；具体联系人信息可以后续再补。"
         },
         {
-          "question": "源注释可以纳入 HubSpot 注释吗？",
-          "answer": "是的。源注释可以存储为注释或自定义长文本属性，具体取决于您的工作流程。"
+          "question": "是否应该导入所有扫描结果？",
+          "answer": "不建议。只导入已保存、已筛选的客户，避免 CRM 变脏。"
         },
         {
-          "question": "导出的潜在客户应该成为联系人还是公司？",
-          "answer": "对于网站优先的勘探，在提供经过验证的联系路径之前，公司通常是最安全的起点。"
+          "question": "开发信开场白要不要进 HubSpot？",
+          "answer": "如果销售会在 HubSpot 里跟进，建议保留开场白和来源备注，方便发送前复核。"
         }
       ],
       "related": [
@@ -629,58 +1001,58 @@
     {
       "slug": "integrations/salesforce-csv-export",
       "eyebrow": "集成指南",
-      "category": "Salesforce",
-      "title": "用于高质量潜客研究的 Salesforce CSV 导出",
-      "seoTitle": "高质量潜客研究的 Salesforce CSV 导出 | LeadCue",
-      "description": "将网站勘探研究映射到 Salesforce 潜在客户导入字段，同时保留适合分数、来源注释、第一行和潜在客户来源。",
-      "intent": "帮助 Salesforce 团队导入合格的潜在客户研究，并为销售跟进提供足够的背景信息。",
+      "category": "Salesforce 导出",
+      "title": "Salesforce CSV 导出：把合格客户研究交给销售",
+      "seoTitle": "Salesforce Lead CSV 字段与客户开发导出 | LeadCue",
+      "description": "把已筛选的客户开发研究导入 Salesforce，保留 Lead Source、描述、匹配评分和来源备注，方便销售跟进。",
+      "intent": "帮助 Salesforce 团队导入有上下文的合格线索，而不是只导入公司名单。",
       "updatedAt": "2026-04-23",
       "readingTime": "指南",
-      "primaryKeyword": "Salesforce 潜在客户 CSV 字段",
+      "primaryKeyword": "Salesforce lead CSV 字段",
       "secondaryKeywords": [
-        "Salesforce CSV 导入潜在客户",
-        "Salesforce 潜客研究领域",
-        "Salesforce 潜在客户源 CSV"
+        "Salesforce 线索导入字段",
+        "Salesforce CSV 导入",
+        "客户开发 Salesforce 导出"
       ],
       "tool": "integration",
       "platform": "Salesforce",
       "heroBullets": [
-        "使用潜在客户来源和描述来保留研究背景。",
-        "将拟合得分和置信度存储为自定义数字字段。",
-        "仅导入通过保存阈值的潜在客户。"
+        "用 Lead Source 标记网站客户开发来源。",
+        "在描述或长文本字段里保留网站证据和开发理由。",
+        "让销售知道这个线索为什么值得优先跟进。"
       ],
       "sections": [
         {
-          "title": "推荐的 Salesforce 字段",
-          "copy": "Salesforce 导入应使主要所有者、来源、状态和研究原因立即可见。",
+          "title": "Salesforce 导入的关键字段",
+          "copy": "Salesforce 的线索导入需要兼顾销售可读性和后续报表。除了公司和官网，还应该保留 Lead Source、状态、负责人、匹配评分和来源备注。",
           "items": [
-            "公司、网站、行业、潜在客户来源、潜在客户状态、所有者。",
-            "适合度分数、置信度分数、顶部信号、外展角度。",
-            "第一行、电子邮件草稿、来源注释、联系路径。"
+            "Lead Source 可设置为 LeadCue 或 Website prospecting。",
+            "Description 可承载网站信号、业务角度和开发信开场白。",
+            "自定义数字字段可保存 fit score 和 confidence score。"
           ]
         },
         {
-          "title": "导入工作流程",
-          "copy": "使用一致的 CSV 标头，在导入期间映射字段，并为研究分数创建自定义字段（如果 Salesforce 尚无）。",
+          "title": "避免导入后上下文丢失",
+          "copy": "如果只导入公司名，销售仍然不知道该说什么。把网站观察点和建议角度放进可见字段，能减少二次研究，也能提高后续邮件质量。",
           "items": [
-            "将潜在客户来源设置为 LeadCue 或网站勘探。",
-            "使用源支持摘要的说明。",
-            "在活动移交之前分配所有者和状态。"
+            "不要把来源备注放进没人看的隐藏字段。",
+            "导入前确认负责人、阶段和下一步动作。",
+            "保留导出状态，避免同一客户重复导入。"
           ]
         }
       ],
       "faqs": [
         {
-          "question": "Salesforce 中的第一行应该放在哪里？",
-          "answer": "使用自定义文本字段或在说明中包含第一行和源注释。"
+          "question": "应该导入为 Lead 还是 Account？",
+          "answer": "冷开发早期通常适合 Lead；如果公司已经存在于 Salesforce，可以把研究备注补到对应 Account 或活动记录上。"
         },
         {
-          "question": "每个 LeadCue 字段都应该成为 Salesforce 字段吗？",
-          "answer": "否。保持核心字段结构化，并将更长的上下文放入描述或注释中。"
+          "question": "Fit score 应该放哪里？",
+          "answer": "建议使用自定义数字字段，方便排序、筛选和报表。"
         },
         {
-          "question": "Salesforce 可以导入源注释吗？",
-          "answer": "是的，源注释可以映射到长文本字段、说明或相关注释，具体取决于您的设置。"
+          "question": "Salesforce 描述字段应该写什么？",
+          "answer": "写清官网观察点、开发理由、第一句话和来源页面，避免销售只看到一段泛泛摘要。"
         }
       ],
       "related": [
@@ -692,58 +1064,58 @@
     {
       "slug": "integrations/pipedrive-csv-export",
       "eyebrow": "集成指南",
-      "category": "管道驱动",
-      "title": "用于来源依据潜客备注的 Pipedrive CSV 导出",
-      "seoTitle": "潜客研究备注的 Pipedrive CSV 导出 | LeadCue",
-      "description": "准备用于网站勘探研究的 Pipedrive CSV 导入，其中包含组织字段、所有者、阶段、适合分数、第一行和注释。",
-      "intent": "帮助 Pipedrive 用户将选定的潜客研究转移到组织、人员、交易或注释中。",
+      "category": "Pipedrive 导出",
+      "title": "Pipedrive CSV 导出：把网站研究转成可跟进组织",
+      "seoTitle": "Pipedrive CSV 导入字段与客户开发备注 | LeadCue",
+      "description": "把已筛选的网站客户开发结果导入 Pipedrive，保留组织、官网、阶段、备注和开发信上下文。",
+      "intent": "帮助 Pipedrive 用户把有证据的客户开发研究导入组织、人员、交易或备注。",
       "updatedAt": "2026-04-23",
       "readingTime": "指南",
       "primaryKeyword": "Pipedrive CSV 导入字段",
       "secondaryKeywords": [
-        "Pipedrive 组织 CSV",
-        "Pipedrive 前景说明",
-        "Pipedrive 引线导入"
+        "Pipedrive 组织导入",
+        "客户开发 Pipedrive 导出",
+        "Pipedrive CRM CSV"
       ],
       "tool": "integration",
       "platform": "Pipedrive",
       "heroBullets": [
-        "使用公司和网站上下文的组织字段。",
-        "将研究详细信息保留在注释或自定义字段中。",
-        "在将潜在客户转移到管道之前映射所有者和阶段。"
+        "把官网和公司信息导入组织记录。",
+        "用备注保存网站证据、开发理由和第一句话。",
+        "在创建交易前先保留研究阶段和负责人。"
       ],
       "sections": [
         {
-          "title": "推荐的管道驱动领域\n当组织记录包含网站上下文并且注释包含研究原因时，",
-          "copy": "Pipedrive 效果最佳。",
+          "title": "Pipedrive 适合怎么承接网站研究",
+          "copy": "Pipedrive 的组织记录很适合保存公司和官网信息，备注则适合保存为什么要联系这个客户。这样销售打开组织时，不需要回到原始表格寻找研究依据。",
           "items": [
-            "组织名称、网站、行业、所有者、阶段。",
-            "适合分数、置信度分数、最佳信号、接触路径。",
-            "第一行，简短的电子邮件，来源注释，导出状态。"
+            "组织字段保存公司名、网站和负责人。",
+            "备注保存主要网站信号、来源页面和开发信开场白。",
+            "阶段字段用于区分研究中、待外联和已导出。"
           ]
         },
         {
-          "title": "导入工作流程",
-          "copy": "将选定的已保存潜在客户导入为组织或潜在客户，然后使用注释来保留来源支持的外展上下文。",
+          "title": "什么时候创建 Deal",
+          "copy": "冷开发阶段不一定要立刻创建交易。更稳妥的做法是先导入组织和备注，等客户有回复或明确机会后再创建 Deal，避免管道被未验证机会污染。",
           "items": [
-            "使用所有者来路由后续。",
-            "使用 Stage 来区分研究帐户、合格帐户和外展就绪帐户。",
-            "在发送之前保持第一行和源注释可见。"
+            "没有互动前可以先保留为组织或潜在线索。",
+            "有回复、预约或明确需求后再创建 Deal。",
+            "用导出状态防止重复导入同一组织。"
           ]
         }
       ],
       "faqs": [
         {
-          "question": "Pipedrive 导入是否应该立即创建交易？",
-          "answer": "通常不会。首先创建组织或潜在客户，然后在帐户显示参与度后创建交易。"
+          "question": "Pipedrive 里应该先建组织还是交易？",
+          "answer": "多数冷开发场景建议先建组织和备注，等出现真实机会后再建交易。"
         },
         {
-          "question": "源注释应位于 Pipedrive 中的什么位置？",
-          "answer": "使用注释或长自定义字段，以便销售代表可以验证保存帐户的原因。"
+          "question": "网站证据放字段还是备注？",
+          "answer": "简短评分可以放字段，较长的网站观察和开发信上下文更适合放备注。"
         },
         {
-          "question": "Pipedrive 可以使用拟合分数来确定优先级吗？",
-          "answer": "是的。将适合度分数存储为自定义字段，并使用过滤器对高适合度帐户进行优先级排序。"
+          "question": "如何避免重复导入？",
+          "answer": "保留官网 URL、导出状态和组织名称匹配规则，导入前先检查是否已有同一组织。"
         }
       ],
       "related": [
@@ -754,6 +1126,192 @@
     }
   ],
   "ja": [
+    {
+      "slug": "tools/prospect-research-chrome-extension",
+      "eyebrow": "プロダクトワークフロー",
+      "category": "Chrome拡張",
+      "title": "見込み客リサーチ Chrome拡張",
+      "seoTitle": "見込み客リサーチ Chrome拡張 | LeadCue",
+      "description": "Chromeで見込み客サイトを見ながら根拠を保存し、営業メールの文脈と適合スコアをまとめます。",
+      "intent": "見込み客サイトを見ながら、根拠の保存と営業文脈の準備を進めます。",
+      "updatedAt": "2026-04-29",
+      "readingTime": "ワークフロー",
+      "primaryKeyword": "見込み客リサーチ Chrome拡張",
+      "secondaryKeywords": [
+        "営業リサーチ Chrome拡張",
+        "Webサイト分析 営業",
+        "営業前サイト確認"
+      ],
+      "tool": "workflow",
+      "heroBullets": [
+        "見込み客サイトを見ながら、その場で根拠を保存します。",
+        "適合スコア、営業メールのヒント、ソースメモを同じカードにまとめます。",
+        "高価値な企業を1社ずつ確認するワークフローに向いています。"
+      ],
+      "sections": [
+        {
+          "title": "ブラウザ内のリサーチが必要な理由",
+          "copy": "見込み客リサーチの多くはブラウザ上で起こります。サイトを開き、ファーストビュー、事例、サービスページ、問い合わせ導線を見る。その瞬間の気づきを別のシートに移すと、重要な理由が失われやすくなります。",
+          "items": [
+            "Webサイトを見ながら確認できる根拠を保存します。",
+            "連絡すべき理由を会社URLに紐付けます。",
+            "すべての閲覧サイトを自動でリード化せず、人の判断を残します。"
+          ]
+        },
+        {
+          "title": "拡張機能で保存すべき内容",
+          "copy": "有用なChrome拡張はURLだけを保存するものではありません。観察点、適合理由、営業角度、冒頭文、次の一歩までを小さなリサーチパッケージとして保存します。",
+          "items": [
+            "Webサイトのシグナルとページ上の位置。",
+            "適合スコア、信頼度、提案しやすいサービス領域。",
+            "送信前に確認できる営業メールの冒頭文とソースメモ。"
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "question": "これはスクレイピング拡張ですか？",
+          "answer": "いいえ。公開されているWebサイト情報を人が確認し、根拠ある営業文脈として保存するための拡張です。"
+        },
+        {
+          "question": "拡張機能と一括インポートはどう使い分けますか？",
+          "answer": "1社ずつ深く見るときは拡張機能、ドメインリストがあるときは一括レビューキューが向いています。"
+        },
+        {
+          "question": "保存した内容は後でエクスポートできますか？",
+          "answer": "はい。保存した見込み客は、適合スコア、ソースメモ、営業メール文脈を保ったままCSVやCRM連携へ進められます。"
+        }
+      ],
+      "related": [
+        "website-prospecting",
+        "tools/outreach-context-workspace",
+        "templates/cold-email-first-line"
+      ]
+    },
+    {
+      "slug": "tools/batch-website-review-queue",
+      "eyebrow": "プロダクトワークフロー",
+      "category": "レビューキュー",
+      "title": "営業前のWebサイト一括レビューキュー",
+      "seoTitle": "Webサイト一括レビューキュー | LeadCue",
+      "description": "見込み客サイトをまとめて取り込み、優先度を付けながら営業すべき企業だけを保存します。",
+      "intent": "複数の見込み客サイトを一括で確認し、営業すべき企業だけを保存します。",
+      "updatedAt": "2026-04-29",
+      "readingTime": "ワークフロー",
+      "primaryKeyword": "Webサイト一括レビューキュー",
+      "secondaryKeywords": [
+        "営業リスト Webサイト分析",
+        "見込み客サイト確認",
+        "Webサイト分析 営業"
+      ],
+      "tool": "workflow",
+      "heroBullets": [
+        "見込み客サイトのリストを、送信前のレビューキューに取り込みます。",
+        "スコア、根拠、優先度を確認してから営業対象を保存します。",
+        "大量のドメインリストを扱う代理店チームに向いています。"
+      ],
+      "sections": [
+        {
+          "title": "レビューキューの役割",
+          "copy": "大量のリストは、そのままではノイズになりやすいです。レビューキューは、取り込んだサイトと実際に営業すべき企業を分け、根拠があるものだけを次の工程に送るための場所です。",
+          "items": [
+            "スプレッドシート、CRM、手作業の調査からドメインを取り込みます。",
+            "同じ基準でWebサイトのシグナルと適合度を確認します。",
+            "明確な営業理由がある企業だけを保存します。"
+          ]
+        },
+        {
+          "title": "チームでの使い方",
+          "copy": "レビューキューは、リサーチ担当と送信担当が分かれているチームで特に役立ちます。保存された各企業には、なぜ選ばれたかを説明する根拠が残ります。",
+          "items": [
+            "高適合かつ高信頼度の企業を優先します。",
+            "エクスポート前に担当者とステージを決めます。",
+            "ソースメモと冒頭文を付けて必要な企業だけを出力します。"
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "question": "取り込んだサイトはすべてリードになりますか？",
+          "answer": "いいえ。レビューキューの目的は選別です。根拠がある企業だけを保存します。"
+        },
+        {
+          "question": "スプレッドシートと何が違いますか？",
+          "answer": "スプレッドシートは行を保存します。レビューキューはリサーチ状態、適合スコア、根拠、冒頭文、エクスポート状態を保存します。"
+        },
+        {
+          "question": "人の確認を入れられますか？",
+          "answer": "はい。保存、担当者設定、エクスポート、メール送信の前に人が確認する前提のワークフローです。"
+        }
+      ],
+      "related": [
+        "website-prospecting",
+        "agency-lead-qualification",
+        "templates/website-prospecting-checklist"
+      ]
+    },
+    {
+      "slug": "tools/outreach-context-workspace",
+      "eyebrow": "プロダクトワークフロー",
+      "category": "営業文脈ワークスペース",
+      "title": "営業メールの文脈をまとめるワークスペース",
+      "seoTitle": "営業メール 文脈ワークスペース | LeadCue",
+      "description": "Webサイトの根拠、適合スコア、メール冒頭文、ソースメモ、CRM項目を1か所にまとめます。",
+      "intent": "リサーチからCRMやメール送信まで、営業文脈を失わずに引き継ぎます。",
+      "updatedAt": "2026-04-29",
+      "readingTime": "ワークフロー",
+      "primaryKeyword": "営業メール 文脈ワークスペース",
+      "secondaryKeywords": [
+        "営業メール パーソナライズ",
+        "Webサイト根拠 メール",
+        "見込み客リサーチツール"
+      ],
+      "tool": "workflow",
+      "heroBullets": [
+        "Webサイトの根拠、冒頭文、CRM項目を1つのワークスペースにまとめます。",
+        "送信前に、メール内の主張が確認できるかを見直せます。",
+        "リサーチ担当から営業担当への引き継ぎに向いています。"
+      ],
+      "sections": [
+        {
+          "title": "営業文脈が失われる理由",
+          "copy": "多くのチームでは、調査、メモ、エクスポートが別々の場所で行われます。実際に営業メールを書く頃には、なぜその企業を選んだのかが曖昧になってしまいます。",
+          "items": [
+            "会社名とURLだけでは連絡理由が残りません。",
+            "ソースメモがない冒頭文は確認しにくくなります。",
+            "営業担当は、その企業が選ばれた理由を知る必要があります。"
+          ]
+        },
+        {
+          "title": "残すべき文脈",
+          "copy": "有用なワークスペースは、Webサイトのシグナル、事業上の意味、適合スコア、冒頭文、ソースメモ、担当者、ステージ、エクスポート状態を短くつなげて残します。",
+          "items": [
+            "Webサイトの観察点と、その意味。",
+            "優先順位付けに使う適合スコアと信頼度。",
+            "CRMに渡しても文脈が失われにくいフィールド。"
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "question": "これはCRMですか？",
+          "answer": "いいえ。CRMの前段にあるリサーチ用のワークスペースです。どの企業を渡すべきか、どんな文脈を渡すべきかを整理します。"
+        },
+        {
+          "question": "メール送信ツールを置き換えますか？",
+          "answer": "置き換えません。LeadCueは調査と文脈を準備し、送信はCRM、CSV、メール配信ツールで行えます。"
+        },
+        {
+          "question": "送信前に何を確認すべきですか？",
+          "answer": "ソース観察、適合理由、冒頭文、メール内の主張がWebサイト上で確認できるかを見ます。"
+        }
+      ],
+      "related": [
+        "prospect-research-tool-for-agencies",
+        "templates/crm-csv-field-mapping",
+        "cold-email-first-lines"
+      ]
+    },
     {
       "slug": "templates/crm-csv-field-mapping",
       "eyebrow": "インタラクティブなテンプレート",
@@ -943,58 +1501,54 @@
     {
       "slug": "integrations/hubspot-csv-export",
       "eyebrow": "統合ガイド",
-      "category": "ハブスポット",
-      "title": "Webサイトの見込み客調査のための HubSpot CSV エクスポート",
-      "seoTitle": "見込み客調査のための HubSpot CSV エクスポート |LeadCue",
-      "description": "企業、Webサイト、適合スコア、冒頭文、ソースノート、リードステータスなど、保存された見込み客調査用に HubSpot 対応の CSV フィールドを準備します。",
-      "intent": "HubSpot ユーザーが、アウトリーチのコンテキストを失うことなく、選択した LeadCue スタイルの見込み客調査をインポートできるようにします。",
+      "category": "HubSpot連携",
+      "title": "HubSpot CSVエクスポート：営業文脈を失わずに渡す",
+      "seoTitle": "HubSpot CSVエクスポート項目 | LeadCue",
+      "description": "LeadCueで選別した見込み客、Webサイト根拠、適合スコア、営業メール冒頭文をHubSpotに渡すためのCSV設計。",
+      "intent": "HubSpotに見込み客を取り込むとき、営業理由とソースメモを失わない方法を説明します。",
       "updatedAt": "2026-04-23",
       "readingTime": "ガイド",
       "primaryKeyword": "HubSpot CSV エクスポート フィールド",
       "secondaryKeywords": [
-        "HubSpot リードの CSV インポート",
-        "HubSpot の見込み客リサーチのインポート",
-        "HubSpot 企業の CSV フィールド"
+        "HubSpot リード インポート",
+        "HubSpot 見込み客 CSV",
+        "CRM 営業メモ エクスポート"
       ],
       "tool": "integration",
       "platform": "HubSpot",
       "heroBullets": [
-        "会社および連絡先リストのインポートには人間が判読できるヘッダーを使用します。",
-        "フィット スコアとソース ノートをカスタム プロパティまたはノートとして保持します。",
-        "スキャンされたすべての Webサイトではなく、選択した保存済みリードをインポートします。"
+        "保存済みの見込み客だけをHubSpotへ渡します。",
+        "適合スコア、ソースメモ、冒頭文を会社レコードに残します。",
+        "営業担当がなぜ連絡すべきかをすぐ確認できます。"
       ],
       "sections": [
         {
-          "title": "推奨される HubSpot フィールド",
-          "copy": "HubSpot のインポートは、CSV で明確なラベルを使用し、営業担当者が確認できるフィールドの調査コンテキストを保存する場合に最適に機能します。",
+          "title": "HubSpotで残すべき項目",
+          "copy": "HubSpotに会社名とURLだけを入れても、営業担当は何を言えばよいか分かりません。Webサイトの根拠、適合スコア、最初の一言を見える場所に残すことが重要です。",
           "items": [
-            "会社名、Webサイトの URL、業界、リードのステータス、所有者。",
-            "適合スコア、信頼スコア、トップ Webサイトシグナル。",
-            "冒頭文、短いメール、ソースメモ、連絡先パス。"
+            "会社名、Webサイト、担当者、ステージ。",
+            "適合スコア、信頼度、主なWebサイトシグナル。",
+            "営業メール冒頭文、ソースメモ、エクスポート状態。"
           ]
         },
         {
-          "title": "インポート ワークフロー",
-          "copy": "選択した保存済みリードをエクスポートし、所有者とライフサイクルステージを確認してから、企業レコード、連絡先レコード、またはキャンペーンリストとして HubSpot にインポートします。",
+          "title": "CRMを汚さないインポート",
+          "copy": "スキャンした全サイトを入れるとHubSpotがすぐに散らかります。保存済みで、営業理由があるアカウントだけをインポートします。",
           "items": [
-            "利用可能な場合は、LeadCue 所有者を HubSpot 所有者にマップします。",
-            "リードステータスまたはライフサイクルステージを使用して、調査準備ができているアカウントをマークします。",
-            "QA および返信のコーチングのためにソース ノートを表示したままにします。"
+            "低信頼度のアカウントはインポートしません。",
+            "カスタムプロパティにスコアと根拠を保存します。",
+            "LeadCue由来のリストやビューを分けて管理します。"
           ]
         }
       ],
       "faqs": [
         {
-          "question": "適合スコアは HubSpot カスタム プロパティである必要がありますか?",
-          "answer": "はい。数値カスタム プロパティを使用すると、調査可能なアカウントの並べ替えとセグメント化が容易になります。"
+          "question": "会社プロパティとコンタクトプロパティのどちらに保存しますか？",
+          "answer": "Webサイト根拠や適合スコアは会社プロパティが向いています。担当者情報は後から追加できます。"
         },
         {
-          "question": "ソースノートを HubSpot ノートに含めることはできますか?",
-          "answer": "はい。ソースノートは、ワークフローに応じて、ノートまたはカスタム長文プロパティとして保存できます。"
-        },
-        {
-          "question": "エクスポートされたリードは連絡先または会社になる必要がありますか?",
-          "answer": "Webサイトファーストの見込み客調査では、通常、検証済みの連絡先パスが利用可能になるまで、企業が最も安全な出発点となります。"
+          "question": "すべてのスキャン結果をインポートすべきですか？",
+          "answer": "いいえ。選別済みの見込み客だけにすることでCRMの品質を保てます。"
         }
       ],
       "related": [
@@ -1006,58 +1560,54 @@
     {
       "slug": "integrations/salesforce-csv-export",
       "eyebrow": "統合ガイド",
-      "category": "セールスフォース",
-      "title": "適格な見込み顧客調査のための Salesforce CSV エクスポート",
-      "seoTitle": "適格見込み客調査のための Salesforce CSV エクスポート |LeadCue",
-      "description": "適合スコア、ソースノート、冒頭文、およびリードソースを保持しながら、Webサイトの見込み客調査を Salesforce リードインポートフィールドにマッピングします。",
-      "intent": "Salesforce チームが、営業フォローアップのための十分なコンテキストを含む適格な見込み客調査をインポートできるようにします。",
+      "category": "Salesforce連携",
+      "title": "Salesforce CSVエクスポート：根拠あるリードを営業へ渡す",
+      "seoTitle": "Salesforce リード CSV項目 | LeadCue",
+      "description": "Webサイト根拠、Lead Source、説明、適合スコアを含めてSalesforceへリードを渡すためのCSV設計。",
+      "intent": "Salesforceへ文脈付きの見込み客リサーチを渡し、営業フォローをしやすくします。",
       "updatedAt": "2026-04-23",
       "readingTime": "ガイド",
       "primaryKeyword": "Salesforce リード CSV フィールド",
       "secondaryKeywords": [
-        "Salesforce CSV インポートのリード",
-        "Salesforce の見込み客調査フィールド",
-        "Salesforce リード ソース CSV"
+        "Salesforce リード インポート",
+        "Salesforce CSV インポート",
+        "営業リード CSV"
       ],
       "tool": "integration",
       "platform": "Salesforce",
       "heroBullets": [
-        "リードソースと説明を使用して、研究コンテキストを保存します。",
-        "適合スコアと信頼度をカスタム数値フィールドとして保存します。",
-        "保存しきい値を超えるリードのみをインポートします。"
+        "Lead SourceでWebサイトリサーチ由来を明確にします。",
+        "DescriptionにWebサイトの根拠と営業角度を残します。",
+        "適合スコアを使って営業の優先順位を決められます。"
       ],
       "sections": [
         {
-          "title": "推奨される Salesforce フィールド",
-          "copy": "Salesforce インポートでは、リードの所有者、ソース、ステータス、調査理由がすぐに表示されるようにする必要があります。",
+          "title": "Salesforceに必要な文脈",
+          "copy": "Salesforceにリードを渡すときは、会社情報だけでなく、なぜその会社を選んだかを残す必要があります。Descriptionやカスタム項目を使うと、営業がすぐ判断できます。",
           "items": [
-            "会社、Webサイト、業界、リードソース、リードステータス、所有者。",
-            "適合スコア、信頼スコア、トップシグナル、アウトリーチ角度。",
-            "冒頭文、電子メールの下書き、ソースノート、連絡先パス。"
+            "Lead SourceをLeadCueまたはWebsite researchに設定します。",
+            "Descriptionに信号、営業角度、冒頭文を入れます。",
+            "Fit scoreとconfidence scoreは数値項目にします。"
           ]
         },
         {
-          "title": "インポート ワークフロー",
-          "copy": "一貫した CSV ヘッダーを使用し、インポート中にフィールドをマップし、Salesforce にリサーチスコア用のカスタムフィールドがない場合は作成します。",
+          "title": "営業フォローに使いやすい形",
+          "copy": "Salesforceでは報告や担当者管理も重要です。インポート前にステータス、所有者、次のアクションを揃えると、受け渡し後の混乱が減ります。",
           "items": [
-            "リードソースを LeadCue または Website Prospecting に設定します。",
-            "ソースに裏付けられた概要の説明を使用します。",
-            "キャンペーンの引き継ぎ前に所有者とステータスを割り当てます。"
+            "所有者とステータスを事前に決めます。",
+            "ソースメモを見えやすい項目に置きます。",
+            "重複インポートを避けるためURLを保持します。"
           ]
         }
       ],
       "faqs": [
         {
-          "question": "Salesforce の冒頭文はどこに入力する必要がありますか?",
-          "answer": "カスタム テキスト フィールドを使用するか、説明の冒頭文にソース ノートを含めます。"
+          "question": "LeadとAccountのどちらに入れるべきですか？",
+          "answer": "新規の冷営業ならLeadが自然です。既存会社がある場合はAccountや活動メモに追加します。"
         },
         {
-          "question": "すべての LeadCue フィールドを Salesforce フィールドにする必要がありますか?",
-          "answer": "いいえ。コア フィールドを構造化して、説明やメモに長いコンテキストを含めます。"
-        },
-        {
-          "question": "Salesforce はソースノートをインポートできますか?",
-          "answer": "はい、ソース ノートは、セットアップに応じて、長いテキスト フィールド、説明、または関連するノートにマップできます。"
+          "question": "Fit scoreはどこに保存しますか？",
+          "answer": "並べ替えやレポートに使えるよう、カスタム数値項目がおすすめです。"
         }
       ],
       "related": [
@@ -1069,58 +1619,54 @@
     {
       "slug": "integrations/pipedrive-csv-export",
       "eyebrow": "統合ガイド",
-      "category": "パイプドライブ",
-      "title": "ソースに裏付けられたプロスペクト ノートの Pipedrive CSV エクスポート",
-      "seoTitle": "見込み客調査ノート用の Pipedrive CSV エクスポート |LeadCue",
-      "description": "組織フィールド、所有者、ステージ、適合スコア、冒頭文、およびメモを使用して、Webサイトの調査リサーチ用に Pipedrive CSV インポートを準備します。",
-      "intent": "Pipedrive ユーザーが選択した見込み客の調査を組織、人、取引、またはメモに移動できるように支援します。",
+      "category": "Pipedrive連携",
+      "title": "Pipedrive CSVインポート：Webサイトリサーチを組織に残す",
+      "seoTitle": "Pipedrive CSVインポート項目 | LeadCue",
+      "description": "LeadCueの見込み客リサーチをPipedriveの組織、メモ、ステージに渡し、営業文脈を保つ方法。",
+      "intent": "PipedriveにWebサイト根拠と営業文脈を残し、組織やメモとして扱いやすくします。",
       "updatedAt": "2026-04-23",
       "readingTime": "ガイド",
       "primaryKeyword": "Pipedrive CSV インポート フィールド",
       "secondaryKeywords": [
-        "Pipedrive 組織の CSV",
-        "Pipedrive の見通しに関するメモ",
-        "Pipedrive リードのインポート"
+        "Pipedrive 組織 インポート",
+        "Pipedrive CRM CSV",
+        "営業メモ Pipedrive"
       ],
       "tool": "integration",
       "platform": "Pipedrive",
       "heroBullets": [
-        "会社および Webサイトのコンテキストに組織フィールドを使用します。",
-        "研究の詳細をメモまたはカスタム フィールドに保存します。",
-        "プロスペクトをパイプラインに移動する前に、所有者とステージをマップします。"
+        "会社名とWebサイトは組織レコードに保存します。",
+        "Webサイト根拠と冒頭文はメモとして残します。",
+        "実際の返信や商談化まではDeal作成を急がなくて済みます。"
       ],
       "sections": [
         {
-          "title": "推奨される Pipedrive フィールド",
-          "copy": "Pipedrive は、組織レコードに Webサイトのコンテキストが含まれ、メモに調査理由が含まれている場合に最適に機能します。",
+          "title": "Pipedriveでの受け皿",
+          "copy": "Pipedriveでは、まず組織に会社とWebサイトを残し、メモにリサーチ理由を入れると扱いやすくなります。営業担当は組織を開くだけでなぜ連絡するのか確認できます。",
           "items": [
-            "組織名、Webサイト、業界、所有者、ステージ。",
-            "適合スコア、信頼スコア、トップシグナル、コンタクトパス。",
-            "冒頭文、短い電子メール、ソースのメモ、エクスポート ステータス。"
+            "組織に会社名、URL、所有者を保存します。",
+            "メモにWebサイト信号、ソースページ、冒頭文を入れます。",
+            "ステージで調査中、営業待ち、エクスポート済みを分けます。"
           ]
         },
         {
-          "title": "インポート ワークフロー",
-          "copy": "選択した保存済みリードを組織またはリードとしてインポートし、メモを使用してソースに裏付けられたアウトリーチのコンテキストを保存します。",
+          "title": "Dealを作るタイミング",
+          "copy": "冷営業の初期段階でDealを作りすぎるとパイプラインが濁ります。返信や明確な商談機会が出てからDeal化すると管理しやすくなります。",
           "items": [
-            "所有者を使用してフォローアップをルーティングします。",
-            "Stage を使用して、研究用、認定済み、アウトリーチ対応のアカウントを分離します。",
-            "送信する前に冒頭文とソースノートを表示しておいてください。"
+            "未返信段階では組織とメモで十分な場合があります。",
+            "返信、予約、明確なニーズが出たらDealを作ります。",
+            "URLとエクスポート状態で重複を防ぎます。"
           ]
         }
       ],
       "faqs": [
         {
-          "question": "Pipedrive インポートではすぐに取引を作成する必要がありますか?",
-          "answer": "通常はいいえ。最初に組織またはリードを作成し、アカウントがエンゲージメントを示した後に取引を作成します。"
+          "question": "最初に組織とDealのどちらを作りますか？",
+          "answer": "冷営業ではまず組織とメモがおすすめです。機会が明確になってからDealを作ります。"
         },
         {
-          "question": "ソース ノートは Pipedrive のどこに置くべきですか?",
-          "answer": "メモまたは長いカスタムフィールドを使用して、担当者がアカウントが保存された理由を確認できるようにします。"
-        },
-        {
-          "question": "Pipedrive は優先順位付けに適合スコアを使用できますか?",
-          "answer": "はい。適合スコアをカスタム フィールドとして保存し、フィルターを使用して適合性の高いアカウントを優先します。"
+          "question": "Webサイト根拠はどこに入れますか？",
+          "answer": "短いスコアは項目に、長い観察や営業文脈はメモに入れると読みやすくなります。"
         }
       ],
       "related": [
@@ -1132,13 +1678,187 @@
   ],
   "ko": [
     {
+      "slug": "tools/prospect-research-chrome-extension",
+      "eyebrow": "제품 워크플로우",
+      "category": "Chrome 확장",
+      "title": "잠재고객 리서치 Chrome 확장",
+      "seoTitle": "잠재고객 리서치 Chrome 확장 | LeadCue",
+      "description": "브라우저에서 잠재고객 웹사이트를 보며 근거, 적합도, 첫 문장을 함께 저장하는 워크플로우입니다.",
+      "intent": "브라우저 안에서 웹사이트 근거와 아웃리치 문맥을 바로 저장하는 방법을 설명합니다.",
+      "updatedAt": "2026-04-29",
+      "readingTime": "작업흐름",
+      "primaryKeyword": "잠재고객 리서치 Chrome 확장",
+      "secondaryKeywords": [
+        "영업 리서치 Chrome 확장",
+        "웹사이트 기반 리드 발굴",
+        "웹사이트 분석 영업"
+      ],
+      "tool": "workflow",
+      "heroBullets": [
+        "웹사이트를 보면서 근거를 바로 저장합니다.",
+        "적합도 점수와 첫 문장을 같은 카드에 묶어 둡니다.",
+        "고가치 계정을 수동 검토할 때 특히 유용합니다."
+      ],
+      "sections": [
+        {
+          "title": "브라우저 안에서 리서치하는 이유",
+          "copy": "잠재고객 리서치는 대부분 브라우저에서 시작합니다. 이때 관찰을 나중에 따로 복사하면 연락 이유와 첫 문장 재료가 쉽게 사라집니다.",
+          "items": [
+            "사이트를 보는 순간 근거를 저장하기",
+            "도메인과 근거를 같이 묶기",
+            "모든 사이트를 자동으로 리드로 만들지 않기"
+          ]
+        },
+        {
+          "title": "확장 프로그램이 남겨야 할 정보",
+          "copy": "좋은 확장은 URL만 저장하지 않습니다. 사이트 신호, 적합도 이유, 아웃리치 각도, 첫 문장, 출처 메모까지 같이 남겨야 실제 영업에 쓸 수 있습니다.",
+          "items": [
+            "페이지 위치와 사이트 신호",
+            "적합도와 서비스 방향",
+            "검토 가능한 첫 문장과 출처 메모"
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "question": "이건 스크래핑 확장인가요?",
+          "answer": "아니요. 공개된 웹사이트를 사람이 검토하는 흐름을 돕고, 그 근거를 저장하는 확장입니다."
+        },
+        {
+          "question": "언제 확장을 쓰고 언제 배치 큐를 쓰나요?",
+          "answer": "개별 고가치 계정을 볼 때는 확장, 이미 도메인 목록이 있을 때는 배치 검토 큐가 더 적합합니다."
+        }
+      ],
+      "related": [
+        "website-prospecting",
+        "tools/outreach-context-workspace",
+        "templates/cold-email-first-line"
+      ]
+    },
+    {
+      "slug": "tools/batch-website-review-queue",
+      "eyebrow": "제품 워크플로우",
+      "category": "웹사이트 검토 큐",
+      "title": "대량 웹사이트 검토 큐",
+      "seoTitle": "대량 웹사이트 검토 큐 | LeadCue",
+      "description": "도메인 목록을 바로 아웃리치로 넘기지 않고, 먼저 검토하고 선별하는 배치 워크플로우입니다.",
+      "intent": "배치로 수집한 웹사이트를 선별하고 우선순위를 정하는 방법을 설명합니다.",
+      "updatedAt": "2026-04-29",
+      "readingTime": "작업흐름",
+      "primaryKeyword": "대량 웹사이트 검토 큐",
+      "secondaryKeywords": [
+        "웹사이트 검토 큐",
+        "B2B 리드 발굴 툴",
+        "리드 검증 워크플로우"
+      ],
+      "tool": "workflow",
+      "heroBullets": [
+        "도메인 목록을 먼저 검토 큐로 가져옵니다.",
+        "저장할 계정과 버릴 계정을 아웃리치 전에 분리합니다.",
+        "적합도와 신뢰도로 우선순위를 잡습니다."
+      ],
+      "sections": [
+        {
+          "title": "검토 큐가 필요한 이유",
+          "copy": "많은 팀이 도메인 목록을 바로 시퀀스 도구로 보내지만, 그 과정에서 품질이 무너집니다. 검토 큐는 스캔된 사이트와 실제 저장할 잠재고객을 분리해 노이즈를 줄여줍니다.",
+          "items": [
+            "스프레드시트·CRM·수동 리서치에서 도메인 가져오기",
+            "같은 기준으로 사이트 신호 평가하기",
+            "연락 이유가 있는 계정만 저장하기"
+          ]
+        },
+        {
+          "title": "팀이 큐를 쓰는 방식",
+          "copy": "연구 담당자와 발송 담당자가 나뉜 팀일수록 큐가 효과적입니다. 조사 결과와 첫 문장을 함께 남겨두면, 다음 단계로 넘길 때 다시 조사할 필요가 없습니다.",
+          "items": [
+            "고적합도 계정부터 처리하기",
+            "저장 전 소유자와 단계 정하기",
+            "내보낼 때 출처 메모와 첫 문장 유지하기"
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "question": "가져온 사이트를 모두 저장해야 하나요?",
+          "answer": "아니요. 큐의 목적은 필터링입니다. 근거가 충분한 계정만 저장하는 편이 좋습니다."
+        },
+        {
+          "question": "스프레드시트와 다른 점은 뭔가요?",
+          "answer": "검토 상태, 적합도, 근거, 첫 문장, 내보내기 상태까지 함께 관리한다는 점이 가장 큰 차이입니다."
+        }
+      ],
+      "related": [
+        "website-prospecting",
+        "agency-lead-qualification",
+        "templates/website-prospecting-checklist"
+      ]
+    },
+    {
+      "slug": "tools/outreach-context-workspace",
+      "eyebrow": "제품 워크플로우",
+      "category": "아웃리치 문맥 워크스페이스",
+      "title": "아웃리치 문맥 워크스페이스",
+      "seoTitle": "아웃리치 문맥 워크스페이스 | LeadCue",
+      "description": "웹사이트 근거, 적합도, 첫 문장, 출처 메모, CRM 필드를 한곳에 유지하는 워크스페이스입니다.",
+      "intent": "리서치에서 CRM 또는 시퀀스 도구로 넘어가기 전 문맥을 잃지 않는 방법을 설명합니다.",
+      "updatedAt": "2026-04-29",
+      "readingTime": "작업흐름",
+      "primaryKeyword": "아웃리치 문맥 워크스페이스",
+      "secondaryKeywords": [
+        "콜드메일 개인화",
+        "잠재고객 리서치 툴",
+        "리드 검증 워크플로우"
+      ],
+      "tool": "workflow",
+      "heroBullets": [
+        "웹사이트 근거와 첫 문장을 함께 보관합니다.",
+        "발송 전 모든 주장에 대한 출처를 다시 확인할 수 있습니다.",
+        "리서치 팀과 세일즈 팀 사이 인계용으로 좋습니다."
+      ],
+      "sections": [
+        {
+          "title": "왜 아웃리치 문맥이 사라지는가",
+          "copy": "많은 팀이 조사, 메모, CRM 입력을 다른 도구에서 합니다. 그래서 막상 메일을 보낼 때 왜 이 계정을 고른 건지 설명할 수 없는 경우가 많습니다.",
+          "items": [
+            "회사명과 URL만으로는 연락 이유가 부족함",
+            "출처 없는 첫 문장은 신뢰 검토가 어려움",
+            "세일즈는 우선순위 이유까지 알아야 함"
+          ]
+        },
+        {
+          "title": "워크스페이스가 붙잡아야 할 정보",
+          "copy": "좋은 워크스페이스는 사이트 신호, 비즈니스 의미, 적합도, 첫 문장, 출처 메모, 담당자, 단계, 내보내기 상태를 끊기지 않게 이어줍니다.",
+          "items": [
+            "관찰과 비즈니스 의미 연결",
+            "우선순위용 적합도와 신뢰도",
+            "CRM으로 넘어가도 남는 문맥 필드"
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "question": "이게 CRM을 대신하나요?",
+          "answer": "아니요. CRM 이전 단계에서 어떤 계정을 넘길지 판단하고 문맥을 준비하는 역할입니다."
+        },
+        {
+          "question": "발송 도구도 대체하나요?",
+          "answer": "아니요. LeadCue는 리서치와 문맥을 준비하고, 실제 발송은 CRM이나 이메일 도구에서 진행할 수 있습니다."
+        }
+      ],
+      "related": [
+        "prospect-research-tool-for-agencies",
+        "templates/crm-csv-field-mapping",
+        "cold-email-first-lines"
+      ]
+    },
+    {
       "slug": "templates/crm-csv-field-mapping",
       "eyebrow": "대화형 템플릿",
       "category": "CRM 내보내기",
-      "title": "잠재 고객 조사를 위한 CRM CSV 필드 매핑",
-      "seoTitle": "잠재고객 조사를 위한 CRM CSV 필드 매핑 템플릿 | LeadCue",
-      "description": "적합도 점수, 첫 문장 및 소스 메모를 그대로 유지하면서 잠재 고객 연구 필드를 HubSpot, Salesforce, Pipedrive 또는 사용자 정의 CSV 내보내기에 매핑합니다.",
-      "intent": "팀이 선택한 리드를 CRM으로 가져오기 전에 잠재 고객 조사 CSV 내보내기를 표준화하도록 도와주세요.",
+      "title": "잠재고객 리서치를 위한 CRM CSV 필드 매핑",
+      "seoTitle": "CRM CSV 필드 매핑 | LeadCue",
+      "description": "HubSpot, Salesforce, Pipedrive 또는 사용자 정의 CSV에 리서치 필드를 어떻게 옮길지 정리하는 템플릿입니다.",
+      "intent": "리드 리서치 필드를 CRM CSV 헤더와 맞추는 방법을 설명합니다.",
       "updatedAt": "2026-04-23",
       "readingTime": "도구",
       "primaryKeyword": "CRM CSV 필드 매핑",
@@ -1149,42 +1869,38 @@
       ],
       "tool": "crm-mapping",
       "heroBullets": [
-        "HubSpot, Salesforce, Pipedrive 및 사용자 정의 필드 이름 지정 간에 전환합니다.",
-        "선택한 유망 연구 분야에 대해 CRM 지원 CSV 헤더를 복사합니다.",
-        "내보낸 각 계정에 소스 기반 메모를 첨부해 두세요."
+        "CRM별 필드 이름을 맞춰서 헤더를 준비합니다.",
+        "적합도, 첫 문장, 출처 메모를 잃지 않게 매핑합니다.",
+        "내보내기 전에 팀 표준 필드를 통일합니다."
       ],
       "sections": [
         {
-          "title": "필드 매핑이 중요한 이유",
-          "copy": "CRM 가져오기에 회사 이름과 웹사이트만 포함되면 잠재고객 조사의 가치가 떨어집니다. 유용한 CSV는 핸드오프 후에도 지원 이유를 표시합니다.",
+          "title": "CSV 매핑에서 자주 빠지는 필드",
+          "copy": "회사명과 URL만 맞추고 끝내면 리서치 가치가 사라집니다. 적합도, 출처 메모, 첫 문장, 상태 같은 필드를 함께 가져가야 세일즈가 실제로 활용할 수 있습니다.",
           "items": [
-            "적합도 점수와 신뢰도는 후속 조치의 우선순위를 정하는 데 도움이 됩니다.",
-            "첫 번째 줄과 소스 메모는 담당자가 아웃리치 각도를 확인하는 데 도움이 됩니다.",
-            "소유자, 스테이지, 저장 상태, 내보내기 상태로 중복 작업이 줄어듭니다."
+            "회사·웹사이트·소유자·단계",
+            "적합도와 신뢰도",
+            "첫 문장과 출처 메모"
           ]
         },
         {
-          "title": "템플릿 사용 방법",
-          "copy": "CRM 이름 지정 모드를 선택하고, 헤더를 복사하고, LeadCue에서 저장된 리드를 내보낼 때 동일한 순서를 사용하세요.",
+          "title": "CRM별로 확인할 포인트",
+          "copy": "HubSpot은 회사 속성과 메모, Salesforce는 Lead Source와 Description, Pipedrive는 조직 필드와 노트가 핵심입니다. 같은 리서치라도 CRM마다 담는 방식이 다릅니다.",
           "items": [
-            "목록 가져오기 및 연락처/회사 속성에 HubSpot 라벨을 사용합니다.",
-            "리드 가져오기 및 설명 필드에 Salesforce 라벨을 사용합니다.",
-            "조직, 사람, 메모 전달에 Pipedrive 라벨을 사용하세요."
+            "HubSpot: 회사 속성과 사용자 정의 속성",
+            "Salesforce: Lead Source와 수치 필드",
+            "Pipedrive: 조직 필드와 긴 메모"
           ]
         }
       ],
       "faqs": [
         {
-          "question": "스캔한 모든 웹사이트를 내보내야 합니까?",
-          "answer": "아니요. 선택한 저장된 리드를 내보내 CRM이 증거 지원 지원 가능성이 있는 계정만 받을 수 있도록 하세요."
+          "question": "모든 CRM에 같은 헤더를 써도 되나요?",
+          "answer": "핵심 의미는 같아도 필드 이름과 수용 방식이 달라서 CRM별 매핑 표를 따로 두는 편이 안전합니다."
         },
         {
-          "question": "동일한 내보내기 모델이 여러 CRM을 지원할 수 있습니까?",
-          "answer": "네. 하나의 내부 연구 분야 모델을 유지한 다음 CRM 대상의 헤더 이름을 바꾸십시오."
-        },
-        {
-          "question": "생성된 이메일 사본을 CSV에 포함해야 합니까?",
-          "answer": "캠페인 빌더가 필요할 때 포함하되, 보내기 전에 사본을 검토할 수 있도록 소스 메모를 근처에 보관하세요."
+          "question": "첫 문장도 CSV에 넣어야 하나요?",
+          "answer": "발송 전에 세일즈가 검토하거나 복사해야 한다면 함께 넣는 편이 좋습니다."
         }
       ],
       "related": [
@@ -1197,56 +1913,52 @@
       "slug": "templates/cold-email-first-line",
       "eyebrow": "템플릿 라이브러리",
       "category": "콜드 이메일",
-      "title": "웹사이트 신호로 만드는 콜드 이메일 첫 문장 템플릿",
-      "seoTitle": "콜드 이메일 첫 문장 템플릿 라이브러리 | LeadCue",
-      "description": "숨겨진 CTA, 누락된 증명, 오래된 콘텐츠, 불명확한 위치 지정과 같은 실제 웹사이트 신호를 기반으로 첫 문장 템플릿을 복사합니다.",
-      "intent": "아웃바운드 팀에게 웹사이트 관찰 내용을 신뢰할 수 있는 콜드 이메일 오프너로 전환할 수 있는 재사용 가능한 패턴을 제공합니다.",
+      "title": "웹사이트 신호로 만드는 콜드메일 첫 문장 템플릿",
+      "seoTitle": "콜드메일 첫 문장 템플릿 | LeadCue",
+      "description": "CTA, 사례, 콘텐츠 공백 같은 웹사이트 신호를 바탕으로 첫 문장을 빠르게 만드는 템플릿입니다.",
+      "intent": "사이트 관찰을 복사 가능한 콜드메일 첫 문장으로 바꾸는 템플릿을 제공합니다.",
       "updatedAt": "2026-04-23",
       "readingTime": "템플릿",
-      "primaryKeyword": "콜드 이메일 첫 문장 템플릿",
+      "primaryKeyword": "콜드메일 첫 문장 템플릿",
       "secondaryKeywords": [
-        "콜드 이메일 오프너 템플릿",
-        "개인화된 첫 문장 템플릿",
-        "웹사이트 신호 홍보"
+        "콜드메일 오프너 템플릿",
+        "개인화된 첫 문장",
+        "웹사이트 신호 아웃리치"
       ],
       "tool": "first-line",
       "heroBullets": [
-        "웹사이트 신호를 선택하고 복사 가능한 첫 번째 줄을 얻으세요.",
-        "각 오프너를 다음 문장 및 저압 CTA와 연결하세요.",
-        "귀하의 제안과 연결되지 않는 일반적인 칭찬을 피하십시오."
+        "사이트 신호를 고르면 바로 쓸 수 있는 첫 문장을 만듭니다.",
+        "다음 문장과 가벼운 CTA까지 같이 설계합니다.",
+        "근거 없는 칭찬 문장을 줄입니다."
       ],
       "sections": [
         {
-          "title": "템플릿이 수행해야 하는 작업",
-          "copy": "첫 번째 줄은 이메일의 나머지 부분에 대한 맥락을 만들어야 합니다. 연구 결과를 입증할 수 있을 만큼 구체적이고 제안을 뒷받침할 만큼 관련성이 있어야 합니다.",
+          "title": "템플릿은 구조를 고정하고 내용은 바꾸기",
+          "copy": "좋은 템플릿은 모든 메일을 똑같이 만들지 않습니다. 관찰, 영향, 다음 단계라는 구조는 유지하되, 실제 내용은 계정마다 사이트 근거로 바꿔야 합니다.",
           "items": [
-            "웹사이트에서 본 내용을 언급해 주세요.",
-            "관찰 결과를 구매자 결과와 연결하세요.",
-            "응답할 수 있을 만큼 다음 단계를 작게 유지하세요."
+            "페이지 위치와 요소를 계정별로 바꾸기",
+            "확인 불가능한 문장은 삭제하기",
+            "서비스와 연결되는 각도만 남기기"
           ]
         },
         {
-          "title": "맞춤설정해야 하는 경우",
-          "copy": "템플릿은 시작점입니다. 전송하기 전에 괄호 안의 세부정보를 정확한 회사, 페이지, 구매자 유형 또는 제안 각도로 바꾸세요.",
+          "title": "첫 문장 다음에 무엇을 붙일까",
+          "copy": "첫 문장만 좋고 두 번째 문장이 약하면 메일이 끊깁니다. 관찰 뒤에는 왜 중요한지, 그리고 어떤 작은 제안을 할 수 있는지 자연스럽게 이어야 합니다.",
           "items": [
-            "잠재 고객의 제품, 서비스 또는 청중을 교체합니다.",
-            "출처가 중요한 경우 페이지 이름을 지정하세요.",
-            "웹사이트에서 확인할 수 없는 주장을 삭제하세요."
+            "관찰 뒤에 영향 한 문장 덧붙이기",
+            "마지막은 가벼운 CTA로 마무리",
+            "회의 요청보다 아이디어 제안이 초반엔 유리함"
           ]
         }
       ],
       "faqs": [
         {
-          "question": "모든 잠재 고객에 대해 동일한 첫 번째 줄을 사용할 수 있습니까?",
-          "answer": "아니요. 동일한 구조를 사용하되 각 계정에 대한 웹사이트 관찰 및 구매자 영향을 변경하세요."
-        },
-        {
           "question": "첫 문장은 얼마나 길어야 하나요?",
-          "answer": "모바일에서 스캔할 수 있을 만큼 짧지만 수신자가 웹사이트에서 가져온 것임을 알 수 있을 만큼 구체적입니다."
+          "answer": "보통 한 문장, 길어도 두 문장이면 충분합니다. 모바일에서도 바로 읽혀야 합니다."
         },
         {
-          "question": "첫 번째 줄에서는 회사를 칭찬해야 합니까?",
-          "answer": "칭찬이 구체적이고 관련성이 있을 때만. 유용한 관찰은 막연한 아첨을 능가합니다."
+          "question": "템플릿을 써도 너무 자동화처럼 보이지 않나요?",
+          "answer": "사이트 근거와 페이지 위치가 바뀌면 충분히 자연스럽습니다. 문제는 구조보다 내용의 반복입니다."
         }
       ],
       "related": [
@@ -1259,56 +1971,52 @@
       "slug": "templates/website-prospecting-checklist",
       "eyebrow": "대화형 체크리스트",
       "category": "웹사이트 잠재고객 발굴",
-      "title": "대행사 아웃바운드를 위한 웹사이트 잠재고객 발굴 체크리스트",
-      "seoTitle": "대행사 아웃바운드를 위한 웹사이트 잠재고객 발굴 체크리스트 | LeadCue",
-      "description": "리드를 저장하기 전에 이 웹사이트 잠재고객 발굴 체크리스트를 사용하여 CTA 명확성, 증거, SEO, 탐색, 연락 경로 및 콘텐츠 최신성을 검사하세요.",
-      "intent": "팀이 아웃바운드 캠페인에 참여하기 전에 잠재 고객 웹사이트를 검증할 수 있도록 도와주세요.",
+      "title": "에이전시 아웃바운드를 위한 웹사이트 잠재고객 발굴 체크리스트",
+      "seoTitle": "웹사이트 잠재고객 발굴 체크리스트 | LeadCue",
+      "description": "CTA, 신뢰 요소, SEO, 내비게이션, 연락 경로를 빠르게 점검하는 체크리스트입니다.",
+      "intent": "리드를 저장하기 전에 어떤 사이트 신호를 수동으로 점검해야 하는지 정리합니다.",
       "updatedAt": "2026-04-23",
       "readingTime": "체크리스트",
       "primaryKeyword": "웹사이트 잠재고객 발굴 체크리스트",
       "secondaryKeywords": [
-        "잠재 고객 웹사이트 체크리스트",
-        "대행사 아웃바운드 체크리스트",
+        "잠재고객 웹사이트 체크리스트",
+        "에이전시 아웃바운드 체크리스트",
         "웹사이트 감사 체크리스트"
       ],
       "tool": "checklist",
       "heroBullets": [
-        "기관 아웃리치을 가장 자주 지원하는 웹사이트 신호를 확인하세요.",
-        "확인한 항목을 잠재고객 카드 스타일 요약으로 변환합니다.",
-        "내보내기 전에 결과를 수동 QA 레이어로 사용하세요."
+        "아웃리치 근거가 되는 사이트 신호를 빠르게 점검합니다.",
+        "체크 결과를 리서치 카드식 요약으로 바꿉니다.",
+        "내보내기 전 수동 QA 단계로 활용합니다."
       ],
       "sections": [
         {
-          "title": "현장 점검 방법",
-          "copy": "눈에 보이는 페이지부터 시작하고 과도한 감사를 피하세요. 목표는 계정에 신뢰할 수 있는 지원 이유가 있는지 확인하는 것입니다.",
+          "title": "체크리스트에 꼭 들어갈 항목",
+          "copy": "체크리스트는 단순한 디자인 감상이 아니라 영업 근거를 찾기 위한 도구여야 합니다. CTA, 증거, 콘텐츠, 내비게이션, 연락 경로는 거의 모든 서비스에 공통으로 중요합니다.",
           "items": [
-            "홈페이지, 탐색, 증명, 콘텐츠 허브 및 문의 경로를 검토합니다.",
-            "귀하의 제안과 연결되는 신호만 포착하세요.",
-            "신호가 첫 문장을 지원할 만큼 충분히 강할 때 리드를 저장합니다."
+            "첫 화면 메시지와 CTA",
+            "사례·후기·결과 같은 신뢰 근거",
+            "서비스 설명·콘텐츠·문의 경로"
           ]
         },
         {
-          "title": "결과로 무엇을 할 것인가",
-          "copy": "체크리스트는 다음 작업이 될 경우에만 유용합니다. 가장 강력한 체크 항목을 첫 번째 줄, 홍보 각도, CRM 노트로 변환합니다.",
+          "title": "체크 결과를 저장 기준으로 바꾸기",
+          "copy": "체크리스트를 본 뒤에는 저장할지 보류할지 결론이 나와야 합니다. 그래서 체크한 항목을 적합도, 신뢰도, 연락 이유와 연결해 해석하는 단계가 필요합니다.",
           "items": [
-            "가장 강한 신호를 첫 문장으로 사용합니다.",
-            "카테고리를 아웃리치 각도로 사용하세요.",
-            "계정이 ICP에 맞는 경우에만 내보냅니다."
+            "체크 결과를 적합도와 연결하기",
+            "가장 강한 신호 2개만 요약하기",
+            "ICP에 맞는 계정만 내보내기"
           ]
         }
       ],
       "faqs": [
         {
-          "question": "리드를 저장하기 전에 얼마나 많은 신호를 찾아야 합니까?",
-          "answer": "하나의 강력한 신호로 충분할 수 있지만 2~3개의 근거 기반 신호를 사용하면 검증의 신뢰성이 더 높아집니다."
+          "question": "체크리스트는 누가 써야 하나요?",
+          "answer": "리서치 담당자, SDR, 세일즈, 에이전시 운영팀 모두 쓸 수 있지만, 저장 기준은 팀 차원에서 통일하는 편이 좋습니다."
         },
         {
-          "question": "전체 웹사이트 감사인가요?",
-          "answer": "아니요. 아웃바운드 자격을 위한 프로스펙팅 체크리스트입니다. 전체 감사는 잠재 고객이 참여한 후에 이루어질 수 있습니다."
-        },
-        {
-          "question": "점수가 낮은 사이트를 내보내야 합니까?",
-          "answer": "일반적으로 그렇지 않습니다. 신뢰도가 낮거나 적합성이 약한 계정을 CRM 가져오기 대기열에서 제외하세요."
+          "question": "모든 계정에 전체 체크리스트를 다 적용해야 하나요?",
+          "answer": "고가치 계정은 전체 체크가 좋고, 대량 목록은 핵심 항목만 먼저 보는 방식이 효율적입니다."
         }
       ],
       "related": [
@@ -1320,58 +2028,54 @@
     {
       "slug": "integrations/hubspot-csv-export",
       "eyebrow": "통합 가이드",
-      "category": "허브스팟",
-      "title": "웹사이트 잠재고객 조사를 위한 HubSpot CSV 내보내기",
-      "seoTitle": "잠재고객 조사를 위한 HubSpot CSV 내보내기 | LeadCue",
-      "description": "회사, 웹사이트, 적합도 점수, 첫 번째 줄, 소스 메모 및 리드 상태를 포함하여 저장된 잠재 고객 연구를 위해 HubSpot 친화적인 CSV 필드를 준비합니다.",
-      "intent": "HubSpot 사용자가 지원 컨텍스트를 잃지 않고 선택한 LeadCue 스타일 잠재 고객 조사를 가져올 수 있도록 도와주세요.",
+      "category": "HubSpot 연동",
+      "title": "HubSpot CSV 내보내기: 아웃리치 문맥을 CRM에 유지하기",
+      "seoTitle": "HubSpot CSV 내보내기 필드 | LeadCue",
+      "description": "웹사이트 근거, 적합도, 첫 문장, 출처 메모를 HubSpot으로 옮길 때 필요한 필드 구조를 설명합니다.",
+      "intent": "HubSpot으로 선별된 리드를 넘기면서 연락 이유를 잃지 않는 방법을 설명합니다.",
       "updatedAt": "2026-04-23",
       "readingTime": "가이드",
       "primaryKeyword": "HubSpot CSV 내보내기 필드",
       "secondaryKeywords": [
-        "HubSpot 리드 가져오기 CSV",
-        "HubSpot 잠재 고객 연구 가져오기",
-        "HubSpot 회사 CSV 필드"
+        "HubSpot 리드 가져오기",
+        "HubSpot CRM CSV",
+        "아웃리치 문맥 CRM"
       ],
       "tool": "integration",
       "platform": "HubSpot",
       "heroBullets": [
-        "회사 및 연락처 목록 가져오기에 사람이 읽을 수 있는 헤더를 사용합니다.",
-        "맞춤 점수 및 소스 메모를 사용자 정의 속성 또는 메모로 유지합니다.",
-        "스캔한 모든 웹사이트 대신 선택된 저장된 리드를 가져옵니다."
+        "선별된 계정만 HubSpot으로 보냅니다.",
+        "적합도와 출처 메모를 눈에 보이는 속성으로 남깁니다.",
+        "세일즈가 왜 이 계정을 봐야 하는지 바로 이해하게 만듭니다."
       ],
       "sections": [
         {
-          "title": "권장 HubSpot 필드",
-          "copy": "HubSpot 가져오기는 CSV가 명확한 라벨을 사용하고 영업 담당자가 볼 수 있는 필드에서 조사 컨텍스트를 유지할 때 가장 잘 작동합니다.",
+          "title": "HubSpot에 남겨야 할 핵심 필드",
+          "copy": "회사명과 URL만 있으면 세일즈는 다시 조사해야 합니다. 적합도, 주요 사이트 신호, 첫 문장, 출처 메모를 함께 넣어야 HubSpot 안에서도 문맥이 살아 있습니다.",
           "items": [
-            "회사 이름, 웹사이트 URL, 업계, 리드 상태, 소유자.",
-            "적합도 점수, 신뢰도 점수, 상위 웹사이트 신호.",
-            "첫 번째 줄, 짧은 이메일, 소스 메모, 연락처 경로."
+            "회사·웹사이트·담당자·단계",
+            "적합도와 주요 사이트 신호",
+            "첫 문장·출처 메모·내보내기 상태"
           ]
         },
         {
-          "title": "가져오기 워크플로",
-          "copy": "선택한 저장된 리드를 내보내고 소유자 및 수명 주기 단계를 확인한 다음 회사 기록, 연락처 기록 또는 캠페인 목록으로 HubSpot으로 가져옵니다.",
+          "title": "CRM을 더럽히지 않는 가져오기 원칙",
+          "copy": "모든 스캔 결과를 넣지 말고 저장된 계정만 가져오는 편이 좋습니다. 사용자 정의 속성과 뷰를 잘 쓰면 LeadCue 출처 계정을 세일즈가 따로 관리하기도 쉽습니다.",
           "items": [
-            "가능한 경우 LeadCue 소유자를 HubSpot 소유자에 매핑합니다.",
-            "리드 상태 또는 수명 주기 단계를 사용하여 연구 준비 계정을 표시합니다.",
-            "QA 및 답변 코칭을 위해 소스 노트를 표시하세요."
+            "저신뢰 계정은 제외하기",
+            "사용자 정의 속성에 점수와 출처 넣기",
+            "LeadCue 전용 리스트 또는 뷰 구성하기"
           ]
         }
       ],
       "faqs": [
         {
-          "question": "적합도 점수는 HubSpot 사용자 정의 속성이어야 합니까?",
-          "answer": "네. 숫자 사용자 정의 속성을 사용하면 연구 준비 계정을 더 쉽게 정렬하고 분류할 수 있습니다."
+          "question": "회사 속성과 연락처 속성 중 어디에 넣어야 하나요?",
+          "answer": "웹사이트 근거와 적합도는 보통 회사 레벨이 더 자연스럽고, 연락처는 이후 단계에서 추가하는 편이 좋습니다."
         },
         {
-          "question": "소스 노트를 HubSpot 노트에 넣을 수 있나요?",
-          "answer": "네. 소스 메모는 작업 흐름에 따라 메모 또는 사용자 정의 긴 텍스트 속성으로 저장할 수 있습니다."
-        },
-        {
-          "question": "내보낸 리드는 연락처 또는 회사가 되어야 합니까?",
-          "answer": "웹사이트 우선 잠재고객 발굴의 경우 일반적으로 확인된 연락 경로를 사용할 수 있을 때까지 회사가 가장 안전한 출발점입니다."
+          "question": "첫 문장도 HubSpot에 넣어야 하나요?",
+          "answer": "세일즈가 HubSpot 안에서 바로 검토하거나 복사해 쓸 계획이라면 함께 보관하는 편이 좋습니다."
         }
       ],
       "related": [
@@ -1383,58 +2087,54 @@
     {
       "slug": "integrations/salesforce-csv-export",
       "eyebrow": "통합 가이드",
-      "category": "세일즈포스",
-      "title": "자격을 갖춘 잠재 고객 조사를 위한 Salesforce CSV 내보내기",
-      "seoTitle": "적격한 잠재 고객 연구를 위한 Salesforce CSV 내보내기 | LeadCue",
-      "description": "적합도 점수, 소스 메모, 첫 문장 및 리드 소스를 유지하면서 웹사이트 잠재고객 발굴 연구를 Salesforce 리드 가져오기 필드에 매핑합니다.",
-      "intent": "Salesforce 팀이 영업 후속 조치를 위한 충분한 맥락을 갖춘 검증된 잠재 고객 조사를 가져올 수 있도록 도와주세요.",
+      "category": "Salesforce 연동",
+      "title": "Salesforce CSV 내보내기: 근거 있는 리드를 컨텍스트와 함께 전달",
+      "seoTitle": "Salesforce 리드 CSV 필드 | LeadCue",
+      "description": "Lead Source, Description, 점수, 출처 메모를 활용해 Salesforce로 리서치 문맥을 넘기는 방법입니다.",
+      "intent": "Salesforce 팀이 리드 연구 결과를 읽기 좋은 형태로 가져오는 방법을 설명합니다.",
       "updatedAt": "2026-04-23",
       "readingTime": "가이드",
       "primaryKeyword": "Salesforce 리드 CSV 필드",
       "secondaryKeywords": [
-        "Salesforce CSV 가져오기 리드",
-        "Salesforce 잠재 고객 연구 분야",
-        "Salesforce 리드 소스 CSV"
+        "Salesforce 리드 가져오기",
+        "Salesforce CSV 가져오기",
+        "B2B 리드 리서치 CRM"
       ],
       "tool": "integration",
       "platform": "Salesforce",
       "heroBullets": [
-        "리드 소스 및 설명을 사용하여 연구 맥락을 보존합니다.",
-        "맞춤 점수와 신뢰도를 사용자 정의 숫자 필드로 저장합니다.",
-        "저장 임계값을 통과하는 리드만 가져옵니다."
+        "Lead Source로 웹사이트 리서치 출처를 구분합니다.",
+        "Description과 수치 필드에 연구 문맥을 남깁니다.",
+        "저장 기준을 통과한 계정만 Salesforce로 보냅니다."
       ],
       "sections": [
         {
-          "title": "권장 Salesforce 필드",
-          "copy": "Salesforce 가져오기를 통해 리드 소유자, 소스, 상태 및 조사 이유가 즉시 표시되어야 합니다.",
+          "title": "Salesforce에서 중요한 필드 구조",
+          "copy": "Salesforce는 보고와 후속 작업까지 생각해야 합니다. Lead Source, Description, owner, status, fit score가 보여야 세일즈가 바로 다음 행동을 정할 수 있습니다.",
           "items": [
-            "회사, 웹사이트, 산업, 리드 소스, 리드 상태, 소유자.",
-            "적합 점수, 신뢰도 점수, 최고 신호, 아웃리치 각도.",
-            "첫 번째 줄, 이메일 초안, 소스 메모, 연락처 경로."
+            "Lead Source에 LeadCue 또는 Website research 사용",
+            "Description에 신호·각도·첫 문장 기록",
+            "Fit score와 confidence는 숫자 필드 사용"
           ]
         },
         {
-          "title": "가져오기 워크플로",
-          "copy": "일관된 CSV 헤더를 사용하고, 가져오는 동안 필드를 매핑하고, Salesforce에 아직 없는 경우 연구 점수에 대한 사용자 정의 필드를 만듭니다.",
+          "title": "후속 가능한 형태로 가져오기",
+          "copy": "리드를 넣기 전에 담당자와 상태를 정하고, 출처 메모를 숨은 필드가 아닌 보이는 필드에 넣어야 합니다. 그래야 조사와 세일즈가 끊기지 않습니다.",
           "items": [
-            "리드 소스를 LeadCue 또는 웹사이트 발굴로 설정합니다.",
-            "소스 기반 요약에 대한 설명을 사용합니다.",
-            "캠페인을 전달하기 전에 소유자와 상태를 지정하세요."
+            "가져오기 전 owner와 status 결정",
+            "출처 메모를 읽기 쉬운 위치에 배치",
+            "URL과 export status로 중복 방지"
           ]
         }
       ],
       "faqs": [
         {
-          "question": "Salesforce에서 첫 번째 줄은 어디에 들어가야 합니까?",
-          "answer": "사용자 정의 텍스트 필드를 사용하거나 소스 메모와 함께 설명의 첫 번째 줄을 포함하세요."
+          "question": "Lead로 넣어야 하나요, Account로 넣어야 하나요?",
+          "answer": "첫 접점 전에는 보통 Lead가 자연스럽습니다. 기존 고객사가 있으면 Account나 활동 기록에 연구 내용을 연결해도 됩니다."
         },
         {
-          "question": "모든 LeadCue 필드가 Salesforce 필드가 되어야 합니까?",
-          "answer": "아니요. 핵심 필드를 체계적으로 유지하고 설명이나 메모에 더 긴 내용을 입력하세요."
-        },
-        {
-          "question": "Salesforce에서 소스 노트를 가져올 수 있나요?",
-          "answer": "예, 소스 메모는 설정에 따라 긴 텍스트 필드, 설명 또는 관련 메모에 매핑될 수 있습니다."
+          "question": "fit score는 어디에 넣는 게 좋나요?",
+          "answer": "정렬과 리포트가 가능하도록 사용자 정의 숫자 필드에 넣는 편이 가장 실용적입니다."
         }
       ],
       "related": [
@@ -1446,58 +2146,54 @@
     {
       "slug": "integrations/pipedrive-csv-export",
       "eyebrow": "통합 가이드",
-      "category": "파이프드라이브",
-      "title": "근거 기반 잠재 고객 노트를 위한 Pipedrive CSV 내보내기",
-      "seoTitle": "잠재고객 조사 노트를 위한 Pipedrive CSV 내보내기 | LeadCue",
-      "description": "조직 필드, 소유자, 단계, 적합도 점수, 첫 번째 줄 및 메모가 포함된 웹사이트 잠재고객 발굴 조사를 위해 Pipedrive CSV 가져오기를 준비합니다.",
-      "intent": "Pipedrive 사용자가 선택한 잠재 고객 연구를 조직, 사람, 거래 또는 메모로 이동할 수 있도록 도와주세요.",
+      "category": "Pipedrive 연동",
+      "title": "Pipedrive CSV 가져오기: 웹사이트 리서치를 조직 기록에 남기기",
+      "seoTitle": "Pipedrive CSV 가져오기 필드 | LeadCue",
+      "description": "조직, 웹사이트, 단계, 메모 필드로 LeadCue 리서치 문맥을 Pipedrive에 옮기는 방법입니다.",
+      "intent": "Pipedrive 조직과 메모 안에 웹사이트 근거와 연락 이유를 유지하는 방법을 설명합니다.",
       "updatedAt": "2026-04-23",
       "readingTime": "가이드",
       "primaryKeyword": "Pipedrive CSV 가져오기 필드",
       "secondaryKeywords": [
-        "Pipedrive 조직 CSV",
-        "Pipedrive 잠재 고객 노트",
-        "Pipedrive 리드 가져오기"
+        "Pipedrive 조직 가져오기",
+        "Pipedrive CRM CSV",
+        "영업 메모 Pipedrive"
       ],
       "tool": "integration",
       "platform": "Pipedrive",
       "heroBullets": [
-        "회사 및 웹사이트 상황에 맞게 조직 필드를 사용하세요.",
-        "메모 또는 사용자 정의 필드에 연구 세부정보를 보관하세요.",
-        "잠재 고객을 파이프라인으로 이동하기 전에 소유자와 단계를 매핑합니다."
+        "회사와 웹사이트는 조직 레코드에 넣습니다.",
+        "사이트 근거와 첫 문장은 메모에 남깁니다.",
+        "실제 기회가 생길 때까지 Deal 생성을 늦춥니다."
       ],
       "sections": [
         {
-          "title": "권장 Pipedrive 필드",
-          "copy": "Pipedrive는 조직 기록이 웹사이트 컨텍스트를 담고 있고 메모가 연구 이유를 담고 있을 때 가장 잘 작동합니다.",
+          "title": "Pipedrive에서 리서치를 받는 구조",
+          "copy": "Pipedrive에서는 조직이 회사 컨텍스트를 담고, 메모가 연락 이유를 담는 역할을 합니다. 그래서 웹사이트 근거와 첫 문장을 메모에 남겨두면 세일즈가 훨씬 빨리 맥락을 이해합니다.",
           "items": [
-            "조직명, 웹사이트, 업종, 소유자, 단계.",
-            "적합도 점수, 신뢰도 점수, 상위 신호, 접촉 경로.",
-            "첫 번째 줄, 짧은 이메일, 소스 메모, 내보내기 상태."
+            "조직에 회사명·URL·담당자 저장",
+            "메모에 신호·출처 페이지·첫 문장 저장",
+            "단계로 연구·아웃리치·내보내기 상태 구분"
           ]
         },
         {
-          "title": "가져오기 워크플로",
-          "copy": "선택한 저장된 리드를 조직 또는 리드로 가져온 다음 메모를 사용하여 근거 기반 아웃리치 컨텍스트를 보존합니다.",
+          "title": "Deal은 언제 만들어야 하나",
+          "copy": "반응도 없는데 Deal을 먼저 만들면 파이프라인이 금방 지저분해집니다. 초반에는 조직과 메모로 충분하고, 답장이나 미팅이 잡힌 뒤 Deal을 만드는 편이 더 명확합니다.",
           "items": [
-            "소유자를 사용하여 후속 조치를 전달합니다.",
-            "Stage를 사용하여 연구 계정, 적격 계정, 지원 준비 계정을 구분하세요.",
-            "보내기 전에 첫 번째 줄과 소스 메모가 보이도록 유지하세요."
+            "초기에는 조직과 메모 중심",
+            "관심이 생기면 Deal 생성",
+            "URL과 export status로 중복 방지"
           ]
         }
       ],
       "faqs": [
         {
-          "question": "Pipedrive 가져오기가 즉시 거래를 생성해야 합니까?",
-          "answer": "일반적으로 그렇지 않습니다. 먼저 조직이나 리드를 생성한 다음 계정에 참여가 표시된 후 거래를 생성하세요."
+          "question": "조직과 Deal 중 무엇을 먼저 만들어야 하나요?",
+          "answer": "콜드 아웃리치 초기 단계라면 조직과 메모를 먼저 만들고, 실제 기회가 생길 때 Deal을 추가하는 편이 좋습니다."
         },
         {
-          "question": "소스 노트는 Pipedrive의 어디에 있어야 합니까?",
-          "answer": "담당자가 계정이 저장된 이유를 확인할 수 있도록 메모나 긴 사용자 정의 필드를 사용하세요."
-        },
-        {
-          "question": "Pipedrive는 우선순위 지정을 위해 적합도 점수를 사용할 수 있나요?",
-          "answer": "예. 적합도 점수를 사용자 정의 필드로 저장하고 필터를 사용하여 적합성이 높은 계정의 우선순위를 지정하세요."
+          "question": "웹사이트 근거는 필드와 메모 중 어디에 두나요?",
+          "answer": "짧은 점수는 필드, 길고 설명이 필요한 사이트 관찰은 메모가 더 잘 맞습니다."
         }
       ],
       "related": [
@@ -1509,16 +2205,190 @@
   ],
   "de": [
     {
+      "slug": "tools/prospect-research-chrome-extension",
+      "eyebrow": "Produkt-Workflow",
+      "category": "Chrome-Erweiterung",
+      "title": "Chrome-Erweiterung für Prospect-Recherche auf Websites",
+      "seoTitle": "Chrome-Erweiterung für Prospect-Recherche | LeadCue",
+      "description": "Website-Belege, Fit-Notizen und erste Zeilen direkt im Browser erfassen, während Sie den Prospect prüfen.",
+      "intent": "Erklärt, wie Teams Recherche-Kontext direkt im Browser festhalten, statt ihn später manuell zusammenzusuchen.",
+      "updatedAt": "2026-04-29",
+      "readingTime": "Arbeitsablauf",
+      "primaryKeyword": "Chrome-Erweiterung für Prospect-Recherche",
+      "secondaryKeywords": [
+        "Akquise Chrome-Erweiterung",
+        "Website Analyse Kaltakquise",
+        "Prospect Research Chrome Extension"
+      ],
+      "tool": "workflow",
+      "heroBullets": [
+        "Belege werden gespeichert, solange die Website noch offen ist.",
+        "Fit, erste Zeile und Quelle landen in derselben Karte.",
+        "Ideal für manuell geprüfte Accounts mit hohem Potenzial."
+      ],
+      "sections": [
+        {
+          "title": "Warum Recherche im Browser bleiben sollte",
+          "copy": "Prospect-Recherche beginnt fast immer im Browser. Wenn Beobachtungen erst später in Sheets oder CRM übertragen werden, geht der eigentliche Kontaktgrund oft verloren.",
+          "items": [
+            "Belege im Moment der Beobachtung sichern",
+            "Kontaktgrund an Domain und Seite hängen",
+            "Nicht jede geöffnete Website automatisch zum Lead machen"
+          ]
+        },
+        {
+          "title": "Welche Informationen die Erweiterung festhalten sollte",
+          "copy": "Eine gute Erweiterung speichert nicht nur URL und Firmennamen. Sie hält Signal, Fit, Service-Winkel, erste Zeile und Quellenhinweis so fest, dass der Account ohne neue Recherche übergeben werden kann.",
+          "items": [
+            "Signal und Seitenkontext",
+            "Fit und passender Angebotswinkel",
+            "Prüfbare erste Zeile mit Quellenhinweis"
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "question": "Ist das eine Scraping-Erweiterung?",
+          "answer": "Nein. Sie unterstützt sichtbare Website-Recherche und das Speichern quellenbasierter Akquise-Kontexte."
+        },
+        {
+          "question": "Wann nutzt man die Erweiterung statt einer Batch-Queue?",
+          "answer": "Für einzelne hochwertige Accounts eignet sich die Erweiterung besser. Für bestehende Domain-Listen ist die Batch-Queue oft effizienter."
+        }
+      ],
+      "related": [
+        "website-prospecting",
+        "tools/outreach-context-workspace",
+        "templates/cold-email-first-line"
+      ]
+    },
+    {
+      "slug": "tools/batch-website-review-queue",
+      "eyebrow": "Produkt-Workflow",
+      "category": "Review-Queue",
+      "title": "Review-Queue für Website-Prüfungen in der Agentur-Akquise",
+      "seoTitle": "Website Review Queue für Agentur-Akquise | LeadCue",
+      "description": "Domain-Listen erst prüfen, priorisieren und qualifizieren, bevor sie in Outreach- oder CRM-Workflows gelangen.",
+      "intent": "Erklärt, wie Teams große Website-Listen in eine qualifizierte Review-Queue überführen.",
+      "updatedAt": "2026-04-29",
+      "readingTime": "Arbeitsablauf",
+      "primaryKeyword": "Website Review Queue",
+      "secondaryKeywords": [
+        "Batch Website Review Queue",
+        "Akquise Tool für Agenturen",
+        "B2B Leads qualifizieren"
+      ],
+      "tool": "workflow",
+      "heroBullets": [
+        "Importierte Domains werden vor dem Outreach gefiltert.",
+        "Gespeicherte Prospects bleiben getrennt von bloß gescannten Websites.",
+        "Fit und Confidence helfen bei der Reihenfolge."
+      ],
+      "sections": [
+        {
+          "title": "Warum eine Review-Queue statt direkter Exporte",
+          "copy": "Viele Agenturen schicken Listen zu früh in Sequenz- oder CRM-Tools. Die Review-Queue trennt Import, Prüfung und Speicherung, damit nur Accounts mit echtem Kontaktgrund weitergehen.",
+          "items": [
+            "Domains aus Sheets, CRM oder manueller Recherche importieren",
+            "Website-Signale nach gleichem Standard prüfen",
+            "Nur belastbare Accounts speichern"
+          ]
+        },
+        {
+          "title": "Wie Teams die Queue praktisch nutzen",
+          "copy": "Besonders hilfreich ist die Queue, wenn Recherche und Versand getrennt sind. Die Person, die prüft, hinterlässt genug Kontext, damit Sales später ohne zweite Recherche arbeiten kann.",
+          "items": [
+            "Accounts mit hohem Fit zuerst bearbeiten",
+            "Owner und Status vor Export festlegen",
+            "Erste Zeile und Quellenhinweise mitgeben"
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "question": "Sollte jede importierte Website gespeichert werden?",
+          "answer": "Nein. Der Wert der Queue liegt gerade darin, schlechte oder unklare Accounts herauszufiltern."
+        },
+        {
+          "question": "Was ist der Unterschied zu einem Spreadsheet?",
+          "answer": "Die Queue hält Status, Fit, Quellen, erste Zeile und Export-Stand zusammen statt nur Zeilen mit Firmennamen."
+        }
+      ],
+      "related": [
+        "website-prospecting",
+        "agency-lead-qualification",
+        "templates/website-prospecting-checklist"
+      ]
+    },
+    {
+      "slug": "tools/outreach-context-workspace",
+      "eyebrow": "Produkt-Workflow",
+      "category": "Akquise-Workspace",
+      "title": "Akquise-Kontext-Arbeitsbereich für Website-Recherche",
+      "seoTitle": "Akquise-Kontext-Arbeitsbereich | LeadCue",
+      "description": "Website-Belege, Fit-Score, erste Zeile, Quellenhinweis und CRM-Felder zusammenhalten, bevor Outreach startet.",
+      "intent": "Zeigt, wie Recherche-Kontext bis zur Übergabe an CRM oder E-Mail-Tool erhalten bleibt.",
+      "updatedAt": "2026-04-29",
+      "readingTime": "Arbeitsablauf",
+      "primaryKeyword": "Akquise-Kontext-Arbeitsbereich",
+      "secondaryKeywords": [
+        "Kaltakquise E-Mail Personalisierung",
+        "B2B Lead Recherche Tool",
+        "Akquise Workflow"
+      ],
+      "tool": "workflow",
+      "heroBullets": [
+        "Beobachtung, Business-Winkel und erste Zeile bleiben an einem Ort.",
+        "Vor dem Versand kann jede Behauptung mit Quellen geprüft werden.",
+        "Ideal für Übergaben von Recherche an Sales oder BD."
+      ],
+      "sections": [
+        {
+          "title": "Warum Akquise-Kontext oft verloren geht",
+          "copy": "Viele Teams recherchieren in einem Tool, notieren in einem anderen und exportieren in ein drittes. Wenn die Mail rausgeht, ist oft nicht mehr klar, warum der Account überhaupt ausgewählt wurde.",
+          "items": [
+            "Firma und URL allein erklären keinen Kontaktgrund",
+            "Erste Zeilen ohne Quelle sind schwer prüfbar",
+            "Sales muss die Priorisierungslogik sehen"
+          ]
+        },
+        {
+          "title": "Was der Arbeitsbereich zusammenhalten sollte",
+          "copy": "Ein brauchbarer Arbeitsbereich verbindet Website-Signal, geschäftliche Bedeutung, Fit, erste Zeile, Quellenhinweis, Owner, Phase und Exportstatus ohne Medienbruch.",
+          "items": [
+            "Beobachtung plus Relevanz für den Account",
+            "Fit und Confidence für Priorisierung",
+            "CRM-Felder, die Kontext bei der Übergabe erhalten"
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "question": "Ersetzt das ein CRM?",
+          "answer": "Nein. Der Arbeitsbereich liegt vor dem CRM und bereitet nur qualifizierte Accounts samt Kontext vor."
+        },
+        {
+          "question": "Ersetzt das ein Versandtool?",
+          "answer": "Nein. LeadCue bereitet Recherche und Kontext vor; der Versand kann weiter in CRM, CSV oder Sequenz-Software passieren."
+        }
+      ],
+      "related": [
+        "prospect-research-tool-for-agencies",
+        "templates/crm-csv-field-mapping",
+        "cold-email-first-lines"
+      ]
+    },
+    {
       "slug": "templates/crm-csv-field-mapping",
       "eyebrow": "Interaktive Vorlage",
       "category": "CRM-Export",
-      "title": "CRM-CSV-Feldzuordnung für Prospect Research",
-      "seoTitle": "CRM-CSV-Feldzuordnung für Prospect Research | LeadCue",
-      "description": "Ordnen Sie die Forschungsfelder potenzieller Kunden in HubSpot, Salesforce, Pipedrive oder einem benutzerdefinierten CSV-Export zu, während der Fit-Score, die erste Zeile und die Quellnotizen erhalten bleiben.",
-      "intent": "Helfen Sie Teams dabei, CSV-Exporte für die Interessentenrecherche zu standardisieren, bevor Sie ausgewählte Leads in ein CRM importieren.",
+      "title": "CRM-CSV-Feldzuordnung für Prospect-Recherche",
+      "seoTitle": "CRM-CSV-Feldzuordnung | LeadCue",
+      "description": "Felder für HubSpot, Salesforce, Pipedrive oder eigene CSV-Exporte so zuordnen, dass Fit, erste Zeile und Quellen erhalten bleiben.",
+      "intent": "Erklärt, wie Prospect-Recherche-Felder sauber in CRM-CSV-Header übertragen werden.",
       "updatedAt": "2026-04-23",
       "readingTime": "Tool",
-      "primaryKeyword": "CRM CSV-Feldzuordnung",
+      "primaryKeyword": "CRM-CSV-Feldzuordnung",
       "secondaryKeywords": [
         "HubSpot CSV-Exportfelder",
         "Salesforce-Lead-CSV-Felder",
@@ -1526,42 +2396,38 @@
       ],
       "tool": "crm-mapping",
       "heroBullets": [
-        "Wechseln Sie zwischen HubSpot, Salesforce, Pipedrive und benutzerdefinierter Feldbenennung.",
-        "Kopieren Sie einen CRM-bereiten CSV-Header für ausgewählte Interessentenforschungsfelder.",
-        "Bewahren Sie jedem exportierten Konto quellengestützte Notizen bei."
+        "CRM-spezifische Feldnamen sauber vorbereiten.",
+        "Fit, erste Zeile und Quellenhinweise beim Export erhalten.",
+        "Ein gemeinsamer Feldstandard reduziert Nacharbeit."
       ],
       "sections": [
         {
-          "title": "Warum Feldzuordnung wichtig ist",
-          "copy": "Die Recherche potenzieller Kunden verliert an Wert, wenn der CRM-Import nur den Firmennamen und die Website umfasst. Eine nützliche CSV-Datei sorgt dafür, dass der Grund für die Kontaktaufnahme nach der Übergabe sichtbar bleibt.",
+          "title": "Welche Felder beim Mapping oft fehlen",
+          "copy": "Wenn nur Firma und URL gemappt werden, geht der Wert der Recherche verloren. Teams brauchen auch Fit, Quellenhinweis, erste Zeile und Status im Ziel-CRM.",
           "items": [
-            "Fit-Score und Konfidenz helfen bei der Priorisierung der Nachsorge.",
-            "Hinweise zur ersten Zeile und zur Quelle helfen den Vertriebsmitarbeitern, den Outreach-Winkel zu überprüfen.",
-            "Eigentümer, Phase, gespeicherter Status und Exportstatus reduzieren doppelte Arbeit."
+            "Firma, Website, Owner und Phase",
+            "Fit-Score und Confidence",
+            "Erste Zeile und Quellenhinweis"
           ]
         },
         {
-          "title": "So verwenden Sie die Vorlage",
-          "copy": "Wählen Sie den CRM-Benennungsmodus, kopieren Sie die Kopfzeile und verwenden Sie dieselbe Reihenfolge, wenn Sie gespeicherte Leads aus LeadCue exportieren.",
+          "title": "Was je CRM anders ist",
+          "copy": "HubSpot arbeitet stark mit Properties, Salesforce mit Lead Source und Description, Pipedrive eher mit Organisationen und Notizen. Die Bedeutung bleibt gleich, die Zielfelder unterscheiden sich jedoch.",
           "items": [
-            "Verwenden Sie HubSpot-Labels für Listenimporte und Kontakt-/Firmeneigenschaften.",
-            "Verwenden Sie Salesforce-Beschriftungen für Lead-Import- und Beschreibungsfelder.",
-            "Verwenden Sie Pipedrive-Labels für die Übergabe von Organisationen, Personen und Notizen."
+            "HubSpot: Company Properties und Notes",
+            "Salesforce: Lead Source und Numeric Fields",
+            "Pipedrive: Organisationsfelder und Notizen"
           ]
         }
       ],
       "faqs": [
         {
-          "question": "Sollte jede gescannte Website exportiert werden?",
-          "answer": "Nein. Exportieren Sie ausgewählte gespeicherte Leads, damit Ihr CRM nur Konten mit evidenzbasiertem Outreach-Potenzial erhält."
+          "question": "Kann ein Header für alle CRMs reichen?",
+          "answer": "Meist nicht. Die Kernfelder sind ähnlich, aber Namen und Speicherlogik unterscheiden sich deutlich."
         },
         {
-          "question": "Kann dasselbe Exportmodell mehrere CRMs unterstützen?",
-          "answer": "Ja. Behalten Sie ein internes Forschungsfeldmodell bei und benennen Sie dann die Header für das CRM-Ziel um."
-        },
-        {
-          "question": "Sollte die generierte E-Mail-Kopie in die CSV-Datei aufgenommen werden?",
-          "answer": "Fügen Sie es ein, wenn Kampagnenersteller es benötigen, aber bewahren Sie Quellenhinweise in der Nähe auf, damit die Kopie vor dem Senden überprüft werden kann."
+          "question": "Sollte die erste Zeile in den CSV-Export?",
+          "answer": "Ja, wenn Sales oder SDR sie im CRM prüfen oder direkt weiterverwenden sollen."
         }
       ],
       "related": [
@@ -1574,56 +2440,52 @@
       "slug": "templates/cold-email-first-line",
       "eyebrow": "Vorlagenbibliothek",
       "category": "Kalte E-Mail",
-      "title": "Cold-Email-Erstzeilen-Vorlagen aus Website-Signalen",
-      "seoTitle": "Vorlagenbibliothek für Cold-Email-Erstzeilen | LeadCue",
-      "description": "Kopieren Sie First-Line-Vorlagen basierend auf echten Website-Signalen wie versteckten CTAs, fehlenden Beweisen, veralteten Inhalten und unklarer Positionierung.",
-      "intent": "Geben Sie Outbound-Teams ein wiederverwendbares Muster, um Website-Beobachtungen in glaubwürdige Kalt-E-Mail-Öffner umzuwandeln.",
+      "title": "Vorlagen für Cold-Email-Erstzeilen aus Website-Signalen",
+      "seoTitle": "Vorlagen für Cold-Email-Erstzeilen | LeadCue",
+      "description": "Erstzeilen auf Basis von CTA-Problemen, fehlendem Proof, Content-Lücken und unklarer Positionierung strukturieren.",
+      "intent": "Bietet Vorlagen, um sichtbare Website-Belege in glaubwürdige Cold-Email-Erstzeilen zu übersetzen.",
       "updatedAt": "2026-04-23",
       "readingTime": "Vorlage",
-      "primaryKeyword": "Vorlage für die erste Zeile einer kalten E-Mail",
+      "primaryKeyword": "Vorlagen für Cold-Email-Erstzeilen",
       "secondaryKeywords": [
-        "Vorlage zum Öffnen kalter E-Mails",
-        "personalisierte Vorlage für die erste Zeile",
-        "Website-Signalreichweite"
+        "Kaltakquise E-Mail Einstieg",
+        "personalisierte erste Zeile",
+        "Website-Signal Outreach"
       ],
       "tool": "first-line",
       "heroBullets": [
-        "Wählen Sie ein Website-Signal und erhalten Sie eine kopierfertige erste Zeile.",
-        "Kombinieren Sie jeden Eröffnungssatz mit dem nächsten Satz und einem CTA mit geringem Druck.",
-        "Vermeiden Sie allgemeine Komplimente, die nichts mit Ihrem Angebot zu tun haben."
+        "Ein Website-Signal wird zu einer kopierbaren ersten Zeile.",
+        "Auch die Folgesatz-Logik und ein leichter CTA werden mitgedacht.",
+        "Generische Komplimente werden bewusst vermieden."
       ],
       "sections": [
         {
-          "title": "Was die Vorlage tun soll",
-          "copy": "Eine erste Zeile sollte Kontext für den Rest der E-Mail schaffen. Es sollte spezifisch genug sein, um die Forschung zu belegen, und relevant genug, um das Angebot zu unterstützen.",
+          "title": "Vorlagen geben Struktur, nicht den fertigen Text",
+          "copy": "Eine gute Vorlage hält den Aufbau konstant, nicht den Inhalt. Beobachtung, mögliche Wirkung und kleiner nächster Schritt bleiben als Muster, die Details müssen pro Account aus der Website kommen.",
           "items": [
-            "Erwähnen Sie, was Sie auf der Website gesehen haben.",
-            "Verbinden Sie die Beobachtung mit einem wahrscheinlichen Käuferergebnis.",
-            "Halten Sie den nächsten Schritt klein genug, um darauf zu antworten."
+            "Seitenelement und Position je Account anpassen",
+            "Nicht überprüfbare Formulierungen streichen",
+            "Nur Winkel nutzen, die zum Angebot passen"
           ]
         },
         {
-          "title": "Wann anzupassen",
-          "copy": "Vorlagen sind Ausgangspunkte. Ersetzen Sie die Angaben in Klammern vor dem Absenden durch das genaue Unternehmen, die Seite, den Käufertyp oder den Angebotsaspekt.",
+          "title": "Was nach der ersten Zeile folgen sollte",
+          "copy": "Die erste Zeile allein reicht selten aus. Direkt danach sollte klar werden, warum die Beobachtung zählt und welcher kleine nächste Schritt sinnvoll ist.",
           "items": [
-            "Tauschen Sie das Produkt, die Dienstleistung oder die Zielgruppe des potenziellen Kunden aus.",
-            "Benennen Sie die Seite, wenn die Quelle wichtig ist.",
-            "Entfernen Sie alle Behauptungen, die Sie nicht überprüfen können, von der Website."
+            "Mit einer Wirkungsaussage anschließen",
+            "Leichten CTA statt Meeting-Forderung wählen",
+            "Den Bogen zum Service ohne Pitch-Overload schlagen"
           ]
         }
       ],
       "faqs": [
         {
-          "question": "Kann ich für jeden Interessenten dieselbe erste Zeile verwenden?",
-          "answer": "Nein. Verwenden Sie dieselbe Struktur, ändern Sie jedoch die Website-Beobachtung und die Käuferauswirkungen für jedes Konto."
+          "question": "Wie lang sollte eine Erstzeile sein?",
+          "answer": "Eine, maximal zwei Sätze. Sie muss mobil lesbar bleiben und die Beobachtung klar benennen."
         },
         {
-          "question": "Wie lang sollte eine erste Zeile sein?",
-          "answer": "Kurz genug, um auf Mobilgeräten gescannt zu werden, aber spezifisch genug, dass der Empfänger erkennen kann, dass es von seiner Website stammt."
-        },
-        {
-          "question": "Sollten die ersten Zeilen das Unternehmen loben?",
-          "answer": "Nur wenn das Lob konkret und relevant ist. Eine nützliche Beobachtung übertrifft vage Schmeichelei."
+          "question": "Wirken Vorlagen nicht automatisch generisch?",
+          "answer": "Nur wenn der Inhalt gleich bleibt. Mit echter Seitenbeobachtung und passendem Winkel bleiben sie glaubwürdig."
         }
       ],
       "related": [
@@ -1637,55 +2499,51 @@
       "eyebrow": "Interaktive Checkliste",
       "category": "Website-Prospektierung",
       "title": "Website-Prospecting-Checkliste für Agentur-Outbound",
-      "seoTitle": "Website-Prospecting-Checkliste für Agentur-Outbound | LeadCue",
-      "description": "Verwenden Sie diese Checkliste für die Website-Prospecting, um CTA-Klarheit, Proof, SEO, Navigation, Kontaktpfade und Aktualität des Inhalts zu überprüfen, bevor Sie einen Lead speichern.",
-      "intent": "Helfen Sie Teams, eine potenzielle Website zu qualifizieren, bevor sie in eine Outbound-Kampagne aufgenommen wird.",
+      "seoTitle": "Website-Prospecting-Checkliste | LeadCue",
+      "description": "CTA, Proof, SEO, Navigation und Kontaktpfade systematisch prüfen, bevor ein Account gespeichert oder exportiert wird.",
+      "intent": "Bündelt die wichtigsten Prüfpunkte für manuelle Website-Qualifizierung im Agentur-Outbound.",
       "updatedAt": "2026-04-23",
       "readingTime": "Checkliste",
-      "primaryKeyword": "Checkliste für die Website-Prospecting",
+      "primaryKeyword": "Website-Prospecting-Checkliste",
       "secondaryKeywords": [
-        "Checkliste für die Website potenzieller Kunden",
+        "Prospect-Website Checkliste",
         "Agentur-Outbound-Checkliste",
         "Website-Audit-Checkliste"
       ],
       "tool": "checklist",
       "heroBullets": [
-        "Überprüfen Sie die Website-Signale, die am häufigsten die Kontaktaufnahme mit Agenturen unterstützen.",
-        "Verwandeln Sie markierte Elemente in eine Zusammenfassung im Stil einer Interessentenkarte.",
-        "Verwenden Sie das Ergebnis vor dem Export als manuelle Qualitätssicherungsebene."
+        "Die wichtigsten Outreach-Signale auf der Website systematisch prüfen.",
+        "Ergebnisse in eine Prospect-Card-artige Zusammenfassung überführen.",
+        "Vor Export oder CRM-Übergabe als QA-Layer nutzen."
       ],
       "sections": [
         {
-          "title": "So inspizieren Sie die Website",
-          "copy": "Beginnen Sie mit sichtbaren Seiten und vermeiden Sie eine übermäßige Prüfung. Ziel ist es zu entscheiden, ob für das Konto ein glaubwürdiger Grund zur Kontaktaufnahme vorliegt.",
+          "title": "Was in die Checkliste gehört",
+          "copy": "Eine Prospecting-Checkliste sollte nicht Designgeschmack messen, sondern Kontaktgründe sichtbar machen. Besonders wichtig sind Hero, CTA, Proof, Content-Tiefe, Navigation und Kontaktpfad.",
           "items": [
-            "Überprüfen Sie die Startseite, die Navigation, den Proof, den Content Hub und den Kontaktpfad.",
-            "Erfassen Sie nur Signale, die mit Ihrem Angebot in Verbindung stehen.",
-            "Speichern Sie den Vorsprung, wenn das Signal stark genug ist, um eine erste Linie zu unterstützen."
+            "Hero-Botschaft und CTA",
+            "Cases, Logos, Testimonials und Zahlen",
+            "Service-Erklärung, Navigation und Kontaktweg"
           ]
         },
         {
-          "title": "Was mit dem Ergebnis geschehen soll",
-          "copy": "Eine Checkliste ist nur dann sinnvoll, wenn sie zur nächsten Aktion wird. Wandeln Sie das am stärksten markierte Element in eine erste Zeile, einen Outreach-Winkel und eine CRM-Notiz um.",
+          "title": "Wie aus der Checkliste eine Speicherregel wird",
+          "copy": "Nach dem Abhaken braucht das Team eine Entscheidung. Deshalb sollten die wichtigsten Punkte in Fit, Kontaktgrund und Exportfreigabe übersetzt werden.",
           "items": [
-            "Verwenden Sie das stärkste Signal als erste Zeile.",
-            "Verwenden Sie die Kategorie als Reichweitenwinkel.",
-            "Nur exportieren, wenn das Konto zu Ihrem ICP passt."
+            "Die stärksten zwei Signale zusammenfassen",
+            "Mit ICP und Service-Fit abgleichen",
+            "Nur passende Accounts weitergeben"
           ]
         }
       ],
       "faqs": [
         {
-          "question": "Wie viele Signale sollte ich finden, bevor ich einen Lead speichere?",
-          "answer": "Ein starkes Signal kann ausreichen, aber zwei oder drei quellengestützte Signale machen die Qualifizierung zuverlässiger."
+          "question": "Wer sollte die Checkliste nutzen?",
+          "answer": "Recherche, SDR, Sales oder Operations. Wichtig ist vor allem, dass die Speicherregel im Team einheitlich bleibt."
         },
         {
-          "question": "Handelt es sich um eine vollständige Website-Prüfung?",
-          "answer": "Nein. Es handelt sich um eine Prospecting-Checkliste für die Outbound-Qualifizierung. Eine vollständige Prüfung kann erfolgen, nachdem der Interessent sich engagiert."
-        },
-        {
-          "question": "Sollten Websites mit niedriger Punktzahl exportiert werden?",
-          "answer": "Normalerweise nein. Halten Sie Konten mit geringem Vertrauen oder schwacher Eignung aus Ihrer CRM-Importwarteschlange fern."
+          "question": "Braucht jeder Account die komplette Checkliste?",
+          "answer": "Nicht immer. Für große Listen reichen zuerst Kernsignale; für hochwertige Accounts lohnt sich die vollständige Prüfung."
         }
       ],
       "related": [
@@ -1697,58 +2555,54 @@
     {
       "slug": "integrations/hubspot-csv-export",
       "eyebrow": "Integrationsleitfaden",
-      "category": "HubSpot",
-      "title": "HubSpot-CSV-Export für Website-Prospecting",
-      "seoTitle": "HubSpot-CSV-Export für Prospect Research | LeadCue",
-      "description": "Bereiten Sie HubSpot-freundliche CSV-Felder für gespeicherte Interessentenrecherchen vor, einschließlich Unternehmen, Website, Eignungsbewertung, erste Zeile, Quellennotizen und Lead-Status.",
-      "intent": "Helfen Sie HubSpot-Benutzern, ausgewählte potenzielle Recherchen im LeadCue-Stil zu importieren, ohne den Outreach-Kontext zu verlieren.",
+      "category": "HubSpot-Export",
+      "title": "HubSpot CSV-Export: Akquise-Kontext im CRM behalten",
+      "seoTitle": "HubSpot CSV-Exportfelder | LeadCue",
+      "description": "Ausgewählte Accounts mit Website-Belegen, Fit-Score, erster Zeile und Quellenhinweisen sauber in HubSpot importieren.",
+      "intent": "Zeigt, wie HubSpot-Teams qualifizierte Website-Recherche importieren, ohne den Kontaktgrund zu verlieren.",
       "updatedAt": "2026-04-23",
       "readingTime": "Leitfaden",
       "primaryKeyword": "HubSpot CSV-Exportfelder",
       "secondaryKeywords": [
-        "HubSpot-Lead-Import-CSV",
-        "HubSpot-Import der Interessentenrecherche",
-        "CSV-Felder des HubSpot-Unternehmens"
+        "HubSpot Lead Import",
+        "HubSpot CRM CSV",
+        "Akquise Kontext CRM"
       ],
       "tool": "integration",
       "platform": "HubSpot",
       "heroBullets": [
-        "Verwenden Sie für den Import von Firmen- und Kontaktlisten lesbare Kopfzeilen.",
-        "Fit-Score und Quellnotizen als benutzerdefinierte Eigenschaften oder Notizen beibehalten.",
-        "Importieren Sie ausgewählte gespeicherte Leads und nicht jede gescannte Website."
+        "Nur geprüfte Accounts nach HubSpot übertragen.",
+        "Fit, Quellenhinweise und erste Zeile sichtbar halten.",
+        "Sales versteht sofort, warum der Account Priorität hat."
       ],
       "sections": [
         {
-          "title": "Empfohlene HubSpot-Felder",
-          "copy": "HubSpot-Importe funktionieren am besten, wenn die CSV klare Beschriftungen verwendet und den Forschungskontext in Feldern beibehält, die Vertriebsmitarbeiter sehen können.",
+          "title": "Welche HubSpot-Felder sichtbar bleiben sollten",
+          "copy": "Firma und URL reichen nicht aus. HubSpot sollte auch bewahren, warum der Account ausgewählt wurde und mit welchem Einstieg Sales arbeiten kann.",
           "items": [
-            "Firmenname, Website-URL, Branche, Lead-Status, Eigentümer.",
-            "Anpassungswert, Vertrauenswert, Top-Website-Signal.",
-            "Erste Zeile, kurze E-Mail, Quellenhinweise, Kontaktpfad."
+            "Firma, Website, Owner und Phase",
+            "Fit, Confidence und Hauptsignal",
+            "Erste Zeile, Quellenhinweis und Exportstatus"
           ]
         },
         {
-          "title": "Import-Workflow",
-          "copy": "Exportieren Sie ausgewählte gespeicherte Leads, bestätigen Sie Eigentümer und Lebenszyklusphase und importieren Sie sie dann als Unternehmensdatensätze, Kontaktdatensätze oder Kampagnenlisten in HubSpot.",
+          "title": "Wie der Import sauber bleibt",
+          "copy": "Nicht jeder Scan gehört ins CRM. Gespeicherte und qualifizierte Accounts halten HubSpot nutzbar und machen Reporting zuverlässiger.",
           "items": [
-            "LeadCue-Eigentümer dem HubSpot-Eigentümer zuordnen, sofern verfügbar.",
-            "Verwenden Sie den Lead-Status oder die Lebenszyklusphase, um forschungsbereite Konten zu markieren.",
-            "Halten Sie Quellennotizen für die Qualitätssicherung und das Antwort-Coaching sichtbar."
+            "Low-Confidence-Accounts nicht importieren",
+            "Scores und Quellen in Custom Properties ablegen",
+            "LeadCue-Views oder Listen separat führen"
           ]
         }
       ],
       "faqs": [
         {
-          "question": "Sollte der Fit-Score eine benutzerdefinierte Eigenschaft von HubSpot sein?",
-          "answer": "Ja. Eine numerische benutzerdefinierte Eigenschaft erleichtert das Sortieren und Segmentieren forschungsbereiter Konten."
+          "question": "Company Property oder Contact Property?",
+          "answer": "Website-Belege und Fit-Signale passen meist auf Unternehmensebene. Kontakte können später ergänzt werden."
         },
         {
-          "question": "Können Quellnotizen in HubSpot-Notizen eingefügt werden?",
-          "answer": "Ja. Quellnotizen können je nach Arbeitsablauf als Notiz oder benutzerdefinierte Langtexteigenschaft gespeichert werden."
-        },
-        {
-          "question": "Sollten exportierte Leads zu Kontakten oder Unternehmen werden?",
-          "answer": "Für die Website-First-Prospecting sind Unternehmen in der Regel der sicherste Ausgangspunkt, bis ein verifizierter Kontaktpfad verfügbar ist."
+          "question": "Sollte die erste Zeile mit importiert werden?",
+          "answer": "Ja, wenn Sales sie in HubSpot prüfen oder für die erste Ansprache verwenden soll."
         }
       ],
       "related": [
@@ -1760,58 +2614,54 @@
     {
       "slug": "integrations/salesforce-csv-export",
       "eyebrow": "Integrationsleitfaden",
-      "category": "Salesforce",
-      "title": "Salesforce-CSV-Export für qualifizierte Prospect Research",
-      "seoTitle": "Salesforce-CSV-Export für qualifizierte Prospect Research | LeadCue",
-      "description": "Ordnen Sie Website-Prospecting-Recherchen in Salesforce-Lead-Importfeldern zu und behalten Sie dabei den Eignungsfaktor, die Quellenhinweise, die erste Zeile und die Lead-Quelle bei.",
-      "intent": "Helfen Sie Salesforce-Teams, qualifizierte Interessentenforschung mit genügend Kontext für die Vertriebsnachverfolgung zu importieren.",
+      "category": "Salesforce-Export",
+      "title": "Salesforce CSV-Export: qualifizierte Leads mit Kontext übergeben",
+      "seoTitle": "Salesforce Lead CSV-Felder | LeadCue",
+      "description": "Lead Source, Description, Fit-Score und Quellenhinweise so strukturieren, dass Website-Recherche in Salesforce nutzbar bleibt.",
+      "intent": "Erklärt, wie Salesforce-Teams qualifizierte Recherche mit genug Kontext für Sales importieren.",
       "updatedAt": "2026-04-23",
       "readingTime": "Leitfaden",
-      "primaryKeyword": "Salesforce-Lead-CSV-Felder",
+      "primaryKeyword": "Salesforce Lead CSV-Felder",
       "secondaryKeywords": [
-        "Salesforce CSV-Import-Leads",
-        "Forschungsfelder für Salesforce-Interessenten",
-        "Salesforce-Lead-Quelle CSV"
+        "Salesforce Lead Import",
+        "Salesforce CSV Import",
+        "B2B Lead Recherche CRM"
       ],
       "tool": "integration",
       "platform": "Salesforce",
       "heroBullets": [
-        "Verwenden Sie Lead-Quelle und -Beschreibung, um den Forschungskontext zu bewahren.",
-        "Speichern Sie den Anpassungswert und die Konfidenz als benutzerdefinierte numerische Felder.",
-        "Importieren Sie nur Leads, die Ihren Speicherschwellenwert überschreiten."
+        "Lead Source trennt Website-Recherche von anderen Quellen.",
+        "Description und Zahlenfelder tragen den eigentlichen Kontext.",
+        "Nur Accounts oberhalb der Speichergrenze werden importiert."
       ],
       "sections": [
         {
-          "title": "Empfohlene Salesforce-Felder",
-          "copy": "Salesforce-Importe sollten den Lead-Inhaber, die Quelle, den Status und den Recherchegrund sofort sichtbar machen.",
+          "title": "Welche Felder Salesforce wirklich braucht",
+          "copy": "Salesforce braucht mehr als Stammdaten. Der Auswahlgrund muss für Sales sichtbar sein, damit Follow-up und Reporting sinnvoll funktionieren.",
           "items": [
-            "Unternehmen, Website, Branche, Lead-Quelle, Lead-Status, Eigentümer.",
-            "Anpassungswert, Vertrauenswert, Top-Signal, Outreach-Winkel.",
-            "Erste Zeile, E-Mail-Entwurf, Quellhinweise, Kontaktpfad."
+            "Lead Source auf LeadCue oder Website research setzen",
+            "Signal, Winkel und erste Zeile in Description festhalten",
+            "Fit und Confidence in Numeric Fields speichern"
           ]
         },
         {
-          "title": "Import-Workflow",
-          "copy": "Verwenden Sie einen konsistenten CSV-Header, ordnen Sie Felder während des Imports zu und erstellen Sie benutzerdefinierte Felder für Forschungsergebnisse, sofern Salesforce diese nicht bereits hat.",
+          "title": "Wie die Übergabe follow-up-fähig wird",
+          "copy": "Vor dem Import sollten Owner, Status und nächste Aktion feststehen. So wird Recherche nicht zu Datenmüll, sondern zu einer arbeitsfähigen Sales-Pipeline.",
           "items": [
-            "Setzen Sie die Lead-Quelle auf LeadCue oder Website Prospecting.",
-            "Verwenden Sie die Beschreibung für die quellengestützte Zusammenfassung.",
-            "Weisen Sie vor der Kampagnenübergabe Eigentümer und Status zu."
+            "Owner und Status vorab definieren",
+            "Quellenhinweise in sichtbare Felder legen",
+            "URL und Exportstatus gegen Dubletten nutzen"
           ]
         }
       ],
       "faqs": [
         {
-          "question": "Wohin sollen die ersten Zeilen in Salesforce gehen?",
-          "answer": "Verwenden Sie ein benutzerdefiniertes Textfeld oder fügen Sie die erste Zeile in der Beschreibung mit den Quellnotizen ein."
+          "question": "Lead oder Account?",
+          "answer": "Für kalte Erstansprache ist meist Lead sinnvoll. Bei bestehenden Firmen kann die Recherche an Account oder Aktivität hängen."
         },
         {
-          "question": "Sollte jedes LeadCue-Feld ein Salesforce-Feld werden?",
-          "answer": "Nein. Halten Sie die Kernfelder strukturiert und fügen Sie einen längeren Kontext in die Beschreibung oder Notizen ein."
-        },
-        {
-          "question": "Kann Salesforce Quellnotizen importieren?",
-          "answer": "Ja, Quellnotizen können je nach Einrichtung einem Langtextfeld, einer Beschreibung oder einer zugehörigen Notiz zugeordnet werden."
+          "question": "Wo sollte der Fit-Score gespeichert werden?",
+          "answer": "In einem benutzerdefinierten Zahlenfeld, damit Sortierung und Reporting sauber möglich bleiben."
         }
       ],
       "related": [
@@ -1823,58 +2673,54 @@
     {
       "slug": "integrations/pipedrive-csv-export",
       "eyebrow": "Integrationsleitfaden",
-      "category": "Pipedrive",
-      "title": "Pipedrive-CSV-Export für belegte Prospect-Notizen",
-      "seoTitle": "Pipedrive-CSV-Export für Prospect-Research-Notizen | LeadCue",
-      "description": "Bereiten Sie Pipedrive-CSV-Importe für die Suche nach Website-Prospekten mit Organisationsfeldern, Eigentümer, Phase, Eignungsbewertung, erster Zeile und Notizen vor.",
-      "intent": "Helfen Sie Pipedrive-Benutzern, ausgewählte Interessentenrecherchen in Organisationen, Personen, Geschäfte oder Notizen zu verschieben.",
+      "category": "Pipedrive-Export",
+      "title": "Pipedrive CSV-Import: Website-Recherche als Organisationskontext speichern",
+      "seoTitle": "Pipedrive CSV-Importfelder | LeadCue",
+      "description": "Organisation, Website, Phase und Akquise-Notizen so importieren, dass Pipedrive den Recherche-Kontext nicht verliert.",
+      "intent": "Zeigt, wie Pipedrive-Teams Website-Belege und Akquise-Kontext in Organisationen und Notizen übernehmen.",
       "updatedAt": "2026-04-23",
       "readingTime": "Leitfaden",
       "primaryKeyword": "Pipedrive CSV-Importfelder",
       "secondaryKeywords": [
-        "Pipedrive-Organisations-CSV",
-        "Pipedrive-Interessentennotizen",
-        "Pipedrive-Lead-Import"
+        "Pipedrive Organisation Import",
+        "Pipedrive CRM CSV",
+        "Akquise Notizen Pipedrive"
       ],
       "tool": "integration",
       "platform": "Pipedrive",
       "heroBullets": [
-        "Verwenden Sie Organisationsfelder für den Unternehmens- und Website-Kontext.",
-        "Bewahren Sie Forschungsdetails in Notizen oder benutzerdefinierten Feldern auf.",
-        "Ordnen Sie Eigentümer und Phase zu, bevor Sie potenzielle Kunden in die Pipeline verschieben."
+        "Firma und Website landen auf der Organisation.",
+        "Belege und erste Zeile bleiben in Notizen oder Custom Fields sichtbar.",
+        "Deals entstehen erst, wenn eine echte Chance vorliegt."
       ],
       "sections": [
         {
-          "title": "Empfohlene Pipedrive-Felder",
-          "copy": "Pipedrive funktioniert am besten, wenn der Organisationsdatensatz den Website-Kontext und die Notiz den Forschungsgrund enthält.",
+          "title": "Wie Pipedrive Recherche am besten aufnimmt",
+          "copy": "In Pipedrive eignet sich die Organisation für Unternehmenskontext, die Notiz für den eigentlichen Kontaktgrund. So kann Sales sofort sehen, was auf der Website aufgefallen ist.",
           "items": [
-            "Name der Organisation, Website, Branche, Eigentümer, Bühne.",
-            "Anpassungswert, Vertrauenswert, Top-Signal, Kontaktpfad.",
-            "Erste Zeile, kurze E-Mail, Quellenhinweise, Exportstatus."
+            "Organisation mit Name, URL und Owner",
+            "Notiz mit Signal, Quellseite und erster Zeile",
+            "Phase für Recherche, Outreach und Exportstatus nutzen"
           ]
         },
         {
-          "title": "Import-Workflow",
-          "copy": "Importieren Sie ausgewählte gespeicherte Leads als Organisationen oder Leads und verwenden Sie dann Notizen, um den quellengestützten Outreach-Kontext beizubehalten.",
+          "title": "Wann ein Deal wirklich Sinn ergibt",
+          "copy": "Deals zu früh anzulegen verwässert die Pipeline. Vor einer Reaktion reicht Organisation plus Notiz oft aus; erst bei echter Chance sollte ein Deal angelegt werden.",
           "items": [
-            "Verwenden Sie den Eigentümer, um die Weiterleitung weiterzuleiten.",
-            "Verwenden Sie Stage, um recherchierende, qualifizierte und für die Ansprache bereite Konten zu trennen.",
-            "Lassen Sie die erste Zeile und die Quellenanmerkungen vor dem Senden sichtbar."
+            "Vor Reaktion Organisation und Notiz bevorzugen",
+            "Deal erst bei echtem Interesse anlegen",
+            "URL und Exportstatus gegen Dubletten einsetzen"
           ]
         }
       ],
       "faqs": [
         {
-          "question": "Sollten Pipedrive-Importe sofort zu Deals führen?",
-          "answer": "Normalerweise nein. Erstellen Sie zuerst Organisationen oder Leads und erstellen Sie dann Geschäfte, nachdem das Konto Engagement zeigt."
+          "question": "Organisation oder Deal zuerst?",
+          "answer": "Im kalten Outbound meist Organisation und Notiz zuerst, den Deal erst später bei realer Chance."
         },
         {
-          "question": "Wo sollen Quellnotizen in Pipedrive gespeichert werden?",
-          "answer": "Verwenden Sie Notizen oder ein langes benutzerdefiniertes Feld, damit Mitarbeiter überprüfen können, warum das Konto gespeichert wurde."
-        },
-        {
-          "question": "Kann Pipedrive den Fit-Score zur Priorisierung verwenden?",
-          "answer": "Ja. Speichern Sie die Eignungsbewertung als benutzerdefiniertes Feld und verwenden Sie Filter, um Konten mit hoher Eignung zu priorisieren."
+          "question": "Wo gehören längere Website-Beobachtungen hin?",
+          "answer": "Kurze Scores passen in Felder, längere Beobachtungen und erste Zeilen meist besser in Notizen."
         }
       ],
       "related": [
@@ -1886,16 +2732,190 @@
   ],
   "nl": [
     {
+      "slug": "tools/prospect-research-chrome-extension",
+      "eyebrow": "Productworkflow",
+      "category": "Chrome-extensie",
+      "title": "Chrome-extensie voor leadonderzoek op websites",
+      "seoTitle": "Chrome-extensie voor leadonderzoek | LeadCue",
+      "description": "Websitebewijs, fitscore en openingszin direct in de browser vastleggen terwijl je een prospectsite bekijkt.",
+      "intent": "Legt uit hoe teams onderzoek direct in de browser vastleggen in plaats van later handmatig samen te voegen.",
+      "updatedAt": "2026-04-29",
+      "readingTime": "Werkstroom",
+      "primaryKeyword": "Chrome-extensie voor leadonderzoek",
+      "secondaryKeywords": [
+        "prospectie Chrome-extensie",
+        "website analyse voor acquisitie",
+        "leadonderzoek tool"
+      ],
+      "tool": "workflow",
+      "heroBullets": [
+        "Bewijs opslaan terwijl de site nog open staat.",
+        "Fit, openingszin en bron blijven in dezelfde kaart.",
+        "Vooral handig bij handmatig beoordeelde accounts met hoge waarde."
+      ],
+      "sections": [
+        {
+          "title": "Waarom onderzoek in de browser moet blijven",
+          "copy": "Leadonderzoek begint bijna altijd in de browser. Als observaties daarna pas in sheets of CRM belanden, verdwijnt de echte contactreden vaak onderweg.",
+          "items": [
+            "Bewijs vastleggen op het moment van observatie",
+            "De contactreden koppelen aan domein en pagina",
+            "Niet elke geopende site automatisch als lead opslaan"
+          ]
+        },
+        {
+          "title": "Welke gegevens de extensie moet bewaren",
+          "copy": "Een goede extensie bewaart meer dan URL en bedrijfsnaam. Signaal, fit, servicehoek, openingszin en bronnotitie moeten direct meegaan naar de accountkaart.",
+          "items": [
+            "Signaal en paginacontext",
+            "Fit en relevante servicehoek",
+            "Controleerbare openingszin met bronnotitie"
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "question": "Is dit een scraping-extensie?",
+          "answer": "Nee. De extensie ondersteunt zichtbare websitebeoordeling en het opslaan van brononderbouwde acquisitiecontext."
+        },
+        {
+          "question": "Wanneer gebruik je de extensie in plaats van een batchqueue?",
+          "answer": "Voor individuele accounts is de extensie handiger. Voor bestaande domeinlijsten werkt een batchqueue vaak beter."
+        }
+      ],
+      "related": [
+        "website-prospecting",
+        "tools/outreach-context-workspace",
+        "templates/cold-email-first-line"
+      ]
+    },
+    {
+      "slug": "tools/batch-website-review-queue",
+      "eyebrow": "Productworkflow",
+      "category": "Reviewqueue",
+      "title": "Website-reviewqueue voor bureau-acquisitie",
+      "seoTitle": "Website-reviewqueue voor bureau-acquisitie | LeadCue",
+      "description": "Domeinlijsten eerst beoordelen, prioriteren en kwalificeren voordat ze naar outreach- of CRM-workflows gaan.",
+      "intent": "Legt uit hoe teams grote websitelijsten omzetten in een gekwalificeerde reviewqueue.",
+      "updatedAt": "2026-04-29",
+      "readingTime": "Werkstroom",
+      "primaryKeyword": "website-reviewqueue",
+      "secondaryKeywords": [
+        "batch website reviewqueue",
+        "B2B prospectie tool",
+        "leads kwalificeren"
+      ],
+      "tool": "workflow",
+      "heroBullets": [
+        "Geïmporteerde domeinen eerst filteren voor outreach.",
+        "Opgeslagen prospects scheiden van alleen gescande websites.",
+        "Fit en confidence gebruiken voor de volgorde."
+      ],
+      "sections": [
+        {
+          "title": "Waarom een reviewqueue beter is dan direct exporteren",
+          "copy": "Veel bureaus sturen lijsten te snel door naar sequencing- of CRM-tools. Een reviewqueue splitst import, beoordeling en opslag, zodat alleen accounts met een echte contactreden doorgaan.",
+          "items": [
+            "Domeinen importeren uit sheets, CRM of handmatig onderzoek",
+            "Website-signalen tegen dezelfde standaard beoordelen",
+            "Alleen sterke accounts opslaan"
+          ]
+        },
+        {
+          "title": "Hoe teams de queue in de praktijk gebruiken",
+          "copy": "Vooral wanneer onderzoek en verzending gescheiden zijn, is de queue waardevol. De onderzoeker laat genoeg context achter zodat sales niet opnieuw hoeft te beginnen.",
+          "items": [
+            "Eerst accounts met hoge fit verwerken",
+            "Owner en status voor export bepalen",
+            "Openingszin en bronnotities meegeven"
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "question": "Moet elke geïmporteerde website worden opgeslagen?",
+          "answer": "Nee. Het nut van de queue is juist dat zwakke of onduidelijke accounts eruit worden gefilterd."
+        },
+        {
+          "question": "Wat is het verschil met een spreadsheet?",
+          "answer": "De queue bewaart status, fit, bronnen, openingszin en exportstatus samen in plaats van alleen rijen met bedrijfsnamen."
+        }
+      ],
+      "related": [
+        "website-prospecting",
+        "agency-lead-qualification",
+        "templates/website-prospecting-checklist"
+      ]
+    },
+    {
+      "slug": "tools/outreach-context-workspace",
+      "eyebrow": "Productworkflow",
+      "category": "Acquisitiewerkruimte",
+      "title": "Outreachcontext werkruimte voor websiteprospectie",
+      "seoTitle": "Outreachcontext werkruimte | LeadCue",
+      "description": "Websitebewijs, fitscore, openingszin, bronnotitie en CRM-velden bij elkaar houden voordat outreach start.",
+      "intent": "Laat zien hoe onderzoekcontext behouden blijft tot aan CRM of e-mailtool.",
+      "updatedAt": "2026-04-29",
+      "readingTime": "Werkstroom",
+      "primaryKeyword": "outreachcontext werkruimte",
+      "secondaryKeywords": [
+        "koude e-mail personalisatie",
+        "leadonderzoek tool",
+        "B2B prospectie tool"
+      ],
+      "tool": "workflow",
+      "heroBullets": [
+        "Observatie, zakelijke hoek en openingszin blijven op één plek.",
+        "Voor verzending kan elke claim aan de bron worden getoetst.",
+        "Handig voor overdracht van research naar sales of BD."
+      ],
+      "sections": [
+        {
+          "title": "Waarom outreachcontext vaak verdwijnt",
+          "copy": "Veel teams onderzoeken in het ene tool, noteren in het andere en exporteren naar een derde. Tegen de tijd dat de mail eruit gaat, is de reden voor selectie vaak onduidelijk geworden.",
+          "items": [
+            "Bedrijf en URL verklaren geen contactreden",
+            "Openingszinnen zonder bron zijn lastig te checken",
+            "Sales moet de prioriteit kunnen begrijpen"
+          ]
+        },
+        {
+          "title": "Wat de werkruimte moet vasthouden",
+          "copy": "Een bruikbare werkruimte verbindt websitesignaal, zakelijke betekenis, fit, openingszin, bronnotitie, owner, fase en exportstatus zonder contextverlies.",
+          "items": [
+            "Observatie plus betekenis voor de account",
+            "Fit en confidence voor prioritering",
+            "CRM-velden die context behouden bij overdracht"
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "question": "Vervangt dit een CRM?",
+          "answer": "Nee. De werkruimte zit vóór het CRM en bereidt alleen gekwalificeerde accounts met context voor."
+        },
+        {
+          "question": "Vervangt dit een e-mailtool?",
+          "answer": "Nee. LeadCue bereidt onderzoek en context voor; verzending kan in CRM, CSV of sequencingtools plaatsvinden."
+        }
+      ],
+      "related": [
+        "prospect-research-tool-for-agencies",
+        "templates/crm-csv-field-mapping",
+        "cold-email-first-lines"
+      ]
+    },
+    {
       "slug": "templates/crm-csv-field-mapping",
       "eyebrow": "Interactieve sjabloon",
       "category": "CRM-export",
-      "title": "CRM CSV-veldmapping voor prospectonderzoek",
-      "seoTitle": "CRM CSV-veldmapping voor prospectonderzoek | LeadCue",
-      "description": "Breng onderzoeksvelden van potentiële klanten in HubSpot, Salesforce, Pipedrive of een aangepaste CSV-export in kaart, terwijl de fitscore, eerstelijns- en bronnotities intact blijven.",
-      "intent": "Help teams bij het standaardiseren van CSV-exports van prospectonderzoek voordat geselecteerde leads in een CRM worden geïmporteerd.",
+      "title": "CRM CSV-veldmapping voor leadonderzoek",
+      "seoTitle": "CRM CSV-veldmapping | LeadCue",
+      "description": "Velden voor HubSpot, Salesforce, Pipedrive of een eigen CSV-uitvoer zo mappen dat fit, openingszin en bronnen behouden blijven.",
+      "intent": "Legt uit hoe leadonderzoeksvelden correct naar CRM-CSV-koppen worden vertaald.",
       "updatedAt": "2026-04-23",
       "readingTime": "Tool",
-      "primaryKeyword": "CRM CSV-veldtoewijzing",
+      "primaryKeyword": "CRM CSV-veldmapping",
       "secondaryKeywords": [
         "HubSpot CSV-exportvelden",
         "CSV-velden voor Salesforce-leads",
@@ -1903,42 +2923,38 @@
       ],
       "tool": "crm-mapping",
       "heroBullets": [
-        "Schakel tussen HubSpot, Salesforce, Pipedrive en aangepaste veldnaamgeving.",
-        "Kopieer een CRM-ready CSV-header voor geselecteerde prospectonderzoeksvelden.",
-        "Bewaar aantekeningen met broncode bij elk geëxporteerd account."
+        "CRM-specifieke veldnamen voorbereiden.",
+        "Fit, openingszin en bronnotities in de export behouden.",
+        "Een gedeelde veldstandaard voorkomt extra handwerk."
       ],
       "sections": [
         {
-          "title": "Waarom veldtoewijzing belangrijk is",
-          "copy": "Prospectonderzoek verliest waarde wanneer de CRM-import alleen de bedrijfsnaam en website bevat. Een nuttig CSV houdt de reden voor outreach zichtbaar na overdracht.",
+          "title": "Welke velden vaak ontbreken in CSV-mapping",
+          "copy": "Als je alleen bedrijf en URL meeneemt, gaat de waarde van het onderzoek verloren. Teams hebben ook fit, bronnotities, openingszin en status nodig in het doel-CRM.",
           "items": [
-            "Fitscore en zelfvertrouwen helpen bij het prioriteren van de follow-up.",
-            "Eerstelijns- en bronnotities helpen vertegenwoordigers bij het verifiëren van de outreachhoek.",
-            "Eigenaar, podium, opgeslagen status en exportstatus verminderen dubbel werk."
+            "Bedrijf, website, owner en fase",
+            "Fitscore en confidence",
+            "Openingszin en bronnotitie"
           ]
         },
         {
-          "title": "Hoe de sjabloon te gebruiken",
-          "copy": "Kies de CRM-naamgevingsmodus, kopieer de header en gebruik dezelfde volgorde bij het exporteren van opgeslagen leads uit LeadCue.",
+          "title": "Wat per CRM verschilt",
+          "copy": "HubSpot gebruikt vooral properties, Salesforce werkt veel met Lead Source en Description, en Pipedrive leunt meer op organisaties en notities. De betekenis is gelijk, de veldstructuur niet.",
           "items": [
-            "Gebruik HubSpot-labels voor het importeren van lijsten en contact-/bedrijfseigenschappen.",
-            "Gebruik Salesforce-labels voor leadimport- en beschrijvingsvelden.",
-            "Gebruik Pipedrive-labels voor de overdracht van organisaties, personen en notities."
+            "HubSpot: company properties en notes",
+            "Salesforce: Lead Source en numerieke velden",
+            "Pipedrive: organisatievelden en notities"
           ]
         }
       ],
       "faqs": [
         {
-          "question": "Moet elke gescande website worden geëxporteerd?",
-          "answer": "Nee. Exporteer geselecteerde opgeslagen leads, zodat uw CRM alleen accounts ontvangt met bewezen outreachpotentieel."
+          "question": "Kan één CSV-header voor alle CRM's werken?",
+          "answer": "Meestal niet. De kernvelden lijken op elkaar, maar namen en opslaglogica verschillen te veel."
         },
         {
-          "question": "Kan hetzelfde exportmodel meerdere CRM's ondersteunen?",
-          "answer": "Ja. Behoud één intern onderzoeksveldmodel en wijzig de naam van de headers voor de CRM-bestemming."
-        },
-        {
-          "question": "Moet de gegenereerde e-mailkopie worden opgenomen in de CSV?",
-          "answer": "Voeg het toe wanneer campagnebouwers het nodig hebben, maar houd bronnotities bij de hand, zodat de kopie kan worden gecontroleerd voordat deze wordt verzonden."
+          "question": "Moet de openingszin mee in de export?",
+          "answer": "Ja, als sales die in het CRM wil controleren of direct wil gebruiken."
         }
       ],
       "related": [
@@ -1952,55 +2968,51 @@
       "eyebrow": "Sjabloonbibliotheek",
       "category": "Koude e-mail",
       "title": "Templates voor eerste zinnen van koude e-mails op basis van websitesignalen",
-      "seoTitle": "Templatebibliotheek voor eerste zinnen in koude e-mails | LeadCue",
-      "description": "Kopieer eerstelijnssjablonen op basis van echte websitesignalen zoals verborgen CTA's, ontbrekend bewijsmateriaal, verouderde inhoud en onduidelijke positionering.",
-      "intent": "Geef uitgaande teams een herbruikbaar patroon waarmee ze websiteobservaties kunnen omzetten in geloofwaardige, koude e-mailopeners.",
+      "seoTitle": "Templates voor eerste zinnen van koude e-mails | LeadCue",
+      "description": "Eerste zinnen structureren op basis van CTA-frictie, ontbrekend bewijs, contentgaten en onduidelijke positionering.",
+      "intent": "Biedt templates om zichtbare websitebewijzen om te zetten in geloofwaardige eerste zinnen voor koude e-mail.",
       "updatedAt": "2026-04-23",
       "readingTime": "Sjabloon",
-      "primaryKeyword": "eerstelijnssjabloon voor koude e-mail",
+      "primaryKeyword": "templates voor eerste zinnen van koude e-mails",
       "secondaryKeywords": [
-        "sjabloon voor koude e-mailopener",
-        "gepersonaliseerde eerstelijnssjabloon",
-        "website signaalbereik"
+        "koude e-mail openingszin",
+        "gepersonaliseerde eerste zin",
+        "website signaal outreach"
       ],
       "tool": "first-line",
       "heroBullets": [
-        "Kies een websitesignaal en ontvang een kopieerklare eerste regel.",
-        "Combineer elke opener met de volgende zin en een CTA met lage druk.",
-        "Vermijd generieke complimenten die geen verband houden met uw aanbod."
+        "Een websitesignaal wordt een kopieerbare eerste zin.",
+        "Ook de vervolgzinslogica en lichte CTA worden meegenomen.",
+        "Algemene complimenten verdwijnen uit de mail."
       ],
       "sections": [
         {
-          "title": "Wat de sjabloon moet doen",
-          "copy": "Een eerste regel moet context creëren voor de rest van de e-mail. Het moet specifiek genoeg zijn om onderzoek te bewijzen en relevant genoeg om het aanbod te ondersteunen.",
+          "title": "Templates geven structuur, geen vaste inhoud",
+          "copy": "Een goede template houdt de opbouw vast, niet de tekst zelf. Observatie, mogelijk effect en kleine volgende stap vormen het frame; de inhoud komt altijd van de prospectsite.",
           "items": [
-            "Vermeld wat je op de website hebt gezien.",
-            "Verbind de observatie met een waarschijnlijk kopersresultaat.",
-            "Houd de volgende stap klein genoeg om op te reageren."
+            "Pagina-element en positie per account aanpassen",
+            "Niet-verifieerbare claims schrappen",
+            "Alleen hoeken gebruiken die bij het aanbod passen"
           ]
         },
         {
-          "title": "Wanneer aanpassen",
-          "copy": "Sjablonen zijn uitgangspunten. Vervang de gegevens tussen haakjes door het exacte bedrijf, de exacte pagina, het koperstype of de aanbiedingshoek voordat u het bericht verzendt.",
+          "title": "Wat na de eerste zin moet komen",
+          "copy": "Een sterke eerste zin heeft een logische vervolgzin nodig. Daarna moet snel duidelijk worden waarom de observatie telt en welke kleine stap jij voorstelt.",
           "items": [
-            "Wissel het product, de dienst of de doelgroep van de prospect in.",
-            "Geef de pagina een naam als de bron ertoe doet.",
-            "Verwijder elke claim die u niet kunt verifiëren van de website."
+            "Aansluiten met een effectverklaring",
+            "Een lichte CTA gebruiken in plaats van meteen een meeting",
+            "De brug slaan naar het aanbod zonder over te pitchen"
           ]
         }
       ],
       "faqs": [
         {
-          "question": "Kan ik voor elke prospect dezelfde eerste regel gebruiken?",
-          "answer": "Nee. Gebruik dezelfde structuur, maar verander de websiteobservatie en koperimplicaties voor elk account."
+          "question": "Hoe lang moet een eerste zin zijn?",
+          "answer": "Eén zin is meestal genoeg, hooguit twee. De tekst moet mobiel snel te lezen zijn."
         },
         {
-          "question": "Hoe lang moet een eerste regel zijn?",
-          "answer": "Kort genoeg om te scannen op mobiele apparaten, maar specifiek genoeg zodat de ontvanger kan zien dat het bericht afkomstig is van de website."
-        },
-        {
-          "question": "Moeten de eerste regels het bedrijf prijzen?",
-          "answer": "Alleen als de complimenten specifiek en relevant zijn. Een nuttige observatie verslaat vage vleierij."
+          "question": "Klinken templates niet automatisch generiek?",
+          "answer": "Alleen als de inhoud hetzelfde blijft. Met echte paginabewijzen en een passende hoek blijven ze geloofwaardig."
         }
       ],
       "related": [
@@ -2014,55 +3026,51 @@
       "eyebrow": "Interactieve checklist",
       "category": "Websiteprospectie",
       "title": "Websiteprospectie-checklist voor bureau-outbound",
-      "seoTitle": "Websiteprospectie-checklist voor bureau-outbound | LeadCue",
-      "description": "Gebruik deze checklist voor websiteprospectie om de duidelijkheid, bewijsvoering, SEO, navigatie, contactpaden en recentheid van de inhoud te inspecteren voordat u een lead opslaat.",
-      "intent": "Help teams een potentiële website te kwalificeren voordat deze aan een uitgaande campagne deelneemt.",
+      "seoTitle": "Websiteprospectie-checklist | LeadCue",
+      "description": "CTA, bewijs, SEO, navigatie en contactpaden systematisch controleren voordat een account wordt opgeslagen of geëxporteerd.",
+      "intent": "Bundelt de belangrijkste controlepunten voor handmatige websitekwalificatie bij bureau-outbound.",
       "updatedAt": "2026-04-23",
       "readingTime": "Checklist",
-      "primaryKeyword": "checklist voor websiteprospectie",
+      "primaryKeyword": "websiteprospectie-checklist",
       "secondaryKeywords": [
-        "checklist voor prospectwebsites",
-        "checklist voor uitgaand verkeer van bureaus",
-        "checklist voor website-audit"
+        "prospectwebsite checklist",
+        "bureau-outbound checklist",
+        "website-audit checklist"
       ],
       "tool": "checklist",
       "heroBullets": [
-        "Controleer de websitesignalen die het vaakst de outreach van bureaus ondersteunen.",
-        "Zet gecontroleerde items om in een samenvatting in Prospect Card-stijl.",
-        "Gebruik het resultaat als een handmatige QA-laag vóór het exporteren."
+        "De belangrijkste outreachsignalen op een site systematisch nalopen.",
+        "Resultaten omzetten naar een Prospect Card-achtige samenvatting.",
+        "Gebruiken als QA-laag vóór export of CRM-overdracht."
       ],
       "sections": [
         {
-          "title": "Hoe de site te inspecteren",
-          "copy": "Begin met zichtbare pagina's en voorkom overmatige controle. Het doel is om te beslissen of het account een geloofwaardige reden heeft om te bereiken.",
+          "title": "Wat in de checklist moet staan",
+          "copy": "Een prospectiechecklist meet geen smaak, maar maakt contactredenen zichtbaar. Vooral hero, CTA, bewijs, contentdiepte, navigatie en contactpad zijn bijna altijd relevant.",
           "items": [
-            "Controleer de startpagina, navigatie, proefdruk, inhoudshub en contactpad.",
-            "Leg alleen signalen vast die verband houden met uw aanbod.",
-            "Bewaar de lead als het signaal sterk genoeg is om een ​​eerste lijn te ondersteunen."
+            "Hero-boodschap en CTA",
+            "Cases, testimonials, logo's en cijfers",
+            "Service-uitleg, navigatie en contactroute"
           ]
         },
         {
-          "title": "Wat te doen met het resultaat",
-          "copy": "Een checklist is alleen nuttig als het een volgende actie wordt. Converteer het sterkste gecontroleerde item naar een eerste regel, een outreachhoek en een CRM-notitie.",
+          "title": "Van checklist naar opslagregel",
+          "copy": "Na het afvinken moet het team een besluit kunnen nemen. Daarom moeten de belangrijkste punten worden vertaald naar fit, contactreden en exporttoelating.",
           "items": [
-            "Gebruik het sterkste signaal als eerste lijn.",
-            "Gebruik de categorie als de reikwijdtehoek.",
-            "Exporteer alleen als het account bij uw ICP past."
+            "De sterkste twee signalen samenvatten",
+            "Koppelen aan ICP en servicefit",
+            "Alleen passende accounts doorzetten"
           ]
         }
       ],
       "faqs": [
         {
-          "question": "Hoeveel signalen moet ik vinden voordat ik een lead opsla?",
-          "answer": "Eén sterk signaal kan voldoende zijn, maar twee of drie brongestuurde signalen maken de kwalificatie betrouwbaarder."
+          "question": "Wie gebruikt deze checklist?",
+          "answer": "Research, SDR, sales of operations. Belangrijker dan de rol is dat de opslagregel teambreed hetzelfde blijft."
         },
         {
-          "question": "Is dit een volledige website-audit?",
-          "answer": "Nee. Het is een prospectiechecklist voor uitgaande kwalificatie. Een volledige audit kan plaatsvinden nadat de prospect zich engageert."
-        },
-        {
-          "question": "Moeten sites met een lage score worden geëxporteerd?",
-          "answer": "Normaal gesproken niet. Houd accounts met weinig vertrouwen of zwak passende accounts uit uw CRM-importwachtrij."
+          "question": "Heeft elke account de volledige checklist nodig?",
+          "answer": "Niet altijd. Voor grote lijsten kun je starten met kernsignalen; voor waardevolle accounts loont de volledige check."
         }
       ],
       "related": [
@@ -2074,58 +3082,54 @@
     {
       "slug": "integrations/hubspot-csv-export",
       "eyebrow": "Integratiegids",
-      "category": "HubSpot",
-      "title": "HubSpot CSV-export voor websiteprospectie",
-      "seoTitle": "HubSpot CSV-export voor prospectonderzoek | LeadCue",
-      "description": "Bereid HubSpot-vriendelijke CSV-velden voor voor opgeslagen prospectonderzoek, inclusief bedrijf, website, fitscore, eerste regel, bronnotities en leadstatus.",
-      "intent": "Help HubSpot-gebruikers bij het importeren van geselecteerd LeadCue-stijl prospectonderzoek zonder de outreach-context te verliezen.",
+      "category": "HubSpot-export",
+      "title": "HubSpot CSV-export: acquisitiecontext in CRM behouden",
+      "seoTitle": "HubSpot CSV-exportvelden | LeadCue",
+      "description": "Geselecteerde accounts met websitebewijs, fitscore, openingszin en bronnotities netjes in HubSpot importeren.",
+      "intent": "Laat zien hoe HubSpot-teams gekwalificeerd websiteonderzoek importeren zonder de contactreden te verliezen.",
       "updatedAt": "2026-04-23",
       "readingTime": "Gids",
       "primaryKeyword": "HubSpot CSV-exportvelden",
       "secondaryKeywords": [
-        "HubSpot lead import CSV",
-        "HubSpot prospectonderzoek importeren",
-        "HubSpot bedrijf CSV-velden"
+        "HubSpot leadimport",
+        "HubSpot CRM CSV",
+        "acquisitiecontext CRM"
       ],
       "tool": "integration",
       "platform": "HubSpot",
       "heroBullets": [
-        "Gebruik voor mensen leesbare headers voor het importeren van bedrijfs- en contactlijsten.",
-        "Houd de score bij en bronnotities als aangepaste eigenschappen of notities.",
-        "Importeer geselecteerde opgeslagen leads in plaats van elke gescande website."
+        "Alleen beoordeelde accounts naar HubSpot sturen.",
+        "Fitscore, bronnotities en openingszin zichtbaar houden.",
+        "Sales ziet meteen waarom een account prioriteit heeft."
       ],
       "sections": [
         {
-          "title": "Aanbevolen HubSpot-velden",
-          "copy": "HubSpot-import werkt het beste wanneer de CSV duidelijke labels gebruikt en de onderzoekscontext behoudt in velden die verkopers kunnen zien.",
+          "title": "Welke HubSpot-velden zichtbaar moeten blijven",
+          "copy": "Bedrijf en URL zijn niet genoeg. HubSpot moet ook bewaren waarom de account gekozen is en welke openingszin sales kan gebruiken.",
           "items": [
-            "Bedrijfsnaam, website-URL, branche, leadstatus, eigenaar.",
-            "Fitscore, vertrouwensscore, signaal van topwebsite.",
-            "Eerste regel, korte e-mail, bronnotities, contactpad."
+            "Bedrijf, website, owner en fase",
+            "Fitscore, confidence en hoofdsignaal",
+            "Openingszin, bronnotitie en exportstatus"
           ]
         },
         {
-          "title": "Importworkflow",
-          "copy": "Exporteer geselecteerde opgeslagen leads, bevestig de eigenaar en levenscyclusfase en importeer vervolgens in HubSpot als bedrijfsrecords, contactrecords of campagnelijsten.",
+          "title": "Hoe de import schoon blijft",
+          "copy": "Niet elke scan hoort in het CRM. Opgeslagen en gekwalificeerde accounts houden HubSpot bruikbaar en maken rapportage betrouwbaarder.",
           "items": [
-            "Wijs LeadCue-eigenaar toe aan HubSpot-eigenaar indien beschikbaar.",
-            "Gebruik de Leadstatus of Levenscyclusfase om accounts te markeren die gereed zijn voor onderzoek.",
-            "Houd bronnotities zichtbaar voor QA en antwoordcoaching."
+            "Low-confidence-accounts niet importeren",
+            "Scores en bronnen in custom properties opslaan",
+            "LeadCue-lijsten of views apart beheren"
           ]
         }
       ],
       "faqs": [
         {
-          "question": "Moet de fitscore een aangepaste eigenschap van HubSpot zijn?",
-          "answer": "Ja. Een numerieke aangepaste eigenschap maakt het eenvoudiger om onderzoeksklare accounts te sorteren en te segmenteren."
+          "question": "Company property of contact property?",
+          "answer": "Websitebewijs en fitsignalen horen meestal op bedrijfsniveau. Contacten kunnen later worden toegevoegd."
         },
         {
-          "question": "Kunnen bronnotities in HubSpot-notities worden opgenomen?",
-          "answer": "Ja. Bronnotities kunnen worden opgeslagen als een notitie of een aangepaste lange-teksteigenschap, afhankelijk van uw workflow."
-        },
-        {
-          "question": "Moeten geëxporteerde leads contacten of bedrijven worden?",
-          "answer": "Voor prospectie via de website zijn bedrijven doorgaans het veiligste startpunt totdat er een geverifieerd contactpad beschikbaar is."
+          "question": "Moet de openingszin worden meegeïmporteerd?",
+          "answer": "Ja, als sales die in HubSpot wil controleren of gebruiken."
         }
       ],
       "related": [
@@ -2137,58 +3141,54 @@
     {
       "slug": "integrations/salesforce-csv-export",
       "eyebrow": "Integratiegids",
-      "category": "Salesforce",
-      "title": "Salesforce CSV-export voor gekwalificeerd prospectonderzoek",
-      "seoTitle": "Salesforce CSV-export voor gekwalificeerd prospectonderzoek | LeadCue",
-      "description": "Breng websiteprospectieonderzoek naar Salesforce-importvelden voor leads in kaart, terwijl de fitscore, bronnotities, eerste regel en leadbron behouden blijven.",
-      "intent": "Help Salesforce-teams gekwalificeerd prospectonderzoek te importeren met voldoende context voor verkoopopvolging.",
+      "category": "Salesforce-export",
+      "title": "Salesforce CSV-export: gekwalificeerde leads met context doorgeven",
+      "seoTitle": "Salesforce lead CSV-velden | LeadCue",
+      "description": "Lead Source, Description, fitscore en bronnotities zo structureren dat websiteonderzoek in Salesforce bruikbaar blijft.",
+      "intent": "Legt uit hoe Salesforce-teams gekwalificeerd onderzoek importeren met genoeg context voor follow-up.",
       "updatedAt": "2026-04-23",
       "readingTime": "Gids",
-      "primaryKeyword": "CSV-velden voor Salesforce-leads",
+      "primaryKeyword": "Salesforce lead CSV-velden",
       "secondaryKeywords": [
-        "Salesforce CSV-leads importeren",
-        "Salesforce-onderzoeksvelden voor prospects",
-        "CSV van Salesforce-leadbron"
+        "Salesforce leadimport",
+        "Salesforce CSV import",
+        "B2B leadonderzoek CRM"
       ],
       "tool": "integration",
       "platform": "Salesforce",
       "heroBullets": [
-        "Gebruik leadbron en beschrijving om de onderzoekscontext te behouden.",
-        "Sla de fitscore en het vertrouwen op als aangepaste numerieke velden.",
-        "Importeer alleen leads die uw opslagdrempel overschrijden."
+        "Lead Source scheidt websiteresearch van andere bronnen.",
+        "Description en numerieke velden dragen de echte context.",
+        "Alleen accounts boven de opslaggrens worden geïmporteerd."
       ],
       "sections": [
         {
-          "title": "Aanbevolen Salesforce-velden",
-          "copy": "Salesforce-imports moeten de leadeigenaar, bron, status en onderzoeksreden onmiddellijk zichtbaar maken.",
+          "title": "Welke Salesforce-velden echt nodig zijn",
+          "copy": "Salesforce heeft meer nodig dan stamgegevens. De reden voor selectie moet zichtbaar zijn zodat sales logisch kan opvolgen en rapporteren.",
           "items": [
-            "Bedrijf, website, branche, leadbron, leadstatus, eigenaar.",
-            "Fitscore, vertrouwensscore, topsignaal, bereikhoek.",
-            "Eerste regel, e-mailconcept, bronnotities, contactpad."
+            "Lead Source op LeadCue of Website research zetten",
+            "Signaal, hoek en openingszin in Description bewaren",
+            "Fitscore en confidence in numerieke velden opslaan"
           ]
         },
         {
-          "title": "Importworkflow",
-          "copy": "Gebruik een consistente CSV-header, wijs velden toe tijdens het importeren en maak aangepaste velden voor onderzoeksscores als Salesforce deze nog niet heeft.",
+          "title": "Hoe de overdracht follow-upklaar wordt",
+          "copy": "Owner, status en volgende actie moeten vóór import duidelijk zijn. Zo verandert onderzoek in een werkbaar salesproces in plaats van CRM-ruis.",
           "items": [
-            "Stel Leadbron in op LeadCue of Website Prospecting.",
-            "Gebruik Beschrijving voor de door de bron ondersteunde samenvatting.",
-            "Wijs eigenaar en status toe voordat de campagne wordt overgedragen."
+            "Owner en status vooraf vastleggen",
+            "Bronnotities in zichtbare velden zetten",
+            "URL en exportstatus tegen duplicaten gebruiken"
           ]
         }
       ],
       "faqs": [
         {
-          "question": "Waar moeten de eerste regels komen in Salesforce?",
-          "answer": "Gebruik een aangepast tekstveld of neem de eerste regel op in Beschrijving met de bronnotities."
+          "question": "Lead of Account?",
+          "answer": "Voor koude eerste outreach past meestal Lead. Bij bestaande bedrijven kan het onderzoek aan Account of Activity worden gehangen."
         },
         {
-          "question": "Moet elk LeadCue-veld een Salesforce-veld worden?",
-          "answer": "Nee. Houd de kernvelden gestructureerd en plaats een langere context in Beschrijving of notities."
-        },
-        {
-          "question": "Kan Salesforce bronnotities importeren?",
-          "answer": "Ja, bronnotities kunnen worden toegewezen aan een lang tekstveld, Beschrijving of een gerelateerde notitie, afhankelijk van uw instellingen."
+          "question": "Waar hoort de fitscore?",
+          "answer": "In een custom number field, zodat sorteren en rapporteren eenvoudig blijft."
         }
       ],
       "related": [
@@ -2200,58 +3200,54 @@
     {
       "slug": "integrations/pipedrive-csv-export",
       "eyebrow": "Integratiegids",
-      "category": "Pipedrive",
-      "title": "Pipedrive CSV-export voor prospectnotities met bronbewijs",
-      "seoTitle": "Pipedrive CSV-export voor prospectonderzoeksnotities | LeadCue",
-      "description": "Pipedrive CSV-importen voorbereiden voor prospectieonderzoek naar websites met organisatievelden, eigenaar, fase, fitscore, eerste regel en notities.",
-      "intent": "Help Pipedrive-gebruikers geselecteerd prospectonderzoek naar organisaties, mensen, deals of notities te verplaatsen.",
+      "category": "Pipedrive-export",
+      "title": "Pipedrive CSV-import: websiteresearch als organisatiecontext bewaren",
+      "seoTitle": "Pipedrive CSV-importvelden | LeadCue",
+      "description": "Organisatie, website, fase en acquisitienotities zo importeren dat Pipedrive de onderzoekcontext bewaart.",
+      "intent": "Laat zien hoe Pipedrive-teams websitebewijs en acquisitiecontext in organisaties en notities vasthouden.",
       "updatedAt": "2026-04-23",
       "readingTime": "Gids",
       "primaryKeyword": "Pipedrive CSV-importvelden",
       "secondaryKeywords": [
-        "Pipedrive-organisatie CSV",
-        "Pipedrive-prospectnotities",
-        "Importeren van Pipedrive-leads"
+        "Pipedrive organisatie import",
+        "Pipedrive CRM CSV",
+        "acquisitienotities Pipedrive"
       ],
       "tool": "integration",
       "platform": "Pipedrive",
       "heroBullets": [
-        "Gebruik organisatievelden voor bedrijfs- en websitecontext.",
-        "Bewaar onderzoeksgegevens in notities of aangepaste velden.",
-        "Breng de eigenaar en fase in kaart voordat prospects in de pijplijn worden geplaatst."
+        "Bedrijf en website gaan naar de organisatie.",
+        "Bewijs en openingszin blijven zichtbaar in notities of custom fields.",
+        "Deals ontstaan pas wanneer er echte kans is."
       ],
       "sections": [
         {
-          "title": "Aanbevolen Pipedrive-velden",
-          "copy": "Pipedrive werkt het beste wanneer het organisatierecord de websitecontext bevat en de notitie de onderzoeksreden bevat.",
+          "title": "Hoe Pipedrive onderzoek het best opvangt",
+          "copy": "In Pipedrive is de organisatie logisch voor bedrijfscontext en de notitie voor de contactreden. Daardoor ziet sales meteen welk websitesignaal relevant is.",
           "items": [
-            "Naam van de organisatie, website, branche, eigenaar, fase.",
-            "Fitscore, vertrouwensscore, topsignaal, contactpad.",
-            "Eerste regel, korte e-mail, bronnotities, exportstatus."
+            "Organisatie met naam, URL en owner",
+            "Notitie met signaal, bronpagina en openingszin",
+            "Fase gebruiken voor research, outreach en export"
           ]
         },
         {
-          "title": "Importworkflow",
-          "copy": "Importeer geselecteerde opgeslagen leads als organisaties of leads en gebruik vervolgens notities om de door de bron ondersteunde outreach-context te behouden.",
+          "title": "Wanneer een deal zin heeft",
+          "copy": "Deals te vroeg aanmaken maakt de pijplijn vaag. Voor een reactie is organisatie plus notitie meestal genoeg; pas bij echte kans wordt een deal nuttig.",
           "items": [
-            "Gebruik Eigenaar om de follow-up te routeren.",
-            "Gebruik Stage om onderzoekende, gekwalificeerde en outreach-ready accounts te scheiden.",
-            "Houd de eerste regel en bronnotities zichtbaar voordat u deze verzendt."
+            "Voor reactie vooral organisatie en notitie",
+            "Deal aanmaken bij echte interesse",
+            "URL en exportstatus gebruiken tegen duplicaten"
           ]
         }
       ],
       "faqs": [
         {
-          "question": "Moeten Pipedrive-importen onmiddellijk deals opleveren?",
-          "answer": "Normaal gesproken niet. Maak eerst organisaties of leads aan en maak vervolgens deals nadat het account betrokkenheid toont."
+          "question": "Organisatie of deal eerst?",
+          "answer": "Bij koude acquisitie meestal eerst organisatie en notitie, de deal pas later als de kans concreet wordt."
         },
         {
-          "question": "Waar moeten bronnotities in Pipedrive staan?",
-          "answer": "Gebruik notities of een lang aangepast veld zodat vertegenwoordigers kunnen verifiëren waarom het account is opgeslagen."
-        },
-        {
-          "question": "Kan Pipedrive de fitscore gebruiken voor het stellen van prioriteiten?",
-          "answer": "Ja. Sla de fitscore op als een aangepast veld en gebruik filters om prioriteit te geven aan accounts die goed passen."
+          "question": "Waar bewaren we langere website-observaties?",
+          "answer": "Korte scores in velden, langere observaties en openingszinnen meestal in notities."
         }
       ],
       "related": [
@@ -2263,59 +3259,229 @@
   ],
   "fr": [
     {
-      "slug": "templates/crm-csv-field-mapping",
-      "eyebrow": "Modèle interactif",
-      "category": "Exportation CRM",
-      "title": "Mapping des champs CRM CSV pour la recherche de prospects",
-      "seoTitle": "Modèle de mapping CRM CSV pour la recherche de prospects | LeadCue",
-      "description": "Mappez les champs de recherche de prospects dans HubSpot, Salesforce, Pipedrive ou une exportation CSV personnalisée tout en conservant intacts le score d'ajustement, la première ligne et les notes source.",
-      "intent": "Aidez les équipes à standardiser les exportations CSV de recherche de prospects avant d'importer les prospects sélectionnés dans un CRM.",
-      "updatedAt": "2026-04-23",
-      "readingTime": "Outil",
-      "primaryKeyword": "Mappage des champs CSV CRM",
+      "slug": "tools/prospect-research-chrome-extension",
+      "eyebrow": "Workflow produit",
+      "category": "Extension Chrome",
+      "title": "Extension Chrome pour la recherche de prospects sur site web",
+      "seoTitle": "Extension Chrome recherche de prospects | LeadCue",
+      "description": "Capturer preuves du site, score d'adéquation et première phrase directement dans le navigateur pendant l'analyse.",
+      "intent": "Explique comment les équipes gardent le contexte de recherche dans le navigateur au lieu de le reconstruire plus tard.",
+      "updatedAt": "2026-04-29",
+      "readingTime": "Flux de travail",
+      "primaryKeyword": "extension Chrome recherche de prospects",
       "secondaryKeywords": [
-        "Champs d'exportation CSV HubSpot",
-        "Champs CSV de prospect Salesforce",
-        "Champs d'importation CSV Pipedrive"
+        "prospection commerciale agence",
+        "analyse site prospect",
+        "outil de recherche de prospects"
       ],
-      "tool": "crm-mapping",
+      "tool": "workflow",
       "heroBullets": [
-        "Basculez entre HubSpot, Salesforce, Pipedrive et la dénomination des champs personnalisés.",
-        "Copiez un en-tête CSV prêt pour CRM pour les champs de recherche de prospects sélectionnés.",
-        "Conservez les notes basées sur la source jointes à chaque compte exporté."
+        "Les preuves sont enregistrées tant que le site est encore ouvert.",
+        "Score, première phrase et source restent dans la même carte.",
+        "Idéal pour les comptes à forte valeur examinés à la main."
       ],
       "sections": [
         {
-          "title": "Pourquoi la cartographie des champs est importante",
-          "copy": "La recherche de prospects perd de la valeur lorsque l'importation CRM inclut uniquement le nom de l'entreprise et le site Web. Un CSV utile garde la raison de la prospection visible après le transfert.",
+          "title": "Pourquoi la recherche doit rester dans le navigateur",
+          "copy": "La recherche de prospects commence presque toujours dans le navigateur. Si les observations sont recopiées plus tard dans un autre outil, la vraie raison de contact se perd facilement.",
           "items": [
-            "Le score d'ajustement et la confiance aident à prioriser le suivi.",
-            "Les notes de première ligne et de source aident les commerciaux à vérifier l'angle de portée.",
-            "Le propriétaire, l'étape, le statut enregistré et le statut d'exportation réduisent le travail en double."
+            "Sauvegarder la preuve au moment de l'observation",
+            "Lier la raison de contact au domaine et à la page",
+            "Ne pas transformer chaque site ouvert en lead automatiquement"
           ]
         },
         {
-          "title": "Comment utiliser le modèle",
-          "copy": "Choisissez le mode de dénomination CRM, copiez l'en-tête et utilisez le même ordre lors de l'exportation des prospects enregistrés depuis LeadCue.",
+          "title": "Ce que l'extension doit conserver",
+          "copy": "Une bonne extension ne garde pas seulement l'URL et le nom de l'entreprise. Elle retient le signal, l'adéquation, l'angle de service, la première phrase et la note source pour permettre une vraie transmission.",
           "items": [
-            "Utilisez les étiquettes HubSpot pour les importations de listes et les propriétés des contacts/entreprises.",
-            "Utilisez les étiquettes Salesforce pour les champs d'importation et de description des leads.",
-            "Utilisez les étiquettes Pipedrive pour le transfert d'organisations, de personnes et de notes."
+            "Signal et contexte de page",
+            "Adéquation et angle de service",
+            "Première phrase vérifiable avec note source"
           ]
         }
       ],
       "faqs": [
         {
-          "question": "Chaque site Web numérisé doit-il être exporté ?",
-          "answer": "Non. Exportez les prospects enregistrés sélectionnés afin que votre CRM ne reçoive que les comptes ayant un potentiel de prospection étayé par des preuves."
+          "question": "Est-ce une extension de scraping ?",
+          "answer": "Non. Elle soutient l'examen visible du site et la sauvegarde d'un contexte de prospection sourcé."
         },
         {
-          "question": "Le même modèle d'exportation peut-il prendre en charge plusieurs CRM ?",
-          "answer": "Oui. Conservez un modèle de champ de recherche interne, puis renommez les en-têtes de la destination CRM."
+          "question": "Quand utiliser l'extension plutôt que la file batch ?",
+          "answer": "Pour des comptes individuels l'extension est plus pratique. Pour des listes de domaines, la file batch est souvent plus efficace."
+        }
+      ],
+      "related": [
+        "website-prospecting",
+        "tools/outreach-context-workspace",
+        "templates/cold-email-first-line"
+      ]
+    },
+    {
+      "slug": "tools/batch-website-review-queue",
+      "eyebrow": "Workflow produit",
+      "category": "File d'analyse",
+      "title": "File d'analyse de sites pour la prospection en agence",
+      "seoTitle": "File d'analyse de sites pour agence | LeadCue",
+      "description": "Examiner, prioriser et qualifier des listes de domaines avant qu'elles n'entrent dans l'outreach ou le CRM.",
+      "intent": "Explique comment transformer de grandes listes de sites en file d'analyse qualifiée.",
+      "updatedAt": "2026-04-29",
+      "readingTime": "Flux de travail",
+      "primaryKeyword": "file d'analyse de sites prospects",
+      "secondaryKeywords": [
+        "outil de prospection B2B",
+        "qualification de leads B2B",
+        "analyse site prospect"
+      ],
+      "tool": "workflow",
+      "heroBullets": [
+        "Les domaines importés sont filtrés avant la prospection.",
+        "Les prospects sauvegardés restent séparés des simples scans.",
+        "Fit et confidence servent à prioriser."
+      ],
+      "sections": [
+        {
+          "title": "Pourquoi une file d'analyse plutôt qu'un export direct",
+          "copy": "Beaucoup d'agences envoient les listes trop tôt vers les outils de séquences ou le CRM. La file sépare import, analyse et sauvegarde pour que seuls les comptes avec une vraie raison de contact avancent.",
+          "items": [
+            "Importer des domaines depuis sheets, CRM ou recherche manuelle",
+            "Évaluer les signaux de site avec un standard commun",
+            "Ne conserver que les comptes solides"
+          ]
         },
         {
-          "question": "La copie de l'e-mail générée doit-elle être incluse dans le CSV ?",
-          "answer": "Incluez-le lorsque les créateurs de campagne en ont besoin, mais conservez les notes sources à proximité afin que la copie puisse être révisée avant l'envoi."
+          "title": "Comment les équipes l'utilisent au quotidien",
+          "copy": "La file est particulièrement utile quand la recherche et l'envoi sont séparés. La personne qui qualifie laisse assez de contexte pour que sales n'ait pas à refaire le travail.",
+          "items": [
+            "Traiter d'abord les comptes à forte adéquation",
+            "Définir propriétaire et statut avant export",
+            "Transmettre première phrase et notes sources"
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "question": "Chaque site importé doit-il être sauvegardé ?",
+          "answer": "Non. La valeur de la file est justement de filtrer les comptes faibles ou peu clairs."
+        },
+        {
+          "question": "Quelle différence avec un tableur ?",
+          "answer": "La file garde ensemble statut, score, sources, première phrase et état d'export, pas seulement des lignes."
+        }
+      ],
+      "related": [
+        "website-prospecting",
+        "agency-lead-qualification",
+        "templates/website-prospecting-checklist"
+      ]
+    },
+    {
+      "slug": "tools/outreach-context-workspace",
+      "eyebrow": "Workflow produit",
+      "category": "Espace de prospection",
+      "title": "Espace de contexte pour la prospection basée sur le site",
+      "seoTitle": "Espace de contexte prospection | LeadCue",
+      "description": "Garder preuves du site, score d'adéquation, première phrase, note source et champs CRM ensemble avant la prospection.",
+      "intent": "Montre comment préserver le contexte de recherche jusqu'au CRM ou à l'outil d'emailing.",
+      "updatedAt": "2026-04-29",
+      "readingTime": "Flux de travail",
+      "primaryKeyword": "espace de contexte prospection",
+      "secondaryKeywords": [
+        "email de prospection personnalisé",
+        "outil de recherche de prospects",
+        "qualification de leads B2B"
+      ],
+      "tool": "workflow",
+      "heroBullets": [
+        "Observation, angle business et première phrase restent au même endroit.",
+        "Avant l'envoi, chaque affirmation peut être vérifiée avec la source.",
+        "Utile pour passer la recherche à sales ou BD."
+      ],
+      "sections": [
+        {
+          "title": "Pourquoi le contexte de prospection disparaît",
+          "copy": "Beaucoup d'équipes recherchent dans un outil, notent ailleurs puis exportent dans un troisième. Au moment d'écrire l'email, la raison du choix du compte n'est plus claire.",
+          "items": [
+            "Entreprise et URL ne suffisent pas comme raison de contact",
+            "Une première phrase sans source est difficile à vérifier",
+            "Sales doit comprendre la logique de priorité"
+          ]
+        },
+        {
+          "title": "Ce que l'espace doit garder ensemble",
+          "copy": "Un bon espace relie signal du site, signification business, score d'adéquation, première phrase, note source, propriétaire, étape et statut d'export sans rupture.",
+          "items": [
+            "Observation plus impact business",
+            "Score et confiance pour prioriser",
+            "Champs CRM qui gardent le contexte à la transmission"
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "question": "Est-ce un CRM ?",
+          "answer": "Non. L'espace se situe avant le CRM et prépare seulement les comptes qualifiés avec leur contexte."
+        },
+        {
+          "question": "Remplace-t-il un outil d'envoi ?",
+          "answer": "Non. LeadCue prépare la recherche et le contexte ; l'envoi peut continuer dans le CRM, un CSV ou un outil de séquences."
+        }
+      ],
+      "related": [
+        "prospect-research-tool-for-agencies",
+        "templates/crm-csv-field-mapping",
+        "cold-email-first-lines"
+      ]
+    },
+    {
+      "slug": "templates/crm-csv-field-mapping",
+      "eyebrow": "Modèle interactif",
+      "category": "Exportation CRM",
+      "title": "Mapping des champs CRM CSV pour la recherche de prospects",
+      "seoTitle": "Mapping des champs CRM CSV | LeadCue",
+      "description": "Mapper les champs pour HubSpot, Salesforce, Pipedrive ou un export CSV personnalisé sans perdre score, première phrase et sources.",
+      "intent": "Explique comment traduire proprement les champs de recherche de prospects vers les en-têtes CSV CRM.",
+      "updatedAt": "2026-04-23",
+      "readingTime": "Outil",
+      "primaryKeyword": "mapping des champs CRM CSV",
+      "secondaryKeywords": [
+        "champs export CSV HubSpot",
+        "champs CSV Salesforce Lead",
+        "champs import CSV Pipedrive"
+      ],
+      "tool": "crm-mapping",
+      "heroBullets": [
+        "Préparer des noms de champs adaptés à chaque CRM.",
+        "Conserver score, première phrase et notes sources dans l'export.",
+        "Un standard partagé réduit le travail manuel."
+      ],
+      "sections": [
+        {
+          "title": "Quels champs manquent souvent dans le mapping",
+          "copy": "Si vous mappez seulement l'entreprise et l'URL, la valeur de la recherche disparaît. Il faut aussi transmettre score, source, première phrase et statut.",
+          "items": [
+            "Entreprise, site, propriétaire et étape",
+            "Score d'adéquation et confiance",
+            "Première phrase et note source"
+          ]
+        },
+        {
+          "title": "Ce qui change selon le CRM",
+          "copy": "HubSpot fonctionne surtout avec des propriétés, Salesforce avec Lead Source et Description, et Pipedrive avec organisations et notes. Le sens reste le même mais la structure change.",
+          "items": [
+            "HubSpot : properties société et notes",
+            "Salesforce : Lead Source et champs numériques",
+            "Pipedrive : champs organisation et notes"
+          ]
+        }
+      ],
+      "faqs": [
+        {
+          "question": "Un seul header CSV peut-il suffire pour tous les CRM ?",
+          "answer": "En général non. Les champs de base se ressemblent, mais les noms et la logique de stockage diffèrent trop."
+        },
+        {
+          "question": "Faut-il exporter aussi la première phrase ?",
+          "answer": "Oui, si sales doit la relire ou la réutiliser dans le CRM."
         }
       ],
       "related": [
@@ -2328,56 +3494,52 @@
       "slug": "templates/cold-email-first-line",
       "eyebrow": "Bibliothèque de modèles",
       "category": "E-mail froid",
-      "title": "Modèles de premières lignes d’e-mails à froid à partir de signaux web",
-      "seoTitle": "Bibliothèque de modèles pour premières lignes d’e-mails à froid | LeadCue",
-      "description": "Copiez les modèles de première ligne basés sur des signaux réels de sites Web tels que des CTA masqués, des preuves manquantes, un contenu obsolète et un positionnement peu clair.",
-      "intent": "Offrez aux équipes sortantes un modèle réutilisable pour transformer les observations de sites Web en ouvreurs d'e-mails froids crédibles.\nModèle",
+      "title": "Modèles de premières lignes d'e-mails à froid à partir de signaux web",
+      "seoTitle": "Modèles de premières lignes d'e-mails à froid | LeadCue",
+      "description": "Structurer des premières lignes à partir de CTA faibles, preuves absentes, lacunes de contenu et positionnement flou.",
+      "intent": "Fournit des modèles pour transformer des preuves visibles du site en premières lignes crédibles.",
       "updatedAt": "2026-04-23",
       "readingTime": "Template",
-      "primaryKeyword": "modèle de première ligne d'e-mail froid",
+      "primaryKeyword": "modèles de premières lignes d'e-mails à froid",
       "secondaryKeywords": [
-        "modèle d'ouverture d'e-mail à froid",
-        "modèle de première ligne personnalisé",
-        "signalement du site Web"
+        "première phrase email de prospection",
+        "première ligne personnalisée",
+        "signal du site prospection"
       ],
       "tool": "first-line",
       "heroBullets": [
-        "Choisissez un signal de site Web et obtenez une première ligne prête à être copiée.",
-        "Associez chaque introduction à la phrase suivante et à un CTA à basse pression.",
-        "Évitez les compliments génériques qui n'ont aucun lien avec votre offre."
+        "Un signal du site devient une première phrase réutilisable.",
+        "La logique de la phrase suivante et du CTA léger est incluse.",
+        "Les compliments génériques disparaissent de l'email."
       ],
       "sections": [
         {
-          "title": "Ce que le modèle doit faire",
-          "copy": "Une première ligne doit créer un contexte pour le reste de l'e-mail. Il doit être suffisamment spécifique pour prouver la recherche et suffisamment pertinent pour soutenir l'offre.",
+          "title": "Le modèle donne la structure, pas le texte final",
+          "copy": "Un bon modèle fige la structure, pas le contenu. Observation, effet possible et petite prochaine étape restent le cadre ; les détails doivent venir du site du prospect.",
           "items": [
-            "Mentionnez ce que vous avez vu sur le site Web.",
-            "Connectez l'observation à un résultat probable pour l'acheteur.",
-            "Gardez l'étape suivante suffisamment petite pour y répondre."
+            "Adapter l'élément de page et sa position pour chaque compte",
+            "Supprimer les affirmations non vérifiables",
+            "Garder seulement les angles cohérents avec votre offre"
           ]
         },
         {
-          "title": "Quand personnaliser",
-          "copy": "Les modèles sont des points de départ. Remplacez les détails entre crochets par l'entreprise, la page, le type d'acheteur ou l'angle de l'offre exacts avant l'envoi.",
+          "title": "Que mettre après la première phrase",
+          "copy": "Une bonne première phrase appelle une suite logique. Il faut ensuite expliquer pourquoi l'observation compte et quelle petite étape vous proposez.",
           "items": [
-            "Échangez le produit, le service ou l'audience du prospect.",
-            "Nommez la page lorsque la source est importante.",
-            "Supprimez toute réclamation que vous ne pouvez pas vérifier du site Web."
+            "Ajouter une phrase d'impact",
+            "Utiliser un CTA léger plutôt qu'un rendez-vous immédiat",
+            "Créer le lien avec l'offre sans sur-vendre"
           ]
         }
       ],
       "faqs": [
         {
-          "question": "Puis-je utiliser la même première ligne pour chaque prospect ?",
-          "answer": "Non. Utilisez la même structure, mais modifiez l'observation du site Web et l'implication de l'acheteur pour chaque compte."
+          "question": "Quelle longueur pour une première ligne ?",
+          "answer": "Une phrase suffit généralement, deux au maximum. Elle doit rester lisible sur mobile."
         },
         {
-          "question": "Quelle doit être la longueur d'une première ligne ?",
-          "answer": "Assez court pour être analysé sur mobile, mais suffisamment précis pour que le destinataire puisse savoir qu'il provient de son site Web."
-        },
-        {
-          "question": "Les premières lignes devraient-elles faire l'éloge de l'entreprise ?",
-          "answer": "Uniquement lorsque les éloges sont spécifiques et pertinents. Une observation utile bat une vague flatterie."
+          "question": "Les modèles ne rendent-ils pas les emails trop génériques ?",
+          "answer": "Seulement si le contenu ne change pas. Avec de vraies observations de page, ils restent crédibles."
         }
       ],
       "related": [
@@ -2390,56 +3552,52 @@
       "slug": "templates/website-prospecting-checklist",
       "eyebrow": "Liste de contrôle interactive",
       "category": "Prospection de sites Web",
-      "title": "Checklist de prospection web pour l’outbound en agence",
-      "seoTitle": "Checklist de prospection web pour agence outbound | LeadCue",
-      "description": "Utilisez cette liste de contrôle de prospection de site Web pour inspecter la clarté, la preuve, le référencement, la navigation, les chemins de contact et la fraîcheur du contenu du CTA avant d'enregistrer un prospect.",
-      "intent": "Aidez les équipes à qualifier un site Web prospect avant qu'il ne participe à une campagne sortante.",
+      "title": "Checklist de prospection web pour l'outbound en agence",
+      "seoTitle": "Checklist de prospection web | LeadCue",
+      "description": "Contrôler CTA, preuves, SEO, navigation et parcours de contact avant de sauvegarder ou d'exporter un compte.",
+      "intent": "Rassemble les points de contrôle essentiels pour la qualification manuelle de sites en agence.",
       "updatedAt": "2026-04-23",
       "readingTime": "Checklist",
-      "primaryKeyword": "liste de contrôle de prospection de sites Web",
+      "primaryKeyword": "checklist de prospection web",
       "secondaryKeywords": [
-        "liste de contrôle du site Web des prospects",
-        "liste de contrôle sortante de l'agence",
-        "liste de contrôle d'audit de site Web"
+        "checklist site prospect",
+        "checklist outbound agence",
+        "checklist audit de site"
       ],
       "tool": "checklist",
       "heroBullets": [
-        "Vérifiez les signaux du site Web qui soutiennent le plus souvent la prospection des agences.",
-        "Transformez les éléments cochés en un résumé de type carte de prospect.",
-        "Utilisez le résultat comme couche d'assurance qualité manuelle avant l'exportation."
+        "Passer systématiquement en revue les signaux utiles à la prospection.",
+        "Transformer le résultat en résumé de type Prospect Card.",
+        "L'utiliser comme couche QA avant export ou CRM."
       ],
       "sections": [
         {
-          "title": "Comment inspecter le site",
-          "copy": "Commencez par des pages visibles et évitez les audits excessifs. L'objectif est de décider si le compte a une raison de prospection crédible.",
+          "title": "Ce qui doit entrer dans la checklist",
+          "copy": "Une checklist de prospection ne mesure pas le goût visuel ; elle rend visibles les raisons de contact. Hero, CTA, preuves, profondeur du contenu, navigation et parcours de contact sont presque toujours prioritaires.",
           "items": [
-            "Vérifiez la page d'accueil, la navigation, la preuve, le centre de contenu et le chemin de contact.",
-            "Capturez uniquement les signaux qui se connectent à votre offre.",
-            "Enregistrez le fil lorsque le signal est suffisamment fort pour prendre en charge une première ligne."
+            "Message du hero et CTA",
+            "Cas clients, témoignages, logos et chiffres",
+            "Explication du service, navigation et accès au contact"
           ]
         },
         {
-          "title": "Que faire du résultat",
-          "copy": "Une liste de contrôle n'est utile que si elle devient une prochaine action. Convertissez l'élément coché le plus fort en une première ligne, un angle de portée et une note CRM.",
+          "title": "Comment passer de la checklist à une règle de sauvegarde",
+          "copy": "Après la revue, l'équipe doit pouvoir décider. Les points clés doivent donc être traduits en adéquation, raison de contact et autorisation d'export.",
           "items": [
-            "Utilisez le signal le plus fort comme première ligne.",
-            "Utilisez la catégorie comme angle de portée.",
-            "Exportez uniquement si le compte correspond à votre ICP."
+            "Résumer les deux signaux les plus forts",
+            "Relier au fit ICP et au service",
+            "Ne transmettre que les comptes adaptés"
           ]
         }
       ],
       "faqs": [
         {
-          "question": "Combien de signaux dois-je trouver avant d'enregistrer un prospect ?",
-          "answer": "Un signal fort peut suffire, mais deux ou trois signaux soutenus par la source rendent la qualification plus fiable."
+          "question": "Qui doit utiliser cette checklist ?",
+          "answer": "Recherche, SDR, sales ou operations. L'essentiel est que la règle de sauvegarde reste commune à l'équipe."
         },
         {
-          "question": "S'agit-il d'un audit complet de site Web ?",
-          "answer": "Non. Il s'agit d'une liste de contrôle de prospection pour la qualification sortante. Un audit complet peut avoir lieu après l’engagement du prospect."
-        },
-        {
-          "question": "Les sites à faible score doivent-ils être exportés ?",
-          "answer": "Généralement non. Gardez les comptes peu fiables ou mal adaptés hors de votre file d'attente d'importation CRM."
+          "question": "Tous les comptes ont-ils besoin de la checklist complète ?",
+          "answer": "Pas forcément. Sur de grosses listes, commencez par les signaux clés ; sur les comptes importants, la revue complète vaut la peine."
         }
       ],
       "related": [
@@ -2451,58 +3609,54 @@
     {
       "slug": "integrations/hubspot-csv-export",
       "eyebrow": "Guide d'intégration",
-      "category": "HubSpot",
-      "title": "Export CSV HubSpot pour la prospection web",
-      "seoTitle": "Export CSV HubSpot pour la recherche de prospects | LeadCue",
-      "description": "Préparez des champs CSV compatibles HubSpot pour les recherches de prospects enregistrées, y compris l'entreprise, le site Web, le score d'adéquation, la première ligne, les notes sources et le statut du prospect.",
-      "intent": "Aidez les utilisateurs de HubSpot à importer des recherches de prospects sélectionnées de type LeadCue sans perdre le contexte de prospection.",
+      "category": "Export HubSpot",
+      "title": "Export CSV HubSpot : garder le contexte de prospection dans le CRM",
+      "seoTitle": "Champs export CSV HubSpot | LeadCue",
+      "description": "Importer dans HubSpot des comptes sélectionnés avec preuves du site, score d'adéquation, première phrase et notes sources.",
+      "intent": "Montre comment les équipes HubSpot importent une recherche qualifiée sans perdre la raison de contact.",
       "updatedAt": "2026-04-23",
       "readingTime": "Guide",
-      "primaryKeyword": "Champs d'exportation CSV HubSpot",
+      "primaryKeyword": "champs export CSV HubSpot",
       "secondaryKeywords": [
-        "CSV d'importation de prospects HubSpot",
-        "Importation de recherches de prospects HubSpot",
-        "Champs CSV de l'entreprise HubSpot"
+        "import leads HubSpot",
+        "HubSpot CRM CSV",
+        "contexte prospection CRM"
       ],
       "tool": "integration",
       "platform": "HubSpot",
       "heroBullets": [
-        "Utilisez des en-têtes lisibles par l'homme pour les importations d'entreprises et de listes de contacts.",
-        "Conservez le score d'ajustement et les notes source en tant que propriétés ou notes personnalisées.",
-        "Importez les prospects enregistrés sélectionnés plutôt que chaque site Web analysé."
+        "N'envoyer vers HubSpot que les comptes qualifiés.",
+        "Garder score, sources et première phrase visibles.",
+        "Sales comprend tout de suite pourquoi le compte est prioritaire."
       ],
       "sections": [
         {
-          "title": "Champs HubSpot recommandés",
-          "copy": "Les importations HubSpot fonctionnent mieux lorsque le CSV utilise des étiquettes claires et préserve le contexte de recherche dans les champs visibles par les commerciaux.",
+          "title": "Quels champs HubSpot doivent rester visibles",
+          "copy": "Entreprise et URL ne suffisent pas. HubSpot doit aussi conserver pourquoi le compte a été choisi et quelle première phrase sales peut utiliser.",
           "items": [
-            "Nom de l'entreprise, URL du site Web, secteur d'activité, statut du prospect, propriétaire.",
-            "Score d'ajustement, score de confiance, signal du meilleur site Web.",
-            "Première ligne, e-mail court, notes sources, chemin de contact."
+            "Entreprise, site, propriétaire et étape",
+            "Score, confiance et signal principal",
+            "Première phrase, note source et statut d'export"
           ]
         },
         {
-          "title": "Flux de travail d'importation",
-          "copy": "Exportez les prospects enregistrés sélectionnés, confirmez le propriétaire et l'étape du cycle de vie, puis importez-les dans HubSpot en tant qu'enregistrements d'entreprise, enregistrements de contacts ou listes de campagnes.",
+          "title": "Comment garder un import propre",
+          "copy": "Toutes les analyses ne doivent pas aller dans le CRM. Les comptes sauvegardés et qualifiés gardent HubSpot plus utile et les vues plus fiables.",
           "items": [
-            "Mapper le propriétaire de LeadCue au propriétaire de HubSpot lorsqu'il est disponible.",
-            "Utilisez le statut du prospect ou l'étape du cycle de vie pour marquer les comptes prêts pour la recherche.",
-            "Gardez les notes sources visibles pour l'assurance qualité et l'encadrement des réponses."
+            "Écarter les comptes à faible confiance",
+            "Stocker scores et sources dans des propriétés personnalisées",
+            "Séparer les vues ou listes LeadCue"
           ]
         }
       ],
       "faqs": [
         {
-          "question": "Le score d'ajustement doit-il être une propriété personnalisée HubSpot ?",
-          "answer": "Oui. Une propriété numérique personnalisée facilite le tri et la segmentation des comptes prêts pour la recherche."
+          "question": "Propriété entreprise ou contact ?",
+          "answer": "Les preuves du site et les scores s'attachent le plus souvent à l'entreprise. Les contacts peuvent venir après."
         },
         {
-          "question": "Les notes sources peuvent-elles être intégrées aux notes HubSpot ?",
-          "answer": "Oui. Les notes source peuvent être stockées sous forme de note ou de propriété de texte long personnalisée en fonction de votre flux de travail."
-        },
-        {
-          "question": "Les leads exportés doivent-ils devenir des contacts ou des entreprises ?",
-          "answer": "Pour la prospection axée sur un site Web, les entreprises constituent généralement le point de départ le plus sûr jusqu'à ce qu'un chemin de contact vérifié soit disponible."
+          "question": "Faut-il importer aussi la première phrase ?",
+          "answer": "Oui, si sales doit la relire ou l'utiliser directement dans HubSpot."
         }
       ],
       "related": [
@@ -2514,58 +3668,54 @@
     {
       "slug": "integrations/salesforce-csv-export",
       "eyebrow": "Guide d'intégration",
-      "category": "Force de vente",
-      "title": "Export CSV Salesforce pour une recherche de prospects qualifiée",
-      "seoTitle": "Export CSV Salesforce pour recherche de prospects qualifiée | LeadCue",
-      "description": "Mappez la recherche de prospection de sites Web dans les champs d'importation de leads Salesforce tout en préservant le score d'adéquation, les notes sources, la première ligne et la source du lead.",
-      "intent": "Aidez les équipes Salesforce à importer des recherches de prospects qualifiées avec suffisamment de contexte pour le suivi des ventes.",
+      "category": "Export Salesforce",
+      "title": "Export CSV Salesforce : transmettre des leads qualifiés avec contexte",
+      "seoTitle": "Champs CSV Salesforce Lead | LeadCue",
+      "description": "Structurer Lead Source, Description, score et notes sources pour que la recherche web reste exploitable dans Salesforce.",
+      "intent": "Explique comment les équipes Salesforce importent une recherche qualifiée avec assez de contexte pour le suivi.",
       "updatedAt": "2026-04-23",
       "readingTime": "Guide",
-      "primaryKeyword": "Champs CSV de prospect Salesforce",
+      "primaryKeyword": "champs CSV Salesforce Lead",
       "secondaryKeywords": [
-        "Prospects d'importation CSV Salesforce",
-        "Champs de recherche de prospects Salesforce",
-        "CSV source du prospect Salesforce"
+        "import leads Salesforce",
+        "import CSV Salesforce",
+        "recherche prospects CRM"
       ],
       "tool": "integration",
       "platform": "Salesforce",
       "heroBullets": [
-        "Utilisez la source principale et la description pour préserver le contexte de la recherche.",
-        "Stockez le score d'ajustement et la confiance sous forme de champs numériques personnalisés.",
-        "Importez uniquement les prospects qui dépassent votre seuil de sauvegarde."
+        "Lead Source sépare la recherche web des autres sources.",
+        "Description et champs numériques portent le vrai contexte.",
+        "Seuls les comptes au-dessus du seuil de sauvegarde sont importés."
       ],
       "sections": [
         {
-          "title": "Champs Salesforce recommandés",
-          "copy": "Les importations Salesforce doivent rendre visibles immédiatement le propriétaire du prospect, la source, le statut et le motif de la recherche.",
+          "title": "Quels champs Salesforce sont vraiment utiles",
+          "copy": "Salesforce a besoin de plus que des données entreprise. La raison de sélection doit rester visible pour que sales puisse suivre et reporter correctement.",
           "items": [
-            "Entreprise, site Web, secteur d'activité, source du prospect, statut du prospect, propriétaire.",
-            "Score d'ajustement, score de confiance, signal supérieur, angle de prospection.",
-            "Première ligne, brouillon d'e-mail, notes sources, chemin de contact."
+            "Lead Source sur LeadCue ou Website research",
+            "Signal, angle et première phrase dans Description",
+            "Score d'adéquation et confiance dans des champs numériques"
           ]
         },
         {
-          "title": "Flux de travail d'importation",
-          "copy": "Utilisez un en-tête CSV cohérent, mappez les champs lors de l'importation et créez des champs personnalisés pour les scores de recherche si Salesforce ne les possède pas déjà.",
+          "title": "Comment rendre l'import prêt pour le suivi",
+          "copy": "Avant l'import, propriétaire, statut et prochaine action doivent être clairs. La recherche devient ainsi un vrai processus commercial, pas juste des données en plus.",
           "items": [
-            "Définissez la source du prospect sur LeadCue ou sur la prospection de sites Web.",
-            "Utilisez Description pour le résumé basé sur la source.",
-            "Attribuez un propriétaire et un statut avant le transfert de la campagne."
+            "Définir propriétaire et statut avant import",
+            "Mettre les notes sources dans des champs visibles",
+            "Utiliser URL et statut d'export contre les doublons"
           ]
         }
       ],
       "faqs": [
         {
-          "question": "Où doivent être placées les premières lignes dans Salesforce ?",
-          "answer": "Utilisez un champ de texte personnalisé ou incluez la première ligne dans Description avec les notes source."
+          "question": "Lead ou Account ?",
+          "answer": "Pour une première prospection froide, Lead convient souvent mieux. Sur un compte existant, rattachez la recherche à l'Account ou à l'activité."
         },
         {
-          "question": "Chaque champ LeadCue devrait-il devenir un champ Salesforce ?",
-          "answer": "Non. Gardez les champs principaux structurés et placez un contexte plus long dans la description ou les notes."
-        },
-        {
-          "question": "Salesforce peut-il importer des notes sources ?",
-          "answer": "Oui, les notes source peuvent être mappées à un champ de texte long, une description ou une note associée en fonction de votre configuration."
+          "question": "Où mettre le score d'adéquation ?",
+          "answer": "Dans un champ numérique personnalisé, pour garder tri et reporting simples."
         }
       ],
       "related": [
@@ -2577,58 +3727,54 @@
     {
       "slug": "integrations/pipedrive-csv-export",
       "eyebrow": "Guide d'intégration",
-      "category": "Pipedrive",
-      "title": "Export CSV Pipedrive pour des notes prospect étayées par des sources",
-      "seoTitle": "Export CSV Pipedrive pour notes de recherche de prospects | LeadCue",
-      "description": "Préparez les importations CSV Pipedrive pour la recherche de prospection de sites Web avec les champs d'organisation, le propriétaire, l'étape, le score d'ajustement, la première ligne et les notes.",
-      "intent": "Aidez les utilisateurs de Pipedrive à déplacer la recherche de prospects sélectionnés vers des organisations, des personnes, des offres ou des notes.",
+      "category": "Export Pipedrive",
+      "title": "Import CSV Pipedrive : garder la recherche web comme contexte d'organisation",
+      "seoTitle": "Champs import CSV Pipedrive | LeadCue",
+      "description": "Importer organisation, site, étape et notes de prospection sans perdre le contexte de recherche dans Pipedrive.",
+      "intent": "Montre comment les équipes Pipedrive conservent preuves du site et contexte de prospection dans les organisations et notes.",
       "updatedAt": "2026-04-23",
       "readingTime": "Guide",
-      "primaryKeyword": "Champs d'importation CSV Pipedrive",
+      "primaryKeyword": "champs import CSV Pipedrive",
       "secondaryKeywords": [
-        "CSV de l'organisation Pipedrive",
-        "Notes des prospects Pipedrive",
-        "Importation de leads Pipedrive"
+        "import organisation Pipedrive",
+        "Pipedrive CRM CSV",
+        "notes prospection Pipedrive"
       ],
       "tool": "integration",
       "platform": "Pipedrive",
       "heroBullets": [
-        "Utilisez les champs d'organisation pour le contexte de l'entreprise et du site Web.",
-        "Conservez les détails de la recherche dans des notes ou des champs personnalisés.",
-        "Propriétaire de la carte et étape avant de déplacer les prospects dans le pipeline."
+        "Entreprise et site vont sur l'organisation.",
+        "Preuves et première phrase restent visibles dans les notes ou champs personnalisés.",
+        "Les deals n'arrivent que lorsqu'une vraie opportunité existe."
       ],
       "sections": [
         {
-          "title": "Champs Pipedrive recommandés",
-          "copy": "Pipedrive fonctionne mieux lorsque l'enregistrement de l'organisation contient le contexte du site Web et que la note contient le motif de la recherche.",
+          "title": "Comment Pipedrive reçoit le mieux la recherche",
+          "copy": "Dans Pipedrive, l'organisation porte le contexte entreprise et la note porte la raison de contact. Sales peut ainsi lire immédiatement quel signal de site compte.",
           "items": [
-            "Nom de l'organisation, site Web, secteur d'activité, propriétaire, étape.",
-            "Score d'ajustement, score de confiance, signal supérieur, chemin de contact.",
-            "Première ligne, e-mail court, notes sources, statut d'exportation."
+            "Organisation avec nom, URL et propriétaire",
+            "Note avec signal, page source et première phrase",
+            "Étape pour recherche, prospection et export"
           ]
         },
         {
-          "title": "Flux de travail d'importation",
-          "copy": "Importez les prospects enregistrés sélectionnés en tant qu'organisations ou prospects, puis utilisez des notes pour préserver le contexte de prospection basé sur la source.",
+          "title": "Quand créer un deal",
+          "copy": "Créer un deal trop tôt brouille le pipeline. Avant une réponse, organisation et note suffisent souvent ; le deal devient utile seulement quand l'opportunité est réelle.",
           "items": [
-            "Utilisez Propriétaire pour acheminer le suivi.",
-            "Utilisez Stage pour séparer les comptes de recherche, qualifiés et prêts à être diffusés.",
-            "Gardez la première ligne et les notes source visibles avant l'envoi."
+            "Avant réponse, organisation et note d'abord",
+            "Créer le deal quand l'intérêt devient concret",
+            "Utiliser URL et statut d'export contre les doublons"
           ]
         }
       ],
       "faqs": [
         {
-          "question": "Les importations Pipedrive doivent-elles créer des transactions immédiatement ?",
-          "answer": "Généralement non. Créez d'abord des organisations ou des prospects, puis créez des offres une fois que le compte a montré un engagement."
+          "question": "Organisation ou deal en premier ?",
+          "answer": "En prospection froide, commencez généralement par organisation et note, puis ajoutez le deal quand la chance est réelle."
         },
         {
-          "question": "Où les notes sources doivent-elles se trouver dans Pipedrive ?",
-          "answer": "Utilisez des notes ou un long champ personnalisé pour que les commerciaux puissent vérifier pourquoi le compte a été enregistré."
-        },
-        {
-          "question": "Pipedrive peut-il utiliser le score d'ajustement pour la priorisation ?",
-          "answer": "Oui. Stockez le score d’adéquation sous forme de champ personnalisé et utilisez des filtres pour prioriser les comptes les plus adaptés."
+          "question": "Où garder les observations longues sur le site ?",
+          "answer": "Les scores courts vont bien dans des champs ; les observations détaillées et la première phrase tiennent mieux dans les notes."
         }
       ],
       "related": [
