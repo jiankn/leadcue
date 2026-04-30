@@ -11,10 +11,16 @@ import {
   isProspectCrmFieldMode,
   isProspectExportPresetKey,
   supportedScanLocales,
-  type ProspectContextUpdateRequest,
+  type ExportRequest,
+  type ExportRun,
+  type ExportRunScope,
   type IcpUpdateRequest,
+  type LeadHandoffStatus,
+  type ProspectContextUpdateRequest,
   type LeadListItem,
   type ProspectCard,
+  type QueueImportRequest,
+  type QueueSource,
   type ProspectPipelineActivity,
   type ProspectPipelineContext,
   type ProspectPipelineStage,
@@ -24,7 +30,9 @@ import {
   type ScanHistoryItem,
   type ScanLocale,
   type ScanRequest,
-  type ScanResponse
+  type ScanResponse,
+  type WorkspaceQueueItem,
+  type WorkspaceResearchStatus
 } from "@leadcue/shared";
 import { generateGeminiText, generateProspectCard } from "./ai";
 import type { Env } from "./env";
@@ -1000,7 +1008,7 @@ app.get("/api/analytics/summary", async (c) => {
   const workspaceId = await resolveWorkspaceId(c);
 
   try {
-    const [eventRows, pageRows, recentRows, leadCountRow, completedScanRow, totalEventsRow] = await Promise.all([
+    const [eventRows, pageRows, recentRows, qualifiedLeadRow, exportedLeadRow, completedScanRow, totalEventsRow] = await Promise.all([
       c.env.DB.prepare(
         `SELECT event_name AS name, COUNT(*) AS count
          FROM analytics_events
@@ -1030,15 +1038,28 @@ app.get("/api/analytics/summary", async (c) => {
       )
         .bind(workspaceId)
         .all<AnalyticsRecentEventRow>(),
-      c.env.DB.prepare(`SELECT COUNT(*) AS count FROM leads WHERE workspace_id = ?`).bind(workspaceId).first<{ count: number }>(),
+      c.env.DB.prepare(
+        `SELECT COUNT(*) AS count
+         FROM queue_items
+         WHERE workspace_id = ? AND research_status = 'qualified'`
+      )
+        .bind(workspaceId)
+        .first<{ count: number }>(),
+      c.env.DB.prepare(
+        `SELECT COUNT(*) AS count
+         FROM queue_items
+         WHERE workspace_id = ? AND research_status = 'qualified' AND handoff_status != 'pending'`
+      )
+        .bind(workspaceId)
+        .first<{ count: number }>(),
       c.env.DB.prepare(`SELECT COUNT(*) AS count FROM scans WHERE workspace_id = ? AND status = 'completed'`).bind(workspaceId).first<{ count: number }>(),
       c.env.DB.prepare(`SELECT COUNT(*) AS count FROM analytics_events WHERE workspace_id = ?`).bind(workspaceId).first<{ count: number }>()
     ]);
 
     const eventCounts = Object.fromEntries(eventRows.results.map((row) => [row.name, row.count])) as Record<string, number>;
     const completedScans = completedScanRow?.count || 0;
-    const leadsSaved = leadCountRow?.count || 0;
-    const exportsCompleted = eventCounts.export_completed || 0;
+    const leadsSaved = qualifiedLeadRow?.count || 0;
+    const exportsCompleted = exportedLeadRow?.count || 0;
     const ctaClicks =
       (eventCounts.marketing_cta_click || 0) +
       (eventCounts.product_tool_primary_click || 0) +
@@ -1151,6 +1172,106 @@ app.post("/api/stripe/webhook", async (c) => {
   }
 
   return c.json({ received: true });
+});
+
+app.get("/api/queue", async (c) => {
+  const workspaceId = await resolveWorkspaceId(c);
+
+  if (!c.env.DB) {
+    return c.json({
+      items: [] as WorkspaceQueueItem[],
+      source: "sample"
+    });
+  }
+
+  try {
+    if (workspaceId === "ws_demo") {
+      await ensureDemoWorkspace(c.env.DB, workspaceId);
+    }
+
+    return c.json({
+      items: await listQueueItems(c.env.DB, workspaceId),
+      source: "d1"
+    });
+  } catch (error) {
+    console.error("queue_list_failed", error);
+    return c.json({
+      items: [] as WorkspaceQueueItem[],
+      source: "sample",
+      warning: "D1 is not initialized. Apply migrations to enable queue persistence."
+    });
+  }
+});
+
+app.post("/api/queue/import", async (c) => {
+  const workspaceId = await resolveWorkspaceId(c);
+  const payload = (await c.req.json<QueueImportRequest>().catch(() => ({ items: [] }))) as QueueImportRequest;
+  const normalizedItems = normalizeQueueImportItems(payload.items);
+
+  if (!normalizedItems.length) {
+    return c.json({ ok: false, error: "At least one valid website is required." }, 400);
+  }
+
+  if (!c.env.DB) {
+    const now = new Date().toISOString();
+    return c.json({
+      ok: true,
+      items: normalizedItems.map((item) => ({
+        id: `queue_${crypto.randomUUID()}`,
+        leadId: null,
+        scanId: null,
+        companyName: item.companyName || item.domain,
+        domain: item.domain,
+        websiteUrl: item.url,
+        source: item.source,
+        note: item.note,
+        researchStatus: "queued" as const,
+        handoffStatus: "pending" as const,
+        createdAt: now,
+        updatedAt: null
+      })),
+      source: "sample"
+    });
+  }
+
+  try {
+    if (workspaceId === "ws_demo") {
+      await ensureDemoWorkspace(c.env.DB, workspaceId);
+    }
+
+    await upsertQueueImportItems(c.env.DB, workspaceId, normalizedItems);
+    return c.json({
+      ok: true,
+      items: await listQueueItems(c.env.DB, workspaceId),
+      source: "d1"
+    });
+  } catch (error) {
+    console.error("queue_import_failed", error);
+    return c.json({ ok: false, error: "Unable to save websites into the queue." }, 500);
+  }
+});
+
+app.delete("/api/queue/:id", async (c) => {
+  const workspaceId = await resolveWorkspaceId(c);
+  const id = c.req.param("id");
+
+  if (!c.env.DB) {
+    return c.json({ ok: true, removed: true, source: "sample" });
+  }
+
+  try {
+    const result = await archiveOrDeleteQueueItem(c.env.DB, workspaceId, id);
+    return c.json({
+      ok: result.ok,
+      removed: result.removed,
+      archived: result.archived,
+      source: "d1",
+      error: result.ok ? undefined : "Queue item not found."
+    }, result.ok ? 200 : 404);
+  } catch (error) {
+    console.error("queue_delete_failed", error);
+    return c.json({ ok: false, error: "Unable to update the queue item." }, 500);
+  }
 });
 
 app.get("/api/scans", async (c) => {
@@ -1269,6 +1390,7 @@ app.post("/api/scans", async (c) => {
   const workspaceId = extensionClient ? await resolveWorkspaceId(c, { allowDemo: false }) : await resolveWorkspaceId(c);
   const requestHash = await scanRequestHash(request);
   const idempotencyEnabled = Boolean(c.env.DB && idempotencyKey);
+  const requestedQueueItemId = typeof request.queueItemId === "string" && request.queueItemId.trim() ? request.queueItemId.trim() : null;
 
   async function fail(
     reason: ScanFailureReason,
@@ -1281,6 +1403,12 @@ app.post("/api/scans", async (c) => {
 
     if (c.env.DB && scanId && workspaceId) {
       await recordFailedScan(c.env.DB, workspaceId, scanId, request, reason, error);
+    }
+
+    if (c.env.DB && workspaceId && requestedQueueItemId) {
+      await resetQueueItemAfterFailedScan(c.env.DB, workspaceId, requestedQueueItemId).catch((queueError) =>
+        console.error("queue_scan_failure_reset_failed", queueError)
+      );
     }
 
     if (idempotencyEnabled && workspaceId) {
@@ -1386,10 +1514,17 @@ app.post("/api/scans", async (c) => {
     }
   }
 
+  if (c.env.DB && requestedQueueItemId) {
+    await markQueueItemScanning(c.env.DB, resolvedWorkspaceId, requestedQueueItemId).catch((error) =>
+      console.error("queue_scan_mark_failed", error)
+    );
+  }
+
   const scanId = `scan_${crypto.randomUUID()}`;
   const leadId = `lead_${await shortHash(`${resolvedWorkspaceId}:${extractDomain(request.page.url) || request.page.url}`)}`;
   const persistence: "d1" | "memory" = c.env.DB ? "d1" : "memory";
   let prospect: ProspectCard;
+  let queueItem: WorkspaceQueueItem | null = null;
 
   try {
     prospect = await generateProspectCard(c.env, request);
@@ -1400,7 +1535,7 @@ app.post("/api/scans", async (c) => {
 
   if (c.env.DB) {
     try {
-      await persistScanResult(c.env.DB, resolvedWorkspaceId, scanId, leadId, request, prospect, creditsNeeded);
+      queueItem = await persistScanResult(c.env.DB, resolvedWorkspaceId, scanId, leadId, request, prospect, creditsNeeded);
     } catch (error) {
       console.error("scan_persist_failed", error);
       return fail("persistence_failed", "The scan completed but could not be saved. No credit was used.", 500, true, scanId);
@@ -1420,6 +1555,7 @@ app.post("/api/scans", async (c) => {
       exportStatus: "not_exported",
       pipelineContext: defaultPipelineContext()
     },
+    queueItem: queueItem || undefined,
     idempotencyKey,
     persistence
   };
@@ -1472,6 +1608,35 @@ app.get("/api/leads", async (c) => {
   }
 });
 
+app.get("/api/exports/history", async (c) => {
+  const workspaceId = await resolveWorkspaceId(c);
+
+  if (!c.env.DB) {
+    return c.json({
+      runs: [] as ExportRun[],
+      source: "sample"
+    });
+  }
+
+  try {
+    if (workspaceId === "ws_demo") {
+      await ensureDemoWorkspace(c.env.DB, workspaceId);
+    }
+
+    return c.json({
+      runs: await listExportRuns(c.env.DB, workspaceId),
+      source: "d1"
+    });
+  } catch (error) {
+    console.error("export_history_failed", error);
+    return c.json({
+      runs: [] as ExportRun[],
+      source: "sample",
+      warning: "D1 is not initialized. Apply migrations to enable export history."
+    });
+  }
+});
+
 app.get("/api/leads/:id", async (c) => {
   const id = c.req.param("id");
   const workspaceId = await resolveWorkspaceId(c);
@@ -1513,7 +1678,18 @@ app.get("/api/leads/:id", async (c) => {
     return c.json({ ok: false, error: "Lead not found." }, 404);
   }
 
-  const lead = mapLeadDetail(row);
+  const queueRow = await c.env.DB
+    .prepare(`SELECT handoff_status FROM queue_items WHERE workspace_id = ? AND lead_id = ? LIMIT 1`)
+    .bind(workspaceId, id)
+    .first<Pick<QueueItemRow, "handoff_status">>()
+    .catch((error) => {
+      console.error("lead_queue_status_fetch_failed", error);
+      return null;
+    });
+  const lead = mapLeadDetail(
+    row,
+    queueRow && isLeadHandoffStatus(queueRow.handoff_status) && queueRow.handoff_status !== "pending" ? "exported" : "not_exported"
+  );
   lead.pipelineActivity = await getLeadPipelineActivity(c.env.DB, workspaceId, id).catch((error) => {
     console.error("lead_activity_fetch_failed", error);
     return [];
@@ -1544,15 +1720,15 @@ app.patch("/api/leads/:id/context", async (c) => {
     });
   }
 
-  try {
-    const updatedAt = new Date().toISOString();
-    const currentRow = await c.env.DB.prepare(
-      `SELECT id, owner, pipeline_stage, pipeline_notes, pipeline_updated_at
-       FROM leads
-       WHERE id = ? AND workspace_id = ?`
-    )
-      .bind(id, workspaceId)
-      .first<Pick<LeadRow, "id" | "owner" | "pipeline_stage" | "pipeline_notes" | "pipeline_updated_at">>();
+    try {
+      const updatedAt = new Date().toISOString();
+      const currentRow = await c.env.DB.prepare(
+        `SELECT id, company_name, domain, website_url, owner, pipeline_stage, pipeline_notes, pipeline_updated_at
+         FROM leads
+         WHERE id = ? AND workspace_id = ?`
+      )
+        .bind(id, workspaceId)
+        .first<Pick<LeadRow, "id" | "company_name" | "domain" | "website_url" | "owner" | "pipeline_stage" | "pipeline_notes" | "pipeline_updated_at">>();
 
     if (!currentRow) {
       if (workspaceId === "ws_demo" && isDemoLeadId(id)) {
@@ -1592,11 +1768,24 @@ app.patch("/api/leads/:id/context", async (c) => {
           changedFields
         })
       : null;
+    const queueItem = await syncQueueItemFromLeadPipeline(c.env.DB, workspaceId, {
+      leadId: id,
+      domain: currentRow.domain,
+      websiteUrl: currentRow.website_url,
+      companyName: currentRow.company_name || currentRow.domain,
+      note: context.notes,
+      stage: context.stage,
+      updatedAt
+    }).catch((error) => {
+      console.error("queue_sync_from_pipeline_failed", error);
+      return null;
+    });
 
     return c.json({
       ok: true,
       context: currentContext,
       activity,
+      queueItem: queueItem || undefined,
       source: "d1"
     });
   } catch (error) {
@@ -1653,35 +1842,66 @@ app.get("/api/credits", async (c) => {
 app.post("/api/exports", async (c) => {
   const workspaceId = await resolveWorkspaceId(c);
   const locale = resolveApiLocale(c);
+  const payload = (await c.req.json<ExportRequest>().catch(() => ({}))) as ExportRequest;
   const presetQuery = c.req.query("preset");
   const crmModeQuery = c.req.query("crmMode");
-  const preset = isProspectExportPresetKey(presetQuery) ? presetQuery : "crm";
-  const crmMode = isProspectCrmFieldMode(crmModeQuery) ? crmModeQuery : "hubspot";
+  const scopeQuery = c.req.query("scope");
+  const preset = isProspectExportPresetKey(payload.preset) ? payload.preset : isProspectExportPresetKey(presetQuery) ? presetQuery : "crm";
+  const crmMode = isProspectCrmFieldMode(payload.crmMode) ? payload.crmMode : isProspectCrmFieldMode(crmModeQuery) ? crmModeQuery : "hubspot";
+  const scope = isExportRunScope(payload.scope) ? payload.scope : isExportRunScope(scopeQuery) ? scopeQuery : "all_qualified";
+  const selectedLeadIds = normalizeLeadIdList(payload.leadIds);
+  const fileName = buildExportFileName(preset, crmMode);
 
   if (!c.env.DB) {
     return c.text(buildProspectExportCsv([{ card: buildSampleProspectCard(locale) }], preset, crmMode), 200, {
       "Content-Type": "text/csv; charset=utf-8",
-      "Content-Disposition": "attachment; filename=leadcue-export.csv"
+      "Content-Disposition": `attachment; filename=${fileName}`
     });
   }
 
-  let results: LeadDetailRow[] = [];
+  let rows: LeadDetailRow[] = [];
 
   try {
-    const query = await c.env.DB.prepare(`SELECT * FROM leads WHERE workspace_id = ? ORDER BY created_at DESC`)
-      .bind(workspaceId)
-      .all<LeadDetailRow>();
-    results = query.results;
+    if (workspaceId === "ws_demo") {
+      await ensureDemoWorkspace(c.env.DB, workspaceId);
+    }
+
+    rows = await resolveExportLeadRows(c.env.DB, workspaceId, scope, selectedLeadIds);
   } catch (error) {
     console.error("export_failed", error);
-    results = [];
+    rows = [];
   }
 
-  const cards = results.length ? results.map(mapLeadDetail) : [buildSampleProspectCard(locale)];
+  const cards = rows.length ? rows.map((row) => mapLeadDetail(row)) : [buildSampleProspectCard(locale)];
+  const leadIds = rows.map((row) => row.id);
+  const csv = buildProspectExportCsv(cards.map((card) => ({ card, pipelineContext: card.pipelineContext })), preset, crmMode);
 
-  return c.text(buildProspectExportCsv(cards.map((card) => ({ card, pipelineContext: card.pipelineContext })), preset, crmMode), 200, {
+  if (rows.length) {
+    const session = await getAuthenticatedSession(c).catch(() => null);
+    const completedAt = new Date().toISOString();
+
+    await recordExportRun(c.env.DB, {
+      id: `exp_${crypto.randomUUID()}`,
+      workspaceId,
+      leadIds,
+      status: "completed",
+      leadCount: rows.length,
+      preset,
+      crmMode,
+      scope,
+      createdByUserId: session?.user_id || null,
+      fileName,
+      completedAt
+    }).catch((error) => console.error("export_run_record_failed", error));
+
+    await markQueueItemsExported(c.env.DB, workspaceId, leadIds, completedAt).catch((error) =>
+      console.error("queue_export_mark_failed", error)
+    );
+  }
+
+  return c.text(csv, 200, {
     "Content-Type": "text/csv; charset=utf-8",
-    "Content-Disposition": "attachment; filename=leadcue-export.csv"
+    "Content-Disposition": `attachment; filename=${fileName}`
   });
 });
 
@@ -3463,7 +3683,7 @@ async function persistScanResult(
   request: ScanRequest,
   prospect: ProspectCard,
   creditsUsed: number
-) {
+): Promise<WorkspaceQueueItem> {
   await db.batch([
     db
       .prepare(
@@ -3530,6 +3750,8 @@ async function persistScanResult(
       )
       .bind(`credit_${crypto.randomUUID()}`, workspaceId, "debit", -creditsUsed, "website_scan", scanId)
   ]);
+
+  return upsertQueueItemFromScan(db, workspaceId, scanId, leadId, request, prospect);
 }
 
 async function recordFailedScan(
@@ -3577,6 +3799,510 @@ function nextMonthIso(): string {
   return date.toISOString();
 }
 
+function isQueueSource(value: unknown): value is QueueSource {
+  return value === "manual" || value === "csv" || value === "apollo" || value === "clay" || value === "directory" || value === "workspace";
+}
+
+function isWorkspaceResearchStatus(value: unknown): value is WorkspaceResearchStatus {
+  return value === "queued" || value === "scanning" || value === "reviewing" || value === "qualified" || value === "archived";
+}
+
+function isLeadHandoffStatus(value: unknown): value is LeadHandoffStatus {
+  return value === "pending" || value === "exported" || value === "outreach_queued" || value === "contacted" || value === "won";
+}
+
+function isExportRunScope(value: unknown): value is ExportRunScope {
+  return value === "all_qualified" || value === "selected";
+}
+
+function normalizeQueueSource(value: unknown, fallback: QueueSource = "manual"): QueueSource {
+  return isQueueSource(value) ? value : fallback;
+}
+
+function normalizeLeadIdList(value: unknown): string[] {
+  if (!Array.isArray(value)) {
+    return [];
+  }
+
+  return [...new Set(value.filter((item): item is string => typeof item === "string" && item.trim().length > 0).map((item) => item.trim()))];
+}
+
+function buildExportFileName(
+  preset: Extract<ExportRun["preset"], "crm" | "email" | "brief">,
+  crmMode: Extract<ExportRun["crmMode"], "hubspot" | "salesforce" | "pipedrive">
+) {
+  const datePart = new Date().toISOString().slice(0, 10);
+  return preset === "crm" ? `leadcue-${preset}-${crmMode}-${datePart}.csv` : `leadcue-${preset}-${datePart}.csv`;
+}
+
+function normalizeQueueWebsiteUrl(value: string): string | null {
+  const trimmed = value.trim();
+  if (!trimmed) {
+    return null;
+  }
+
+  const candidate = /^https?:\/\//i.test(trimmed) ? trimmed : `https://${trimmed}`;
+
+  try {
+    const url = new URL(candidate);
+    if (!/^https?:$/.test(url.protocol)) {
+      return null;
+    }
+    url.hash = "";
+    return url.toString();
+  } catch {
+    return null;
+  }
+}
+
+function queueCompanyNameFromDomain(domain: string) {
+  return domain
+    .replace(/^www\./i, "")
+    .split(".")[0]
+    .split(/[-_]+/)
+    .filter(Boolean)
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(" ");
+}
+
+function normalizeQueueImportItems(items: QueueImportRequest["items"] | undefined) {
+  if (!Array.isArray(items)) {
+    return [] as Array<{
+      url: string;
+      domain: string;
+      companyName: string;
+      source: QueueSource;
+      note: string;
+    }>;
+  }
+
+  const seenDomains = new Set<string>();
+
+  return items.flatMap((item) => {
+    const url = normalizeQueueWebsiteUrl(typeof item?.url === "string" ? item.url : "");
+    const domain = (typeof item?.domain === "string" && item.domain.trim() ? item.domain.trim().toLowerCase() : extractDomain(url || "") || "").replace(/^www\./i, "");
+
+    if (!url || !domain || seenDomains.has(domain)) {
+      return [];
+    }
+
+    seenDomains.add(domain);
+    return [
+      {
+        url,
+        domain,
+        companyName:
+          (typeof item?.companyName === "string" && item.companyName.trim().slice(0, 160)) ||
+          queueCompanyNameFromDomain(domain) ||
+          domain,
+        source: normalizeQueueSource(item?.source, "manual"),
+        note: typeof item?.note === "string" ? item.note.trim().slice(0, 1000) : ""
+      }
+    ];
+  });
+}
+
+function researchStatusFromPipelineStage(stage: ProspectPipelineStage): WorkspaceResearchStatus {
+  if (stage === "archived") {
+    return "archived";
+  }
+
+  if (stage === "qualified" || stage === "outreach_queued" || stage === "contacted" || stage === "won") {
+    return "qualified";
+  }
+
+  return "reviewing";
+}
+
+function handoffStatusFromPipelineStage(stage: ProspectPipelineStage): LeadHandoffStatus {
+  if (stage === "outreach_queued") {
+    return "outreach_queued";
+  }
+
+  if (stage === "contacted") {
+    return "contacted";
+  }
+
+  if (stage === "won") {
+    return "won";
+  }
+
+  return "pending";
+}
+
+function mapQueueItem(row: QueueItemRow): WorkspaceQueueItem {
+  return {
+    id: row.id,
+    leadId: row.lead_id || null,
+    scanId: row.last_scan_id || null,
+    companyName: row.company_name || row.domain,
+    domain: row.domain,
+    websiteUrl: row.website_url,
+    source: normalizeQueueSource(row.source, "manual"),
+    note: row.note || "",
+    researchStatus: isWorkspaceResearchStatus(row.research_status) ? row.research_status : "queued",
+    handoffStatus: isLeadHandoffStatus(row.handoff_status) ? row.handoff_status : "pending",
+    createdAt: row.created_at,
+    updatedAt: row.updated_at || null
+  };
+}
+
+function mapExportRun(row: ExportRunRow): ExportRun {
+  return {
+    id: row.id,
+    status: row.status === "failed" ? "failed" : row.status === "pending" ? "pending" : "completed",
+    leadCount: row.lead_count || 0,
+    preset: row.preset === "email" || row.preset === "brief" ? row.preset : "crm",
+    crmMode: row.crm_mode === "salesforce" || row.crm_mode === "pipedrive" ? row.crm_mode : "hubspot",
+    scope: isExportRunScope(row.export_scope) ? row.export_scope : "all_qualified",
+    fileName: row.file_name || null,
+    leadIds: parseJson(row.lead_ids_json, []),
+    createdAt: row.created_at,
+    completedAt: row.completed_at || null,
+    createdByUserId: row.created_by_user_id || null
+  };
+}
+
+async function getQueueItemRowById(db: D1Database, workspaceId: string, id: string) {
+  return db
+    .prepare(`SELECT * FROM queue_items WHERE id = ? AND workspace_id = ?`)
+    .bind(id, workspaceId)
+    .first<QueueItemRow>();
+}
+
+async function getQueueItemRowByDomain(db: D1Database, workspaceId: string, domain: string) {
+  return db
+    .prepare(`SELECT * FROM queue_items WHERE workspace_id = ? AND domain = ?`)
+    .bind(workspaceId, domain)
+    .first<QueueItemRow>();
+}
+
+async function listQueueItems(db: D1Database, workspaceId: string): Promise<WorkspaceQueueItem[]> {
+  const query = await db
+    .prepare(
+      `SELECT *
+       FROM queue_items
+       WHERE workspace_id = ?
+       ORDER BY created_at DESC
+       LIMIT 200`
+    )
+    .bind(workspaceId)
+    .all<QueueItemRow>();
+
+  return query.results.map(mapQueueItem);
+}
+
+async function upsertQueueImportItems(
+  db: D1Database,
+  workspaceId: string,
+  items: Array<{
+    url: string;
+    domain: string;
+    companyName: string;
+    source: QueueSource;
+    note: string;
+  }>
+) {
+  const updatedAt = new Date().toISOString();
+  await db.batch(
+    items.map((item) =>
+      db
+        .prepare(
+          `INSERT INTO queue_items
+            (id, workspace_id, lead_id, last_scan_id, domain, website_url, company_name, source, note, research_status, handoff_status, created_at, updated_at)
+           VALUES (?, ?, NULL, NULL, ?, ?, ?, ?, ?, 'queued', 'pending', CURRENT_TIMESTAMP, ?)
+           ON CONFLICT(workspace_id, domain) DO UPDATE SET
+             website_url = excluded.website_url,
+             company_name = CASE WHEN excluded.company_name != '' THEN excluded.company_name ELSE queue_items.company_name END,
+             source = excluded.source,
+             note = CASE WHEN excluded.note != '' THEN excluded.note ELSE queue_items.note END,
+             updated_at = excluded.updated_at`
+        )
+        .bind(`queue_${crypto.randomUUID()}`, workspaceId, item.domain, item.url, item.companyName, item.source, item.note, updatedAt)
+    )
+  );
+}
+
+async function archiveOrDeleteQueueItem(db: D1Database, workspaceId: string, id: string) {
+  const row = await getQueueItemRowById(db, workspaceId, id);
+  if (!row) {
+    return { ok: false, removed: false, archived: false };
+  }
+
+  if (row.lead_id) {
+    const updatedAt = new Date().toISOString();
+    await db
+      .prepare(
+        `UPDATE queue_items
+         SET research_status = 'archived', updated_at = ?
+         WHERE id = ? AND workspace_id = ?`
+      )
+      .bind(updatedAt, id, workspaceId)
+      .run();
+    return { ok: true, removed: false, archived: true };
+  }
+
+  await db.prepare(`DELETE FROM queue_items WHERE id = ? AND workspace_id = ?`).bind(id, workspaceId).run();
+  return { ok: true, removed: true, archived: false };
+}
+
+async function markQueueItemScanning(db: D1Database, workspaceId: string, id: string) {
+  await db
+    .prepare(
+      `UPDATE queue_items
+       SET research_status = CASE
+         WHEN research_status IN ('qualified', 'archived') THEN research_status
+         ELSE 'scanning'
+       END,
+       updated_at = ?
+       WHERE id = ? AND workspace_id = ?`
+    )
+    .bind(new Date().toISOString(), id, workspaceId)
+    .run();
+}
+
+async function resetQueueItemAfterFailedScan(db: D1Database, workspaceId: string, id: string) {
+  await db
+    .prepare(
+      `UPDATE queue_items
+       SET research_status = CASE
+         WHEN research_status = 'scanning' THEN 'queued'
+         ELSE research_status
+       END,
+       updated_at = ?
+       WHERE id = ? AND workspace_id = ?`
+    )
+    .bind(new Date().toISOString(), id, workspaceId)
+    .run();
+}
+
+async function upsertQueueItemFromScan(
+  db: D1Database,
+  workspaceId: string,
+  scanId: string,
+  leadId: string,
+  request: ScanRequest,
+  prospect: ProspectCard
+): Promise<WorkspaceQueueItem> {
+  const domain = (prospect.domain || extractDomain(request.page.url) || request.page.url).replace(/^www\./i, "");
+  const websiteUrl = prospect.website || request.page.url;
+  const note = typeof request.queueNote === "string" ? request.queueNote.trim().slice(0, 1000) : "";
+  const requestedId = typeof request.queueItemId === "string" && request.queueItemId.trim() ? request.queueItemId.trim() : null;
+  const requestedRow = requestedId ? await getQueueItemRowById(db, workspaceId, requestedId) : null;
+  const domainRow = requestedRow?.domain === domain ? requestedRow : await getQueueItemRowByDomain(db, workspaceId, domain);
+  const currentRow = domainRow || requestedRow;
+  const updatedAt = new Date().toISOString();
+  const researchStatus =
+    currentRow?.research_status === "qualified" || currentRow?.research_status === "archived"
+      ? (currentRow.research_status as WorkspaceResearchStatus)
+      : "reviewing";
+  const handoffStatus =
+    currentRow && isLeadHandoffStatus(currentRow.handoff_status) && currentRow.handoff_status !== "pending"
+      ? currentRow.handoff_status
+      : "pending";
+  const source = normalizeQueueSource(request.queueSource, normalizeQueueSource(currentRow?.source, "workspace"));
+  const queueId = currentRow?.id || requestedId || `queue_${crypto.randomUUID()}`;
+  const queueNote = note || currentRow?.note || "";
+
+  await db
+    .prepare(
+      `INSERT INTO queue_items
+        (id, workspace_id, lead_id, last_scan_id, domain, website_url, company_name, source, note, research_status, handoff_status, created_at, updated_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, ?)
+       ON CONFLICT(id) DO UPDATE SET
+         lead_id = excluded.lead_id,
+         last_scan_id = excluded.last_scan_id,
+         domain = excluded.domain,
+         website_url = excluded.website_url,
+         company_name = excluded.company_name,
+         source = excluded.source,
+         note = excluded.note,
+         research_status = excluded.research_status,
+         handoff_status = excluded.handoff_status,
+         updated_at = excluded.updated_at`
+    )
+    .bind(queueId, workspaceId, leadId, scanId, domain, websiteUrl, prospect.companyName || domain, source, queueNote, researchStatus, handoffStatus, updatedAt)
+    .run();
+
+  const queueRow = await getQueueItemRowById(db, workspaceId, queueId);
+  if (!queueRow) {
+    throw new Error("Queue item could not be loaded after scan persistence.");
+  }
+
+  return mapQueueItem(queueRow);
+}
+
+async function syncQueueItemFromLeadPipeline(
+  db: D1Database,
+  workspaceId: string,
+  input: {
+    leadId: string;
+    domain: string;
+    websiteUrl: string;
+    companyName: string;
+    note: string;
+    stage: ProspectPipelineStage;
+    updatedAt: string;
+  }
+): Promise<WorkspaceQueueItem> {
+  const existingRow =
+    (await db
+      .prepare(`SELECT * FROM queue_items WHERE workspace_id = ? AND lead_id = ?`)
+      .bind(workspaceId, input.leadId)
+      .first<QueueItemRow>()) ||
+    (await getQueueItemRowByDomain(db, workspaceId, input.domain));
+  const queueId = existingRow?.id || `queue_${crypto.randomUUID()}`;
+
+  await db
+    .prepare(
+      `INSERT INTO queue_items
+        (id, workspace_id, lead_id, last_scan_id, domain, website_url, company_name, source, note, research_status, handoff_status, created_at, updated_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, ?)
+       ON CONFLICT(id) DO UPDATE SET
+         lead_id = excluded.lead_id,
+         domain = excluded.domain,
+         website_url = excluded.website_url,
+         company_name = excluded.company_name,
+         source = excluded.source,
+         note = excluded.note,
+         research_status = excluded.research_status,
+         handoff_status = excluded.handoff_status,
+         updated_at = excluded.updated_at`
+    )
+    .bind(
+      queueId,
+      workspaceId,
+      input.leadId,
+      existingRow?.last_scan_id || null,
+      input.domain,
+      input.websiteUrl,
+      input.companyName,
+      normalizeQueueSource(existingRow?.source, "workspace"),
+      input.note.trim().slice(0, 1000),
+      researchStatusFromPipelineStage(input.stage),
+      handoffStatusFromPipelineStage(input.stage),
+      input.updatedAt
+    )
+    .run();
+
+  const queueRow = await getQueueItemRowById(db, workspaceId, queueId);
+  if (!queueRow) {
+    throw new Error("Queue item could not be loaded after pipeline update.");
+  }
+
+  return mapQueueItem(queueRow);
+}
+
+async function resolveExportLeadRows(
+  db: D1Database,
+  workspaceId: string,
+  scope: ExportRunScope,
+  selectedLeadIds: string[]
+) {
+  const baseQuery = `
+    SELECT l.*
+    FROM leads l
+    INNER JOIN queue_items q
+      ON q.workspace_id = l.workspace_id
+     AND q.lead_id = l.id
+    WHERE l.workspace_id = ?
+      AND q.research_status = 'qualified'`;
+
+  if (scope === "selected") {
+    if (!selectedLeadIds.length) {
+      return [] as LeadDetailRow[];
+    }
+
+    const placeholders = selectedLeadIds.map(() => "?").join(", ");
+    const query = await db
+      .prepare(`${baseQuery} AND l.id IN (${placeholders}) ORDER BY l.created_at DESC`)
+      .bind(workspaceId, ...selectedLeadIds)
+      .all<LeadDetailRow>();
+    return query.results;
+  }
+
+  const query = await db
+    .prepare(`${baseQuery} ORDER BY l.created_at DESC`)
+    .bind(workspaceId)
+    .all<LeadDetailRow>();
+  return query.results;
+}
+
+async function recordExportRun(
+  db: D1Database,
+  input: {
+    id: string;
+    workspaceId: string;
+    leadIds: string[];
+    status: ExportRun["status"];
+    leadCount: number;
+    preset: ExportRun["preset"];
+    crmMode: ExportRun["crmMode"];
+    scope: ExportRun["scope"];
+    createdByUserId: string | null;
+    fileName: string;
+    completedAt: string;
+  }
+) {
+  await db
+    .prepare(
+      `INSERT INTO exports
+        (id, workspace_id, status, r2_key, lead_count, created_at, completed_at, preset, crm_mode, export_scope, lead_ids_json, created_by_user_id, file_name, updated_at)
+       VALUES (?, ?, ?, NULL, ?, CURRENT_TIMESTAMP, ?, ?, ?, ?, ?, ?, ?, ?)`
+    )
+    .bind(
+      input.id,
+      input.workspaceId,
+      input.status,
+      input.leadCount,
+      input.completedAt,
+      input.preset,
+      input.crmMode,
+      input.scope,
+      JSON.stringify(input.leadIds),
+      input.createdByUserId,
+      input.fileName,
+      input.completedAt
+    )
+    .run();
+}
+
+async function markQueueItemsExported(db: D1Database, workspaceId: string, leadIds: string[], updatedAt: string) {
+  if (!leadIds.length) {
+    return;
+  }
+
+  const placeholders = leadIds.map(() => "?").join(", ");
+  await db
+    .prepare(
+      `UPDATE queue_items
+       SET handoff_status = CASE
+         WHEN handoff_status IN ('outreach_queued', 'contacted', 'won') THEN handoff_status
+         ELSE 'exported'
+       END,
+       updated_at = ?
+       WHERE workspace_id = ?
+         AND lead_id IN (${placeholders})`
+    )
+    .bind(updatedAt, workspaceId, ...leadIds)
+    .run();
+}
+
+async function listExportRuns(db: D1Database, workspaceId: string): Promise<ExportRun[]> {
+  const query = await db
+    .prepare(
+      `SELECT *
+       FROM exports
+       WHERE workspace_id = ?
+       ORDER BY created_at DESC
+       LIMIT 50`
+    )
+    .bind(workspaceId)
+    .all<ExportRunRow>();
+
+  return query.results.map(mapExportRun);
+}
+
 interface LeadRow {
   id: string;
   company_name: string | null;
@@ -3589,6 +4315,36 @@ interface LeadRow {
   pipeline_stage: string | null;
   pipeline_notes: string | null;
   pipeline_updated_at: string | null;
+  created_at: string;
+}
+
+interface QueueItemRow {
+  id: string;
+  workspace_id: string;
+  lead_id: string | null;
+  last_scan_id: string | null;
+  domain: string;
+  website_url: string;
+  company_name: string | null;
+  source: string | null;
+  note: string | null;
+  research_status: string | null;
+  handoff_status: string | null;
+  created_at: string;
+  updated_at: string | null;
+}
+
+interface ExportRunRow {
+  id: string;
+  status: string;
+  lead_count: number | null;
+  completed_at: string | null;
+  preset: string | null;
+  crm_mode: string | null;
+  export_scope: string | null;
+  lead_ids_json: string | null;
+  created_by_user_id: string | null;
+  file_name: string | null;
   created_at: string;
 }
 
@@ -3813,7 +4569,7 @@ function mapLeadListItem(row: LeadRow): LeadListItem {
   };
 }
 
-function mapLeadDetail(row: LeadDetailRow): ProspectCard {
+function mapLeadDetail(row: LeadDetailRow, exportStatus: "not_exported" | "exported" = "not_exported"): ProspectCard {
   return {
     companyName: row.company_name || row.domain,
     website: row.website_url,
@@ -3830,7 +4586,7 @@ function mapLeadDetail(row: LeadDetailRow): ProspectCard {
     sourceNotes: parseJson(row.source_notes_json, []),
     confidenceScore: row.confidence_score ?? 0,
     savedStatus: "saved",
-    exportStatus: "not_exported",
+    exportStatus,
     pipelineContext: mapPipelineContext(row)
   };
 }

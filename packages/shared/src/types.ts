@@ -94,6 +94,61 @@ export interface ProspectPipelineActivity {
   createdAt: string;
 }
 
+export type QueueSource = "manual" | "csv" | "apollo" | "clay" | "directory" | "workspace";
+export type WorkspaceResearchStatus = "queued" | "scanning" | "reviewing" | "qualified" | "archived";
+export type LeadHandoffStatus = "pending" | "exported" | "outreach_queued" | "contacted" | "won";
+
+export interface WorkspaceQueueItem {
+  id: string;
+  leadId: string | null;
+  scanId: string | null;
+  companyName: string;
+  domain: string;
+  websiteUrl: string;
+  source: QueueSource;
+  note: string;
+  researchStatus: WorkspaceResearchStatus;
+  handoffStatus: LeadHandoffStatus;
+  createdAt: string;
+  updatedAt: string | null;
+}
+
+export interface QueueImportItemInput {
+  url: string;
+  domain?: string;
+  companyName?: string;
+  source?: QueueSource;
+  note?: string;
+}
+
+export interface QueueImportRequest {
+  items: QueueImportItemInput[];
+}
+
+export type ExportRunStatus = "pending" | "completed" | "failed";
+export type ExportRunScope = "all_qualified" | "selected";
+
+export interface ExportRun {
+  id: string;
+  status: ExportRunStatus;
+  leadCount: number;
+  preset: "crm" | "email" | "brief";
+  crmMode: "hubspot" | "salesforce" | "pipedrive";
+  scope: ExportRunScope;
+  fileName: string | null;
+  leadIds: string[];
+  createdAt: string;
+  completedAt: string | null;
+  createdByUserId: string | null;
+}
+
+export interface ExportRequest {
+  preset?: "crm" | "email" | "brief";
+  crmMode?: "hubspot" | "salesforce" | "pipedrive";
+  leadIds?: string[];
+  scope?: ExportRunScope;
+}
+
 export interface ScanRequest {
   source: "extension" | "web" | "api";
   locale?: ScanLocale;
@@ -101,6 +156,10 @@ export interface ScanRequest {
   icp?: Partial<ICPProfile>;
   deepScan?: boolean;
   idempotencyKey?: string;
+  companyName?: string;
+  queueNote?: string;
+  queueItemId?: string;
+  queueSource?: QueueSource;
 }
 
 export type ScanFailureReason =
@@ -121,6 +180,7 @@ export interface ScanResponse {
   creditsUsed: number;
   creditsCharged: number;
   prospect: ProspectCard;
+  queueItem?: WorkspaceQueueItem;
   idempotencyKey?: string;
   replayed?: boolean;
   originalCreditsCharged?: number;

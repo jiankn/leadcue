@@ -18,6 +18,11 @@ type DeepPartial<T> = T extends string
 
 const en = {
   nav: {
+    today: "Today",
+    queue: "Queue",
+    qualified: "Qualified",
+    exports: "Exports",
+    settings: "Settings",
     dashboard: "Overview",
     import: "Import",
     leads: "Review queue",
@@ -29,9 +34,29 @@ const en = {
   },
   pages: {
     dashboard: {
-      eyebrow: "Workspace",
-      title: "Overview",
-      copy: "Move from imported websites to qualified accounts and export-ready handoff without losing website context."
+      eyebrow: "Today",
+      title: "Today",
+      copy: "See the next action, current blockers, and workflow progress for this workspace."
+    },
+    queue: {
+      eyebrow: "Queue",
+      title: "Queue",
+      copy: "Add websites, run scans, and move queued work through review without leaving the same workflow lane."
+    },
+    qualified: {
+      eyebrow: "Qualified",
+      title: "Qualified accounts",
+      copy: "Review the accounts that already passed research and are ready for ownership, notes, and handoff."
+    },
+    exports: {
+      eyebrow: "Exports",
+      title: "Exports",
+      copy: "Prepare CRM-ready handoff, choose an export preset, and move qualified accounts out of the workspace cleanly."
+    },
+    settings: {
+      eyebrow: "Settings",
+      title: "Settings",
+      copy: "Configure ICP, workspace identity, access, and billing without breaking the main operating flow."
     },
     leads: {
       eyebrow: "Review queue",
@@ -1024,6 +1049,11 @@ export type AppUiExtraOverride = DeepPartial<AppUiExtra>;
 
 const zh: AppUiExtra = {
   nav: {
+    today: "今日",
+    queue: "队列",
+    qualified: "已通过",
+    exports: "导出",
+    settings: "设置",
     dashboard: "总览",
     import: "导入",
     leads: "复核队列",
@@ -1035,9 +1065,29 @@ const zh: AppUiExtra = {
   },
   pages: {
     dashboard: {
-      eyebrow: "工作空间",
-      title: "总览",
-      copy: "把已导入网站逐步转成已通过判断、可导出的外拓账户，不丢失任何网站证据。"
+      eyebrow: "今日",
+      title: "今日",
+      copy: "直接看到当前下一步、主要阻断点，以及这个工作空间的流程进度。"
+    },
+    queue: {
+      eyebrow: "队列",
+      title: "队列",
+      copy: "在同一条作业路径里完成加网站、发扫描、做复核，不再来回切页面。"
+    },
+    qualified: {
+      eyebrow: "已通过",
+      title: "已通过账户",
+      copy: "这里集中处理已经通过研究判断、准备分配负责人、备注和交接的账户。"
+    },
+    exports: {
+      eyebrow: "导出",
+      title: "导出",
+      copy: "选择导出模板，准备 CRM 交接，把已通过账户有序移出工作空间。"
+    },
+    settings: {
+      eyebrow: "设置",
+      title: "设置",
+      copy: "把 ICP、工作空间身份、访问方式和账单配置集中到一个地方，不打断主流程。"
     },
     leads: {
       eyebrow: "复核队列",
@@ -2017,6 +2067,11 @@ const zh: AppUiExtra = {
 
 const ja: AppUiExtraOverride = {
   nav: {
+    today: "今日",
+    queue: "キュー",
+    qualified: "承認済み",
+    exports: "エクスポート",
+    settings: "設定",
     dashboard: "ダッシュボード",
     import: "インポート",
     leads: "レビューキュー",
@@ -2028,9 +2083,29 @@ const ja: AppUiExtraOverride = {
   },
   pages: {
     dashboard: {
-      eyebrow: "ワークスペース",
-      title: "概要",
-      copy: "インポート済みサイトから適格アカウントとエクスポート可能な引き渡し資料まで、サイトのコンテキストを失わずに進めます。"
+      eyebrow: "今日",
+      title: "今日",
+      copy: "このワークスペースで今やるべきこと、主なボトルネック、進捗をすぐに確認できます。"
+    },
+    queue: {
+      eyebrow: "キュー",
+      title: "キュー",
+      copy: "サイト追加、スキャン実行、レビュー作業を同じワークフローレーンの中で進めます。"
+    },
+    qualified: {
+      eyebrow: "承認済み",
+      title: "承認済みアカウント",
+      copy: "調査を通過し、担当・メモ・引き渡し準備に進めるアカウントをここで扱います。"
+    },
+    exports: {
+      eyebrow: "エクスポート",
+      title: "エクスポート",
+      copy: "CRM 向けの引き渡しを整え、プリセットを選び、承認済みアカウントをきれいに外へ出します。"
+    },
+    settings: {
+      eyebrow: "設定",
+      title: "設定",
+      copy: "ICP、ワークスペース情報、アクセス、請求を主作業フローを崩さずまとめて管理します。"
     },
     leads: {
       eyebrow: "レビューキュー",
@@ -2575,6 +2650,11 @@ const ko: AppUiExtraOverride = {
     }
   },
   nav: {
+    today: "오늘",
+    queue: "대기열",
+    qualified: "검증됨",
+    exports: "내보내기",
+    settings: "설정",
     dashboard: "개요",
     import: "가져오기",
     leads: "검토 대기열",
@@ -2586,9 +2666,29 @@ const ko: AppUiExtraOverride = {
   },
   pages: {
     dashboard: {
-      eyebrow: "워크스페이스",
-      title: "개요",
-      copy: "가져온 웹사이트를 검증된 계정과 내보내기 가능한 인계 자료로 전환하면서 웹사이트 맥락을 잃지 않습니다."
+      eyebrow: "오늘",
+      title: "오늘",
+      copy: "이 워크스페이스에서 지금 해야 할 일, 주요 막힘, 진행 상황을 바로 확인하세요."
+    },
+    queue: {
+      eyebrow: "대기열",
+      title: "대기열",
+      copy: "같은 작업 흐름 안에서 웹사이트 추가, 스캔 실행, 검토 작업까지 이어서 처리하세요."
+    },
+    qualified: {
+      eyebrow: "검증됨",
+      title: "검증된 계정",
+      copy: "리서치를 통과했고 담당자, 메모, 인계를 붙일 준비가 된 계정을 여기서 관리하세요."
+    },
+    exports: {
+      eyebrow: "내보내기",
+      title: "내보내기",
+      copy: "CRM 인계를 준비하고, 프리셋을 고르고, 검증된 계정을 깔끔하게 워크스페이스 밖으로 내보내세요."
+    },
+    settings: {
+      eyebrow: "설정",
+      title: "설정",
+      copy: "ICP, 워크스페이스 정보, 접근 권한, 결제를 한곳에서 관리하되 주 작업 흐름은 끊지 않습니다."
     },
     leads: {
       eyebrow: "검토 대기열",
@@ -3101,6 +3201,11 @@ const ko: AppUiExtraOverride = {
 
 const de: AppUiExtraOverride = {
   nav: {
+    today: "Heute",
+    queue: "Queue",
+    qualified: "Qualifiziert",
+    exports: "Exporte",
+    settings: "Einstellungen",
     dashboard: "Übersicht",
     import: "Importe",
     leads: "Review-Warteschlange",
@@ -3112,9 +3217,29 @@ const de: AppUiExtraOverride = {
   },
   pages: {
     dashboard: {
-      eyebrow: "Arbeitsbereich",
-      title: "Übersicht",
-      copy: "Von importierten Websites zu qualifizierten Accounts und exportbereiter Übergabe, ohne Website-Kontext zu verlieren."
+      eyebrow: "Heute",
+      title: "Heute",
+      copy: "Sehen Sie sofort den nächsten Schritt, aktuelle Blocker und den Fortschritt dieses Workspaces."
+    },
+    queue: {
+      eyebrow: "Queue",
+      title: "Queue",
+      copy: "Websites hinzufügen, Scans starten und Review-Arbeit in derselben Workflow-Spur abarbeiten."
+    },
+    qualified: {
+      eyebrow: "Qualifiziert",
+      title: "Qualifizierte Accounts",
+      copy: "Hier werden Accounts verwaltet, die die Recherche bestanden haben und für Ownership, Notizen und Übergabe bereit sind."
+    },
+    exports: {
+      eyebrow: "Exporte",
+      title: "Exporte",
+      copy: "CRM-Übergaben vorbereiten, ein Export-Preset wählen und qualifizierte Accounts sauber aus dem Workspace herausgeben."
+    },
+    settings: {
+      eyebrow: "Einstellungen",
+      title: "Einstellungen",
+      copy: "ICP, Workspace-Identität, Zugriff und Abrechnung an einem Ort pflegen, ohne den Hauptablauf zu unterbrechen."
     },
     leads: {
       eyebrow: "Review-Warteschlange",
@@ -3654,6 +3779,11 @@ const de: AppUiExtraOverride = {
 
 const nl: AppUiExtraOverride = {
   nav: {
+    today: "Vandaag",
+    queue: "Wachtrij",
+    qualified: "Gekwalificeerd",
+    exports: "Exports",
+    settings: "Instellingen",
     dashboard: "Overzicht",
     import: "Importeren",
     leads: "Reviewwachtrij",
@@ -3665,9 +3795,29 @@ const nl: AppUiExtraOverride = {
   },
   pages: {
     dashboard: {
-      eyebrow: "Werkruimte",
-      title: "Overzicht",
-      copy: "Van geïmporteerde websites naar gekwalificeerde accounts en exportklare overdracht, zonder websitecontext te verliezen."
+      eyebrow: "Vandaag",
+      title: "Vandaag",
+      copy: "Zie direct de volgende stap, de huidige blokkades en de voortgang van deze werkruimte."
+    },
+    queue: {
+      eyebrow: "Wachtrij",
+      title: "Wachtrij",
+      copy: "Voeg websites toe, start scans en werk reviewtaken af binnen dezelfde workflowbaan."
+    },
+    qualified: {
+      eyebrow: "Gekwalificeerd",
+      title: "Gekwalificeerde accounts",
+      copy: "Beheer hier accounts die de research al hebben doorstaan en klaar zijn voor eigenaar, notities en overdracht."
+    },
+    exports: {
+      eyebrow: "Exports",
+      title: "Exports",
+      copy: "Bereid CRM-overdracht voor, kies een exportpreset en verplaats gekwalificeerde accounts netjes uit de werkruimte."
+    },
+    settings: {
+      eyebrow: "Instellingen",
+      title: "Instellingen",
+      copy: "Beheer ICP, werkruimte-identiteit, toegang en facturering op één plek zonder de hoofdworkflow te onderbreken."
     },
     leads: {
       eyebrow: "Reviewwachtrij",
@@ -4206,6 +4356,11 @@ const nl: AppUiExtraOverride = {
 
 const fr: AppUiExtraOverride = {
   nav: {
+    today: "Aujourd’hui",
+    queue: "File",
+    qualified: "Qualifiés",
+    exports: "Exports",
+    settings: "Réglages",
     dashboard: "Tableau de bord",
     import: "Importation",
     leads: "File de revue",
@@ -4217,9 +4372,29 @@ const fr: AppUiExtraOverride = {
   },
   pages: {
     dashboard: {
-      eyebrow: "Espace de travail",
-      title: "Vue d'ensemble",
-      copy: "Des sites importés aux comptes qualifiés et à la remise exportable, sans perdre le contexte des sites."
+      eyebrow: "Aujourd’hui",
+      title: "Aujourd’hui",
+      copy: "Voyez immédiatement la prochaine action, les blocages actuels et la progression de cet espace de travail."
+    },
+    queue: {
+      eyebrow: "File",
+      title: "File",
+      copy: "Ajoutez des sites, lancez des scans et faites avancer la revue dans une même voie de travail."
+    },
+    qualified: {
+      eyebrow: "Qualifiés",
+      title: "Comptes qualifiés",
+      copy: "Gérez ici les comptes qui ont déjà passé la recherche et sont prêts pour propriétaire, notes et remise."
+    },
+    exports: {
+      eyebrow: "Exports",
+      title: "Exports",
+      copy: "Préparez la remise CRM, choisissez un preset d’export et sortez proprement les comptes qualifiés du workspace."
+    },
+    settings: {
+      eyebrow: "Réglages",
+      title: "Réglages",
+      copy: "Regroupez ICP, identité du workspace, accès et facturation sans casser le flux principal."
     },
     leads: {
       eyebrow: "File de revue",

@@ -12,8 +12,11 @@ import {
   prospectCrmFieldModes,
   prospectExportFields,
   prospectExportPresets,
+  type ExportRequest,
+  type ExportRun,
   type IcpUpdateRequest,
   type LeadListItem,
+  type LeadHandoffStatus,
   type ProspectContextUpdateRequest,
   type ProspectCrmFieldMode,
   type ProspectExportFieldKey,
@@ -24,12 +27,16 @@ import {
   type ProspectPipelineActivity,
   type ProspectPipelineContext,
   type ProspectPipelineStage,
+  type QueueImportRequest,
+  type QueueSource,
   type ScanFailureResponse,
   type ScanHistoryItem,
   type ScanRequest,
   type ScanResponse,
   type ServiceType,
-  type Tone
+  type Tone,
+  type WorkspaceQueueItem,
+  type WorkspaceResearchStatus
 } from "@leadcue/shared";
 import { trackEvent } from "./analytics";
 import { apiUrl } from "./api";
@@ -73,12 +80,13 @@ type LeadSortOption = "newest" | "fit_desc" | "confidence_desc" | "company_asc";
 type ActivityChangedField = ProspectPipelineActivity["changedFields"][number];
 type ActivityFieldFilter = "all" | ActivityChangedField;
 type ProspectCardTab = "overview" | "signals" | "contacts" | "outreach" | "email" | "sources" | "export";
-type AppSection = "dashboard" | "leads" | "import" | "saved" | "icp" | "billing" | "analytics" | "account";
+type AppSection = "dashboard" | "queue" | "qualified" | "exports" | "settings" | "analytics";
 type BatchSourceOption = "manual" | "csv" | "apollo" | "clay" | "directory";
 type ReviewQueueFilter = "all" | "ready" | "researching";
 type PipelineContextSaveResult = {
   context: ProspectPipelineContext;
   activity?: ProspectPipelineActivity | null;
+  queueItem?: WorkspaceQueueItem | null;
 };
 type ImportedWebsiteRecord = {
   id: string;
@@ -89,35 +97,20 @@ type ImportedWebsiteRecord = {
   note: string;
   createdAt: string;
 };
-type ReviewQueueRow =
-  | {
-      id: string;
-      kind: "import";
-      companyName: string;
-      domain: string;
-      websiteUrl: string;
-      source: BatchSourceOption;
-      status: "ready" | "researching" | "qualified";
-      fitScore: number | null;
-      confidencePercent: number | null;
-      leadId: string | null;
-      note: string;
-      createdAt: string;
-    }
-  | {
-      id: string;
-      kind: "lead";
-      companyName: string;
-      domain: string;
-      websiteUrl: string;
-      source: "workspace";
-      status: "researching";
-      fitScore: number;
-      confidencePercent: number;
-      leadId: string;
-      note: string;
-      createdAt: string;
-    };
+type ReviewQueueRow = {
+  id: string;
+  kind: "import" | "lead";
+  companyName: string;
+  domain: string;
+  websiteUrl: string;
+  source: QueueSource;
+  status: "ready" | "researching" | "qualified";
+  fitScore: number | null;
+  confidencePercent: number | null;
+  leadId: string | null;
+  note: string;
+  createdAt: string;
+};
 
 const scanHistoryFilters: ScanHistoryFilter[] = ["all", "completed", "failed", "replayed", "processing"];
 
@@ -436,6 +429,8 @@ type ScanFormState = {
   companyName: string;
   notes: string;
   deepScan: boolean;
+  queueItemId: string | null;
+  queueSource: QueueSource | null;
 };
 
 type IcpFormState = {
@@ -530,7 +525,7 @@ function buildSampleAnalyticsSummary(locale: SiteLocaleCode): AnalyticsSummary {
       {
         id: "evt_sample_export",
         name: "export_completed",
-        pagePath: "/app/leads",
+        pagePath: "/app/exports",
         createdAt: new Date(Date.now() - 1000 * 60 * 26).toISOString(),
         metadataSummary: analytics.eventMetadata.crmHubSpot
       },
@@ -3232,7 +3227,12 @@ function withAppLocaleHeader(locale: SiteLocaleCode, headers?: HeadersInit) {
 }
 
 function leadDetailHref(leadId?: string | null) {
-  return leadId ? `/app/leads?lead=${encodeURIComponent(leadId)}` : null;
+  if (!leadId) {
+    return null;
+  }
+
+  const { locale } = parseSiteLocalePath(window.location.pathname);
+  return `${buildLocalePath(locale, "/app/qualified")}?lead=${encodeURIComponent(leadId)}`;
 }
 
 function bulkExportLabel(presetKey: Exclude<ProspectExportPresetKey, "custom">, crmMode: ProspectCrmFieldMode, appUi?: AppUi) {
@@ -3356,7 +3356,8 @@ function currentLeadDeepLink(leadId: string | null | undefined, tab: ProspectCar
   }
 
   const url = new URL(window.location.href);
-  url.pathname = "/app/leads";
+  const { locale } = parseSiteLocalePath(url.pathname);
+  url.pathname = buildLocalePath(locale, "/app/qualified");
   url.search = "";
   url.hash = "";
   url.searchParams.set("lead", leadId);
@@ -3433,6 +3434,50 @@ function companyNameFromUrl(value: string) {
 
 function getLeadPipelineStage(lead: LeadListItem) {
   return normalizeProspectMeta(lead.pipelineContext).stage;
+}
+
+function isQueueSource(value: unknown): value is QueueSource {
+  return value === "manual" || value === "csv" || value === "apollo" || value === "clay" || value === "directory" || value === "workspace";
+}
+
+function isWorkspaceResearchStatus(value: unknown): value is WorkspaceResearchStatus {
+  return value === "queued" || value === "scanning" || value === "reviewing" || value === "qualified" || value === "archived";
+}
+
+function isLeadHandoffStatus(value: unknown): value is LeadHandoffStatus {
+  return value === "pending" || value === "exported" || value === "outreach_queued" || value === "contacted" || value === "won";
+}
+
+function queueSourceLabel(source: QueueSource, appUi: AppUi) {
+  return source === "workspace" ? appUi.reviewQueue.workspaceSource : appUi.importer.sourceOptions[source];
+}
+
+function queueItemReviewStatus(value: WorkspaceResearchStatus): "ready" | "researching" | "qualified" {
+  if (value === "qualified") {
+    return "qualified";
+  }
+
+  return value === "queued" ? "ready" : "researching";
+}
+
+function queueItemResearchStatus(item?: Pick<WorkspaceQueueItem, "researchStatus"> | null): WorkspaceResearchStatus {
+  return item && isWorkspaceResearchStatus(item.researchStatus) ? item.researchStatus : "queued";
+}
+
+function queueItemHandoffStatus(item?: Pick<WorkspaceQueueItem, "handoffStatus"> | null): LeadHandoffStatus {
+  return item && isLeadHandoffStatus(item.handoffStatus) ? item.handoffStatus : "pending";
+}
+
+function queueItemToImportedWebsiteRecord(item: WorkspaceQueueItem): ImportedWebsiteRecord {
+  return {
+    id: item.id,
+    url: item.websiteUrl,
+    domain: item.domain,
+    companyName: item.companyName,
+    source: item.source === "workspace" ? "manual" : item.source,
+    note: item.note,
+    createdAt: item.createdAt
+  };
 }
 
 function importQueueStorageKey(workspaceId?: string | null) {
@@ -3562,26 +3607,30 @@ function parseEditableList(value: string, fallback: string[]): string[] {
 }
 
 function getAppSection(pathname: string): AppSection {
-  if (pathname.startsWith("/app/import")) {
-    return "import";
+  const normalizedPath = parseSiteLocalePath(pathname).path;
+
+  if (
+    normalizedPath.startsWith("/app/queue") ||
+    normalizedPath.startsWith("/app/import") ||
+    normalizedPath.startsWith("/app/leads")
+  ) {
+    return "queue";
   }
-  if (pathname.startsWith("/app/accounts")) {
-    return "saved";
+  if (normalizedPath.startsWith("/app/qualified") || normalizedPath.startsWith("/app/accounts")) {
+    return "qualified";
   }
-  if (pathname.startsWith("/app/leads")) {
-    return "leads";
+  if (normalizedPath.startsWith("/app/exports")) {
+    return "exports";
   }
-  if (pathname.startsWith("/app/settings/icp")) {
-    return "icp";
+  if (
+    normalizedPath.startsWith("/app/settings") ||
+    normalizedPath.startsWith("/app/account") ||
+    normalizedPath.startsWith("/app/billing")
+  ) {
+    return "settings";
   }
-  if (pathname.startsWith("/app/analytics")) {
+  if (normalizedPath.startsWith("/app/analytics")) {
     return "analytics";
-  }
-  if (pathname.startsWith("/app/account")) {
-    return "account";
-  }
-  if (pathname.startsWith("/app/billing")) {
-    return "billing";
   }
   return "dashboard";
 }
@@ -4471,6 +4520,7 @@ function SignupPage() {
 }
 
 function UserMenu({ appUi, auth, signOut }: { appUi: AppUi; auth: AuthMeResponse; signOut: () => void }) {
+  const { locale } = usePublicSite();
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement | null>(null);
 
@@ -4526,11 +4576,11 @@ function UserMenu({ appUi, auth, signOut }: { appUi: AppUi; auth: AuthMeResponse
           {userEmail ? (
             <div className="user-menu-email">{userEmail}</div>
           ) : null}
-          <a className="user-menu-item" href="/app/account" role="menuitem" onClick={() => setIsOpen(false)}>
+          <a className="user-menu-item" href={buildLocalePath(locale, "/app/settings")} role="menuitem" onClick={() => setIsOpen(false)}>
             <Icon name="lock" />
             {appUi.userMenu.accountSettings}
           </a>
-          <a className="user-menu-item" href="/app/billing" role="menuitem" onClick={() => setIsOpen(false)}>
+          <a className="user-menu-item" href={`${buildLocalePath(locale, "/app/settings")}#billing-plan-compare`} role="menuitem" onClick={() => setIsOpen(false)}>
             <Icon name="shield" />
             {appUi.userMenu.manageBilling}
           </a>
@@ -4549,7 +4599,7 @@ function UserMenu({ appUi, auth, signOut }: { appUi: AppUi; auth: AuthMeResponse
               {appUi.userMenu.signOut}
             </button>
           ) : (
-            <a className="user-menu-item" href="/login" role="menuitem">
+            <a className="user-menu-item" href={buildLocalePath(locale, "/login")} role="menuitem">
               <Icon name="mail" />
               {appUi.actions.signIn}
             </a>
@@ -4565,6 +4615,22 @@ function DashboardApp() {
   const appUi = getAppUi(locale);
   const appQuery = useMemo(() => new URLSearchParams(window.location.search), []);
   const appSection = getAppSection(window.location.pathname);
+  const appRoutes = useMemo(
+    () => ({
+      today: buildLocalePath(locale, "/app"),
+      queue: buildLocalePath(locale, "/app/queue"),
+      qualified: buildLocalePath(locale, "/app/qualified"),
+      exports: buildLocalePath(locale, "/app/exports"),
+      settings: buildLocalePath(locale, "/app/settings"),
+      analytics: buildLocalePath(locale, "/app/analytics")
+    }),
+    [locale]
+  );
+  const queueScanRoute = `${appRoutes.queue}#scan-console`;
+  const isQueueSection = appSection === "queue";
+  const isQualifiedSection = appSection === "qualified";
+  const isExportsSection = appSection === "exports";
+  const isSettingsSection = appSection === "settings";
   const pageCopy =
     (appUi.pages as Record<string, { eyebrow: string; title: string; copy: string }>)[appSection] || appUi.pages.dashboard;
   const sampleProspectCard = useMemo(() => buildSampleProspectCard(locale), [locale]);
@@ -4641,7 +4707,9 @@ function DashboardApp() {
   const checkoutSuccess = appQuery.get("checkout") === "success";
   const [snapshot, setSnapshot] = useState<WorkspaceSnapshot>(initialWorkspace);
   const [leads, setLeads] = useState<LeadListItem[]>([]);
+  const [queueItems, setQueueItems] = useState<WorkspaceQueueItem[]>([]);
   const [scanHistory, setScanHistory] = useState<ScanHistoryItem[]>([]);
+  const [exportRuns, setExportRuns] = useState<ExportRun[]>([]);
   const [historyState, setHistoryState] = useState<"loading" | "ready" | "sample" | "error">("loading");
   const [historyFilter, setHistoryFilter] = useState<ScanHistoryFilter>("all");
   const [historyDateFilter, setHistoryDateFilter] = useState<HistoryDateFilter>("all");
@@ -4684,7 +4752,9 @@ function DashboardApp() {
     url: "",
     companyName: "",
     notes: "",
-    deepScan: false
+    deepScan: false,
+    queueItemId: null,
+    queueSource: null
   }));
   const [scanState, setScanState] = useState<"idle" | "loading" | "done" | "error">("idle");
   const [scanMessage, setScanMessage] = useState("");
@@ -4700,7 +4770,6 @@ function DashboardApp() {
   const [importNote, setImportNote] = useState("");
   const [importMessage, setImportMessage] = useState("");
   const [importState, setImportState] = useState<"idle" | "saving" | "error" | "saved">("idle");
-  const [importedWebsites, setImportedWebsites] = useState<ImportedWebsiteRecord[]>([]);
   const [reviewSearch, setReviewSearch] = useState("");
   const [reviewFilter, setReviewFilter] = useState<ReviewQueueFilter>("all");
   const [reviewSourceFilter, setReviewSourceFilter] = useState<"all" | "import" | "workspace">("all");
@@ -4723,6 +4792,72 @@ function DashboardApp() {
     });
   }
 
+  function mergeQueueItemState(item: WorkspaceQueueItem) {
+    setQueueItems((current) =>
+      [item, ...current.filter((entry) => entry.id !== item.id && entry.domain !== item.domain)].sort(
+        (left, right) => new Date(right.createdAt).getTime() - new Date(left.createdAt).getTime()
+      )
+    );
+  }
+
+  async function fetchQueueSnapshot() {
+    const response = await fetchAppApi("/api/queue", { credentials: "include" });
+    const result = (await response.json().catch(() => ({}))) as {
+      items?: WorkspaceQueueItem[];
+      source?: "d1" | "sample";
+    };
+
+    if (!response.ok) {
+      throw new Error(appUi.common.messages.workspaceDataUnavailable);
+    }
+
+    return {
+      items: result.items?.filter((item): item is WorkspaceQueueItem => Boolean(item && typeof item === "object")) || [],
+      source: result.source || "d1"
+    };
+  }
+
+  async function fetchExportRunSnapshot() {
+    const response = await fetchAppApi("/api/exports/history", { credentials: "include" });
+    const result = (await response.json().catch(() => ({}))) as {
+      runs?: ExportRun[];
+      source?: "d1" | "sample";
+    };
+
+    if (!response.ok) {
+      throw new Error(appUi.common.messages.workspaceDataUnavailable);
+    }
+
+    return {
+      runs: result.runs?.filter((item): item is ExportRun => Boolean(item && typeof item === "object")) || [],
+      source: result.source || "d1"
+    };
+  }
+
+  async function fetchAnalyticsSnapshot() {
+    const response = await fetchAppApi("/api/analytics/summary", { credentials: "include" });
+    const result = response.ok
+      ? ((await response.json().catch(() => initialAnalyticsSummary)) as AnalyticsSummary)
+      : initialAnalyticsSummary;
+    return {
+      analytics: result,
+      source: response.ok ? result.source : ("sample" as const)
+    };
+  }
+
+  async function refreshWorkflowData() {
+    const [queueData, exportData, analyticsData] = await Promise.all([
+      fetchQueueSnapshot().catch(() => ({ items: [] as WorkspaceQueueItem[], source: "sample" as const })),
+      fetchExportRunSnapshot().catch(() => ({ runs: [] as ExportRun[], source: "sample" as const })),
+      fetchAnalyticsSnapshot().catch(() => ({ analytics: initialAnalyticsSummary, source: "sample" as const }))
+    ]);
+
+    setQueueItems(queueData.items);
+    setExportRuns(exportData.runs);
+    setAnalyticsSummary(analyticsData.analytics);
+    setAnalyticsState(analyticsData.source === "sample" ? "error" : "ready");
+  }
+
   useEffect(() => {
     let cancelled = false;
     const requestedLeadId = appQuery.get("lead") || appQuery.get("leadId");
@@ -4742,7 +4877,9 @@ function DashboardApp() {
             setAuth(authData);
             setSnapshot(initialWorkspace);
             setLeads([]);
+            setQueueItems([]);
             setScanHistory([]);
+            setExportRuns([]);
             setHistoryState("ready");
             setAnalyticsSummary(initialAnalyticsSummary);
             setAnalyticsState("ready");
@@ -4757,11 +4894,13 @@ function DashboardApp() {
           return;
         }
 
-        const [workspaceResponse, leadsResponse, scansResponse, analyticsResponse] = await Promise.all([
+        const [workspaceResponse, leadsResponse, scansResponse, analyticsResponse, queueResponse, exportHistoryResponse] = await Promise.all([
           fetchAppApi("/api/workspace", { credentials: "include" }),
           fetchAppApi("/api/leads", { credentials: "include" }),
           fetchAppApi("/api/scans", { credentials: "include" }),
-          fetchAppApi("/api/analytics/summary", { credentials: "include" })
+          fetchAppApi("/api/analytics/summary", { credentials: "include" }),
+          fetchAppApi("/api/queue", { credentials: "include" }),
+          fetchAppApi("/api/exports/history", { credentials: "include" })
         ]);
 
         if (!workspaceResponse.ok) {
@@ -4790,12 +4929,60 @@ function DashboardApp() {
           : allowSampleMode
             ? sampleAnalyticsSummary
             : initialAnalyticsSummary;
+        let queueData = queueResponse.ok
+          ? ((await queueResponse.json()) as { items?: WorkspaceQueueItem[]; source?: "d1" | "sample" })
+          : {
+              items: [] as WorkspaceQueueItem[],
+              source: allowSampleMode ? ("sample" as const) : ("d1" as const)
+            };
+        const exportHistoryData = exportHistoryResponse.ok
+          ? ((await exportHistoryResponse.json()) as { runs?: ExportRun[]; source?: "d1" | "sample" })
+          : {
+              runs: [] as ExportRun[],
+              source: allowSampleMode ? ("sample" as const) : ("d1" as const)
+            };
+
+        if (authData.authenticated && queueResponse.ok && queueData.source !== "sample" && !(queueData.items?.length)) {
+          const storedQueue = readStoredImportQueue(workspaceData.workspace.id);
+
+          if (storedQueue.length) {
+            const migrationPayload: QueueImportRequest = {
+              items: storedQueue.map((item) => ({
+                url: item.url,
+                domain: item.domain,
+                companyName: item.companyName,
+                source: item.source,
+                note: item.note
+              }))
+            };
+            const migrateResponse = await fetchAppApi("/api/queue/import", {
+              method: "POST",
+              credentials: "include",
+              headers: {
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify(migrationPayload)
+            }).catch(() => null);
+
+            if (migrateResponse?.ok) {
+              queueData = ((await migrateResponse.json().catch(() => queueData)) as { items?: WorkspaceQueueItem[]; source?: "d1" | "sample" });
+
+              try {
+                localStorage.removeItem(importQueueStorageKey(workspaceData.workspace.id));
+              } catch {
+                // Ignore storage cleanup failures during queue migration.
+              }
+            }
+          }
+        }
+
         const scanHistoryIsUnavailable = authData.authenticated && (!scansResponse.ok || scansData.source === "sample");
         const analyticsIsUnavailable =
           authData.authenticated && (!analyticsResponse.ok || analyticsData.source === "sample");
         const leadsAreUnavailable = authData.authenticated && !leadsResponse.ok;
+        const queueIsUnavailable = authData.authenticated && (!queueResponse.ok || queueData.source === "sample");
         const hasPartialWorkspaceDataIssue =
-          authData.authenticated && (leadsAreUnavailable || scanHistoryIsUnavailable || analyticsIsUnavailable);
+          authData.authenticated && (leadsAreUnavailable || queueIsUnavailable || scanHistoryIsUnavailable || analyticsIsUnavailable);
         const loadedLeads = leadsData.leads?.length ? leadsData.leads : [];
         const initialLeadRow =
           requestedLeadId && loadedLeads.length
@@ -4830,12 +5017,16 @@ function DashboardApp() {
           setAuth(authData);
           setSnapshot(workspaceData);
           setLeads(loadedLeads);
+          setQueueItems(queueIsUnavailable ? [] : queueData.items?.length ? queueData.items : []);
+          setExportRuns(exportHistoryData.runs?.length ? exportHistoryData.runs : []);
           setSelectedLeadId(resolvedLeadDetail ? resolvedLeadId : null);
           setSelectedLead(resolvedLeadDetail);
           setSelectedLeadState(
             workspaceData.source === "sample" || initialLeadDetail ? "ready" : fallbackLeadDetail ? "error" : "idle"
           );
-          setLeadDrawerOpen(Boolean(requestedLeadId && resolvedLeadDetail && (appSection === "leads" || appSection === "saved")));
+          setLeadDrawerOpen(
+            Boolean(requestedLeadId && resolvedLeadDetail && (appSection === "queue" || appSection === "qualified" || appSection === "exports"))
+          );
           setActiveProspect(resolvedLeadDetail);
           setScanHistory(
             scanHistoryIsUnavailable ? [] : scansData.scans?.length ? scansData.scans : workspaceData.source === "sample" ? demoScanHistory : []
@@ -4865,7 +5056,9 @@ function DashboardApp() {
           setAuth(authData);
           setSnapshot(initialWorkspace);
           setLeads([]);
+          setQueueItems([]);
           setScanHistory([]);
+          setExportRuns([]);
           setHistoryState("error");
           setAnalyticsSummary(initialAnalyticsSummary);
           setAnalyticsState("error");
@@ -4900,18 +5093,6 @@ function DashboardApp() {
   }, [snapshot.setup.agencyWebsite, snapshot.setup.firstProspectUrl]);
 
   useEffect(() => {
-    setImportedWebsites(readStoredImportQueue(snapshot.workspace.id));
-  }, [snapshot.workspace.id]);
-
-  useEffect(() => {
-    try {
-      localStorage.setItem(importQueueStorageKey(snapshot.workspace.id), JSON.stringify(importedWebsites));
-    } catch {
-      // localStorage may be unavailable in some browser contexts.
-    }
-  }, [importedWebsites, snapshot.workspace.id]);
-
-  useEffect(() => {
     function syncOverviewManualMode() {
       if (typeof window === "undefined") {
         return;
@@ -4931,7 +5112,7 @@ function DashboardApp() {
         return;
       }
 
-      const parsed = JSON.parse(raw) as { url?: string; companyName?: string; notes?: string };
+      const parsed = JSON.parse(raw) as { url?: string; companyName?: string; notes?: string; queueItemId?: string; queueSource?: QueueSource };
       const normalizedUrl = normalizeWebsiteUrl(parsed.url || "");
       if (!normalizedUrl) {
         localStorage.removeItem(scanDraftStorageKey(snapshot.workspace.id));
@@ -4942,7 +5123,9 @@ function DashboardApp() {
         url: normalizedUrl,
         companyName: parsed.companyName?.trim() || companyNameFromUrl(normalizedUrl),
         notes: parsed.notes?.trim() || "",
-        deepScan: false
+        deepScan: false,
+        queueItemId: typeof parsed.queueItemId === "string" && parsed.queueItemId.trim() ? parsed.queueItemId.trim() : null,
+        queueSource: isQueueSource(parsed.queueSource) ? parsed.queueSource : null
       });
       localStorage.removeItem(scanDraftStorageKey(snapshot.workspace.id));
       setDashboardMessage(
@@ -4982,7 +5165,13 @@ function DashboardApp() {
     importFileInputRef.current?.click();
   }
 
-  function queueWebsiteForScanDesk(target: { url: string; companyName: string; notes?: string }) {
+  function queueWebsiteForScanDesk(target: {
+    url: string;
+    companyName: string;
+    notes?: string;
+    queueItemId?: string | null;
+    queueSource?: QueueSource | null;
+  }) {
     const normalizedUrl = normalizeWebsiteUrl(target.url);
     if (!normalizedUrl) {
       return;
@@ -4994,17 +5183,19 @@ function DashboardApp() {
         JSON.stringify({
           url: normalizedUrl,
           companyName: target.companyName || companyNameFromUrl(normalizedUrl),
-          notes: target.notes || ""
+          notes: target.notes || "",
+          queueItemId: target.queueItemId || null,
+          queueSource: target.queueSource || null
         })
       );
     } catch {
       // Ignore storage failures and still navigate to the scan desk.
     }
 
-    window.location.assign("/app#scan-console");
+    window.location.assign(queueScanRoute);
   }
 
-  function addImportedWebsites(rawValue: string, source: BatchSourceOption) {
+  async function addImportedWebsites(rawValue: string, source: BatchSourceOption) {
     const existingDomains = new Set([
       ...importedWebsites.map((item) => item.domain),
       ...leads.map((lead) => lead.domain)
@@ -5017,31 +5208,64 @@ function DashboardApp() {
       return;
     }
 
-    setImportedWebsites((current) => [...result.items, ...current]);
-    setImportState("saved");
-    setImportMessage(
-      formatMessage(appUi.importer.messages.added, {
-        count: result.items.length,
-        skipped: result.skipped
-      })
-    );
-    setImportDraft("");
-    setDashboardMessage(appUi.importer.messages.queueUpdated);
-    void trackEvent({
-      name: "workspace_batch_import_added",
-      metadata: {
-        count: result.items.length,
+    const payload: QueueImportRequest = {
+      items: result.items.map((item) => ({
+        url: item.url,
+        domain: item.domain,
+        companyName: item.companyName,
         source,
-        skipped: result.skipped
+        note: item.note
+      }))
+    };
+
+    try {
+      const response = await fetchAppApi("/api/queue/import", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      });
+      const queueResult = (await response.json().catch(() => ({}))) as {
+        ok?: boolean;
+        items?: WorkspaceQueueItem[];
+        error?: string;
+      };
+
+      if (!response.ok || queueResult.ok === false) {
+        throw new Error(queueResult.error || appUi.importer.messages.noWebsitesAdded);
       }
-    });
+
+      setQueueItems(queueResult.items?.length ? queueResult.items : []);
+      setImportState("saved");
+      setImportMessage(
+        formatMessage(appUi.importer.messages.added, {
+          count: result.items.length,
+          skipped: result.skipped
+        })
+      );
+      setImportDraft("");
+      setDashboardMessage(appUi.importer.messages.queueUpdated);
+      void trackEvent({
+        name: "workspace_batch_import_added",
+        metadata: {
+          count: result.items.length,
+          source,
+          skipped: result.skipped
+        }
+      });
+    } catch (error) {
+      setImportState("error");
+      setImportMessage(resolveAppErrorMessage(error, appUi.importer.messages.noWebsitesAdded, appUi));
+    }
   }
 
-  function submitImportedWebsites(event: FormEvent<HTMLFormElement>) {
+  async function submitImportedWebsites(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setImportState("saving");
     setImportMessage("");
-    addImportedWebsites(importDraft, importSource);
+    await addImportedWebsites(importDraft, importSource);
   }
 
   async function handleImportFileChange(event: ChangeEvent<HTMLInputElement>) {
@@ -5054,7 +5278,7 @@ function DashboardApp() {
       const content = await file.text();
       setImportState("saving");
       setImportMessage("");
-      addImportedWebsites(content, importSource === "manual" ? "csv" : importSource);
+      await addImportedWebsites(content, importSource === "manual" ? "csv" : importSource);
     } catch {
       setImportState("error");
       setImportMessage(appUi.importer.messages.fileReadFailed);
@@ -5063,9 +5287,29 @@ function DashboardApp() {
     }
   }
 
-  function removeImportedWebsite(recordId: string) {
-    setImportedWebsites((current) => current.filter((item) => item.id !== recordId));
-    setDashboardMessage(appUi.importer.messages.queueUpdated);
+  async function removeImportedWebsite(recordId: string) {
+    try {
+      const response = await fetchAppApi(`/api/queue/${encodeURIComponent(recordId)}`, {
+        method: "DELETE",
+        credentials: "include"
+      });
+      const result = (await response.json().catch(() => ({}))) as { ok?: boolean; archived?: boolean; removed?: boolean; error?: string };
+
+      if (!response.ok || result.ok === false) {
+        throw new Error(result.error || appUi.importer.messages.queueUpdated);
+      }
+
+      if (result.archived) {
+        setQueueItems((current) =>
+          current.map((item) => (item.id === recordId ? { ...item, researchStatus: "archived", updatedAt: new Date().toISOString() } : item))
+        );
+      } else {
+        setQueueItems((current) => current.filter((item) => item.id !== recordId));
+      }
+      setDashboardMessage(appUi.importer.messages.queueUpdated);
+    } catch (error) {
+      setDashboardMessage(resolveAppErrorMessage(error, appUi.common.messages.workspaceDataUnavailable, appUi));
+    }
   }
 
   function updateScanField<Key extends keyof ScanFormState>(field: Key) {
@@ -5336,8 +5580,12 @@ function DashboardApp() {
   }
 
   function applySavedPipelineContext(result: PipelineContextSaveResult) {
-    const { context, activity } = result;
+    const { context, activity, queueItem } = result;
     const normalized = normalizeProspectMeta(context);
+
+    if (queueItem) {
+      mergeQueueItemState(queueItem);
+    }
 
     if (selectedLeadId) {
       setLeads((current) =>
@@ -5439,6 +5687,10 @@ function DashboardApp() {
         offerDescription: snapshot.setup.offerDescription,
         tone: toneForWorkspace(snapshot.setup.tone)
       },
+      companyName,
+      queueNote: scanForm.notes.trim(),
+      queueItemId: scanForm.queueItemId || undefined,
+      queueSource: scanForm.queueSource || undefined,
       idempotencyKey: `web_scan_${crypto.randomUUID()}`
     };
     let pendingFailure: ScanFailureResponse | null = null;
@@ -5478,6 +5730,9 @@ function DashboardApp() {
       setSelectedLeadState("ready");
       setLeadDrawerOpen(true);
       replaceLeadDeepLink(result.leadId, "overview");
+      if (result.queueItem) {
+        mergeQueueItemState(result.queueItem);
+      }
       setLeads((current) => [
         {
           id: result.leadId!,
@@ -5514,6 +5769,11 @@ function DashboardApp() {
       setHistoryState("ready");
       setHistoryFilter("all");
       setExpandedScanId(result.scanId!);
+      setScanForm((current) => ({
+        ...current,
+        queueItemId: result.queueItem?.id || null,
+        queueSource: result.queueItem?.source || null
+      }));
       setSnapshot((current) => ({
         ...current,
         leadCount: Math.max(current.leadCount + 1, leads.length + 1),
@@ -5608,13 +5868,18 @@ function DashboardApp() {
     setDashboardMessage("");
 
     try {
-      const query = new URLSearchParams({
+      const payload: ExportRequest = {
         preset: bulkExportPreset,
-        crmMode: bulkCrmFieldMode
-      });
-      const response = await fetchAppApi(`/api/exports?${query.toString()}`, {
+        crmMode: bulkCrmFieldMode,
+        scope: "all_qualified"
+      };
+      const response = await fetchAppApi("/api/exports", {
         method: "POST",
-        credentials: "include"
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
       });
 
       if (!response.ok) {
@@ -5622,20 +5887,25 @@ function DashboardApp() {
       }
 
       const blob = await response.blob();
+      const contentDisposition = response.headers.get("Content-Disposition");
+      const fileName = contentDisposition?.match(/filename=([^;]+)/i)?.[1]?.replace(/^["']|["']$/g, "") || "leadcue-export.csv";
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.href = url;
-      link.download = "leadcue-export.csv";
+      link.download = fileName;
       document.body.appendChild(link);
       link.click();
       link.remove();
       URL.revokeObjectURL(url);
       setActiveProspect((current) => (current ? { ...current, exportStatus: "exported" } : current));
+      setSelectedLead((current) => (current ? { ...current, exportStatus: "exported" } : current));
+      await refreshWorkflowData();
       void trackEvent({
         name: "export_completed",
         metadata: {
           preset: bulkExportPreset,
-          crmMode: bulkCrmFieldMode
+          crmMode: bulkCrmFieldMode,
+          scope: "all_qualified"
         }
       });
       setDashboardMessage(
@@ -5684,7 +5954,9 @@ function DashboardApp() {
     setDashboardState("sample");
     setSnapshot(sampleWorkspace);
     setLeads(demoLeadRows);
+    setQueueItems([]);
     setScanHistory(demoScanHistory);
+    setExportRuns([]);
     setHistoryState("sample");
     setAnalyticsSummary(sampleAnalyticsSummary);
     setAnalyticsState("sample");
@@ -5809,31 +6081,6 @@ function DashboardApp() {
     setSelectedLeadIds([]);
   }
 
-  async function loadLeadExportCard(lead: LeadListItem): Promise<ProspectCardType> {
-    if (selectedLeadId === lead.id && selectedLead) {
-      return selectedLead;
-    }
-
-    if (dashboardState === "sample") {
-      return leadPreviewProspect(lead, sampleProspectCard);
-    }
-
-    try {
-      const response = await fetchAppApi(`/api/leads/${encodeURIComponent(lead.id)}`, {
-        credentials: "include"
-      });
-      const result = (await response.json().catch(() => ({}))) as { lead?: ProspectCardType };
-
-      if (response.ok && result.lead) {
-        return result.lead;
-      }
-    } catch {
-      // Fall back to the list preview when detail fetch is unavailable.
-    }
-
-    return leadPreviewProspect(lead, sampleProspectCard);
-  }
-
   async function exportSelectedLeads() {
     const selectedRows = sourceLeads.filter((lead) => selectedLeadIds.includes(lead.id));
     if (!selectedRows.length) {
@@ -5844,14 +6091,43 @@ function DashboardApp() {
     setBulkExportState("loading");
 
     try {
-      const cards = await Promise.all(selectedRows.map(loadLeadExportCard));
-      const csv = buildProspectExportCsv(
-        cards.map((card) => ({ card, pipelineContext: card.pipelineContext })),
-        bulkExportPreset,
-        bulkCrmFieldMode
+      const payload: ExportRequest = {
+        preset: bulkExportPreset,
+        crmMode: bulkCrmFieldMode,
+        scope: "selected",
+        leadIds: selectedRows.map((lead) => lead.id)
+      };
+      const response = await fetchAppApi("/api/exports", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      });
+
+      if (!response.ok) {
+        throw new Error(appUi.common.messages.selectedLeadExportFailed);
+      }
+
+      const blob = await response.blob();
+      const contentDisposition = response.headers.get("Content-Disposition");
+      const fileName = contentDisposition?.match(/filename=([^;]+)/i)?.[1]?.replace(/^["']|["']$/g, "") || "leadcue-export.csv";
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = fileName;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+      await refreshWorkflowData();
+      setActiveProspect((current) =>
+        current && selectedRows.some((lead) => lead.id === selectedLeadId) ? { ...current, exportStatus: "exported" } : current
       );
-      const modePart = bulkExportPreset === "crm" ? `-${bulkCrmFieldMode}` : "";
-      downloadTextFile(`leadcue-selected-${selectedRows.length}-${bulkExportPreset}${modePart}.csv`, csv);
+      setSelectedLead((current) =>
+        current && selectedRows.some((lead) => lead.id === selectedLeadId) ? { ...current, exportStatus: "exported" } : current
+      );
       setBulkExportState("idle");
       setDashboardMessage(
         formatMessage(appUi.common.messages.selectedLeadExported, {
@@ -5859,6 +6135,15 @@ function DashboardApp() {
           label: bulkExportLabel(bulkExportPreset, bulkCrmFieldMode, appUi)
         })
       );
+      void trackEvent({
+        name: "export_completed",
+        metadata: {
+          preset: bulkExportPreset,
+          crmMode: bulkCrmFieldMode,
+          scope: "selected",
+          count: selectedRows.length
+        }
+      });
     } catch (error) {
       setBulkExportState("error");
       setDashboardMessage(resolveAppErrorMessage(error, appUi.common.messages.selectedLeadExportFailed, appUi));
@@ -5874,64 +6159,56 @@ function DashboardApp() {
   const isSampleDashboard = dashboardState === "sample";
   const workspaceLeads = leads.length ? leads : isSampleDashboard ? demoLeadRows : [];
   const leadByDomain = useMemo(() => new Map(workspaceLeads.map((lead) => [lead.domain, lead] as const)), [workspaceLeads]);
-  const importedQueueRows = useMemo<Array<Extract<ReviewQueueRow, { kind: "import" }>>>(
+  const workflowQueueItems = useMemo(
+    () => queueItems.filter((item) => queueItemResearchStatus(item) !== "archived"),
+    [queueItems]
+  );
+  const queueItemByLeadId = useMemo(
+    () => new Map(queueItems.filter((item) => item.leadId).map((item) => [item.leadId!, item] as const)),
+    [queueItems]
+  );
+  const queueItemByDomain = useMemo(() => new Map(queueItems.map((item) => [item.domain, item] as const)), [queueItems]);
+  const importedWebsites = useMemo(
+    () => workflowQueueItems.filter((item) => item.source !== "workspace").map(queueItemToImportedWebsiteRecord),
+    [workflowQueueItems]
+  );
+  const importedQueueRows = useMemo<ReviewQueueRow[]>(
     () =>
-      importedWebsites.map((item) => {
+      workflowQueueItems.map((item) => {
         const matchedLead = leadByDomain.get(item.domain);
-        const stage = matchedLead ? getLeadPipelineStage(matchedLead) : "ready";
 
         return {
           id: item.id,
-          kind: "import",
+          kind: item.source === "workspace" ? "lead" : "import",
           companyName: matchedLead?.companyName || item.companyName,
           domain: item.domain,
-          websiteUrl: matchedLead?.websiteUrl || item.url,
+          websiteUrl: matchedLead?.websiteUrl || item.websiteUrl,
           source: item.source,
-          status: stage === "ready" ? "ready" : stage === "researching" ? "researching" : "qualified",
+          status: queueItemReviewStatus(queueItemResearchStatus(item)),
           fitScore: matchedLead?.fitScore ?? null,
           confidencePercent: matchedLead ? Math.round(matchedLead.confidenceScore * 100) : null,
-          leadId: matchedLead?.id || null,
+          leadId: item.leadId || matchedLead?.id || null,
           note: item.note,
           createdAt: item.createdAt
         };
       }),
-    [importedWebsites, leadByDomain]
+    [leadByDomain, workflowQueueItems]
   );
   const savedSourceLeads = useMemo(
-    () => workspaceLeads.filter((lead) => {
-      const stage = getLeadPipelineStage(lead);
-      return stage !== "researching" && stage !== "archived";
-    }),
-    [workspaceLeads]
+    () =>
+      workspaceLeads.filter((lead) => {
+        const queueItem = queueItemByLeadId.get(lead.id) || queueItemByDomain.get(lead.domain);
+        return queueItemResearchStatus(queueItem) === "qualified";
+      }),
+    [queueItemByDomain, queueItemByLeadId, workspaceLeads]
   );
   const sourceLeads = savedSourceLeads;
-  const importedDomains = useMemo(() => new Set(importedWebsites.map((item) => item.domain)), [importedWebsites]);
-  const orphanResearchLeads = useMemo<ReviewQueueRow[]>(
-    () =>
-      workspaceLeads
-        .filter((lead) => getLeadPipelineStage(lead) === "researching" && !importedDomains.has(lead.domain))
-        .map((lead) => ({
-          id: lead.id,
-          kind: "lead",
-          companyName: lead.companyName,
-          domain: lead.domain,
-          websiteUrl: lead.websiteUrl,
-          source: "workspace" as const,
-          status: "researching" as const,
-          fitScore: lead.fitScore,
-          confidencePercent: Math.round(lead.confidenceScore * 100),
-          leadId: lead.id,
-          note: normalizeProspectMeta(lead.pipelineContext).notes,
-          createdAt: lead.createdAt
-        })),
-    [importedDomains, workspaceLeads]
-  );
   const reviewQueueRows = useMemo(
     () =>
-      [...importedQueueRows.filter((row) => row.status === "ready" || row.status === "researching"), ...orphanResearchLeads].sort(
-        (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-      ),
-    [importedQueueRows, orphanResearchLeads]
+      importedQueueRows
+        .filter((row) => row.status === "ready" || row.status === "researching")
+        .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()),
+    [importedQueueRows]
   );
   const visibleReviewRows = useMemo(() => {
     const query = reviewSearch.trim().toLowerCase();
@@ -6098,6 +6375,7 @@ function DashboardApp() {
   const needsIcpReview = shouldShowOnboarding && (!onboardingTasks[0].done || !onboardingTasks[1].done);
   const reviewReadyCount = reviewQueueRows.filter((row) => row.status === "ready").length;
   const reviewResearchingCount = reviewQueueRows.filter((row) => row.status === "researching").length;
+  const exportRunCount = exportRuns.length;
   const topSavedAccounts = useMemo(
     () =>
       [...savedSourceLeads]
@@ -6107,9 +6385,30 @@ function DashboardApp() {
   );
   const workflowStageCounts = useMemo(
     () =>
-      workspaceLeads.reduce<Record<ProspectPipelineStage, number>>(
+      queueItems.reduce<Record<ProspectPipelineStage, number>>(
         (counts, lead) => {
-          counts[getLeadPipelineStage(lead)] += 1;
+          const researchStatus = queueItemResearchStatus(lead);
+          const handoffStatus = queueItemHandoffStatus(lead);
+
+          if (researchStatus === "archived") {
+            counts.archived += 1;
+            return counts;
+          }
+
+          if (researchStatus !== "qualified") {
+            counts.researching += 1;
+            return counts;
+          }
+
+          if (handoffStatus === "won") {
+            counts.won += 1;
+          } else if (handoffStatus === "contacted") {
+            counts.contacted += 1;
+          } else if (handoffStatus === "outreach_queued") {
+            counts.outreach_queued += 1;
+          } else {
+            counts.qualified += 1;
+          }
           return counts;
         },
         {
@@ -6121,7 +6420,7 @@ function DashboardApp() {
           archived: 0
         }
       ),
-    [workspaceLeads]
+    [queueItems]
   );
   const queueSourceCounts = useMemo(
     () =>
@@ -6172,6 +6471,7 @@ function DashboardApp() {
     importedWebsites.length > 0 ||
     reviewQueueRows.length > 0 ||
     qualifiedCount > 0 ||
+    exportRunCount > 0 ||
     failureReasonEntries.length > 0 ||
     scanHistory.length > 0 ||
     (auth.authenticated &&
@@ -6209,20 +6509,20 @@ function DashboardApp() {
           : needsIcpReview
             ? {
                 kind: "link" as const,
-                href: "#icp-panel",
+                href: `${appRoutes.settings}#settings-icp`,
                 icon: "target" as const,
                 label: appUi.dashboard.onboarding.reviewIcp
               }
             : overviewHasQueueData
               ? {
                   kind: "link" as const,
-                  href: "/app/leads",
+                  href: appRoutes.queue,
                   icon: "filter" as const,
                   label: appUi.dashboard.nextAction.openQueue
                 }
               : {
                   kind: "link" as const,
-                  href: "/app/import",
+                  href: appRoutes.queue,
                   icon: "database" as const,
                   label: appUi.dashboard.nextAction.importWebsites
                 };
@@ -6246,7 +6546,7 @@ function DashboardApp() {
             label: appUi.dashboard.nextAction.startWorkspace
           }
         : {
-            href: "#scan-console",
+            href: queueScanRoute,
             icon: "scan" as const,
             label: appUi.dashboard.nextAction.manualScan
           };
@@ -6276,25 +6576,25 @@ function DashboardApp() {
               icon: "mail" as const,
               label: appUi.actions.signIn
             }
-        : appSection === "import"
+        : isQueueSection
           ? {
               kind: "button" as const,
               icon: "download" as const,
               label: appUi.importer.upload,
               onClick: openImportFilePicker
             }
-          : appSection === "leads"
+          : isQualifiedSection
             ? {
-                kind: "link" as const,
-                href: "/app/import",
-                icon: "database" as const,
-                label: appUi.dashboard.nextAction.importWebsites
+                kind: savedAccountsIsEmpty ? ("link" as const) : ("link" as const),
+                href: savedAccountsIsEmpty ? appRoutes.queue : appRoutes.exports,
+                icon: savedAccountsIsEmpty ? ("filter" as const) : ("download" as const),
+                label: savedAccountsIsEmpty ? appUi.dashboard.nextAction.openQueue : appUi.actions.exportCsv
               }
-            : appSection === "saved"
-              ? savedAccountsIsEmpty
+            : isExportsSection
+              ? qualifiedCount === 0
                 ? {
                     kind: "link" as const,
-                    href: "/app/leads",
+                    href: appRoutes.queue,
                     icon: "filter" as const,
                     label: appUi.dashboard.nextAction.openQueue
                   }
@@ -6304,46 +6604,30 @@ function DashboardApp() {
                     label: appUi.actions.exportCsv,
                     onClick: downloadCsv
                   }
-              : appSection === "icp"
-                ? {
-                    kind: "link" as const,
-                    href: "/app#scan-console",
-                    icon: "scan" as const,
-                    label: appUi.icp.actions.test
-                  }
-                : appSection === "billing"
-                  ? auth.authenticated
-                    ? {
-                        kind: "button" as const,
-                        icon: "shield" as const,
-                        label: appUi.billing.actions.manageBilling,
-                        onClick: () => {
-                          void openBillingPortal();
-                        }
+              : isSettingsSection
+                ? auth.authenticated
+                  ? {
+                      kind: "button" as const,
+                      icon: "shield" as const,
+                      label: appUi.billing.actions.manageBilling,
+                      onClick: () => {
+                        void openBillingPortal();
                       }
-                    : null
-                  : appSection === "analytics"
-                    ? overviewHasQueueData
-                      ? {
-                          kind: "link" as const,
-                          href: "/app/leads",
-                          icon: "filter" as const,
-                          label: appUi.dashboard.nextAction.openQueue
-                        }
-                      : {
-                          kind: "link" as const,
-                          href: "/app/import",
-                          icon: "database" as const,
-                          label: appUi.dashboard.nextAction.importWebsites
-                        }
-                    : {
-                        kind: "button" as const,
-                        icon: "shield" as const,
-                        label: appUi.account.summary.manageBilling,
-                        onClick: () => {
-                          void openBillingPortal();
-                        }
-                      };
+                    }
+                  : null
+                : overviewHasQueueData
+                  ? {
+                      kind: "link" as const,
+                      href: appRoutes.queue,
+                      icon: "filter" as const,
+                      label: appUi.dashboard.nextAction.openQueue
+                    }
+                  : {
+                      kind: "link" as const,
+                      href: appRoutes.queue,
+                      icon: "database" as const,
+                      label: appUi.dashboard.nextAction.importWebsites
+                    };
   const overviewShowsStatePanel = appSection === "dashboard" && showsFormalWorkspaceState;
   const pageShowsWorkspaceStatePanel = appSection !== "dashboard" && showsFormalWorkspaceState;
   const defaultDashboardStateMessage =
@@ -6400,7 +6684,7 @@ function DashboardApp() {
       </div>
     </section>
   ) : null;
-  const accountShowsWorkspaceAlertPanel = appSection === "account" && auth.authenticated && dashboardState === "error";
+  const accountShowsWorkspaceAlertPanel = appSection === "settings" && auth.authenticated && dashboardState === "error";
   const accountSectionCopy = {
     alert: {
       eyebrow: appUi.common.failed,
@@ -6410,7 +6694,7 @@ function DashboardApp() {
     utility: {
       eyebrow: appUi.account.summary.eyebrow,
       title: appUi.account.summary.title,
-      copy: appUi.pages.account.copy
+      copy: appUi.pages.settings.copy
     }
   };
   const workflowExportedCount = auth.authenticated || qualifiedCount > 0 ? analyticsSummary.totals.exportsCompleted : 0;
@@ -6443,6 +6727,143 @@ function DashboardApp() {
     [appUi.analytics.scanOutcomes.failed, historyCounts.failed],
     [appUi.analytics.scanOutcomes.processing, historyCounts.processing]
   ] as const;
+  const hasActivePreview = Boolean(activeProspect && (workspaceLeads.length > 0 || isSampleDashboard || scanState === "done"));
+  const scanWorkspacePanel = overviewManualModeOpen ? (
+    <section className={`panel scan-console ${scanState === "loading" ? "is-loading" : ""}`} id="scan-console" aria-labelledby="scan-console-title">
+      <div className="scan-console-head">
+        <div className="scan-console-copy">
+          <p className="eyebrow">{appUi.scan.eyebrow}</p>
+          <h2 id="scan-console-title">{appUi.scan.title}</h2>
+          <p>{appUi.scan.copy}</p>
+        </div>
+        <div className="scan-flow-steps" aria-label={appUi.scan.title}>
+          {appUi.scan.steps.map((step, index) => (
+            <span className={index === 0 || scanState === "done" ? "is-active" : ""} key={step}>
+              {index + 1}. {step}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      <div className="scan-console-body">
+        <form className="scan-form" onSubmit={submitScan}>
+          <label>
+            {appUi.scan.prospectWebsite}
+            <input
+              name="url"
+              type="url"
+              required
+              placeholder={appUi.common.placeholders.prospectUrl}
+              value={scanForm.url}
+              onChange={updateScanField("url")}
+            />
+          </label>
+          <label>
+            {appUi.scan.companyName}
+            <input
+              name="companyName"
+              placeholder={appUi.common.placeholders.companyName}
+              value={scanForm.companyName}
+              onChange={updateScanField("companyName")}
+            />
+          </label>
+          <label className="scan-form-wide">
+            {appUi.scan.websiteNotes}
+            <textarea
+              name="notes"
+              rows={4}
+              placeholder={appUi.scan.notesPlaceholder}
+              value={scanForm.notes}
+              onChange={updateScanField("notes")}
+            />
+          </label>
+          <label className="scan-depth-toggle">
+            <input type="checkbox" checked={scanForm.deepScan} onChange={updateScanField("deepScan")} />
+            <span>
+              {appUi.scan.deepScan}
+              <small>{appUi.scan.deepScanHint}</small>
+            </span>
+          </label>
+          <button className="button button-primary" type="submit" disabled={scanState === "loading"}>
+            <Icon name="scan" />
+            {scanState === "loading" ? appUi.scan.scanning : appUi.scan.runScan}
+          </button>
+          <p className={`form-status ${scanState === "error" ? "is-error" : scanState === "done" ? "is-success" : ""}`} role="status" aria-live="polite">
+            {scanMessage || " "}
+          </p>
+          {scanState === "error" && lastScanError ? (
+            <div className="scan-error-box" role="alert">
+              <strong>{appUi.scan.noCredit}</strong>
+              <span>{appUi.preview.reason}: {formatHistoryReason(lastScanError.reason, appUi)}</span>
+              <button className="button button-secondary" type="submit">
+                {appUi.scan.retryScan}
+              </button>
+            </div>
+          ) : null}
+        </form>
+
+        <div className="scan-preview" aria-label={appUi.preview.outputPreview}>
+          <span className="side-label">{appUi.preview.outputPreview}</span>
+          {scanState === "loading" ? (
+            <div className="scan-skeleton" aria-label={appUi.status.loading}>
+              <i />
+              <i />
+              <i />
+              <i />
+            </div>
+          ) : hasActivePreview && activeProspect ? (
+            <>
+              <div className="scan-status-row">
+                <span className="status-pill">{activeProspect.savedStatus === "saved" ? appUi.preview.saved : appUi.preview.unsaved}</span>
+                <span className="status-pill">
+                  {activeProspect.exportStatus === "exported" ? appUi.preview.exported : appUi.preview.notExported}
+                </span>
+              </div>
+              <div className="scan-preview-row">
+                <strong>{activeProspect.companyName}</strong>
+                <span>{activeProspect.domain}</span>
+                <em>{activeProspect.fitScore} {appUi.preview.fit}</em>
+              </div>
+              <div className="scan-preview-evidence">
+                {activeProspect.opportunitySignals.slice(0, 3).map((signal) => (
+                  <span key={signal.signal}>
+                    <Icon name="check" />
+                    {signal.signal}
+                  </span>
+                ))}
+              </div>
+              <div className="scan-preview-first-line">
+                <span>{appUi.preview.firstLine}</span>
+                <p>{activeProspect.firstLines[0]}</p>
+              </div>
+            </>
+          ) : (
+            <div className="scan-preview-empty">
+              <strong>{appUi.dashboard.emptyProspect.title}</strong>
+              <p>{shouldShowOnboarding ? appUi.dashboard.onboarding.descriptions.firstCardTodo : appUi.dashboard.emptyProspect.copy}</p>
+              <div className="scan-preview-empty-steps">
+                {appUi.scan.steps.map((step) => (
+                  <span key={step}>{step}</span>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
+  ) : (
+    <section className="panel overview-manual-panel" id="scan-console" aria-labelledby="overview-manual-title">
+      <div className="overview-manual-copy">
+        <p className="eyebrow">{appUi.dashboard.nextAction.manualEyebrow}</p>
+        <h2 id="overview-manual-title">{appUi.dashboard.nextAction.manualTitle}</h2>
+        <p>{appUi.dashboard.nextAction.manualCopy}</p>
+      </div>
+      <a className="button button-secondary" href={queueScanRoute} onClick={() => setOverviewManualModeOpen(true)}>
+        <Icon name="scan" />
+        {appUi.dashboard.nextAction.openManual}
+      </a>
+    </section>
+  );
   const heroMetrics = [
     [appUi.dashboard.metrics.currentPlan, snapshot.plan.name],
     [appUi.dashboard.metrics.creditsLeft, snapshot.credits.remaining.toLocaleString()],
@@ -6470,8 +6891,6 @@ function DashboardApp() {
 
     void startPlanCheckout(plan.id);
   };
-  const hasActivePreview = Boolean(activeProspect && (workspaceLeads.length > 0 || isSampleDashboard || scanState === "done"));
-
   return (
     <div className="app-shell">
       <header className="dashboard-topbar">
@@ -6488,37 +6907,29 @@ function DashboardApp() {
       <div className="app-shell-body">
         <aside className="sidebar">
           <nav className="side-nav" aria-label={appUi.pages.dashboard.title}>
-            <a className={appSection === "dashboard" ? "active" : ""} href="/app">
+            <a className={appSection === "dashboard" ? "active" : ""} href={appRoutes.today}>
               <Icon name="browser" />
-              {appUi.nav.dashboard}
+              {appUi.nav.today}
             </a>
-            <a className={appSection === "import" ? "active" : ""} href="/app/import">
+            <a className={isQueueSection ? "active" : ""} href={appRoutes.queue}>
               <Icon name="database" />
-              {appUi.nav.import}
+              {appUi.nav.queue}
             </a>
-            <a className={appSection === "leads" ? "active" : ""} href="/app/leads">
-              <Icon name="filter" />
-              {appUi.nav.leads}
-            </a>
-            <a className={appSection === "saved" ? "active" : ""} href="/app/accounts">
+            <a className={isQualifiedSection ? "active" : ""} href={appRoutes.qualified}>
               <Icon name="layers" />
-              {appUi.nav.saved}
+              {appUi.nav.qualified}
             </a>
-            <a className={appSection === "icp" ? "active" : ""} href="/app/settings/icp">
-              <Icon name="scan" />
-              {appUi.nav.icp}
+            <a className={isExportsSection ? "active" : ""} href={appRoutes.exports}>
+              <Icon name="download" />
+              {appUi.nav.exports}
             </a>
-            <a className={appSection === "billing" ? "active" : ""} href="/app/billing">
+            <a className={isSettingsSection ? "active" : ""} href={appRoutes.settings}>
               <Icon name="shield" />
-              {appUi.nav.credits}
+              {appUi.nav.settings}
             </a>
-            <a className={appSection === "analytics" ? "active" : ""} href="/app/analytics">
+            <a className={appSection === "analytics" ? "active" : ""} href={appRoutes.analytics}>
               <Icon name="chart" />
               {appUi.nav.analytics}
-            </a>
-            <a className={appSection === "account" ? "active" : ""} href="/app/account">
-              <Icon name="lock" />
-              {appUi.nav.account}
             </a>
           </nav>
         </aside>
@@ -6685,7 +7096,7 @@ function DashboardApp() {
                       <p className="eyebrow">{appUi.dashboard.queuePanel.eyebrow}</p>
                       <h2>{appUi.dashboard.queuePanel.title}</h2>
                     </div>
-                    <a className="button button-secondary button-small" href="/app/leads">
+                    <a className="button button-secondary button-small" href={appRoutes.queue}>
                       {appUi.common.open}
                     </a>
                   </div>
@@ -6716,9 +7127,7 @@ function DashboardApp() {
                             <div className="overview-queue-meta">
                               <span className="status-pill">{row.status === "ready" ? appUi.dashboard.queuePanel.ready : appUi.dashboard.queuePanel.researching}</span>
                               <small>
-                                {row.kind === "import"
-                                  ? appUi.importer.sourceOptions[row.source]
-                                  : appUi.dashboard.queuePanel.workspaceSource}
+                                {queueSourceLabel(row.source, appUi)}
                               </small>
                             </div>
                             <div className="overview-inline-actions">
@@ -6733,7 +7142,15 @@ function DashboardApp() {
                                 <button
                                   className="button button-primary button-small"
                                   type="button"
-                                  onClick={() => queueWebsiteForScanDesk({ url: row.websiteUrl, companyName: row.companyName, notes: row.note })}
+                                  onClick={() =>
+                                    queueWebsiteForScanDesk({
+                                      url: row.websiteUrl,
+                                      companyName: row.companyName,
+                                      notes: row.note,
+                                      queueItemId: row.id,
+                                      queueSource: row.source
+                                    })
+                                  }
                                 >
                                   {appUi.dashboard.queuePanel.moveToScanDesk}
                                 </button>
@@ -6758,7 +7175,7 @@ function DashboardApp() {
                         <p className="eyebrow">{appUi.dashboard.savedPanel.eyebrow}</p>
                         <h2>{appUi.dashboard.savedPanel.title}</h2>
                       </div>
-                      <a className="button button-secondary button-small" href="/app/accounts">
+                      <a className="button button-secondary button-small" href={appRoutes.qualified}>
                         {appUi.common.open}
                       </a>
                     </div>
@@ -6825,162 +7242,27 @@ function DashboardApp() {
               </section>
             )}
 
-            {overviewManualModeOpen ? (
-              <section className={`panel scan-console ${scanState === "loading" ? "is-loading" : ""}`} id="scan-console" aria-labelledby="scan-console-title">
-                <div className="scan-console-head">
-                  <div className="scan-console-copy">
-                    <p className="eyebrow">{appUi.scan.eyebrow}</p>
-                    <h2 id="scan-console-title">{appUi.scan.title}</h2>
-                    <p>{appUi.scan.copy}</p>
-                  </div>
-                  <div className="scan-flow-steps" aria-label={appUi.scan.title}>
-                    {appUi.scan.steps.map((step, index) => (
-                      <span className={index === 0 || scanState === "done" ? "is-active" : ""} key={step}>
-                        {index + 1}. {step}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="scan-console-body">
-                <form className="scan-form" onSubmit={submitScan}>
-                  <label>
-                    {appUi.scan.prospectWebsite}
-                    <input
-                      name="url"
-                      type="url"
-                      required
-                      placeholder={appUi.common.placeholders.prospectUrl}
-                      value={scanForm.url}
-                      onChange={updateScanField("url")}
-                    />
-                  </label>
-                  <label>
-                    {appUi.scan.companyName}
-                    <input
-                      name="companyName"
-                      placeholder={appUi.common.placeholders.companyName}
-                      value={scanForm.companyName}
-                      onChange={updateScanField("companyName")}
-                    />
-                  </label>
-                  <label className="scan-form-wide">
-                    {appUi.scan.websiteNotes}
-                    <textarea
-                      name="notes"
-                      rows={4}
-                      placeholder={appUi.scan.notesPlaceholder}
-                      value={scanForm.notes}
-                      onChange={updateScanField("notes")}
-                    />
-                  </label>
-                  <label className="scan-depth-toggle">
-                    <input type="checkbox" checked={scanForm.deepScan} onChange={updateScanField("deepScan")} />
-                    <span>
-                      {appUi.scan.deepScan}
-                      <small>{appUi.scan.deepScanHint}</small>
-                    </span>
-                  </label>
-                  <button className="button button-primary" type="submit" disabled={scanState === "loading"}>
-                    <Icon name="scan" />
-                    {scanState === "loading" ? appUi.scan.scanning : appUi.scan.runScan}
-                  </button>
-                  <p className={`form-status ${scanState === "error" ? "is-error" : scanState === "done" ? "is-success" : ""}`} role="status" aria-live="polite">
-                    {scanMessage || " "}
-                  </p>
-                  {scanState === "error" && lastScanError ? (
-                    <div className="scan-error-box" role="alert">
-                      <strong>{appUi.scan.noCredit}</strong>
-                      <span>{appUi.preview.reason}: {formatHistoryReason(lastScanError.reason, appUi)}</span>
-                      <button className="button button-secondary" type="submit">
-                        {appUi.scan.retryScan}
-                      </button>
-                    </div>
-                  ) : null}
-                </form>
-
-                <div className="scan-preview" aria-label={appUi.preview.outputPreview}>
-                  <span className="side-label">{appUi.preview.outputPreview}</span>
-                  {scanState === "loading" ? (
-                    <div className="scan-skeleton" aria-label={appUi.status.loading}>
-                      <i />
-                      <i />
-                      <i />
-                      <i />
-                    </div>
-                  ) : hasActivePreview && activeProspect ? (
-                    <>
-                      <div className="scan-status-row">
-                        <span className="status-pill">{activeProspect.savedStatus === "saved" ? appUi.preview.saved : appUi.preview.unsaved}</span>
-                        <span className="status-pill">
-                          {activeProspect.exportStatus === "exported" ? appUi.preview.exported : appUi.preview.notExported}
-                        </span>
-                      </div>
-                      <div className="scan-preview-row">
-                        <strong>{activeProspect.companyName}</strong>
-                        <span>{activeProspect.domain}</span>
-                        <em>{activeProspect.fitScore} {appUi.preview.fit}</em>
-                      </div>
-                      <div className="scan-preview-evidence">
-                        {activeProspect.opportunitySignals.slice(0, 3).map((signal) => (
-                          <span key={signal.signal}>
-                            <Icon name="check" />
-                            {signal.signal}
-                          </span>
-                        ))}
-                      </div>
-                      <div className="scan-preview-first-line">
-                        <span>{appUi.preview.firstLine}</span>
-                        <p>{activeProspect.firstLines[0]}</p>
-                      </div>
-                    </>
-                  ) : (
-                    <div className="scan-preview-empty">
-                      <strong>{appUi.dashboard.emptyProspect.title}</strong>
-                      <p>{shouldShowOnboarding ? appUi.dashboard.onboarding.descriptions.firstCardTodo : appUi.dashboard.emptyProspect.copy}</p>
-                      <div className="scan-preview-empty-steps">
-                        {appUi.scan.steps.map((step) => (
-                          <span key={step}>{step}</span>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </div>
-              </section>
-            ) : (
-              <section className="panel overview-manual-panel" id="scan-console" aria-labelledby="overview-manual-title">
-                <div className="overview-manual-copy">
-                  <p className="eyebrow">{appUi.dashboard.nextAction.manualEyebrow}</p>
-                  <h2 id="overview-manual-title">{appUi.dashboard.nextAction.manualTitle}</h2>
-                  <p>{appUi.dashboard.nextAction.manualCopy}</p>
-                </div>
-                <a className="button button-secondary" href="#scan-console" onClick={() => setOverviewManualModeOpen(true)}>
-                  <Icon name="scan" />
-                  {appUi.dashboard.nextAction.openManual}
-                </a>
-              </section>
-            )}
+            {scanWorkspacePanel}
           </>
         ) : null}
 
-        {appSection === "import" && !workspaceStateBlocked ? (
+        {appSection === "queue" && !workspaceStateBlocked ? (
           <>
-            <section className="app-page-grid import-page-grid">
+            <section className="app-page-grid import-page-grid" id="queue-intake">
               <div className="panel import-form-panel" id="import-form-panel">
                 <div className="panel-header">
                   <div>
                     <p className="eyebrow">{appUi.importer.eyebrow}</p>
                     <h2>{appUi.importer.title}</h2>
                   </div>
-                  <a className="button button-secondary" href="/app/leads">
+                  <a className="button button-secondary" href="#queue-review">
                     <Icon name="filter" />
                     {appUi.importer.openQueue}
                   </a>
                 </div>
                 <p className="panel-copy">{appUi.importer.copy}</p>
                 <form className="import-form" onSubmit={submitImportedWebsites}>
-                  <label className="import-form-wide">
+                  <label className="import-form-wide import-form-field">
                     {appUi.importer.textareaLabel}
                     <textarea
                       rows={12}
@@ -6989,20 +7271,34 @@ function DashboardApp() {
                       placeholder={appUi.importer.textareaPlaceholder}
                     />
                   </label>
-                  <label>
-                    {appUi.importer.sourceLabel}
-                    <select value={importSource} onChange={(event) => setImportSource(event.currentTarget.value as BatchSourceOption)}>
-                      {batchSourceOptions.map((option) => (
-                        <option value={option} key={option}>
-                          {appUi.importer.sourceOptions[option]}
-                        </option>
-                      ))}
-                    </select>
-                  </label>
-                  <label>
-                    {appUi.importer.notesLabel}
-                    <textarea rows={3} value={importNote} onChange={(event) => setImportNote(event.currentTarget.value)} />
-                  </label>
+                  <div className="import-form-meta-grid">
+                    <fieldset className="import-meta-card import-source-card">
+                      <legend>{appUi.importer.sourceLabel}</legend>
+                      <div className="import-source-grid" aria-label={appUi.importer.sourceLabel}>
+                        {batchSourceOptions.map((option) => {
+                          const isSelected = importSource === option;
+                          return (
+                            <button
+                              key={option}
+                              type="button"
+                              className={`import-source-option${isSelected ? " is-selected" : ""}`}
+                              onClick={() => setImportSource(option)}
+                              aria-pressed={isSelected}
+                            >
+                              <span className="import-source-option-copy">{appUi.importer.sourceOptions[option]}</span>
+                              <span className="import-source-option-mark" aria-hidden="true">
+                                <Icon name="check" />
+                              </span>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </fieldset>
+                    <label className="import-meta-card import-note-card">
+                      <span>{appUi.importer.notesLabel}</span>
+                      <textarea rows={5} value={importNote} onChange={(event) => setImportNote(event.currentTarget.value)} />
+                    </label>
+                  </div>
                   <div className="import-form-actions">
                     <button className="button button-primary" type="submit" disabled={!importDraft.trim()}>
                       <Icon name="database" />
@@ -7102,7 +7398,7 @@ function DashboardApp() {
                           <span>{row.domain}</span>
                           {row.note ? <small>{row.note}</small> : null}
                         </div>
-                        <span>{appUi.importer.sourceOptions[row.source]}</span>
+                        <span>{queueSourceLabel(row.source, appUi)}</span>
                         <span><span className="status-pill">{statusLabel}</span></span>
                         <div className="review-row-actions">
                           <a className="button button-secondary button-small" href={row.websiteUrl} target="_blank" rel="noreferrer">
@@ -7116,12 +7412,20 @@ function DashboardApp() {
                             <button
                               className="button button-primary button-small"
                               type="button"
-                              onClick={() => queueWebsiteForScanDesk({ url: row.websiteUrl, companyName: row.companyName, notes: row.note })}
+                              onClick={() =>
+                                queueWebsiteForScanDesk({
+                                  url: row.websiteUrl,
+                                  companyName: row.companyName,
+                                  notes: row.note,
+                                  queueItemId: row.id,
+                                  queueSource: row.source
+                                })
+                              }
                             >
                               {appUi.reviewQueue.moveToScanDesk}
                             </button>
                           )}
-                          <button className="button button-secondary button-small" type="button" onClick={() => removeImportedWebsite(row.id)}>
+                          <button className="button button-secondary button-small" type="button" onClick={() => void removeImportedWebsite(row.id)}>
                             {appUi.importer.remove}
                           </button>
                         </div>
@@ -7131,11 +7435,12 @@ function DashboardApp() {
                 </div>
               )}
             </section>
+            {scanWorkspacePanel}
           </>
         ) : null}
 
-        {appSection === "leads" && !workspaceStateBlocked ? (
-          <section className={`app-page-grid review-page-grid ${showReviewQueueEmptyState ? "is-empty" : ""}`}>
+        {appSection === "queue" && !workspaceStateBlocked ? (
+          <section className={`app-page-grid review-page-grid ${showReviewQueueEmptyState ? "is-empty" : ""}`} id="queue-review">
             <div className="panel review-queue-panel">
               <div className="panel-header">
                 <div>
@@ -7148,11 +7453,11 @@ function DashboardApp() {
                   <strong>{appUi.reviewQueue.emptyTitle}</strong>
                   <p>{appUi.reviewQueue.emptyCopy}</p>
                   <div className="page-empty-actions">
-                    <a className="button button-primary" href="/app/import">
+                    <a className="button button-primary" href="#queue-intake">
                       <Icon name="database" />
                       {appUi.dashboard.nextAction.importWebsites}
                     </a>
-                    <a className="button button-secondary" href="/app#scan-console">
+                    <a className="button button-secondary" href={queueScanRoute}>
                       <Icon name="scan" />
                       {appUi.actions.newScan}
                     </a>
@@ -7215,11 +7520,7 @@ function DashboardApp() {
                               <span>{row.domain}</span>
                               {row.note ? <small>{row.note}</small> : null}
                             </div>
-                            <span>
-                              {row.kind === "import"
-                                ? appUi.importer.sourceOptions[row.source]
-                                : appUi.reviewQueue.workspaceSource}
-                            </span>
+                            <span>{queueSourceLabel(row.source, appUi)}</span>
                             <span>
                               <span className="status-pill">
                                 {row.status === "ready" ? appUi.reviewQueue.statusReady : appUi.reviewQueue.statusResearching}
@@ -7237,7 +7538,15 @@ function DashboardApp() {
                                 <button
                                   className="button button-primary button-small"
                                   type="button"
-                                  onClick={() => queueWebsiteForScanDesk({ url: row.websiteUrl, companyName: row.companyName, notes: row.note })}
+                                  onClick={() =>
+                                    queueWebsiteForScanDesk({
+                                      url: row.websiteUrl,
+                                      companyName: row.companyName,
+                                      notes: row.note,
+                                      queueItemId: row.id,
+                                      queueSource: row.source
+                                    })
+                                  }
                                 >
                                   {appUi.reviewQueue.moveToScanDesk}
                                 </button>
@@ -7288,25 +7597,42 @@ function DashboardApp() {
           </section>
         ) : null}
 
-        {appSection === "saved" && !workspaceStateBlocked ? (
+        {(appSection === "qualified" || appSection === "exports") && !workspaceStateBlocked ? (
           <section className={`app-page-grid leads-page-grid ${showSavedAccountsEmptyState ? "is-empty" : ""}`}>
             <div className="panel leads-panel leads-page-panel">
               <div className="panel-header">
                 <div>
-                  <p className="eyebrow">{appUi.savedAccounts.eyebrow}</p>
-                  <h2>{appUi.savedAccounts.title}</h2>
+                  <p className="eyebrow">{isExportsSection ? appUi.pages.exports.eyebrow : appUi.savedAccounts.eyebrow}</p>
+                  <h2>{isExportsSection ? appUi.pages.exports.title : appUi.savedAccounts.title}</h2>
                 </div>
               </div>
+              {isExportsSection ? <p className="panel-copy">{appUi.pages.exports.copy}</p> : null}
+              {isExportsSection && !showSavedAccountsEmptyState ? (
+                <div className="billing-summary-strip" aria-label={appUi.pages.exports.title}>
+                  <div className="billing-summary-card">
+                    <span>{appUi.analytics.kpis.qualifiedAccounts}</span>
+                    <strong>{qualifiedCount.toLocaleString()}</strong>
+                  </div>
+                  <div className="billing-summary-card">
+                    <span>{appUi.leads.selectedCount.replace("__COUNT__", String(selectedSourceLeads.length))}</span>
+                    <strong>{selectedSourceLeads.length.toLocaleString()}</strong>
+                  </div>
+                  <div className="billing-summary-card">
+                    <span>{appUi.analytics.kpis.exportsCompleted}</span>
+                    <strong>{analyticsSummary.totals.exportsCompleted.toLocaleString()}</strong>
+                  </div>
+                </div>
+              ) : null}
               {showSavedAccountsEmptyState ? (
                 <div className="page-empty-state">
                   <strong>{appUi.savedAccounts.emptyTitle}</strong>
                   <p>{appUi.savedAccounts.emptyCopy}</p>
                   <div className="page-empty-actions">
-                    <a className="button button-primary" href="/app/leads">
+                    <a className="button button-primary" href={appRoutes.queue}>
                       <Icon name="filter" />
                       {appUi.dashboard.nextAction.openQueue}
                     </a>
-                    <a className="button button-secondary" href="/app/import">
+                    <a className="button button-secondary" href={appRoutes.queue}>
                       <Icon name="database" />
                       {appUi.dashboard.nextAction.importWebsites}
                     </a>
@@ -7402,6 +7728,17 @@ function DashboardApp() {
                       ) : null}
                     </div>
                     <div className="lead-bulk-actions">
+                      {isExportsSection ? (
+                        <button
+                          className="button button-secondary button-small"
+                          type="button"
+                          onClick={() => void downloadCsv()}
+                          disabled={!sourceLeads.length}
+                        >
+                          <Icon name="download" />
+                          {appUi.actions.exportCsv}
+                        </button>
+                      ) : null}
                       <button
                         className="button button-secondary button-small"
                         type="button"
@@ -7564,9 +7901,9 @@ function DashboardApp() {
           </section>
         ) : null}
 
-        {appSection === "icp" && !workspaceStateBlocked ? (
+        {appSection === "settings" && !workspaceStateBlocked ? (
           <section className="app-page-grid">
-            <div className="panel icp-editor-panel" id="icp-editor">
+            <div className="panel icp-editor-panel" id="settings-icp">
               <div className="panel-header">
                 <div>
                   <p className="eyebrow">{appUi.icp.editorEyebrow}</p>
@@ -7669,11 +8006,11 @@ function DashboardApp() {
                 <h2>{appUi.analytics.emptyTitle}</h2>
                 <p className="panel-copy">{appUi.analytics.emptyCopy}</p>
                 <div className="page-empty-actions">
-                  <a className="button button-primary" href="/app/import">
+                  <a className="button button-primary" href={appRoutes.queue}>
                     <Icon name="database" />
                     {appUi.dashboard.nextAction.importWebsites}
                   </a>
-                  <a className="button button-secondary" href="/app#scan-console">
+                  <a className="button button-secondary" href={queueScanRoute}>
                     <Icon name="scan" />
                     {appUi.actions.newScan}
                   </a>
@@ -7829,7 +8166,7 @@ function DashboardApp() {
           )
         ) : null}
 
-        {appSection === "account" && !workspaceStateBlocked ? (
+        {appSection === "settings" && !workspaceStateBlocked ? (
           <section className="app-page-grid account-page-grid">
             <div className="account-main-stack">
               {auth.authenticated ? (
@@ -8050,7 +8387,7 @@ function DashboardApp() {
           </section>
         ) : null}
 
-        {appSection === "billing" && !workspaceStateBlocked ? (
+        {appSection === "settings" && !workspaceStateBlocked ? (
           <section className="app-page-grid billing-page-grid">
             <div className="billing-summary-strip" aria-label={appUi.billing.meterLabel}>
               {billingSummaryCards.map(([label, value]) => (
@@ -8958,6 +9295,7 @@ function ProspectCard({
       const result = (await response.json().catch(() => ({}))) as {
         context?: ProspectPipelineContext;
         activity?: ProspectPipelineActivity | null;
+        queueItem?: WorkspaceQueueItem | null;
         error?: string;
       };
 
@@ -8968,7 +9306,7 @@ function ProspectCard({
       const next = normalizeProspectMeta(result.context);
       setMetaFields(next);
       setMetaSaveState("saved");
-      onContextSaved?.({ context: next, activity: result.activity || null });
+      onContextSaved?.({ context: next, activity: result.activity || null, queueItem: result.queueItem || null });
     } catch {
       setMetaSaveState("error");
     }
