@@ -44,6 +44,14 @@ type SignupRequest = {
   targetIndustries?: string;
   firstProspectUrl?: string;
 };
+type WorkspaceCreateRequest = {
+  workspaceName?: string;
+  planId?: string;
+  agencyFocus?: string;
+  offerDescription?: string;
+  targetIndustries?: string;
+  firstProspectUrl?: string;
+};
 type EmailLoginRequest = {
   email?: string;
   password?: string;
@@ -216,7 +224,7 @@ app.get("/api/extension/session", async (c) => {
     appUrl: baseUrl,
     dashboardUrl: `${baseUrl}/app`,
     loginUrl: `${baseUrl}/login`,
-    signupUrl: `${baseUrl}/signup?plan=free`,
+    signupUrl: `${baseUrl}/login`,
     billingUrl: `${baseUrl}/app/billing`,
     supportUrl: `${baseUrl}/support`
   };
@@ -519,7 +527,7 @@ app.get("/api/auth/google/start", async (c) => {
   const planId = (c.req.query("planId") as PricingPlan["id"] | null) ?? undefined;
   const focus = c.req.query("focus") ?? undefined;
   const returnTo = safeReturnPath(c.req.query("returnTo"), "/app");
-  const errorPath = intent === "signup" ? buildSignupPath(planId, focus) : "/login";
+  const errorPath = "/login";
 
   if (!googleAuthConfigured(c.env)) {
     return c.redirect(`${appUrl(c.env)}${appendPathQuery(errorPath, "auth_error", "google_not_configured")}`);
@@ -601,7 +609,7 @@ app.get("/api/auth/google/callback", async (c) => {
     intent: "login",
     returnTo: "/app"
   });
-  const errorPath = metadata.intent === "signup" ? buildSignupPath(metadata.planId, metadata.focus) : "/login";
+  const errorPath = "/login";
 
   if (oauthError || !code || !pending.code_verifier) {
     return c.redirect(`${appUrl(c.env)}${appendPathQuery(errorPath, "auth_error", oauthError || "oauth_cancelled")}`);
@@ -733,6 +741,11 @@ app.get("/api/workspace", async (c) => {
     return c.json(sampleWorkspaceSnapshot(workspaceId, locale));
   }
 
+  const session = await getAuthenticatedSession(c);
+  if (session && !session.workspace_id && workspaceId === "ws_demo") {
+    return c.json({ ok: false, error: "Create a workspace before loading workspace data." }, 404);
+  }
+
   try {
     if (workspaceId === "ws_demo") {
       await ensureDemoWorkspace(c.env.DB, workspaceId);
@@ -750,6 +763,81 @@ app.get("/api/workspace", async (c) => {
       ...sampleWorkspaceSnapshot(workspaceId, locale),
       warning: "D1 is not initialized. Apply migrations to enable workspace persistence."
     });
+  }
+});
+
+app.post("/api/workspace/create", async (c) => {
+  if (!c.env.DB) {
+    return c.json({ ok: false, error: "Workspace creation is unavailable until the database is ready." }, 503);
+  }
+
+  const session = await getAuthenticatedSession(c);
+  if (!session) {
+    return c.json({ ok: false, error: "Sign in before creating a workspace." }, 401);
+  }
+
+  if (session.workspace_id) {
+    const snapshot = await getWorkspaceSnapshot(c.env.DB, session.workspace_id);
+    return c.json({ ok: true, existing: true, next: "dashboard", snapshot });
+  }
+
+  const body = (await c.req.json<WorkspaceCreateRequest>().catch(() => ({}))) as WorkspaceCreateRequest;
+  const selectedPlan = getPlan(body.planId || "free");
+  const ids = await commercialIdsForEmail(session.email);
+  const workspaceName = body.workspaceName?.trim() || workspaceNameFromSignup(session.email);
+  const offerDescription = body.offerDescription?.trim() || DEFAULT_ICP.offerDescription;
+  const targetIndustries = body.targetIndustries?.trim() || DEFAULT_ICP.targetIndustries.join(", ");
+
+  try {
+    await upsertWorkspaceBundle(c.env.DB, {
+      userId: session.user_id,
+      workspaceId: ids.workspaceId,
+      memberId: ids.memberId,
+      icpId: ids.icpId,
+      subscriptionId: ids.subscriptionId,
+      workspaceName,
+      selectedPlan,
+      agencyFocus: body.agencyFocus,
+      offerDescription,
+      targetIndustries
+    });
+
+    const signupIntentId = `signup_${crypto.randomUUID()}`;
+    await persistSignupIntent(c.env.DB, {
+      id: signupIntentId,
+      userId: session.user_id,
+      workspaceId: ids.workspaceId,
+      email: session.email,
+      planId: selectedPlan.id,
+      agencyFocus: body.agencyFocus,
+      agencyWebsite: null,
+      offerDescription,
+      targetIndustries,
+      firstProspectUrl: body.firstProspectUrl
+    }).catch((error) => console.error("workspace_create_intent_persist_failed", error));
+
+    if (selectedPlan.id !== "free") {
+      const checkout = await createStripeCheckoutSession(c.env, {
+        workspaceId: ids.workspaceId,
+        signupIntentId,
+        email: session.email,
+        plan: selectedPlan
+      });
+
+      if (checkout.status === "created") {
+        return c.json({ ok: true, workspaceId: ids.workspaceId, next: "checkout", checkoutUrl: checkout.url });
+      }
+
+      if (checkout.status === "failed") {
+        return c.json({ ok: false, error: checkout.error }, 502);
+      }
+    }
+
+    const snapshot = await getWorkspaceSnapshot(c.env.DB, ids.workspaceId);
+    return c.json({ ok: true, workspaceId: ids.workspaceId, next: "dashboard", snapshot });
+  } catch (error) {
+    console.error("workspace_create_failed", error);
+    return c.json({ ok: false, error: "Unable to create workspace. Please try again." }, 500);
   }
 });
 
@@ -2576,7 +2664,6 @@ async function signInWithGoogleUser(
   }
 ): Promise<{ userId: string; checkoutUrl?: string; isNewUser: boolean }> {
   const existingUser = await findUserForGoogleProfile(db, input.profile);
-  const selectedPlan = getPlan(input.metadata.planId || "free");
   const userId = existingUser?.id || `user_${await shortHash(input.profile.sub)}`;
   const workspaceName = workspaceNameFromSignup(input.profile.email);
 
@@ -2589,38 +2676,7 @@ async function signInWithGoogleUser(
     avatarUrl: input.profile.picture
   });
 
-  const existingWorkspace = await getPrimaryWorkspaceMembership(db, userId);
   const isNewUser = !existingUser;
-
-  if (!existingWorkspace) {
-    const ids = await commercialIdsForEmail(input.profile.email);
-    await upsertWorkspaceBundle(db, {
-      userId,
-      workspaceId: ids.workspaceId,
-      memberId: ids.memberId,
-      icpId: ids.icpId,
-      subscriptionId: ids.subscriptionId,
-      workspaceName,
-      selectedPlan,
-      agencyFocus: input.metadata.focus,
-      offerDescription: DEFAULT_ICP.offerDescription,
-      targetIndustries: DEFAULT_ICP.targetIndustries.join(", ")
-    });
-
-    if (selectedPlan.id !== "free") {
-      const checkout = await createStripeCheckoutSession(env, {
-        workspaceId: ids.workspaceId,
-        signupIntentId: null,
-        email: input.profile.email,
-        plan: selectedPlan
-      });
-
-      if (checkout.status === "created") {
-        return { userId, checkoutUrl: checkout.url, isNewUser };
-      }
-    }
-  }
-
   return { userId, isNewUser };
 }
 
@@ -3053,7 +3109,7 @@ async function createStripeCheckoutSession(
     "line_items[0][price]": priceId,
     "line_items[0][quantity]": "1",
     success_url: `${baseUrl}/app?workspace=${input.workspaceId}&checkout=success`,
-    cancel_url: `${baseUrl}/signup?plan=${input.plan.id}&checkout=cancelled`,
+    cancel_url: `${baseUrl}/app/billing?plan=${input.plan.id}&checkout=cancelled`,
     "metadata[workspaceId]": input.workspaceId,
     "metadata[planId]": input.plan.id,
     "subscription_data[metadata][workspaceId]": input.workspaceId,

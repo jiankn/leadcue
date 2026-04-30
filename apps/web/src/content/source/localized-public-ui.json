@@ -5,7 +5,8 @@
         "login": {
           "heroEyebrow": "网站研究工作区",
           "cardCopy": "使用 Google 或工作邮箱重新打开你的网站研究工作区。",
-          "signupCopy": "创建免费工作区，并完成第一次网站审查。"
+          "signupCopy": "请先登录。工作空间设置会在账号会话生效后的 /app 内完成。",
+          "signupCta": "继续进入应用内设置"
         },
         "signup": {
           "summaryProspects": "研究卡片 + CSV",
@@ -41,7 +42,8 @@
         "login": {
           "heroEyebrow": "Webサイトリサーチ用ワークスペース",
           "cardCopy": "Google または仕事用メールで、Webサイトリサーチのワークスペースを再開できます。",
-          "signupCopy": "無料ワークスペースを作成し、最初のWebサイトレビューを実行します。"
+          "signupCopy": "先にログインしてください。ワークスペース設定は、アカウントのセッションが有効になった後に /app 内で行います。",
+          "signupCta": "アプリ内セットアップへ進む"
         },
         "signup": {
           "summaryProspects": "リサーチカード + CSV",
@@ -344,7 +346,8 @@
         "login": {
           "heroEyebrow": "웹사이트 리서치 워크스페이스",
           "cardCopy": "Google 또는 업무용 이메일로 웹사이트 리서치 워크스페이스를 다시 열 수 있습니다.",
-          "signupCopy": "무료 워크스페이스를 만들고 첫 웹사이트 검토를 실행하세요."
+          "signupCopy": "먼저 로그인하세요. 워크스페이스 설정은 계정 세션이 활성화된 뒤 /app 안에서 진행됩니다.",
+          "signupCta": "앱 설정으로 계속"
         },
         "signup": {
           "summaryProspects": "리서치 카드 + CSV",
@@ -575,7 +578,8 @@
         "login": {
           "heroEyebrow": "Workspace für Website-Recherche",
           "cardCopy": "Melden Sie sich mit Google oder Ihrer geschäftlichen E-Mail an, um Ihren Website-Recherche-Workspace wieder zu öffnen.",
-          "signupCopy": "Erstellen Sie einen kostenlosen Workspace und führen Sie Ihre erste Website-Prüfung durch."
+          "signupCopy": "Melden Sie sich zuerst an. Das Workspace-Setup findet jetzt in /app statt, sobald Ihre Kontositzung aktiv ist.",
+          "signupCta": "Weiter zum App-Setup"
         },
         "signup": {
           "summaryProspects": "Recherchekarten + CSV",
@@ -806,7 +810,8 @@
         "login": {
           "heroEyebrow": "Werkruimte voor websiteonderzoek",
           "cardCopy": "Gebruik Google of je zakelijke e-mail om je werkruimte voor websiteonderzoek opnieuw te openen.",
-          "signupCopy": "Maak een gratis werkruimte en voer je eerste websitebeoordeling uit."
+          "signupCopy": "Log eerst in. De werkruimte-instelling gebeurt nu in /app zodra je accountsessie actief is.",
+          "signupCta": "Verder naar app-instelling"
         },
         "signup": {
           "summaryProspects": "Onderzoekskaarten + CSV",
@@ -1037,7 +1042,8 @@
         "login": {
           "heroEyebrow": "Espace de recherche de sites web",
           "cardCopy": "Utilisez Google ou votre e-mail professionnel pour rouvrir votre espace de recherche de sites web.",
-          "signupCopy": "Créez un espace gratuit et lancez votre première analyse de site."
+          "signupCopy": "Connectez-vous d'abord. La configuration du workspace se fait maintenant dans /app une fois votre session de compte active.",
+          "signupCta": "Continuer vers la configuration dans l'app"
         },
         "signup": {
           "summaryProspects": "Cartes de recherche + CSV",

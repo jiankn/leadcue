@@ -642,8 +642,8 @@
       "resetDevNote": "On local builds, LeadCue shows the reset link directly so the flow can be tested end to end.",
       "sessionNote": "Password sign-in uses the same secure workspace session as Google OAuth.",
       "signupLead": "New to LeadCue?",
-      "signupCopy": "Create a free workspace and run your first website review.",
-      "signupCta": "Create free workspace",
+      "signupCopy": "Sign in first. Workspace setup now happens inside /app after your account session is active.",
+      "signupCta": "Continue to app setup",
       "validation": {
         "invalidLogin": "Enter a valid work email and an 8+ character password.",
         "emailLoginFailed": "Email password sign-in failed. Try again.",

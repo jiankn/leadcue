@@ -297,6 +297,16 @@ type SignupResponse = {
   error?: string;
 };
 
+type WorkspaceCreateResponse = {
+  ok: boolean;
+  existing?: boolean;
+  workspaceId?: string;
+  next?: "dashboard" | "checkout";
+  checkoutUrl?: string;
+  snapshot?: WorkspaceSnapshot;
+  error?: string;
+};
+
 type EmailLoginResponse = {
   ok: boolean;
   next?: string;
@@ -554,6 +564,14 @@ function icpFormFromSetup(setup: WorkspaceSnapshot["setup"]): IcpFormState {
 const APP_LOCALE_KEY = "leadcue_app_locale";
 const APP_LOCALE_QUERY_KEY = "lc_locale";
 
+function RedirectTo({ href }: { href: string }) {
+  useEffect(() => {
+    window.location.replace(href);
+  }, [href]);
+
+  return null;
+}
+
 function readAppLocale(): SiteLocaleCode | null {
   try {
     const stored = localStorage.getItem(APP_LOCALE_KEY);
@@ -671,16 +689,7 @@ export default function App() {
   if (isSignupRoute) {
     return (
       <PublicSiteContext.Provider value={publicSiteContext}>
-        <>
-          <SeoHead
-            title={siteUi.auth.signup.heroTitle}
-            description={siteUi.auth.signup.heroCopy}
-            path="/signup"
-            locale={locale}
-            noIndex
-          />
-          <SignupPage />
-        </>
+        <RedirectTo href={localizeHref(locale, "/login")} />
       </PublicSiteContext.Provider>
     );
   }
@@ -1048,7 +1057,7 @@ function MarketingSite() {
           name: plan.name,
           price: plan.price,
           priceCurrency: "USD",
-          url: `${SITE_URL}${localizeHref(`/signup?plan=${plan.id}`)}`
+          url: `${SITE_URL}${localizeHref("/login")}`
         }))
       }
     ]
@@ -1097,7 +1106,7 @@ function MarketingSite() {
             </h1>
             <p className="hero-subhead">{home.hero.subhead}</p>
             <div className="hero-actions">
-              <a className="button button-primary" href={localizeHref("/signup")}>
+              <a className="button button-primary" href={localizeHref("/login")}>
                 <Icon name="mail" />
                 {home.hero.primaryCta}
               </a>
@@ -1341,7 +1350,7 @@ function MarketingSite() {
                 ))}
               </div>
               <div className="sample-card-actions">
-                <a className="button button-primary" href={localizeHref("/signup?first=https%3A%2F%2Fnorthstaranalytics.example")}>
+                <a className="button button-primary" href={localizeHref("/login")}>
                   <Icon name="scan" />
                   {home.sampleCard.primaryCta}
                 </a>
@@ -1366,7 +1375,7 @@ function MarketingSite() {
                 <article className="use-case-card" key={item.title}>
                   <h3>{item.title}</h3>
                   <p>{item.copy}</p>
-                  <a href={localizeHref(`/signup?focus=${(["web_design", "seo", "marketing"] as const)[index]}`)}>
+                  <a href={localizeHref("/login")}>
                     {item.cta}
                     <Icon name="arrow" />
                   </a>
@@ -1426,7 +1435,7 @@ function MarketingSite() {
                   </ul>
                   <a
                     className="plan-cta"
-                    href={localizeHref(`/signup?plan=${plan.id}`)}
+                    href={localizeHref("/login")}
                     aria-label={
                       plan.id === "free"
                         ? formatMessage(home.pricing.ariaStartFree, { plan: plan.name })
@@ -1550,7 +1559,7 @@ function MarketingSite() {
               <span className="signup-card-kicker">{home.launch.cardKicker}</span>
               <h3>{home.launch.cardTitle}</h3>
               <p>{home.launch.cardCopy}</p>
-              <form className="quick-scan-form" action={localizeHref("/signup")} method="get">
+              <form className="quick-scan-form" action={localizeHref("/login")} method="get">
                 <input type="hidden" name="plan" value="free" />
                 <label htmlFor="quick-scan-url">{home.launch.quickScanLabel}</label>
                 <div>
@@ -1567,7 +1576,7 @@ function MarketingSite() {
                   </button>
                 </div>
               </form>
-              <a className="button button-primary" href={localizeHref("/signup")}>
+              <a className="button button-primary" href={localizeHref("/login")}>
                 <Icon name="mail" />
                 {home.launch.startFree}
               </a>
@@ -1613,7 +1622,7 @@ function MarketingSite() {
           <div>
             <a href={localizeHref("/privacy")}>{home.footer.privacyPolicy}</a>
             <a href={localizeHref("/terms")}>{home.footer.termsAndConditions}</a>
-            <a href={localizeHref("/signup")}>{home.launch.startFree}</a>
+            <a href={localizeHref("/login")}>{home.launch.startFree}</a>
           </div>
         </div>
       </footer>
@@ -1732,7 +1741,7 @@ function SeoContentPageView({ page }: { page: SeoContentPage }) {
           <a href={localizeHref("/agency-lead-qualification")}>{siteUi.content.seoNav.qualification}</a>
         </nav>
         <LanguageSwitcher />
-        <a className="button button-small button-primary topbar-back" href={localizeHref("/signup")}>
+        <a className="button button-small button-primary topbar-back" href={localizeHref("/login")}>
           {siteUi.common.startFree}
         </a>
       </header>
@@ -1849,7 +1858,7 @@ function SeoContentPageView({ page }: { page: SeoContentPage }) {
             <p className="eyebrow">{siteUi.common.useOnRealAccount}</p>
             <h2>{siteUi.content.ctaTitleSeo}</h2>
           </div>
-          <a className="button button-primary" href={localizeHref("/signup")}>
+          <a className="button button-primary" href={localizeHref("/login")}>
             <Icon name="scan" />
             {siteUi.common.startFreeScan}
           </a>
@@ -1986,7 +1995,7 @@ function ProductSeoPageView({ page }: { page: ProductSeoPage }) {
           <a href={localizeHref("/integrations/hubspot-csv-export")}>{siteUi.content.productNav.integrations}</a>
         </nav>
         <LanguageSwitcher />
-        <a className="button button-small button-primary topbar-back" href={localizeHref("/signup")}>
+        <a className="button button-small button-primary topbar-back" href={localizeHref("/login")}>
           {siteUi.common.startFree}
         </a>
       </header>
@@ -2057,7 +2066,7 @@ function ProductSeoPageView({ page }: { page: ProductSeoPage }) {
               <div className="tool-conversion-actions">
                 <a
                   className="button button-primary"
-                  href={localizeHref(`/signup${page.tool === "integration" ? "?focus=marketing" : page.tool === "first-line" ? "?focus=web_design" : ""}`)}
+                  href={localizeHref("/login")}
                   onClick={() => {
                     void trackEvent({
                       name: "product_tool_primary_click",
@@ -2148,7 +2157,7 @@ function ProductSeoPageView({ page }: { page: ProductSeoPage }) {
           </div>
           <a
             className="button button-primary"
-            href={localizeHref("/signup")}
+            href={localizeHref("/login")}
             onClick={() => {
               void trackEvent({
                 name: "product_tool_primary_click",
@@ -2206,7 +2215,7 @@ function ProductWorkflowTool({ page }: { page: ProductSeoPage }) {
             <Icon name="clipboard" />
             {siteUi.content.productNav.checklist}
           </a>
-          <a className="button button-primary" href={localizeHref("/signup")}>
+          <a className="button button-primary" href={localizeHref("/login")}>
             <Icon name="scan" />
             {siteUi.common.startFreeScan}
           </a>
@@ -2531,7 +2540,7 @@ function FirstLineTemplateTool() {
         </button>
         <a
           className="button button-secondary"
-          href={localizeHref(`/signup?focus=${agencyMode}`)}
+          href={localizeHref("/login")}
           onClick={() => {
             void trackEvent({
               name: "product_tool_primary_click",
@@ -2651,7 +2660,7 @@ function WebsiteProspectingChecklistTool() {
         </button>
         <a
           className="button button-secondary"
-          href={localizeHref(`/signup?focus=${agencyMode}`)}
+          href={localizeHref("/login")}
           onClick={() => {
             void trackEvent({ name: "product_tool_primary_click", metadata: { tool: "checklist", agencyMode } });
           }}
@@ -2796,7 +2805,7 @@ function CommercialPage({ slug }: { slug: CommercialPageSlug }) {
           <a href={localizeHref("/contact")}>{siteUi.content.commercialNav.contact}</a>
         </nav>
         <LanguageSwitcher />
-        <a className="button button-small button-primary topbar-back" href={localizeHref("/signup")}>
+        <a className="button button-small button-primary topbar-back" href={localizeHref("/login")}>
           {siteUi.common.startFree}
         </a>
       </header>
@@ -2866,7 +2875,7 @@ function CommercialPage({ slug }: { slug: CommercialPageSlug }) {
             <p className="eyebrow">{siteUi.commercial.nextStepEyebrow}</p>
             <h2>{siteUi.commercial.nextStepTitle}</h2>
           </div>
-          <a className="button button-primary" href={localizeHref("/signup")}>
+          <a className="button button-primary" href={localizeHref("/login")}>
             <Icon name="scan" />
             {siteUi.common.startFreeScan}
           </a>
@@ -3943,15 +3952,6 @@ function LoginPage() {
               <span>{authCopy.signupLead}</span>
               <p>{authCopy.signupCopy}</p>
             </div>
-            <a
-              className="button button-secondary auth-signup-button"
-              href={localizeHref("/signup")}
-              onClick={() => {
-                void trackEvent({ name: "auth_signup_cta_click", metadata: { source: "login_page" } });
-              }}
-            >
-              {authCopy.signupCta}
-            </a>
           </div>
         </section>
       </main>
@@ -4657,8 +4657,10 @@ function DashboardApp() {
   const [bulkExportPreset, setBulkExportPreset] = useState<Exclude<ProspectExportPresetKey, "custom">>("crm");
   const [bulkCrmFieldMode, setBulkCrmFieldMode] = useState<ProspectCrmFieldMode>("hubspot");
   const [bulkExportState, setBulkExportState] = useState<"idle" | "loading" | "error">("idle");
-  const [dashboardState, setDashboardState] = useState<"loading" | "ready" | "sample" | "error">("loading");
+  const [dashboardState, setDashboardState] = useState<"loading" | "ready" | "sample" | "needs_workspace" | "error">("loading");
   const [dashboardMessage, setDashboardMessage] = useState("");
+  const [workspaceCreateState, setWorkspaceCreateState] = useState<"idle" | "loading" | "error">("idle");
+  const [workspaceCreateMessage, setWorkspaceCreateMessage] = useState("");
   const [auth, setAuth] = useState<AuthMeResponse>({ authenticated: false });
   const [profileForm, setProfileForm] = useState<AccountProfileFormState>({
     name: "",
@@ -4729,17 +4731,38 @@ function DashboardApp() {
       let authData: AuthMeResponse = { authenticated: false };
 
       try {
-        const [authResponse, workspaceResponse, leadsResponse, scansResponse, analyticsResponse] = await Promise.all([
-          fetchAppApi("/api/auth/me", { credentials: "include" }),
+        const authResponse = await fetchAppApi("/api/auth/me", { credentials: "include" });
+
+        authData = authResponse.ok
+          ? ((await authResponse.json()) as AuthMeResponse)
+          : ({ authenticated: false } as AuthMeResponse);
+
+        if (authData.authenticated && !authData.workspace.id) {
+          if (!cancelled) {
+            setAuth(authData);
+            setSnapshot(initialWorkspace);
+            setLeads([]);
+            setScanHistory([]);
+            setHistoryState("ready");
+            setAnalyticsSummary(initialAnalyticsSummary);
+            setAnalyticsState("ready");
+            setSelectedLeadId(null);
+            setSelectedLead(null);
+            setActiveProspect(null);
+            setSelectedLeadState("idle");
+            setLeadDrawerOpen(false);
+            setDashboardState("needs_workspace");
+            setDashboardMessage(appUi.common.messages.createWorkspaceRequired);
+          }
+          return;
+        }
+
+        const [workspaceResponse, leadsResponse, scansResponse, analyticsResponse] = await Promise.all([
           fetchAppApi("/api/workspace", { credentials: "include" }),
           fetchAppApi("/api/leads", { credentials: "include" }),
           fetchAppApi("/api/scans", { credentials: "include" }),
           fetchAppApi("/api/analytics/summary", { credentials: "include" })
         ]);
-
-        authData = authResponse.ok
-          ? ((await authResponse.json()) as AuthMeResponse)
-          : ({ authenticated: false } as AuthMeResponse);
 
         if (!workspaceResponse.ok) {
           const result = (await workspaceResponse.json().catch(() => ({}))) as { error?: string };
@@ -5271,7 +5294,7 @@ function DashboardApp() {
 
   async function startPlanCheckout(planId: PricingPlan["id"]) {
     if (!auth.authenticated) {
-      window.location.assign(`/signup?plan=${planId}`);
+      window.location.assign(buildLocalePath(locale, "/login"));
       return;
     }
 
@@ -5685,6 +5708,72 @@ function DashboardApp() {
     setDashboardMessage(appUi.common.messages.signedOutDemo);
   }
 
+  async function createWorkspaceAfterLogin() {
+    if (!auth.authenticated) {
+      setDashboardMessage(appUi.common.messages.signInRequired);
+      return;
+    }
+
+    setWorkspaceCreateState("loading");
+    setWorkspaceCreateMessage("");
+    setDashboardMessage("");
+
+    try {
+      const response = await fetchAppApi("/api/workspace/create", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          planId: "free",
+          workspaceName: snapshot.workspace.name || siteUi.common.brand,
+          agencyFocus: snapshot.setup.agencyFocus || snapshot.setup.serviceType,
+          offerDescription: snapshot.setup.offerDescription || DEFAULT_ICP.offerDescription,
+          targetIndustries: snapshot.setup.targetIndustries.length
+            ? snapshot.setup.targetIndustries.join(", ")
+            : DEFAULT_ICP.targetIndustries.join(", "),
+          firstProspectUrl: snapshot.setup.firstProspectUrl
+        })
+      });
+      const result = (await response.json().catch(() => ({}))) as WorkspaceCreateResponse;
+
+      if (!response.ok || !result.ok) {
+        throw new Error(result.error || appUi.common.messages.workspaceCreateFailed);
+      }
+
+      if (result.checkoutUrl) {
+        window.location.assign(result.checkoutUrl);
+        return;
+      }
+
+      if (!result.snapshot) {
+        window.location.assign("/app?welcome=1");
+        return;
+      }
+
+      setSnapshot(result.snapshot);
+      setAuth((current) =>
+        current.authenticated
+          ? {
+              ...current,
+              workspace: {
+                id: result.snapshot!.workspace.id,
+                name: result.snapshot!.workspace.name
+              }
+            }
+          : current
+      );
+      setWorkspaceCreateState("idle");
+      setDashboardState("ready");
+      setDashboardMessage(appUi.common.messages.workspaceCreatedSetup);
+      void trackEvent({ name: "workspace_created_in_app", metadata: { planId: "free" } });
+    } catch (error) {
+      setWorkspaceCreateState("error");
+      setWorkspaceCreateMessage(resolveAppErrorMessage(error, appUi.common.messages.workspaceCreateFailed, appUi));
+    }
+  }
+
   function resetLeadControls() {
     setLeadSearch("");
     setLeadSort("newest");
@@ -6087,11 +6176,17 @@ function DashboardApp() {
     scanHistory.length > 0 ||
     (auth.authenticated &&
       (analyticsSummary.totals.exportsCompleted > 0 || analyticsSummary.recentEvents.length > 0));
-  const workspaceStateBlocked = dashboardState === "error";
+  const workspaceStateBlocked = dashboardState === "error" || dashboardState === "needs_workspace";
   const isDemoPreviewWorkspace = !auth.authenticated && (dashboardState === "ready" || dashboardState === "sample");
   const showsFormalWorkspaceState = workspaceStateBlocked;
   const overviewPrimaryAction =
-    workspaceStateBlocked && dashboardState === "error"
+    dashboardState === "needs_workspace"
+      ? {
+          kind: "create" as const,
+          icon: "database" as const,
+          label: appUi.dashboard.nextAction.createWorkspace
+        }
+      : workspaceStateBlocked && dashboardState === "error"
       ? {
           kind: "refresh" as const,
           icon: "browser" as const,
@@ -6107,7 +6202,7 @@ function DashboardApp() {
         : !auth.authenticated
           ? {
               kind: "link" as const,
-              href: buildLocalePath(locale, "/signup"),
+              href: buildLocalePath(locale, "/login"),
               icon: "mail" as const,
               label: appUi.dashboard.nextAction.startWorkspace
             }
@@ -6132,7 +6227,13 @@ function DashboardApp() {
                   label: appUi.dashboard.nextAction.importWebsites
                 };
   const overviewSecondaryAction =
-    dashboardState === "error"
+    dashboardState === "needs_workspace"
+      ? {
+          href: buildLocalePath(locale, "/login"),
+          icon: "mail" as const,
+          label: appUi.actions.signIn
+        }
+      : dashboardState === "error"
       ? {
           href: buildLocalePath(locale, "/login"),
           icon: "mail" as const,
@@ -6140,7 +6241,7 @@ function DashboardApp() {
         }
       : dashboardState === "sample"
         ? {
-            href: buildLocalePath(locale, "/signup"),
+            href: buildLocalePath(locale, "/login"),
             icon: "mail" as const,
             label: appUi.dashboard.nextAction.startWorkspace
           }
@@ -6153,7 +6254,16 @@ function DashboardApp() {
     appSection === "dashboard"
       ? null
       : workspaceStateBlocked
-        ? dashboardState === "error"
+        ? dashboardState === "needs_workspace"
+          ? {
+              kind: "button" as const,
+              icon: "database" as const,
+              label: appUi.dashboard.nextAction.createWorkspace,
+              onClick: () => {
+                void createWorkspaceAfterLogin();
+              }
+            }
+          : dashboardState === "error"
           ? {
               kind: "button" as const,
               icon: "browser" as const,
@@ -6239,6 +6349,8 @@ function DashboardApp() {
   const defaultDashboardStateMessage =
     dashboardState === "loading"
       ? appUi.status.loading
+      : dashboardState === "needs_workspace"
+        ? appUi.common.messages.createWorkspaceRequired
       : dashboardState === "error"
         ? appUi.common.messages.workspaceDataUnavailable
         : "";
@@ -6256,19 +6368,35 @@ function DashboardApp() {
           : dashboardMessage;
   const workspaceStatePanel = showsFormalWorkspaceState ? (
     <section
-      className="panel overview-state-panel is-error"
+      className={`panel overview-state-panel ${dashboardState === "needs_workspace" ? "is-setup" : "is-error"}`}
       aria-labelledby="overview-state-title"
     >
       <div className="overview-state-copy">
         <span className="status-pill">
-          {appUi.common.failed}
+          {dashboardState === "needs_workspace" ? appUi.dashboard.nextAction.setupRequired : appUi.common.failed}
         </span>
         <h2 id="overview-state-title">
-          {appUi.dashboard.nextAction.loadErrorTitle}
+          {dashboardState === "needs_workspace" ? appUi.dashboard.nextAction.createWorkspaceTitle : appUi.dashboard.nextAction.loadErrorTitle}
         </h2>
         <p>
-          {appUi.dashboard.nextAction.loadErrorCopy}
+          {dashboardState === "needs_workspace" ? appUi.dashboard.nextAction.createWorkspaceCopy : appUi.dashboard.nextAction.loadErrorCopy}
         </p>
+        {dashboardState === "needs_workspace" ? (
+          <>
+            <button
+              className="button button-primary"
+              type="button"
+              onClick={() => void createWorkspaceAfterLogin()}
+              disabled={workspaceCreateState === "loading"}
+            >
+              <Icon name="database" />
+              {workspaceCreateState === "loading" ? appUi.common.saving : appUi.dashboard.nextAction.createWorkspace}
+            </button>
+            <p className={`form-status ${workspaceCreateState === "error" ? "is-error" : ""}`} role="status">
+              {workspaceCreateMessage || " "}
+            </p>
+          </>
+        ) : null}
       </div>
     </section>
   ) : null;
@@ -6331,12 +6459,12 @@ function DashboardApp() {
     }
 
     if (!auth.authenticated) {
-      window.location.assign(`${buildLocalePath(locale, "/signup")}?plan=${plan.id}`);
+      window.location.assign(buildLocalePath(locale, "/login"));
       return;
     }
 
     if (plan.id === "free") {
-      window.location.assign(buildLocalePath(locale, "/signup"));
+      setDashboardMessage(appUi.common.messages.checkoutUnavailable);
       return;
     }
 
@@ -6418,6 +6546,16 @@ function DashboardApp() {
                       <Icon name={overviewPrimaryAction.icon} />
                       {overviewPrimaryAction.label}
                     </button>
+                  ) : overviewPrimaryAction.kind === "create" ? (
+                    <button
+                      className="button button-primary"
+                      type="button"
+                      onClick={() => void createWorkspaceAfterLogin()}
+                      disabled={workspaceCreateState === "loading"}
+                    >
+                      <Icon name={overviewPrimaryAction.icon} />
+                      {workspaceCreateState === "loading" ? appUi.common.saving : overviewPrimaryAction.label}
+                    </button>
                   ) : (
                     <a className="button button-primary" href={overviewPrimaryAction.href}>
                       <Icon name={overviewPrimaryAction.icon} />
@@ -6467,7 +6605,7 @@ function DashboardApp() {
                   <Icon name="mail" />
                   {appUi.actions.signIn}
                 </a>
-                <a className="button button-small button-primary" href={buildLocalePath(locale, "/signup")}>
+                <a className="button button-small button-primary" href={buildLocalePath(locale, "/login")}>
                   <Icon name="mail" />
                   {appUi.dashboard.nextAction.startWorkspace}
                 </a>
@@ -6477,7 +6615,7 @@ function DashboardApp() {
 
           {pageShowsWorkspaceStatePanel ? workspaceStatePanel : null}
 
-        {appSection === "dashboard" ? (
+        {appSection === "dashboard" && !workspaceStateBlocked ? (
           <>
             {overviewShowsStatePanel ? workspaceStatePanel : null}
 
@@ -7852,7 +7990,7 @@ function DashboardApp() {
                       <Icon name="mail" />
                       {appUi.actions.signIn}
                     </a>
-                    <a className="button button-primary" href={buildLocalePath(locale, "/signup")}>
+                    <a className="button button-primary" href={buildLocalePath(locale, "/login")}>
                       <Icon name="mail" />
                       {appUi.dashboard.nextAction.startWorkspace}
                     </a>
