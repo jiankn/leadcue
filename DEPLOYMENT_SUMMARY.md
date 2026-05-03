@@ -60,8 +60,8 @@ npx wrangler secret put STRIPE_WEBHOOK_SECRET
 # 设置邮件服务
 npx wrangler secret put RESEND_API_KEY
 
-# 设置OpenAI（如果使用AI功能）
-npx wrangler secret put OPENAI_API_KEY
+# 设置DeepSeek（如果使用AI功能）
+npx wrangler secret put DEEPSEEK_API_KEY
 ```
 
 详细的环境变量配置说明请参考 `setup-secrets.md` 文件。

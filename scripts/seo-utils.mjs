@@ -5,9 +5,11 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export const repoRoot = path.resolve(__dirname, "..");
 export const generatedDir = path.join(repoRoot, "apps", "web", "src", "content", "generated");
+export const sourceDir = path.join(repoRoot, "apps", "web", "src", "content", "source");
 export const publicDir = path.join(repoRoot, "apps", "web", "public");
 export const ogImageDir = path.join(publicDir, "images", "og");
-export const homeKeywordPath = path.join(repoRoot, "apps", "web", "src", "content", "source", "home-seo-keywords.json");
+export const homeKeywordPath = path.join(sourceDir, "home-seo-keywords.json");
+export const localizedPageReadinessPath = path.join(sourceDir, "localized-page-readiness.json");
 
 export const localeMeta = [
   { code: "en", hrefLang: "en", htmlLang: "en", nativeName: "English" },

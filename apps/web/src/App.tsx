@@ -304,7 +304,24 @@ type EmailLoginResponse = {
   ok: boolean;
   next?: string;
   error?: string;
+  reason?: string;
 };
+
+type EmailRegisterResponse = {
+  ok: boolean;
+  next?: string;
+  error?: string;
+  reason?: string;
+};
+
+type AuthRecoveryReason = "google_sign_in_required" | "password_setup_required";
+
+type AuthRecoveryState = {
+  reason: AuthRecoveryReason;
+  email: string;
+};
+
+type PasswordResetRequestVariant = "reset" | "setup";
 
 type AuthMeResponse =
   | {
@@ -406,6 +423,18 @@ type SignupFormState = {
 type LoginFormState = {
   email: string;
   password: string;
+};
+
+type AuthMode = "login" | "signup";
+
+type AuthIntent = {
+  selectedPlan: PricingPlan;
+  focus: string;
+  firstProspectUrl: string;
+  hasPlanIntent: boolean;
+  hasFocusIntent: boolean;
+  hasFirstIntent: boolean;
+  hasIntent: boolean;
 };
 
 type PasswordResetFormState = {
@@ -658,7 +687,7 @@ export default function App() {
             locale={locale}
             noIndex
           />
-          <LoginPage />
+          <LoginPage initialMode="login" />
         </>
       </PublicSiteContext.Provider>
     );
@@ -684,7 +713,16 @@ export default function App() {
   if (isSignupRoute) {
     return (
       <PublicSiteContext.Provider value={publicSiteContext}>
-        <RedirectTo href={localizeHref(locale, "/login")} />
+        <>
+          <SeoHead
+            title={siteUi.auth.signup.heroTitle}
+            description={siteUi.auth.signup.heroCopy}
+            path="/signup"
+            locale={locale}
+            noIndex
+          />
+          <LoginPage initialMode="signup" />
+        </>
       </PublicSiteContext.Provider>
     );
   }
@@ -2880,21 +2918,58 @@ function CommercialPage({ slug }: { slug: CommercialPageSlug }) {
   );
 }
 
-function getSelectedPlan() {
-  const params = new URLSearchParams(window.location.search);
-  const planId = params.get("plan") || "free";
-  return PRICING_PLANS.find((plan) => plan.id === planId) ?? PRICING_PLANS[0];
+function getAuthIntent(params = new URLSearchParams(window.location.search)): AuthIntent {
+  const requestedPlanId = params.get("plan");
+  const selectedPlan = PRICING_PLANS.find((plan) => plan.id === requestedPlanId) ?? PRICING_PLANS[0];
+  const requestedFocus = params.get("focus");
+  const focus = ["web_design", "seo", "marketing", "founder"].includes(requestedFocus ?? "")
+    ? requestedFocus ?? "web_design"
+    : "web_design";
+  const firstProspectUrl = params.get("first")?.trim() || "";
+  const hasPlanIntent = Boolean(requestedPlanId && selectedPlan.id === requestedPlanId);
+  const hasFocusIntent = Boolean(requestedFocus && focus === requestedFocus);
+  const hasFirstIntent = Boolean(firstProspectUrl);
+
+  return {
+    selectedPlan,
+    focus,
+    firstProspectUrl,
+    hasPlanIntent,
+    hasFocusIntent,
+    hasFirstIntent,
+    hasIntent: hasPlanIntent || hasFocusIntent || hasFirstIntent
+  };
 }
 
-function getInitialFocus() {
-  const params = new URLSearchParams(window.location.search);
-  const focus = params.get("focus");
-  return ["web_design", "seo", "marketing", "founder"].includes(focus ?? "") ? focus ?? "web_design" : "web_design";
+function getSelectedPlan(params = new URLSearchParams(window.location.search)) {
+  return getAuthIntent(params).selectedPlan;
 }
 
-function getInitialFirstProspectUrl() {
-  const first = new URLSearchParams(window.location.search).get("first");
-  return first?.trim() || "";
+function getInitialFocus(params = new URLSearchParams(window.location.search)) {
+  return getAuthIntent(params).focus;
+}
+
+function getInitialFirstProspectUrl(params = new URLSearchParams(window.location.search)) {
+  return getAuthIntent(params).firstProspectUrl;
+}
+
+function buildAuthAppPath(locale: SiteLocaleCode, intent: AuthIntent, flow?: "login" | "welcome") {
+  const target = new URL(buildLocalePath(locale, "/app"), "https://leadcue.local");
+
+  if (intent.hasPlanIntent) {
+    target.searchParams.set("plan", intent.selectedPlan.id);
+  }
+  if (intent.hasFocusIntent) {
+    target.searchParams.set("focus", intent.focus);
+  }
+  if (intent.hasFirstIntent) {
+    target.searchParams.set("first", intent.firstProspectUrl);
+  }
+  if (flow) {
+    target.searchParams.set(flow, "1");
+  }
+
+  return `${target.pathname}${target.search}`;
 }
 
 function buildFirstLineVariant(
@@ -3639,6 +3714,7 @@ function buildGoogleAuthHref(options: {
   intent: "login" | "signup";
   planId?: PricingPlan["id"];
   focus?: string;
+  firstProspectUrl?: string;
   returnTo?: string;
 }) {
   const params = new URLSearchParams({
@@ -3650,6 +3726,9 @@ function buildGoogleAuthHref(options: {
   }
   if (options.focus) {
     params.set("focus", options.focus);
+  }
+  if (options.firstProspectUrl) {
+    params.set("first", options.firstProspectUrl);
   }
   return apiUrl(`/api/auth/google/start?${params.toString()}`);
 }
@@ -3699,8 +3778,11 @@ function translatePublicAuthErrorMessage(message: string, siteUi: SiteUi) {
   switch (message) {
     case "Authentication is unavailable until the workspace database is ready.":
     case "Email password sign-in is unavailable until the workspace database is ready.":
-    case "This workspace does not have email password sign-in set up yet.":
       return errors.database_unavailable || login.validation.emailLoginUnavailable;
+    case "This account uses Google sign-in right now. Continue with Google or request a reset link to add an email password.":
+      return login.validation.googleSignInRequired;
+    case "This account does not have email password sign-in yet. Request a reset link first.":
+      return login.validation.passwordSetupRequired;
     case "Enter a valid email and password.":
       return login.validation.invalidLogin;
     case "Email or password is incorrect.":
@@ -3719,6 +3801,14 @@ function translatePublicAuthErrorMessage(message: string, siteUi: SiteUi) {
       return reset.invalidLink;
     case "A valid work email is required.":
       return signup.validation.emailRequired;
+    case "An account with this email already exists. Sign in instead.":
+      return signup.validation.accountExists;
+    case "This email already has a Google sign-in account. Switch to sign in and continue with Google.":
+      return signup.validation.googleAccountExists;
+    case "This email already has an account, but email password sign-in is not ready yet. Switch to sign in and request a reset link.":
+      return signup.validation.passwordSetupRequired;
+    case "Unable to create account. Please try again.":
+      return signup.validation.accountCreateFailed;
     case "Offer description is required.":
     case "Unable to create workspace. Please try again.":
       return signup.validation.setupFailed;
@@ -3729,28 +3819,226 @@ function translatePublicAuthErrorMessage(message: string, siteUi: SiteUi) {
   }
 }
 
-function LoginPage() {
-  const { locale, siteUi, localizeHref } = usePublicSite();
-  const authCopy = siteUi.auth.login;
+function getAuthRecoveryReasonFromResponse(response: { reason?: string; error?: string }): AuthRecoveryReason | null {
+  if (response.reason === "google_sign_in_required" || response.reason === "password_setup_required") {
+    return response.reason;
+  }
+
+  if (
+    response.error ===
+    "This account uses Google sign-in right now. Continue with Google or request a reset link to add an email password."
+  ) {
+    return "google_sign_in_required";
+  }
+
+  if (response.error === "This account does not have email password sign-in yet. Request a reset link first.") {
+    return "password_setup_required";
+  }
+
+  return null;
+}
+
+function getSignupRedirectReason(response: { reason?: string; error?: string }): AuthRecoveryReason | "account_exists" | null {
+  if (
+    response.reason === "google_account_exists" ||
+    response.reason === "password_setup_required" ||
+    response.reason === "account_exists"
+  ) {
+    return response.reason === "google_account_exists" ? "google_sign_in_required" : response.reason;
+  }
+
+  if (
+    response.error === "This email already has a Google sign-in account. Switch to sign in and continue with Google."
+  ) {
+    return "google_sign_in_required";
+  }
+
+  if (
+    response.error ===
+    "This email already has an account, but email password sign-in is not ready yet. Switch to sign in and request a reset link."
+  ) {
+    return "password_setup_required";
+  }
+
+  if (response.error === "An account with this email already exists. Sign in instead.") {
+    return "account_exists";
+  }
+
+  return null;
+}
+
+function LoginPage({ initialMode = "login" }: { initialMode?: AuthMode }) {
+  const { locale, siteUi, localizeHref, formatMessage } = usePublicSite();
+  const loginCopy = siteUi.auth.login as typeof siteUi.auth.login & {
+    recoveryGoogleTitle: string;
+    recoveryGoogleCopy: string;
+    recoveryPasswordTitle: string;
+    recoveryPasswordCopy: string;
+    recoveryLinkCta: string;
+    recoveryLinkLoading: string;
+    recoveryPrepared?: string;
+    recoveryOpenLink?: string;
+  };
+  const signupCopy = siteUi.auth.signup;
   const authMessage = getAuthErrorMessage(siteUi);
+  const authIntent = useMemo(() => getAuthIntent(), []);
+  const appReturnPath = useMemo(() => buildAuthAppPath(locale, authIntent), [authIntent, locale]);
+  const [authMode, setAuthMode] = useState<AuthMode>(initialMode);
   const [loginForm, setLoginForm] = useState<LoginFormState>({ email: "", password: "" });
+  const [registerForm, setRegisterForm] = useState<LoginFormState>({ email: "", password: "" });
   const [loginState, setLoginState] = useState<"idle" | "loading" | "error">("idle");
+  const [registerState, setRegisterState] = useState<"idle" | "loading" | "error">("idle");
   const [loginError, setLoginError] = useState("");
+  const [registerError, setRegisterError] = useState("");
+  const [authRecovery, setAuthRecovery] = useState<AuthRecoveryState | null>(null);
   const [showPassword, setShowPassword] = useState(false);
+  const [showCreatePassword, setShowCreatePassword] = useState(false);
   const [showResetPanel, setShowResetPanel] = useState(false);
   const [resetEmail, setResetEmail] = useState("");
   const [resetState, setResetState] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [resetMessage, setResetMessage] = useState("");
-  const [resetLink, setResetLink] = useState("");
+  const [resetVariant, setResetVariant] = useState<PasswordResetRequestVariant>("reset");
+  const isCreateMode = authMode === "signup";
+  const selectedPlanPrice =
+    authIntent.selectedPlan.price === 0 ? "$0/mo" : `$${authIntent.selectedPlan.price}/mo`;
+  const selectedPlanCopy =
+    authIntent.selectedPlan.id === "free"
+      ? signupCopy.selectedPlanFree
+      : formatMessage(signupCopy.selectedPlanPaid, {
+          price: selectedPlanPrice,
+          credits: authIntent.selectedPlan.monthlyCredits.toLocaleString()
+        });
+
+  function decorateAppRedirect(nextPath: string, flow: "login" | "welcome") {
+    const target = new URL(nextPath, "https://leadcue.local");
+
+    if (authIntent.hasPlanIntent) {
+      target.searchParams.set("plan", authIntent.selectedPlan.id);
+    }
+    if (authIntent.hasFocusIntent) {
+      target.searchParams.set("focus", authIntent.focus);
+    }
+    if (authIntent.hasFirstIntent) {
+      target.searchParams.set("first", authIntent.firstProspectUrl);
+    }
+    target.searchParams.set(flow, "1");
+
+    return localizeHref(`${target.pathname}${target.search}`);
+  }
+
+  function clearRecoveryState() {
+    setAuthRecovery(null);
+    setResetState("idle");
+    setResetMessage("");
+    setResetVariant("reset");
+  }
+
+  function switchAuthMode(nextMode: AuthMode) {
+    setAuthMode(nextMode);
+    setAuthRecovery(null);
+    setShowResetPanel(false);
+    setResetState("idle");
+    setResetMessage("");
+    setResetVariant("reset");
+
+    if (nextMode === "signup") {
+      setRegisterForm((current) => ({
+        email: current.email || loginForm.email,
+        password: current.password
+      }));
+      setRegisterState("idle");
+      setRegisterError("");
+    } else {
+      setLoginForm((current) => ({
+        email: current.email || registerForm.email,
+        password: current.password
+      }));
+      setLoginState("idle");
+      setLoginError("");
+    }
+
+    const routePath = nextMode === "signup" ? localizeHref("/signup") : localizeHref("/login");
+    window.history.replaceState(null, "", `${routePath}${window.location.search}`);
+  }
 
   function updateLoginField<Key extends keyof LoginFormState>(field: Key) {
     return (event: ChangeEvent<HTMLInputElement>) => {
       setLoginForm((current) => ({ ...current, [field]: event.target.value }));
+      if (authRecovery) {
+        clearRecoveryState();
+      }
       if (loginState === "error") {
         setLoginState("idle");
         setLoginError("");
       }
     };
+  }
+
+  function updateRegisterField<Key extends keyof LoginFormState>(field: Key) {
+    return (event: ChangeEvent<HTMLInputElement>) => {
+      setRegisterForm((current) => ({ ...current, [field]: event.target.value }));
+      if (authRecovery) {
+        clearRecoveryState();
+      }
+      if (registerState === "error") {
+        setRegisterState("idle");
+        setRegisterError("");
+      }
+    };
+  }
+
+  async function requestPasswordReset(emailInput: string, variant: PasswordResetRequestVariant = "reset") {
+    const email = emailInput.trim().toLowerCase() || loginForm.email.trim().toLowerCase();
+    const successMessage =
+      variant === "setup" ? loginCopy.recoveryPrepared || loginCopy.validation.resetPrepared : loginCopy.validation.resetPrepared;
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setResetVariant(variant);
+      setResetState("error");
+      setResetMessage(loginCopy.validation.invalidResetEmail);
+      return false;
+    }
+
+    setResetEmail(email);
+    setResetVariant(variant);
+    setResetState("loading");
+    setResetMessage("");
+
+    try {
+      const response = await fetch(apiUrl("/api/auth/password/request-reset"), {
+        method: "POST",
+        credentials: "include",
+        headers: withAppLocaleHeader(locale, {
+          "Content-Type": "application/json"
+        }),
+        body: JSON.stringify({ email })
+      });
+      const result = (await response.json().catch(() => ({}))) as {
+        ok?: boolean;
+        message?: string;
+        error?: string;
+      };
+
+      if (!response.ok || !result.ok) {
+        throw new Error(translatePublicAuthErrorMessage(result.error || loginCopy.validation.resetUnavailable, siteUi));
+      }
+
+      setResetState("success");
+      setResetMessage(successMessage);
+      void trackEvent({
+        name: "auth_password_reset_requested",
+        metadata: {
+          emailDomain: email.split("@")[1] || "unknown"
+        }
+      });
+      return true;
+    } catch (error) {
+      setResetState("error");
+      setResetMessage(
+        error instanceof Error ? translatePublicAuthErrorMessage(error.message, siteUi) : loginCopy.validation.resetUnavailable
+      );
+      return false;
+    }
   }
 
   async function submitEmailLogin(event: FormEvent<HTMLFormElement>) {
@@ -3759,7 +4047,7 @@ function LoginPage() {
 
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || loginForm.password.length < 8) {
       setLoginState("error");
-      setLoginError(authCopy.validation.invalidLogin);
+      setLoginError(loginCopy.validation.invalidLogin);
       return;
     }
 
@@ -3779,69 +4067,111 @@ function LoginPage() {
       const result = (await response.json().catch(() => ({}))) as EmailLoginResponse;
 
       if (!response.ok || !result.ok) {
+        const recoveryReason = getAuthRecoveryReasonFromResponse(result);
+        if (recoveryReason) {
+          setAuthRecovery({ reason: recoveryReason, email });
+          setLoginError("");
+          setShowResetPanel(false);
+          setResetEmail(email);
+          setResetState("idle");
+          setResetMessage("");
+        } else {
+          setAuthRecovery(null);
+          setLoginError(translatePublicAuthErrorMessage(result.error || loginCopy.validation.emailLoginFailed, siteUi));
+        }
         setLoginState("error");
-        setLoginError(translatePublicAuthErrorMessage(result.error || authCopy.validation.emailLoginFailed, siteUi));
         return;
       }
 
+      clearRecoveryState();
       void trackEvent({
         name: "auth_login_email_success",
         metadata: {
           method: "email"
         }
       });
-      window.location.href = localizeHref(result.next || "/app?login=1");
+      window.location.href = decorateAppRedirect(result.next || "/app", "login");
     } catch (error) {
       console.error("email_login_failed", error);
       setLoginState("error");
-      setLoginError(authCopy.validation.emailLoginUnavailable);
+      setLoginError(loginCopy.validation.emailLoginUnavailable);
+    }
+  }
+
+  async function submitEmailRegister(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const email = registerForm.email.trim().toLowerCase();
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || registerForm.password.length < 8) {
+      setRegisterState("error");
+      setRegisterError(loginCopy.validation.invalidLogin);
+      return;
+    }
+
+    setRegisterState("loading");
+    setRegisterError("");
+
+    try {
+      const response = await fetch(apiUrl("/api/auth/email/register"), {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({
+          email,
+          password: registerForm.password
+        })
+      });
+      const result = (await response.json().catch(() => ({}))) as EmailRegisterResponse;
+
+      if (!response.ok || !result.ok) {
+        const redirectReason = getSignupRedirectReason(result);
+        if (redirectReason) {
+          switchAuthMode("login");
+          setLoginForm({
+            email,
+            password: registerForm.password
+          });
+          if (redirectReason === "account_exists") {
+            setAuthRecovery(null);
+            setLoginState("error");
+            setLoginError(translatePublicAuthErrorMessage(result.error || signupCopy.validation.accountExists, siteUi));
+          } else {
+            setAuthRecovery({ reason: redirectReason, email });
+            setLoginState("error");
+            setLoginError("");
+            setShowResetPanel(false);
+            setResetEmail(email);
+            setResetState("idle");
+            setResetMessage("");
+          }
+          return;
+        }
+
+        setRegisterState("error");
+        setRegisterError(
+          translatePublicAuthErrorMessage(result.error || signupCopy.validation.accountCreateFailed, siteUi)
+        );
+        return;
+      }
+
+      void trackEvent({
+        name: "auth_signup_completed",
+        metadata: {
+          method: "email",
+          planId: authIntent.selectedPlan.id
+        }
+      });
+      window.location.href = decorateAppRedirect(result.next || "/app", "welcome");
+    } catch (error) {
+      console.error("email_register_failed", error);
+      setRegisterState("error");
+      setRegisterError(signupCopy.validation.accountCreateFailed);
     }
   }
 
   async function submitPasswordResetRequest(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const email = resetEmail.trim().toLowerCase() || loginForm.email.trim().toLowerCase();
-
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      setResetState("error");
-      setResetMessage(authCopy.validation.invalidResetEmail);
-      setResetLink("");
-      return;
-    }
-
-    setResetState("loading");
-    setResetMessage("");
-    setResetLink("");
-
-    try {
-      const response = await fetch(apiUrl("/api/auth/password/request-reset"), {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ email })
-      });
-      const result = (await response.json().catch(() => ({}))) as { ok?: boolean; message?: string; resetUrl?: string; error?: string };
-
-      if (!response.ok || !result.ok) {
-        throw new Error(translatePublicAuthErrorMessage(result.error || authCopy.validation.resetUnavailable, siteUi));
-      }
-
-      setResetState("success");
-      setResetMessage(authCopy.validation.resetPrepared);
-      setResetLink(result.resetUrl || "");
-      void trackEvent({
-        name: "auth_password_reset_requested",
-        metadata: {
-          emailDomain: email.split("@")[1] || "unknown"
-        }
-      });
-    } catch (error) {
-      setResetState("error");
-      setResetMessage(error instanceof Error ? translatePublicAuthErrorMessage(error.message, siteUi) : authCopy.validation.resetUnavailable);
-      setResetLink("");
-    }
+    await requestPasswordReset(resetEmail);
   }
 
   return (
@@ -3861,147 +4191,290 @@ function LoginPage() {
       </header>
 
       <main className="auth-page login-page">
-        <section className="login-showcase" aria-label={authCopy.heroTitle}>
+        <section className="login-showcase" aria-label={isCreateMode ? signupCopy.heroTitle : loginCopy.heroTitle}>
           <LoginWorkspaceIllustration
             locale={locale}
             copy={{
-              eyebrow: authCopy.heroEyebrow,
-              title: authCopy.heroTitle,
-              copy: authCopy.heroCopy,
-              proofItems: authCopy.proofItems
+              eyebrow: isCreateMode ? signupCopy.heroEyebrow : loginCopy.heroEyebrow,
+              title: isCreateMode ? signupCopy.heroTitle : loginCopy.heroTitle,
+              copy: isCreateMode ? signupCopy.heroCopy : loginCopy.heroCopy,
+              proofItems: loginCopy.proofItems
             }}
           />
           <div className="login-showcase-overlay" />
         </section>
 
         <section className="auth-card login-card glass-card">
-          <p className="eyebrow">{authCopy.cardEyebrow}</p>
-          <h1>{authCopy.cardTitle}</h1>
-          <p className="auth-copy">{authCopy.cardCopy}</p>
+          <div className="auth-mode-switch" role="tablist" aria-label={`${loginCopy.cardTitle} / ${signupCopy.heroTitle}`}>
+            <button
+              className={`auth-mode-button${!isCreateMode ? " is-active" : ""}`}
+              type="button"
+              role="tab"
+              aria-selected={!isCreateMode}
+              onClick={() => switchAuthMode("login")}
+            >
+              {loginCopy.cardTitle}
+            </button>
+            <button
+              className={`auth-mode-button${isCreateMode ? " is-active" : ""}`}
+              type="button"
+              role="tab"
+              aria-selected={isCreateMode}
+              onClick={() => switchAuthMode("signup")}
+            >
+              {signupCopy.heroTitle}
+            </button>
+          </div>
+          <p className="eyebrow">{isCreateMode ? signupCopy.heroEyebrow : loginCopy.cardEyebrow}</p>
+          <h1>{isCreateMode ? signupCopy.heroTitle : loginCopy.cardTitle}</h1>
+          <p className="auth-copy">{isCreateMode ? signupCopy.heroCopy : loginCopy.cardCopy}</p>
+          {isCreateMode && authIntent.hasIntent ? (
+            <div className="selected-plan auth-intent-card">
+              <span>{signupCopy.planLabel}</span>
+              <strong>{authIntent.selectedPlan.name}</strong>
+              <p>{selectedPlanCopy}</p>
+              <div className="auth-intent-meta" aria-label={signupCopy.progressAria}>
+                {authIntent.hasFocusIntent ? (
+                  <span>{signupCopy.focusOptions[authIntent.focus as keyof typeof signupCopy.focusOptions]}</span>
+                ) : null}
+                {authIntent.hasFirstIntent ? <span>{formatCompactUrl(authIntent.firstProspectUrl)}</span> : null}
+              </div>
+            </div>
+          ) : null}
           <a
             className="button button-primary auth-google-button"
-            href={buildGoogleAuthHref({ intent: "login", returnTo: buildLocalePath(locale, "/app") })}
+            href={
+              isCreateMode
+                ? buildGoogleAuthHref({
+                    intent: "signup",
+                    planId: authIntent.hasPlanIntent ? authIntent.selectedPlan.id : undefined,
+                    focus: authIntent.hasFocusIntent ? authIntent.focus : undefined,
+                    firstProspectUrl: authIntent.hasFirstIntent ? authIntent.firstProspectUrl : undefined,
+                    returnTo: appReturnPath
+                  })
+                : buildGoogleAuthHref({ intent: "login", returnTo: appReturnPath })
+            }
             onClick={() => {
-              void trackEvent({ name: "auth_login_google_click", metadata: { method: "google" } });
+              void trackEvent({
+                name: isCreateMode ? "auth_signup_google_click" : "auth_login_google_click",
+                metadata: {
+                  method: "google",
+                  planId: authIntent.selectedPlan.id
+                }
+              });
             }}
           >
-            {authCopy.googleCta}
+            {isCreateMode ? signupCopy.oauthCta : loginCopy.googleCta}
           </a>
           <div className="oauth-divider" aria-hidden="true">
-            <span>{authCopy.divider}</span>
+            <span>{isCreateMode ? signupCopy.divider : loginCopy.divider}</span>
           </div>
-          <form className="login-form" onSubmit={submitEmailLogin}>
-            <label className="auth-field">
-              <span>{authCopy.emailLabel}</span>
-              <input
-                type="email"
-                name="email"
-                value={loginForm.email}
-                onChange={updateLoginField("email")}
-                autoComplete="email"
-                placeholder={authCopy.emailPlaceholder}
-                required
-              />
-            </label>
-            <label className="auth-field">
-              <span>{authCopy.passwordLabel}</span>
-              <div className="password-input-wrap">
-                <input
-                  type={showPassword ? "text" : "password"}
-                  name="password"
-                  value={loginForm.password}
-                  onChange={updateLoginField("password")}
-                  autoComplete="current-password"
-                  minLength={8}
-                  placeholder={authCopy.passwordPlaceholder}
-                  required
-                />
-                <button
-                  className="password-toggle"
-                  type="button"
-                  onClick={() => setShowPassword((current) => !current)}
-                  aria-pressed={showPassword}
-                >
-                  {showPassword ? authCopy.hide : authCopy.show}
-                </button>
-              </div>
-            </label>
-            <button className="button button-secondary auth-email-button" type="submit" disabled={loginState === "loading"}>
-              <Icon name="mail" />
-              {loginState === "loading" ? authCopy.emailLoading : authCopy.emailCta}
-            </button>
-          </form>
-          <div className="auth-inline-links">
-            <button
-              className="auth-text-link"
-              type="button"
-              onClick={() => {
-                setShowResetPanel((current) => !current);
-                setResetEmail((current) => current || loginForm.email);
-                setResetState("idle");
-                setResetMessage("");
-                setResetLink("");
-              }}
-            >
-              {showResetPanel ? authCopy.hideReset : authCopy.forgotPassword}
-            </button>
-            <a className="auth-text-link" href={localizeHref("/support")}>
-              {authCopy.needHelp}
-            </a>
-          </div>
-          {showResetPanel ? (
-            <form className="auth-support-card" onSubmit={submitPasswordResetRequest}>
-              <div>
-                <strong>{authCopy.resetTitle}</strong>
-                <p>{authCopy.resetCopy}</p>
-              </div>
-              <label className="auth-field">
-                <span>{authCopy.resetEmailLabel}</span>
-                <input
-                  type="email"
-                  value={resetEmail}
-                  onChange={(event) => setResetEmail(event.currentTarget.value)}
-                  placeholder={authCopy.emailPlaceholder}
-                  autoComplete="email"
-                  required
-                />
-              </label>
-              <button className="button button-secondary" type="submit" disabled={resetState === "loading"}>
-                {resetState === "loading" ? authCopy.resetLoading : authCopy.resetCta}
-              </button>
-              <p
-                className={`form-status ${
-                  resetState === "error" ? "is-error" : resetState === "success" ? "is-success" : ""
-                }`}
-                role="status"
-              >
-                {resetMessage || " "}
-              </p>
-              {resetLink ? (
-                <a className="button button-secondary auth-dev-link" href={resetLink}>
-                  {authCopy.resetOpenLink}
-                </a>
-              ) : null}
-              <small className="auth-compact-note">{authCopy.resetDevNote}</small>
-            </form>
-          ) : null}
           {authMessage ? (
             <p className="form-status is-error auth-message" role="alert">
               {authMessage}
             </p>
           ) : null}
-          {loginError ? (
-            <p className="form-status is-error auth-message" role="alert">
-              {loginError}
-            </p>
-          ) : null}
-          <p className="auth-note">{authCopy.sessionNote}</p>
-          <div className="auth-signup-row">
-            <div>
-              <span>{authCopy.signupLead}</span>
-              <p>{authCopy.signupCopy}</p>
-            </div>
-          </div>
+          {isCreateMode ? (
+            <>
+              <form className="login-form" onSubmit={submitEmailRegister}>
+                <label className="auth-field">
+                  <span>{signupCopy.workEmail}</span>
+                  <input
+                    type="email"
+                    name="email"
+                    value={registerForm.email}
+                    onChange={updateRegisterField("email")}
+                    autoComplete="email"
+                    placeholder={loginCopy.emailPlaceholder}
+                    required
+                  />
+                </label>
+                <label className="auth-field">
+                  <span>{signupCopy.password}</span>
+                  <div className="password-input-wrap">
+                    <input
+                      type={showCreatePassword ? "text" : "password"}
+                      name="password"
+                      value={registerForm.password}
+                      onChange={updateRegisterField("password")}
+                      autoComplete="new-password"
+                      minLength={8}
+                      placeholder={loginCopy.passwordPlaceholder}
+                      required
+                    />
+                    <button
+                      className="password-toggle"
+                      type="button"
+                      onClick={() => setShowCreatePassword((current) => !current)}
+                      aria-pressed={showCreatePassword}
+                    >
+                      {showCreatePassword ? loginCopy.hide : loginCopy.show}
+                    </button>
+                  </div>
+                </label>
+                <button className="button button-secondary auth-email-button" type="submit" disabled={registerState === "loading"}>
+                  <Icon name="mail" />
+                  {registerState === "loading" ? signupCopy.emailLoading : signupCopy.emailCta}
+                </button>
+                <p className="auth-note auth-setup-note">
+                  <Icon name="lock" />
+                  <span>{signupCopy.setupNote}</span>
+                </p>
+              </form>
+              {registerError ? (
+                <p className="form-status is-error auth-message" role="alert">
+                  {registerError}
+                </p>
+              ) : null}
+              <div className="auth-inline-links">
+                <a className="auth-text-link" href={localizeHref("/support")}>
+                  {loginCopy.needHelp}
+                </a>
+              </div>
+            </>
+          ) : (
+            <>
+              <form className="login-form" onSubmit={submitEmailLogin}>
+                <label className="auth-field">
+                  <span>{loginCopy.emailLabel}</span>
+                  <input
+                    type="email"
+                    name="email"
+                    value={loginForm.email}
+                    onChange={updateLoginField("email")}
+                    autoComplete="email"
+                    placeholder={loginCopy.emailPlaceholder}
+                    required
+                  />
+                </label>
+                <label className="auth-field">
+                  <span>{loginCopy.passwordLabel}</span>
+                  <div className="password-input-wrap">
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      name="password"
+                      value={loginForm.password}
+                      onChange={updateLoginField("password")}
+                      autoComplete="current-password"
+                      minLength={8}
+                      placeholder={loginCopy.passwordPlaceholder}
+                      required
+                    />
+                    <button
+                      className="password-toggle"
+                      type="button"
+                      onClick={() => setShowPassword((current) => !current)}
+                      aria-pressed={showPassword}
+                    >
+                      {showPassword ? loginCopy.hide : loginCopy.show}
+                    </button>
+                  </div>
+                </label>
+                <button className="button button-secondary auth-email-button" type="submit" disabled={loginState === "loading"}>
+                  <Icon name="mail" />
+                  {loginState === "loading" ? loginCopy.emailLoading : loginCopy.emailCta}
+                </button>
+              </form>
+              {authRecovery ? (
+                <div className="auth-recovery-card" role="alert">
+                  <div className="auth-recovery-copy">
+                    <strong>
+                      {authRecovery.reason === "google_sign_in_required"
+                        ? loginCopy.recoveryGoogleTitle
+                        : loginCopy.recoveryPasswordTitle}
+                    </strong>
+                    <p>
+                      {authRecovery.reason === "google_sign_in_required"
+                        ? loginCopy.recoveryGoogleCopy
+                        : loginCopy.recoveryPasswordCopy}
+                    </p>
+                  </div>
+                  <div className="auth-recovery-actions">
+                    <a
+                      className="button button-primary auth-recovery-button"
+                      href={buildGoogleAuthHref({ intent: "login", returnTo: appReturnPath })}
+                    >
+                      {loginCopy.googleCta}
+                    </a>
+                    <button
+                      className="button button-secondary auth-recovery-button"
+                      type="button"
+                      disabled={resetState === "loading"}
+                      onClick={() => {
+                        void requestPasswordReset(authRecovery.email, "setup");
+                      }}
+                    >
+                      {resetState === "loading" ? loginCopy.recoveryLinkLoading : loginCopy.recoveryLinkCta}
+                    </button>
+                  </div>
+                  {resetMessage ? (
+                    <p
+                      className={`form-status ${
+                        resetState === "error" ? "is-error" : resetState === "success" ? "is-success" : ""
+                      }`}
+                      role="status"
+                  >
+                    {resetMessage}
+                  </p>
+                  ) : null}
+                </div>
+              ) : null}
+              <div className="auth-inline-links">
+                <button
+                  className="auth-text-link"
+                  type="button"
+                  onClick={() => {
+                    setShowResetPanel((current) => !current);
+                    setResetEmail((current) => current || loginForm.email);
+                    setResetState("idle");
+                    setResetMessage("");
+                    setResetVariant("reset");
+                  }}
+                >
+                  {showResetPanel ? loginCopy.hideReset : loginCopy.forgotPassword}
+                </button>
+                <a className="auth-text-link" href={localizeHref("/support")}>
+                  {loginCopy.needHelp}
+                </a>
+              </div>
+              {showResetPanel ? (
+                <form className="auth-support-card" onSubmit={submitPasswordResetRequest}>
+                  <div>
+                    <strong>{loginCopy.resetTitle}</strong>
+                    <p>{loginCopy.resetCopy}</p>
+                  </div>
+                  <label className="auth-field">
+                    <span>{loginCopy.resetEmailLabel}</span>
+                    <input
+                      type="email"
+                      value={resetEmail}
+                      onChange={(event) => setResetEmail(event.currentTarget.value)}
+                      placeholder={loginCopy.emailPlaceholder}
+                      autoComplete="email"
+                      required
+                    />
+                  </label>
+                  <button className="button button-secondary" type="submit" disabled={resetState === "loading"}>
+                    {resetState === "loading" ? loginCopy.resetLoading : loginCopy.resetCta}
+                  </button>
+                  <p
+                    className={`form-status ${
+                      resetState === "error" ? "is-error" : resetState === "success" ? "is-success" : ""
+                    }`}
+                    role="status"
+                  >
+                    {resetMessage || " "}
+                  </p>
+                </form>
+              ) : null}
+              {loginError ? (
+                <p className="form-status is-error auth-message" role="alert">
+                  {loginError}
+                </p>
+              ) : null}
+              <p className="auth-note">{loginCopy.sessionNote}</p>
+            </>
+          )}
         </section>
       </main>
     </div>
@@ -4614,6 +5087,7 @@ function DashboardApp() {
   const { locale, siteUi, formatMessage } = usePublicSite();
   const appUi = getAppUi(locale);
   const appQuery = useMemo(() => new URLSearchParams(window.location.search), []);
+  const authIntent = useMemo(() => getAuthIntent(appQuery), [appQuery]);
   const appSection = getAppSection(window.location.pathname);
   const appRoutes = useMemo(
     () => ({
@@ -4660,24 +5134,31 @@ function DashboardApp() {
       },
       setup: {
         ...sampleWorkspace.setup,
+        serviceType: serviceTypeForFocus(authIntent.focus),
+        agencyFocus: authIntent.focus,
         targetIndustries: [],
         targetCountries: [],
         offerDescription: "",
         agencyWebsite: null,
-        firstProspectUrl: null
+        firstProspectUrl: authIntent.hasFirstIntent ? authIntent.firstProspectUrl : null
       },
       onboarding: {
         completedAt: null,
         isComplete: false
       },
+      plan: authIntent.hasPlanIntent ? authIntent.selectedPlan : sampleWorkspace.plan,
+      subscription: {
+        ...sampleWorkspace.subscription,
+        status: authIntent.hasPlanIntent && authIntent.selectedPlan.id !== "free" ? "pending_checkout" : "active"
+      },
       credits: {
         ...sampleWorkspace.credits,
         used: 0,
-        remaining: sampleWorkspace.plan.monthlyCredits
+        remaining: (authIntent.hasPlanIntent ? authIntent.selectedPlan : sampleWorkspace.plan).monthlyCredits
       },
       leadCount: 0
     }),
-    [sampleWorkspace, siteUi.common.brand]
+    [authIntent, sampleWorkspace, siteUi.common.brand]
   );
   const initialAnalyticsSummary = useMemo<AnalyticsSummary>(
     () => ({
@@ -4729,6 +5210,7 @@ function DashboardApp() {
   const [dashboardMessage, setDashboardMessage] = useState("");
   const [workspaceCreateState, setWorkspaceCreateState] = useState<"idle" | "loading" | "error">("idle");
   const [workspaceCreateMessage, setWorkspaceCreateMessage] = useState("");
+  const hasAttemptedIntentWorkspaceCreate = useRef(false);
   const [auth, setAuth] = useState<AuthMeResponse>({ authenticated: false });
   const [profileForm, setProfileForm] = useState<AccountProfileFormState>({
     name: "",
@@ -5079,6 +5561,28 @@ function DashboardApp() {
       cancelled = true;
     };
   }, []);
+
+  useEffect(() => {
+    if (!auth.authenticated) {
+      hasAttemptedIntentWorkspaceCreate.current = false;
+      return;
+    }
+
+    if (dashboardState !== "needs_workspace" || workspaceCreateState !== "idle") {
+      return;
+    }
+
+    if (!welcomeFlow && !authIntent.hasIntent) {
+      return;
+    }
+
+    if (hasAttemptedIntentWorkspaceCreate.current) {
+      return;
+    }
+
+    hasAttemptedIntentWorkspaceCreate.current = true;
+    void createWorkspaceAfterLogin();
+  }, [auth.authenticated, authIntent, dashboardState, welcomeFlow, workspaceCreateState]);
 
   useEffect(() => {
     setScanForm((current) =>
@@ -5998,7 +6502,7 @@ function DashboardApp() {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          planId: "free",
+          planId: snapshot.plan.id,
           workspaceName: snapshot.workspace.name || siteUi.common.brand,
           agencyFocus: snapshot.setup.agencyFocus || snapshot.setup.serviceType,
           offerDescription: snapshot.setup.offerDescription || DEFAULT_ICP.offerDescription,
@@ -6020,7 +6524,7 @@ function DashboardApp() {
       }
 
       if (!result.snapshot) {
-        window.location.assign("/app?welcome=1");
+        window.location.assign(buildAuthAppPath(locale, authIntent, "welcome"));
         return;
       }
 
@@ -6039,7 +6543,7 @@ function DashboardApp() {
       setWorkspaceCreateState("idle");
       setDashboardState("ready");
       setDashboardMessage(appUi.common.messages.workspaceCreatedSetup);
-      void trackEvent({ name: "workspace_created_in_app", metadata: { planId: "free" } });
+      void trackEvent({ name: "workspace_created_in_app", metadata: { planId: snapshot.plan.id } });
     } catch (error) {
       setWorkspaceCreateState("error");
       setWorkspaceCreateMessage(resolveAppErrorMessage(error, appUi.common.messages.workspaceCreateFailed, appUi));

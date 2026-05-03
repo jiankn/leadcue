@@ -2,6 +2,7 @@ import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { applyLocalizedSeoStrategy, loadLocalizedSeoStrategy } from "./localized-seo-strategy.mjs";
+import { isPageReady, loadLocalizedPageReadiness } from "./localized-page-readiness.mjs";
 import { curateLocalizedString, protectedTerms } from "./public-locale-curation.mjs";
 import { siteUrl } from "./seo-utils.mjs";
 
@@ -34,7 +35,7 @@ const siteLocales = [
 
 const batchSize = 24;
 const translateRetryCount = 3;
-const shouldTranslateMissing = process.env.LEADCUE_TRANSLATE_MISSING !== "0";
+const shouldTranslateMissing = process.env.LEADCUE_TRANSLATE_MISSING === "1";
 
 function wait(ms) {
   return new Promise((resolve) => {
@@ -397,32 +398,56 @@ function getRouteMeta(basePath) {
   return { changefreq: "monthly", priority: "0.9" };
 }
 
-function renderSitemap(localeData) {
+function getRouteDescriptors(localeData) {
+  const commercialRoutes = Object.keys(localeData.en.commercialPages).map((slug) => ({
+    basePath: `/${slug}`,
+    kind: "commercialPages",
+    slug
+  }));
+  const seoRoutes = localeData.en.seoPages.map((page) => ({
+    basePath: `/${page.slug}`,
+    kind: "seoPages",
+    slug: page.slug
+  }));
+  const productRoutes = localeData.en.productPages.map((page) => ({
+    basePath: `/${page.slug}`,
+    kind: "productPages",
+    slug: page.slug
+  }));
+
+  return [{ basePath: "/", kind: "home", slug: "home" }, ...commercialRoutes, ...seoRoutes, ...productRoutes];
+}
+
+function renderSitemap(localeData, pageReadiness) {
   const lastmod = new Intl.DateTimeFormat("en-CA", {
     timeZone: "Asia/Shanghai",
     year: "numeric",
     month: "2-digit",
     day: "2-digit"
   }).format(new Date());
-  const commercialRoutes = Object.keys(localeData.en.commercialPages).map((slug) => `/${slug}`);
-  const seoRoutes = localeData.en.seoPages.map((page) => `/${page.slug}`);
-  const productRoutes = localeData.en.productPages.map((page) => `/${page.slug}`);
-  const basePaths = ["/", ...commercialRoutes, ...seoRoutes, ...productRoutes];
+  const routes = getRouteDescriptors(localeData);
 
   const urlEntries = [];
 
-  for (const { code } of siteLocales) {
-    for (const basePath of basePaths) {
-      const localizedPath = buildLocalePath(code, basePath);
+  for (const route of routes) {
+    const readyLocales = siteLocales.filter((locale) => isPageReady(pageReadiness, route.kind, route.slug, locale.code));
+    const defaultLocale = readyLocales.find((locale) => locale.code === "en") ?? readyLocales[0];
+
+    if (!defaultLocale) {
+      continue;
+    }
+
+    for (const { code } of readyLocales) {
+      const localizedPath = buildLocalePath(code, route.basePath);
       const absoluteHref = `${siteUrl}${localizedPath === "/" ? "/" : localizedPath}`;
-      const alternates = siteLocales
+      const alternates = readyLocales
         .map((locale) => {
-          const alternateHref = `${siteUrl}${buildLocalePath(locale.code, basePath)}`;
+          const alternateHref = `${siteUrl}${buildLocalePath(locale.code, route.basePath)}`;
           return `    <xhtml:link rel="alternate" hreflang="${locale.hrefLang}" href="${alternateHref}" />`;
         })
-        .concat(`    <xhtml:link rel="alternate" hreflang="x-default" href="${siteUrl}${buildLocalePath("en", basePath)}" />`)
+        .concat(`    <xhtml:link rel="alternate" hreflang="x-default" href="${siteUrl}${buildLocalePath(defaultLocale.code, route.basePath)}" />`)
         .join("\n");
-      const meta = getRouteMeta(basePath);
+      const meta = getRouteMeta(route.basePath);
 
       urlEntries.push(`  <url>
     <loc>${absoluteHref}</loc>
@@ -444,6 +469,7 @@ ${urlEntries.join("\n")}
 async function main() {
   const sourceData = await loadStructuredData();
   const cache = await readCache();
+  const pageReadiness = await loadLocalizedPageReadiness();
   const localeData = {};
 
   for (const locale of Object.keys(localeTargets)) {
@@ -476,7 +502,7 @@ async function main() {
     ), null, 2) + "\n", "utf8")
   ]);
 
-  await writeFile(path.join(publicDir, "sitemap.xml"), renderSitemap(finalLocaleData), "utf8");
+  await writeFile(path.join(publicDir, "sitemap.xml"), renderSitemap(finalLocaleData, pageReadiness), "utf8");
 
   await writeCache(cache);
   console.log("Generated localized public content bundles.");

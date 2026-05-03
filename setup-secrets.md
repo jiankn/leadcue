@@ -19,8 +19,8 @@ npx wrangler secret put STRIPE_WEBHOOK_SECRET --env production
 # 4. 邮件服务（Resend）
 npx wrangler secret put RESEND_API_KEY --env production
 
-# 5. OpenAI API Key（如果使用AI功能）
-npx wrangler secret put OPENAI_API_KEY --env production
+# 5. DeepSeek API Key（如果使用AI功能）
+npx wrangler secret put DEEPSEEK_API_KEY --env production
 ```
 
 ## 可选的环境变量

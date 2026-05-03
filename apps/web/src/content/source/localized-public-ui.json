@@ -5,13 +5,44 @@
         "login": {
           "heroEyebrow": "网站研究工作区",
           "cardCopy": "使用 Google 或工作邮箱重新打开你的网站研究工作区。",
-          "signupCopy": "请先登录。工作空间设置会在账号会话生效后的 /app 内完成。",
-          "signupCta": "继续进入应用内设置"
+          "recoveryGoogleTitle": "这个账号已经通过 Google 建立了登录方式",
+          "recoveryGoogleCopy": "你现在可以直接使用 Google 继续，也可以先向该邮箱发送一次性密码设置邮件，补设邮箱密码供以后登录。",
+          "recoveryPasswordTitle": "完成邮箱密码登录设置",
+          "recoveryPasswordCopy": "这个账号已经存在，但还没有启用邮箱密码登录。我们现在可以向该邮箱发送一次性密码设置邮件。",
+          "recoveryLinkCta": "发送密码设置邮件",
+          "recoveryLinkLoading": "正在准备密码设置邮件...",
+          "recoveryPrepared": "如果这个邮箱对应现有账号，我们会向该邮箱发送一封一次性密码设置邮件。",
+          "recoveryOpenLink": "直接打开设置链接",
+          "resetCopy": "请输入你登录时使用的工作邮箱。我们会把一次性重置链接发送到该邮箱。",
+          "resetEmailLabel": "工作邮箱",
+          "resetDevNote": "在本地环境中，LeadCue 会直接显示邮件中的链接，方便完整测试这条流程。",
+          "validation": {
+            "googleSignInRequired": "这个账号目前是通过 Google 登录的。请使用 Google 继续，或者先申请重置链接来补设邮箱密码。",
+            "passwordSetupRequired": "这个账号还没有启用邮箱密码登录。请先申请重置链接。",
+            "invalidResetEmail": "请输入你登录时使用的工作邮箱。",
+            "resetPrepared": "如果这个邮箱对应现有账号，我们会向该邮箱发送一封一次性重置邮件。"
+          },
+          "signupCopy": "先创建账号。账号会话生效后，套餐选择和工作区设置会在 /app 内继续。",
+          "signupCta": "创建账号"
         },
         "signup": {
+          "heroTitle": "创建账号",
+          "heroCopy": "先创建你的账号。登录后再在 /app 内继续选择套餐并完成工作区设置。",
           "summaryProspects": "研究卡片 + CSV",
+          "oauthCopy": "Google 会先创建账号，然后把你带入工作区设置。",
+          "emailCta": "使用邮箱创建账号",
+          "emailLoading": "正在创建账号...",
           "step2Copy": "定义你的服务报价和目标客户画像，让第一批研究卡片从一开始就带有可用的匹配信号。",
-          "selectedPlanPaid": "__PRICE__ · 每月 __CREDITS__ 次扫描"
+          "setupNote": "登录后再在 /app 内继续完成工作区设置和套餐确认。",
+          "loginLead": "已经有账号了？",
+          "loginCopy": "使用同一页面登录并重新打开你的工作区。",
+          "selectedPlanPaid": "__PRICE__ · 每月 __CREDITS__ 次扫描",
+          "validation": {
+            "accountExists": "这个邮箱已经有账号了，请直接登录。",
+            "googleAccountExists": "这个邮箱已经绑定了 Google 登录。请切换到登录并使用 Google 继续。",
+            "passwordSetupRequired": "这个邮箱已经有账号了，但还没有启用邮箱密码登录。请切换到登录并申请重置链接。",
+            "accountCreateFailed": "暂时无法创建账号，请稍后重试。"
+          }
         }
       },
       "content": {
@@ -42,13 +73,44 @@
         "login": {
           "heroEyebrow": "Webサイトリサーチ用ワークスペース",
           "cardCopy": "Google または仕事用メールで、Webサイトリサーチのワークスペースを再開できます。",
-          "signupCopy": "先にログインしてください。ワークスペース設定は、アカウントのセッションが有効になった後に /app 内で行います。",
-          "signupCta": "アプリ内セットアップへ進む"
+          "recoveryGoogleTitle": "このアカウントはすでに Google サインインで設定されています",
+          "recoveryGoogleCopy": "今すぐ Google で続行するか、このメールアドレス宛てにワンタイムのパスワード設定メールを送信して、今後はメールとパスワードでもサインインできるようにできます。",
+          "recoveryPasswordTitle": "メールとパスワードのサインイン設定を完了する",
+          "recoveryPasswordCopy": "このアカウントはすでに存在しますが、メールとパスワードでのサインインはまだ有効になっていません。このメールアドレス宛てにワンタイムのパスワード設定メールを送信できます。",
+          "recoveryLinkCta": "パスワード設定メールを送信",
+          "recoveryLinkLoading": "パスワード設定メールを準備中...",
+          "recoveryPrepared": "このメールアドレスに一致するアカウントがあれば、その受信箱にワンタイムのパスワード設定メールを送信します。",
+          "recoveryOpenLink": "設定リンクを直接開く",
+          "resetCopy": "サインインに使う仕事用メールアドレスを入力してください。その受信箱にワンタイムのリセットリンクを送信します。",
+          "resetEmailLabel": "仕事用メールアドレス",
+          "resetDevNote": "ローカル環境では、LeadCue はメール内のリンクを直接表示するため、このフローをエンドツーエンドでテストできます。",
+          "validation": {
+            "googleSignInRequired": "このアカウントは現在 Google サインインを使用しています。Google を続行するか、メール用パスワードを追加するためのリセットリンクを先にリクエストしてください。",
+            "passwordSetupRequired": "このアカウントでは、まだメールとパスワードでのサインインが有効になっていません。先にリセットリンクをリクエストしてください。",
+            "invalidResetEmail": "サインインに使う仕事用メールアドレスを入力してください。",
+            "resetPrepared": "このメールアドレスに一致するアカウントがあれば、その受信箱にワンタイムのリセットメールを送信します。"
+          },
+          "signupCopy": "先にアカウントを作成してください。セッション有効化後に、プラン選択とワークスペース設定を /app 内で続けます。",
+          "signupCta": "アカウントを作成"
         },
         "signup": {
+          "heroTitle": "アカウントを作成",
+          "heroCopy": "まずアカウントを作成します。サインイン後、/app 内でプラン選択とワークスペース設定を続けます。",
           "summaryProspects": "リサーチカード + CSV",
+          "oauthCopy": "Google で先にアカウントを作成し、そのままワークスペース設定へ進みます。",
+          "emailCta": "メールでアカウントを作成",
+          "emailLoading": "アカウントを作成中...",
           "step2Copy": "提供サービスとターゲット像を定義し、最初のリサーチカードから有用な適合シグナルを出せるようにします。",
-          "selectedPlanPaid": "__PRICE__ · 月 __CREDITS__ 件のスキャン"
+          "setupNote": "ワークスペース設定とプラン確認は、サインイン後に /app 内で続行します。",
+          "loginLead": "すでにアカウントをお持ちですか？",
+          "loginCopy": "同じページからサインインして、ワークスペースを再開できます。",
+          "selectedPlanPaid": "__PRICE__ · 月 __CREDITS__ 件のスキャン",
+          "validation": {
+            "accountExists": "このメールアドレスのアカウントはすでに存在します。サインインしてください。",
+            "googleAccountExists": "このメールアドレスはすでに Google サインイン用のアカウントに紐づいています。サインインへ切り替えて Google を続行してください。",
+            "passwordSetupRequired": "このメールアドレスにはすでにアカウントがありますが、メールとパスワードでのサインインはまだ準備できていません。サインインへ切り替えてリセットリンクをリクエストしてください。",
+            "accountCreateFailed": "現在アカウントを作成できません。しばらくしてから再度お試しください。"
+          }
         }
       },
       "content": {
@@ -346,13 +408,44 @@
         "login": {
           "heroEyebrow": "웹사이트 리서치 워크스페이스",
           "cardCopy": "Google 또는 업무용 이메일로 웹사이트 리서치 워크스페이스를 다시 열 수 있습니다.",
-          "signupCopy": "먼저 로그인하세요. 워크스페이스 설정은 계정 세션이 활성화된 뒤 /app 안에서 진행됩니다.",
-          "signupCta": "앱 설정으로 계속"
+          "recoveryGoogleTitle": "이 계정은 이미 Google 로그인으로 연결되어 있습니다",
+          "recoveryGoogleCopy": "지금 바로 Google로 계속하거나, 이 이메일 주소로 일회성 비밀번호 설정 메일을 보내 이후에는 이메일 비밀번호로도 로그인할 수 있습니다.",
+          "recoveryPasswordTitle": "이메일 비밀번호 로그인 설정 마무리",
+          "recoveryPasswordCopy": "이 계정은 이미 존재하지만 아직 이메일 비밀번호 로그인이 활성화되지 않았습니다. 이 이메일 주소로 일회성 비밀번호 설정 메일을 보낼 수 있습니다.",
+          "recoveryLinkCta": "비밀번호 설정 메일 보내기",
+          "recoveryLinkLoading": "비밀번호 설정 메일 준비 중...",
+          "recoveryPrepared": "이 이메일과 일치하는 계정이 있으면 해당 받은편지함으로 일회성 비밀번호 설정 메일을 보냅니다.",
+          "recoveryOpenLink": "설정 링크 바로 열기",
+          "resetCopy": "로그인에 사용하는 업무용 이메일을 입력하세요. 해당 받은편지함으로 일회성 재설정 링크를 보냅니다.",
+          "resetEmailLabel": "업무용 이메일",
+          "resetDevNote": "로컬 환경에서는 LeadCue가 메일 안의 링크를 직접 표시하므로 이 흐름을 처음부터 끝까지 테스트할 수 있습니다.",
+          "validation": {
+            "googleSignInRequired": "이 계정은 현재 Google 로그인으로만 연결되어 있습니다. Google로 계속하거나, 이메일 비밀번호를 추가할 수 있도록 먼저 재설정 링크를 요청하세요.",
+            "passwordSetupRequired": "이 계정에는 아직 이메일 비밀번호 로그인이 설정되지 않았습니다. 먼저 재설정 링크를 요청하세요.",
+            "invalidResetEmail": "로그인에 사용하는 업무용 이메일을 입력하세요.",
+            "resetPrepared": "이 이메일과 일치하는 계정이 있으면 해당 받은편지함으로 일회성 재설정 메일을 보냅니다."
+          },
+          "signupCopy": "먼저 계정을 만드세요. 세션이 활성화되면 요금제 선택과 작업공간 설정을 /app 안에서 이어서 진행합니다.",
+          "signupCta": "계정 만들기"
         },
         "signup": {
+          "heroTitle": "계정 만들기",
+          "heroCopy": "먼저 계정을 만드세요. 로그인 후 /app 안에서 요금제 선택과 작업공간 설정을 이어서 진행합니다.",
           "summaryProspects": "리서치 카드 + CSV",
+          "oauthCopy": "Google이 먼저 계정을 만들고 바로 작업공간 설정으로 넘겨줍니다.",
+          "emailCta": "이메일로 계정 만들기",
+          "emailLoading": "계정 생성 중...",
           "step2Copy": "제공 서비스와 타깃 고객 프로필을 정의해 첫 리서치 카드부터 유용한 적합도 신호가 나오도록 합니다.",
-          "selectedPlanPaid": "__PRICE__ · 월 __CREDITS__회 스캔"
+          "setupNote": "작업공간 설정과 요금제 확인은 로그인 후 /app 안에서 계속 진행됩니다.",
+          "loginLead": "이미 계정이 있나요?",
+          "loginCopy": "같은 페이지에서 로그인하고 작업공간을 다시 열 수 있습니다.",
+          "selectedPlanPaid": "__PRICE__ · 월 __CREDITS__회 스캔",
+          "validation": {
+            "accountExists": "이 이메일로 등록된 계정이 이미 있습니다. 로그인해 주세요.",
+            "googleAccountExists": "이 이메일은 이미 Google 로그인 계정에 연결되어 있습니다. 로그인으로 전환한 뒤 Google로 계속해 주세요.",
+            "passwordSetupRequired": "이 이메일에는 이미 계정이 있지만 아직 이메일 비밀번호 로그인이 준비되지 않았습니다. 로그인으로 전환해 재설정 링크를 요청하세요.",
+            "accountCreateFailed": "지금은 계정을 만들 수 없습니다. 잠시 후 다시 시도해 주세요."
+          }
         }
       },
       "content": {
@@ -578,13 +671,44 @@
         "login": {
           "heroEyebrow": "Workspace für Website-Recherche",
           "cardCopy": "Melden Sie sich mit Google oder Ihrer geschäftlichen E-Mail an, um Ihren Website-Recherche-Workspace wieder zu öffnen.",
-          "signupCopy": "Melden Sie sich zuerst an. Das Workspace-Setup findet jetzt in /app statt, sobald Ihre Kontositzung aktiv ist.",
-          "signupCta": "Weiter zum App-Setup"
+          "recoveryGoogleTitle": "Dieses Konto ist bereits für Google-Sign-in eingerichtet",
+          "recoveryGoogleCopy": "Fahren Sie jetzt mit Google fort oder senden Sie an diese E-Mail-Adresse eine einmalige E-Mail zum Einrichten Ihres Passworts, damit Sie sich künftig auch per E-Mail und Passwort anmelden können.",
+          "recoveryPasswordTitle": "E-Mail-/Passwort-Anmeldung fertig einrichten",
+          "recoveryPasswordCopy": "Dieses Konto existiert bereits, aber die Anmeldung per E-Mail und Passwort ist noch nicht aktiviert. Wir können jetzt eine einmalige E-Mail zum Einrichten Ihres Passworts an diese Adresse senden.",
+          "recoveryLinkCta": "E-Mail zum Einrichten senden",
+          "recoveryLinkLoading": "E-Mail zum Einrichten wird vorbereitet...",
+          "recoveryPrepared": "Wenn diese E-Mail-Adresse zu einem Konto passt, senden wir eine einmalige E-Mail zum Einrichten des Passworts an dieses Postfach.",
+          "recoveryOpenLink": "Einrichtungslink direkt öffnen",
+          "resetCopy": "Geben Sie die geschäftliche E-Mail-Adresse ein, mit der Sie sich anmelden. Wir senden einen einmaligen Reset-Link an dieses Postfach.",
+          "resetEmailLabel": "Geschäftliche E-Mail",
+          "resetDevNote": "In lokalen Umgebungen zeigt LeadCue den Link aus der E-Mail direkt an, damit sich der Ablauf vollständig testen lässt.",
+          "validation": {
+            "googleSignInRequired": "Dieses Konto verwendet derzeit Google Sign-in. Fahren Sie mit Google fort oder fordern Sie zuerst einen Reset-Link an, um ein E-Mail-Passwort hinzuzufügen.",
+            "passwordSetupRequired": "Für dieses Konto ist die Anmeldung per E-Mail und Passwort noch nicht eingerichtet. Fordern Sie zuerst einen Reset-Link an.",
+            "invalidResetEmail": "Geben Sie die geschäftliche E-Mail-Adresse ein, mit der Sie sich anmelden.",
+            "resetPrepared": "Wenn diese E-Mail-Adresse zu einem Konto passt, senden wir eine einmalige Reset-E-Mail an dieses Postfach."
+          },
+          "signupCopy": "Erstellen Sie zuerst Ihr Konto. Sobald die Sitzung aktiv ist, setzen Sie Planauswahl und Workspace-Setup in /app fort.",
+          "signupCta": "Konto erstellen"
         },
         "signup": {
+          "heroTitle": "Konto erstellen",
+          "heroCopy": "Beginnen Sie mit Ihrem Konto. Planauswahl und Workspace-Setup gehen nach der Anmeldung in /app weiter.",
           "summaryProspects": "Recherchekarten + CSV",
+          "oauthCopy": "Google erstellt zuerst Ihr Konto und führt Sie dann direkt ins Workspace-Setup.",
+          "emailCta": "Konto mit E-Mail erstellen",
+          "emailLoading": "Konto wird erstellt...",
           "step2Copy": "Definieren Sie Ihr Angebot und Ihr Zielprofil, damit die ersten Recherchekarten mit nützlichen Fit-Signalen starten.",
-          "selectedPlanPaid": "__PRICE__ · __CREDITS__ Scans/Monat"
+          "setupNote": "Workspace-Setup und Planbestätigung gehen nach der Anmeldung in /app weiter.",
+          "loginLead": "Sie haben bereits ein Konto?",
+          "loginCopy": "Melden Sie sich auf derselben Seite an und öffnen Sie Ihren Workspace erneut.",
+          "selectedPlanPaid": "__PRICE__ · __CREDITS__ Scans/Monat",
+          "validation": {
+            "accountExists": "Für diese E-Mail existiert bereits ein Konto. Bitte melden Sie sich an.",
+            "googleAccountExists": "Diese E-Mail ist bereits mit einem Google-Sign-in-Konto verknüpft. Wechseln Sie zur Anmeldung und fahren Sie mit Google fort.",
+            "passwordSetupRequired": "Für diese E-Mail gibt es bereits ein Konto, aber die Anmeldung per E-Mail und Passwort ist noch nicht bereit. Wechseln Sie zur Anmeldung und fordern Sie einen Reset-Link an.",
+            "accountCreateFailed": "Das Konto kann gerade nicht erstellt werden. Bitte versuchen Sie es erneut."
+          }
         }
       },
       "content": {
@@ -810,13 +934,44 @@
         "login": {
           "heroEyebrow": "Werkruimte voor websiteonderzoek",
           "cardCopy": "Gebruik Google of je zakelijke e-mail om je werkruimte voor websiteonderzoek opnieuw te openen.",
-          "signupCopy": "Log eerst in. De werkruimte-instelling gebeurt nu in /app zodra je accountsessie actief is.",
-          "signupCta": "Verder naar app-instelling"
+          "recoveryGoogleTitle": "Dit account is al ingesteld voor Google-aanmelding",
+          "recoveryGoogleCopy": "Ga nu verder met Google, of stuur naar dit e-mailadres een eenmalige e-mail om je wachtwoord in te stellen zodat je later ook met e-mail en wachtwoord kunt inloggen.",
+          "recoveryPasswordTitle": "Rond aanmelden met e-mail en wachtwoord af",
+          "recoveryPasswordCopy": "Dit account bestaat al, maar aanmelden met e-mail en wachtwoord is nog niet ingeschakeld. We kunnen nu een eenmalige e-mail om je wachtwoord in te stellen naar dit adres sturen.",
+          "recoveryLinkCta": "Wachtwoordmail sturen",
+          "recoveryLinkLoading": "Wachtwoordmail voorbereiden...",
+          "recoveryPrepared": "Als dit e-mailadres bij een account hoort, sturen we een eenmalige e-mail om je wachtwoord in te stellen naar die inbox.",
+          "recoveryOpenLink": "Instellink direct openen",
+          "resetCopy": "Voer het zakelijke e-mailadres in waarmee je inlogt. We sturen een eenmalige resetlink naar die inbox.",
+          "resetEmailLabel": "Zakelijk e-mailadres",
+          "resetDevNote": "In lokale omgevingen toont LeadCue de link uit de e-mail direct, zodat deze flow volledig kan worden getest.",
+          "validation": {
+            "googleSignInRequired": "Dit account gebruikt op dit moment Google-aanmelding. Ga verder met Google of vraag eerst een resetlink aan om een e-mailwachtwoord toe te voegen.",
+            "passwordSetupRequired": "Voor dit account is aanmelden met e-mail en wachtwoord nog niet ingesteld. Vraag eerst een resetlink aan.",
+            "invalidResetEmail": "Voer het zakelijke e-mailadres in waarmee je inlogt.",
+            "resetPrepared": "Als dit e-mailadres bij een account hoort, sturen we een eenmalige resetmail naar die inbox."
+          },
+          "signupCopy": "Maak eerst je account aan. Zodra je sessie actief is, ga je in /app verder met je plan en werkruimte-instelling.",
+          "signupCta": "Account aanmaken"
         },
         "signup": {
+          "heroTitle": "Account aanmaken",
+          "heroCopy": "Begin met je account. Na het inloggen ga je in /app verder met je plan en werkruimte-instelling.",
           "summaryProspects": "Onderzoekskaarten + CSV",
+          "oauthCopy": "Google maakt eerst je account aan en zet je daarna direct door naar de werkruimte-instelling.",
+          "emailCta": "Account aanmaken met e-mail",
+          "emailLoading": "Account wordt aangemaakt...",
           "step2Copy": "Definieer je aanbod en doelprofiel, zodat de eerste onderzoekskaarten starten met bruikbare fitsignalen.",
-          "selectedPlanPaid": "__PRICE__ · __CREDITS__ scans/maand"
+          "setupNote": "Werkruimte-instelling en planbevestiging gaan na het inloggen verder in /app.",
+          "loginLead": "Heb je al een account?",
+          "loginCopy": "Gebruik dezelfde pagina om in te loggen en je werkruimte opnieuw te openen.",
+          "selectedPlanPaid": "__PRICE__ · __CREDITS__ scans/maand",
+          "validation": {
+            "accountExists": "Voor dit e-mailadres bestaat al een account. Log in.",
+            "googleAccountExists": "Dit e-mailadres is al gekoppeld aan een Google-aanmeldaccount. Schakel over naar inloggen en ga verder met Google.",
+            "passwordSetupRequired": "Voor dit e-mailadres bestaat al een account, maar aanmelden met e-mail en wachtwoord is nog niet klaar. Schakel over naar inloggen en vraag een resetlink aan.",
+            "accountCreateFailed": "Het account kan nu niet worden aangemaakt. Probeer het later opnieuw."
+          }
         }
       },
       "content": {
@@ -1042,13 +1197,44 @@
         "login": {
           "heroEyebrow": "Espace de recherche de sites web",
           "cardCopy": "Utilisez Google ou votre e-mail professionnel pour rouvrir votre espace de recherche de sites web.",
-          "signupCopy": "Connectez-vous d'abord. La configuration du workspace se fait maintenant dans /app une fois votre session de compte active.",
-          "signupCta": "Continuer vers la configuration dans l'app"
+          "recoveryGoogleTitle": "Ce compte est déjà configuré pour la connexion Google",
+          "recoveryGoogleCopy": "Continuez maintenant avec Google, ou envoyez à cette adresse un e-mail unique pour définir votre mot de passe afin de pouvoir ensuite vous connecter aussi avec e-mail et mot de passe.",
+          "recoveryPasswordTitle": "Terminer la configuration de la connexion par e-mail",
+          "recoveryPasswordCopy": "Ce compte existe déjà, mais la connexion par e-mail et mot de passe n'est pas encore activée. Nous pouvons maintenant envoyer à cette adresse un e-mail unique pour définir votre mot de passe.",
+          "recoveryLinkCta": "Envoyer l'e-mail de configuration",
+          "recoveryLinkLoading": "Préparation de l'e-mail de configuration...",
+          "recoveryPrepared": "Si cette adresse e-mail correspond à un compte, nous enverrons dans cette boîte de réception un e-mail unique pour définir le mot de passe.",
+          "recoveryOpenLink": "Ouvrir directement le lien",
+          "resetCopy": "Saisissez l'adresse e-mail professionnelle que vous utilisez pour vous connecter. Nous enverrons un lien de réinitialisation à usage unique dans cette boîte de réception.",
+          "resetEmailLabel": "E-mail professionnel",
+          "resetDevNote": "En environnement local, LeadCue affiche directement le lien contenu dans l'e-mail afin de tester ce flux de bout en bout.",
+          "validation": {
+            "googleSignInRequired": "Ce compte utilise actuellement la connexion Google. Continuez avec Google ou demandez d'abord un lien de réinitialisation pour ajouter un mot de passe par e-mail.",
+            "passwordSetupRequired": "La connexion par e-mail et mot de passe n'est pas encore configurée pour ce compte. Demandez d'abord un lien de réinitialisation.",
+            "invalidResetEmail": "Saisissez l'adresse e-mail professionnelle que vous utilisez pour vous connecter.",
+            "resetPrepared": "Si cette adresse e-mail correspond à un compte, nous enverrons un e-mail de réinitialisation à usage unique dans cette boîte de réception."
+          },
+          "signupCopy": "Créez d'abord votre compte. Une fois la session active, vous poursuivez le choix du plan et la configuration de l'espace dans /app.",
+          "signupCta": "Créer un compte"
         },
         "signup": {
+          "heroTitle": "Créer un compte",
+          "heroCopy": "Commencez par votre compte. Après connexion, vous poursuivez le choix du plan et la configuration de l'espace dans /app.",
           "summaryProspects": "Cartes de recherche + CSV",
+          "oauthCopy": "Google crée d'abord votre compte puis vous envoie directement vers la configuration de l'espace.",
+          "emailCta": "Créer un compte par e-mail",
+          "emailLoading": "Création du compte...",
           "step2Copy": "Définissez votre offre et votre profil cible afin que les premières cartes de recherche commencent avec des signaux d'adéquation utiles.",
-          "selectedPlanPaid": "__PRICE__ · __CREDITS__ analyses/mois"
+          "setupNote": "La configuration de l'espace et la confirmation du plan continuent dans /app après la connexion.",
+          "loginLead": "Vous avez déjà un compte ?",
+          "loginCopy": "Utilisez la même page pour vous connecter et rouvrir votre espace.",
+          "selectedPlanPaid": "__PRICE__ · __CREDITS__ analyses/mois",
+          "validation": {
+            "accountExists": "Un compte existe déjà pour cette adresse e-mail. Connectez-vous.",
+            "googleAccountExists": "Cette adresse e-mail est déjà liée à un compte de connexion Google. Passez à la connexion et continuez avec Google.",
+            "passwordSetupRequired": "Un compte existe déjà pour cette adresse e-mail, mais la connexion par e-mail et mot de passe n'est pas encore prête. Passez à la connexion et demandez un lien de réinitialisation.",
+            "accountCreateFailed": "Impossible de créer le compte pour le moment. Réessayez plus tard."
+          }
         }
       },
       "content": {

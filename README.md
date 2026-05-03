@@ -37,7 +37,7 @@ leadcue/
 - DB: Cloudflare D1
 - Storage targets: R2 for exports/snapshots, KV for light config, Queues for deep scans
 - Extension: Chrome Manifest V3 + Side Panel
-- AI: configurable OpenAI-compatible endpoint through `AI_GATEWAY_URL`
+- AI: DeepSeek (deepseek-v4-pro) through OpenAI-compatible endpoint configured by `AI_GATEWAY_URL`
 
 ## Local Setup
 
@@ -98,9 +98,9 @@ Copy `apps/api/.dev.vars.example` to `apps/api/.dev.vars` for local Workers deve
 AI calls are optional. Without these values, LeadCue uses the rule-based fallback analyzer:
 
 ```text
-AI_GATEWAY_URL=
-AI_PROVIDER_API_KEY=
-AI_MODEL=gpt-4.1-mini
+AI_GATEWAY_URL=https://api.deepseek.com
+DEEPSEEK_API_KEY=
+AI_MODEL=deepseek-v4-pro
 ```
 
 For multilingual SEO deployment and monitoring, use `qa/multilingual-seo-operations.md`.

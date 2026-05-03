@@ -3,17 +3,17 @@
     "siteUi": {
       "home": {
         "seo": {
-          "title": "LeadCue - Website Prospecting for Agency Outbound",
-          "description": "LeadCue is a website research layer for agencies: review prospect sites, qualify outreach fit, and prepare source-backed context before CRM or email tools.",
-          "structuredDescription": "LeadCue helps agencies turn prospect websites into qualified outreach opportunities with fit scores, website evidence, first lines, and CRM-ready context."
+          "title": "LeadCue - Website-First Outbound Research Workspace for Agencies",
+          "description": "LeadCue helps agencies turn prospect websites into Prospect Cards with fit scores, opportunity signals, source-backed first lines, and CRM-ready context.",
+          "structuredDescription": "LeadCue is a website-first outbound research workspace for agencies that turns public website evidence into qualified outreach opportunities."
         },
         "hero": {
-          "eyebrow": "Website prospecting for agency outbound teams",
+          "eyebrow": "Website-first outbound research for agencies",
           "titleLead": "Turn prospect websites into",
-          "titleAccent": "qualified outreach context",
-          "subhead": "LeadCue helps SEO, web design, and growth agencies review websites, find the reason to contact, and prepare outreach-ready context before accounts move into CRM or email tools.",
+          "titleAccent": "qualified Prospect Cards",
+          "subhead": "LeadCue helps SEO, web design, and growth agencies review websites, find opportunity signals, score fit, and prepare source-backed first lines before accounts move into CRM or email tools.",
           "microcopy": "20 free scans. Google sign-in. No LinkedIn scraping. Built for website review before outreach.",
-          "visualNote": "Website evidence, fit scoring, and outreach context in one workspace"
+          "visualNote": "Website evidence, fit scoring, Prospect Cards, and outreach context in one workspace"
         }
       },
       "content": {

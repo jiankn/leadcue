@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
-  <title id="title">运行网站优先勘探，无需构建另一个列表工具。</title>
-  <desc id="desc">使用这些文档来设置工作区、运行扫描、解释潜客卡片、管理积分以及将合格的研究交给 CRM 或外联工具。</desc>
+  <title id="title">Website Research Layer for Agencies</title>
+  <desc id="desc">Learn why agencies need a website research layer that qualifies accounts, preserves source evidence, and prepares outreach context before downstream tools.</desc>
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="630" gradientUnits="userSpaceOnUse">
       <stop stop-color="#073733" />
@@ -25,34 +25,36 @@
   <path d="M162 153L187 178" stroke="#083A36" stroke-width="16" stroke-linecap="round" />
   <circle cx="118" cy="138" r="12" fill="#083A36" />
   <text x="232" y="126" fill="#F7FFFC" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="58" font-weight="800">LeadCue</text>
-  <text x="232" y="170" fill="#BFE7DD" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="26" font-weight="600">简体中文</text>
+  <text x="232" y="170" fill="#BFE7DD" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="26" font-weight="600">English</text>
   <g transform="translate(900, 66)">
     <rect width="238" height="58" rx="29" fill="#0D4540" stroke="#1E6A63" />
-    <text x="28" y="38" fill="#DFFBF3" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="24" font-weight="700">资源</text>
+    <text x="28" y="38" fill="#DFFBF3" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="24" font-weight="700">Research layer</text>
   </g>
   <g transform="translate(78, 236)">
     <rect width="330" height="46" rx="23" fill="#0D4540" stroke="#1E6A63" />
-    <text x="22" y="30" fill="#96FF6A" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="22" font-weight="700">文档</text>
+    <text x="22" y="30" fill="#96FF6A" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="22" font-weight="700">Product category</text>
   </g>
-  <text x="78" y="336" fill="#F7FFFC" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="72" font-weight="800">运行网站优先勘探，无需构建另一个列表工具。</text>
-  <text x="78" y="514" fill="#D3EEE7" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="30" font-weight="600">使用这些文档来设置工作区、运行扫描、解释潜客卡片、管理积分以及将合格的研究交给 CRM 或外联工具。</text>
+  <text x="78" y="336" fill="#F7FFFC" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="72" font-weight="800">Website Research Layer for</text>
+<text x="78" y="420" fill="#F7FFFC" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="72" font-weight="800">Agencies</text>
+  <text x="78" y="514" fill="#D3EEE7" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="30" font-weight="600">Learn why agencies need a website research layer</text>
+<text x="78" y="554" fill="#D3EEE7" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="30" font-weight="600">that qualifies accounts, preserves source evidence,</text>
+<text x="78" y="594" fill="#D3EEE7" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="30" font-weight="600">and prepares outreach context before downstream…</text>
   <g transform="translate(78, 548)">
     <rect width="262" height="44" rx="22" fill="#114b45" stroke="#1f6d66" />
-    <text x="22" y="29" fill="#dffbf3" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="20" font-weight="700">文档</text>
+    <text x="22" y="29" fill="#dffbf3" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="20" font-weight="700">website research layer for …</text>
   </g>
   <g transform="translate(364, 548)">
     <rect width="262" height="44" rx="22" fill="#114b45" stroke="#1f6d66" />
-    <text x="22" y="29" fill="#dffbf3" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="20" font-weight="700">快速入门
-当每次扫描从真实的公司网站、明确的代理报价以…</text>
+    <text x="22" y="29" fill="#dffbf3" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="20" font-weight="700">outreach research layer</text>
   </g>
   <g transform="translate(650, 548)">
     <rect width="262" height="44" rx="22" fill="#114b45" stroke="#1f6d66" />
-    <text x="22" y="29" fill="#dffbf3" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="20" font-weight="700">如何阅读潜客卡片</text>
+    <text x="22" y="29" fill="#dffbf3" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="20" font-weight="700">agency prospect research wo…</text>
   </g>
   <rect x="882" y="246" width="258" height="274" rx="28" fill="#0D4540" stroke="#1E6A63" />
   <text x="914" y="302" fill="#BFE7DD" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="24" font-weight="700">Qualified fit</text>
   <text x="914" y="386" fill="url(#glow)" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="92" font-weight="800">92</text>
-  <text x="914" y="432" fill="#D3EEE7" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="24" font-weight="600">打开仪表盘</text>
+  <text x="914" y="432" fill="#D3EEE7" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="24" font-weight="600">Position LeadCue as the research layer between account lists and outreach execution.</text>
   <rect x="914" y="458" width="194" height="14" rx="7" fill="#135852" />
   <rect x="914" y="458" width="138" height="14" rx="7" fill="#96FF6A" />
 </svg>

@@ -19,17 +19,13 @@ interface OpenAICompatibleResponse {
   }>;
 }
 
-interface GeminiGenerateContentResponse {
-  candidates?: Array<{
-    content?: {
-      parts?: Array<{
-        text?: string;
-      }>;
-    };
-  }>;
-}
+type OpenAICompatibleMessage = {
+  role: "system" | "user" | "assistant";
+  content: string;
+};
 
-const DEFAULT_GEMINI_MODEL = "gemini-3.1-pro-preview";
+const DEFAULT_AI_GATEWAY_URL = "https://api.deepseek.com/chat/completions";
+const DEFAULT_DEEPSEEK_MODEL = "deepseek-v4-pro";
 
 function coerceProspectCard(
   value: Partial<ProspectCard>,
@@ -89,57 +85,76 @@ function parseJsonObject(content: string): Partial<ProspectCard> | null {
   }
 }
 
-async function callGemini(env: Env, prompt: string, options?: { json?: boolean }): Promise<string | null> {
-  if (!env.GOOGLE_API_KEY) {
+function getAiProviderApiKey(env: Env) {
+  return env.DEEPSEEK_API_KEY || env.AI_PROVIDER_API_KEY;
+}
+
+function getAiGatewayUrl(env: Env) {
+  const value = (env.AI_GATEWAY_URL || DEFAULT_AI_GATEWAY_URL).trim().replace(/\/+$/, "");
+
+  if (value.endsWith("/chat/completions")) {
+    return value;
+  }
+
+  return `${value}/chat/completions`;
+}
+
+function getAiModel(env: Env) {
+  return env.AI_MODEL || DEFAULT_DEEPSEEK_MODEL;
+}
+
+export function hasAiProviderConfig(env: Env) {
+  return Boolean(getAiProviderApiKey(env));
+}
+
+async function callAiProvider(env: Env, messages: OpenAICompatibleMessage[], options?: { json?: boolean }): Promise<string | null> {
+  const apiKey = getAiProviderApiKey(env);
+
+  if (!apiKey) {
     return null;
   }
 
-  const model = env.AI_MODEL || DEFAULT_GEMINI_MODEL;
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`;
-  const response = await fetch(url, {
+  const body: Record<string, unknown> = {
+    model: getAiModel(env),
+    messages,
+    temperature: 0.2,
+    stream: false
+  };
+
+  if (options?.json) {
+    body.response_format = { type: "json_object" };
+  }
+
+  const response = await fetch(getAiGatewayUrl(env), {
     method: "POST",
     headers: {
-      "Content-Type": "application/json",
-      "x-goog-api-key": env.GOOGLE_API_KEY
+      Authorization: `Bearer ${apiKey}`,
+      "Content-Type": "application/json"
     },
-    body: JSON.stringify({
-      contents: [
-        {
-          parts: [{ text: prompt }]
-        }
-      ],
-      generationConfig: {
-        temperature: 0.2,
-        ...(options?.json ? { responseMimeType: "application/json" } : {})
-      }
-    })
+    body: JSON.stringify(body)
   });
 
   if (!response.ok) {
-    throw new Error(`Gemini API request failed with ${response.status}`);
+    throw new Error(`AI provider request failed with ${response.status}`);
   }
 
-  const data = (await response.json()) as GeminiGenerateContentResponse;
-  return data.candidates?.[0]?.content?.parts?.map((part) => part.text || "").join("").trim() || null;
+  const data = (await response.json()) as OpenAICompatibleResponse;
+  return data.choices?.[0]?.message?.content?.trim() || null;
 }
 
-function messagesToGeminiPrompt(messages: ReturnType<typeof buildProspectCardMessages>) {
-  return messages.map((message) => `${message.role.toUpperCase()}:\n${message.content}`).join("\n\n");
-}
-
-export async function generateGeminiText(env: Env, prompt: string): Promise<string> {
+export async function generateAiText(env: Env, prompt: string): Promise<string> {
   if (!prompt.trim()) {
     throw new Error("Missing prompt.");
   }
 
-  if (!env.GOOGLE_API_KEY) {
-    throw new Error("Missing GOOGLE_API_KEY.");
+  if (!hasAiProviderConfig(env)) {
+    throw new Error("Missing AI_PROVIDER_API_KEY.");
   }
 
-  const text = await callGemini(env, prompt);
+  const text = await callAiProvider(env, [{ role: "user", content: prompt }]);
 
   if (!text) {
-    throw new Error("Gemini returned an empty response.");
+    throw new Error("AI provider returned an empty response.");
   }
 
   return text;
@@ -156,44 +171,12 @@ export async function generateProspectCard(env: Env, request: ScanRequest): Prom
     locale: request.locale
   });
 
-  if (env.GOOGLE_API_KEY) {
-    try {
-      const content = await callGemini(env, messagesToGeminiPrompt(messages), { json: true });
-      const parsed = content ? parseJsonObject(content) : null;
-
-      if (parsed) {
-        return coerceProspectCard(parsed, { ...request, icp }, contactPoints);
-      }
-    } catch {
-      return buildRuleBasedProspectCard({ ...request, icp });
-    }
-  }
-
-  if (!env.AI_GATEWAY_URL || !env.AI_PROVIDER_API_KEY) {
+  if (!hasAiProviderConfig(env)) {
     return buildRuleBasedProspectCard({ ...request, icp });
   }
 
   try {
-    const response = await fetch(env.AI_GATEWAY_URL, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${env.AI_PROVIDER_API_KEY}`,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        model: env.AI_MODEL || DEFAULT_GEMINI_MODEL,
-        messages,
-        temperature: 0.2,
-        response_format: { type: "json_object" }
-      })
-    });
-
-    if (!response.ok) {
-      return buildRuleBasedProspectCard({ ...request, icp });
-    }
-
-    const data = (await response.json()) as OpenAICompatibleResponse;
-    const content = data.choices?.[0]?.message?.content;
+    const content = await callAiProvider(env, messages, { json: true });
     const parsed = content ? parseJsonObject(content) : null;
 
     if (!parsed) {

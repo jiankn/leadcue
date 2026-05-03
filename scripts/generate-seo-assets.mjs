@@ -1,5 +1,6 @@
 import { mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
+import { filterReadyPages, loadLocalizedPageReadiness } from "./localized-page-readiness.mjs";
 import { applyLocalizedSeoStrategy, loadLocalizedSeoStrategy } from "./localized-seo-strategy.mjs";
 import {
   authNoIndexPaths,
@@ -155,13 +156,13 @@ function getHomeKeywordList(homeKeywordSet) {
   ];
 }
 
-function buildRoutes(bundles, homeKeywords) {
+function buildRoutes(bundles, homeKeywords, pageReadiness) {
   const routes = [];
 
   for (const locale of localeMeta) {
     const siteUi = bundles.siteUi[locale.code] ?? bundles.siteUi.en;
-    const seoPages = bundles.seoPages[locale.code] ?? bundles.seoPages.en;
-    const productPages = bundles.productPages[locale.code] ?? bundles.productPages.en;
+    const seoPages = filterReadyPages(pageReadiness, "seoPages", bundles.seoPages[locale.code] ?? bundles.seoPages.en, locale.code);
+    const productPages = filterReadyPages(pageReadiness, "productPages", bundles.productPages[locale.code] ?? bundles.productPages.en, locale.code);
     const commercialPages = bundles.commercialPages[locale.code] ?? bundles.commercialPages.en;
     const homeKeywordSet = homeKeywords[locale.code] ?? homeKeywords.en;
 
@@ -297,7 +298,8 @@ async function main() {
     commercialPages: Object.fromEntries(Object.entries(localeData).map(([locale, bundle]) => [locale, bundle.commercialPages]))
   };
   const homeKeywords = await loadJson(homeKeywordPath);
-  const routes = buildRoutes(bundles, homeKeywords);
+  const pageReadiness = await loadLocalizedPageReadiness();
+  const routes = buildRoutes(bundles, homeKeywords, pageReadiness);
 
   await rm(ogImageDir, { recursive: true, force: true });
   await mkdir(ogImageDir, { recursive: true });

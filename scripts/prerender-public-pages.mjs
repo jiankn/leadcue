@@ -1,5 +1,6 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
+import { filterReadyPages, getRouteAlternateLocales, loadLocalizedPageReadiness } from "./localized-page-readiness.mjs";
 import { applyLocalizedSeoStrategy, loadLocalizedSeoStrategy } from "./localized-seo-strategy.mjs";
 import {
   buildLocalePath,
@@ -131,17 +132,18 @@ function buildRelatedLinks(slugs, seoPageMap, productPageMap) {
     .filter(Boolean);
 }
 
-function buildRoutes(bundles) {
+function buildRoutes(bundles, pageReadiness) {
   const routes = [];
 
   for (const locale of localeMeta) {
     const siteUi = bundles.siteUi[locale.code] ?? bundles.siteUi.en;
-    const seoPages = bundles.seoPages[locale.code] ?? bundles.seoPages.en;
-    const productPages = bundles.productPages[locale.code] ?? bundles.productPages.en;
+    const seoPages = filterReadyPages(pageReadiness, "seoPages", bundles.seoPages[locale.code] ?? bundles.seoPages.en, locale.code);
+    const productPages = filterReadyPages(pageReadiness, "productPages", bundles.productPages[locale.code] ?? bundles.productPages.en, locale.code);
     const commercialPages = bundles.commercialPages[locale.code] ?? bundles.commercialPages.en;
     const homeKeywords = bundles.homeKeywords[locale.code] ?? bundles.homeKeywords.en;
     const seoPageMap = Object.fromEntries(seoPages.map((page) => [page.slug, page]));
     const productPageMap = Object.fromEntries(productPages.map((page) => [page.slug, page]));
+    const homeRoute = { kind: "home", slug: "home" };
 
     routes.push({
       locale: locale.code,
@@ -180,12 +182,15 @@ function buildRoutes(bundles) {
         href: "/signup?plan=free",
         label: siteUi.common.startFreeScan
       },
+      alternateLocales: getRouteAlternateLocales(pageReadiness, homeRoute, localeMeta),
       siteUi,
       structuredType: "WebSite",
       ogType: "website"
     });
 
     Object.entries(commercialPages).forEach(([slug, page]) => {
+      const routeDescriptor = { kind: "commercialPages", slug };
+
       routes.push({
         locale: locale.code,
         htmlLang: locale.htmlLang,
@@ -206,6 +211,7 @@ function buildRoutes(bundles) {
             meta: page.eyebrow
           })),
         cta: page.primaryAction,
+        alternateLocales: getRouteAlternateLocales(pageReadiness, routeDescriptor, localeMeta),
         siteUi,
         structuredType: "WebPage",
         ogType: "website"
@@ -213,6 +219,8 @@ function buildRoutes(bundles) {
     });
 
     seoPages.forEach((page) => {
+      const routeDescriptor = { kind: "seoPages", slug: page.slug };
+
       routes.push({
         locale: locale.code,
         htmlLang: locale.htmlLang,
@@ -231,6 +239,7 @@ function buildRoutes(bundles) {
           href: "/signup?plan=free",
           label: siteUi.common.startFreeScan
         },
+        alternateLocales: getRouteAlternateLocales(pageReadiness, routeDescriptor, localeMeta),
         siteUi,
         structuredType: "Article",
         ogType: "article"
@@ -238,6 +247,8 @@ function buildRoutes(bundles) {
     });
 
     productPages.forEach((page) => {
+      const routeDescriptor = { kind: "productPages", slug: page.slug };
+
       routes.push({
         locale: locale.code,
         htmlLang: locale.htmlLang,
@@ -255,6 +266,7 @@ function buildRoutes(bundles) {
           href: "/signup?plan=free",
           label: siteUi.common.startFreeScan
         },
+        alternateLocales: getRouteAlternateLocales(pageReadiness, routeDescriptor, localeMeta),
         siteUi,
         structuredType: page.slug.startsWith("integrations/") ? "TechArticle" : "WebPage",
         ogType: page.slug.startsWith("integrations/") ? "article" : "website"
@@ -265,13 +277,13 @@ function buildRoutes(bundles) {
   return routes;
 }
 
-function renderAlternateLinks(basePath) {
-  return localeMeta
+function renderAlternateLinks(route) {
+  return route.alternateLocales
     .map((locale) => {
-      const href = canonicalFor(buildLocalePath(locale.code, basePath));
+      const href = canonicalFor(buildLocalePath(locale.code, route.basePath));
       return `<link rel="alternate" hreflang="${locale.hrefLang}" href="${href}" data-leadcue-prerender="alternate" />`;
     })
-    .concat(`<link rel="alternate" hreflang="x-default" href="${canonicalFor(buildLocalePath("en", basePath))}" data-leadcue-prerender="alternate" />`)
+    .concat(`<link rel="alternate" hreflang="x-default" href="${canonicalFor(buildLocalePath(route.alternateLocales.find((locale) => locale.code === "en")?.code ?? route.alternateLocales[0]?.code ?? route.locale, route.basePath))}" data-leadcue-prerender="alternate" />`)
     .join("\n    ");
 }
 
@@ -402,7 +414,7 @@ function injectHead(baseHtml, route) {
   html = html.replace(
     "</head>",
     `    <link rel="canonical" href="${canonical}" />
-    ${renderAlternateLinks(route.basePath)}
+    ${renderAlternateLinks(route)}
     <meta name="robots" content="index,follow" />
     <meta property="og:title" content="${escapeHtml(route.title)}" />
     <meta property="og:description" content="${escapeHtml(route.description)}" />
@@ -428,7 +440,8 @@ ${verificationMetaTags}    <script type="application/ld+json">${structuredData.r
 
 const baseHtml = await readFile(path.join(distDir, "index.html"), "utf8");
 const bundles = await applySeoStrategyToBundles(await loadBundles());
-const publicRoutes = buildRoutes(bundles);
+const pageReadiness = await loadLocalizedPageReadiness();
+const publicRoutes = buildRoutes(bundles, pageReadiness);
 
 await Promise.all(
   publicRoutes.map(async (route) => {

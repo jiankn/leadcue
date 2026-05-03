@@ -34,7 +34,7 @@ import {
   type WorkspaceQueueItem,
   type WorkspaceResearchStatus
 } from "@leadcue/shared";
-import { generateGeminiText, generateProspectCard } from "./ai";
+import { generateAiText, hasAiProviderConfig, generateProspectCard } from "./ai";
 import type { Env } from "./env";
 
 type Variables = {
@@ -61,6 +61,10 @@ type WorkspaceCreateRequest = {
   firstProspectUrl?: string;
 };
 type EmailLoginRequest = {
+  email?: string;
+  password?: string;
+};
+type EmailRegisterRequest = {
   email?: string;
   password?: string;
 };
@@ -112,13 +116,14 @@ type CheckoutRequest = {
 type PortalRequest = {
   workspaceId?: string;
 };
-type GeminiPromptRequest = {
+type AiPromptRequest = {
   prompt?: string;
 };
 type GoogleOauthMetadata = {
   intent: "login" | "signup";
   planId?: PricingPlan["id"];
   focus?: string;
+  firstProspectUrl?: string;
   returnTo?: string;
 };
 type PasswordResetTokenRow = {
@@ -167,24 +172,24 @@ app.get("/api/config", (c) =>
   })
 );
 
-app.post("/api/ai/gemini", async (c) => {
-  const body = (await c.req.json<GeminiPromptRequest>().catch(() => ({}))) as GeminiPromptRequest;
+app.post("/api/ai/generate", async (c) => {
+  const body = (await c.req.json<AiPromptRequest>().catch(() => ({}))) as AiPromptRequest;
   const prompt = body.prompt?.trim();
 
   if (!prompt) {
     return c.json({ ok: false, error: "Missing prompt." }, 400);
   }
 
-  if (!c.env.GOOGLE_API_KEY) {
-    return c.json({ ok: false, error: "Server is missing GOOGLE_API_KEY." }, 500);
+  if (!hasAiProviderConfig(c.env)) {
+    return c.json({ ok: false, error: "Server is missing DEEPSEEK_API_KEY or AI_PROVIDER_API_KEY." }, 500);
   }
 
   try {
-    const text = await generateGeminiText(c.env, prompt);
+    const text = await generateAiText(c.env, prompt);
     return c.json({ ok: true, text });
   } catch (error) {
-    console.error("gemini_api_failed", error);
-    return c.json({ ok: false, error: "Gemini API request failed." }, 502);
+    console.error("ai_provider_failed", error);
+    return c.json({ ok: false, error: "AI provider request failed." }, 502);
   }
 });
 
@@ -232,7 +237,7 @@ app.get("/api/extension/session", async (c) => {
     appUrl: baseUrl,
     dashboardUrl: `${baseUrl}/app`,
     loginUrl: `${baseUrl}/login`,
-    signupUrl: `${baseUrl}/login`,
+    signupUrl: `${baseUrl}/signup`,
     billingUrl: `${baseUrl}/app/billing`,
     supportUrl: `${baseUrl}/support`
   };
@@ -297,7 +302,7 @@ app.post("/api/auth/email/login", async (c) => {
   }
 
   const user = await c.env.DB.prepare(
-    `SELECT id, email, name, password_hash, password_salt, password_iterations
+    `SELECT id, email, name, password_hash, password_salt, password_iterations, auth_provider, google_sub
      FROM users
      WHERE email = ?
      LIMIT 1`
@@ -305,8 +310,30 @@ app.post("/api/auth/email/login", async (c) => {
     .bind(email)
     .first<EmailPasswordUserRow>();
 
+  if (!user?.id) {
+    return c.json({ ok: false, error: "Email or password is incorrect.", reason: "invalid_credentials" }, 401);
+  }
+
   if (!user?.password_hash || !user.password_salt || !user.password_iterations) {
-    return c.json({ ok: false, error: "This workspace does not have email password sign-in set up yet." }, 401);
+    if (user.auth_provider === "google" || user.google_sub) {
+      return c.json(
+        {
+          ok: false,
+          error: "This account uses Google sign-in right now. Continue with Google or request a reset link to add an email password.",
+          reason: "google_sign_in_required"
+        },
+        401
+      );
+    }
+
+    return c.json(
+      {
+        ok: false,
+        error: "This account does not have email password sign-in yet. Request a reset link first.",
+        reason: "password_setup_required"
+      },
+      401
+    );
   }
 
   const isValidPassword = await verifyPassword(password, {
@@ -316,7 +343,7 @@ app.post("/api/auth/email/login", async (c) => {
   });
 
   if (!isValidPassword) {
-    return c.json({ ok: false, error: "Email or password is incorrect." }, 401);
+    return c.json({ ok: false, error: "Email or password is incorrect.", reason: "invalid_credentials" }, 401);
   }
 
   await c.env.DB.prepare(`UPDATE users SET last_login_at = CURRENT_TIMESTAMP WHERE id = ?`).bind(user.id).run();
@@ -333,20 +360,21 @@ app.post("/api/auth/email/login", async (c) => {
   });
 });
 
-app.post("/api/auth/password/request-reset", async (c) => {
+app.post("/api/auth/email/register", async (c) => {
   if (!c.env.DB) {
-    return c.json({ ok: false, error: "Password reset is unavailable until the workspace database is ready." }, 503);
+    return c.json({ ok: false, error: "Authentication is unavailable until the workspace database is ready." }, 503);
   }
 
-  const body = (await c.req.json<PasswordResetRequest>().catch(() => ({}))) as PasswordResetRequest;
+  const body = (await c.req.json<EmailRegisterRequest>().catch(() => ({}))) as EmailRegisterRequest;
   const email = body.email?.trim().toLowerCase();
+  const password = body.password || "";
 
-  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    return c.json({ ok: false, error: "Enter the workspace email address you used to sign in." }, 400);
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || password.length < 8) {
+    return c.json({ ok: false, error: "Enter a valid email and password." }, 400);
   }
 
-  const user = await c.env.DB.prepare(
-    `SELECT id, email, password_hash, password_salt, password_iterations
+  const existingUser = await c.env.DB.prepare(
+    `SELECT id, password_hash, password_salt, password_iterations, auth_provider, google_sub
      FROM users
      WHERE email = ?
      LIMIT 1`
@@ -354,7 +382,71 @@ app.post("/api/auth/password/request-reset", async (c) => {
     .bind(email)
     .first<EmailPasswordUserRow>();
 
-  if (!user?.id || !user.password_hash || !user.password_salt || !user.password_iterations) {
+  if (existingUser?.id) {
+    if (!existingUser.password_hash || !existingUser.password_salt || !existingUser.password_iterations) {
+      if (existingUser.auth_provider === "google" || existingUser.google_sub) {
+        return c.json(
+          {
+            ok: false,
+            error: "This email already has a Google sign-in account. Switch to sign in and continue with Google.",
+            reason: "google_account_exists"
+          },
+          409
+        );
+      }
+
+      return c.json(
+        {
+          ok: false,
+          error: "This email already has an account, but email password sign-in is not ready yet. Switch to sign in and request a reset link.",
+          reason: "password_setup_required"
+        },
+        409
+      );
+    }
+
+    return c.json({ ok: false, error: "An account with this email already exists. Sign in instead.", reason: "account_exists" }, 409);
+  }
+
+  try {
+    const ids = await commercialIdsForEmail(email);
+    const passwordCredential = await createPasswordCredential(password);
+    await upsertEmailUser(c.env.DB, ids.userId, email, workspaceNameFromSignup(email), passwordCredential);
+    await createUserSession(c, c.env.DB, ids.userId);
+    return c.json({ ok: true, next: "/app" });
+  } catch (error) {
+    console.error("email_register_failed", error);
+    return c.json({ ok: false, error: "Unable to create account. Please try again." }, 500);
+  }
+});
+
+app.post("/api/auth/password/request-reset", async (c) => {
+  if (!c.env.DB) {
+    return c.json({ ok: false, error: "Password reset is unavailable until the workspace database is ready." }, 503);
+  }
+
+  if (!passwordResetEmailConfigured(c.env)) {
+    return c.json({ ok: false, error: "Password reset is unavailable right now." }, 503);
+  }
+
+  const body = (await c.req.json<PasswordResetRequest>().catch(() => ({}))) as PasswordResetRequest;
+  const email = body.email?.trim().toLowerCase();
+  const locale = resolveAuthLocale(c.req.header("X-LeadCue-Locale"));
+
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return c.json({ ok: false, error: "Enter the workspace email address you used to sign in." }, 400);
+  }
+
+  const user = await c.env.DB.prepare(
+    `SELECT id, email, password_hash, password_salt, password_iterations, auth_provider, google_sub
+     FROM users
+     WHERE email = ?
+     LIMIT 1`
+  )
+    .bind(email)
+    .first<EmailPasswordUserRow>();
+
+  if (!user?.id) {
     return c.json({
       ok: true,
       message: "If that email belongs to a workspace, a one-time reset link has been prepared."
@@ -378,12 +470,26 @@ app.post("/api/auth/password/request-reset", async (c) => {
     .bind(`pwreset_${await shortHash(token)}`, user.id, email, tokenHash, expiresAt)
     .run();
 
-  const resetUrl = `${appUrl(c.env).replace(/\/$/, "")}/reset-password?token=${encodeURIComponent(token)}`;
+  const resetUrl = new URL(buildLocalizedPublicPath(locale, `/reset-password?token=${encodeURIComponent(token)}`), appUrl(c.env)).toString();
+  const sendResult = await sendPasswordResetEmail(c.env, {
+    email,
+    resetUrl,
+    locale
+  });
+
+  if (!sendResult.ok) {
+    console.error("password_reset_email_send_failed", {
+      email,
+      status: sendResult.status,
+      error: sendResult.error
+    });
+    await c.env.DB.prepare(`DELETE FROM password_reset_tokens WHERE id = ?`).bind(`pwreset_${await shortHash(token)}`).run().catch(() => null);
+    return c.json({ ok: false, error: "Password reset is unavailable right now." }, 503);
+  }
 
   return c.json({
     ok: true,
-    message: "If that email belongs to a workspace, a one-time reset link has been prepared.",
-    resetUrl: isLocalAppUrl(c.env) ? resetUrl : undefined
+    message: "If that email belongs to a workspace, a one-time reset link has been prepared."
   });
 });
 
@@ -534,8 +640,9 @@ app.get("/api/auth/google/start", async (c) => {
   const intent = c.req.query("intent") === "signup" ? "signup" : "login";
   const planId = (c.req.query("planId") as PricingPlan["id"] | null) ?? undefined;
   const focus = c.req.query("focus") ?? undefined;
+  const firstProspectUrl = c.req.query("first")?.trim() || undefined;
   const returnTo = safeReturnPath(c.req.query("returnTo"), "/app");
-  const errorPath = "/login";
+  const errorPath = intent === "signup" ? buildSignupPath(planId, focus, firstProspectUrl) : "/login";
 
   if (!googleAuthConfigured(c.env)) {
     return c.redirect(`${appUrl(c.env)}${appendPathQuery(errorPath, "auth_error", "google_not_configured")}`);
@@ -552,6 +659,7 @@ app.get("/api/auth/google/start", async (c) => {
     intent,
     planId: planId && PRICING_PLANS.some((plan) => plan.id === planId) ? planId : undefined,
     focus,
+    firstProspectUrl,
     returnTo
   };
 
@@ -617,7 +725,10 @@ app.get("/api/auth/google/callback", async (c) => {
     intent: "login",
     returnTo: "/app"
   });
-  const errorPath = "/login";
+  const errorPath =
+    metadata.intent === "signup"
+      ? buildSignupPath(metadata.planId, metadata.focus, metadata.firstProspectUrl)
+      : "/login";
 
   if (oauthError || !code || !pending.code_verifier) {
     return c.redirect(`${appUrl(c.env)}${appendPathQuery(errorPath, "auth_error", oauthError || "oauth_cancelled")}`);
@@ -2455,9 +2566,19 @@ function appUrl(env: Env): string {
   return env.APP_URL || "http://localhost:5173";
 }
 
-function isLocalAppUrl(env: Env): boolean {
-  const url = appUrl(env);
-  return url.includes("localhost") || url.includes("127.0.0.1");
+function buildLocalizedPublicPath(locale: ScanLocale, pathname: string): string {
+  const [rawPath = "/", rawSearch = ""] = pathname.split("?", 2);
+  const normalizedPath = rawPath.startsWith("/") ? rawPath : `/${rawPath}`;
+  const localizedPath = locale === "en" ? normalizedPath : `/${locale}${normalizedPath}`;
+  return rawSearch ? `${localizedPath}?${rawSearch}` : localizedPath;
+}
+
+function resolveAuthLocale(value?: string | null): ScanLocale {
+  return supportedScanLocales.includes(value as ScanLocale) ? (value as ScanLocale) : "en";
+}
+
+function passwordResetEmailConfigured(env: Env): boolean {
+  return Boolean(cleanConfiguredValue(env.RESEND_API_KEY) && cleanConfiguredValue(env.EMAIL_FROM));
 }
 
 function sampleAnalyticsSummary(locale: ScanLocale = "en") {
@@ -2586,13 +2707,16 @@ function appendPathQuery(path: string, key: string, value: string): string {
   return `${url.pathname}${url.search}`;
 }
 
-function buildSignupPath(planId?: PricingPlan["id"], focus?: string) {
+function buildSignupPath(planId?: PricingPlan["id"], focus?: string, firstProspectUrl?: string) {
   const url = new URL("/signup", "https://leadcue.local");
   if (planId) {
     url.searchParams.set("plan", planId);
   }
   if (focus) {
     url.searchParams.set("focus", focus);
+  }
+  if (firstProspectUrl) {
+    url.searchParams.set("first", firstProspectUrl);
   }
   return `${url.pathname}${url.search}`;
 }
@@ -3406,6 +3530,275 @@ function cleanStripeValue(value?: string): string | null {
   }
 
   return value;
+}
+
+function cleanConfiguredValue(value?: string): string | null {
+  const normalized = value?.trim();
+  return normalized ? normalized : null;
+}
+
+function escapeHtml(value: string): string {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+async function sendPasswordResetEmail(
+  env: Env,
+  input: { email: string; resetUrl: string; locale: ScanLocale }
+): Promise<{ ok: true; id: string } | { ok: false; error: string; status?: number }> {
+  const apiKey = cleanConfiguredValue(env.RESEND_API_KEY);
+  const from = cleanConfiguredValue(env.EMAIL_FROM);
+  const supportEmail = cleanConfiguredValue(env.SUPPORT_EMAIL);
+
+  if (!apiKey || !from) {
+    return { ok: false, error: "Resend is not configured." };
+  }
+
+  const subject = passwordResetEmailSubject(input.locale);
+  const text = passwordResetEmailText(input.resetUrl, supportEmail, input.locale);
+  const html = passwordResetEmailHtml(input.resetUrl, supportEmail, input.locale);
+
+  const response = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      "Content-Type": "application/json",
+      "User-Agent": "leadcue-api/0.1"
+    },
+    body: JSON.stringify({
+      from,
+      to: [input.email],
+      subject,
+      html,
+      text
+    })
+  });
+  const payload = (await response.json().catch(() => ({}))) as {
+    id?: string;
+    message?: string;
+    error?: { message?: string };
+  };
+
+  if (!response.ok || !payload.id) {
+    return {
+      ok: false,
+      status: response.status,
+      error: payload.error?.message || payload.message || "Resend email request failed."
+    };
+  }
+
+  return { ok: true, id: payload.id };
+}
+
+function passwordResetEmailSubject(locale: ScanLocale): string {
+  switch (locale) {
+    case "zh":
+      return "设置或重置你的 LeadCue 密码";
+    case "ja":
+      return "LeadCue のパスワードを設定またはリセット";
+    case "ko":
+      return "LeadCue 비밀번호 설정 또는 재설정";
+    case "de":
+      return "LeadCue-Passwort einrichten oder zurücksetzen";
+    case "nl":
+      return "Je LeadCue-wachtwoord instellen of resetten";
+    case "fr":
+      return "Définissez ou réinitialisez votre mot de passe LeadCue";
+    default:
+      return "Set or reset your LeadCue password";
+  }
+}
+
+function passwordResetEmailText(resetUrl: string, supportEmail: string | null, locale: ScanLocale): string {
+  switch (locale) {
+    case "zh":
+      return [
+        "你请求了一个一次性链接，用来设置或重置你的 LeadCue 密码。",
+        `打开这个链接继续：${resetUrl}`,
+        "该链接将在 30 分钟后失效。",
+        "如果这不是你本人发起的请求，可以直接忽略这封邮件。",
+        supportEmail ? `需要帮助？请联系 ${supportEmail}` : ""
+      ]
+        .filter(Boolean)
+        .join("\n\n");
+    case "ja":
+      return [
+        "LeadCue のパスワードを設定またはリセットするためのワンタイムリンクがリクエストされました。",
+        `続行するには次のリンクを開いてください: ${resetUrl}`,
+        "このリンクの有効期限は 30 分です。",
+        "心当たりがない場合は、このメールを無視してください。",
+        supportEmail ? `サポートが必要な場合: ${supportEmail}` : ""
+      ]
+        .filter(Boolean)
+        .join("\n\n");
+    case "ko":
+      return [
+        "LeadCue 비밀번호를 설정하거나 재설정하기 위한 일회성 링크가 요청되었습니다.",
+        `계속하려면 다음 링크를 여세요: ${resetUrl}`,
+        "이 링크는 30분 후 만료됩니다.",
+        "직접 요청한 것이 아니라면 이 이메일을 무시해도 됩니다.",
+        supportEmail ? `도움이 필요하면 ${supportEmail} 로 문의하세요.` : ""
+      ]
+        .filter(Boolean)
+        .join("\n\n");
+    case "de":
+      return [
+        "Es wurde ein Einmal-Link angefordert, um Ihr LeadCue-Passwort einzurichten oder zurückzusetzen.",
+        `Öffnen Sie zum Fortfahren diesen Link: ${resetUrl}`,
+        "Der Link läuft in 30 Minuten ab.",
+        "Wenn Sie dies nicht angefordert haben, können Sie diese E-Mail ignorieren.",
+        supportEmail ? `Hilfe: ${supportEmail}` : ""
+      ]
+        .filter(Boolean)
+        .join("\n\n");
+    case "nl":
+      return [
+        "Er is een eenmalige link aangevraagd om je LeadCue-wachtwoord in te stellen of opnieuw in te stellen.",
+        `Open deze link om verder te gaan: ${resetUrl}`,
+        "Deze link verloopt over 30 minuten.",
+        "Was jij dit niet? Dan kun je deze e-mail negeren.",
+        supportEmail ? `Hulp nodig? ${supportEmail}` : ""
+      ]
+        .filter(Boolean)
+        .join("\n\n");
+    case "fr":
+      return [
+        "Un lien à usage unique a été demandé pour définir ou réinitialiser votre mot de passe LeadCue.",
+        `Ouvrez ce lien pour continuer : ${resetUrl}`,
+        "Ce lien expire dans 30 minutes.",
+        "Si vous n'êtes pas à l'origine de cette demande, vous pouvez ignorer cet e-mail.",
+        supportEmail ? `Besoin d'aide ? ${supportEmail}` : ""
+      ]
+        .filter(Boolean)
+        .join("\n\n");
+    default:
+      return [
+        "A one-time link was requested to set or reset your LeadCue password.",
+        `Open this link to continue: ${resetUrl}`,
+        "This link expires in 30 minutes.",
+        "If you did not request this, you can ignore this email.",
+        supportEmail ? `Need help? ${supportEmail}` : ""
+      ]
+        .filter(Boolean)
+        .join("\n\n");
+  }
+}
+
+function passwordResetEmailHtml(resetUrl: string, supportEmail: string | null, locale: ScanLocale): string {
+  const content = passwordResetEmailHtmlCopy(locale);
+  const safeUrl = escapeHtml(resetUrl);
+  const supportLine = supportEmail
+    ? `<p style="margin:16px 0 0;color:#4f7b74;font-size:14px;line-height:1.6;">${escapeHtml(content.supportLabel)} <a href="mailto:${escapeHtml(
+        supportEmail
+      )}" style="color:#0d5c50;">${escapeHtml(supportEmail)}</a></p>`
+    : "";
+
+  return `<!doctype html>
+<html lang="${escapeHtml(locale)}">
+  <body style="margin:0;background:#f4f7ef;font-family:Arial,sans-serif;color:#123a35;">
+    <div style="max-width:600px;margin:0 auto;padding:32px 20px;">
+      <div style="background:#ffffff;border:1px solid #dbe9e3;padding:32px;">
+        <p style="margin:0 0 12px;color:#4f7b74;font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;">LeadCue</p>
+        <h1 style="margin:0 0 16px;font-size:28px;line-height:1.2;color:#123a35;">${escapeHtml(content.title)}</h1>
+        <p style="margin:0 0 12px;color:#325f58;font-size:16px;line-height:1.7;">${escapeHtml(content.body)}</p>
+        <p style="margin:0 0 24px;color:#325f58;font-size:16px;line-height:1.7;">${escapeHtml(content.expiry)}</p>
+        <a href="${safeUrl}" style="display:inline-block;padding:14px 22px;background:#9bff66;color:#08352f;text-decoration:none;font-weight:700;">${escapeHtml(
+    content.cta
+  )}</a>
+        <p style="margin:24px 0 0;color:#4f7b74;font-size:14px;line-height:1.6;">${escapeHtml(content.fallback)}<br /><a href="${safeUrl}" style="color:#0d5c50;">${safeUrl}</a></p>
+        <p style="margin:16px 0 0;color:#4f7b74;font-size:14px;line-height:1.6;">${escapeHtml(content.ignore)}</p>
+        ${supportLine}
+      </div>
+    </div>
+  </body>
+</html>`;
+}
+
+function passwordResetEmailHtmlCopy(locale: ScanLocale): {
+  title: string;
+  body: string;
+  expiry: string;
+  cta: string;
+  fallback: string;
+  ignore: string;
+  supportLabel: string;
+} {
+  switch (locale) {
+    case "zh":
+      return {
+        title: "设置或重置你的密码",
+        body: "我们收到了一个请求，要为你的 LeadCue 账号设置或重置密码。",
+        expiry: "这个一次性链接将在 30 分钟后失效。",
+        cta: "继续设置密码",
+        fallback: "如果按钮无法使用，请打开这个链接：",
+        ignore: "如果这不是你本人发起的请求，可以直接忽略这封邮件。",
+        supportLabel: "需要帮助？"
+      };
+    case "ja":
+      return {
+        title: "パスワードを設定またはリセット",
+        body: "LeadCue アカウントのパスワードを設定またはリセットするリクエストを受け付けました。",
+        expiry: "このワンタイムリンクの有効期限は 30 分です。",
+        cta: "パスワード設定を続ける",
+        fallback: "ボタンが使えない場合は、次のリンクを開いてください:",
+        ignore: "この操作に心当たりがない場合は、このメールを無視してください。",
+        supportLabel: "サポート:"
+      };
+    case "ko":
+      return {
+        title: "비밀번호 설정 또는 재설정",
+        body: "LeadCue 계정의 비밀번호를 설정하거나 재설정하려는 요청을 받았습니다.",
+        expiry: "이 일회성 링크는 30분 후 만료됩니다.",
+        cta: "비밀번호 설정 계속하기",
+        fallback: "버튼이 작동하지 않으면 다음 링크를 여세요:",
+        ignore: "직접 요청한 것이 아니라면 이 이메일을 무시해도 됩니다.",
+        supportLabel: "도움이 필요하신가요?"
+      };
+    case "de":
+      return {
+        title: "Passwort einrichten oder zurücksetzen",
+        body: "Wir haben eine Anfrage erhalten, das Passwort für Ihr LeadCue-Konto einzurichten oder zurückzusetzen.",
+        expiry: "Dieser Einmal-Link läuft in 30 Minuten ab.",
+        cta: "Passwort einrichten",
+        fallback: "Wenn die Schaltfläche nicht funktioniert, öffnen Sie diesen Link:",
+        ignore: "Wenn Sie dies nicht angefordert haben, können Sie diese E-Mail ignorieren.",
+        supportLabel: "Hilfe?"
+      };
+    case "nl":
+      return {
+        title: "Je wachtwoord instellen of resetten",
+        body: "We hebben een verzoek ontvangen om het wachtwoord van je LeadCue-account in te stellen of opnieuw in te stellen.",
+        expiry: "Deze eenmalige link verloopt over 30 minuten.",
+        cta: "Wachtwoord instellen",
+        fallback: "Werkt de knop niet, open dan deze link:",
+        ignore: "Heb jij dit niet aangevraagd? Dan kun je deze e-mail negeren.",
+        supportLabel: "Hulp nodig?"
+      };
+    case "fr":
+      return {
+        title: "Définissez ou réinitialisez votre mot de passe",
+        body: "Nous avons reçu une demande pour définir ou réinitialiser le mot de passe de votre compte LeadCue.",
+        expiry: "Ce lien à usage unique expire dans 30 minutes.",
+        cta: "Continuer",
+        fallback: "Si le bouton ne fonctionne pas, ouvrez ce lien :",
+        ignore: "Si vous n'êtes pas à l'origine de cette demande, vous pouvez ignorer cet e-mail.",
+        supportLabel: "Besoin d'aide ?"
+      };
+    default:
+      return {
+        title: "Set or reset your password",
+        body: "We received a request to set or reset the password for your LeadCue account.",
+        expiry: "This one-time link expires in 30 minutes.",
+        cta: "Continue",
+        fallback: "If the button does not work, open this link:",
+        ignore: "If you did not request this, you can ignore this email.",
+        supportLabel: "Need help?"
+      };
+  }
 }
 
 async function verifyStripeSignature(rawBody: string, header: string | undefined, secret: string): Promise<boolean> {
@@ -4465,6 +4858,8 @@ interface EmailPasswordUserRow {
   password_hash: string | null;
   password_salt: string | null;
   password_iterations: number | null;
+  auth_provider?: string | null;
+  google_sub?: string | null;
 }
 
 interface OauthStateRow {

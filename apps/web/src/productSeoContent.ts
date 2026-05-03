@@ -29,6 +29,76 @@ export type ProductSeoPage = {
 
 export const productSeoPages: ProductSeoPage[] = [
   {
+    slug: "tools/prospect-card",
+    eyebrow: "Core product object",
+    category: "Prospect Card",
+    title: "Prospect Card workflow for website-first outbound research",
+    seoTitle: "Prospect Card Workflow for Website-First Outbound Research | LeadCue",
+    description:
+      "See how a Prospect Card keeps website evidence, fit score, opportunity signals, first lines, source notes, and CRM-ready fields together.",
+    intent: "Help agencies understand the core LeadCue output before they save or export a prospect.",
+    updatedAt: "2026-05-03",
+    readingTime: "Workflow",
+    primaryKeyword: "Prospect Card",
+    secondaryKeywords: ["prospect research card", "website evidence card", "outreach context card"],
+    tool: "workflow",
+    heroBullets: [
+      "A Prospect Card is the handoff object between website research and outreach.",
+      "It keeps fit score, opportunity signals, source notes, first line, and export fields in one place.",
+      "Teams can review the card before a prospect moves into CRM, CSV, or an email workflow."
+    ],
+    sections: [
+      {
+        title: "What a Prospect Card should contain",
+        copy:
+          "A useful card is not just a company name and URL. It captures the smallest complete research package a rep needs to decide whether the account deserves outreach.",
+        items: [
+          "Company, website URL, industry, owner, stage, saved status, and export status.",
+          "Fit score, confidence score, top opportunity signal, and reason to contact.",
+          "First line, short email context, source notes, contact path, and CRM field mapping."
+        ]
+      },
+      {
+        title: "Prospect Card field matrix",
+        copy:
+          "The field set should separate account fit, evidence quality, outreach copy, and downstream handoff so teams do not treat every scanned website as a qualified lead.",
+        items: [
+          "Qualification fields: ICP fit, confidence, signal category, and save threshold.",
+          "Evidence fields: source page, observed website cue, business implication, and uncertainty note.",
+          "Handoff fields: owner, CRM destination, first line, source notes, and export-ready status."
+        ]
+      },
+      {
+        title: "When a card should not be saved",
+        copy:
+          "The Prospect Card is also a quality gate. If the account has no credible reason to contact, the right outcome is to skip or review instead of exporting another weak lead.",
+        items: [
+          "Skip when the only signal is generic or unrelated to the agency offer.",
+          "Review when fit is strong but the source evidence is thin or uncertain.",
+          "Save when the card includes a specific signal, a clear buyer implication, and a first line the team can verify."
+        ]
+      }
+    ],
+    faqs: [
+      {
+        question: "Is a Prospect Card the same as a CRM record?",
+        answer:
+          "No. A Prospect Card sits before the CRM. It helps teams decide whether a website-backed prospect is worth saving, assigning, and exporting."
+      },
+      {
+        question: "Should every scanned website get a Prospect Card?",
+        answer:
+          "No. Scanned websites should become saved Prospect Cards only when fit and evidence support a credible outreach reason."
+      },
+      {
+        question: "What makes a Prospect Card useful for cold outreach?",
+        answer:
+          "It keeps the source observation, buyer implication, first line, and CRM-ready notes together so a rep can verify the claim before sending."
+      }
+    ],
+    related: ["website-first-outbound-research", "guides/website-opportunity-signals", "templates/crm-csv-field-mapping"]
+  },
+  {
     slug: "tools/prospect-research-chrome-extension",
     eyebrow: "Product workflow",
     category: "Chrome extension",
@@ -86,7 +156,7 @@ export const productSeoPages: ProductSeoPage[] = [
           "Yes. Saved accounts can carry the same fit score, source notes, and first-line context into CSV or CRM export workflows."
       }
     ],
-    related: ["website-prospecting", "tools/outreach-context-workspace", "templates/cold-email-first-line"]
+    related: ["tools/prospect-card", "website-prospecting", "tools/outreach-context-workspace"]
   },
   {
     slug: "tools/batch-website-review-queue",
@@ -206,7 +276,7 @@ export const productSeoPages: ProductSeoPage[] = [
           "Review the source observation, fit reason, first line, and any claim that will appear in the outbound message."
       }
     ],
-    related: ["prospect-research-tool-for-agencies", "templates/crm-csv-field-mapping", "cold-email-first-lines"]
+    related: ["tools/prospect-card", "guides/source-backed-prospect-notes", "templates/crm-csv-field-mapping"]
   },
   {
     slug: "templates/crm-csv-field-mapping",

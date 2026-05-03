@@ -6,6 +6,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(__dirname, "..");
 const distDir = process.argv[2] ? path.resolve(process.argv[2]) : path.join(repoRoot, "apps", "web", "dist");
 const generatedDir = path.join(repoRoot, "apps", "web", "src", "content", "generated");
+const sourceDir = path.join(repoRoot, "apps", "web", "src", "content", "source");
 
 const locales = ["en", "zh", "ja", "ko", "de", "nl", "fr"];
 
@@ -27,22 +28,40 @@ function loadJson(filename) {
   return JSON.parse(fs.readFileSync(path.join(generatedDir, filename), "utf8"));
 }
 
+function loadSourceJson(filename, fallback) {
+  try {
+    return JSON.parse(fs.readFileSync(path.join(sourceDir, filename), "utf8"));
+  } catch {
+    return fallback;
+  }
+}
+
+function isPageReady(pageReadiness, kind, slug, locale) {
+  const readyLocales = pageReadiness?.[kind]?.[slug];
+
+  if (!Array.isArray(readyLocales)) {
+    return true;
+  }
+
+  return readyLocales.includes(locale);
+}
+
 const commercialPages = loadJson("commercial-pages.locales.json");
 const seoPages = loadJson("seo-pages.locales.json");
 const productPages = loadJson("product-pages.locales.json");
-
-const basePaths = [
-  "/",
-  ...Object.keys(commercialPages.en).map((slug) => `/${slug}`),
-  ...seoPages.en.map((page) => `/${page.slug}`),
-  ...productPages.en.map((page) => `/${page.slug}`)
-];
+const pageReadiness = loadSourceJson("localized-page-readiness.json", {});
 
 const expectedHtmlRoutes = locales.map((locale) => buildLocalePath(locale, "/").slice(1) || "index.html")
   .map((value) => (value === "index.html" ? value : `${value}/index.html`));
 
 for (const locale of locales) {
-  for (const basePath of basePaths.slice(1)) {
+  const basePaths = [
+    ...Object.keys(commercialPages[locale] ?? commercialPages.en).map((slug) => `/${slug}`),
+    ...(seoPages[locale] ?? seoPages.en).filter((page) => isPageReady(pageReadiness, "seoPages", page.slug, locale)).map((page) => `/${page.slug}`),
+    ...(productPages[locale] ?? productPages.en).filter((page) => isPageReady(pageReadiness, "productPages", page.slug, locale)).map((page) => `/${page.slug}`)
+  ];
+
+  for (const basePath of basePaths) {
     expectedHtmlRoutes.push(`${buildLocalePath(locale, basePath).slice(1)}/index.html`);
   }
 }

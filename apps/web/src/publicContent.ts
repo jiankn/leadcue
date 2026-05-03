@@ -5,6 +5,7 @@ import commercialPagesJson from "./content/generated/commercial-pages.locales.js
 import localizedSeoCoreProductsJson from "./content/source/localized-seo-core-products.json";
 import localizedSeoDeepPagesJson from "./content/source/localized-seo-deep-pages.json";
 import localizedSeoLongCopyJson from "./content/source/localized-seo-longcopy.json";
+import localizedPageReadinessJson from "./content/source/localized-page-readiness.json";
 import localizedPublicUiJson from "./content/source/localized-public-ui.json";
 import localizedSeoStrategyJson from "./content/source/localized-seo-strategy.json";
 import localizedSeoUseCasesIntegrationsJson from "./content/source/localized-seo-usecases-integrations.json";
@@ -29,6 +30,8 @@ type LocalizedSeoStrategy = Partial<
     }
   >
 >;
+type PageReadinessKind = "seoPages" | "productPages";
+type LocalizedPageReadiness = Partial<Record<PageReadinessKind, Partial<Record<string, SiteLocaleCode[]>>>>;
 
 export type SiteUi = (typeof siteUiJson)["en"];
 
@@ -36,6 +39,7 @@ const siteUiByLocale = siteUiJson as LocaleMap<SiteUi>;
 const seoPagesByLocale = seoPagesJson as LocaleMap<SeoContentPage[]>;
 const productPagesByLocale = productPagesJson as LocaleMap<ProductSeoPage[]>;
 const commercialPagesByLocale = commercialPagesJson as LocaleMap<Record<CommercialPageSlug, CommercialPageDefinition>>;
+const localizedPageReadiness = localizedPageReadinessJson as LocalizedPageReadiness;
 const localizedSeoStrategy = deepMergeValue(
   deepMergeValue(
     deepMergeValue(
@@ -80,6 +84,20 @@ function applyPageOverrides<T extends { slug: string }>(pages: T[], overrides?: 
   return pages.map((page) => deepMergeValue(page, overrides[page.slug]));
 }
 
+function isPageReady(kind: PageReadinessKind, slug: string, locale: SiteLocaleCode) {
+  const readyLocales = localizedPageReadiness[kind]?.[slug];
+
+  if (!readyLocales) {
+    return true;
+  }
+
+  return readyLocales.includes(locale);
+}
+
+function filterReadyPages<T extends { slug: string }>(kind: PageReadinessKind, pages: T[], locale: SiteLocaleCode) {
+  return pages.filter((page) => isPageReady(kind, page.slug, locale));
+}
+
 function getLocaleValue<T>(bundle: Partial<LocaleMap<T>>, locale: SiteLocaleCode) {
   const resolved = bundle[locale] ?? bundle[defaultSiteLocale];
 
@@ -95,11 +113,11 @@ export function getSiteUi(locale: SiteLocaleCode) {
 }
 
 export function getSeoPages(locale: SiteLocaleCode) {
-  return applyPageOverrides(getLocaleValue(seoPagesByLocale, locale), localizedSeoStrategy[locale]?.seoPages);
+  return filterReadyPages("seoPages", applyPageOverrides(getLocaleValue(seoPagesByLocale, locale), localizedSeoStrategy[locale]?.seoPages), locale);
 }
 
 export function getProductPages(locale: SiteLocaleCode) {
-  return applyPageOverrides(getLocaleValue(productPagesByLocale, locale), localizedSeoStrategy[locale]?.productPages);
+  return filterReadyPages("productPages", applyPageOverrides(getLocaleValue(productPagesByLocale, locale), localizedSeoStrategy[locale]?.productPages), locale);
 }
 
 export function getCommercialPages(locale: SiteLocaleCode) {
