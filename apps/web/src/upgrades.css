@@ -107,7 +107,20 @@
 
 .account-password-form-grid {
   display: grid;
-  gap: 1rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.8rem;
+}
+
+.account-password-panel {
+  gap: 0.8rem;
+}
+
+.account-password-panel .panel-header {
+  align-items: center;
+}
+
+.account-password-panel h2 {
+  font-size: clamp(1.35rem, 2.4vw, 1.9rem);
 }
 
 .account-form-wide {
@@ -115,19 +128,26 @@
 }
 
 .account-password-actions {
-  display: grid;
-  gap: 1rem;
-  justify-items: start;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  align-items: stretch;
 }
 
 .account-password-visibility {
+  flex: 1 1 18rem;
   min-width: 0;
+  padding: 0.8rem 0.95rem;
 }
 
 .account-password-panel .button,
 .account-alert-actions .button,
 .account-utility-panel .button {
   justify-content: center;
+}
+
+.account-password-panel .button {
+  min-width: 10rem;
 }
 
 .account-summary-panel {
@@ -390,7 +410,8 @@
 }
 
 .billing-plan-card {
-  align-content: start;
+  grid-template-rows: auto auto 1fr auto;
+  align-content: stretch;
 }
 
 .billing-plan-card .button,
@@ -619,6 +640,7 @@
   .account-password-actions {
     align-items: stretch;
   }
+
 }
 
 @media (max-width: 720px) {
@@ -638,6 +660,10 @@
   }
 
   .billing-usage-points {
+    grid-template-columns: 1fr;
+  }
+
+  .account-password-form-grid {
     grid-template-columns: 1fr;
   }
 

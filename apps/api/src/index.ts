@@ -149,7 +149,7 @@ app.use(
   "/api/*",
   cors({
     origin: (origin) => origin || "*",
-    allowHeaders: ["Content-Type", "Authorization", "X-Workspace-Id", "X-LeadCue-Locale"],
+    allowHeaders: ["Content-Type", "Authorization", "X-Workspace-Id", "X-LeadCue-Locale", "Idempotency-Key"],
     allowMethods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     credentials: true
   })
@@ -760,6 +760,113 @@ app.get("/api/auth/google/callback", async (c) => {
   }
 });
 
+// Test-only sign-in endpoint. Bypasses Google OAuth and password requirements
+// so automated E2E / API tests can mint a real session against a freshly
+// provisioned commercial workspace. Disabled by default; only active when
+// LEADCUE_TEST_MODE=1 is set in env (.dev.vars). MUST NEVER be enabled in
+// production secrets.
+app.post("/api/auth/test/sign-in", async (c) => {
+  if (c.env.LEADCUE_TEST_MODE !== "1") {
+    return c.json({ ok: false, error: "Not found." }, 404);
+  }
+
+  if (!c.env.DB) {
+    return c.json({ ok: false, error: "Database unavailable." }, 503);
+  }
+
+  const body = (await c.req.json<{ email?: string; planId?: PricingPlan["id"]; agencyFocus?: string }>().catch(() => ({}))) as {
+    email?: string;
+    planId?: PricingPlan["id"];
+    agencyFocus?: string;
+  };
+  const email = body.email?.trim().toLowerCase();
+
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return c.json({ ok: false, error: "Provide a valid email." }, 400);
+  }
+
+  if (!email.startsWith("test_") && !email.endsWith("@leadcue.test")) {
+    return c.json({ ok: false, error: "Test sign-in only accepts test_*@... or *@leadcue.test emails." }, 400);
+  }
+
+  const selectedPlan = PRICING_PLANS.find((plan) => plan.id === body.planId) ?? PRICING_PLANS[0];
+
+  try {
+    const ids = await commercialIdsForEmail(email);
+    await createCommercialWorkspace(c.env.DB, {
+      userId: ids.userId,
+      workspaceId: ids.workspaceId,
+      memberId: ids.memberId,
+      icpId: ids.icpId,
+      subscriptionId: ids.subscriptionId,
+      email,
+      workspaceName: workspaceNameFromSignup(email),
+      selectedPlan,
+      agencyFocus: body.agencyFocus ?? "web_design",
+      offerDescription: undefined,
+      targetIndustries: undefined,
+      passwordCredential: undefined
+    });
+    await createUserSession(c, c.env.DB, ids.userId);
+    return c.json({
+      ok: true,
+      email,
+      userId: ids.userId,
+      workspaceId: ids.workspaceId,
+      next: "/app"
+    });
+  } catch (error) {
+    console.error("test_sign_in_failed", error);
+    return c.json({ ok: false, error: "Test sign-in failed." }, 500);
+  }
+});
+
+// Test-only cleanup endpoint. Removes user, workspace, members, ICP, sessions,
+// leads, scans, exports, etc. for a single test email. Idempotent.
+app.post("/api/auth/test/cleanup", async (c) => {
+  if (c.env.LEADCUE_TEST_MODE !== "1") {
+    return c.json({ ok: false, error: "Not found." }, 404);
+  }
+
+  if (!c.env.DB) {
+    return c.json({ ok: false, error: "Database unavailable." }, 503);
+  }
+
+  const body = (await c.req.json<{ email?: string }>().catch(() => ({}))) as { email?: string };
+  const email = body.email?.trim().toLowerCase();
+
+  if (!email) {
+    return c.json({ ok: false, error: "Provide an email." }, 400);
+  }
+
+  if (!email.startsWith("test_") && !email.endsWith("@leadcue.test")) {
+    return c.json({ ok: false, error: "Cleanup only accepts test_*@... or *@leadcue.test emails." }, 400);
+  }
+
+  try {
+    const ids = await commercialIdsForEmail(email);
+    await c.env.DB.batch([
+      c.env.DB.prepare(`DELETE FROM auth_sessions WHERE user_id = ?`).bind(ids.userId),
+      c.env.DB.prepare(`DELETE FROM password_reset_tokens WHERE user_id = ?`).bind(ids.userId),
+      c.env.DB.prepare(`DELETE FROM signup_intents WHERE user_id = ? OR workspace_id = ?`).bind(ids.userId, ids.workspaceId),
+      c.env.DB.prepare(`DELETE FROM lead_activity_logs WHERE workspace_id = ?`).bind(ids.workspaceId),
+      c.env.DB.prepare(`DELETE FROM scan_idempotency_keys WHERE workspace_id = ?`).bind(ids.workspaceId),
+      c.env.DB.prepare(`DELETE FROM credit_transactions WHERE workspace_id = ?`).bind(ids.workspaceId),
+      c.env.DB.prepare(`DELETE FROM exports WHERE workspace_id = ?`).bind(ids.workspaceId),
+      c.env.DB.prepare(`DELETE FROM analytics_events WHERE workspace_id = ? OR user_id = ?`).bind(ids.workspaceId, ids.userId),
+      c.env.DB.prepare(`DELETE FROM usage_events WHERE workspace_id = ? OR user_id = ?`).bind(ids.workspaceId, ids.userId),
+      c.env.DB.prepare(`DELETE FROM subscriptions WHERE workspace_id = ?`).bind(ids.workspaceId),
+      c.env.DB.prepare(`DELETE FROM workspace_members WHERE workspace_id = ?`).bind(ids.workspaceId),
+      c.env.DB.prepare(`DELETE FROM workspaces WHERE id = ?`).bind(ids.workspaceId),
+      c.env.DB.prepare(`DELETE FROM users WHERE id = ?`).bind(ids.userId)
+    ]);
+    return c.json({ ok: true });
+  } catch (error) {
+    console.error("test_cleanup_failed", error);
+    return c.json({ ok: false, error: "Cleanup failed." }, 500);
+  }
+});
+
 app.post("/api/signup-intents", async (c) => {
   const body = (await c.req.json<SignupRequest>().catch(() => ({}))) as SignupRequest;
   const email = body.email?.trim().toLowerCase();
@@ -1055,8 +1162,10 @@ app.patch("/api/workspace/icp", async (c) => {
 
 app.post("/api/billing/checkout", async (c) => {
   const body = (await c.req.json<CheckoutRequest>().catch(() => ({}))) as CheckoutRequest;
-  const workspaceId = body.workspaceId || (await resolveWorkspaceId(c));
+  const session = await getAuthenticatedSession(c).catch(() => null);
+  const workspaceId = body.workspaceId || session?.workspace_id || (await resolveWorkspaceId(c));
   const plan = getPlan(body.planId || "starter");
+  const checkoutEmail = (body.email?.trim() || session?.email || "").trim().toLowerCase();
 
   if (plan.id === "free") {
     return c.json({ ok: true, next: "dashboard", url: `${appUrl(c.env)}/app?workspace=${workspaceId}` });
@@ -1065,7 +1174,7 @@ app.post("/api/billing/checkout", async (c) => {
   const checkout = await createStripeCheckoutSession(c.env, {
     workspaceId,
     signupIntentId: null,
-    email: body.email?.trim().toLowerCase(),
+    email: checkoutEmail || undefined,
     plan
   });
 

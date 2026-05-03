@@ -9,3 +9,5 @@ dist/
 .codex-screenshots/
 apps/extension/build/
 scripts/.translation-cache.json
+test-results/
+tmp/

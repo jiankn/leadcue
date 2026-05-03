@@ -31,26 +31,30 @@
           >
             <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.34-5.66M20 4v6h-6" /></svg>
           </button>
-          <button
-            id="settingsToggle"
-            class="icon-button state-toggle"
-            type="button"
-            aria-label="Open settings"
-            aria-controls="settings"
-            aria-expanded="false"
-          >
-            <span class="toggle-icon" aria-hidden="true">
-              <svg class="toggle-icon-closed" viewBox="0 0 24 24">
-                <path d="M3 12h18" />
-                <path d="M12 3a14.5 14.5 0 0 1 0 18" />
-                <path d="M12 3a14.5 14.5 0 0 0 0 18" />
-                <path d="M5.2 7.5h13.6" />
-                <path d="M5.2 16.5h13.6" />
-              </svg>
-              <svg class="toggle-icon-open" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18" /></svg>
-            </span>
-            <span id="settingsToggleLabel" class="toggle-label">Language</span>
-          </button>
+          <div id="languagePicker" class="language-picker">
+            <button
+              id="languageToggle"
+              class="icon-button state-toggle language-toggle"
+              type="button"
+              aria-label="Choose language"
+              aria-controls="languageMenu"
+              aria-haspopup="menu"
+              aria-expanded="false"
+            >
+              <span class="toggle-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M3 12h18" />
+                  <path d="M12 3a14.5 14.5 0 0 1 0 18" />
+                  <path d="M12 3a14.5 14.5 0 0 0 0 18" />
+                  <path d="M5.2 7.5h13.6" />
+                  <path d="M5.2 16.5h13.6" />
+                </svg>
+              </span>
+              <span id="languageToggleLabel" class="toggle-label">Language</span>
+              <svg class="language-caret" aria-hidden="true" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></svg>
+            </button>
+            <div id="languageMenu" class="language-menu" role="menu" hidden></div>
+          </div>
         </div>
       </header>
 
@@ -163,31 +167,6 @@
           <p id="authCopy" class="muted compact-copy">We are verifying whether this browser already has a LeadCue workspace session.</p>
         </div>
 
-        <div id="workspaceSummary" class="workspace-summary" hidden>
-          <div>
-            <span data-i18n="labels.workspace">Workspace</span>
-            <strong id="workspaceName"></strong>
-          </div>
-          <div>
-            <span data-i18n="labels.owner">Owner</span>
-            <strong id="workspaceUser"></strong>
-          </div>
-        </div>
-
-        <div id="planStats" class="metric-row" hidden>
-          <div class="metric-pill">
-            <span data-i18n="labels.plan">Plan</span>
-            <strong id="planName"></strong>
-          </div>
-          <div class="metric-pill">
-            <span data-i18n="labels.creditsLeft">Credits left</span>
-            <strong id="creditsRemaining"></strong>
-          </div>
-        </div>
-
-        <span id="creditsUsed" hidden></span>
-        <span id="creditsReset" hidden></span>
-
         <p id="permissionNote" class="inline-note compact-note">
           LeadCue only reads the active website after you click "Analyze website".
         </p>
@@ -205,14 +184,6 @@
             Open web workspace
           </button>
         </div>
-      </section>
-
-      <section id="settings" class="panel settings" hidden>
-        <p class="eyebrow" data-i18n="labels.interfaceLanguage">Interface language</p>
-        <label>
-          <span data-i18n="labels.language">Language</span>
-          <select id="localeSelect"></select>
-        </label>
       </section>
     </main>
     <script src="extension-locales.js"></script>

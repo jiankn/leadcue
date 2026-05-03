@@ -11,7 +11,8 @@
   "dependencies": {
     "@leadcue/prompts": "0.1.0",
     "@leadcue/shared": "0.1.0",
-    "hono": "^4.7.11"
+    "hono": "^4.7.11",
+    "stripe": "^22.1.0"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20250617.0",

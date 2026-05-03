@@ -1,6 +1,7 @@
 const PROD_API_BASE = "https://api.leadcue.app";
 const FALLBACK_API_BASE = "https://leadcue-api.jiankn.workers.dev";
 const PROD_DASHBOARD_URL = "https://leadcue.app/app";
+const LOCAL_API_BASES = ["http://localhost:8787", "http://127.0.0.1:8787"];
 const SETTINGS_KEYS = ["locale"];
 const LEGACY_SETTINGS_KEYS = ["apiBase", "dashboardUrl"];
 const APP_LOCALE_QUERY_KEY = "lc_locale";
@@ -21,28 +22,20 @@ const SEARCH_RESULTS_HOST_RULES = [
 ];
 
 const els = {
-  settingsToggle: document.querySelector("#settingsToggle"),
-  settingsToggleLabel: document.querySelector("#settingsToggleLabel"),
-  settings: document.querySelector("#settings"),
+  languagePicker: document.querySelector("#languagePicker"),
+  languageToggle: document.querySelector("#languageToggle"),
+  languageToggleLabel: document.querySelector("#languageToggleLabel"),
+  languageMenu: document.querySelector("#languageMenu"),
   brandTagline: document.querySelector("#brandTagline"),
   permissionNote: document.querySelector("#permissionNote"),
   webResearchCallout: document.querySelector("#webResearchCallout"),
   webResearchNote: document.querySelector("#webResearchNote"),
   openDashboardButton: document.querySelector("#openDashboardButton"),
-  localeSelect: document.querySelector("#localeSelect"),
   refreshSession: document.querySelector("#refreshSession"),
   authEyebrow: document.querySelector("#authEyebrow"),
   authTitle: document.querySelector("#authTitle"),
   authCopy: document.querySelector("#authCopy"),
   authBadge: document.querySelector("#authBadge"),
-  workspaceSummary: document.querySelector("#workspaceSummary"),
-  workspaceName: document.querySelector("#workspaceName"),
-  workspaceUser: document.querySelector("#workspaceUser"),
-  planStats: document.querySelector("#planStats"),
-  planName: document.querySelector("#planName"),
-  creditsRemaining: document.querySelector("#creditsRemaining"),
-  creditsUsed: document.querySelector("#creditsUsed"),
-  creditsReset: document.querySelector("#creditsReset"),
   loginButton: document.querySelector("#loginButton"),
   signupButton: document.querySelector("#signupButton"),
   billingButton: document.querySelector("#billingButton"),
@@ -84,6 +77,7 @@ const state = {
   scan: null,
   primaryAction: "none",
   loading: false,
+  languageMenuOpen: false,
   status: {
     text: "",
     tone: "neutral"
@@ -105,12 +99,17 @@ async function init() {
 }
 
 function bindEvents() {
-  els.settingsToggle.addEventListener("click", () => {
-    setSettingsExpanded(els.settings.hidden);
+  els.languageToggle.addEventListener("click", () => {
+    setLanguageMenuOpen(!state.languageMenuOpen);
   });
 
-  els.localeSelect.addEventListener("change", () => {
-    void updateLocalePreference(els.localeSelect.value);
+  els.languageMenu.addEventListener("click", (event) => {
+    const option = event.target instanceof Element ? event.target.closest("[data-locale]") : null;
+    if (!option || !els.languageMenu.contains(option)) {
+      return;
+    }
+
+    void updateLocalePreference(option.dataset.locale);
   });
 
   els.refreshSession.addEventListener("click", () => void refreshSession());
@@ -137,6 +136,21 @@ function bindEvents() {
     }
   });
 
+  document.addEventListener("pointerdown", (event) => {
+    if (!state.languageMenuOpen || !els.languagePicker || !(event.target instanceof Node) || els.languagePicker.contains(event.target)) {
+      return;
+    }
+
+    setLanguageMenuOpen(false);
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && state.languageMenuOpen) {
+      setLanguageMenuOpen(false);
+      els.languageToggle.focus();
+    }
+  });
+
   chrome.tabs.onActivated.addListener(() => {
     void refreshActiveTab();
   });
@@ -157,30 +171,42 @@ async function loadSettings() {
   state.locale = normalizeLocale(settings.locale || detectPreferredLocale());
   state.apiBase = PROD_API_BASE;
   state.dashboardUrl = PROD_DASHBOARD_URL;
-  syncSettingsInputs();
+  syncLanguagePicker();
 }
 
 async function updateLocalePreference(nextLocale) {
-  state.locale = normalizeLocale(nextLocale);
+  const normalizedLocale = normalizeLocale(nextLocale);
+  if (normalizedLocale === state.locale) {
+    setLanguageMenuOpen(false);
+    return;
+  }
+
+  state.locale = normalizedLocale;
+  state.languageMenuOpen = false;
   localizeStaticContent();
   render();
   await chrome.storage.sync.set({ locale: state.locale });
 }
 
-function syncSettingsInputs() {
-  renderLocaleOptions();
-  els.localeSelect.value = state.locale;
+function syncLanguagePicker() {
+  renderLanguageOptions();
+  syncLanguageToggle();
 }
 
-function renderLocaleOptions() {
+function renderLanguageOptions() {
   const bundle = getBundle();
   const options = SUPPORTED_LOCALES.map((locale) => {
-    const option = document.createElement("option");
-    option.value = locale;
+    const option = document.createElement("button");
+    const isActive = locale === state.locale;
+    option.type = "button";
+    option.className = `language-menu-option${isActive ? " is-active" : ""}`;
+    option.dataset.locale = locale;
+    option.setAttribute("role", "menuitemradio");
+    option.setAttribute("aria-checked", isActive ? "true" : "false");
     option.textContent = bundle.localeNames?.[locale] || locale.toUpperCase();
     return option;
   });
-  els.localeSelect.replaceChildren(...options);
+  els.languageMenu.replaceChildren(...options);
 }
 
 async function refreshSession(options = {}) {
@@ -239,7 +265,7 @@ async function refreshSession(options = {}) {
 async function resolveServiceBase() {
   const candidates = Array.from(
     new Set(
-      [state.apiBase, PROD_API_BASE, FALLBACK_API_BASE]
+      [...LOCAL_API_BASES, state.apiBase, PROD_API_BASE, FALLBACK_API_BASE]
         .map((value) => normalizeUrl(value))
         .filter(Boolean)
     )
@@ -548,9 +574,7 @@ function localizeStaticContent() {
   els.permissionNote.textContent = t("notes.permission");
   els.webResearchNote.textContent = t("notes.bulkResearchWeb");
   els.deepScanHint.textContent = t("labels.deepScanHint");
-  renderLocaleOptions();
-  els.localeSelect.value = state.locale;
-  syncSettingsToggle();
+  syncLanguagePicker();
 
   document.querySelectorAll("[data-i18n]").forEach((node) => {
     node.textContent = t(node.dataset.i18n);
@@ -561,18 +585,17 @@ function localizeStaticContent() {
   });
 }
 
-function setSettingsExpanded(expanded) {
-  els.settings.hidden = !expanded;
-  syncSettingsToggle();
+function setLanguageMenuOpen(open) {
+  state.languageMenuOpen = Boolean(open);
+  syncLanguageToggle();
 }
 
-function syncSettingsToggle() {
-  const expanded = !els.settings.hidden;
-  const labelKey = expanded ? "buttons.hideSettings" : "buttons.showSettings";
-  const ariaKey = expanded ? "aria.hideSettings" : "aria.showSettings";
-  els.settingsToggle.setAttribute("aria-expanded", expanded ? "true" : "false");
-  els.settingsToggle.setAttribute("aria-label", t(ariaKey));
-  els.settingsToggleLabel.textContent = t(labelKey);
+function syncLanguageToggle() {
+  const ariaKey = state.languageMenuOpen ? "aria.hideSettings" : "aria.showSettings";
+  els.languageMenu.hidden = !state.languageMenuOpen;
+  els.languageToggle.setAttribute("aria-expanded", state.languageMenuOpen ? "true" : "false");
+  els.languageToggle.setAttribute("aria-label", t(ariaKey));
+  els.languageToggleLabel.textContent = t("buttons.showSettings");
 }
 
 function renderSessionCard() {
@@ -583,8 +606,6 @@ function renderSessionCard() {
       els.authEyebrow.textContent = t("labels.workspaceAccess");
       els.authTitle.textContent = t("buttons.checkingAccess");
       els.authCopy.textContent = t("notes.checking");
-      els.workspaceSummary.hidden = true;
-      els.planStats.hidden = true;
       els.webResearchCallout.hidden = true;
       els.loginButton.hidden = true;
     els.signupButton.hidden = true;
@@ -601,8 +622,6 @@ function renderSessionCard() {
       els.authEyebrow.textContent = t("labels.setupNeeded");
       els.authTitle.textContent = t("badges.unavailable");
       els.authCopy.textContent = session?.reason === "database_unavailable" ? t("status.apiNotReady") : t("notes.apiUnavailable");
-      els.workspaceSummary.hidden = true;
-      els.planStats.hidden = true;
       els.webResearchCallout.hidden = true;
       els.loginButton.hidden = true;
     els.signupButton.hidden = session?.reason === "api_unreachable";
@@ -616,8 +635,6 @@ function renderSessionCard() {
       els.authEyebrow.textContent = t("labels.workspaceAccess");
       els.authTitle.textContent = t("buttons.signInToScan");
       els.authCopy.textContent = t("notes.initialSignIn");
-      els.workspaceSummary.hidden = true;
-      els.planStats.hidden = true;
       els.webResearchCallout.hidden = true;
       els.loginButton.hidden = true;
     els.signupButton.hidden = false;
@@ -639,15 +656,6 @@ function renderSessionCard() {
         status: formatSubscriptionStatus(subscriptionStatus)
       });
 
-  els.workspaceSummary.hidden = false;
-  els.workspaceName.textContent = session.workspace?.name || t("labels.workspaceFallback");
-  els.workspaceUser.textContent = session.user?.email || t("labels.signedInWorkspace");
-
-    els.planStats.hidden = false;
-    els.planName.textContent = session.plan?.name || t("labels.planUnknown");
-    els.creditsRemaining.textContent = `${remainingCredits}`;
-    els.creditsUsed.textContent = `${Number(session.credits?.used || 0)}`;
-    els.creditsReset.textContent = formatDateLabel(session.credits?.reset);
     els.webResearchCallout.hidden = false;
 
     els.loginButton.hidden = true;

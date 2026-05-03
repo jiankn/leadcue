@@ -19,12 +19,24 @@
     "audit:locales:body": "node scripts/audit-public-body-locales.mjs",
     "seo:assets": "node scripts/generate-seo-assets.mjs",
     "audit:seo": "node scripts/audit-seo-readiness.mjs",
-    "peek": "node scripts/peek-file.mjs"
+    "peek": "node scripts/peek-file.mjs",
+    "test": "npm run test:unit",
+    "test:all": "vitest run",
+    "test:unit": "vitest run tests/unit",
+    "test:api": "vitest run tests/api --fileParallelism=false --sequence.concurrent=false",
+    "test:ci": "npm run typecheck && npm run test:unit",
+    "test:watch": "vitest",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:install": "playwright install --with-deps chromium"
   },
   "engines": {
     "node": ">=20"
   },
   "devDependencies": {
-    "@playwright/test": "^1.59.1"
+    "@playwright/test": "^1.59.1",
+    "@types/node": "^20.14.0",
+    "typescript": "^5.8.3",
+    "vitest": "^3.0.0"
   }
 }

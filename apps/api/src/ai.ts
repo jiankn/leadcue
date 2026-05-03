@@ -164,6 +164,10 @@ export async function generateProspectCard(env: Env, request: ScanRequest): Prom
   const icp: ICPProfile = { ...DEFAULT_ICP, ...request.icp };
   const contactPoints = classifyContactPoints(request.page);
 
+  if (env.LEADCUE_TEST_MODE === "1") {
+    return buildRuleBasedProspectCard({ ...request, icp });
+  }
+
   const messages = buildProspectCardMessages({
     icp,
     website: request.page,

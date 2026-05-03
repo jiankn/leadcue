@@ -56,7 +56,7 @@ const en = {
     settings: {
       eyebrow: "Settings",
       title: "Settings",
-      copy: "Configure ICP, workspace identity, access, and billing without breaking the main operating flow."
+      copy: "Configure ICP, workspace identity, and access without breaking the main operating flow."
     },
     leads: {
       eyebrow: "Review queue",
@@ -91,7 +91,7 @@ const en = {
     account: {
       eyebrow: "Account",
       title: "Account",
-      copy: "Update workspace identity, password access, and billing ownership without breaking the workflow."
+      copy: "Update workspace identity and password access without breaking the workflow."
     }
   },
   common: {
@@ -1087,7 +1087,7 @@ const zh: AppUiExtra = {
     settings: {
       eyebrow: "设置",
       title: "设置",
-      copy: "把 ICP、工作空间身份、访问方式和账单配置集中到一个地方，不打断主流程。"
+      copy: "集中配置 ICP、工作空间身份和访问方式，不打断主流程。"
     },
     leads: {
       eyebrow: "复核队列",
@@ -1122,7 +1122,7 @@ const zh: AppUiExtra = {
     account: {
       eyebrow: "账户",
       title: "账户",
-      copy: "更新工作空间身份、密码访问和账单归属，同时不打断当前 workflow。"
+      copy: "更新工作空间身份和密码访问，同时不打断当前 workflow。"
     }
   },
   common: {
@@ -2105,7 +2105,7 @@ const ja: AppUiExtraOverride = {
     settings: {
       eyebrow: "設定",
       title: "設定",
-      copy: "ICP、ワークスペース情報、アクセス、請求を主作業フローを崩さずまとめて管理します。"
+      copy: "ICP、ワークスペース情報、アクセスを主作業フローを崩さずまとめて管理します。"
     },
     leads: {
       eyebrow: "レビューキュー",
@@ -2140,7 +2140,7 @@ const ja: AppUiExtraOverride = {
     account: {
       eyebrow: "アカウント",
       title: "アカウント",
-      copy: "ワークフローを中断することなく、ワークスペースの ID・パスワードアクセス・請求所有権を更新します。"
+      copy: "ワークフローを中断することなく、ワークスペースの ID・パスワードアクセスを更新します。"
     }
   },
   billing: {
@@ -2688,7 +2688,7 @@ const ko: AppUiExtraOverride = {
     settings: {
       eyebrow: "설정",
       title: "설정",
-      copy: "ICP, 워크스페이스 정보, 접근 권한, 결제를 한곳에서 관리하되 주 작업 흐름은 끊지 않습니다."
+      copy: "ICP, 워크스페이스 정보, 접근 권한을 한곳에서 관리하되 주 작업 흐름은 끊지 않습니다."
     },
     leads: {
       eyebrow: "검토 대기열",
@@ -2723,7 +2723,7 @@ const ko: AppUiExtraOverride = {
     account: {
       eyebrow: "계정",
       title: "계정",
-      copy: "워크플로우를 중단하지 않고 워크스페이스 ID, 비밀번호 접근, 결제 소유권을 업데이트하세요."
+      copy: "워크플로우를 중단하지 않고 워크스페이스 ID와 비밀번호 접근을 업데이트하세요."
     }
   },
   common: {
@@ -3239,7 +3239,7 @@ const de: AppUiExtraOverride = {
     settings: {
       eyebrow: "Einstellungen",
       title: "Einstellungen",
-      copy: "ICP, Workspace-Identität, Zugriff und Abrechnung an einem Ort pflegen, ohne den Hauptablauf zu unterbrechen."
+      copy: "ICP, Workspace-Identität und Zugriff an einem Ort pflegen, ohne den Hauptablauf zu unterbrechen."
     },
     leads: {
       eyebrow: "Review-Warteschlange",
@@ -3274,7 +3274,7 @@ const de: AppUiExtraOverride = {
     account: {
       eyebrow: "Konto",
       title: "Konto",
-      copy: "Workspace-Identität, Passwortzugang und Abrechnungszuständigkeit aktualisieren, ohne den Workflow zu unterbrechen."
+      copy: "Workspace-Identität und Passwortzugang aktualisieren, ohne den Workflow zu unterbrechen."
     }
   },
   billing: {
@@ -3817,7 +3817,7 @@ const nl: AppUiExtraOverride = {
     settings: {
       eyebrow: "Instellingen",
       title: "Instellingen",
-      copy: "Beheer ICP, werkruimte-identiteit, toegang en facturering op één plek zonder de hoofdworkflow te onderbreken."
+      copy: "Beheer ICP, werkruimte-identiteit en toegang op één plek zonder de hoofdworkflow te onderbreken."
     },
     leads: {
       eyebrow: "Reviewwachtrij",
@@ -3852,7 +3852,7 @@ const nl: AppUiExtraOverride = {
     account: {
       eyebrow: "Account",
       title: "Account",
-      copy: "Werkruimte-identiteit, wachtwoordtoegang en factureringseigendom bijwerken zonder de workflow te onderbreken."
+      copy: "Werkruimte-identiteit en wachtwoordtoegang bijwerken zonder de workflow te onderbreken."
     }
   },
   billing: {
@@ -4394,7 +4394,7 @@ const fr: AppUiExtraOverride = {
     settings: {
       eyebrow: "Réglages",
       title: "Réglages",
-      copy: "Regroupez ICP, identité du workspace, accès et facturation sans casser le flux principal."
+      copy: "Regroupez ICP, identité du workspace et accès sans casser le flux principal."
     },
     leads: {
       eyebrow: "File de revue",
@@ -4429,7 +4429,7 @@ const fr: AppUiExtraOverride = {
     account: {
       eyebrow: "Compte",
       title: "Compte",
-      copy: "Mettez à jour l'identité de l'espace, l'accès par mot de passe et la propriété de facturation sans interrompre le workflow."
+      copy: "Mettez à jour l'identité de l'espace et l'accès par mot de passe sans interrompre le workflow."
     }
   },
   billing: {

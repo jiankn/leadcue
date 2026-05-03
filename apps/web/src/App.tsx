@@ -49,7 +49,7 @@ import { HeroVisualIllustration, LoginWorkspaceIllustration, ResearchDeskIllustr
 import { getCommercialPages, getProductPageMap, getProductPages, getSeoPageMap, getSeoPages, getSiteUi, type SiteUi } from "./publicContent";
 import { PublicSiteContext, createPublicSiteContextValue, usePublicSite } from "./publicSiteContext";
 import { getSearchEngineVerifications, getSeoImageAlt, getSeoImagePath, SITE_URL } from "./seoConfig";
-import { buildLocalePath, getLocaleHtmlLang, localizeHref, parseSiteLocalePath, siteLocaleLabels, supportedSiteLocales, type SiteLocaleCode } from "./siteLocale";
+import { buildLocalePath, defaultSiteLocale, getLocaleHtmlLang, localizeHref, parseSiteLocalePath, siteLocaleLabels, supportedSiteLocales, type SiteLocaleCode } from "./siteLocale";
 import { getAppUi, type AppUi } from "./appContent";
 import "./upgrades.css";
 import "./dashboard-shell.css";
@@ -80,7 +80,7 @@ type LeadSortOption = "newest" | "fit_desc" | "confidence_desc" | "company_asc";
 type ActivityChangedField = ProspectPipelineActivity["changedFields"][number];
 type ActivityFieldFilter = "all" | ActivityChangedField;
 type ProspectCardTab = "overview" | "signals" | "contacts" | "outreach" | "email" | "sources" | "export";
-type AppSection = "dashboard" | "queue" | "qualified" | "exports" | "settings" | "analytics";
+type AppSection = "dashboard" | "queue" | "qualified" | "exports" | "settings" | "billing" | "analytics";
 type BatchSourceOption = "manual" | "csv" | "apollo" | "clay" | "directory";
 type ReviewQueueFilter = "all" | "ready" | "researching";
 type PipelineContextSaveResult = {
@@ -631,8 +631,11 @@ function saveAppLocale(locale: SiteLocaleCode) {
 export default function App() {
   const { locale: urlLocale, path: pathname } = parseSiteLocalePath(window.location.pathname);
   const isAppRoute = pathname.startsWith("/app");
+  const hasExplicitUrlLocale = urlLocale !== defaultSiteLocale;
   const requestedAppLocale = readRequestedAppLocale();
-  const locale = isAppRoute ? (requestedAppLocale ?? readAppLocale() ?? urlLocale) : urlLocale;
+  const locale = isAppRoute
+    ? (requestedAppLocale ?? (hasExplicitUrlLocale ? urlLocale : (readAppLocale() ?? urlLocale)))
+    : urlLocale;
   const siteUi = getSiteUi(locale);
   const publicSiteContext = useMemo(() => createPublicSiteContextValue(locale, pathname, siteUi), [locale, pathname, siteUi]);
 
@@ -652,10 +655,15 @@ export default function App() {
   }, [locale]);
 
   useEffect(() => {
-    if (isLoginRoute || isSignupRoute || isResetPasswordRoute || (isAppRoute && requestedAppLocale)) {
+    if (
+      isLoginRoute ||
+      isSignupRoute ||
+      isResetPasswordRoute ||
+      (isAppRoute && (requestedAppLocale || hasExplicitUrlLocale))
+    ) {
       saveAppLocale(locale);
     }
-  }, [isAppRoute, isLoginRoute, isResetPasswordRoute, isSignupRoute, locale, requestedAppLocale]);
+  }, [isAppRoute, isLoginRoute, isResetPasswordRoute, isSignupRoute, locale, requestedAppLocale, hasExplicitUrlLocale]);
 
   if (isAppRoute) {
     const appUi = getAppUi(locale);
@@ -3697,11 +3705,10 @@ function getAppSection(pathname: string): AppSection {
   if (normalizedPath.startsWith("/app/exports")) {
     return "exports";
   }
-  if (
-    normalizedPath.startsWith("/app/settings") ||
-    normalizedPath.startsWith("/app/account") ||
-    normalizedPath.startsWith("/app/billing")
-  ) {
+  if (normalizedPath.startsWith("/app/billing")) {
+    return "billing";
+  }
+  if (normalizedPath.startsWith("/app/settings") || normalizedPath.startsWith("/app/account")) {
     return "settings";
   }
   if (normalizedPath.startsWith("/app/analytics")) {
@@ -5053,7 +5060,7 @@ function UserMenu({ appUi, auth, signOut }: { appUi: AppUi; auth: AuthMeResponse
             <Icon name="lock" />
             {appUi.userMenu.accountSettings}
           </a>
-          <a className="user-menu-item" href={`${buildLocalePath(locale, "/app/settings")}#billing-plan-compare`} role="menuitem" onClick={() => setIsOpen(false)}>
+          <a className="user-menu-item" href={`${buildLocalePath(locale, "/app/billing")}#billing-plan-compare`} role="menuitem" onClick={() => setIsOpen(false)}>
             <Icon name="shield" />
             {appUi.userMenu.manageBilling}
           </a>
@@ -5096,6 +5103,7 @@ function DashboardApp() {
       qualified: buildLocalePath(locale, "/app/qualified"),
       exports: buildLocalePath(locale, "/app/exports"),
       settings: buildLocalePath(locale, "/app/settings"),
+      billing: buildLocalePath(locale, "/app/billing"),
       analytics: buildLocalePath(locale, "/app/analytics")
     }),
     [locale]
@@ -5105,6 +5113,7 @@ function DashboardApp() {
   const isQualifiedSection = appSection === "qualified";
   const isExportsSection = appSection === "exports";
   const isSettingsSection = appSection === "settings";
+  const isBillingSection = appSection === "billing";
   const pageCopy =
     (appUi.pages as Record<string, { eyebrow: string; title: string; copy: string }>)[appSection] || appUi.pages.dashboard;
   const sampleProspectCard = useMemo(() => buildSampleProspectCard(locale), [locale]);
@@ -7108,7 +7117,7 @@ function DashboardApp() {
                     label: appUi.actions.exportCsv,
                     onClick: downloadCsv
                   }
-              : isSettingsSection
+              : isBillingSection
                 ? auth.authenticated
                   ? {
                       kind: "button" as const,
@@ -7119,6 +7128,8 @@ function DashboardApp() {
                       }
                     }
                   : null
+                : isSettingsSection
+                  ? null
                 : overviewHasQueueData
                   ? {
                       kind: "link" as const,
@@ -7194,11 +7205,6 @@ function DashboardApp() {
       eyebrow: appUi.common.failed,
       title: appUi.common.messages.workspaceDataUnavailable,
       note: appUi.dashboard.nextAction.sampleCopy
-    },
-    utility: {
-      eyebrow: appUi.account.summary.eyebrow,
-      title: appUi.account.summary.title,
-      copy: appUi.pages.settings.copy
     }
   };
   const workflowExportedCount = auth.authenticated || qualifiedCount > 0 ? analyticsSummary.totals.exportsCompleted : 0;
@@ -7427,8 +7433,12 @@ function DashboardApp() {
               <Icon name="download" />
               {appUi.nav.exports}
             </a>
-            <a className={isSettingsSection ? "active" : ""} href={appRoutes.settings}>
+            <a className={isBillingSection ? "active" : ""} href={appRoutes.billing}>
               <Icon name="shield" />
+              {appUi.nav.credits}
+            </a>
+            <a className={isSettingsSection ? "active" : ""} href={appRoutes.settings}>
+              <Icon name="lock" />
               {appUi.nav.settings}
             </a>
             <a className={appSection === "analytics" ? "active" : ""} href={appRoutes.analytics}>
@@ -8863,35 +8873,11 @@ function DashboardApp() {
                   </div>
                 </div>
               </div>
-
-              {auth.authenticated ? (
-                <div className="panel account-utility-panel">
-                  <p className="eyebrow">{accountSectionCopy.utility.eyebrow}</p>
-                  <h2>{accountSectionCopy.utility.title}</h2>
-                  <p className="panel-copy">{accountSectionCopy.utility.copy}</p>
-                  <div className="billing-actions">
-                    <button
-                      className="button button-secondary"
-                      type="button"
-                      onClick={() => {
-                        void openBillingPortal();
-                      }}
-                    >
-                      <Icon name="shield" />
-                      {appUi.account.summary.manageBilling}
-                    </button>
-                    <button className="button button-secondary" type="button" onClick={signOut}>
-                      <Icon name="lock" />
-                      {appUi.account.summary.signOut}
-                    </button>
-                  </div>
-                </div>
-              ) : null}
             </div>
           </section>
         ) : null}
 
-        {appSection === "settings" && !workspaceStateBlocked ? (
+        {appSection === "billing" && !workspaceStateBlocked ? (
           <section className="app-page-grid billing-page-grid">
             <div className="billing-summary-strip" aria-label={appUi.billing.meterLabel}>
               {billingSummaryCards.map(([label, value]) => (
