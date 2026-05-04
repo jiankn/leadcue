@@ -340,6 +340,8 @@ type AuthMeResponse =
       authenticated: false;
     };
 
+type AuthenticatedAuth = Extract<AuthMeResponse, { authenticated: true }>;
+
 type WorkspaceSnapshot = {
   workspace: {
     id: string;
@@ -5379,8 +5381,14 @@ function DashboardApp() {
             setActiveProspect(null);
             setSelectedLeadState("idle");
             setLeadDrawerOpen(false);
+            setWorkspaceCreateState("loading");
+            setWorkspaceCreateMessage("");
             setDashboardState("needs_workspace");
             setDashboardMessage(appUi.common.messages.createWorkspaceRequired);
+            if (!hasAttemptedIntentWorkspaceCreate.current) {
+              hasAttemptedIntentWorkspaceCreate.current = true;
+              void createWorkspaceAfterLogin(authData);
+            }
           }
           return;
         }
@@ -5581,17 +5589,13 @@ function DashboardApp() {
       return;
     }
 
-    if (!welcomeFlow && !authIntent.hasIntent) {
-      return;
-    }
-
     if (hasAttemptedIntentWorkspaceCreate.current) {
       return;
     }
 
     hasAttemptedIntentWorkspaceCreate.current = true;
-    void createWorkspaceAfterLogin();
-  }, [auth.authenticated, authIntent, dashboardState, welcomeFlow, workspaceCreateState]);
+    void createWorkspaceAfterLogin(auth);
+  }, [auth, dashboardState, workspaceCreateState]);
 
   useEffect(() => {
     setScanForm((current) =>
@@ -6493,15 +6497,17 @@ function DashboardApp() {
     setDashboardMessage(appUi.common.messages.signedOutDemo);
   }
 
-  async function createWorkspaceAfterLogin() {
-    if (!auth.authenticated) {
+  async function createWorkspaceAfterLogin(authOverride?: AuthenticatedAuth) {
+    const activeAuth = authOverride ?? (auth.authenticated ? auth : null);
+
+    if (!activeAuth) {
       setDashboardMessage(appUi.common.messages.signInRequired);
       return;
     }
 
     setWorkspaceCreateState("loading");
     setWorkspaceCreateMessage("");
-    setDashboardMessage("");
+    setDashboardMessage(appUi.common.messages.createWorkspaceRequired);
 
     try {
       const response = await fetchAppApi("/api/workspace/create", {
@@ -6512,7 +6518,7 @@ function DashboardApp() {
         },
         body: JSON.stringify({
           planId: snapshot.plan.id,
-          workspaceName: snapshot.workspace.name || siteUi.common.brand,
+          workspaceName: snapshot.workspace.name || activeAuth.workspace.name || siteUi.common.brand,
           agencyFocus: snapshot.setup.agencyFocus || snapshot.setup.serviceType,
           offerDescription: snapshot.setup.offerDescription || DEFAULT_ICP.offerDescription,
           targetIndustries: snapshot.setup.targetIndustries.length
@@ -6538,22 +6544,19 @@ function DashboardApp() {
       }
 
       setSnapshot(result.snapshot);
-      setAuth((current) =>
-        current.authenticated
-          ? {
-              ...current,
-              workspace: {
-                id: result.snapshot!.workspace.id,
-                name: result.snapshot!.workspace.name
-              }
-            }
-          : current
-      );
+      setAuth((current) => ({
+        ...(current.authenticated ? current : activeAuth),
+        workspace: {
+          id: result.snapshot!.workspace.id,
+          name: result.snapshot!.workspace.name
+        }
+      }));
       setWorkspaceCreateState("idle");
       setDashboardState("ready");
       setDashboardMessage(appUi.common.messages.workspaceCreatedSetup);
       void trackEvent({ name: "workspace_created_in_app", metadata: { planId: snapshot.plan.id } });
     } catch (error) {
+      setDashboardState("needs_workspace");
       setWorkspaceCreateState("error");
       setWorkspaceCreateMessage(resolveAppErrorMessage(error, appUi.common.messages.workspaceCreateFailed, appUi));
     }
@@ -6851,6 +6854,13 @@ function DashboardApp() {
           })
         : appUi.dashboard.onboarding.descriptions.firstCardTodo,
       done: snapshot.leadCount > 0
+    },
+    {
+      label: appUi.dashboard.onboarding.tasks.exportReady,
+      description: exportRuns.length
+        ? appUi.dashboard.onboarding.descriptions.exportReadyDone
+        : appUi.dashboard.onboarding.descriptions.exportReadyTodo,
+      done: exportRuns.length > 0
     }
   ];
   const onboardingProgress = onboardingTasks.filter((task) => task.done).length;
@@ -6882,7 +6892,7 @@ function DashboardApp() {
     auth.authenticated &&
     dashboardState === "ready" &&
     !snapshot.onboarding.isComplete &&
-    snapshot.leadCount === 0;
+    (snapshot.leadCount === 0 || exportRuns.length === 0);
   const dashboardTitle = auth.authenticated && appSection === "dashboard" ? snapshot.workspace.name : pageCopy.title;
   const dashboardIntro = pageCopy.copy;
   const needsIcpReview = shouldShowOnboarding && (!onboardingTasks[0].done || !onboardingTasks[1].done);
@@ -6989,7 +6999,8 @@ function DashboardApp() {
     scanHistory.length > 0 ||
     (auth.authenticated &&
       (analyticsSummary.totals.exportsCompleted > 0 || analyticsSummary.recentEvents.length > 0));
-  const workspaceStateBlocked = dashboardState === "error" || dashboardState === "needs_workspace";
+  const workspacePreparing = dashboardState === "needs_workspace" && workspaceCreateState === "loading";
+  const workspaceStateBlocked = dashboardState === "error" || (dashboardState === "needs_workspace" && workspaceCreateState === "error");
   const isDemoPreviewWorkspace = !auth.authenticated && (dashboardState === "ready" || dashboardState === "sample");
   const showsFormalWorkspaceState = workspaceStateBlocked;
   const overviewPrimaryAction =
@@ -6997,7 +7008,7 @@ function DashboardApp() {
       ? {
           kind: "create" as const,
           icon: "database" as const,
-          label: appUi.dashboard.nextAction.createWorkspace
+          label: workspacePreparing ? appUi.dashboard.nextAction.setupRequired : appUi.dashboard.nextAction.createWorkspace
         }
       : workspaceStateBlocked && dashboardState === "error"
       ? {
@@ -7481,7 +7492,7 @@ function DashboardApp() {
                       disabled={workspaceCreateState === "loading"}
                     >
                       <Icon name={overviewPrimaryAction.icon} />
-                      {workspaceCreateState === "loading" ? appUi.common.saving : overviewPrimaryAction.label}
+                      {overviewPrimaryAction.label}
                     </button>
                   ) : (
                     <a className="button button-primary" href={overviewPrimaryAction.href}>
