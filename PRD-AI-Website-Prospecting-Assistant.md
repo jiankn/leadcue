@@ -1028,7 +1028,7 @@ AI Sales Research Assistant & Website Prospecting Tool
 - Chrome Extension：Manifest V3 + Side Panel
 - Auth：Google OAuth + Workers session cookie + D1 session storage
 - Payment：Stripe / Lemon Squeezy / Paddle
-- Email：Resend / Postmark
+- Email：SMTP
 - Bot protection：Cloudflare Turnstile
 
 不建议第一版使用 Supabase / Vercel 作为主架构，除非后续明确需要 Postgres 生态、复杂 SQL、Realtime 或更成熟的 Auth 后台。第一版登录方式固定为 Google OAuth，不做邮箱密码登录。

@@ -58,7 +58,10 @@ npx wrangler secret put STRIPE_SECRET_KEY
 npx wrangler secret put STRIPE_WEBHOOK_SECRET
 
 # 设置邮件服务
-npx wrangler secret put RESEND_API_KEY
+npx wrangler secret put SMTP_HOST
+npx wrangler secret put SMTP_PORT
+npx wrangler secret put SMTP_USERNAME
+npx wrangler secret put SMTP_PASSWORD
 
 # 设置DeepSeek（如果使用AI功能）
 npx wrangler secret put DEEPSEEK_API_KEY

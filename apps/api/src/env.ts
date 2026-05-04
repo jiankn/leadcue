@@ -12,8 +12,10 @@ export interface Env {
   GOOGLE_CLIENT_SECRET?: string;
   GOOGLE_REDIRECT_URI?: string;
   SESSION_SECRET?: string;
-  RESEND_API_KEY?: string;
-  EMAIL_FROM?: string;
+  SMTP_HOST?: string;
+  SMTP_PORT?: string;
+  SMTP_USERNAME?: string;
+  SMTP_PASSWORD?: string;
   SUPPORT_EMAIL?: string;
   STRIPE_SECRET_KEY?: string;
   STRIPE_PRICE_STARTER?: string;

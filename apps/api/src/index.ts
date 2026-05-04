@@ -1,5 +1,6 @@
 import { Hono, type Context } from "hono";
 import { cors } from "hono/cors";
+import { connect } from "cloudflare:sockets";
 import {
   DEFAULT_ICP,
   PRICING_PLANS,
@@ -425,10 +426,6 @@ app.post("/api/auth/password/request-reset", async (c) => {
     return c.json({ ok: false, error: "Password reset is unavailable until the workspace database is ready." }, 503);
   }
 
-  if (!passwordResetEmailConfigured(c.env)) {
-    return c.json({ ok: false, error: "Password reset is unavailable right now." }, 503);
-  }
-
   const body = (await c.req.json<PasswordResetRequest>().catch(() => ({}))) as PasswordResetRequest;
   const email = body.email?.trim().toLowerCase();
   const locale = resolveAuthLocale(c.req.header("X-LeadCue-Locale"));
@@ -451,6 +448,10 @@ app.post("/api/auth/password/request-reset", async (c) => {
       ok: true,
       message: "If that email belongs to a workspace, a one-time reset link has been prepared."
     });
+  }
+
+  if (!passwordResetEmailConfigured(c.env)) {
+    return c.json({ ok: false, error: "Password reset is unavailable right now." }, 503);
   }
 
   const token = `reset_${crypto.randomUUID()}_${crypto.randomUUID()}`;
@@ -2687,7 +2688,12 @@ function resolveAuthLocale(value?: string | null): ScanLocale {
 }
 
 function passwordResetEmailConfigured(env: Env): boolean {
-  return Boolean(cleanConfiguredValue(env.RESEND_API_KEY) && cleanConfiguredValue(env.EMAIL_FROM));
+  return Boolean(
+    cleanConfiguredValue(env.SMTP_HOST) &&
+      cleanConfiguredValue(env.SMTP_PORT) &&
+      cleanConfiguredValue(env.SMTP_USERNAME) &&
+      cleanConfiguredValue(env.SMTP_PASSWORD)
+  );
 }
 
 function sampleAnalyticsSummary(locale: ScanLocale = "en") {
@@ -3659,48 +3665,209 @@ async function sendPasswordResetEmail(
   env: Env,
   input: { email: string; resetUrl: string; locale: ScanLocale }
 ): Promise<{ ok: true; id: string } | { ok: false; error: string; status?: number }> {
-  const apiKey = cleanConfiguredValue(env.RESEND_API_KEY);
-  const from = cleanConfiguredValue(env.EMAIL_FROM);
+  const smtp = smtpConfig(env);
   const supportEmail = cleanConfiguredValue(env.SUPPORT_EMAIL);
 
-  if (!apiKey || !from) {
-    return { ok: false, error: "Resend is not configured." };
+  if (!smtp) {
+    return { ok: false, error: "SMTP is not configured." };
   }
 
   const subject = passwordResetEmailSubject(input.locale);
   const text = passwordResetEmailText(input.resetUrl, supportEmail, input.locale);
   const html = passwordResetEmailHtml(input.resetUrl, supportEmail, input.locale);
-
-  const response = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/json",
-      "User-Agent": "leadcue-api/0.1"
-    },
-    body: JSON.stringify({
-      from,
-      to: [input.email],
-      subject,
-      html,
-      text
-    })
+  const messageId = `pwreset-${crypto.randomUUID()}@${smtp.domain}`;
+  const boundary = `leadcue_${crypto.randomUUID().replace(/-/g, "")}`;
+  const message = buildSmtpMessage({
+    from: smtp.from,
+    fromEmail: smtp.fromEmail,
+    to: input.email,
+    subject,
+    text,
+    html,
+    messageId,
+    boundary
   });
-  const payload = (await response.json().catch(() => ({}))) as {
-    id?: string;
-    message?: string;
-    error?: { message?: string };
-  };
 
-  if (!response.ok || !payload.id) {
-    return {
-      ok: false,
-      status: response.status,
-      error: payload.error?.message || payload.message || "Resend email request failed."
-    };
+  try {
+    await sendSmtpMessage(smtp, input.email, message);
+    return { ok: true, id: messageId };
+  } catch (error) {
+    return { ok: false, error: error instanceof Error ? error.message : "SMTP email request failed." };
+  }
+}
+
+type SmtpConfig = {
+  host: string;
+  port: number;
+  username: string;
+  password: string;
+  domain: string;
+  fromEmail: string;
+  from: string;
+};
+
+function smtpConfig(env: Env): SmtpConfig | null {
+  const host = cleanConfiguredValue(env.SMTP_HOST);
+  const portValue = cleanConfiguredValue(env.SMTP_PORT);
+  const username = cleanConfiguredValue(env.SMTP_USERNAME);
+  const password = cleanConfiguredValue(env.SMTP_PASSWORD);
+  const port = Number(portValue);
+
+  if (!host || !Number.isInteger(port) || port <= 0 || !username || !password) {
+    return null;
   }
 
-  return { ok: true, id: payload.id };
+  const domain = emailDomainFromAppUrl(env);
+  const fromEmail = `noreply@${domain}`;
+
+  return {
+    host,
+    port,
+    username,
+    password,
+    domain,
+    fromEmail,
+    from: `LeadCue <${fromEmail}>`
+  };
+}
+
+function emailDomainFromAppUrl(env: Env): string {
+  const fallback = "leadcue.app";
+
+  try {
+    const hostname = new URL(appUrl(env)).hostname.toLowerCase();
+    if (!hostname || hostname === "localhost" || hostname === "127.0.0.1") {
+      return fallback;
+    }
+    return hostname.startsWith("www.") ? hostname.slice(4) : hostname;
+  } catch {
+    return fallback;
+  }
+}
+
+function buildSmtpMessage(input: {
+  from: string;
+  fromEmail: string;
+  to: string;
+  subject: string;
+  text: string;
+  html: string;
+  messageId: string;
+  boundary: string;
+}): string {
+  const headers = [
+    `From: ${input.from}`,
+    `To: ${input.to}`,
+    `Subject: ${mimeHeader(input.subject)}`,
+    `Message-ID: <${input.messageId}>`,
+    "MIME-Version: 1.0",
+    `Content-Type: multipart/alternative; boundary="${input.boundary}"`,
+    "X-LeadCue-Mailer: smtp"
+  ];
+  const body = [
+    `--${input.boundary}`,
+    'Content-Type: text/plain; charset="UTF-8"',
+    "Content-Transfer-Encoding: 8bit",
+    "",
+    input.text,
+    "",
+    `--${input.boundary}`,
+    'Content-Type: text/html; charset="UTF-8"',
+    "Content-Transfer-Encoding: 8bit",
+    "",
+    input.html,
+    "",
+    `--${input.boundary}--`
+  ];
+
+  return dotStuff([...headers, "", ...body].join("\r\n"));
+}
+
+async function sendSmtpMessage(config: SmtpConfig, to: string, message: string) {
+  const socket = connect({ hostname: config.host, port: config.port }, { allowHalfOpen: false, secureTransport: "off" });
+  const reader = socket.readable.getReader();
+  const writer = socket.writable.getWriter();
+
+  try {
+    await expectSmtp(reader, 220);
+    await writeSmtp(writer, `EHLO ${config.domain}`);
+    await expectSmtp(reader, 250);
+    await writeSmtp(writer, "AUTH LOGIN");
+    await expectSmtp(reader, 334);
+    await writeSmtp(writer, base64Utf8(config.username));
+    await expectSmtp(reader, 334);
+    await writeSmtp(writer, base64Utf8(config.password));
+    await expectSmtp(reader, 235);
+    await writeSmtp(writer, `MAIL FROM:<${config.fromEmail}>`);
+    await expectSmtp(reader, 250);
+    await writeSmtp(writer, `RCPT TO:<${to}>`);
+    await expectSmtp(reader, 250);
+    await writeSmtp(writer, "DATA");
+    await expectSmtp(reader, 354);
+    await writeSmtp(writer, `${message}\r\n.`);
+    await expectSmtp(reader, 250);
+    await writeSmtp(writer, "QUIT");
+    await expectSmtp(reader, 221).catch(() => null);
+  } finally {
+    reader.releaseLock();
+    await writer.close().catch(() => null);
+  }
+}
+
+async function writeSmtp(writer: WritableStreamDefaultWriter<Uint8Array>, line: string) {
+  await writer.write(new TextEncoder().encode(`${line}\r\n`));
+}
+
+async function expectSmtp(reader: ReadableStreamDefaultReader<Uint8Array>, expected: number) {
+  const response = await readSmtpResponse(reader);
+  const code = Number(response.slice(0, 3));
+
+  if (code !== expected) {
+    throw new Error(`SMTP command failed: expected ${expected}, received ${response}`);
+  }
+}
+
+async function readSmtpResponse(reader: ReadableStreamDefaultReader<Uint8Array>) {
+  const decoder = new TextDecoder();
+  let response = "";
+
+  while (true) {
+    const chunk = await reader.read();
+    if (chunk.done) {
+      throw new Error("SMTP connection closed unexpectedly.");
+    }
+
+    response += decoder.decode(chunk.value, { stream: true });
+    const lines = response.split(/\r?\n/).filter(Boolean);
+    const lastLine = lines.at(-1);
+
+    if (lastLine && /^\d{3} /.test(lastLine)) {
+      return lines.join("\n");
+    }
+  }
+}
+
+function mimeHeader(value: string): string {
+  return /^[\x00-\x7F]*$/.test(value) ? value : `=?UTF-8?B?${base64Utf8(value)}?=`;
+}
+
+function base64Utf8(value: string): string {
+  const bytes = new TextEncoder().encode(value);
+  let binary = "";
+
+  for (const byte of bytes) {
+    binary += String.fromCharCode(byte);
+  }
+
+  return btoa(binary);
+}
+
+function dotStuff(message: string): string {
+  return message
+    .replace(/\r?\n/g, "\r\n")
+    .split("\r\n")
+    .map((line) => (line.startsWith(".") ? `.${line}` : line))
+    .join("\r\n");
 }
 
 function passwordResetEmailSubject(locale: ScanLocale): string {
