@@ -139,7 +139,7 @@ const ACTIVE_SUBSCRIPTION_STATUSES = new Set(["active", "trialing"]);
 const SESSION_COOKIE_NAME = "leadcue_session";
 const SESSION_TTL_SECONDS = 60 * 60 * 24 * 30;
 const GOOGLE_AUTH_SCOPES = ["openid", "email", "profile"].join(" ");
-const PASSWORD_HASH_ITERATIONS = 120_000;
+const PASSWORD_HASH_ITERATIONS = 100_000;
 
 app.use("*", async (c, next) => {
   c.set("requestId", crypto.randomUUID());
