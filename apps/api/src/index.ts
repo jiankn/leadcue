@@ -156,6 +156,11 @@ app.use(
   })
 );
 
+app.use("/api/auth/*", async (c, next) => {
+  c.header("Cache-Control", "no-store");
+  await next();
+});
+
 app.get("/api/health", (c) =>
   c.json({
     ok: true,
@@ -2885,73 +2890,99 @@ async function getAuthenticatedSession(c: AppContext): Promise<AuthSessionRow | 
     return null;
   }
 
-  const token = getSessionToken(c);
-  if (!token) {
+  const tokens = getSessionTokens(c);
+  if (!tokens.length) {
     return null;
   }
 
-  const tokenHash = await sha256(token);
-  const session = await c.env.DB.prepare(
-    `SELECT
-       s.id as session_id,
-       s.user_id,
-       u.email,
-       u.name,
-       wm.workspace_id,
-       w.name as workspace_name
-     FROM auth_sessions s
-     JOIN users u ON u.id = s.user_id
-     LEFT JOIN workspace_members wm ON wm.user_id = u.id
-     LEFT JOIN workspaces w ON w.id = wm.workspace_id
-     WHERE s.session_token_hash = ? AND s.expires_at > ?
-     ORDER BY wm.created_at ASC
-     LIMIT 1`
-  )
-    .bind(tokenHash, new Date().toISOString())
-    .first<AuthSessionRow>();
+  for (const token of tokens) {
+    const tokenHash = await sha256(token);
+    const session = await c.env.DB.prepare(
+      `SELECT
+         s.id as session_id,
+         s.user_id,
+         u.email,
+         u.name,
+         wm.workspace_id,
+         w.name as workspace_name
+       FROM auth_sessions s
+       JOIN users u ON u.id = s.user_id
+       LEFT JOIN workspace_members wm ON wm.user_id = u.id
+       LEFT JOIN workspaces w ON w.id = wm.workspace_id
+       WHERE s.session_token_hash = ? AND s.expires_at > ?
+       ORDER BY wm.created_at ASC
+       LIMIT 1`
+    )
+      .bind(tokenHash, new Date().toISOString())
+      .first<AuthSessionRow>();
 
-  if (!session) {
-    return null;
-  }
-
-  c.env.DB.prepare(`UPDATE auth_sessions SET last_seen_at = CURRENT_TIMESTAMP WHERE id = ?`)
-    .bind(session.session_id)
-    .run()
-    .catch((error) => console.error("session_touch_failed", error));
-
-  return session;
-}
-
-function getSessionToken(c: AppContext): string | null {
-  const cookieHeader = c.req.header("Cookie");
-  if (!cookieHeader) {
-    return null;
-  }
-
-  const cookies = cookieHeader.split(";").map((part) => part.trim());
-  for (const cookie of cookies) {
-    const [name, ...valueParts] = cookie.split("=");
-    if (name === SESSION_COOKIE_NAME) {
-      return decodeURIComponent(valueParts.join("="));
+    if (!session) {
+      continue;
     }
+
+    c.env.DB.prepare(`UPDATE auth_sessions SET last_seen_at = CURRENT_TIMESTAMP WHERE id = ?`)
+      .bind(session.session_id)
+      .run()
+      .catch((error) => console.error("session_touch_failed", error));
+
+    return session;
   }
 
   return null;
 }
 
+function getSessionToken(c: AppContext): string | null {
+  return getSessionTokens(c)[0] || null;
+}
+
+function getSessionTokens(c: AppContext): string[] {
+  const cookieHeader = c.req.header("Cookie");
+  if (!cookieHeader) {
+    return [];
+  }
+
+  const cookies = cookieHeader.split(";").map((part) => part.trim());
+  const tokens: string[] = [];
+  for (const cookie of cookies) {
+    const [name, ...valueParts] = cookie.split("=");
+    if (name === SESSION_COOKIE_NAME) {
+      tokens.push(decodeURIComponent(valueParts.join("=")));
+    }
+  }
+
+  return tokens;
+}
+
 function buildSessionCookie(c: AppContext, token: string, expiresAt: Date): string {
   const secure = isSecureRequest(c) ? "; Secure" : "";
   const sameSite = isSecureRequest(c) ? "None" : "Lax";
-  return `${SESSION_COOKIE_NAME}=${encodeURIComponent(token)}; Path=/; HttpOnly; SameSite=${sameSite}; Max-Age=${SESSION_TTL_SECONDS}; Expires=${expiresAt.toUTCString()}${secure}`;
+  const domain = sessionCookieDomain(c.env);
+  const domainAttribute = domain ? `; Domain=.${domain}` : "";
+  return `${SESSION_COOKIE_NAME}=${encodeURIComponent(token)}; Path=/; HttpOnly; SameSite=${sameSite}; Max-Age=${SESSION_TTL_SECONDS}; Expires=${expiresAt.toUTCString()}${domainAttribute}${secure}`;
 }
 
 function clearSessionCookie(c: AppContext) {
   const secure = isSecureRequest(c) ? "; Secure" : "";
   const sameSite = isSecureRequest(c) ? "None" : "Lax";
-  c.header(
-    "Set-Cookie",
-    `${SESSION_COOKIE_NAME}=; Path=/; HttpOnly; SameSite=${sameSite}; Max-Age=0; Expires=Thu, 01 Jan 1970 00:00:00 GMT${secure}`
-  );
+  const domain = sessionCookieDomain(c.env);
+  const domainAttribute = domain ? `; Domain=.${domain}` : "";
+  const expiredCookie = `${SESSION_COOKIE_NAME}=; Path=/; HttpOnly; SameSite=${sameSite}; Max-Age=0; Expires=Thu, 01 Jan 1970 00:00:00 GMT`;
+  c.header("Set-Cookie", `${expiredCookie}${domainAttribute}${secure}`);
+  if (domainAttribute) {
+    c.header("Set-Cookie", `${expiredCookie}${secure}`, { append: true });
+  }
+}
+
+function sessionCookieDomain(env: Env): string | null {
+  try {
+    const hostname = new URL(appUrl(env)).hostname.toLowerCase();
+    if (!hostname || hostname === "localhost" || hostname === "127.0.0.1" || !hostname.includes(".")) {
+      return null;
+    }
+    return hostname.startsWith("www.") ? hostname.slice(4) : hostname;
+  } catch {
+    return null;
+  }
 }
 
 function isSecureRequest(c: AppContext): boolean {
