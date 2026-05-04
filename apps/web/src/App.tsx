@@ -7041,11 +7041,13 @@ function DashboardApp() {
                 };
   const overviewSecondaryAction =
     dashboardState === "needs_workspace"
-      ? {
-          href: buildLocalePath(locale, "/login"),
-          icon: "mail" as const,
-          label: appUi.actions.signIn
-        }
+      ? auth.authenticated
+        ? null
+        : {
+            href: buildLocalePath(locale, "/login"),
+            icon: "mail" as const,
+            label: appUi.actions.signIn
+          }
       : dashboardState === "error"
       ? {
           href: buildLocalePath(locale, "/login"),
@@ -7487,14 +7489,16 @@ function DashboardApp() {
                       {overviewPrimaryAction.label}
                     </a>
                   )}
-                  <a
-                    className="button button-secondary"
-                    href={overviewSecondaryAction.href}
-                    onClick={overviewSecondaryAction.href === "#scan-console" ? () => setOverviewManualModeOpen(true) : undefined}
-                  >
-                    <Icon name={overviewSecondaryAction.icon} />
-                    {overviewSecondaryAction.label}
-                  </a>
+                  {overviewSecondaryAction ? (
+                    <a
+                      className="button button-secondary"
+                      href={overviewSecondaryAction.href}
+                      onClick={overviewSecondaryAction.href === "#scan-console" ? () => setOverviewManualModeOpen(true) : undefined}
+                    >
+                      <Icon name={overviewSecondaryAction.icon} />
+                      {overviewSecondaryAction.label}
+                    </a>
+                  ) : null}
                 </div>
               </div>
             ) : (
