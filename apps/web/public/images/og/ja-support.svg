@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
-  <title id="title">アカウント アクセス、請求、スキャン、エクスポート、ロールアウトに関する質問についてサポートを受けます。</title>
-  <desc id="desc">サポートは、サインイン、ワークスペースの構成、Webサイトのスキャン、リードのエクスポート、プラン制限内での維持など、実際のアウトバウンド ワークフローを中心に構成されています。</desc>
+  <title id="title">Get help with login access, billing, scans, exports, and setup questions.</title>
+  <desc id="desc">Support is structured around the actual personal prospecting workflow: signing in, configuring your profile, scanning websites, exporting prospects, and staying within plan limits.</desc>
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="630" gradientUnits="userSpaceOnUse">
       <stop stop-color="#073733" />
@@ -34,17 +34,19 @@
     <rect width="330" height="46" rx="23" fill="#0D4540" stroke="#1E6A63" />
     <text x="22" y="30" fill="#96FF6A" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="22" font-weight="700">サポート</text>
   </g>
-  <text x="78" y="336" fill="#F7FFFC" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="72" font-weight="800">アカウント</text>
-<text x="78" y="420" fill="#F7FFFC" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="72" font-weight="800">アクセス、請求、スキャン、エクスポート、ロールアウトに関する質問についてサポートを受けます。</text>
-  <text x="78" y="514" fill="#D3EEE7" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="30" font-weight="600">サポートは、サインイン、ワークスペースの構成、Webサイトのスキャン、リードのエクスポート、プラン制限内での維持など、実際のアウトバウンド</text>
-<text x="78" y="554" fill="#D3EEE7" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="30" font-weight="600">ワークフローを中心に構成されています。</text>
+  <text x="78" y="336" fill="#F7FFFC" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="72" font-weight="800">Get help with login</text>
+<text x="78" y="420" fill="#F7FFFC" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="72" font-weight="800">access, billing, scans,</text>
+<text x="78" y="504" fill="#F7FFFC" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="72" font-weight="800">exports, and setup…</text>
+  <text x="78" y="514" fill="#D3EEE7" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="30" font-weight="600">Support is structured around the actual personal</text>
+<text x="78" y="554" fill="#D3EEE7" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="30" font-weight="600">prospecting workflow: signing in, configuring your</text>
+<text x="78" y="594" fill="#D3EEE7" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="30" font-weight="600">profile, scanning websites, exporting prospects, an…</text>
   <g transform="translate(78, 548)">
     <rect width="262" height="44" rx="22" fill="#114b45" stroke="#1f6d66" />
     <text x="22" y="29" fill="#dffbf3" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="20" font-weight="700">サポート</text>
   </g>
   <g transform="translate(364, 548)">
     <rect width="262" height="44" rx="22" fill="#114b45" stroke="#1f6d66" />
-    <text x="22" y="29" fill="#dffbf3" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="20" font-weight="700">アカウントへのアクセス</text>
+    <text x="22" y="29" fill="#dffbf3" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="20" font-weight="700">Login access</text>
   </g>
   <g transform="translate(650, 548)">
     <rect width="262" height="44" rx="22" fill="#114b45" stroke="#1f6d66" />

@@ -16,11 +16,11 @@ const visuals = [
     lang: "en",
     eyebrow: "AI prospect research",
     title: ["Turn website research", "into ranked accounts."],
-    copy: "Source-backed signals, fit scores, and outreach context in one workspace.",
+    copy: "Source-backed signals, fit scores, and outreach context in one dashboard.",
     cards: [
       ["Qualified fit", "92"],
       ["Website cues", "3+"],
-      ["CRM ready", "CSV"]
+      ["CSV ready", "CSV"]
     ]
   },
   {
@@ -28,11 +28,11 @@ const visuals = [
     lang: "zh-CN",
     eyebrow: "AI 客户研究",
     title: ["把网站线索", "转化为高优先级客户"],
-    copy: "来源证据、匹配评分和外联上下文，集中在一个工作区。",
+    copy: "来源证据、匹配评分和外联上下文，集中在一个看板。",
     cards: [
       ["匹配评分", "92"],
       ["网站信号", "3+"],
-      ["CRM 就绪", "CSV"]
+      ["CSV 就绪", "CSV"]
     ]
   },
   {
@@ -44,7 +44,7 @@ const visuals = [
     cards: [
       ["適合スコア", "92"],
       ["サイトシグナル", "3+"],
-      ["CRM 連携", "CSV"]
+      ["CSV 連携", "CSV"]
     ]
   },
   {
@@ -56,7 +56,7 @@ const visuals = [
     cards: [
       ["적합도 점수", "92"],
       ["웹사이트 신호", "3+"],
-      ["CRM 준비", "CSV"]
+      ["CSV 준비", "CSV"]
     ]
   },
   {
@@ -64,11 +64,11 @@ const visuals = [
     lang: "de",
     eyebrow: "KI-Prospect-Recherche",
     title: ["Website-Recherche in", "priorisierte Accounts"],
-    copy: "Quellenbasierte Signale, Fit-Scores und Outreach-Kontext in einem Arbeitsbereich.",
+    copy: "Quellenbasierte Signale, Fit-Scores und Outreach-Kontext in einem Dashboard.",
     cards: [
       ["Fit-Score", "92"],
       ["Website-Signale", "3+"],
-      ["CRM-bereit", "CSV"]
+      ["CSV-bereit", "CSV"]
     ]
   },
   {
@@ -76,11 +76,11 @@ const visuals = [
     lang: "nl",
     eyebrow: "AI-prospectonderzoek",
     title: ["Websiteonderzoek naar", "geprioriteerde accounts"],
-    copy: "Bronnen, fitscores en outreach-context samen in één werkruimte.",
+    copy: "Bronnen, fitscores en outreach-context samen in één dashboard.",
     cards: [
       ["Fitscore", "92"],
       ["Websitesignalen", "3+"],
-      ["CRM-klaar", "CSV"]
+      ["CSV-klaar", "CSV"]
     ]
   },
   {
@@ -92,7 +92,7 @@ const visuals = [
     cards: [
       ["Score d'adéquation", "92"],
       ["Signaux web", "3+"],
-      ["Prêt CRM", "CSV"]
+      ["Prêt CSV", "CSV"]
     ]
   }
 ];

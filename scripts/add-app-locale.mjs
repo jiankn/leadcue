@@ -20,19 +20,19 @@ const appNamespace = {
     },
     pages: {
       dashboard: {
-        eyebrow: "Workspace",
+        eyebrow: "dashboard",
         title: "Prospect research dashboard",
         copy: "Run website scans, review Prospect Cards, and keep outbound research connected to credits."
       },
       leads: {
         eyebrow: "Lead library",
         title: "Saved prospects",
-        copy: "Review qualified accounts, fit scores, confidence, and the Prospect Card your team can export."
+        copy: "Review qualified accounts, fit scores, confidence, and the Prospect Card your solo user can export."
       },
       icp: {
         eyebrow: "ICP settings",
         title: "Scoring profile",
-        copy: "Tune the agency offer, industries, countries, and tone LeadCue uses when ranking websites."
+        copy: "Tune the solo professional offer, industries, countries, and tone LeadCue uses when ranking websites."
       },
       billing: {
         eyebrow: "Credits and billing",
@@ -42,12 +42,12 @@ const appNamespace = {
       analytics: {
         eyebrow: "Analytics",
         title: "Research funnel",
-        copy: "See which actions actually move from product interest to saved scans, exports, and CRM handoff."
+        copy: "See which actions actually move from product interest to saved scans, exports, and CSV handoff."
       },
       account: {
         eyebrow: "Account",
         title: "Profile and access",
-        copy: "Manage workspace identity, password access, and the secure session your team uses to enter LeadCue."
+        copy: "Manage dashboard identity, password access, and the secure session your solo user uses to enter LeadCue."
       }
     },
     actions: {
@@ -60,7 +60,7 @@ const appNamespace = {
     scan: {
       eyebrow: "Scan desk",
       title: "Turn one website into a saved Prospect Card",
-      copy: "Enter a real prospect URL, add what your team already noticed, and LeadCue will create fit scoring, evidence, first lines, and export-ready notes in the same workspace.",
+      copy: "Enter a real prospect URL, add what your solo user already noticed, and LeadCue will create fit scoring, evidence, first lines, and export-ready notes in the same dashboard.",
       prospectWebsite: "Prospect website",
       companyName: "Company name",
       websiteNotes: "Website notes",
@@ -75,7 +75,7 @@ const appNamespace = {
     status: {
       signedIn: "Signed in",
       demoPreview: "Demo preview",
-      loading: "Loading workspace data...",
+      loading: "Loading dashboard data...",
       plan: "plan"
     },
     userMenu: {
@@ -117,12 +117,12 @@ const appNamespace = {
       analytics: {
         eyebrow: "数据分析",
         title: "研究漏斗",
-        copy: "了解哪些操作真正推动了从产品兴趣到保存扫描、导出和 CRM 交接的转化。"
+        copy: "了解哪些操作真正推动了从产品兴趣到保存扫描、导出和 CSV 交接的转化。"
       },
       account: {
         eyebrow: "账户",
         title: "个人资料与权限",
-        copy: "管理工作空间身份、密码访问以及团队登录 LeadCue 的安全会话。"
+        copy: "管理工作空间身份、密码访问以及个人用户登录 LeadCue 的安全会话。"
       }
     },
     actions: {
@@ -135,7 +135,7 @@ const appNamespace = {
     scan: {
       eyebrow: "扫描台",
       title: "将一个网站转化为已保存的潜在客户卡片",
-      copy: "输入真实的潜在客户网址，添加你团队已注意到的信息，LeadCue 将在同一工作空间中生成匹配度评分、证据、破冰话术和可导出的备注。",
+      copy: "输入真实的潜在客户网址，添加你个人用户已注意到的信息，LeadCue 将在同一工作空间中生成匹配度评分、证据、破冰话术和可导出的备注。",
       prospectWebsite: "目标网站",
       companyName: "公司名称",
       websiteNotes: "网站备注",
@@ -170,19 +170,19 @@ const appNamespace = {
     },
     pages: {
       dashboard: {
-        eyebrow: "ワークスペース",
+        eyebrow: "ダッシュボード",
         title: "見込み客リサーチダッシュボード",
         copy: "ウェブサイトスキャンの実行、プロスペクトカードの確認、アウトバウンドリサーチとクレジットの連携。"
       },
       leads: {
         eyebrow: "リードライブラリ",
         title: "保存済みプロスペクト",
-        copy: "適格なアカウント、フィットスコア、確信度、チームがエクスポートできるプロスペクトカードを確認。"
+        copy: "適格なアカウント、フィットスコア、確信度、個人ユーザーがエクスポートできるプロスペクトカードを確認。"
       },
       icp: {
         eyebrow: "ICP設定",
         title: "スコアリングプロファイル",
-        copy: "エージェンシーオファー、業界、国、トーンを調整し、LeadCueのウェブサイト評価を最適化。"
+        copy: "個人プロフェッショナルのオファー、業界、国、トーンを調整し、LeadCueのウェブサイト評価を最適化。"
       },
       billing: {
         eyebrow: "クレジットと請求",
@@ -192,12 +192,12 @@ const appNamespace = {
       analytics: {
         eyebrow: "分析",
         title: "リサーチファネル",
-        copy: "製品関心からスキャン保存、エクスポート、CRM連携への実際の推進力を確認。"
+        copy: "製品関心からスキャン保存、エクスポート、CSV連携への実際の推進力を確認。"
       },
       account: {
         eyebrow: "アカウント",
         title: "プロフィールとアクセス",
-        copy: "ワークスペースID、パスワードアクセス、チームがLeadCueにログインするセキュアセッションを管理。"
+        copy: "ダッシュボードID、パスワードアクセス、個人ユーザーがLeadCueにログインするセキュアセッションを管理。"
       }
     },
     actions: {
@@ -210,7 +210,7 @@ const appNamespace = {
     scan: {
       eyebrow: "スキャンデスク",
       title: "1つのウェブサイトを保存済みプロスペクトカードに変換",
-      copy: "実際の見込み客URLを入力し、チームが気付いた点を追加すると、LeadCueが同じワークスペースでフィットスコア、エビデンス、ファーストライン、エクスポート対応ノートを作成します。",
+      copy: "実際の見込み客URLを入力し、個人ユーザーが気付いた点を追加すると、LeadCueが同じダッシュボードでフィットスコア、エビデンス、ファーストライン、エクスポート対応ノートを作成します。",
       prospectWebsite: "見込み客ウェブサイト",
       companyName: "会社名",
       websiteNotes: "ウェブサイトメモ",
@@ -225,7 +225,7 @@ const appNamespace = {
     status: {
       signedIn: "ログイン済み",
       demoPreview: "デモプレビュー",
-      loading: "ワークスペースデータを読み込み中...",
+      loading: "ダッシュボードデータを読み込み中...",
       plan: "プラン"
     },
     userMenu: {
@@ -245,19 +245,19 @@ const appNamespace = {
     },
     pages: {
       dashboard: {
-        eyebrow: "워크스페이스",
+        eyebrow: "대시보드",
         title: "잠재 고객 리서치 대시보드",
         copy: "웹사이트 스캔 실행, 잠재 고객 카드 검토, 아웃바운드 리서치와 크레딧 연동."
       },
       leads: {
         eyebrow: "리드 라이브러리",
         title: "저장된 잠재 고객",
-        copy: "적격 계정, 적합도 점수, 신뢰도 및 팀이 내보낼 수 있는 잠재 고객 카드를 검토하세요."
+        copy: "적격 계정, 적합도 점수, 신뢰도 및 개인 사용자이 내보낼 수 있는 잠재 고객 카드를 검토하세요."
       },
       icp: {
         eyebrow: "ICP 설정",
         title: "스코어링 프로필",
-        copy: "에이전시 오퍼, 산업, 국가 및 톤을 조정하여 LeadCue의 웹사이트 순위 평가를 최적화하세요."
+        copy: "개인 전문가 오퍼, 산업, 국가 및 톤을 조정하여 LeadCue의 웹사이트 순위 평가를 최적화하세요."
       },
       billing: {
         eyebrow: "크레딧 및 결제",
@@ -267,12 +267,12 @@ const appNamespace = {
       analytics: {
         eyebrow: "분석",
         title: "리서치 퍼널",
-        copy: "제품 관심에서 저장된 스캔, 내보내기 및 CRM 핸드오프로의 실제 전환을 확인하세요."
+        copy: "제품 관심에서 저장된 스캔, 내보내기 및 CSV 핸드오프로의 실제 전환을 확인하세요."
       },
       account: {
         eyebrow: "계정",
         title: "프로필 및 액세스",
-        copy: "워크스페이스 ID, 비밀번호 액세스 및 팀이 LeadCue에 접속하는 보안 세션을 관리하세요."
+        copy: "대시보드 ID, 비밀번호 액세스 및 개인 사용자이 LeadCue에 접속하는 보안 세션을 관리하세요."
       }
     },
     actions: {
@@ -285,7 +285,7 @@ const appNamespace = {
     scan: {
       eyebrow: "스캔 데스크",
       title: "하나의 웹사이트를 저장된 잠재 고객 카드로 변환",
-      copy: "실제 잠재 고객 URL을 입력하고 팀이 이미 발견한 내용을 추가하면, LeadCue가 동일 워크스페이스에서 적합도 점수, 증거, 첫 번째 라인 및 내보내기용 노트를 생성합니다.",
+      copy: "실제 잠재 고객 URL을 입력하고 개인 사용자이 이미 발견한 내용을 추가하면, LeadCue가 동일 대시보드에서 적합도 점수, 증거, 첫 번째 라인 및 내보내기용 노트를 생성합니다.",
       prospectWebsite: "잠재 고객 웹사이트",
       companyName: "회사명",
       websiteNotes: "웹사이트 메모",
@@ -300,7 +300,7 @@ const appNamespace = {
     status: {
       signedIn: "로그인됨",
       demoPreview: "데모 미리보기",
-      loading: "워크스페이스 데이터 로드 중...",
+      loading: "대시보드 데이터 로드 중...",
       plan: "플랜"
     },
     userMenu: {
@@ -332,7 +332,7 @@ const appNamespace = {
       icp: {
         eyebrow: "ICP-Einstellungen",
         title: "Scoring-Profil",
-        copy: "Agentur-Angebot, Branchen, Länder und Tonfall anpassen, um LeadCues Website-Ranking zu optimieren."
+        copy: "Solo-Profi-Angebot, Branchen, Länder und Tonfall anpassen, um LeadCues Website-Ranking zu optimieren."
       },
       billing: {
         eyebrow: "Credits und Abrechnung",
@@ -342,12 +342,12 @@ const appNamespace = {
       analytics: {
         eyebrow: "Analysen",
         title: "Research-Funnel",
-        copy: "Sehen Sie, welche Aktionen tatsächlich von Produktinteresse zu gespeicherten Scans, Exporten und CRM-Übergabe führen."
+        copy: "Sehen Sie, welche Aktionen tatsächlich von Produktinteresse zu gespeicherten Scans, Exporten und CSV-Übergabe führen."
       },
       account: {
         eyebrow: "Konto",
         title: "Profil und Zugang",
-        copy: "Workspace-Identität, Passwortzugang und die sichere Sitzung Ihres Teams für LeadCue verwalten."
+        copy: "dashboard-Identität, Passwortzugang und die sichere Sitzung Ihres solo users für LeadCue verwalten."
       }
     },
     actions: {
@@ -360,7 +360,7 @@ const appNamespace = {
     scan: {
       eyebrow: "Scan-Desk",
       title: "Eine Website in eine gespeicherte Prospect Card verwandeln",
-      copy: "Geben Sie eine echte Prospect-URL ein, ergänzen Sie, was Ihr Team bereits bemerkt hat, und LeadCue erstellt im selben Workspace Fit-Scoring, Evidenz, erste Zeilen und exportfertige Notizen.",
+      copy: "Geben Sie eine echte Prospect-URL ein, ergänzen Sie, was Ihr solo user bereits bemerkt hat, und LeadCue erstellt im selben dashboard Fit-Scoring, Evidenz, erste Zeilen und exportfertige Notizen.",
       prospectWebsite: "Prospect-Website",
       companyName: "Firmenname",
       websiteNotes: "Website-Notizen",
@@ -375,7 +375,7 @@ const appNamespace = {
     status: {
       signedIn: "Angemeldet",
       demoPreview: "Demo-Vorschau",
-      loading: "Workspace-Daten werden geladen...",
+      loading: "dashboard-Daten werden geladen...",
       plan: "Plan"
     },
     userMenu: {
@@ -407,7 +407,7 @@ const appNamespace = {
       icp: {
         eyebrow: "ICP-instellingen",
         title: "Scoringsprofiel",
-        copy: "Agency-aanbod, sectoren, landen en toon afstemmen om de website-ranking van LeadCue te optimaliseren."
+        copy: "solo professional-aanbod, sectoren, landen en toon afstemmen om de website-ranking van LeadCue te optimaliseren."
       },
       billing: {
         eyebrow: "Credits en facturering",
@@ -417,12 +417,12 @@ const appNamespace = {
       analytics: {
         eyebrow: "Analyse",
         title: "Onderzoekstrechter",
-        copy: "Bekijk welke acties daadwerkelijk leiden van productinteresse naar opgeslagen scans, exports en CRM-overdracht."
+        copy: "Bekijk welke acties daadwerkelijk leiden van productinteresse naar opgeslagen scans, exports en CSV-overdracht."
       },
       account: {
         eyebrow: "Account",
         title: "Profiel en toegang",
-        copy: "Werkruimte-identiteit, wachtwoordtoegang en de beveiligde sessie van uw team voor LeadCue beheren."
+        copy: "Werkruimte-identiteit, wachtwoordtoegang en de beveiligde sessie van uw solo user voor LeadCue beheren."
       }
     },
     actions: {
@@ -433,9 +433,9 @@ const appNamespace = {
       signIn: "Doorgaan met Google"
     },
     scan: {
-      eyebrow: "Scanbureau",
+      eyebrow: "Scanzelfstandige",
       title: "Eén website omzetten in een opgeslagen Prospect Card",
-      copy: "Voer een echte prospect-URL in, voeg toe wat uw team al heeft opgemerkt, en LeadCue maakt fit-scoring, bewijs, eerste regels en exportklare notities in dezelfde werkruimte.",
+      copy: "Voer een echte prospect-URL in, voeg toe wat uw solo user al heeft opgemerkt, en LeadCue maakt fit-scoring, bewijs, eerste regels en exportklare notities in dezelfde werkruimte.",
       prospectWebsite: "Prospect-website",
       companyName: "Bedrijfsnaam",
       websiteNotes: "Websitenotities",
@@ -482,7 +482,7 @@ const appNamespace = {
       icp: {
         eyebrow: "Paramètres ICP",
         title: "Profil de scoring",
-        copy: "Ajustez l'offre agence, les secteurs, les pays et le ton utilisés par LeadCue pour évaluer les sites."
+        copy: "Ajustez l'offre indépendant, les secteurs, les pays et le ton utilisés par LeadCue pour évaluer les sites."
       },
       billing: {
         eyebrow: "Crédits et facturation",
@@ -492,7 +492,7 @@ const appNamespace = {
       analytics: {
         eyebrow: "Analyse",
         title: "Entonnoir de recherche",
-        copy: "Identifiez les actions qui convertissent de l'intérêt produit en scans enregistrés, exports et transfert CRM."
+        copy: "Identifiez les actions qui convertissent de l'intérêt produit en scans enregistrés, exports et transfert CSV."
       },
       account: {
         eyebrow: "Compte",

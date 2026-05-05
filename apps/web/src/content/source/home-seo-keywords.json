@@ -1,37 +1,46 @@
 {
   "en": {
-    "primaryKeyword": "website-first outbound research",
-    "secondaryKeywords": ["website research layer for agencies", "qualified outreach workflow", "source-backed outreach context"],
-    "longTailKeywords": ["website research before cold outreach", "website-based prospect qualification", "Prospect Card workflow", "agency outbound research workflow"]
+    "primaryKeyword": "AI website prospecting tool",
+    "secondaryKeywords": ["website prospecting tool", "AI prospect research tool", "website research for cold email", "cold email personalization from website"],
+    "longTailKeywords": [
+      "website research before cold outreach",
+      "website-based prospect qualification",
+      "Prospect Card workflow",
+      "prospecting tool for solo professionals",
+      "prospecting tool for freelancers",
+      "prospecting tool for consultants",
+      "find web design leads",
+      "find businesses that need website redesign"
+    ]
   },
   "zh": {
     "primaryKeyword": "网站客户开发工具",
     "secondaryKeywords": ["网站线索挖掘工具", "外贸客户开发工具", "开发信个性化工具"],
-    "longTailKeywords": ["客户官网开发信个性化", "网站诊断客户开发", "代理机构线索筛选流程"]
+    "longTailKeywords": ["客户官网开发信个性化", "网站诊断客户开发", "个人客户开发线索筛选流程"]
   },
   "ja": {
     "primaryKeyword": "見込み客リサーチツール",
     "secondaryKeywords": ["Webサイト分析 営業", "営業メール パーソナライズ", "営業リード 精査"],
-    "longTailKeywords": ["営業前 Webサイト チェック", "代理店向け見込み客リサーチ", "Webサイト根拠 営業メール", "コールドメール パーソナライズ Webサイト"]
+    "longTailKeywords": ["営業前 Webサイト チェック", "個人向け見込み客リサーチ", "Webサイト根拠 営業メール", "コールドメール パーソナライズ Webサイト"]
   },
   "ko": {
     "primaryKeyword": "잠재고객 리서치 툴",
     "secondaryKeywords": ["B2B 리드 발굴 툴", "웹사이트 기반 리드 발굴", "콜드메일 개인화"],
-    "longTailKeywords": ["아웃리치 전 웹사이트 검토", "웹사이트 근거 콜드메일", "에이전시 리드 검증 워크플로우"]
+    "longTailKeywords": ["아웃리치 전 웹사이트 검토", "웹사이트 근거 콜드메일", "개인 리드 검증 워크플로우"]
   },
   "de": {
     "primaryKeyword": "B2B Lead Recherche Tool",
-    "secondaryKeywords": ["Website Analyse Kaltakquise", "Akquise Tool für Agenturen", "Kaltakquise E-Mail Personalisierung"],
-    "longTailKeywords": ["Website Prüfung vor Kaltakquise", "B2B Leads mit Website-Signalen qualifizieren", "Agentur Akquise Recherche Workflow"]
+    "secondaryKeywords": ["Website Analyse Kaltakquise", "Akquise Tool für Solo-Profis", "Kaltakquise E-Mail Personalisierung"],
+    "longTailKeywords": ["Website Prüfung vor Kaltakquise", "B2B Leads mit Website-Signalen qualifizieren", "Solo Akquise Recherche Workflow"]
   },
   "nl": {
     "primaryKeyword": "B2B prospectie tool",
     "secondaryKeywords": ["leadonderzoek tool", "website analyse voor acquisitie", "koude e-mail personalisatie"],
-    "longTailKeywords": ["websitecheck voor koude acquisitie", "leads kwalificeren met websitebewijs", "prospectie workflow voor bureaus"]
+    "longTailKeywords": ["websitecheck voor koude acquisitie", "leads kwalificeren met websitebewijs", "prospectie workflow voor zelfstandigen"]
   },
   "fr": {
     "primaryKeyword": "outil de recherche de prospects",
-    "secondaryKeywords": ["outil de prospection B2B", "prospection commerciale agence", "email de prospection personnalisé"],
-    "longTailKeywords": ["analyse de site avant prospection", "qualification de prospects avec preuves web", "workflow de prospection pour agences"]
+    "secondaryKeywords": ["outil de prospection B2B", "prospection commerciale indépendante", "email de prospection personnalisé"],
+    "longTailKeywords": ["analyse de site avant prospection", "qualification de prospects avec preuves web", "workflow de prospection pour indépendants"]
   }
 }

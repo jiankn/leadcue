@@ -6,12 +6,12 @@
       "内容应先解释业务流程，再解释工具概念，避免英文 SaaS 术语堆叠。"
     ],
     "keywordClusters": {
-      "website-first-outbound-research": ["网站客户开发", "官网线索筛选", "开发信前客户研究", "客户官网分析"],
-      "website-research-layer-for-agencies": ["客户开发研究工作台", "代理机构线索研究", "外联前客户研究", "网站线索研究层"],
+      "AI website-outbound-research": ["网站客户开发", "官网线索筛选", "开发信前客户研究", "客户官网分析"],
+      "website-research-layer-for-solo professionals": ["客户开发研究工作台", "个人专业用户线索研究", "外联前客户研究", "网站线索研究层"],
       "guides/website-opportunity-signals": ["网站机会信号", "客户官网线索信号", "网站诊断切入点", "开发信切入点"],
       "guides/find-a-reason-to-contact-prospects": ["客户联系理由", "开发客户理由", "外联切入点", "开发信理由"],
       "guides/source-backed-prospect-notes": ["带来源的线索备注", "客户开发备注", "网站证据备注", "外联上下文备注"],
-      "guides/icp-fit-score-for-agency-outbound": ["ICP 匹配评分", "潜客匹配评分", "客户开发评分", "线索质量评分"],
+      "guides/icp-fit-score-for-solo professional-outbound": ["ICP 匹配评分", "潜客匹配评分", "客户开发评分", "线索质量评分"],
       "tools/prospect-card": ["潜客卡片", "线索卡片", "客户开发卡片", "网站线索卡片"]
     }
   },
@@ -22,12 +22,12 @@
       "タイトルは英語の機能名より、営業担当者が実行する作業を前面に出す。"
     ],
     "keywordClusters": {
-      "website-first-outbound-research": ["Webサイト起点の営業リサーチ", "営業前の企業サイト調査", "見込み客調査", "Webサイト調査 営業"],
-      "website-research-layer-for-agencies": ["代理店向け営業リサーチ", "Webサイト調査ワークスペース", "営業前リサーチツール", "見込み客調査ツール"],
+      "AI website-outbound-research": ["Webサイト起点の営業リサーチ", "営業前の企業サイト調査", "見込み客調査", "Webサイト調査 営業"],
+      "website-research-layer-for-solo professionals": ["個人プロフェッショナル向け営業リサーチ", "Webサイト調査ダッシュボード", "営業前リサーチツール", "見込み客調査ツール"],
       "guides/website-opportunity-signals": ["Webサイトの営業シグナル", "見込み客の課題発見", "営業アプローチのきっかけ", "サイト改善シグナル"],
       "guides/find-a-reason-to-contact-prospects": ["営業アプローチの理由", "見込み客に連絡する理由", "営業メールの切り口", "Webサイトから商談機会を見つける"],
       "guides/source-backed-prospect-notes": ["根拠付き営業メモ", "Webサイト証拠メモ", "見込み客調査メモ", "営業文脈メモ"],
-      "guides/icp-fit-score-for-agency-outbound": ["ICP 適合スコア", "見込み客スコアリング", "営業リード評価", "アカウント適合度"],
+      "guides/icp-fit-score-for-solo professional-outbound": ["ICP 適合スコア", "見込み客スコアリング", "営業リード評価", "アカウント適合度"],
       "tools/prospect-card": ["見込み客カード", "営業リサーチカード", "Prospect Card", "リード調査カード"]
     }
   },
@@ -35,31 +35,31 @@
     "marketNotes": [
       "한국어에서는 prospecting을 ‘전망’으로 번역하지 않고 ‘잠재고객 발굴’ 또는 ‘잠재고객 조사’를 사용한다.",
       "outreach는 문맥상 ‘아웃리치’ 또는 ‘영업 접근’이 자연스럽다.",
-      "페이지 제목은 기능명보다 에이전시가 얻는 업무 결과를 먼저 보여준다."
+      "페이지 제목은 기능명보다 개인 전문가가 얻는 업무 결과를 먼저 보여준다."
     ],
     "keywordClusters": {
-      "website-first-outbound-research": ["웹사이트 기반 아웃바운드 리서치", "잠재고객 웹사이트 조사", "영업 전 웹사이트 분석", "잠재고객 발굴 워크플로"],
-      "website-research-layer-for-agencies": ["에이전시 잠재고객 리서치", "웹사이트 리서치 워크스페이스", "아웃리치 전 조사", "영업 리서치 레이어"],
+      "AI website-outbound-research": ["AI 웹사이트 잠재고객 발굴 리서치", "잠재고객 웹사이트 조사", "영업 전 웹사이트 분석", "잠재고객 발굴 워크플로"],
+      "website-research-layer-for-solo professionals": ["개인 전문가 잠재고객 리서치", "웹사이트 리서치 대시보드", "아웃리치 전 조사", "영업 리서치 레이어"],
       "guides/website-opportunity-signals": ["웹사이트 기회 신호", "아웃리치 신호", "잠재고객 웹사이트 신호", "영업 접근 포인트"],
       "guides/find-a-reason-to-contact-prospects": ["잠재고객에게 연락할 이유", "아웃리치 이유", "영업 메일 접근 포인트", "웹사이트 기반 연락 이유"],
       "guides/source-backed-prospect-notes": ["근거 기반 잠재고객 메모", "웹사이트 증거 메모", "아웃리치 컨텍스트 메모", "영업 리서치 메모"],
-      "guides/icp-fit-score-for-agency-outbound": ["ICP 적합도 점수", "잠재고객 적합도 점수", "리드 평가 점수", "아웃바운드 리드 스코어링"],
+      "guides/icp-fit-score-for-solo professional-outbound": ["ICP 적합도 점수", "잠재고객 적합도 점수", "리드 평가 점수", "아웃바운드 리드 스코어링"],
       "tools/prospect-card": ["잠재고객 카드", "Prospect Card", "영업 리서치 카드", "웹사이트 리드 카드"]
     }
   },
   "de": {
     "marketNotes": [
-      "Deutsch sollte weniger wörtlich und stärker rollenbezogen formulieren: Agenturen suchen nach Lead-Recherche, Akquise-Vorbereitung und CRM-Übergabe.",
+      "Deutsch sollte weniger wörtlich und stärker rollenbezogen formulieren: Solo-Profis suchen nach Lead-Recherche, Akquise-Vorbereitung und CSV-Übergabe.",
       "Outreach kann je nach Kontext als Akquise, Vertriebskontakt oder Outreach stehen; Öffentlichkeitsarbeit ist zu vermeiden.",
       "Komposita sind natürlich, aber Titel sollten nicht zu lang werden."
     ],
     "keywordClusters": {
-      "website-first-outbound-research": ["Website-basierte Lead-Recherche", "Akquise-Vorbereitung mit Website-Daten", "Outbound-Recherche für Agenturen", "Website-Analyse vor Akquise"],
-      "website-research-layer-for-agencies": ["Lead-Recherche für Agenturen", "Website-Recherche-Workspace", "Akquise-Recherche-Tool", "CRM-Vorbereitung für Leads"],
+      "AI website-outbound-research": ["Website-basierte Lead-Recherche", "Akquise-Vorbereitung mit Website-Daten", "Website-Prospecting für Solo-Profis", "Website-Analyse vor Akquise"],
+      "website-research-layer-for-solo professionals": ["Lead-Recherche für Solo-Profis", "Website-Recherche-dashboard", "Akquise-Recherche-Tool", "CSV-Vorbereitung für Leads"],
       "guides/website-opportunity-signals": ["Website-Signale für Akquise", "Opportunity-Signale", "Vertriebsanlässe aus Websites", "Website-Potenziale erkennen"],
       "guides/find-a-reason-to-contact-prospects": ["Grund für Kontaktaufnahme finden", "Akquise-Anlass finden", "Vertriebsansprache aus Website-Daten", "Outreach-Aufhänger"],
-      "guides/source-backed-prospect-notes": ["quellenbasierte Lead-Notizen", "Website-Belege für Akquise", "CRM-Notizen mit Quelle", "Outreach-Kontext"],
-      "guides/icp-fit-score-for-agency-outbound": ["ICP Fit Score", "Lead-Scoring für Agenturen", "Passungsbewertung für Leads", "Outbound Lead Scoring"],
+      "guides/source-backed-prospect-notes": ["quellenbasierte Lead-Notizen", "Website-Belege für Akquise", "CSV-Notizen mit Quelle", "Outreach-Kontext"],
+      "guides/icp-fit-score-for-solo professional-outbound": ["ICP Fit Score", "Lead-Scoring für Solo-Profis", "Passungsbewertung für Leads", "Outbound Lead Scoring"],
       "tools/prospect-card": ["Prospect Card", "Lead-Karte", "Recherchekarte für Leads", "Website-Lead-Karte"]
     }
   },
@@ -67,15 +67,15 @@
     "marketNotes": [
       "Nederlands gebruikt vaak Engelse SaaS-termen naast natuurlijke termen zoals leadonderzoek, acquisitie en outreach.",
       "Prospecting niet vertalen als vooruitzicht; gebruik leadgeneratie, leadonderzoek of prospects vinden afhankelijk van intentie.",
-      "Titels moeten concreet blijven en het bureau-resultaat noemen."
+      "Titels moeten concreet blijven en het solo professional-resultaat noemen."
     ],
     "keywordClusters": {
-      "website-first-outbound-research": ["website gebaseerd leadonderzoek", "outbound research voor bureaus", "prospectonderzoek via websites", "leadkwalificatie voor outreach"],
-      "website-research-layer-for-agencies": ["leadonderzoek voor bureaus", "website research workspace", "outreach research tool", "CRM-klare prospectnotities"],
+      "AI website-outbound-research": ["website gebaseerd leadonderzoek", "website prospecting voor solo professionals", "prospectonderzoek via websites", "leadkwalificatie voor outreach"],
+      "website-research-layer-for-solo professionals": ["leadonderzoek voor solo professionals", "website research dashboard", "outreach research tool", "CSV-klare prospectnotities"],
       "guides/website-opportunity-signals": ["website signalen voor outreach", "opportunity signals", "sales signalen uit websites", "acquisitie aanknopingspunten"],
       "guides/find-a-reason-to-contact-prospects": ["reden om prospect te benaderen", "outreach aanknopingspunt", "contactreden uit website", "persoonlijke openingszin"],
-      "guides/source-backed-prospect-notes": ["brononderbouwde prospectnotities", "website bewijs in CRM", "outreach context notities", "leadonderzoek notities"],
-      "guides/icp-fit-score-for-agency-outbound": ["ICP fit score", "lead score voor bureaus", "prospect fit score", "outbound lead scoring"],
+      "guides/source-backed-prospect-notes": ["brononderbouwde prospectnotities", "website bewijs in CSV", "outreach context notities", "leadonderzoek notities"],
+      "guides/icp-fit-score-for-solo professional-outbound": ["ICP fit score", "lead score voor solo professionals", "prospect fit score", "outbound lead scoring"],
       "tools/prospect-card": ["Prospect Card", "prospectkaart", "lead research card", "website leadkaart"]
     }
   },
@@ -86,12 +86,12 @@
       "Les titres doivent expliciter le bénéfice opérationnel avant le nom de fonctionnalité."
     ],
     "keywordClusters": {
-      "website-first-outbound-research": ["prospection basée sur le site web", "recherche de prospects avant prospection", "qualification de prospects pour agences", "analyse de site avant prise de contact"],
-      "website-research-layer-for-agencies": ["outil de recherche de prospects pour agences", "workspace de recherche commerciale", "qualification avant CRM", "contexte de prospection"],
+      "AI website-outbound-research": ["prospection basée sur le site web", "recherche de prospects avant prospection", "qualification de prospects pour professionnels indépendants", "analyse de site avant prise de contact"],
+      "website-research-layer-for-solo professionals": ["outil de recherche de prospects pour professionnels indépendants", "dashboard de recherche commerciale", "qualification avant CSV", "contexte de prospection"],
       "guides/website-opportunity-signals": ["signaux d'opportunité sur site web", "signaux de prospection", "angles de prise de contact", "opportunités visibles sur site"],
       "guides/find-a-reason-to-contact-prospects": ["raison de contacter un prospect", "angle de prospection", "motif de prise de contact", "accroche commerciale depuis un site"],
-      "guides/source-backed-prospect-notes": ["notes de prospect avec sources", "preuves issues du site web", "contexte de prospection CRM", "notes commerciales vérifiables"],
-      "guides/icp-fit-score-for-agency-outbound": ["score ICP", "score de qualification prospect", "lead scoring pour agences", "adéquation prospect"],
+      "guides/source-backed-prospect-notes": ["notes de prospect avec sources", "preuves issues du site web", "contexte de prospection CSV", "notes commerciales vérifiables"],
+      "guides/icp-fit-score-for-solo professional-outbound": ["score ICP", "score de qualification prospect", "lead scoring pour professionnels indépendants", "adéquation prospect"],
       "tools/prospect-card": ["Prospect Card", "fiche prospect", "carte de recherche prospect", "fiche de lead web"]
     }
   }

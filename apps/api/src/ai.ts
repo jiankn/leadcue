@@ -162,21 +162,22 @@ export async function generateAiText(env: Env, prompt: string): Promise<string> 
 
 export async function generateProspectCard(env: Env, request: ScanRequest): Promise<ProspectCard> {
   const icp: ICPProfile = { ...DEFAULT_ICP, ...request.icp };
+  const requestWithIcp: ScanRequest = { ...request, locale: request.locale || icp.outputLocale, icp };
   const contactPoints = classifyContactPoints(request.page);
 
   if (env.LEADCUE_TEST_MODE === "1") {
-    return buildRuleBasedProspectCard({ ...request, icp });
+    return buildRuleBasedProspectCard(requestWithIcp);
   }
 
   const messages = buildProspectCardMessages({
     icp,
     website: request.page,
     contactPoints,
-    locale: request.locale
+    locale: requestWithIcp.locale
   });
 
   if (!hasAiProviderConfig(env)) {
-    return buildRuleBasedProspectCard({ ...request, icp });
+    return buildRuleBasedProspectCard(requestWithIcp);
   }
 
   try {
@@ -184,11 +185,11 @@ export async function generateProspectCard(env: Env, request: ScanRequest): Prom
     const parsed = content ? parseJsonObject(content) : null;
 
     if (!parsed) {
-      return buildRuleBasedProspectCard({ ...request, icp });
+      return buildRuleBasedProspectCard(requestWithIcp);
     }
 
-    return coerceProspectCard(parsed, { ...request, icp }, contactPoints);
+    return coerceProspectCard(parsed, requestWithIcp, contactPoints);
   } catch {
-    return buildRuleBasedProspectCard({ ...request, icp });
+    return buildRuleBasedProspectCard(requestWithIcp);
   }
 }

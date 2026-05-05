@@ -5,6 +5,7 @@ import {
   DEFAULT_ICP,
   PRICING_PLANS,
   SAMPLE_PROSPECT_CARD,
+  buildRuleBasedProspectCard,
   buildSampleProspectCard,
   buildProspectExportCsv,
   extractDomain,
@@ -15,10 +16,19 @@ import {
   type ExportRequest,
   type ExportRun,
   type ExportRunScope,
+  type FirstLineToolRequest,
+  type FirstLineToolResponse,
   type IcpUpdateRequest,
   type LeadHandoffStatus,
+  type OpportunityFinderToolRequest,
+  type OpportunityFinderToolResponse,
+  type OpportunitySignal,
+  type ProspectScoreDimension,
+  type ProspectScoreToolRequest,
+  type ProspectScoreToolResponse,
   type ProspectContextUpdateRequest,
   type LeadListItem,
+  type PageSnapshot,
   type ProspectCard,
   type QueueImportRequest,
   type QueueSource,
@@ -32,6 +42,8 @@ import {
   type ScanLocale,
   type ScanRequest,
   type ScanResponse,
+  type ServiceType,
+  type Tone,
   type WorkspaceQueueItem,
   type WorkspaceResearchStatus
 } from "@leadcue/shared";
@@ -196,6 +208,366 @@ app.post("/api/ai/generate", async (c) => {
   } catch (error) {
     console.error("ai_provider_failed", error);
     return c.json({ ok: false, error: "AI provider request failed." }, 502);
+  }
+});
+
+app.post("/api/tools/first-line", async (c) => {
+  const body = (await c.req.json<FirstLineToolRequest>().catch(() => ({}))) as FirstLineToolRequest;
+  const locale = normalizeFirstLineToolLocale(body.locale || resolveApiLocale(c));
+  const sourceUrl = normalizeQueueWebsiteUrl(body.websiteUrl || "");
+
+  if (!sourceUrl || !isPublicWebsiteUrl(sourceUrl)) {
+    return c.json<FirstLineToolResponse>(
+      {
+        ok: false,
+        reason: "validation_failed",
+        error: "Enter a valid public website URL."
+      },
+      400
+    );
+  }
+
+  const turnstile = await verifyTurnstileToken(c, body.turnstileToken);
+  if (!turnstile.ok) {
+    return c.json<FirstLineToolResponse>(
+      {
+        ok: false,
+        reason: "turnstile_failed",
+        error: turnstile.error
+      },
+      400
+    );
+  }
+
+  const rateLimit = await consumeFirstLineToolQuota(c);
+  if (!rateLimit.ok) {
+    return c.json<FirstLineToolResponse>(
+      {
+        ok: false,
+        reason: "rate_limited",
+        error: "Daily free tool limit reached. Start free to generate full Prospect Cards.",
+        rateLimit: {
+          remaining: 0,
+          resetAt: rateLimit.resetAt
+        }
+      },
+      429
+    );
+  }
+
+  const offerType = normalizeFirstLineToolOfferType(body.offerType);
+  const tone = normalizeFirstLineToolTone(body.tone);
+  const metadata = {
+    tool: "first-line",
+    domain: extractDomain(sourceUrl),
+    offerType,
+    tone,
+    locale
+  };
+
+  await recordAnalyticsEvent(c, "free_tool_started", "/tools/cold-email-first-line-generator", metadata);
+
+  let page: PageSnapshot;
+  try {
+    page = await fetchWebsiteSnapshot(c.env, sourceUrl);
+  } catch (error) {
+    console.error("first_line_tool_fetch_failed", error);
+    await recordAnalyticsEvent(c, "free_tool_failed", "/tools/cold-email-first-line-generator", {
+      ...metadata,
+      reason: "fetch_failed"
+    });
+    return c.json<FirstLineToolResponse>(
+      {
+        ok: false,
+        reason: "fetch_failed",
+        error: "Unable to read enough public website copy from that URL.",
+        rateLimit: {
+          remaining: rateLimit.remaining,
+          resetAt: rateLimit.resetAt
+        }
+      },
+      422
+    );
+  }
+
+  try {
+    const result = await generateFirstLineToolResult(c.env, {
+      page,
+      locale,
+      offerType,
+      tone
+    });
+    await recordAnalyticsEvent(c, "free_tool_completed", "/tools/cold-email-first-line-generator", {
+      ...metadata,
+      generatedWith: result.generatedWith
+    });
+    return c.json<FirstLineToolResponse>({
+      ok: true,
+      ...result,
+      sourceUrl: page.url,
+      domain: extractDomain(page.url),
+      lockedFields: ["Full Prospect Card", "Short email", "CSV export"],
+      rateLimit: {
+        remaining: rateLimit.remaining,
+        resetAt: rateLimit.resetAt
+      }
+    });
+  } catch (error) {
+    console.error("first_line_tool_generation_failed", error);
+    await recordAnalyticsEvent(c, "free_tool_failed", "/tools/cold-email-first-line-generator", {
+      ...metadata,
+      reason: "generation_failed"
+    });
+    return c.json<FirstLineToolResponse>(
+      {
+        ok: false,
+        reason: "generation_failed",
+        error: "Unable to generate first lines right now. Try again in a moment.",
+        rateLimit: {
+          remaining: rateLimit.remaining,
+          resetAt: rateLimit.resetAt
+        }
+      },
+      502
+    );
+  }
+});
+
+app.post("/api/tools/opportunity-finder", async (c) => {
+  const body = (await c.req.json<OpportunityFinderToolRequest>().catch(() => ({}))) as OpportunityFinderToolRequest;
+  const locale = normalizeFirstLineToolLocale(body.locale || resolveApiLocale(c));
+  const sourceUrl = normalizeQueueWebsiteUrl(body.websiteUrl || "");
+
+  if (!sourceUrl || !isPublicWebsiteUrl(sourceUrl)) {
+    return c.json<OpportunityFinderToolResponse>(
+      {
+        ok: false,
+        reason: "validation_failed",
+        error: "Enter a valid public website URL."
+      },
+      400
+    );
+  }
+
+  const turnstile = await verifyTurnstileToken(c, body.turnstileToken);
+  if (!turnstile.ok) {
+    return c.json<OpportunityFinderToolResponse>(
+      {
+        ok: false,
+        reason: "turnstile_failed",
+        error: turnstile.error
+      },
+      400
+    );
+  }
+
+  const rateLimit = await consumeFreeToolQuota(c, "opportunity_finder");
+  if (!rateLimit.ok) {
+    return c.json<OpportunityFinderToolResponse>(
+      {
+        ok: false,
+        reason: "rate_limited",
+        error: "Daily free tool limit reached. Start free to generate full Prospect Cards.",
+        rateLimit: {
+          remaining: 0,
+          resetAt: rateLimit.resetAt
+        }
+      },
+      429
+    );
+  }
+
+  const offerType = normalizeFirstLineToolOfferType(body.offerType);
+  const metadata = {
+    tool: "opportunity-finder",
+    domain: extractDomain(sourceUrl),
+    offerType,
+    locale
+  };
+
+  await recordAnalyticsEvent(c, "free_tool_started", "/tools/website-opportunity-finder", metadata);
+
+  let page: PageSnapshot;
+  try {
+    page = await fetchWebsiteSnapshot(c.env, sourceUrl);
+  } catch (error) {
+    console.error("opportunity_finder_tool_fetch_failed", error);
+    await recordAnalyticsEvent(c, "free_tool_failed", "/tools/website-opportunity-finder", {
+      ...metadata,
+      reason: "fetch_failed"
+    });
+    return c.json<OpportunityFinderToolResponse>(
+      {
+        ok: false,
+        reason: "fetch_failed",
+        error: "Unable to read enough public website copy from that URL.",
+        rateLimit: {
+          remaining: rateLimit.remaining,
+          resetAt: rateLimit.resetAt
+        }
+      },
+      422
+    );
+  }
+
+  try {
+    const result = await generateOpportunityFinderToolResult(c.env, {
+      page,
+      locale,
+      offerType
+    });
+    await recordAnalyticsEvent(c, "free_tool_completed", "/tools/website-opportunity-finder", {
+      ...metadata,
+      generatedWith: result.generatedWith
+    });
+    return c.json<OpportunityFinderToolResponse>({
+      ok: true,
+      ...result,
+      sourceUrl: page.url,
+      domain: extractDomain(page.url),
+      lockedFields: ["Full Prospect Card", "Short email", "CSV export"],
+      rateLimit: {
+        remaining: rateLimit.remaining,
+        resetAt: rateLimit.resetAt
+      }
+    });
+  } catch (error) {
+    console.error("opportunity_finder_tool_generation_failed", error);
+    await recordAnalyticsEvent(c, "free_tool_failed", "/tools/website-opportunity-finder", {
+      ...metadata,
+      reason: "generation_failed"
+    });
+    return c.json<OpportunityFinderToolResponse>(
+      {
+        ok: false,
+        reason: "generation_failed",
+        error: "Unable to find website opportunities right now. Try again in a moment.",
+        rateLimit: {
+          remaining: rateLimit.remaining,
+          resetAt: rateLimit.resetAt
+        }
+      },
+      502
+    );
+  }
+});
+
+app.post("/api/tools/prospect-score", async (c) => {
+  const body = (await c.req.json<ProspectScoreToolRequest>().catch(() => ({}))) as ProspectScoreToolRequest;
+  const locale = normalizeFirstLineToolLocale(body.locale || resolveApiLocale(c));
+  const sourceUrl = normalizeQueueWebsiteUrl(body.websiteUrl || "");
+
+  if (!sourceUrl || !isPublicWebsiteUrl(sourceUrl)) {
+    return c.json<ProspectScoreToolResponse>(
+      {
+        ok: false,
+        reason: "validation_failed",
+        error: "Enter a valid public website URL."
+      },
+      400
+    );
+  }
+
+  const turnstile = await verifyTurnstileToken(c, body.turnstileToken);
+  if (!turnstile.ok) {
+    return c.json<ProspectScoreToolResponse>(
+      {
+        ok: false,
+        reason: "turnstile_failed",
+        error: turnstile.error
+      },
+      400
+    );
+  }
+
+  const rateLimit = await consumeFreeToolQuota(c, "prospect_score");
+  if (!rateLimit.ok) {
+    return c.json<ProspectScoreToolResponse>(
+      {
+        ok: false,
+        reason: "rate_limited",
+        error: "Daily free tool limit reached. Start free to generate full Prospect Cards.",
+        rateLimit: {
+          remaining: 0,
+          resetAt: rateLimit.resetAt
+        }
+      },
+      429
+    );
+  }
+
+  const offerType = normalizeFirstLineToolOfferType(body.offerType);
+  const metadata = {
+    tool: "prospect-score",
+    domain: extractDomain(sourceUrl),
+    offerType,
+    locale
+  };
+
+  await recordAnalyticsEvent(c, "free_tool_started", "/tools/website-prospect-score-checker", metadata);
+
+  let page: PageSnapshot;
+  try {
+    page = await fetchWebsiteSnapshot(c.env, sourceUrl);
+  } catch (error) {
+    console.error("prospect_score_tool_fetch_failed", error);
+    await recordAnalyticsEvent(c, "free_tool_failed", "/tools/website-prospect-score-checker", {
+      ...metadata,
+      reason: "fetch_failed"
+    });
+    return c.json<ProspectScoreToolResponse>(
+      {
+        ok: false,
+        reason: "fetch_failed",
+        error: "Unable to read enough public website copy from that URL.",
+        rateLimit: {
+          remaining: rateLimit.remaining,
+          resetAt: rateLimit.resetAt
+        }
+      },
+      422
+    );
+  }
+
+  try {
+    const result = generateProspectScoreToolResult({
+      page,
+      locale,
+      offerType
+    });
+    await recordAnalyticsEvent(c, "free_tool_completed", "/tools/website-prospect-score-checker", {
+      ...metadata,
+      generatedWith: result.generatedWith
+    });
+    return c.json<ProspectScoreToolResponse>({
+      ok: true,
+      ...result,
+      sourceUrl: page.url,
+      domain: extractDomain(page.url),
+      lockedFields: ["Full Prospect Card", "First lines", "CSV export"],
+      rateLimit: {
+        remaining: rateLimit.remaining,
+        resetAt: rateLimit.resetAt
+      }
+    });
+  } catch (error) {
+    console.error("prospect_score_tool_generation_failed", error);
+    await recordAnalyticsEvent(c, "free_tool_failed", "/tools/website-prospect-score-checker", {
+      ...metadata,
+      reason: "generation_failed"
+    });
+    return c.json<ProspectScoreToolResponse>(
+      {
+        ok: false,
+        reason: "generation_failed",
+        error: "Unable to score this prospect right now. Try again in a moment.",
+        rateLimit: {
+          remaining: rateLimit.remaining,
+          resetAt: rateLimit.resetAt
+        }
+      },
+      502
+    );
   }
 });
 
@@ -1114,7 +1486,10 @@ app.patch("/api/workspace/icp", async (c) => {
   const tone = normalizeTone(body.tone);
   const targetIndustries = normalizeStringList(body.targetIndustries, DEFAULT_ICP.targetIndustries);
   const targetCountries = normalizeStringList(body.targetCountries, DEFAULT_ICP.targetCountries);
+  const targetCompanySize = cleanText(body.targetCompanySize, DEFAULT_ICP.targetCompanySize || "", 120);
   const offerDescription = cleanText(body.offerDescription, DEFAULT_ICP.offerDescription, 600);
+  const avoidedIndustries = normalizeStringList(body.avoidedIndustries, DEFAULT_ICP.avoidedIndustries);
+  const outputLocale = normalizeScanLocale(body.outputLocale, locale);
   const firstProspectUrl = body.firstProspectUrl ? normalizeAbsoluteUrl(body.firstProspectUrl) : null;
 
   if (body.firstProspectUrl && !firstProspectUrl) {
@@ -1130,8 +1505,11 @@ app.patch("/api/workspace/icp", async (c) => {
         agencyFocus: serviceType,
         targetIndustries,
         targetCountries,
+        targetCompanySize,
         offerDescription,
         tone,
+        avoidedIndustries,
+        outputLocale,
         firstProspectUrl
       },
       source: "sample"
@@ -1150,8 +1528,11 @@ app.patch("/api/workspace/icp", async (c) => {
       serviceType,
       targetIndustries,
       targetCountries,
+      targetCompanySize,
       offerDescription,
       tone,
+      avoidedIndustries,
+      outputLocale,
       firstProspectUrl
     });
 
@@ -1170,7 +1551,7 @@ app.post("/api/billing/checkout", async (c) => {
   const body = (await c.req.json<CheckoutRequest>().catch(() => ({}))) as CheckoutRequest;
   const session = await getAuthenticatedSession(c).catch(() => null);
   const workspaceId = body.workspaceId || session?.workspace_id || (await resolveWorkspaceId(c));
-  const plan = getPlan(body.planId || "starter");
+  const plan = getPlan(body.planId || "pro");
   const checkoutEmail = (body.email?.trim() || session?.email || "").trim().toLowerCase();
 
   if (plan.id === "free") {
@@ -1730,6 +2111,8 @@ app.post("/api/scans", async (c) => {
         await ensureDemoWorkspace(c.env.DB, resolvedWorkspaceId);
       }
 
+      request = await applyWorkspaceIcpDefaults(c.env.DB, resolvedWorkspaceId, request);
+
       const access = await checkScanAccess(c.env.DB, resolvedWorkspaceId, creditsNeeded);
       if (!access.ok) {
         return fail(mapScanAccessReason(access.reason), access.error, 402, false);
@@ -2220,6 +2603,566 @@ function normalizeAbsoluteUrl(value: string): string | null {
   }
 }
 
+function normalizeFirstLineToolLocale(value?: string | null): ScanLocale {
+  return supportedScanLocales.includes(value as ScanLocale) ? (value as ScanLocale) : "en";
+}
+
+function normalizeScanLocale(value?: string | null, fallback: ScanLocale = "en"): ScanLocale {
+  return supportedScanLocales.includes(value as ScanLocale) ? (value as ScanLocale) : fallback;
+}
+
+function normalizeFirstLineToolOfferType(value?: string | null): ServiceType {
+  return value === "seo" || value === "web_design" || value === "marketing" || value === "custom"
+    ? value
+    : DEFAULT_ICP.serviceType;
+}
+
+function normalizeFirstLineToolTone(value?: string | null): Tone {
+  return value === "direct" || value === "casual" || value === "professional" ? value : DEFAULT_ICP.tone;
+}
+
+function isPublicWebsiteUrl(value: string): boolean {
+  try {
+    const parsed = new URL(value);
+    const hostname = parsed.hostname.toLowerCase().replace(/^\[|\]$/g, "");
+
+    if (!["http:", "https:"].includes(parsed.protocol)) {
+      return false;
+    }
+
+    if (
+      hostname === "localhost" ||
+      hostname.endsWith(".localhost") ||
+      hostname.endsWith(".local") ||
+      hostname === "0.0.0.0" ||
+      hostname === "::1" ||
+      hostname.startsWith("fc") ||
+      hostname.startsWith("fd") ||
+      hostname.startsWith("fe80")
+    ) {
+      return false;
+    }
+
+    const ipv4 = hostname.match(/^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/);
+    if (ipv4) {
+      const octets = ipv4.slice(1).map(Number);
+      const [first, second] = octets;
+      return !(
+        first === 10 ||
+        first === 127 ||
+        first === 0 ||
+        (first === 172 && second >= 16 && second <= 31) ||
+        (first === 192 && second === 168) ||
+        (first === 169 && second === 254)
+      );
+    }
+
+    return hostname.includes(".");
+  } catch {
+    return false;
+  }
+}
+
+async function verifyTurnstileToken(c: AppContext, token?: string | null): Promise<{ ok: true } | { ok: false; error: string }> {
+  if (c.env.LEADCUE_TEST_MODE === "1") {
+    return { ok: true };
+  }
+
+  const secret = c.env.TURNSTILE_SECRET_KEY?.trim();
+  if (!secret) {
+    return { ok: true };
+  }
+
+  if (!token?.trim()) {
+    return { ok: false, error: "Complete the verification before generating first lines." };
+  }
+
+  const form = new FormData();
+  form.set("secret", secret);
+  form.set("response", token);
+  const remoteIp = clientIp(c);
+  if (remoteIp) {
+    form.set("remoteip", remoteIp);
+  }
+
+  try {
+    const response = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
+      method: "POST",
+      body: form
+    });
+    const data = (await response.json()) as { success?: boolean };
+    return data.success ? { ok: true } : { ok: false, error: "Verification failed. Refresh and try again." };
+  } catch {
+    return { ok: false, error: "Verification is unavailable right now. Try again in a moment." };
+  }
+}
+
+async function consumeFirstLineToolQuota(
+  c: AppContext
+): Promise<{ ok: true; remaining: number; resetAt: string } | { ok: false; resetAt: string }> {
+  return consumeFreeToolQuota(c, "first_line");
+}
+
+async function consumeFreeToolQuota(
+  c: AppContext,
+  toolKey: string
+): Promise<{ ok: true; remaining: number; resetAt: string } | { ok: false; resetAt: string }> {
+  const limit = Math.max(1, Number.parseInt(c.env.FREE_TOOL_DAILY_LIMIT || "5", 10) || 5);
+  const resetAt = nextUtcMidnightIso();
+
+  if (c.env.LEADCUE_TEST_MODE === "1") {
+    return { ok: true, remaining: Math.max(0, limit - 1), resetAt };
+  }
+
+  if (!c.env.CONFIG) {
+    return { ok: true, remaining: Math.max(0, limit - 1), resetAt };
+  }
+
+  const key = `free_tool:${toolKey}:${new Date().toISOString().slice(0, 10)}:${await shortHash(clientIp(c) || "anonymous")}`;
+  const current = Number.parseInt((await c.env.CONFIG.get(key)) || "0", 10) || 0;
+  if (current >= limit) {
+    return { ok: false, resetAt };
+  }
+
+  await c.env.CONFIG.put(key, String(current + 1), { expirationTtl: secondsUntilUtcMidnight() });
+  return { ok: true, remaining: Math.max(0, limit - current - 1), resetAt };
+}
+
+async function fetchWebsiteSnapshot(env: Env, url: string): Promise<PageSnapshot> {
+  if (env.LEADCUE_TEST_MODE === "1" && isExampleTestWebsite(url)) {
+    return buildFirstLineToolTestSnapshot(url);
+  }
+
+  const response = await fetch(url, {
+    headers: {
+      Accept: "text/html,application/xhtml+xml",
+      "User-Agent": "LeadCue free website prospecting tool (+https://leadcue.app)"
+    }
+  });
+
+  if (!response.ok) {
+    throw new Error(`Website returned ${response.status}`);
+  }
+
+  const contentType = response.headers.get("content-type") || "";
+  const html = await response.text();
+  const finalUrl = response.url || url;
+  if (!isPublicWebsiteUrl(finalUrl)) {
+    throw new Error("Website redirected to an unsupported URL.");
+  }
+  const title = extractHtmlTitle(html) || extractDomain(finalUrl);
+  const metaDescription = extractMetaDescription(html);
+  const h1 = extractFirstHeading(html);
+  const text = htmlToVisibleText(html);
+
+  if (!text || text.length < 80) {
+    throw new Error(contentType.includes("html") ? "Not enough visible copy." : "Unsupported content type.");
+  }
+
+  return {
+    url: finalUrl,
+    title,
+    metaDescription,
+    h1,
+    text,
+    links: extractHtmlLinks(html, finalUrl)
+  };
+}
+
+function isExampleTestWebsite(url: string): boolean {
+  try {
+    const hostname = new URL(url).hostname.toLowerCase();
+    return hostname === "example.com" || hostname.endsWith(".example.com");
+  } catch {
+    return false;
+  }
+}
+
+function buildFirstLineToolTestSnapshot(url: string): PageSnapshot {
+  const domain = extractDomain(url);
+  return {
+    url,
+    title: "Northstar Analytics | Revenue dashboards for operators",
+    metaDescription: "Revenue analytics dashboards for founders and operators who need cleaner weekly reporting.",
+    h1: "Know which revenue channels are actually working",
+    text:
+      "Northstar Analytics helps founders and operators understand which marketing channels produce qualified pipeline. The homepage explains reporting clearly, but the book-a-call path appears after several sections. The navigation includes product and pricing pages, but customer proof is not visible before a visitor needs to scroll. Teams can request a consultation after reading the methodology.",
+    links: [
+      `https://${domain}/product`,
+      `https://${domain}/pricing`,
+      `https://${domain}/contact`,
+      `https://${domain}/resources`
+    ]
+  };
+}
+
+async function generateFirstLineToolResult(
+  env: Env,
+  input: {
+    page: PageSnapshot;
+    locale: ScanLocale;
+    offerType: ServiceType;
+    tone: Tone;
+  }
+): Promise<{
+  observation: string;
+  firstLines: string[];
+  fitPreview: string;
+  generatedWith: "ai" | "rule_based";
+}> {
+  const request: ScanRequest = {
+    source: "web",
+    locale: input.locale,
+    page: input.page,
+    icp: {
+      ...DEFAULT_ICP,
+      serviceType: input.offerType,
+      tone: input.tone
+    }
+  };
+  const fallback = firstLineToolFallback(request);
+
+  if (env.LEADCUE_TEST_MODE === "1" || !hasAiProviderConfig(env)) {
+    return fallback;
+  }
+
+  const prompt = [
+    "Return JSON only for a free cold email first line generator.",
+    "Schema: {\"observation\":\"short website observation\",\"firstLines\":[\"line 1\",\"line 2\",\"line 3\"]}.",
+    "Rules: each first line must be recipient-facing, natural, low-pressure, and based only on visible website evidence.",
+    "Never mention scanning, crawling, auditing, AI, LeadCue, extracted text, internal analysis, monitoring, or tools.",
+    `Offer type: ${input.offerType.replace("_", " ")}.`,
+    `Tone: ${input.tone}.`,
+    `Locale: ${input.locale}.`,
+    `Website URL: ${input.page.url}.`,
+    `Title: ${input.page.title}.`,
+    `Meta description: ${input.page.metaDescription || "n/a"}.`,
+    `H1: ${input.page.h1 || "n/a"}.`,
+    `Visible copy excerpt: ${input.page.text.slice(0, 2500)}`
+  ].join("\n");
+
+  try {
+    const text = await generateAiText(env, prompt);
+    const parsed = parseFirstLineToolJson(text);
+    const firstLines = normalizeFirstLineToolLines(parsed?.firstLines);
+    const observation = cleanGeneratedText(parsed?.observation, 240);
+
+    if (!observation || firstLines.length < 1) {
+      return fallback;
+    }
+
+    return {
+      observation,
+      firstLines: firstLines.slice(0, 3),
+      fitPreview: fallback.fitPreview,
+      generatedWith: "ai"
+    };
+  } catch {
+    return fallback;
+  }
+}
+
+function firstLineToolFallback(request: ScanRequest): {
+  observation: string;
+  firstLines: string[];
+  fitPreview: string;
+  generatedWith: "rule_based";
+} {
+  const card = buildRuleBasedProspectCard(request);
+  const topSignal = card.opportunitySignals[0];
+  return {
+    observation: topSignal?.signal || card.fitReason,
+    firstLines: normalizeFirstLineToolLines(card.firstLines).slice(0, 3),
+    fitPreview: card.fitScore >= 78 ? "Strong possible fit" : "Possible fit",
+    generatedWith: "rule_based"
+  };
+}
+
+async function generateOpportunityFinderToolResult(
+  env: Env,
+  input: {
+    page: PageSnapshot;
+    locale: ScanLocale;
+    offerType: ServiceType;
+  }
+): Promise<{
+  opportunities: OpportunitySignal[];
+  fitPreview: {
+    label: string;
+    score: number;
+    reason: string;
+    confidence: number;
+  };
+  generatedWith: "ai" | "rule_based";
+}> {
+  const card = buildRuleBasedProspectCard({
+    source: "web",
+    locale: input.locale,
+    page: input.page,
+    icp: {
+      ...DEFAULT_ICP,
+      serviceType: input.offerType,
+      tone: "professional"
+    }
+  });
+  return {
+    opportunities: normalizeOpportunityFinderSignals(card.opportunitySignals, input.page).slice(0, 3),
+    fitPreview: {
+      label: card.fitScore >= 82 ? "Strong opportunity fit" : card.fitScore >= 70 ? "Worth reviewing" : "Needs more evidence",
+      score: card.fitScore,
+      reason: card.fitReason,
+      confidence: Math.round(card.confidenceScore * 100)
+    },
+    generatedWith: env.LEADCUE_TEST_MODE === "1" || !hasAiProviderConfig(env) ? "rule_based" : "rule_based"
+  };
+}
+
+function normalizeOpportunityFinderSignals(signals: OpportunitySignal[], page: PageSnapshot): OpportunitySignal[] {
+  const fallbackSignals: OpportunitySignal[] = [
+    {
+      category: "web_design",
+      signal: "The main next step could be easier to spot for visitors who are already interested.",
+      reason: "A clearer contact, demo, or booking path can make outreach about a specific conversion improvement instead of a generic redesign pitch.",
+      source: page.h1 ? `Homepage H1: ${page.h1}` : page.url
+    },
+    {
+      category: "marketing",
+      signal: "Customer proof may need to appear earlier in the buyer journey.",
+      reason: "Proof, cases, or outcomes give you a concrete trust angle to mention before asking for a call.",
+      source: page.metaDescription ? `Meta description: ${page.metaDescription}` : page.url
+    },
+    {
+      category: "seo",
+      signal: "The site may have room for stronger educational or comparison content.",
+      reason: "A content gap can become a lightweight outreach angle for SEO or marketing services.",
+      source: page.links.length ? page.links.slice(0, 3).join(", ") : page.url
+    }
+  ];
+  const merged = [...signals, ...fallbackSignals];
+  const seen = new Set<string>();
+  return merged.filter((signal) => {
+    const key = `${signal.category}:${signal.signal}`.toLowerCase();
+    if (seen.has(key)) {
+      return false;
+    }
+    seen.add(key);
+    return true;
+  });
+}
+
+function generateProspectScoreToolResult(input: {
+  page: PageSnapshot;
+  locale: ScanLocale;
+  offerType: ServiceType;
+}): {
+  score: number;
+  label: string;
+  summary: string;
+  dimensions: ProspectScoreDimension[];
+  strongestSignal: OpportunitySignal;
+  generatedWith: "rule_based";
+} {
+  const card = buildRuleBasedProspectCard({
+    source: "web",
+    locale: input.locale,
+    page: input.page,
+    icp: {
+      ...DEFAULT_ICP,
+      serviceType: input.offerType,
+      tone: "professional"
+    }
+  });
+  const dimensions = buildProspectScoreDimensions(card, input.page);
+  const averageDimensionScore = Math.round(dimensions.reduce((sum, item) => sum + item.score, 0) / dimensions.length);
+  const score = clampScore(Math.round(card.fitScore * 0.65 + averageDimensionScore * 0.35));
+
+  return {
+    score,
+    label: score >= 82 ? "Strong prospect fit" : score >= 70 ? "Worth reviewing" : score >= 55 ? "Needs more evidence" : "Weak fit for now",
+    summary: card.fitReason,
+    dimensions,
+    strongestSignal: normalizeOpportunityFinderSignals(card.opportunitySignals, input.page)[0],
+    generatedWith: "rule_based"
+  };
+}
+
+function buildProspectScoreDimensions(card: ProspectCard, page: PageSnapshot): ProspectScoreDimension[] {
+  const topSignal = card.opportunitySignals[0];
+  return [
+    {
+      label: "Commercial fit",
+      score: clampScore(card.fitScore),
+      reason: card.fitReason,
+      evidence: page.h1 ? `Homepage H1: ${page.h1}` : page.title
+    },
+    {
+      label: "Website evidence",
+      score: clampScore(Math.round(card.confidenceScore * 100)),
+      reason: topSignal?.reason || "The page has enough visible copy to support a source-backed review.",
+      evidence: topSignal?.source || page.metaDescription || page.url
+    },
+    {
+      label: "Contact path",
+      score: clampScore(card.contactPoints.contactPages.length ? 82 : page.links.some((link) => /contact|demo|book|pricing/i.test(link)) ? 74 : 58),
+      reason: card.contactPoints.contactPages.length
+        ? "There is a visible path for next-step research before outreach."
+        : "The next step may require a manual check before this prospect is ready for outreach.",
+      evidence: card.contactPoints.contactPages[0] || page.links.find((link) => /contact|demo|book|pricing/i.test(link)) || page.url
+    },
+    {
+      label: "Outreach readiness",
+      score: clampScore(card.firstLines.length && card.opportunitySignals.length ? 78 : 62),
+      reason: card.opportunitySignals.length
+        ? "At least one website-backed signal can be turned into a low-pressure first touch."
+        : "The prospect needs a stronger reason to contact before it belongs in an outreach list.",
+      evidence: card.firstLines[0] || card.summary
+    }
+  ];
+}
+
+function clampScore(value: number): number {
+  return Math.max(0, Math.min(100, Math.round(value)));
+}
+
+function parseFirstLineToolJson(value: string): { observation?: unknown; firstLines?: unknown } | null {
+  try {
+    return JSON.parse(value) as { observation?: unknown; firstLines?: unknown };
+  } catch {
+    const match = value.match(/\{[\s\S]*\}/);
+    if (!match) {
+      return null;
+    }
+    try {
+      return JSON.parse(match[0]) as { observation?: unknown; firstLines?: unknown };
+    } catch {
+      return null;
+    }
+  }
+}
+
+function normalizeFirstLineToolLines(value: unknown): string[] {
+  const source = Array.isArray(value) ? value : [];
+  const lines = source
+    .map((item) => cleanGeneratedText(item, 260))
+    .filter((item): item is string => Boolean(item && !isUnsafeRecipientText(item)));
+
+  return lines.length
+    ? [...new Set(lines)]
+    : [
+        "I noticed the website explains the offer clearly, but the next step for interested visitors could be easier to spot.",
+        "Your site gives people a good sense of what you do; one small opportunity may be making the strongest proof easier to find.",
+        "I liked how the service is positioned, and one thing that stood out is the path from interest to action could be more direct."
+      ];
+}
+
+function cleanGeneratedText(value: unknown, limit: number): string {
+  return typeof value === "string" ? value.replace(/\s+/g, " ").trim().slice(0, limit) : "";
+}
+
+function isUnsafeRecipientText(value: string): boolean {
+  return /\b(scanned|crawled|audit|audited|AI|LeadCue|extracted text|crawler|monitoring|my tool|our tool)\b/i.test(value);
+}
+
+function extractHtmlTitle(html: string): string {
+  return decodeHtml(html.match(/<title[^>]*>([\s\S]*?)<\/title>/i)?.[1] || "").slice(0, 160);
+}
+
+function extractMetaDescription(html: string): string {
+  const match =
+    html.match(/<meta[^>]+name=["']description["'][^>]+content=["']([^"']+)["'][^>]*>/i) ||
+    html.match(/<meta[^>]+content=["']([^"']+)["'][^>]+name=["']description["'][^>]*>/i);
+  return decodeHtml(match?.[1] || "").slice(0, 320);
+}
+
+function extractFirstHeading(html: string): string {
+  return decodeHtml(html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/i)?.[1]?.replace(/<[^>]+>/g, " ") || "").slice(0, 180);
+}
+
+function extractHtmlLinks(html: string, baseUrl: string): string[] {
+  const links = [...html.matchAll(/<a[^>]+href=["']([^"']+)["'][^>]*>/gi)]
+    .map((match) => {
+      try {
+        const url = new URL(decodeHtml(match[1]), baseUrl);
+        url.hash = "";
+        return ["http:", "https:"].includes(url.protocol) ? url.toString() : "";
+      } catch {
+        return "";
+      }
+    })
+    .filter(Boolean);
+  return [...new Set(links)].slice(0, 80);
+}
+
+function htmlToVisibleText(html: string): string {
+  return decodeHtml(
+    html
+      .replace(/<script[\s\S]*?<\/script>/gi, " ")
+      .replace(/<style[\s\S]*?<\/style>/gi, " ")
+      .replace(/<noscript[\s\S]*?<\/noscript>/gi, " ")
+      .replace(/<svg[\s\S]*?<\/svg>/gi, " ")
+      .replace(/<[^>]+>/g, " ")
+  )
+    .replace(/\s+/g, " ")
+    .trim()
+    .slice(0, 8000);
+}
+
+function decodeHtml(value: string): string {
+  return value
+    .replace(/&nbsp;/g, " ")
+    .replace(/&amp;/g, "&")
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&#(\d+);/g, (_match, code) => String.fromCharCode(Number(code)))
+    .trim();
+}
+
+async function recordAnalyticsEvent(c: AppContext, eventName: string, pagePath: string | null, metadata: Record<string, unknown>) {
+  if (!c.env.DB) {
+    return;
+  }
+
+  const session = await getAuthenticatedSession(c).catch(() => null);
+  await c.env.DB.prepare(
+    `INSERT INTO analytics_events
+      (id, user_id, workspace_id, session_id, event_name, page_path, metadata_json, created_at)
+     VALUES (?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)`
+  )
+    .bind(
+      `evt_${crypto.randomUUID()}`,
+      session?.user_id || null,
+      session?.workspace_id || null,
+      session?.session_id || null,
+      eventName,
+      pagePath,
+      JSON.stringify(metadata)
+    )
+    .run()
+    .catch((error) => console.error("analytics_event_failed", error));
+}
+
+function clientIp(c: AppContext): string {
+  return (
+    c.req.header("CF-Connecting-IP") ||
+    c.req.header("X-Forwarded-For")?.split(",")[0]?.trim() ||
+    c.req.header("X-Real-IP") ||
+    ""
+  );
+}
+
+function nextUtcMidnightIso(): string {
+  const reset = new Date();
+  reset.setUTCDate(reset.getUTCDate() + 1);
+  reset.setUTCHours(0, 0, 0, 0);
+  return reset.toISOString();
+}
+
+function secondsUntilUtcMidnight(): number {
+  return Math.max(60, Math.ceil((new Date(nextUtcMidnightIso()).getTime() - Date.now()) / 1000));
+}
+
 async function upsertWorkspaceIcp(
   c: AppContext,
   input: {
@@ -2227,8 +3170,11 @@ async function upsertWorkspaceIcp(
     serviceType: string;
     targetIndustries: string[];
     targetCountries: string[];
+    targetCompanySize: string;
     offerDescription: string;
     tone: string;
+    avoidedIndustries: string[];
+    outputLocale: ScanLocale;
     firstProspectUrl: string | null;
   }
 ) {
@@ -2236,18 +3182,23 @@ async function upsertWorkspaceIcp(
   const session = await getAuthenticatedSession(c);
   const targetIndustries = input.targetIndustries.join(", ");
   const targetCountries = input.targetCountries.join(", ");
+  const avoidedIndustries = input.avoidedIndustries.join(", ");
+  await ensureIcpProfileOutputLocaleColumn(db);
 
   await db
     .prepare(
       `INSERT INTO icp_profiles
-        (id, workspace_id, service_type, target_industries, target_countries, target_company_size, offer_description, tone, avoided_industries, updated_at)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
+        (id, workspace_id, service_type, target_industries, target_countries, target_company_size, offer_description, tone, avoided_industries, output_locale, updated_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
        ON CONFLICT(workspace_id) DO UPDATE SET
          service_type = excluded.service_type,
          target_industries = excluded.target_industries,
          target_countries = excluded.target_countries,
+         target_company_size = excluded.target_company_size,
          offer_description = excluded.offer_description,
          tone = excluded.tone,
+         avoided_industries = excluded.avoided_industries,
+         output_locale = excluded.output_locale,
          updated_at = CURRENT_TIMESTAMP`
     )
     .bind(
@@ -2256,10 +3207,11 @@ async function upsertWorkspaceIcp(
       input.serviceType,
       targetIndustries,
       targetCountries,
-      DEFAULT_ICP.targetCompanySize,
+      input.targetCompanySize,
       input.offerDescription,
       input.tone,
-      DEFAULT_ICP.avoidedIndustries.join(", ")
+      avoidedIndustries,
+      input.outputLocale
     )
     .run();
 
@@ -2722,7 +3674,7 @@ function sampleAnalyticsSummary(locale: ScanLocale = "en") {
     },
     topPages: [
       { path: "/", count: 14 },
-      { path: "/templates/crm-csv-field-mapping", count: 9 },
+      { path: "/templates/csv-field-mapping", count: 9 },
       { path: "/templates/cold-email-first-line", count: 7 },
       { path: "/integrations/hubspot-csv-export", count: 5 }
     ],
@@ -2749,7 +3701,7 @@ function sampleAnalyticsSummary(locale: ScanLocale = "en") {
       {
         id: "evt_sample_tool",
         name: "product_tool_primary_click",
-        pagePath: "/templates/crm-csv-field-mapping",
+        pagePath: "/templates/csv-field-mapping",
         createdAt: new Date(Date.now() - 1000 * 60 * 46).toISOString(),
         metadataSummary: analytics.eventMetadata.hubSpotMappingCta
       }
@@ -3075,6 +4027,7 @@ async function upsertWorkspaceBundle(
   const targetIndustries = input.targetIndustries?.trim() || DEFAULT_ICP.targetIndustries.join(", ");
   const offerDescription = input.offerDescription?.trim() || DEFAULT_ICP.offerDescription;
   const subscriptionStatus = input.selectedPlan.id === "free" ? "active" : "pending_checkout";
+  await ensureIcpProfileOutputLocaleColumn(db);
 
   await db.batch([
     db
@@ -3105,12 +4058,17 @@ async function upsertWorkspaceBundle(
     db
       .prepare(
         `INSERT INTO icp_profiles
-          (id, workspace_id, service_type, target_industries, target_countries, target_company_size, offer_description, tone, avoided_industries, updated_at)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
+          (id, workspace_id, service_type, target_industries, target_countries, target_company_size, offer_description, tone, avoided_industries, output_locale, updated_at)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
          ON CONFLICT(workspace_id) DO UPDATE SET
            service_type = excluded.service_type,
            target_industries = excluded.target_industries,
+           target_countries = excluded.target_countries,
+           target_company_size = excluded.target_company_size,
            offer_description = excluded.offer_description,
+           tone = excluded.tone,
+           avoided_industries = excluded.avoided_industries,
+           output_locale = excluded.output_locale,
            updated_at = CURRENT_TIMESTAMP`
       )
       .bind(
@@ -3122,7 +4080,8 @@ async function upsertWorkspaceBundle(
         DEFAULT_ICP.targetCompanySize,
         offerDescription,
         DEFAULT_ICP.tone,
-        DEFAULT_ICP.avoidedIndustries.join(", ")
+        DEFAULT_ICP.avoidedIndustries.join(", "),
+        DEFAULT_ICP.outputLocale || "en"
       ),
     db
       .prepare(
@@ -3424,8 +4383,11 @@ function sampleWorkspaceSnapshot(workspaceId: string, locale: ScanLocale = "en")
       agencyFocus: "web_design",
       targetIndustries: sampleContent.targetIndustries,
       targetCountries: sampleContent.targetCountries,
+      targetCompanySize: DEFAULT_ICP.targetCompanySize || "",
       offerDescription: sampleContent.offerDescription,
       tone: DEFAULT_ICP.tone,
+      avoidedIndustries: DEFAULT_ICP.avoidedIndustries,
+      outputLocale: locale,
       agencyWebsite: "https://leadcue.app",
       firstProspectUrl: sampleCard.website
     },
@@ -3451,10 +4413,12 @@ function sampleWorkspaceSnapshot(workspaceId: string, locale: ScanLocale = "en")
 }
 
 async function getWorkspaceSetup(db: D1Database, workspaceId: string) {
+  await ensureIcpProfileOutputLocaleColumn(db);
+
   const [profile, signupContext] = await Promise.all([
     db
       .prepare(
-        `SELECT service_type, target_industries, target_countries, offer_description, tone
+        `SELECT service_type, target_industries, target_countries, target_company_size, offer_description, tone, avoided_industries, output_locale
          FROM icp_profiles
          WHERE workspace_id = ?
          LIMIT 1`
@@ -3478,11 +4442,51 @@ async function getWorkspaceSetup(db: D1Database, workspaceId: string) {
     agencyFocus: profile?.service_type || signupContext?.agency_focus || null,
     targetIndustries: splitCsv(profile?.target_industries ?? signupContext?.target_industries, DEFAULT_ICP.targetIndustries),
     targetCountries: splitCsv(profile?.target_countries, DEFAULT_ICP.targetCountries),
+    targetCompanySize: profile?.target_company_size || DEFAULT_ICP.targetCompanySize || "",
     offerDescription: profile?.offer_description || DEFAULT_ICP.offerDescription,
     tone: profile?.tone || DEFAULT_ICP.tone,
+    avoidedIndustries: splitCsv(profile?.avoided_industries, DEFAULT_ICP.avoidedIndustries),
+    outputLocale: normalizeScanLocale(profile?.output_locale, DEFAULT_ICP.outputLocale || "en"),
     agencyWebsite: signupContext?.agency_website || null,
     firstProspectUrl: signupContext?.first_prospect_url || null
   };
+}
+
+async function applyWorkspaceIcpDefaults(db: D1Database, workspaceId: string, request: ScanRequest): Promise<ScanRequest> {
+  const setup = await getWorkspaceSetup(db, workspaceId);
+  const workspaceIcp = {
+    serviceType: normalizeServiceType(setup.serviceType),
+    targetIndustries: setup.targetIndustries,
+    targetCountries: setup.targetCountries,
+    targetCompanySize: setup.targetCompanySize,
+    offerDescription: setup.offerDescription,
+    tone: normalizeTone(setup.tone),
+    avoidedIndustries: setup.avoidedIndustries,
+    outputLocale: setup.outputLocale
+  };
+  const requestIcp = request.icp || {};
+  return {
+    ...request,
+    locale: request.locale || setup.outputLocale,
+    icp: {
+      ...workspaceIcp,
+      ...requestIcp,
+      targetIndustries: requestIcp.targetIndustries?.length ? requestIcp.targetIndustries : workspaceIcp.targetIndustries,
+      targetCountries: requestIcp.targetCountries?.length ? requestIcp.targetCountries : workspaceIcp.targetCountries,
+      avoidedIndustries: requestIcp.avoidedIndustries?.length ? requestIcp.avoidedIndustries : workspaceIcp.avoidedIndustries
+    }
+  };
+}
+
+async function ensureIcpProfileOutputLocaleColumn(db: D1Database): Promise<void> {
+  try {
+    await db.prepare(`ALTER TABLE icp_profiles ADD COLUMN output_locale TEXT NOT NULL DEFAULT 'en'`).run();
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    if (!/duplicate column name|already exists/i.test(message)) {
+      throw error;
+    }
+  }
 }
 
 function splitCsv(value: string | null | undefined, fallback: string[] = []) {
@@ -3655,15 +4659,11 @@ async function stripePost(env: Env, path: string, body: URLSearchParams) {
 }
 
 function stripePriceId(env: Env, planId: PricingPlan["id"]): string | null {
-  if (planId === "starter") {
-    return cleanStripeValue(env.STRIPE_PRICE_STARTER);
-  }
-
   if (planId === "pro") {
     return cleanStripeValue(env.STRIPE_PRICE_PRO);
   }
 
-  if (planId === "agency") {
+  if (planId === "power") {
     return cleanStripeValue(env.STRIPE_PRICE_AGENCY);
   }
 
@@ -4298,16 +5298,12 @@ function planFromStripePrice(env: Env, priceId?: string): PricingPlan | null {
     return null;
   }
 
-  if (priceId === env.STRIPE_PRICE_STARTER) {
-    return getPlan("starter");
-  }
-
   if (priceId === env.STRIPE_PRICE_PRO) {
     return getPlan("pro");
   }
 
   if (priceId === env.STRIPE_PRICE_AGENCY) {
-    return getPlan("agency");
+    return getPlan("power");
   }
 
   return null;
@@ -4332,6 +5328,7 @@ function stripeUnixToIso(value: number | undefined): string | null {
 async function ensureDemoWorkspace(db: D1Database, workspaceId: string) {
   const userId = "user_demo";
   const sampleContent = getSampleLocaleContent("en");
+  await ensureIcpProfileOutputLocaleColumn(db);
 
   await db.batch([
     db
@@ -4358,8 +5355,8 @@ async function ensureDemoWorkspace(db: D1Database, workspaceId: string) {
     db
       .prepare(
         `INSERT OR IGNORE INTO icp_profiles
-          (id, workspace_id, service_type, target_industries, target_countries, target_company_size, offer_description, tone, avoided_industries)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`
+          (id, workspace_id, service_type, target_industries, target_countries, target_company_size, offer_description, tone, avoided_industries, output_locale)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
       )
       .bind(
         "icp_demo",
@@ -4370,7 +5367,8 @@ async function ensureDemoWorkspace(db: D1Database, workspaceId: string) {
         DEFAULT_ICP.targetCompanySize,
         DEFAULT_ICP.offerDescription,
         DEFAULT_ICP.tone,
-        DEFAULT_ICP.avoidedIndustries.join(", ")
+        DEFAULT_ICP.avoidedIndustries.join(", "),
+        DEFAULT_ICP.outputLocale || "en"
       )
   ]);
 }
@@ -5118,8 +6116,11 @@ interface IcpProfileRow {
   service_type: string | null;
   target_industries: string | null;
   target_countries: string | null;
+  target_company_size: string | null;
   offer_description: string | null;
   tone: string | null;
+  avoided_industries: string | null;
+  output_locale: string | null;
 }
 
 interface SignupContextRow {

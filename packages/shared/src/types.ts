@@ -13,6 +13,7 @@ export interface ICPProfile {
   offerDescription: string;
   tone: Tone;
   avoidedIndustries: string[];
+  outputLocale?: ScanLocale;
 }
 
 export interface PageSnapshot {
@@ -162,6 +163,139 @@ export interface ScanRequest {
   queueSource?: QueueSource;
 }
 
+export interface FirstLineToolRequest {
+  websiteUrl?: string;
+  offerType?: ServiceType;
+  tone?: Tone;
+  locale?: ScanLocale;
+  turnstileToken?: string;
+}
+
+export interface FirstLineToolSuccessResponse {
+  ok: true;
+  observation: string;
+  firstLines: string[];
+  fitPreview: string;
+  sourceUrl: string;
+  domain: string;
+  lockedFields: string[];
+  generatedWith: "ai" | "rule_based";
+  rateLimit?: {
+    remaining: number;
+    resetAt: string;
+  };
+}
+
+export interface FirstLineToolFailureResponse {
+  ok: false;
+  error: string;
+  reason:
+    | "validation_failed"
+    | "turnstile_failed"
+    | "rate_limited"
+    | "fetch_failed"
+    | "generation_failed";
+  rateLimit?: {
+    remaining: number;
+    resetAt: string;
+  };
+}
+
+export type FirstLineToolResponse = FirstLineToolSuccessResponse | FirstLineToolFailureResponse;
+
+export interface OpportunityFinderToolRequest {
+  websiteUrl?: string;
+  offerType?: ServiceType;
+  locale?: ScanLocale;
+  turnstileToken?: string;
+}
+
+export interface OpportunityFinderFitPreview {
+  label: string;
+  score: number;
+  reason: string;
+  confidence: number;
+}
+
+export interface OpportunityFinderToolSuccessResponse {
+  ok: true;
+  opportunities: OpportunitySignal[];
+  fitPreview: OpportunityFinderFitPreview;
+  sourceUrl: string;
+  domain: string;
+  lockedFields: string[];
+  generatedWith: "ai" | "rule_based";
+  rateLimit?: {
+    remaining: number;
+    resetAt: string;
+  };
+}
+
+export interface OpportunityFinderToolFailureResponse {
+  ok: false;
+  error: string;
+  reason:
+    | "validation_failed"
+    | "turnstile_failed"
+    | "rate_limited"
+    | "fetch_failed"
+    | "generation_failed";
+  rateLimit?: {
+    remaining: number;
+    resetAt: string;
+  };
+}
+
+export type OpportunityFinderToolResponse = OpportunityFinderToolSuccessResponse | OpportunityFinderToolFailureResponse;
+
+export interface ProspectScoreToolRequest {
+  websiteUrl?: string;
+  offerType?: ServiceType;
+  locale?: ScanLocale;
+  turnstileToken?: string;
+}
+
+export interface ProspectScoreDimension {
+  label: string;
+  score: number;
+  reason: string;
+  evidence: string;
+}
+
+export interface ProspectScoreToolSuccessResponse {
+  ok: true;
+  score: number;
+  label: string;
+  summary: string;
+  dimensions: ProspectScoreDimension[];
+  strongestSignal: OpportunitySignal;
+  sourceUrl: string;
+  domain: string;
+  lockedFields: string[];
+  generatedWith: "ai" | "rule_based";
+  rateLimit?: {
+    remaining: number;
+    resetAt: string;
+  };
+}
+
+export interface ProspectScoreToolFailureResponse {
+  ok: false;
+  error: string;
+  reason:
+    | "validation_failed"
+    | "turnstile_failed"
+    | "rate_limited"
+    | "fetch_failed"
+    | "generation_failed";
+  rateLimit?: {
+    remaining: number;
+    resetAt: string;
+  };
+}
+
+export type ProspectScoreToolResponse = ProspectScoreToolSuccessResponse | ProspectScoreToolFailureResponse;
+
 export type ScanFailureReason =
   | "validation_failed"
   | "workspace_unavailable"
@@ -222,8 +356,11 @@ export interface IcpUpdateRequest {
   serviceType?: ServiceType;
   targetIndustries?: string[];
   targetCountries?: string[];
+  targetCompanySize?: string;
   offerDescription?: string;
   tone?: Tone;
+  avoidedIndustries?: string[];
+  outputLocale?: ScanLocale;
   firstProspectUrl?: string | null;
 }
 
@@ -240,7 +377,7 @@ export interface LeadListItem {
 }
 
 export interface PricingPlan {
-  id: "free" | "starter" | "pro" | "agency";
+  id: "free" | "pro" | "power";
   name: string;
   price: number;
   monthlyCredits: number;

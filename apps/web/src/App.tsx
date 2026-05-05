@@ -12,11 +12,18 @@ import {
   prospectCrmFieldModes,
   prospectExportFields,
   prospectExportPresets,
+  supportedScanLocales,
   type ExportRequest,
   type ExportRun,
+  type FirstLineToolResponse,
+  type FirstLineToolSuccessResponse,
   type IcpUpdateRequest,
   type LeadListItem,
   type LeadHandoffStatus,
+  type OpportunityFinderToolResponse,
+  type OpportunityFinderToolSuccessResponse,
+  type ProspectScoreToolResponse,
+  type ProspectScoreToolSuccessResponse,
   type ProspectContextUpdateRequest,
   type ProspectCrmFieldMode,
   type ProspectExportFieldKey,
@@ -31,6 +38,7 @@ import {
   type QueueSource,
   type ScanFailureResponse,
   type ScanHistoryItem,
+  type ScanLocale,
   type ScanRequest,
   type ScanResponse,
   type ServiceType,
@@ -53,6 +61,24 @@ import { buildLocalePath, defaultSiteLocale, getLocaleHtmlLang, localizeHref, pa
 import { getAppUi, type AppUi } from "./appContent";
 import "./upgrades.css";
 import "./dashboard-shell.css";
+
+type TurnstileRenderOptions = {
+  sitekey: string;
+  callback: (token: string) => void;
+  "expired-callback"?: () => void;
+  "error-callback"?: () => void;
+  theme?: "light" | "dark";
+};
+
+declare global {
+  interface Window {
+    turnstile?: {
+      render: (container: HTMLElement, options: TurnstileRenderOptions) => string;
+      reset: (widgetId?: string) => void;
+      remove: (widgetId?: string) => void;
+    };
+  }
+}
 
 type IconName =
   | "arrow"
@@ -80,7 +106,7 @@ type LeadSortOption = "newest" | "fit_desc" | "confidence_desc" | "company_asc";
 type ActivityChangedField = ProspectPipelineActivity["changedFields"][number];
 type ActivityFieldFilter = "all" | ActivityChangedField;
 type ProspectCardTab = "overview" | "signals" | "contacts" | "outreach" | "email" | "sources" | "export";
-type AppSection = "dashboard" | "queue" | "qualified" | "exports" | "settings" | "billing" | "analytics";
+type AppSection = "dashboard" | "queue" | "leadDetail" | "qualified" | "exports" | "settings" | "billing" | "analytics";
 type BatchSourceOption = "manual" | "csv" | "apollo" | "clay" | "directory";
 type ReviewQueueFilter = "all" | "ready" | "researching";
 type PipelineContextSaveResult = {
@@ -105,11 +131,13 @@ type ReviewQueueRow = {
   websiteUrl: string;
   source: QueueSource;
   status: "ready" | "researching" | "qualified";
+  researchStatus: WorkspaceResearchStatus;
   fitScore: number | null;
   confidencePercent: number | null;
   leadId: string | null;
   note: string;
   createdAt: string;
+  updatedAt: string | null;
 };
 
 const scanHistoryFilters: ScanHistoryFilter[] = ["all", "completed", "failed", "replayed", "processing"];
@@ -353,8 +381,11 @@ type WorkspaceSnapshot = {
     agencyFocus: string | null;
     targetIndustries: string[];
     targetCountries: string[];
+    targetCompanySize: string;
     offerDescription: string;
     tone: string;
+    avoidedIndustries: string[];
+    outputLocale: ScanLocale;
     agencyWebsite: string | null;
     firstProspectUrl: string | null;
   };
@@ -468,8 +499,11 @@ type IcpFormState = {
   serviceType: string;
   targetIndustries: string;
   targetCountries: string;
+  targetCompanySize: string;
   offerDescription: string;
   tone: string;
+  avoidedIndustries: string;
+  outputLocale: ScanLocale;
   firstProspectUrl: string;
 };
 
@@ -488,8 +522,11 @@ function buildSampleWorkspace(locale: SiteLocaleCode, leadCount: number, firstPr
       agencyFocus: "web_design",
       targetIndustries: sampleContent.targetIndustries,
       targetCountries: sampleContent.targetCountries,
+      targetCompanySize: DEFAULT_ICP.targetCompanySize || "",
       offerDescription: sampleContent.offerDescription,
       tone: DEFAULT_ICP.tone,
+      avoidedIndustries: DEFAULT_ICP.avoidedIndustries,
+      outputLocale: locale,
       agencyWebsite: "https://leadcue.app",
       firstProspectUrl
     },
@@ -535,7 +572,7 @@ function buildSampleAnalyticsSummary(locale: SiteLocaleCode): AnalyticsSummary {
     },
     topPages: [
       { path: "/", count: 14 },
-      { path: "/templates/crm-csv-field-mapping", count: 9 },
+      { path: "/templates/csv-field-mapping", count: 9 },
       { path: "/templates/cold-email-first-line", count: 7 },
       { path: "/integrations/hubspot-csv-export", count: 5 }
     ],
@@ -563,7 +600,7 @@ function buildSampleAnalyticsSummary(locale: SiteLocaleCode): AnalyticsSummary {
       {
         id: "evt_sample_tool",
         name: "product_tool_primary_click",
-        pagePath: "/templates/crm-csv-field-mapping",
+        pagePath: "/templates/csv-field-mapping",
         createdAt: new Date(Date.now() - 1000 * 60 * 44).toISOString(),
         metadataSummary: analytics.eventMetadata.hubSpotMappingCta
       }
@@ -581,14 +618,35 @@ function icpFormFromSetup(setup: WorkspaceSnapshot["setup"]): IcpFormState {
     serviceType: serviceTypeForFocus(setup.agencyFocus || setup.serviceType),
     targetIndustries: setup.targetIndustries.join(", "),
     targetCountries: setup.targetCountries.join(", "),
+    targetCompanySize: setup.targetCompanySize || DEFAULT_ICP.targetCompanySize || "",
     offerDescription: setup.offerDescription,
     tone: toneForWorkspace(setup.tone),
+    avoidedIndustries: setup.avoidedIndustries.join(", "),
+    outputLocale: scanLocaleForWorkspace(setup.outputLocale),
     firstProspectUrl: setup.firstProspectUrl || ""
   };
 }
 
 const APP_LOCALE_KEY = "leadcue_app_locale";
 const APP_LOCALE_QUERY_KEY = "lc_locale";
+const nonTextInputTypes = new Set([
+  "button",
+  "checkbox",
+  "color",
+  "file",
+  "hidden",
+  "image",
+  "radio",
+  "range",
+  "reset",
+  "submit"
+]);
+
+type BrowserLocationSnapshot = {
+  pathname: string;
+  search: string;
+  hash: string;
+};
 
 function RedirectTo({ href }: { href: string }) {
   useEffect(() => {
@@ -630,8 +688,37 @@ function saveAppLocale(locale: SiteLocaleCode) {
   }
 }
 
+function getBrowserLocationSnapshot(): BrowserLocationSnapshot {
+  return {
+    pathname: window.location.pathname,
+    search: window.location.search,
+    hash: window.location.hash
+  };
+}
+
+function isEditableKeyboardTarget(target: EventTarget | null) {
+  if (!(target instanceof HTMLElement)) {
+    return false;
+  }
+
+  if (target.isContentEditable) {
+    return true;
+  }
+
+  if (target instanceof HTMLTextAreaElement) {
+    return !target.disabled && !target.readOnly;
+  }
+
+  if (target instanceof HTMLInputElement) {
+    return !target.disabled && !target.readOnly && !nonTextInputTypes.has(target.type);
+  }
+
+  return false;
+}
+
 export default function App() {
-  const { locale: urlLocale, path: pathname } = parseSiteLocalePath(window.location.pathname);
+  const [browserLocation, setBrowserLocation] = useState<BrowserLocationSnapshot>(() => getBrowserLocationSnapshot());
+  const { locale: urlLocale, path: pathname } = parseSiteLocalePath(browserLocation.pathname);
   const isAppRoute = pathname.startsWith("/app");
   const hasExplicitUrlLocale = urlLocale !== defaultSiteLocale;
   const requestedAppLocale = readRequestedAppLocale();
@@ -640,6 +727,41 @@ export default function App() {
     : urlLocale;
   const siteUi = getSiteUi(locale);
   const publicSiteContext = useMemo(() => createPublicSiteContextValue(locale, pathname, siteUi), [locale, pathname, siteUi]);
+
+  useEffect(() => {
+    function syncBrowserLocation() {
+      const next = getBrowserLocationSnapshot();
+      setBrowserLocation((current) =>
+        current.pathname === next.pathname && current.search === next.search && current.hash === next.hash ? current : next
+      );
+    }
+
+    window.addEventListener("popstate", syncBrowserLocation);
+    window.addEventListener("hashchange", syncBrowserLocation);
+    window.addEventListener("pageshow", syncBrowserLocation);
+
+    return () => {
+      window.removeEventListener("popstate", syncBrowserLocation);
+      window.removeEventListener("hashchange", syncBrowserLocation);
+      window.removeEventListener("pageshow", syncBrowserLocation);
+    };
+  }, []);
+
+  useEffect(() => {
+    function preventBackspaceHistoryNavigation(event: globalThis.KeyboardEvent) {
+      if (event.key !== "Backspace" || event.defaultPrevented || isEditableKeyboardTarget(event.target)) {
+        return;
+      }
+
+      event.preventDefault();
+    }
+
+    window.addEventListener("keydown", preventBackspaceHistoryNavigation, true);
+
+    return () => {
+      window.removeEventListener("keydown", preventBackspaceHistoryNavigation, true);
+    };
+  }, []);
 
   const isLoginRoute = pathname.startsWith("/login");
   const isResetPasswordRoute = pathname.startsWith("/reset-password");
@@ -680,7 +802,7 @@ export default function App() {
             locale={locale}
             noIndex
           />
-          <DashboardApp />
+          <DashboardApp key={`${browserLocation.pathname}${browserLocation.search}`} />
         </>
       </PublicSiteContext.Provider>
     );
@@ -1281,9 +1403,9 @@ function MarketingSite() {
             </div>
             <div className="homepage-map-grid">
               {home.map.items.map((item, index) => (
-                <a className="homepage-map-card" href={item.href} key={item.href}>
+                <a className="homepage-map-card" href={item.href.startsWith("/") ? localizeHref(item.href) : item.href} key={item.href}>
                   <span className="feature-icon">
-                    <Icon name={(["layers", "scan", "clipboard", "chart", "mail"] as const)[index]} />
+                    <Icon name={(["layers", "target", "scan", "clipboard", "chart", "mail"] as const)[index]} />
                   </span>
                   <small>{item.eyebrow}</small>
                   <strong>{item.title}</strong>
@@ -1496,9 +1618,7 @@ function MarketingSite() {
                     <Icon name="mail" />
                     {plan.id === "free"
                       ? home.pricing.startFreeScan
-                      : plan.id === "agency"
-                        ? home.pricing.startAgencySetup
-                        : formatMessage(home.pricing.startPlan, { plan: plan.name })}
+                      : formatMessage(home.pricing.startPlan, { plan: plan.name })}
                   </a>
                 </article>
               ))}
@@ -1647,8 +1767,10 @@ function MarketingSite() {
           <div className="footer-column">
             <strong>{home.footer.resourcesTitle}</strong>
             <a href={localizeHref("/website-prospecting")}>{seoPages[0]?.category ?? "Website prospecting"}</a>
+            <a href={localizeHref("/tools/website-opportunity-finder")}>{siteUi.content.productNav.opportunityFinder}</a>
+            <a href={localizeHref("/tools/website-prospect-score-checker")}>{siteUi.content.productNav.prospectScore}</a>
             <a href={localizeHref("/cold-email-first-lines")}>{seoPages[2]?.category ?? "Cold email"}</a>
-            <a href={localizeHref("/agency-lead-qualification")}>{seoPages[3]?.category ?? "Lead qualification"}</a>
+            <a href={localizeHref("/prospect-qualification")}>{seoPages[3]?.category ?? "Lead qualification"}</a>
             <a href="#faq">{siteUi.common.faq}</a>
           </div>
           <div className="footer-column">
@@ -1779,9 +1901,9 @@ function SeoContentPageView({ page }: { page: SeoContentPage }) {
         </a>
         <nav className="content-nav" aria-label={siteUi.home.footer.resourcesTitle}>
           <a href={localizeHref("/website-prospecting")}>{siteUi.content.seoNav.strategy}</a>
-          <a href={localizeHref("/use-cases/web-design-agencies")}>{siteUi.content.seoNav.useCases}</a>
+          <a href={localizeHref("/use-cases/web-design-freelancers")}>{siteUi.content.seoNav.useCases}</a>
           <a href={localizeHref("/guides/turn-website-into-cold-email-angle")}>{siteUi.content.seoNav.guides}</a>
-          <a href={localizeHref("/agency-lead-qualification")}>{siteUi.content.seoNav.qualification}</a>
+          <a href={localizeHref("/prospect-qualification")}>{siteUi.content.seoNav.qualification}</a>
         </nav>
         <LanguageSwitcher />
         <a className="button button-small button-primary topbar-back" href={localizeHref("/login")}>
@@ -1911,10 +2033,10 @@ function SeoContentPageView({ page }: { page: SeoContentPage }) {
   );
 }
 
-type CrmMappingMode = "hubspot" | "salesforce" | "pipedrive" | "custom";
+type CsvMappingMode = "hubspot" | "salesforce" | "pipedrive" | "custom";
 
-const requiredCrmFieldKeys = new Set(["company", "website", "owner", "stage"]);
-const recommendedCrmFieldKeys = new Set(["fit", "confidence", "signal", "firstLine", "sourceNotes", "exported"]);
+const requiredCsvFieldKeys = new Set(["company", "website", "followUpStatus", "stage"]);
+const recommendedCsvFieldKeys = new Set(["fit", "confidence", "signal", "firstLine", "sourceNotes", "exported"]);
 
 const agencyToolModes = ["web_design", "seo", "marketing"] as const;
 
@@ -2031,9 +2153,11 @@ function ProductSeoPageView({ page }: { page: ProductSeoPage }) {
         <nav className="content-nav" aria-label={siteUi.home.footer.resourcesTitle}>
           <a href={localizeHref("/tools/prospect-research-chrome-extension")}>{siteUi.content.productNav.extension}</a>
           <a href={localizeHref("/tools/batch-website-review-queue")}>{siteUi.content.productNav.reviewQueue}</a>
-          <a href={localizeHref("/tools/outreach-context-workspace")}>{siteUi.content.productNav.workspace}</a>
-          <a href={localizeHref("/templates/crm-csv-field-mapping")}>{siteUi.content.productNav.csvTool}</a>
+          <a href={localizeHref("/tools/prospecting-dashboard")}>{siteUi.content.productNav.dashboard}</a>
+          <a href={localizeHref("/templates/csv-field-mapping")}>{siteUi.content.productNav.csvTool}</a>
           <a href={localizeHref("/templates/cold-email-first-line")}>{siteUi.content.productNav.firstLines}</a>
+          <a href={localizeHref("/tools/website-opportunity-finder")}>{siteUi.content.productNav.opportunityFinder}</a>
+          <a href={localizeHref("/tools/website-prospect-score-checker")}>{siteUi.content.productNav.prospectScore}</a>
           <a href={localizeHref("/templates/website-prospecting-checklist")}>{siteUi.content.productNav.checklist}</a>
           <a href={localizeHref("/integrations/hubspot-csv-export")}>{siteUi.content.productNav.integrations}</a>
         </nav>
@@ -2226,12 +2350,24 @@ function ProductToolSurface({ page }: { page: ProductSeoPage }) {
     return <ProductWorkflowTool page={page} />;
   }
 
-  if (page.tool === "crm-mapping") {
-    return <CrmFieldMappingTool />;
+  if (page.tool === "tool-hub") {
+    return <FreeToolsHubTool page={page} />;
+  }
+
+  if (page.tool === "field-mapping") {
+    return <CsvFieldMappingTool />;
   }
 
   if (page.tool === "first-line") {
     return <FirstLineTemplateTool />;
+  }
+
+  if (page.tool === "opportunity-finder") {
+    return <WebsiteOpportunityFinderTool />;
+  }
+
+  if (page.tool === "prospect-score") {
+    return <WebsiteProspectScoreTool />;
   }
 
   if (page.tool === "checklist") {
@@ -2275,7 +2411,7 @@ function ProductWorkflowTool({ page }: { page: ProductSeoPage }) {
           <strong>{page.readingTime}</strong>
         </div>
         <div>
-          <span>{siteUi.content.productNav.workspace}</span>
+          <span>{siteUi.content.productNav.dashboard}</span>
           <strong>{siteUi.common.relatedResources}</strong>
         </div>
       </div>
@@ -2301,41 +2437,102 @@ function ProductWorkflowTool({ page }: { page: ProductSeoPage }) {
   );
 }
 
-function CrmFieldMappingTool() {
-  const { siteUi, formatMessage } = usePublicSite();
-  const crmCopy = siteUi.tools.crmMapping;
-  const crmModes = crmCopy.modes;
-  const crmRows = crmCopy.rows;
-  const [mode, setMode] = useState<CrmMappingMode>("hubspot");
-  const [scope, setScope] = useState<"all" | "required" | "recommended">("all");
-  const [customPrefix, setCustomPrefix] = useState("lc_");
-  const [selectedKeys, setSelectedKeys] = useState<string[]>(crmRows.map((row) => row.key));
-  const visibleRows = crmRows.filter((row) => {
-    if (scope === "required") {
-      return requiredCrmFieldKeys.has(row.key);
-    }
-
-    if (scope === "recommended") {
-      return recommendedCrmFieldKeys.has(row.key) || requiredCrmFieldKeys.has(row.key);
-    }
-
-    return true;
-  });
-  const selectedRows = crmRows.filter((row) => selectedKeys.includes(row.key));
-  const missingRequired = Array.from(requiredCrmFieldKeys).filter((key) => !selectedKeys.includes(key));
-  const labelForRow = (row: (typeof crmRows)[number]) =>
-    mode === "custom" && customPrefix.trim() ? `${customPrefix.trim()}${row.labels.custom}` : row.labels[mode];
-  const csvHeader = selectedRows.map((row) => labelForRow(row)).join(",");
-  const csvSample = selectedRows.map((row) => escapeCsvValue(row.sample)).join(",");
-  const csvText = `${csvHeader}\n${csvSample}`;
-  const activeMode = crmModes.find((item) => item.value === mode) ?? crmModes[0];
+function FreeToolsHubTool({ page }: { page: ProductSeoPage }) {
+  const { locale, localizeHref, siteUi } = usePublicSite();
+  const productPageMap = getProductPageMap(locale);
+  const toolPages = page.related
+    .map((slug) => productPageMap[slug])
+    .filter((toolPage): toolPage is ProductSeoPage => Boolean(toolPage));
 
   return (
     <div className="product-tool">
       <div className="product-tool-head">
         <div>
-          <p className="eyebrow">{crmCopy.eyebrow}</p>
-          <h2>{formatMessage(crmCopy.importPrep, { mode: activeMode.label })}</h2>
+          <p className="eyebrow">{page.category}</p>
+          <h2>{page.intent}</h2>
+          <p>{page.description}</p>
+        </div>
+        <div className="tool-actions">
+          <a className="button button-secondary" href={localizeHref("/tools/website-prospect-score-checker")}>
+            <Icon name="target" />
+            {siteUi.content.productNav.prospectScore}
+          </a>
+          <a className="button button-primary" href={localizeHref("/login")}>
+            <Icon name="scan" />
+            {siteUi.common.startFreeScan}
+          </a>
+        </div>
+      </div>
+
+      <div className="tool-advice-grid">
+        {toolPages.map((toolPage, index) => (
+          <a
+            className={index === 0 ? "tool-advice-card tool-advice-card-contrast" : "tool-advice-card"}
+            href={localizeHref(`/${toolPage.slug}`)}
+            key={toolPage.slug}
+            onClick={() => {
+              void trackEvent({
+                name: "free_tools_hub_tool_click",
+                metadata: {
+                  slug: page.slug,
+                  target: toolPage.slug
+                }
+              });
+            }}
+          >
+            <span>{toolPage.readingTime}</span>
+            <h3>{toolPage.title}</h3>
+            <p>{toolPage.description}</p>
+            <ul>
+              {toolPage.heroBullets.slice(0, 2).map((item) => (
+                <li key={item}>
+                  <Icon name="check" />
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </a>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function CsvFieldMappingTool() {
+  const { siteUi, formatMessage } = usePublicSite();
+  const csvCopy = siteUi.tools.csvMapping;
+  const csvModes = csvCopy.modes;
+  const csvRows = csvCopy.rows;
+  const [mode, setMode] = useState<CsvMappingMode>("hubspot");
+  const [scope, setScope] = useState<"all" | "required" | "recommended">("all");
+  const [customPrefix, setCustomPrefix] = useState("lc_");
+  const [selectedKeys, setSelectedKeys] = useState<string[]>(csvRows.map((row) => row.key));
+  const visibleRows = csvRows.filter((row) => {
+    if (scope === "required") {
+      return requiredCsvFieldKeys.has(row.key);
+    }
+
+    if (scope === "recommended") {
+      return recommendedCsvFieldKeys.has(row.key) || requiredCsvFieldKeys.has(row.key);
+    }
+
+    return true;
+  });
+  const selectedRows = csvRows.filter((row) => selectedKeys.includes(row.key));
+  const missingRequired = Array.from(requiredCsvFieldKeys).filter((key) => !selectedKeys.includes(key));
+  const labelForRow = (row: (typeof csvRows)[number]) =>
+    mode === "custom" && customPrefix.trim() ? `${customPrefix.trim()}${row.labels.custom}` : row.labels[mode];
+  const csvHeader = selectedRows.map((row) => labelForRow(row)).join(",");
+  const csvSample = selectedRows.map((row) => escapeCsvValue(row.sample)).join(",");
+  const csvText = `${csvHeader}\n${csvSample}`;
+  const activeMode = csvModes.find((item) => item.value === mode) ?? csvModes[0];
+
+  return (
+    <div className="product-tool">
+      <div className="product-tool-head">
+        <div>
+          <p className="eyebrow">{csvCopy.eyebrow}</p>
+          <h2>{formatMessage(csvCopy.importPrep, { mode: activeMode.label })}</h2>
           <p>{activeMode.copy}</p>
         </div>
         <div className="tool-actions">
@@ -2344,61 +2541,61 @@ function CrmFieldMappingTool() {
             type="button"
             onClick={() => {
               copyText(csvHeader);
-              void trackEvent({ name: "product_tool_copy", metadata: { tool: "crm-mapping", asset: "header", mode } });
+              void trackEvent({ name: "product_tool_copy", metadata: { tool: "csv-mapping", asset: "header", mode } });
             }}
           >
             <Icon name="clipboard" />
-            {crmCopy.copyHeader}
+            {csvCopy.copyHeader}
           </button>
           <button
             className="button button-primary"
             type="button"
             onClick={() => {
               downloadTextFile(`${mode}-leadcue-sample.csv`, csvText);
-              void trackEvent({ name: "product_tool_download", metadata: { tool: "crm-mapping", asset: "sample_csv", mode } });
+              void trackEvent({ name: "product_tool_download", metadata: { tool: "csv-mapping", asset: "sample_csv", mode } });
             }}
           >
             <Icon name="download" />
-            {crmCopy.sampleCsv}
+            {csvCopy.sampleCsv}
           </button>
         </div>
       </div>
 
       <div className="tool-kpi-strip">
         <div>
-          <span>{crmCopy.includedFields}</span>
+          <span>{csvCopy.includedFields}</span>
           <strong>{selectedRows.length}</strong>
         </div>
         <div>
-          <span>{crmCopy.requiredFields}</span>
-          <strong>{requiredCrmFieldKeys.size - missingRequired.length}/{requiredCrmFieldKeys.size}</strong>
+          <span>{csvCopy.requiredFields}</span>
+          <strong>{requiredCsvFieldKeys.size - missingRequired.length}/{requiredCsvFieldKeys.size}</strong>
         </div>
         <div>
-          <span>{crmCopy.bestFor}</span>
-          <strong>{formatMessage(crmCopy.importPrep, { mode: activeMode.label })}</strong>
+          <span>{csvCopy.bestFor}</span>
+          <strong>{formatMessage(csvCopy.importPrep, { mode: activeMode.label })}</strong>
         </div>
       </div>
 
-      <div className="tool-segmented" role="tablist" aria-label={crmCopy.eyebrow}>
-        {crmModes.map((item) => (
+      <div className="tool-segmented" role="tablist" aria-label={csvCopy.eyebrow}>
+        {csvModes.map((item) => (
           <button
             className={mode === item.value ? "is-active" : ""}
             type="button"
             role="tab"
             aria-selected={mode === item.value}
             key={item.value}
-            onClick={() => setMode(item.value as CrmMappingMode)}
+            onClick={() => setMode(item.value as CsvMappingMode)}
           >
             {item.label}
           </button>
         ))}
       </div>
 
-      <div className="tool-segmented tool-segmented-secondary" role="tablist" aria-label={crmCopy.readyChecklist}>
+      <div className="tool-segmented tool-segmented-secondary" role="tablist" aria-label={csvCopy.readyChecklist}>
         {[
-          ["all", crmCopy.scopeAll],
-          ["required", crmCopy.scopeRequired],
-          ["recommended", crmCopy.scopeRecommended]
+          ["all", csvCopy.scopeAll],
+          ["required", csvCopy.scopeRequired],
+          ["recommended", csvCopy.scopeRecommended]
         ].map(([value, label]) => (
           <button
             className={scope === value ? "is-active" : ""}
@@ -2415,14 +2612,14 @@ function CrmFieldMappingTool() {
 
       {mode === "custom" ? (
         <label className="tool-inline-field">
-          <span>{crmCopy.customPrefix}</span>
+          <span>{csvCopy.customPrefix}</span>
           <input value={customPrefix} onChange={(event) => setCustomPrefix(event.currentTarget.value)} placeholder="lc_" />
         </label>
       ) : null}
 
       <div className="field-mapping-grid">
-        <div className="field-picker" aria-label={crmCopy.includedFields}>
-          <strong>{crmCopy.includedFields}</strong>
+        <div className="field-picker" aria-label={csvCopy.includedFields}>
+          <strong>{csvCopy.includedFields}</strong>
           {visibleRows.map((row) => (
             <label key={row.key}>
               <input
@@ -2439,11 +2636,11 @@ function CrmFieldMappingTool() {
           ))}
         </div>
 
-        <div className="mapping-table" aria-label={formatMessage(crmCopy.importPrep, { mode: activeMode.label })}>
+        <div className="mapping-table" aria-label={formatMessage(csvCopy.importPrep, { mode: activeMode.label })}>
           <div className="mapping-table-row mapping-table-head">
-            <span>{crmCopy.mappingField}</span>
-            <span>{crmCopy.mappingGroup}</span>
-            <span>{crmCopy.mappingPurpose}</span>
+            <span>{csvCopy.mappingField}</span>
+            <span>{csvCopy.mappingGroup}</span>
+            <span>{csvCopy.mappingPurpose}</span>
           </div>
           {selectedRows.map((row) => (
             <div className="mapping-table-row" key={row.key}>
@@ -2457,18 +2654,18 @@ function CrmFieldMappingTool() {
 
       <div className="tool-advice-grid">
         <article className="tool-advice-card">
-          <span>{crmCopy.readyChecklist}</span>
-          <strong>{missingRequired.length ? crmCopy.readyMissing : crmCopy.readyComplete}</strong>
+          <span>{csvCopy.readyChecklist}</span>
+          <strong>{missingRequired.length ? csvCopy.readyMissing : csvCopy.readyComplete}</strong>
           <p>
             {missingRequired.length
-              ? formatMessage(crmCopy.readyMissingCopy, { missing: missingRequired.join(", ") })
-              : crmCopy.readyCompleteCopy}
+              ? formatMessage(csvCopy.readyMissingCopy, { missing: missingRequired.join(", ") })
+              : csvCopy.readyCompleteCopy}
           </p>
         </article>
         <article className="tool-advice-card">
-          <span>{crmCopy.bestPractice}</span>
-          <strong>{crmCopy.bestPracticeTitle}</strong>
-          <p>{crmCopy.bestPracticeCopy}</p>
+          <span>{csvCopy.bestPractice}</span>
+          <strong>{csvCopy.bestPracticeTitle}</strong>
+          <p>{csvCopy.bestPracticeCopy}</p>
         </article>
       </div>
 
@@ -2478,46 +2675,279 @@ function CrmFieldMappingTool() {
 }
 
 function FirstLineTemplateTool() {
-  const { siteUi, localizeHref } = usePublicSite();
+  const { siteUi, localizeHref, locale } = usePublicSite();
   const firstLineCopy = siteUi.tools.firstLine;
-  const localizedTemplates = firstLineCopy.templates;
-  const [agencyMode, setAgencyMode] = useState<AgencyToolMode>("web_design");
-  const [selectedIndex, setSelectedIndex] = useState(0);
-  const selected = localizedTemplates[selectedIndex] ?? localizedTemplates[0];
-  const selectedVariant = buildFirstLineVariant(selected, agencyMode, selectedIndex, siteUi);
-  const email = `Hi Alex,\n\n${selected.firstLine}\n\n${selectedVariant.nextSentence}\n\n${selectedVariant.cta}`;
+  const generatorCopy = firstLineCopy.generator;
+  const turnstileSiteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY?.trim() || "";
+  const [offerType, setOfferType] = useState<AgencyToolMode>("web_design");
+  const [tone, setTone] = useState<Tone>("professional");
+  const [websiteUrl, setWebsiteUrl] = useState("");
+  const [turnstileToken, setTurnstileToken] = useState("");
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [error, setError] = useState("");
+  const [result, setResult] = useState<FirstLineToolSuccessResponse | null>(null);
+  const turnstileContainerRef = useRef<HTMLDivElement | null>(null);
+  const turnstileWidgetRef = useRef<string | null>(null);
+  const signupHref = result
+    ? localizeHref(`/signup?focus=${encodeURIComponent(offerType)}&first=${encodeURIComponent(result.sourceUrl)}`)
+    : localizeHref("/signup");
+
+  useEffect(() => {
+    if (!turnstileSiteKey || !turnstileContainerRef.current) {
+      return;
+    }
+
+    let disposed = false;
+    let intervalId: number | undefined;
+    const renderTurnstile = () => {
+      if (disposed || !window.turnstile || !turnstileContainerRef.current || turnstileWidgetRef.current) {
+        return;
+      }
+
+      turnstileWidgetRef.current = window.turnstile.render(turnstileContainerRef.current, {
+        sitekey: turnstileSiteKey,
+        callback: (token) => setTurnstileToken(token),
+        "expired-callback": () => setTurnstileToken(""),
+        "error-callback": () => setTurnstileToken(""),
+        theme: "light"
+      });
+    };
+
+    if (!document.querySelector('script[data-leadcue-turnstile="true"]')) {
+      const script = document.createElement("script");
+      script.src = "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
+      script.async = true;
+      script.defer = true;
+      script.dataset.leadcueTurnstile = "true";
+      document.head.appendChild(script);
+    }
+
+    renderTurnstile();
+    intervalId = window.setInterval(renderTurnstile, 250);
+
+    return () => {
+      disposed = true;
+      if (intervalId) {
+        window.clearInterval(intervalId);
+      }
+      if (turnstileWidgetRef.current) {
+        window.turnstile?.remove(turnstileWidgetRef.current);
+        turnstileWidgetRef.current = null;
+      }
+    };
+  }, [turnstileSiteKey]);
+
+  async function submitFirstLineTool(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const trimmedUrl = websiteUrl.trim();
+
+    if (!trimmedUrl) {
+      setStatus("error");
+      setError(generatorCopy.validationMissingUrl);
+      return;
+    }
+
+    if (turnstileSiteKey && !turnstileToken) {
+      setStatus("error");
+      setError(generatorCopy.validationTurnstile);
+      return;
+    }
+
+    setStatus("loading");
+    setError("");
+
+    void trackEvent({
+      name: "free_tool_submit",
+      metadata: { tool: "first-line", offerType, tone }
+    });
+
+    try {
+      const response = await fetch(apiUrl("/api/tools/first-line"), {
+        method: "POST",
+        credentials: "include",
+        headers: withAppLocaleHeader(locale, {
+          "Content-Type": "application/json"
+        }),
+        body: JSON.stringify({
+          websiteUrl: trimmedUrl,
+          offerType,
+          tone,
+          locale,
+          turnstileToken
+        })
+      });
+      const payload = (await response.json()) as FirstLineToolResponse;
+
+      if (!response.ok || !payload.ok) {
+        setStatus("error");
+        setError(payload.ok ? generatorCopy.genericError : generatorCopy.errors[payload.reason] || payload.error);
+        return;
+      }
+
+      setResult(payload);
+      setStatus("success");
+      void trackEvent({
+        name: "free_tool_result_viewed",
+        metadata: {
+          tool: "first-line",
+          domain: payload.domain,
+          generatedWith: payload.generatedWith,
+          offerType,
+          tone
+        }
+      });
+    } catch {
+      setStatus("error");
+      setError(generatorCopy.networkError);
+    } finally {
+      if (turnstileWidgetRef.current) {
+        window.turnstile?.reset(turnstileWidgetRef.current);
+        setTurnstileToken("");
+      }
+    }
+  }
 
   return (
     <div className="product-tool first-line-tool">
       <div className="product-tool-head">
         <div>
           <p className="eyebrow">{firstLineCopy.eyebrow}</p>
-          <h2>{selected.signal}</h2>
-          <p>{firstLineCopy.pickerCopy}</p>
+          <h2>{generatorCopy.title}</h2>
+          <p>{generatorCopy.copy}</p>
         </div>
-        <button
-          className="button button-primary"
-          type="button"
-          onClick={() => {
-            copyText(email);
-            void trackEvent({
-              name: "product_tool_copy",
-              metadata: { tool: "first-line", asset: "email", signal: selected.signal, agencyMode }
-            });
-          }}
-        >
-          <Icon name="clipboard" />
-          {firstLineCopy.copyEmail}
-        </button>
       </div>
 
-      <div className="tool-segmented tool-segmented-secondary" role="tablist" aria-label={firstLineCopy.eyebrow}>
+      <form className="free-tool-form" onSubmit={submitFirstLineTool}>
+        <label className="tool-inline-field free-tool-url-field">
+          <span>{generatorCopy.websiteLabel}</span>
+          <input
+            value={websiteUrl}
+            onChange={(event) => setWebsiteUrl(event.currentTarget.value)}
+            placeholder={generatorCopy.websitePlaceholder}
+            autoComplete="url"
+          />
+        </label>
+
+        <div className="free-tool-controls">
+          <div className="tool-segmented tool-segmented-secondary" role="tablist" aria-label={generatorCopy.offerTypeLabel}>
+            {agencyToolModes.map((mode) => (
+              <button
+                className={offerType === mode ? "is-active" : ""}
+                type="button"
+                key={mode}
+                onClick={() => setOfferType(mode)}
+              >
+                {firstLineCopy.modeLabels[mode]}
+              </button>
+            ))}
+          </div>
+
+          <label className="tool-inline-field">
+            <span>{generatorCopy.toneLabel}</span>
+            <select value={tone} onChange={(event) => setTone(event.currentTarget.value as Tone)}>
+              <option value="professional">{generatorCopy.toneProfessional}</option>
+              <option value="direct">{generatorCopy.toneDirect}</option>
+              <option value="casual">{generatorCopy.toneCasual}</option>
+            </select>
+          </label>
+        </div>
+
+        {turnstileSiteKey ? <div className="free-tool-turnstile" ref={turnstileContainerRef} /> : null}
+
+        <div className="tool-micro-actions">
+          <button className="button button-primary" type="submit" disabled={status === "loading"}>
+            <Icon name="spark" />
+            {status === "loading" ? generatorCopy.loading : generatorCopy.submit}
+          </button>
+          <span className="free-tool-note">{generatorCopy.previewNote}</span>
+        </div>
+
+        {status === "error" && error ? <p className="form-error">{error}</p> : null}
+      </form>
+
+      {result ? (
+        <>
+          <div className="template-output free-tool-output">
+            <div>
+              <span>{generatorCopy.websiteObservation}</span>
+              <p>{result.observation}</p>
+            </div>
+            {result.firstLines.map((line, index) => (
+              <div key={line}>
+                <span>
+                  {firstLineCopy.firstLineLabel} {index + 1}
+                </span>
+                <p>{line}</p>
+                <button
+                  className="button button-secondary button-compact"
+                  type="button"
+                  onClick={() => {
+                    copyText(line);
+                    void trackEvent({
+                      name: "free_tool_first_line_copied",
+                      metadata: { tool: "first-line", domain: result.domain, index }
+                    });
+                  }}
+                >
+                  <Icon name="clipboard" />
+                  {firstLineCopy.copyFirstLine}
+                </button>
+              </div>
+            ))}
+          </div>
+
+          <div className="tool-advice-grid">
+            <article className="tool-advice-card">
+              <span>{generatorCopy.fitPreview}</span>
+              <strong>{result.fitPreview}</strong>
+              <p>{generatorCopy.fitPreviewCopy}</p>
+            </article>
+            <article className="tool-advice-card tool-advice-card-contrast">
+              <span>{generatorCopy.lockedLabel}</span>
+              <strong>{generatorCopy.lockedFields.join(" · ")}</strong>
+              <p>{generatorCopy.lockedCopy}</p>
+            </article>
+          </div>
+
+          <div className="tool-micro-actions">
+            <a
+              className="button button-primary"
+              href={signupHref}
+              onClick={() => {
+                void trackEvent({
+                  name: "free_tool_signup_clicked",
+                  metadata: { tool: "first-line", domain: result.domain, offerType, tone }
+                });
+              }}
+            >
+              <Icon name="scan" />
+              {generatorCopy.signupCta}
+            </a>
+            <button
+              className="button button-secondary"
+              type="button"
+              onClick={() => {
+                copyText(result.firstLines.join("\n"));
+                void trackEvent({
+                  name: "free_tool_first_line_copied",
+                  metadata: { tool: "first-line", domain: result.domain, asset: "all" }
+                });
+              }}
+            >
+              <Icon name="clipboard" />
+              {generatorCopy.copyAll}
+            </button>
+          </div>
+        </>
+      ) : (
+        <>
+          <div className="tool-segmented tool-segmented-secondary" role="tablist" aria-label={generatorCopy.exampleModeAria}>
         {agencyToolModes.map((mode) => (
           <button
-            className={agencyMode === mode ? "is-active" : ""}
+            className={offerType === mode ? "is-active" : ""}
             type="button"
             key={mode}
-            onClick={() => setAgencyMode(mode)}
+            onClick={() => setOfferType(mode)}
           >
             {firstLineCopy.modeLabels[mode]}
           </button>
@@ -2525,76 +2955,517 @@ function FirstLineTemplateTool() {
       </div>
 
       <div className="template-signal-grid">
-        {localizedTemplates.map((template, index) => (
-          <button
-            className={selectedIndex === index ? "is-active" : ""}
-            type="button"
-            key={template.signal}
-            onClick={() => setSelectedIndex(index)}
-          >
+            {firstLineCopy.templates.slice(0, 4).map((template) => (
+              <article key={template.signal}>
             <span>{template.category}</span>
             <strong>{template.signal}</strong>
-          </button>
-        ))}
-      </div>
-
-      <div className="template-output">
-        <div>
-          <span>{firstLineCopy.firstLineLabel}</span>
-          <p>{selected.firstLine}</p>
-        </div>
-        <div>
-          <span>{firstLineCopy.bridgeLabel}</span>
-          <p>{selectedVariant.nextSentence}</p>
-        </div>
-        <div>
-          <span>{firstLineCopy.ctaLabel}</span>
-          <p>{selectedVariant.cta}</p>
-        </div>
+                <p>{template.firstLine}</p>
+              </article>
+            ))}
       </div>
 
       <div className="tool-advice-grid">
         <article className="tool-advice-card">
           <span>{firstLineCopy.whyLabel}</span>
-          <strong>{selectedVariant.whyItWorks}</strong>
+              <strong>{firstLineCopy.modeOverrides.web_design.why}</strong>
           <p>{firstLineCopy.whyCopy}</p>
         </article>
         <article className="tool-advice-card tool-advice-card-contrast">
           <span>{firstLineCopy.avoidLabel}</span>
-          <strong>{selectedVariant.badExample}</strong>
+          <strong>{firstLineCopy.badExample}</strong>
           <p>{firstLineCopy.avoidCopy}</p>
         </article>
       </div>
+        </>
+      )}
+    </div>
+  );
+}
 
-      <div className="tool-micro-actions">
-        <button
-          className="button button-secondary"
-          type="button"
-          onClick={() => {
-            copyText(selected.firstLine);
-            void trackEvent({
-              name: "product_tool_copy",
-              metadata: { tool: "first-line", asset: "first_line", signal: selected.signal, agencyMode }
-            });
-          }}
-        >
-          <Icon name="clipboard" />
-          {firstLineCopy.copyFirstLine}
-        </button>
-        <a
-          className="button button-secondary"
-          href={localizeHref("/login")}
-          onClick={() => {
-            void trackEvent({
-              name: "product_tool_primary_click",
-              metadata: { tool: "first-line", signal: selected.signal, agencyMode }
-            });
-          }}
-        >
-          <Icon name="scan" />
-          {firstLineCopy.runInLeadCue}
-        </a>
+function WebsiteOpportunityFinderTool() {
+  const { siteUi, localizeHref, locale } = usePublicSite();
+  const finderCopy = siteUi.tools.opportunityFinder;
+  const turnstileSiteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY?.trim() || "";
+  const [offerType, setOfferType] = useState<AgencyToolMode>("web_design");
+  const [websiteUrl, setWebsiteUrl] = useState("");
+  const [turnstileToken, setTurnstileToken] = useState("");
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [error, setError] = useState("");
+  const [result, setResult] = useState<OpportunityFinderToolSuccessResponse | null>(null);
+  const turnstileContainerRef = useRef<HTMLDivElement | null>(null);
+  const turnstileWidgetRef = useRef<string | null>(null);
+  const signupHref = result
+    ? localizeHref(`/signup?focus=${encodeURIComponent(offerType)}&first=${encodeURIComponent(result.sourceUrl)}`)
+    : localizeHref("/signup");
+
+  useEffect(() => {
+    if (!turnstileSiteKey || !turnstileContainerRef.current) {
+      return;
+    }
+
+    let disposed = false;
+    let intervalId: number | undefined;
+    const renderTurnstile = () => {
+      if (disposed || !window.turnstile || !turnstileContainerRef.current || turnstileWidgetRef.current) {
+        return;
+      }
+
+      turnstileWidgetRef.current = window.turnstile.render(turnstileContainerRef.current, {
+        sitekey: turnstileSiteKey,
+        callback: (token) => setTurnstileToken(token),
+        "expired-callback": () => setTurnstileToken(""),
+        "error-callback": () => setTurnstileToken(""),
+        theme: "light"
+      });
+    };
+
+    if (!document.querySelector('script[data-leadcue-turnstile="true"]')) {
+      const script = document.createElement("script");
+      script.src = "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
+      script.async = true;
+      script.defer = true;
+      script.dataset.leadcueTurnstile = "true";
+      document.head.appendChild(script);
+    }
+
+    renderTurnstile();
+    intervalId = window.setInterval(renderTurnstile, 250);
+
+    return () => {
+      disposed = true;
+      if (intervalId) {
+        window.clearInterval(intervalId);
+      }
+      if (turnstileWidgetRef.current) {
+        window.turnstile?.remove(turnstileWidgetRef.current);
+        turnstileWidgetRef.current = null;
+      }
+    };
+  }, [turnstileSiteKey]);
+
+  async function submitOpportunityFinder(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const trimmedUrl = websiteUrl.trim();
+
+    if (!trimmedUrl) {
+      setStatus("error");
+      setError(finderCopy.validationMissingUrl);
+      return;
+    }
+
+    if (turnstileSiteKey && !turnstileToken) {
+      setStatus("error");
+      setError(finderCopy.validationTurnstile);
+      return;
+    }
+
+    setStatus("loading");
+    setError("");
+
+    void trackEvent({
+      name: "free_tool_submit",
+      metadata: { tool: "opportunity-finder", offerType }
+    });
+
+    try {
+      const response = await fetch(apiUrl("/api/tools/opportunity-finder"), {
+        method: "POST",
+        credentials: "include",
+        headers: withAppLocaleHeader(locale, {
+          "Content-Type": "application/json"
+        }),
+        body: JSON.stringify({
+          websiteUrl: trimmedUrl,
+          offerType,
+          locale,
+          turnstileToken
+        })
+      });
+      const payload = (await response.json()) as OpportunityFinderToolResponse;
+
+      if (!response.ok || !payload.ok) {
+        setStatus("error");
+        setError(payload.ok ? finderCopy.genericError : finderCopy.errors[payload.reason] || payload.error);
+        return;
+      }
+
+      setResult(payload);
+      setStatus("success");
+      void trackEvent({
+        name: "free_tool_result_viewed",
+        metadata: {
+          tool: "opportunity-finder",
+          domain: payload.domain,
+          generatedWith: payload.generatedWith,
+          offerType
+        }
+      });
+    } catch {
+      setStatus("error");
+      setError(finderCopy.networkError);
+    } finally {
+      if (turnstileWidgetRef.current) {
+        window.turnstile?.reset(turnstileWidgetRef.current);
+        setTurnstileToken("");
+      }
+    }
+  }
+
+  return (
+    <div className="product-tool opportunity-finder-tool">
+      <div className="product-tool-head">
+        <div>
+          <p className="eyebrow">{finderCopy.eyebrow}</p>
+          <h2>{finderCopy.title}</h2>
+          <p>{finderCopy.copy}</p>
+        </div>
       </div>
+
+      <form className="free-tool-form" onSubmit={submitOpportunityFinder}>
+        <label className="tool-inline-field free-tool-url-field">
+          <span>{finderCopy.websiteLabel}</span>
+          <input
+            value={websiteUrl}
+            onChange={(event) => setWebsiteUrl(event.currentTarget.value)}
+            placeholder={finderCopy.websitePlaceholder}
+            autoComplete="url"
+          />
+        </label>
+
+        <div className="free-tool-controls">
+          <div className="tool-segmented tool-segmented-secondary" role="tablist" aria-label={finderCopy.offerTypeLabel}>
+            {agencyToolModes.map((mode) => (
+              <button
+                className={offerType === mode ? "is-active" : ""}
+                type="button"
+                key={mode}
+                onClick={() => setOfferType(mode)}
+              >
+                {siteUi.tools.firstLine.modeLabels[mode]}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {turnstileSiteKey ? <div className="free-tool-turnstile" ref={turnstileContainerRef} /> : null}
+
+        <div className="tool-micro-actions">
+          <button className="button button-primary" type="submit" disabled={status === "loading"}>
+            <Icon name="spark" />
+            {status === "loading" ? finderCopy.loading : finderCopy.submit}
+          </button>
+          <span className="free-tool-note">{finderCopy.previewNote}</span>
+        </div>
+
+        {status === "error" && error ? <p className="form-error">{error}</p> : null}
+      </form>
+
+      {result ? (
+        <>
+          <div className="template-output free-tool-output opportunity-output">
+            {result.opportunities.map((opportunity, index) => (
+              <div key={`${opportunity.category}-${opportunity.signal}`}>
+                <span>
+                  {finderCopy.opportunityLabel} {index + 1} · {opportunity.category.replace("_", " ")}
+                </span>
+                <p>{opportunity.signal}</p>
+                <small>{finderCopy.reasonLabel}: {opportunity.reason}</small>
+                <small>{finderCopy.sourceLabel}: {opportunity.source}</small>
+              </div>
+            ))}
+          </div>
+
+          <div className="tool-advice-grid">
+            <article className="tool-advice-card">
+              <span>{finderCopy.fitPreview}</span>
+              <strong>{result.fitPreview.label} · {result.fitPreview.score}/100</strong>
+              <p>{result.fitPreview.reason}</p>
+            </article>
+            <article className="tool-advice-card tool-advice-card-contrast">
+              <span>{finderCopy.confidenceLabel}</span>
+              <strong>{result.fitPreview.confidence}%</strong>
+              <p>{finderCopy.fitPreviewCopy}</p>
+            </article>
+          </div>
+
+          <div className="tool-advice-grid">
+            <article className="tool-advice-card tool-advice-card-contrast">
+              <span>{finderCopy.lockedLabel}</span>
+              <strong>{finderCopy.lockedFields.join(" · ")}</strong>
+              <p>{finderCopy.lockedCopy}</p>
+            </article>
+          </div>
+
+          <div className="tool-micro-actions">
+            <a
+              className="button button-primary"
+              href={signupHref}
+              onClick={() => {
+                void trackEvent({
+                  name: "free_tool_signup_clicked",
+                  metadata: { tool: "opportunity-finder", domain: result.domain, offerType }
+                });
+              }}
+            >
+              <Icon name="scan" />
+              {finderCopy.signupCta}
+            </a>
+          </div>
+        </>
+      ) : (
+        <div className="template-signal-grid">
+          {siteUi.tools.firstLine.templates.slice(0, 4).map((template) => (
+            <article key={template.signal}>
+              <span>{template.category}</span>
+              <strong>{template.signal}</strong>
+              <p>{template.firstLine}</p>
+            </article>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function WebsiteProspectScoreTool() {
+  const { siteUi, localizeHref, locale } = usePublicSite();
+  const scoreCopy = siteUi.tools.prospectScore;
+  const turnstileSiteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY?.trim() || "";
+  const [offerType, setOfferType] = useState<AgencyToolMode>("web_design");
+  const [websiteUrl, setWebsiteUrl] = useState("");
+  const [turnstileToken, setTurnstileToken] = useState("");
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [error, setError] = useState("");
+  const [result, setResult] = useState<ProspectScoreToolSuccessResponse | null>(null);
+  const turnstileContainerRef = useRef<HTMLDivElement | null>(null);
+  const turnstileWidgetRef = useRef<string | null>(null);
+  const signupHref = result
+    ? localizeHref(`/signup?focus=${encodeURIComponent(offerType)}&first=${encodeURIComponent(result.sourceUrl)}`)
+    : localizeHref("/signup");
+
+  useEffect(() => {
+    if (!turnstileSiteKey || !turnstileContainerRef.current) {
+      return;
+    }
+
+    let disposed = false;
+    let intervalId: number | undefined;
+    const renderTurnstile = () => {
+      if (disposed || !window.turnstile || !turnstileContainerRef.current || turnstileWidgetRef.current) {
+        return;
+      }
+
+      turnstileWidgetRef.current = window.turnstile.render(turnstileContainerRef.current, {
+        sitekey: turnstileSiteKey,
+        callback: (token) => setTurnstileToken(token),
+        "expired-callback": () => setTurnstileToken(""),
+        "error-callback": () => setTurnstileToken(""),
+        theme: "light"
+      });
+    };
+
+    if (!document.querySelector('script[data-leadcue-turnstile="true"]')) {
+      const script = document.createElement("script");
+      script.src = "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
+      script.async = true;
+      script.defer = true;
+      script.dataset.leadcueTurnstile = "true";
+      document.head.appendChild(script);
+    }
+
+    renderTurnstile();
+    intervalId = window.setInterval(renderTurnstile, 250);
+
+    return () => {
+      disposed = true;
+      if (intervalId) {
+        window.clearInterval(intervalId);
+      }
+      if (turnstileWidgetRef.current) {
+        window.turnstile?.remove(turnstileWidgetRef.current);
+        turnstileWidgetRef.current = null;
+      }
+    };
+  }, [turnstileSiteKey]);
+
+  async function submitProspectScore(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const trimmedUrl = websiteUrl.trim();
+
+    if (!trimmedUrl) {
+      setStatus("error");
+      setError(scoreCopy.validationMissingUrl);
+      return;
+    }
+
+    if (turnstileSiteKey && !turnstileToken) {
+      setStatus("error");
+      setError(scoreCopy.validationTurnstile);
+      return;
+    }
+
+    setStatus("loading");
+    setError("");
+
+    void trackEvent({
+      name: "free_tool_submit",
+      metadata: { tool: "prospect-score", offerType }
+    });
+
+    try {
+      const response = await fetch(apiUrl("/api/tools/prospect-score"), {
+        method: "POST",
+        credentials: "include",
+        headers: withAppLocaleHeader(locale, {
+          "Content-Type": "application/json"
+        }),
+        body: JSON.stringify({
+          websiteUrl: trimmedUrl,
+          offerType,
+          locale,
+          turnstileToken
+        })
+      });
+      const payload = (await response.json()) as ProspectScoreToolResponse;
+
+      if (!response.ok || !payload.ok) {
+        setStatus("error");
+        setError(payload.ok ? scoreCopy.genericError : scoreCopy.errors[payload.reason] || payload.error);
+        return;
+      }
+
+      setResult(payload);
+      setStatus("success");
+      void trackEvent({
+        name: "free_tool_result_viewed",
+        metadata: {
+          tool: "prospect-score",
+          domain: payload.domain,
+          generatedWith: payload.generatedWith,
+          offerType
+        }
+      });
+    } catch {
+      setStatus("error");
+      setError(scoreCopy.networkError);
+    } finally {
+      if (turnstileWidgetRef.current) {
+        window.turnstile?.reset(turnstileWidgetRef.current);
+        setTurnstileToken("");
+      }
+    }
+  }
+
+  return (
+    <div className="product-tool prospect-score-tool">
+      <div className="product-tool-head">
+        <div>
+          <p className="eyebrow">{scoreCopy.eyebrow}</p>
+          <h2>{scoreCopy.title}</h2>
+          <p>{scoreCopy.copy}</p>
+        </div>
+      </div>
+
+      <form className="free-tool-form" onSubmit={submitProspectScore}>
+        <label className="tool-inline-field free-tool-url-field">
+          <span>{scoreCopy.websiteLabel}</span>
+          <input
+            value={websiteUrl}
+            onChange={(event) => setWebsiteUrl(event.currentTarget.value)}
+            placeholder={scoreCopy.websitePlaceholder}
+            autoComplete="url"
+          />
+        </label>
+
+        <div className="free-tool-controls">
+          <div className="tool-segmented tool-segmented-secondary" role="tablist" aria-label={scoreCopy.offerTypeLabel}>
+            {agencyToolModes.map((mode) => (
+              <button
+                className={offerType === mode ? "is-active" : ""}
+                type="button"
+                key={mode}
+                onClick={() => setOfferType(mode)}
+              >
+                {siteUi.tools.firstLine.modeLabels[mode]}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {turnstileSiteKey ? <div className="free-tool-turnstile" ref={turnstileContainerRef} /> : null}
+
+        <div className="tool-micro-actions">
+          <button className="button button-primary" type="submit" disabled={status === "loading"}>
+            <Icon name="target" />
+            {status === "loading" ? scoreCopy.loading : scoreCopy.submit}
+          </button>
+          <span className="free-tool-note">{scoreCopy.previewNote}</span>
+        </div>
+
+        {status === "error" && error ? <p className="form-error">{error}</p> : null}
+      </form>
+
+      {result ? (
+        <>
+          <div className="tool-advice-grid">
+            <article className="tool-advice-card tool-advice-card-contrast">
+              <span>{scoreCopy.scoreLabel}</span>
+              <strong>{result.label} · {result.score}/100</strong>
+              <p>{result.summary}</p>
+            </article>
+            <article className="tool-advice-card">
+              <span>{scoreCopy.strongestSignal}</span>
+              <strong>{result.strongestSignal.category.replace("_", " ")}</strong>
+              <p>{result.strongestSignal.signal}</p>
+              <small>{scoreCopy.reasonLabel}: {result.strongestSignal.reason}</small>
+            </article>
+          </div>
+
+          <div className="template-output free-tool-output opportunity-output">
+            {result.dimensions.map((dimension) => (
+              <div key={dimension.label}>
+                <span>{scoreCopy.dimensionLabel} · {dimension.label} · {dimension.score}/100</span>
+                <p>{dimension.reason}</p>
+                <small>{scoreCopy.evidenceLabel}: {dimension.evidence}</small>
+              </div>
+            ))}
+          </div>
+
+          <div className="tool-advice-grid">
+            <article className="tool-advice-card tool-advice-card-contrast">
+              <span>{scoreCopy.lockedLabel}</span>
+              <strong>{scoreCopy.lockedFields.join(" · ")}</strong>
+              <p>{scoreCopy.lockedCopy}</p>
+            </article>
+          </div>
+
+          <div className="tool-micro-actions">
+            <a
+              className="button button-primary"
+              href={signupHref}
+              onClick={() => {
+                void trackEvent({
+                  name: "free_tool_signup_clicked",
+                  metadata: { tool: "prospect-score", domain: result.domain, offerType }
+                });
+              }}
+            >
+              <Icon name="scan" />
+              {scoreCopy.signupCta}
+            </a>
+          </div>
+        </>
+      ) : (
+        <div className="template-signal-grid">
+          {siteUi.tools.firstLine.templates.slice(0, 4).map((template) => (
+            <article key={template.signal}>
+              <span>{template.category}</span>
+              <strong>{template.signal}</strong>
+              <p>{template.firstLine}</p>
+            </article>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
@@ -2719,11 +3590,11 @@ function WebsiteProspectingChecklistTool() {
 function IntegrationExportTool({ platform }: { platform: "HubSpot" | "Salesforce" | "Pipedrive" }) {
   const { siteUi, localizeHref, formatMessage } = usePublicSite();
   const integrationCopy = siteUi.tools.integration;
-  const crmRows = siteUi.tools.crmMapping.rows;
-  const mode: CrmMappingMode =
+  const csvRows = siteUi.tools.csvMapping.rows;
+  const mode: CsvMappingMode =
     platform === "HubSpot" ? "hubspot" : platform === "Salesforce" ? "salesforce" : "pipedrive";
-  const csvHeader = crmRows.map((row) => row.labels[mode]).join(",");
-  const csvSample = crmRows.map((row) => escapeCsvValue(row.sample)).join(",");
+  const csvHeader = csvRows.map((row) => row.labels[mode]).join(",");
+  const csvSample = csvRows.map((row) => escapeCsvValue(row.sample)).join(",");
   const playbook = integrationCopy.playbooks[platform];
 
   return (
@@ -2754,7 +3625,7 @@ function IntegrationExportTool({ platform }: { platform: "HubSpot" | "Salesforce
         </div>
         <div>
           <span>{integrationCopy.includedColumns}</span>
-          <strong>{crmRows.length}</strong>
+          <strong>{csvRows.length}</strong>
         </div>
         <div>
           <span>{integrationCopy.bestHandoff}</span>
@@ -2763,7 +3634,7 @@ function IntegrationExportTool({ platform }: { platform: "HubSpot" | "Salesforce
       </div>
 
       <div className="integration-field-list">
-        {crmRows.map((row) => (
+        {csvRows.map((row) => (
           <div key={row.key}>
             <span>{row.group}</span>
             <strong>{row.labels[mode]}</strong>
@@ -2809,7 +3680,7 @@ function IntegrationExportTool({ platform }: { platform: "HubSpot" | "Salesforce
         </button>
         <a
           className="button button-secondary"
-          href={localizeHref("/templates/crm-csv-field-mapping")}
+          href={localizeHref("/templates/csv-field-mapping")}
           onClick={() => {
             void trackEvent({ name: "product_tool_secondary_click", metadata: { tool: "integration", platform, target: "mapping_template" } });
           }}
@@ -3311,13 +4182,38 @@ function withAppLocaleHeader(locale: SiteLocaleCode, headers?: HeadersInit) {
   return nextHeaders;
 }
 
-function leadDetailHref(leadId?: string | null) {
+function leadDetailHref(leadId?: string | null, tab: ProspectCardTab = "overview", from?: AppSection) {
   if (!leadId) {
     return null;
   }
 
   const { locale } = parseSiteLocalePath(window.location.pathname);
-  return `${buildLocalePath(locale, "/app/qualified")}?lead=${encodeURIComponent(leadId)}`;
+  const params = new URLSearchParams({ tab });
+
+  if (from && from !== "leadDetail") {
+    params.set("from", from);
+  }
+
+  return `${buildLocalePath(locale, `/app/leads/${encodeURIComponent(leadId)}`)}?${params.toString()}`;
+}
+
+function getLeadIdFromPathname(pathname: string) {
+  const normalizedPath = parseSiteLocalePath(pathname).path;
+  const match = normalizedPath.match(/^\/app\/leads\/([^/?#]+)/);
+
+  if (!match?.[1]) {
+    return null;
+  }
+
+  try {
+    return decodeURIComponent(match[1]);
+  } catch {
+    return match[1];
+  }
+}
+
+function getRequestedLeadId(pathname: string, params: URLSearchParams) {
+  return getLeadIdFromPathname(pathname) || params.get("lead") || params.get("leadId");
 }
 
 function bulkExportLabel(presetKey: Exclude<ProspectExportPresetKey, "custom">, crmMode: ProspectCrmFieldMode, appUi?: AppUi) {
@@ -3430,8 +4326,12 @@ function replaceLeadDeepLink(leadId: string | null | undefined, tab: ProspectCar
   }
 
   const url = new URL(window.location.href);
-  url.searchParams.set("lead", leadId);
+  const { locale } = parseSiteLocalePath(url.pathname);
+  url.pathname = buildLocalePath(locale, `/app/leads/${encodeURIComponent(leadId)}`);
+  url.searchParams.delete("lead");
+  url.searchParams.delete("leadId");
   url.searchParams.set("tab", tab);
+  url.hash = "";
   window.history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
 }
 
@@ -3442,10 +4342,9 @@ function currentLeadDeepLink(leadId: string | null | undefined, tab: ProspectCar
 
   const url = new URL(window.location.href);
   const { locale } = parseSiteLocalePath(url.pathname);
-  url.pathname = buildLocalePath(locale, "/app/qualified");
+  url.pathname = buildLocalePath(locale, `/app/leads/${encodeURIComponent(leadId)}`);
   url.search = "";
   url.hash = "";
-  url.searchParams.set("lead", leadId);
   url.searchParams.set("tab", tab);
   return url.toString();
 }
@@ -3553,6 +4452,83 @@ function queueItemHandoffStatus(item?: Pick<WorkspaceQueueItem, "handoffStatus">
   return item && isLeadHandoffStatus(item.handoffStatus) ? item.handoffStatus : "pending";
 }
 
+function queueScanLooksStale(row: Pick<ReviewQueueRow, "createdAt" | "researchStatus" | "updatedAt">) {
+  if (row.researchStatus !== "scanning") {
+    return false;
+  }
+
+  const timestamp = new Date(row.updatedAt || row.createdAt).getTime();
+  return Number.isFinite(timestamp) && Date.now() - timestamp > 10 * 60 * 1000;
+}
+
+function reviewQueueStatusLabel(row: ReviewQueueRow, appUi: AppUi) {
+  if (row.status === "qualified" || row.researchStatus === "qualified") {
+    return appUi.savedAccounts.statusQualified;
+  }
+
+  if (row.researchStatus === "queued") {
+    return appUi.reviewQueue.statusReady;
+  }
+
+  if (row.researchStatus === "scanning") {
+    return queueScanLooksStale(row) ? appUi.reviewQueue.statusStalled : appUi.reviewQueue.statusScanning;
+  }
+
+  if (row.researchStatus === "reviewing") {
+    return row.leadId ? appUi.reviewQueue.statusCardReady : appUi.reviewQueue.statusReviewing;
+  }
+
+  return appUi.reviewQueue.statusResearching;
+}
+
+function recipientSafeOutboundText(value: string) {
+  return value
+    .replace(/扫描到的链接里未看到博客或资源入口。?/g, "导航里没有明显的资源或内容入口。")
+    .replace(/扫描到/g, "看到")
+    .replace(/导航扫描/g, "导航检查")
+    .replace(/我们会通过更清晰的 CTA、证明版块和页面结构，帮助团队提升网站转化。?/g, "一个小想法是：可以让第一次访问的人更快看到下一步该怎么了解或联系你们，减少他们比较方案时的犹豫。")
+    .replace(/更清晰的 CTA/g, "更清楚的下一步动作")
+    .replace(/证明版块/g, "客户案例或可信依据")
+    .replace(/页面结构/g, "页面说明顺序")
+    .replace(/提升网站转化/g, "帮助访客更快判断是否继续了解")
+    .replace(/我注意到 ([^\n，。]+) 的网站信息很完整，但/g, "我看了 $1 的网站，注意到")
+    .replace(/如果你愿意，我可以先发几个快速想法过去。?/g, "如果你觉得有用，我可以发 2-3 个具体建议给你参考。");
+}
+
+function localizedProspectDisplayText(value: string, locale: SiteLocaleCode) {
+  if (locale !== "zh") {
+    return value;
+  }
+
+  const serviceLabels: Record<string, string> = {
+    "web design": "网站设计",
+    SEO: "SEO",
+    marketing: "营销",
+    custom: "定制服务"
+  };
+
+  let next = value.replace(
+    /The site shows (\d+|some) website signals that can support a ([^.]+) outreach angle\./g,
+    (_, count: string, service: string) =>
+      `该网站呈现了 ${count === "some" ? "若干" : count} 条可用于判断的线索，可支撑以${serviceLabels[service] || service}为切入点的跟进。`
+  );
+
+  next = next
+    .replace(/No obvious proof section or case study path was found\./g, "案例、评价或客户成果入口还可以更容易被看到。")
+    .replace(/No obvious resources path was visible in the navigation\./g, "导航里没有明显的资源或内容入口。")
+    .replace(/The next step could be easier to spot early on the page\./g, "页面开头的下一步动作还可以更清楚。")
+    .replace(/Meta description is missing or thin\./g, "Meta 描述缺失或内容偏弱。")
+    .replace(/Homepage H1 is unclear or unavailable\./g, "首页主标题还可以更直接说明价值。")
+    .replace(/Hiring or growth language appears on the website\./g, "网站上出现了招聘或增长相关信号。")
+    .replace(/Customer proof or case study paths could be easier to find\./g, "案例、评价或客户成果入口还可以更容易被看到。")
+    .replace(/First-time visitors often look for trust signals before reaching out\./g, "第一次访问的人通常会寻找可信依据，再决定是否继续了解。")
+    .replace(/Helpful resources can give visitors a reason to keep learning before they are ready to contact sales\./g, "如果访客还没准备好联系，资源内容可以给他们一个继续了解品牌的理由。")
+    .replace(/navigation check/g, "导航检查")
+    .replace(/homepage/g, "首页");
+
+  return next;
+}
+
 function queueItemToImportedWebsiteRecord(item: WorkspaceQueueItem): ImportedWebsiteRecord {
   return {
     id: item.id,
@@ -3599,6 +4575,8 @@ function parseImportedWebsiteText(
   const seenDomains = new Set(existingDomains);
   const items: ImportedWebsiteRecord[] = [];
   let skipped = 0;
+  let duplicates = 0;
+  let invalid = 0;
 
   value
     .split(/\r?\n/)
@@ -3609,12 +4587,18 @@ function parseImportedWebsiteText(
       const normalizedUrl = normalizeBatchWebsiteCandidate(candidate);
       if (!normalizedUrl) {
         skipped += 1;
+        invalid += 1;
         return;
       }
 
       const domain = hostnameFromUrl(normalizedUrl);
       if (!domain || seenDomains.has(domain)) {
         skipped += 1;
+        if (domain && seenDomains.has(domain)) {
+          duplicates += 1;
+        } else {
+          invalid += 1;
+        }
         return;
       }
 
@@ -3630,7 +4614,7 @@ function parseImportedWebsiteText(
       });
     });
 
-  return { items, skipped };
+  return { items, skipped, duplicates, invalid };
 }
 
 function readStoredImportQueue(workspaceId?: string | null) {
@@ -3681,6 +4665,10 @@ function toneForWorkspace(value?: string | null): Tone {
   return value === "direct" || value === "casual" || value === "professional" ? value : DEFAULT_ICP.tone;
 }
 
+function scanLocaleForWorkspace(value?: string | null): ScanLocale {
+  return supportedScanLocales.includes(value as ScanLocale) ? (value as ScanLocale) : DEFAULT_ICP.outputLocale || "en";
+}
+
 function parseEditableList(value: string, fallback: string[]): string[] {
   const items = value
     .split(",")
@@ -3693,6 +4681,10 @@ function parseEditableList(value: string, fallback: string[]): string[] {
 
 function getAppSection(pathname: string): AppSection {
   const normalizedPath = parseSiteLocalePath(pathname).path;
+
+  if (getLeadIdFromPathname(pathname)) {
+    return "leadDetail";
+  }
 
   if (
     normalizedPath.startsWith("/app/queue") ||
@@ -4501,7 +5493,8 @@ function ResetPasswordPage() {
 
   function updateField<Key extends keyof PasswordResetFormState>(field: Key) {
     return (event: ChangeEvent<HTMLInputElement>) => {
-      setForm((current) => ({ ...current, [field]: event.currentTarget.value }));
+      const value = event.currentTarget.value;
+      setForm((current) => ({ ...current, [field]: value }));
       if (resetState !== "idle") {
         setResetState("idle");
         setStatusMessage("");
@@ -4674,7 +5667,7 @@ function SignupPage() {
     selectedPlan.id === "free"
       ? signupCopy.selectedPlanFree
       : formatMessage(signupCopy.selectedPlanPaid, { price: selectedPlanPrice, credits: selectedPlan.monthlyCredits.toLocaleString() });
-  const submitCopy = selectedPlan.id === "free" ? signupCopy.createWorkspace : signupCopy.continueToBilling;
+  const submitCopy = selectedPlan.id === "free" ? signupCopy.createAccountSetup : signupCopy.continueToBilling;
   const [signupState, setSignupState] = useState<"idle" | "loading" | "done" | "error">("idle");
   const [statusMessage, setStatusMessage] = useState("");
   const stepSummaries = [
@@ -4900,7 +5893,7 @@ function SignupPage() {
                       />
                     </label>
                     <label>
-                      {signupCopy.agencyFocus}
+                      {signupCopy.offerFocus}
                       <select name="agencyFocus" value={signupForm.agencyFocus} onChange={updateSignupField("agencyFocus")}>
                         <option value="web_design">{signupCopy.focusOptions.web_design}</option>
                         <option value="seo">{signupCopy.focusOptions.seo}</option>
@@ -4909,12 +5902,12 @@ function SignupPage() {
                       </select>
                     </label>
                     <label>
-                      {signupCopy.agencyWebsite}
+                      {signupCopy.userWebsite}
                       <input
                         name="agencyWebsite"
                         type="url"
                         autoComplete="url"
-                        placeholder={signupCopy.agencyWebsitePlaceholder}
+                        placeholder={signupCopy.userWebsitePlaceholder}
                         value={signupForm.agencyWebsite}
                         onChange={updateSignupField("agencyWebsite")}
                       />
@@ -5112,6 +6105,7 @@ function DashboardApp() {
   );
   const queueScanRoute = `${appRoutes.queue}#scan-console`;
   const isQueueSection = appSection === "queue";
+  const isLeadDetailSection = appSection === "leadDetail";
   const isQualifiedSection = appSection === "qualified";
   const isExportsSection = appSection === "exports";
   const isSettingsSection = appSection === "settings";
@@ -5149,7 +6143,11 @@ function DashboardApp() {
         agencyFocus: authIntent.focus,
         targetIndustries: [],
         targetCountries: [],
+        targetCompanySize: DEFAULT_ICP.targetCompanySize || "",
         offerDescription: "",
+        tone: DEFAULT_ICP.tone,
+        avoidedIndustries: DEFAULT_ICP.avoidedIndustries,
+        outputLocale: locale,
         agencyWebsite: null,
         firstProspectUrl: authIntent.hasFirstIntent ? authIntent.firstProspectUrl : null
       },
@@ -5214,7 +6212,7 @@ function DashboardApp() {
   const [leadMinFit, setLeadMinFit] = useState(0);
   const [leadMinConfidence, setLeadMinConfidence] = useState(0);
   const [selectedLeadIds, setSelectedLeadIds] = useState<string[]>([]);
-  const [bulkExportPreset, setBulkExportPreset] = useState<Exclude<ProspectExportPresetKey, "custom">>("crm");
+  const [bulkExportPreset, setBulkExportPreset] = useState<Exclude<ProspectExportPresetKey, "custom">>("email");
   const [bulkCrmFieldMode, setBulkCrmFieldMode] = useState<ProspectCrmFieldMode>("hubspot");
   const [bulkExportState, setBulkExportState] = useState<"idle" | "loading" | "error">("idle");
   const [dashboardState, setDashboardState] = useState<"loading" | "ready" | "sample" | "needs_workspace" | "error">("loading");
@@ -5256,7 +6254,6 @@ function DashboardApp() {
   const [selectedLeadId, setSelectedLeadId] = useState<string | null>(null);
   const [selectedLead, setSelectedLead] = useState<ProspectCardType | null>(null);
   const [selectedLeadState, setSelectedLeadState] = useState<"idle" | "loading" | "ready" | "error">("idle");
-  const [isLeadDrawerOpen, setLeadDrawerOpen] = useState(false);
   const importFileInputRef = useRef<HTMLInputElement | null>(null);
   const [importDraft, setImportDraft] = useState("");
   const [importSource, setImportSource] = useState<BatchSourceOption>("manual");
@@ -5353,7 +6350,18 @@ function DashboardApp() {
 
   useEffect(() => {
     let cancelled = false;
-    const requestedLeadId = appQuery.get("lead") || appQuery.get("leadId");
+    const requestedLeadId = getRequestedLeadId(window.location.pathname, appQuery);
+
+    if (requestedLeadId && !isLeadDetailSection) {
+      const nextHref = leadDetailHref(requestedLeadId, getProspectTabFromLocation(), appSection);
+
+      if (nextHref) {
+        window.location.replace(nextHref);
+        return () => {
+          cancelled = true;
+        };
+      }
+    }
 
     async function loadDashboard() {
       let authData: AuthMeResponse = { authenticated: false };
@@ -5380,7 +6388,6 @@ function DashboardApp() {
             setSelectedLead(null);
             setActiveProspect(null);
             setSelectedLeadState("idle");
-            setLeadDrawerOpen(false);
             setWorkspaceCreateState("loading");
             setWorkspaceCreateMessage("");
             setDashboardState("needs_workspace");
@@ -5484,13 +6491,12 @@ function DashboardApp() {
           authData.authenticated && (leadsAreUnavailable || queueIsUnavailable || scanHistoryIsUnavailable || analyticsIsUnavailable);
         const loadedLeads = leadsData.leads?.length ? leadsData.leads : [];
         const initialLeadRow =
-          requestedLeadId && loadedLeads.length
-            ? loadedLeads.find((lead) => lead.id === requestedLeadId) || loadedLeads[0]
-            : loadedLeads[0];
+          requestedLeadId && loadedLeads.length ? loadedLeads.find((lead) => lead.id === requestedLeadId) || null : loadedLeads[0];
+        const requestedDetailId = requestedLeadId || initialLeadRow?.id || null;
         let initialLeadDetail: ProspectCardType | null = null;
 
-        if (initialLeadRow) {
-          const detailResponse = await fetchAppApi(`/api/leads/${encodeURIComponent(initialLeadRow.id)}`, {
+        if (requestedDetailId) {
+          const detailResponse = await fetchAppApi(`/api/leads/${encodeURIComponent(requestedDetailId)}`, {
             credentials: "include"
           }).catch(() => null);
 
@@ -5505,7 +6511,7 @@ function DashboardApp() {
           const resolvedLeadDetail =
             initialLeadDetail || fallbackLeadDetail || (workspaceData.source === "sample" ? sampleDashboardProspect : null);
           const resolvedLeadId =
-            initialLeadRow?.id || (workspaceData.source === "sample" ? demoLeadRows[0]?.id || null : null);
+            requestedDetailId || initialLeadRow?.id || (workspaceData.source === "sample" ? demoLeadRows[0]?.id || null : null);
           const routeMessage = checkoutSuccess
             ? appUi.common.messages.billingActiveSetup
             : welcomeFlow
@@ -5522,9 +6528,6 @@ function DashboardApp() {
           setSelectedLead(resolvedLeadDetail);
           setSelectedLeadState(
             workspaceData.source === "sample" || initialLeadDetail ? "ready" : fallbackLeadDetail ? "error" : "idle"
-          );
-          setLeadDrawerOpen(
-            Boolean(requestedLeadId && resolvedLeadDetail && (appSection === "queue" || appSection === "qualified" || appSection === "exports"))
           );
           setActiveProspect(resolvedLeadDetail);
           setScanHistory(
@@ -5565,7 +6568,6 @@ function DashboardApp() {
           setSelectedLead(null);
           setActiveProspect(null);
           setSelectedLeadState("idle");
-          setLeadDrawerOpen(false);
           setDashboardState("error");
           setDashboardMessage(resolveAppErrorMessage(error, appUi.common.messages.workspaceDataUnavailable, appUi));
         }
@@ -5657,15 +6659,16 @@ function DashboardApp() {
 
   useEffect(() => {
     setIcpForm(icpFormFromSetup(snapshot.setup));
-    setIcpSaveState("idle");
-    setIcpMessage("");
   }, [
     snapshot.setup.agencyFocus,
     snapshot.setup.serviceType,
     snapshot.setup.targetIndustries,
     snapshot.setup.targetCountries,
+    snapshot.setup.targetCompanySize,
     snapshot.setup.offerDescription,
     snapshot.setup.tone,
+    snapshot.setup.avoidedIndustries,
+    snapshot.setup.outputLocale,
     snapshot.setup.firstProspectUrl
   ]);
 
@@ -5721,7 +6724,11 @@ function DashboardApp() {
 
     if (!result.items.length) {
       setImportState("error");
-      setImportMessage(appUi.importer.messages.noWebsitesAdded);
+      setImportMessage(
+        result.duplicates > 0 && result.invalid === 0
+          ? formatMessage(appUi.importer.messages.duplicatesOnly, { count: result.duplicates })
+          : appUi.importer.messages.noWebsitesAdded
+      );
       return;
     }
 
@@ -5843,7 +6850,8 @@ function DashboardApp() {
 
   function updateIcpField<Key extends keyof IcpFormState>(field: Key) {
     return (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-      setIcpForm((current) => ({ ...current, [field]: event.currentTarget.value }));
+      const value = event.currentTarget.value;
+      setIcpForm((current) => ({ ...current, [field]: value }));
 
       if (icpSaveState !== "idle") {
         setIcpSaveState("idle");
@@ -5854,7 +6862,8 @@ function DashboardApp() {
 
   function updateProfileField<Key extends keyof AccountProfileFormState>(field: Key) {
     return (event: ChangeEvent<HTMLInputElement>) => {
-      setProfileForm((current) => ({ ...current, [field]: event.currentTarget.value }));
+      const value = event.currentTarget.value;
+      setProfileForm((current) => ({ ...current, [field]: value }));
 
       if (profileSaveState !== "idle") {
         setProfileSaveState("idle");
@@ -5865,7 +6874,8 @@ function DashboardApp() {
 
   function updateAccountPasswordField<Key extends keyof AccountPasswordFormState>(field: Key) {
     return (event: ChangeEvent<HTMLInputElement>) => {
-      setAccountPasswordForm((current) => ({ ...current, [field]: event.currentTarget.value }));
+      const value = event.currentTarget.value;
+      setAccountPasswordForm((current) => ({ ...current, [field]: value }));
 
       if (accountPasswordState !== "idle") {
         setAccountPasswordState("idle");
@@ -5883,8 +6893,11 @@ function DashboardApp() {
       serviceType: serviceTypeForFocus(icpForm.serviceType),
       targetIndustries: parseEditableList(icpForm.targetIndustries, DEFAULT_ICP.targetIndustries),
       targetCountries: parseEditableList(icpForm.targetCountries, DEFAULT_ICP.targetCountries),
+      targetCompanySize: icpForm.targetCompanySize.trim() || DEFAULT_ICP.targetCompanySize || "",
       offerDescription: icpForm.offerDescription.trim() || DEFAULT_ICP.offerDescription,
       tone: toneForWorkspace(icpForm.tone),
+      avoidedIndustries: parseEditableList(icpForm.avoidedIndustries, DEFAULT_ICP.avoidedIndustries),
+      outputLocale: scanLocaleForWorkspace(icpForm.outputLocale),
       firstProspectUrl: icpForm.firstProspectUrl.trim() || null
     };
 
@@ -6130,35 +7143,6 @@ function DashboardApp() {
     );
   }
 
-  async function openLeadDetail(lead: LeadListItem) {
-    setSelectedLeadId(lead.id);
-    setSelectedLeadState("loading");
-    setLeadDrawerOpen(true);
-    setDashboardMessage("");
-    replaceLeadDeepLink(lead.id, getProspectTabFromLocation());
-
-    try {
-      const response = await fetchAppApi(`/api/leads/${encodeURIComponent(lead.id)}`, {
-        credentials: "include"
-      });
-      const result = (await response.json().catch(() => ({}))) as { lead?: ProspectCardType; error?: string };
-
-      if (!response.ok || !result.lead) {
-        throw new Error(result.error || appUi.common.messages.leadDetailUnavailable);
-      }
-
-      setSelectedLead(result.lead);
-      setActiveProspect(result.lead);
-      setSelectedLeadState("ready");
-    } catch (error) {
-      const fallbackLead = leadPreviewProspect(lead, sampleProspectCard);
-      setSelectedLead(fallbackLead);
-      setActiveProspect(fallbackLead);
-      setSelectedLeadState("error");
-      setDashboardMessage(resolveAppErrorMessage(error, appUi.common.messages.leadDetailUnavailable, appUi));
-    }
-  }
-
   async function submitScan(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const normalizedUrl = normalizeWebsiteUrl(scanForm.url);
@@ -6177,6 +7161,23 @@ function DashboardApp() {
       return;
     }
 
+    if (!hasEnoughCreditsForScan) {
+      const message = formatMessage(appUi.conversion.scan.notEnoughCredits, {
+        count: scanCreditsRequired.toLocaleString()
+      });
+      setScanState("error");
+      setLastScanError({
+        ok: false,
+        status: "failed",
+        reason: "insufficient_credits",
+        error: message,
+        creditsCharged: 0,
+        retryable: false
+      });
+      setScanMessage(message);
+      return;
+    }
+
     setScanState("loading");
     setScanMessage("");
     setLastScanError(null);
@@ -6185,9 +7186,10 @@ function DashboardApp() {
     const companyName = scanForm.companyName.trim() || companyNameFromUrl(normalizedUrl);
     const domain = hostnameFromUrl(normalizedUrl);
     const scanSeedCopy = scanForm.notes.trim() || snapshot.setup.offerDescription || DEFAULT_ICP.offerDescription;
+    const scanOutputLocale = scanLocaleForWorkspace(snapshot.setup.outputLocale);
     const scanPayload: ScanRequest = {
       source: "web",
-      locale,
+      locale: scanOutputLocale,
       deepScan: scanForm.deepScan,
       page: {
         url: normalizedUrl,
@@ -6201,8 +7203,11 @@ function DashboardApp() {
         serviceType: serviceTypeForFocus(snapshot.setup.agencyFocus || snapshot.setup.serviceType),
         targetIndustries: snapshot.setup.targetIndustries,
         targetCountries: snapshot.setup.targetCountries,
+        targetCompanySize: snapshot.setup.targetCompanySize || DEFAULT_ICP.targetCompanySize,
         offerDescription: snapshot.setup.offerDescription,
-        tone: toneForWorkspace(snapshot.setup.tone)
+        tone: toneForWorkspace(snapshot.setup.tone),
+        avoidedIndustries: snapshot.setup.avoidedIndustries,
+        outputLocale: scanOutputLocale
       },
       companyName,
       queueNote: scanForm.notes.trim(),
@@ -6245,8 +7250,6 @@ function DashboardApp() {
       setSelectedLeadId(result.leadId);
       setSelectedLead(result.prospect);
       setSelectedLeadState("ready");
-      setLeadDrawerOpen(true);
-      replaceLeadDeepLink(result.leadId, "overview");
       if (result.queueItem) {
         mergeQueueItemState(result.queueItem);
       }
@@ -6316,6 +7319,11 @@ function DashboardApp() {
         })
       );
       setDashboardMessage(appUi.common.messages.scanComplete);
+      const nextHref = leadDetailHref(result.leadId, "overview", "queue");
+
+      if (nextHref) {
+        window.location.assign(nextHref);
+      }
     } catch (error) {
       const failedHistoryId = `failed_${Date.now()}`;
       setScanState("error");
@@ -6484,7 +7492,6 @@ function DashboardApp() {
     setSelectedLead(sampleDashboardProspect);
     setActiveProspect(sampleDashboardProspect);
     setSelectedLeadState("ready");
-    setLeadDrawerOpen(false);
     setProfileSaveState("idle");
     setProfileMessage("");
     setAccountPasswordState("idle");
@@ -6692,6 +7699,7 @@ function DashboardApp() {
     () =>
       workflowQueueItems.map((item) => {
         const matchedLead = leadByDomain.get(item.domain);
+        const researchStatus = queueItemResearchStatus(item);
 
         return {
           id: item.id,
@@ -6700,12 +7708,14 @@ function DashboardApp() {
           domain: item.domain,
           websiteUrl: matchedLead?.websiteUrl || item.websiteUrl,
           source: item.source,
-          status: queueItemReviewStatus(queueItemResearchStatus(item)),
+          status: queueItemReviewStatus(researchStatus),
+          researchStatus,
           fitScore: matchedLead?.fitScore ?? null,
           confidencePercent: matchedLead ? Math.round(matchedLead.confidenceScore * 100) : null,
           leadId: item.leadId || matchedLead?.id || null,
           note: item.note,
-          createdAt: item.createdAt
+          createdAt: item.createdAt,
+          updatedAt: item.updatedAt
         };
       }),
     [leadByDomain, workflowQueueItems]
@@ -6823,17 +7833,27 @@ function DashboardApp() {
     [historyDateFilter, historyFilter, historyReasonFilter, scanHistory]
   );
   const historySecondaryFiltersActive = historyDateFilter !== "all" || historyReasonFilter !== "all";
+  const onboardingGuideCopy = appUi.dashboard.onboarding.guide;
   const onboardingTasks = [
     {
+      key: "profile" as const,
+      icon: "target" as const,
       label: appUi.dashboard.onboarding.tasks.profileSaved,
       description: snapshot.setup.offerDescription
         ? formatMessage(appUi.dashboard.onboarding.descriptions.profileSaved, {
             industries: previewList(snapshot.setup.targetIndustries, 3, appUi.common.notSet)
           })
         : appUi.dashboard.onboarding.descriptions.profileTodo,
-      done: Boolean(snapshot.setup.offerDescription.trim() && snapshot.setup.targetIndustries.length)
+      done: Boolean(snapshot.setup.offerDescription.trim() && snapshot.setup.targetIndustries.length),
+      guideTitle: onboardingGuideCopy.profileTitle,
+      guideCopy: onboardingGuideCopy.profileCopy,
+      guideWhy: onboardingGuideCopy.profileWhy,
+      actionLabel: onboardingGuideCopy.profileAction,
+      actionHref: `${appRoutes.settings}#settings-icp`
     },
     {
+      key: "website" as const,
+      icon: "database" as const,
       label: appUi.dashboard.onboarding.tasks.firstWebsiteQueued,
       description: snapshot.setup.firstProspectUrl
         ? formatMessage(appUi.dashboard.onboarding.descriptions.websiteQueued, {
@@ -6844,26 +7864,49 @@ function DashboardApp() {
               url: formatCompactUrl(snapshot.setup.agencyWebsite, appUi.common.notSet)
             })
           : appUi.dashboard.onboarding.descriptions.websiteTodo,
-      done: Boolean(snapshot.setup.firstProspectUrl)
+      done: Boolean(snapshot.setup.firstProspectUrl),
+      guideTitle: onboardingGuideCopy.websiteTitle,
+      guideCopy: onboardingGuideCopy.websiteCopy,
+      guideWhy: onboardingGuideCopy.websiteWhy,
+      actionLabel: onboardingGuideCopy.websiteAction,
+      actionHref: `${appRoutes.settings}#settings-icp`
     },
     {
+      key: "card" as const,
+      icon: "scan" as const,
       label: appUi.dashboard.onboarding.tasks.firstProspectCard,
       description: snapshot.leadCount
         ? formatMessage(appUi.dashboard.onboarding.descriptions.firstCardDone, {
             count: snapshot.leadCount
           })
         : appUi.dashboard.onboarding.descriptions.firstCardTodo,
-      done: snapshot.leadCount > 0
+      done: snapshot.leadCount > 0,
+      guideTitle: onboardingGuideCopy.cardTitle,
+      guideCopy: onboardingGuideCopy.cardCopy,
+      guideWhy: onboardingGuideCopy.cardWhy,
+      actionLabel: onboardingGuideCopy.cardAction,
+      actionHref: queueScanRoute
     },
     {
+      key: "export" as const,
+      icon: "download" as const,
       label: appUi.dashboard.onboarding.tasks.exportReady,
       description: exportRuns.length
         ? appUi.dashboard.onboarding.descriptions.exportReadyDone
         : appUi.dashboard.onboarding.descriptions.exportReadyTodo,
-      done: exportRuns.length > 0
+      done: exportRuns.length > 0,
+      guideTitle: onboardingGuideCopy.exportTitle,
+      guideCopy: onboardingGuideCopy.exportCopy,
+      guideWhy: onboardingGuideCopy.exportWhy,
+      actionLabel: onboardingGuideCopy.exportAction,
+      actionHref: appRoutes.exports
     }
   ];
   const onboardingProgress = onboardingTasks.filter((task) => task.done).length;
+  const nextOnboardingTaskIndex = onboardingTasks.findIndex((task) => !task.done);
+  const currentOnboardingTaskIndex = nextOnboardingTaskIndex === -1 ? onboardingTasks.length - 1 : nextOnboardingTaskIndex;
+  const currentOnboardingTask = onboardingTasks[currentOnboardingTaskIndex];
+  const currentOnboardingStep = currentOnboardingTaskIndex + 1;
   const welcomeName = auth.authenticated ? firstName(auth.user.name) || snapshot.workspace.name : snapshot.workspace.name;
   const subscriptionStatusDetails = getSubscriptionStatusDetails(snapshot.subscription.status, appUi);
   const subscriptionStatusLabel = formatSubscriptionStatus(snapshot.subscription.status, appUi);
@@ -6882,6 +7925,24 @@ function DashboardApp() {
   const workspaceStatusLabel = auth.authenticated ? appUi.billing.status.authenticated : appUi.billing.status.demoPreview;
   const featuredPlanIsCurrent = featuredPlan.id === currentPlan.id;
   const featuredPlanDelta = Math.max(0, featuredPlan.monthlyCredits - currentPlan.monthlyCredits);
+  const scanCreditsRequired = scanForm.deepScan ? 3 : 1;
+  const hasEnoughCreditsForScan = snapshot.credits.remaining >= scanCreditsRequired;
+  const billingPlanCompareHref = `${appRoutes.billing}#billing-plan-compare`;
+  const isInsufficientCreditError = lastScanError?.reason === "insufficient_credits";
+  const scanModeOptions = [
+    {
+      deepScan: false,
+      title: appUi.conversion.scan.basicTitle,
+      cost: appUi.conversion.scan.basicCost,
+      output: appUi.conversion.scan.basicOutput
+    },
+    {
+      deepScan: true,
+      title: appUi.conversion.scan.deepTitle,
+      cost: appUi.conversion.scan.deepCost,
+      output: appUi.conversion.scan.deepOutput
+    }
+  ] as const;
   const billingSummaryCards = [
     [appUi.billing.summary.currentPlan, currentPlan.name],
     [appUi.billing.summary.scansLeft, snapshot.credits.remaining.toLocaleString()],
@@ -6893,11 +7954,26 @@ function DashboardApp() {
     dashboardState === "ready" &&
     !snapshot.onboarding.isComplete &&
     (snapshot.leadCount === 0 || exportRuns.length === 0);
-  const dashboardTitle = auth.authenticated && appSection === "dashboard" ? snapshot.workspace.name : pageCopy.title;
-  const dashboardIntro = pageCopy.copy;
+  const dashboardEyebrow = isLeadDetailSection ? appUi.leads.detailPageEyebrow : pageCopy.eyebrow;
+  const dashboardTitle =
+    auth.authenticated && appSection === "dashboard"
+      ? snapshot.workspace.name
+      : isLeadDetailSection && selectedLead
+        ? selectedLead.companyName
+        : isLeadDetailSection
+          ? appUi.leads.detailPageTitle
+          : pageCopy.title;
+  const dashboardIntro =
+    isLeadDetailSection && selectedLead
+      ? formatMessage(appUi.leads.detailPageCopy, { company: selectedLead.companyName, domain: selectedLead.domain })
+      : isLeadDetailSection
+        ? appUi.leads.detailPageIntro
+        : pageCopy.copy;
   const needsIcpReview = shouldShowOnboarding && (!onboardingTasks[0].done || !onboardingTasks[1].done);
   const reviewReadyCount = reviewQueueRows.filter((row) => row.status === "ready").length;
-  const reviewResearchingCount = reviewQueueRows.filter((row) => row.status === "researching").length;
+  const reviewScanningCount = reviewQueueRows.filter((row) => row.researchStatus === "scanning").length;
+  const reviewReviewingCount = reviewQueueRows.filter((row) => row.researchStatus === "reviewing").length;
+  const reviewActiveCount = reviewScanningCount + reviewReviewingCount;
   const exportRunCount = exportRuns.length;
   const topSavedAccounts = useMemo(
     () =>
@@ -6965,10 +8041,10 @@ function DashboardApp() {
   const workflowRecommendations = useMemo(() => {
     const items: string[] = [];
 
-    if (reviewReadyCount > reviewResearchingCount) {
+    if (reviewReadyCount > reviewActiveCount) {
       items.push(appUi.analytics.recommendations.reviewBacklog);
     }
-    if (reviewResearchingCount > savedSourceLeads.length) {
+    if (reviewReviewingCount > savedSourceLeads.length) {
       items.push(appUi.analytics.recommendations.qualificationGap);
     }
     if (savedSourceLeads.length > 0 && analyticsSummary.totals.exportsCompleted < savedSourceLeads.length) {
@@ -6976,7 +8052,7 @@ function DashboardApp() {
     }
 
     return items.length ? items : [appUi.analytics.recommendations.keepMoving];
-  }, [analyticsSummary.totals.exportsCompleted, appUi.analytics.recommendations, reviewReadyCount, reviewResearchingCount, savedSourceLeads.length]);
+  }, [analyticsSummary.totals.exportsCompleted, appUi.analytics.recommendations, reviewActiveCount, reviewReadyCount, reviewReviewingCount, savedSourceLeads.length]);
   const qualifiedCount = savedSourceLeads.length;
   const overviewHasQueueData = reviewQueueRows.length > 0;
   const reviewQueueIsEmpty = reviewQueueRows.length === 0;
@@ -7102,6 +8178,8 @@ function DashboardApp() {
               icon: "mail" as const,
               label: appUi.actions.signIn
             }
+        : isLeadDetailSection
+          ? null
         : isQueueSection
           ? {
               kind: "button" as const,
@@ -7225,16 +8303,16 @@ function DashboardApp() {
     [appUi.analytics.workflowFunnel.imported, importedWebsites.length, appUi.analytics.workflowFunnel.importedMeta],
     [
       appUi.analytics.workflowFunnel.reviewing,
-      reviewResearchingCount,
+      reviewReviewingCount,
       formatMessage(appUi.analytics.workflowFunnel.reviewingMeta, {
-        percent: percentage(reviewResearchingCount, Math.max(1, importedWebsites.length))
+        percent: percentage(reviewReviewingCount, Math.max(1, importedWebsites.length))
       })
     ],
     [
       appUi.analytics.workflowFunnel.qualified,
       qualifiedCount,
       formatMessage(appUi.analytics.workflowFunnel.qualifiedMeta, {
-        percent: percentage(qualifiedCount, Math.max(1, reviewResearchingCount || importedWebsites.length))
+        percent: percentage(qualifiedCount, Math.max(1, reviewReviewingCount || importedWebsites.length))
       })
     ],
     [
@@ -7300,13 +8378,30 @@ function DashboardApp() {
               onChange={updateScanField("notes")}
             />
           </label>
-          <label className="scan-depth-toggle">
-            <input type="checkbox" checked={scanForm.deepScan} onChange={updateScanField("deepScan")} />
-            <span>
-              {appUi.scan.deepScan}
-              <small>{appUi.scan.deepScanHint}</small>
-            </span>
-          </label>
+          <div className="scan-depth-toggle" aria-label={appUi.conversion.scan.modeLabel}>
+            <span className="scan-depth-heading">{appUi.conversion.scan.modeLabel}</span>
+            <div className="scan-mode-grid">
+              {scanModeOptions.map((option) => (
+                <button
+                  className={scanForm.deepScan === option.deepScan ? "is-active" : ""}
+                  type="button"
+                  key={option.title}
+                  aria-pressed={scanForm.deepScan === option.deepScan}
+                  onClick={() => setScanForm((current) => ({ ...current, deepScan: option.deepScan }))}
+                >
+                  <strong>{option.title}</strong>
+                  <span>{option.cost}</span>
+                  <small>{option.output}</small>
+                </button>
+              ))}
+            </div>
+            <small>
+              {formatMessage(appUi.conversion.scan.currentCost, {
+                count: scanCreditsRequired.toLocaleString(),
+                remaining: snapshot.credits.remaining.toLocaleString()
+              })}
+            </small>
+          </div>
           <button className="button button-primary" type="submit" disabled={scanState === "loading"}>
             <Icon name="scan" />
             {scanState === "loading" ? appUi.scan.scanning : appUi.scan.runScan}
@@ -7315,13 +8410,23 @@ function DashboardApp() {
             {scanMessage || " "}
           </p>
           {scanState === "error" && lastScanError ? (
-            <div className="scan-error-box" role="alert">
-              <strong>{appUi.scan.noCredit}</strong>
-              <span>{appUi.preview.reason}: {formatHistoryReason(lastScanError.reason, appUi)}</span>
-              <button className="button button-secondary" type="submit">
-                {appUi.scan.retryScan}
-              </button>
-            </div>
+            isInsufficientCreditError ? (
+              <div className="scan-error-box scan-upgrade-box" role="alert">
+                <strong>{appUi.conversion.billing.insufficientTitle}</strong>
+                <span>{appUi.conversion.billing.insufficientCopy}</span>
+                <a className="button button-primary" href={billingPlanCompareHref}>
+                  {appUi.conversion.billing.openBilling}
+                </a>
+              </div>
+            ) : (
+              <div className="scan-error-box" role="alert">
+                <strong>{appUi.scan.noCredit}</strong>
+                <span>{appUi.preview.reason}: {formatHistoryReason(lastScanError.reason, appUi)}</span>
+                <button className="button button-secondary" type="submit">
+                  {appUi.scan.retryScan}
+                </button>
+              </div>
+            )
           ) : null}
         </form>
 
@@ -7394,11 +8499,7 @@ function DashboardApp() {
   ];
   const handleBillingPlanAction = (plan: PricingPlan, isCurrent: boolean) => {
     if (isCurrent) {
-      if (auth.authenticated) {
-        void openBillingPortal();
-      } else {
-        window.location.assign(buildLocalePath(locale, "/login"));
-      }
+      void openBillingPortal();
       return;
     }
 
@@ -7414,6 +8515,95 @@ function DashboardApp() {
 
     void startPlanCheckout(plan.id);
   };
+  const leadDetailFrom = appQuery.get("from");
+  const leadDetailBackHref =
+    leadDetailFrom === "queue"
+      ? appRoutes.queue
+      : leadDetailFrom === "exports"
+        ? appRoutes.exports
+        : leadDetailFrom === "billing"
+          ? appRoutes.billing
+        : leadDetailFrom === "dashboard"
+          ? appRoutes.today
+          : appRoutes.qualified;
+  const leadDetailBackLabel =
+    leadDetailFrom === "queue"
+      ? appUi.leads.detailBackToQueue
+      : leadDetailFrom === "exports"
+        ? appUi.leads.detailBackToExports
+        : leadDetailFrom === "billing"
+          ? appUi.leads.detailBackToBilling
+        : leadDetailFrom === "dashboard"
+          ? appUi.leads.detailBackToDashboard
+          : appUi.leads.detailBackToSaved;
+  const leadDetailPage = isLeadDetailSection && !workspaceStateBlocked ? (
+    <section className="lead-detail-page" aria-label={appUi.leads.detailPageLabel}>
+      <div className="lead-detail-page-toolbar">
+        <a className="button button-secondary button-small" href={leadDetailBackHref}>
+          {leadDetailBackLabel}
+        </a>
+        {selectedLead ? (
+          <a className="button button-secondary button-small" href={selectedLead.website} target="_blank" rel="noreferrer">
+            <Icon name="globe" />
+            {appUi.reviewQueue.openSite}
+          </a>
+        ) : null}
+      </div>
+      <div className="lead-detail-page-shell">
+        <div className="lead-detail-page-head">
+          <div>
+            <p className="eyebrow">{appUi.leads.detailPageEyebrow}</p>
+            <h2>{selectedLead?.companyName || appUi.leads.detailPageTitle}</h2>
+            <p>{selectedLead ? formatMessage(appUi.leads.detailPageCopy, { company: selectedLead.companyName, domain: selectedLead.domain }) : appUi.leads.detailPageIntro}</p>
+          </div>
+          <span className="status-pill">
+            {selectedLeadState === "loading"
+              ? appUi.common.loading
+              : selectedLead
+                ? formatMessage(appUi.leads.drawerFitLabel, { score: selectedLead.fitScore })
+                : appUi.leads.drawerNoSelection}
+          </span>
+        </div>
+        {selectedLeadState === "loading" ? (
+          <div className="lead-detail-skeleton" aria-label={appUi.leads.drawerLoadingLabel}>
+            <i />
+            <i />
+            <i />
+            <i />
+            <i />
+          </div>
+        ) : selectedLead ? (
+          <>
+            {selectedLeadState === "error" ? (
+              <p className="form-status is-error" role="status">
+                {appUi.leads.errorShowingPreview}
+              </p>
+            ) : null}
+            <ProspectCard
+              card={selectedLead}
+              workspaceControls
+              leadId={selectedLeadId}
+              enableDeepLink
+              onContextSaved={applySavedPipelineContext}
+            />
+          </>
+        ) : (
+          <div className="detail-empty-state">
+            <strong>{appUi.leads.detailEmptyTitle}</strong>
+            <span>{appUi.leads.detailEmptyCopy}</span>
+            <div className="page-empty-actions">
+              <a className="button button-primary" href={appRoutes.queue}>
+                {appUi.dashboard.nextAction.openQueue}
+              </a>
+              <a className="button button-secondary" href={appRoutes.qualified}>
+                {appUi.nav.qualified}
+              </a>
+            </div>
+          </div>
+        )}
+      </div>
+    </section>
+  ) : null;
   return (
     <div className="app-shell">
       <header className="dashboard-topbar">
@@ -7464,7 +8654,7 @@ function DashboardApp() {
         <main className="dashboard-main">
           <header className={appSection === "dashboard" ? "panel dashboard-header dashboard-hero" : "dashboard-header"}>
             <div className="dashboard-hero-copy">
-              <p className="eyebrow">{pageCopy.eyebrow}</p>
+              <p className="eyebrow">{dashboardEyebrow}</p>
               <h1>{dashboardTitle}</h1>
               <p className="dashboard-page-copy">{dashboardIntro}</p>
             </div>
@@ -7555,6 +8745,8 @@ function DashboardApp() {
 
           {pageShowsWorkspaceStatePanel ? workspaceStatePanel : null}
 
+          {leadDetailPage}
+
         {appSection === "dashboard" && !workspaceStateBlocked ? (
           <>
             {overviewShowsStatePanel ? workspaceStatePanel : null}
@@ -7583,10 +8775,40 @@ function DashboardApp() {
                   </div>
                 </div>
 
+                <div className="onboarding-guide-card">
+                  <div className="onboarding-guide-main">
+                    <div className="onboarding-guide-meta">
+                      <span className="status-pill">
+                        {formatMessage(onboardingGuideCopy.stepLabel, {
+                          current: currentOnboardingStep,
+                          total: onboardingTasks.length
+                        })}
+                      </span>
+                      <span className="side-label">{onboardingGuideCopy.currentStep}</span>
+                    </div>
+                    <h3>{currentOnboardingTask.guideTitle}</h3>
+                    <p>{currentOnboardingTask.guideCopy}</p>
+                    <div className="onboarding-guide-reason">
+                      <span>{onboardingGuideCopy.whyLabel}</span>
+                      <p>{currentOnboardingTask.guideWhy}</p>
+                    </div>
+                  </div>
+                  <div className="onboarding-guide-action">
+                    <a className="button button-primary" href={currentOnboardingTask.actionHref}>
+                      <Icon name={currentOnboardingTask.icon} />
+                      {currentOnboardingTask.actionLabel}
+                    </a>
+                  </div>
+                </div>
+
                 <div className="dashboard-onboarding-layout">
                   <div className="onboarding-checklist" role="list" aria-label={appUi.dashboard.onboarding.checklistLabel}>
                     {onboardingTasks.map((task, index) => (
-                      <div className={`onboarding-item ${task.done ? "is-done" : ""}`} key={task.label} role="listitem">
+                      <div
+                        className={`onboarding-item ${task.done ? "is-done" : ""} ${task.key === currentOnboardingTask.key ? "is-current" : ""}`}
+                        key={task.key}
+                        role="listitem"
+                      >
                         <span className="onboarding-item-state">
                           {task.done ? <Icon name="check" /> : index + 1}
                         </span>
@@ -7635,8 +8857,12 @@ function DashboardApp() {
                       <strong>{reviewReadyCount}</strong>
                     </div>
                     <div>
-                      <span>{appUi.dashboard.queuePanel.researching}</span>
-                      <strong>{reviewResearchingCount}</strong>
+                      <span>{appUi.dashboard.queuePanel.scanning}</span>
+                      <strong>{reviewScanningCount}</strong>
+                    </div>
+                    <div>
+                      <span>{appUi.dashboard.queuePanel.reviewing}</span>
+                      <strong>{reviewReviewingCount}</strong>
                     </div>
                     <div>
                       <span>{appUi.dashboard.queuePanel.imported}</span>
@@ -7654,7 +8880,7 @@ function DashboardApp() {
                               <span>{row.domain}</span>
                             </div>
                             <div className="overview-queue-meta">
-                              <span className="status-pill">{row.status === "ready" ? appUi.dashboard.queuePanel.ready : appUi.dashboard.queuePanel.researching}</span>
+                              <span className="status-pill">{reviewQueueStatusLabel(row, appUi)}</span>
                               <small>
                                 {queueSourceLabel(row.source, appUi)}
                               </small>
@@ -7664,9 +8890,9 @@ function DashboardApp() {
                                 {appUi.dashboard.queuePanel.openSite}
                               </a>
                               {rowLead ? (
-                                <button className="button button-primary button-small" type="button" onClick={() => void openLeadDetail(rowLead)}>
+                                <a className="button button-primary button-small" href={leadDetailHref(rowLead.id, "overview", "dashboard") || appRoutes.qualified}>
                                   {appUi.dashboard.queuePanel.reviewCard}
-                                </button>
+                                </a>
                               ) : (
                                 <button
                                   className="button button-primary button-small"
@@ -7735,9 +8961,9 @@ function DashboardApp() {
                               <small>{lead.fitScore} {appUi.preview.fit}</small>
                             </div>
                             <div className="overview-inline-actions">
-                              <button className="button button-primary button-small" type="button" onClick={() => void openLeadDetail(lead)}>
+                              <a className="button button-primary button-small" href={leadDetailHref(lead.id, "overview", "dashboard") || appRoutes.qualified}>
                                 {appUi.dashboard.savedPanel.openCard}
-                              </button>
+                              </a>
                             </div>
                           </article>
                         ))
@@ -7876,8 +9102,12 @@ function DashboardApp() {
                     <strong>{reviewReadyCount}</strong>
                   </div>
                   <div>
-                    <span>{appUi.importer.summaryResearching}</span>
-                    <strong>{reviewResearchingCount}</strong>
+                    <span>{appUi.importer.summaryScanning}</span>
+                    <strong>{reviewScanningCount}</strong>
+                  </div>
+                  <div>
+                    <span>{appUi.importer.summaryReviewing}</span>
+                    <strong>{reviewReviewingCount}</strong>
                   </div>
                 </div>
                 <div className="policy-list">
@@ -7914,12 +9144,7 @@ function DashboardApp() {
                   </div>
                   {importedQueueRows.map((row) => {
                     const rowLead = row.leadId ? leadByDomain.get(row.domain) : null;
-                    const statusLabel =
-                      row.status === "qualified"
-                        ? appUi.savedAccounts.statusQualified
-                        : row.status === "researching"
-                          ? appUi.reviewQueue.statusResearching
-                          : appUi.reviewQueue.statusReady;
+                    const statusLabel = reviewQueueStatusLabel(row, appUi);
                     return (
                       <article className="review-row" role="row" key={row.id}>
                         <div className="review-row-company">
@@ -7934,9 +9159,9 @@ function DashboardApp() {
                             {appUi.reviewQueue.openSite}
                           </a>
                           {rowLead ? (
-                            <button className="button button-primary button-small" type="button" onClick={() => void openLeadDetail(rowLead)}>
+                            <a className="button button-primary button-small" href={leadDetailHref(rowLead.id, "overview", "queue") || appRoutes.qualified}>
                               {appUi.reviewQueue.openCard}
-                            </button>
+                            </a>
                           ) : (
                             <button
                               className="button button-primary button-small"
@@ -8052,7 +9277,7 @@ function DashboardApp() {
                             <span>{queueSourceLabel(row.source, appUi)}</span>
                             <span>
                               <span className="status-pill">
-                                {row.status === "ready" ? appUi.reviewQueue.statusReady : appUi.reviewQueue.statusResearching}
+                                {reviewQueueStatusLabel(row, appUi)}
                               </span>
                             </span>
                             <div className="review-row-actions">
@@ -8060,9 +9285,9 @@ function DashboardApp() {
                                 {appUi.reviewQueue.openSite}
                               </a>
                               {rowLead ? (
-                                <button className="button button-primary button-small" type="button" onClick={() => void openLeadDetail(rowLead)}>
+                                <a className="button button-primary button-small" href={leadDetailHref(rowLead.id, "overview", "queue") || appRoutes.qualified}>
                                   {appUi.reviewQueue.openCard}
-                                </button>
+                                </a>
                               ) : (
                                 <button
                                   className="button button-primary button-small"
@@ -8105,8 +9330,12 @@ function DashboardApp() {
                   <strong>{reviewReadyCount}</strong>
                 </div>
                 <div>
-                  <span>{appUi.reviewQueue.statusResearching}</span>
-                  <strong>{reviewResearchingCount}</strong>
+                  <span>{appUi.reviewQueue.statusScanning}</span>
+                  <strong>{reviewScanningCount}</strong>
+                </div>
+                <div>
+                  <span>{appUi.reviewQueue.statusReviewing}</span>
+                  <strong>{reviewReviewingCount}</strong>
                 </div>
                 <div>
                   <span>{appUi.reviewQueue.importedCountLabel}</span>
@@ -8239,6 +9468,7 @@ function DashboardApp() {
                             </option>
                           ))}
                         </select>
+                        <small>{appUi.prospectCard.export.presets[bulkExportPreset].description}</small>
                       </label>
                       {bulkExportPreset === "crm" ? (
                         <label>
@@ -8333,17 +9563,16 @@ function DashboardApp() {
                               aria-label={formatMessage(appUi.leads.selectLead, { company: lead.companyName })}
                             />
                           </label>
-                          <button
+                          <a
                             className="lead-row-open"
-                            type="button"
-                            onClick={() => void openLeadDetail(lead)}
+                            href={leadDetailHref(lead.id, "overview", isExportsSection ? "exports" : "qualified") || appRoutes.qualified}
                             aria-label={formatMessage(appUi.leads.openProspectCard, { company: lead.companyName })}
                           >
                             <strong>{lead.companyName}</strong>
                             <span>{lead.industry}</span>
                             <span>{lead.fitScore}</span>
                             <span>{Math.round(lead.confidenceScore * 100)}%</span>
-                          </button>
+                          </a>
                         </div>
                       ))
                     ) : (
@@ -8356,77 +9585,6 @@ function DashboardApp() {
                 </>
               )}
             </div>
-            {!showSavedAccountsEmptyState ? (
-            <>
-            <button
-              className={`lead-detail-backdrop ${isLeadDrawerOpen ? "is-open" : ""}`}
-              type="button"
-              aria-label={appUi.leads.drawerCloseLabel}
-              aria-hidden={!isLeadDrawerOpen}
-              tabIndex={isLeadDrawerOpen ? 0 : -1}
-              onClick={() => setLeadDrawerOpen(false)}
-            />
-            <aside
-              className={`lead-detail-drawer ${isLeadDrawerOpen ? "is-open" : ""}`}
-              role="dialog"
-              aria-label={appUi.leads.drawerLabel}
-              aria-live="polite"
-            >
-              <div className="panel-header">
-                <div>
-                  <p className="eyebrow">{appUi.leads.drawerEyebrow}</p>
-                  <h2>{appUi.leads.drawerTitle}</h2>
-                </div>
-                <div className="lead-detail-actions">
-                  <span className="status-pill">
-                    {selectedLeadState === "loading"
-                      ? appUi.common.loading
-                      : selectedLead
-                        ? formatMessage(appUi.leads.drawerFitLabel, { score: selectedLead.fitScore })
-                        : appUi.leads.drawerNoSelection}
-                  </span>
-                  <button
-                    className="icon-button lead-detail-close"
-                    type="button"
-                    aria-label={appUi.leads.drawerCloseLabel}
-                    onClick={() => setLeadDrawerOpen(false)}
-                  >
-                    <span aria-hidden="true">X</span>
-                  </button>
-                </div>
-              </div>
-              {selectedLeadState === "loading" ? (
-                <div className="lead-detail-skeleton" aria-label={appUi.leads.drawerLoadingLabel}>
-                  <i />
-                  <i />
-                  <i />
-                  <i />
-                  <i />
-                </div>
-              ) : selectedLead ? (
-                <>
-                  {selectedLeadState === "error" ? (
-                    <p className="form-status is-error" role="status">
-                      {appUi.leads.errorShowingPreview}
-                    </p>
-                  ) : null}
-                  <ProspectCard
-                    card={selectedLead}
-                    workspaceControls
-                    leadId={selectedLeadId}
-                    enableDeepLink
-                    onContextSaved={applySavedPipelineContext}
-                  />
-                </>
-              ) : (
-                <div className="detail-empty-state">
-                  <strong>{appUi.leads.detailEmptyTitle}</strong>
-                  <span>{appUi.leads.detailEmptyCopy}</span>
-                </div>
-              )}
-            </aside>
-            </>
-            ) : null}
           </section>
         ) : null}
 
@@ -8475,9 +9633,30 @@ function DashboardApp() {
                     <input value={icpForm.targetCountries} onChange={updateIcpField("targetCountries")} />
                     <small>{appUi.icp.fields.countriesHelp}</small>
                   </label>
+                  <label>
+                    {appUi.icp.fields.companySize}
+                    <input value={icpForm.targetCompanySize} onChange={updateIcpField("targetCompanySize")} />
+                    <small>{appUi.icp.fields.companySizeHelp}</small>
+                  </label>
+                  <label>
+                    {appUi.icp.fields.outputLanguage}
+                    <select value={icpForm.outputLocale} onChange={updateIcpField("outputLocale")}>
+                      {supportedScanLocales.map((localeOption) => (
+                        <option value={localeOption} key={localeOption}>
+                          {siteLocaleLabels[localeOption].nativeName}
+                        </option>
+                      ))}
+                    </select>
+                    <small>{appUi.icp.fields.outputLanguageHelp}</small>
+                  </label>
                   <label className="icp-form-wide">
                     {appUi.icp.fields.offer}
                     <textarea rows={4} value={icpForm.offerDescription} onChange={updateIcpField("offerDescription")} />
+                  </label>
+                  <label className="icp-form-wide">
+                    {appUi.icp.fields.avoidedIndustries}
+                    <input value={icpForm.avoidedIndustries} onChange={updateIcpField("avoidedIndustries")} />
+                    <small>{appUi.icp.fields.avoidedIndustriesHelp}</small>
                   </label>
                   <label className="icp-form-wide">
                     {appUi.icp.fields.firstTargetUrl}
@@ -9068,6 +10247,34 @@ function DashboardApp() {
               </div>
             </div>
 
+            <div className="panel billing-credit-pack-panel">
+              <div className="panel-header">
+                <div>
+                  <p className="eyebrow">{appUi.conversion.billing.creditPacksEyebrow}</p>
+                  <h2>{appUi.conversion.billing.creditPacksTitle}</h2>
+                </div>
+                <span className="status-pill">{appUi.conversion.scan.deepCost}</span>
+              </div>
+              <p className="panel-copy">{appUi.conversion.billing.creditPacksCopy}</p>
+              <div className="credit-pack-grid">
+                {appUi.conversion.billing.packs.map((pack) => (
+                  <article className="credit-pack-card" key={pack.name}>
+                    <div>
+                      <strong>{pack.name}</strong>
+                      <span>{pack.fit}</span>
+                    </div>
+                    <div className="credit-pack-price">
+                      <strong>{pack.price}</strong>
+                      <span>{pack.credits}</span>
+                    </div>
+                    <a className="button button-secondary button-small" href={billingPlanCompareHref}>
+                      {appUi.conversion.billing.packCta}
+                    </a>
+                  </article>
+                ))}
+              </div>
+            </div>
+
             <div className="billing-secondary-grid">
               <div className="panel billing-policy-panel">
                 <p className="eyebrow">{appUi.billing.policy.eyebrow}</p>
@@ -9297,7 +10504,7 @@ function DashboardApp() {
                           <div className="scan-history-detail-action">
                             <span>{appUi.billing.scanHistory.prospectCard}</span>
                             {scan.leadId ? (
-                              <a href={leadDetailHref(scan.leadId) || "/app/leads"}>{appUi.billing.scanHistory.openLeadDetail}</a>
+                              <a href={leadDetailHref(scan.leadId, "overview", "billing") || appRoutes.qualified}>{appUi.billing.scanHistory.openLeadDetail}</a>
                             ) : (
                               <code>{appUi.billing.scanHistory.noLeadSaved}</code>
                             )}
@@ -9341,9 +10548,9 @@ function DashboardApp() {
 function HomeProspectPreview({ card }: { card: ProspectCardType }) {
   const { siteUi } = usePublicSite();
   const previewCopy = siteUi.home.sampleCard;
-  const firstLine = card.firstLines[0] || previewCopy.noFirstLineLabel;
+  const firstLine = recipientSafeOutboundText(card.firstLines[0] || previewCopy.noFirstLineLabel);
   const topSignals = card.opportunitySignals.slice(0, 3);
-  const shortEmailLines = card.shortEmail.split(/\n+/).filter(Boolean);
+  const shortEmailLines = recipientSafeOutboundText(card.shortEmail).split(/\n+/).filter(Boolean);
   const contactCount =
     card.contactPoints.emails.length +
     card.contactPoints.phones.length +
@@ -9446,7 +10653,7 @@ function ProspectCard({
   const [exportSelection, setExportSelection] = useState<Record<ProspectExportFieldKey, boolean>>(
     defaultProspectExportSelection
   );
-  const [exportPreset, setExportPreset] = useState<ProspectExportPresetKey>("brief");
+  const [exportPreset, setExportPreset] = useState<ProspectExportPresetKey>("email");
   const [crmFieldMode, setCrmFieldMode] = useState<ProspectCrmFieldMode>("hubspot");
   const [metaFields, setMetaFields] = useState<ProspectPipelineContext>(() => ({
     ...normalizeProspectMeta(card.pipelineContext)
@@ -9457,7 +10664,10 @@ function ProspectCard({
   );
   const [activityFieldFilter, setActivityFieldFilter] = useState<ActivityFieldFilter>("all");
   const [expandedActivityId, setExpandedActivityId] = useState<string | null>(null);
-  const firstLine = card.firstLines[0] || siteUi.home.sampleCard.noFirstLineLabel;
+  const firstLine = recipientSafeOutboundText(card.firstLines[0] || siteUi.home.sampleCard.noFirstLineLabel);
+  const shortEmail = recipientSafeOutboundText(card.shortEmail);
+  const displaySummary = localizedProspectDisplayText(card.summary, locale);
+  const displayFitReason = localizedProspectDisplayText(card.fitReason, locale);
   const stageLabel = appUi.options.pipelineStages[metaFields.stage] || appUi.options.pipelineStages.researching;
   const tabIdPrefix = `prospect-${slugifyFilePart(card.domain)}`;
 
@@ -9496,13 +10706,106 @@ function ProspectCard({
       value: formatCardList(card.contactPoints.socialLinks, appUi.common.noneFound)
     }
   ];
-  const topSignals = card.opportunitySignals.slice(0, 3);
+  const topSignals = card.opportunitySignals.slice(0, 2);
   const contactFoundCount = [
     card.contactPoints.emails,
     card.contactPoints.phones,
     card.contactPoints.contactPages,
     card.contactPoints.socialLinks
   ].filter((group) => group.length).length;
+  const confidencePercent = Math.round(card.confidenceScore * 100);
+  const sourceCount = Math.max(
+    card.sourceNotes.length,
+    new Set(card.opportunitySignals.map((signal) => signal.source).filter(Boolean)).size
+  );
+  const industryNeedsReview = !card.industry || /^(unknown|未知|不明|알 수 없음|unbekannt|onbekend|inconnu)$/i.test(card.industry.trim());
+  const decisionTone =
+    card.fitScore >= 75 && card.confidenceScore >= 0.55 ? "strong" : card.fitScore >= 55 ? "review" : "low";
+  const decisionLabel =
+    decisionTone === "strong"
+      ? appUi.prospectCard.decision.prioritize
+      : decisionTone === "review"
+        ? appUi.prospectCard.decision.review
+        : appUi.prospectCard.decision.deprioritize;
+  const decisionCopy =
+    decisionTone === "strong"
+      ? appUi.prospectCard.decision.prioritizeCopy
+      : decisionTone === "review"
+        ? appUi.prospectCard.decision.reviewCopy
+        : appUi.prospectCard.decision.deprioritizeCopy;
+  const evidenceSummary = formatMessage(appUi.prospectCard.decision.evidenceSummary, {
+    signals: card.opportunitySignals.length,
+    sources: sourceCount,
+    contacts: contactFoundCount
+  });
+  const riskItems = [
+    industryNeedsReview ? appUi.prospectCard.decision.riskIndustry : null,
+    card.confidenceScore < 0.65 ? appUi.prospectCard.decision.riskConfidence : null,
+    card.opportunitySignals.length < 3 ? appUi.prospectCard.decision.riskSignals : null,
+    contactFoundCount === 0 ? appUi.prospectCard.decision.riskContacts : null
+  ].filter((item): item is string => Boolean(item));
+  const primaryRisk = riskItems[0] || appUi.prospectCard.decision.noMajorRisk;
+  const primarySignal = card.opportunitySignals[0];
+  const primarySignalInsight = primarySignal
+    ? `${formatSignalCategory(primarySignal.category, appUi)} · ${localizedProspectDisplayText(primarySignal.signal, locale)}`
+    : appUi.prospectCard.decision.noSignalInsight;
+  const decisionExplanations = [
+    {
+      label: appUi.prospectCard.fitLabel,
+      value: String(card.fitScore),
+      basis: appUi.prospectCard.decision.fitBasis,
+      insight: formatMessage(appUi.prospectCard.decision.fitInsight, {
+        score: card.fitScore,
+        decision: decisionLabel,
+        reason: displayFitReason
+      })
+    },
+    {
+      label: appUi.prospectCard.confidence,
+      value: `${confidencePercent}%`,
+      basis: appUi.prospectCard.decision.confidenceBasis,
+      insight: formatMessage(appUi.prospectCard.decision.confidenceInsight, {
+        confidence: confidencePercent,
+        sources: sourceCount,
+        signals: card.opportunitySignals.length,
+        contacts: contactFoundCount
+      })
+    },
+    {
+      label: appUi.prospectCard.decision.evidence,
+      value: evidenceSummary,
+      basis: appUi.prospectCard.decision.evidenceBasis,
+      insight: formatMessage(appUi.prospectCard.decision.evidenceInsight, {
+        signal: primarySignalInsight
+      })
+    },
+    {
+      label: appUi.prospectCard.decision.risk,
+      value: riskItems.length ? `${riskItems.length}` : "0",
+      basis: appUi.prospectCard.decision.riskBasis,
+      insight: riskItems.length ? riskItems.join(" ") : appUi.prospectCard.decision.noMajorRisk
+    }
+  ];
+  const decisionDimensions = [
+    appUi.prospectCard.decision.dimensionCommercial,
+    appUi.prospectCard.decision.dimensionEvidence,
+    appUi.prospectCard.decision.dimensionContactability,
+    appUi.prospectCard.decision.dimensionRisk
+  ];
+  const heroFacts = [
+    {
+      label: appUi.prospectCard.confidence,
+      value: `${confidencePercent}%`
+    },
+    {
+      label: appUi.prospectCard.decision.evidence,
+      value: evidenceSummary
+    },
+    {
+      label: appUi.prospectCard.decision.risk,
+      value: primaryRisk
+    }
+  ];
   const pipelineActivity = card.pipelineActivity || [];
   const localizedExportFields = prospectExportFields.map((field) => ({
     ...field,
@@ -9527,13 +10830,13 @@ function ProspectCard({
     `${copyLabels.owner}: ${metaFields.owner || appUi.common.unassigned}`,
     `${copyLabels.pipelineStage}: ${stageLabel}`,
     `${copyLabels.notes}: ${metaFields.notes || appUi.common.none}`,
-    `${copyLabels.summary}: ${card.summary}`,
-    `${copyLabels.fitReason}: ${card.fitReason}`,
+    `${copyLabels.summary}: ${displaySummary}`,
+    `${copyLabels.fitReason}: ${displayFitReason}`,
     `${copyLabels.signals}: ${card.opportunitySignals.map((signal) => `${formatSignalCategory(signal.category, appUi)}: ${signal.signal}`).join("; ")}`,
     `${copyLabels.firstLine}: ${firstLine}`,
-    `${copyLabels.shortEmail}:\n${card.shortEmail}`
+    `${copyLabels.shortEmail}:\n${shortEmail}`
   ].join("\n");
-  const emailDraftText = [formatMessage(copyLabels.subjectLine, { company: card.companyName }), "", card.shortEmail].join("\n");
+  const emailDraftText = [formatMessage(copyLabels.subjectLine, { company: card.companyName }), "", shortEmail].join("\n");
   const exportSections: Record<ProspectExportFieldKey, string> = {
     identity: [
       `${copyLabels.company}: ${card.companyName}`,
@@ -9547,8 +10850,8 @@ function ProspectCard({
     ].join("\n"),
     fit: [
       `${copyLabels.fitScore}: ${card.fitScore}`,
-      `${copyLabels.summary}: ${card.summary}`,
-      `${copyLabels.fitReason}: ${card.fitReason}`
+      `${copyLabels.summary}: ${displaySummary}`,
+      `${copyLabels.fitReason}: ${displayFitReason}`
     ].join("\n"),
     signals: card.opportunitySignals
       .map(
@@ -9559,7 +10862,7 @@ function ProspectCard({
     contacts: contactGroups.map((group) => `${group.label}: ${group.value}`).join("\n"),
     angles: card.outreachAngles.map((angle) => `- ${angle}`).join("\n"),
     firstLine,
-    email: card.shortEmail,
+    email: shortEmail,
     sources: card.sourceNotes.map((note) => `- ${note.claim} (${copyLabels.source}: ${note.source})`).join("\n")
   };
   const activePreset = exportPreset === "custom" ? null : localizedExportPresets.find((preset) => preset.key === exportPreset) || null;
@@ -10016,11 +11319,11 @@ function ProspectCard({
               copyKey="short-email"
               label={appUi.prospectCard.actions.copyEmail}
               state={copyState}
-              value={card.shortEmail}
+              value={shortEmail}
               onCopy={copyCardValue}
             />
           </div>
-          <pre>{card.shortEmail}</pre>
+          <pre>{shortEmail}</pre>
         </div>
       );
     }
@@ -10055,8 +11358,8 @@ function ProspectCard({
             <span>{appUi.prospectCard.overview.fitEvidence}</span>
             <strong>{formatMessage(appUi.prospectCard.overview.confidence, { count: Math.round(card.confidenceScore * 100) })}</strong>
           </div>
-          <p>{card.summary}</p>
-          {!compact ? <small>{card.fitReason}</small> : null}
+          <p>{displaySummary}</p>
+          {!compact ? <small>{displayFitReason}</small> : null}
         </section>
         <section className="prospect-card-section">
           <div className="prospect-section-head">
@@ -10080,7 +11383,7 @@ function ProspectCard({
                 {appUi.prospectCard.overview.openEmail}
               </button>
             </div>
-            <pre>{card.shortEmail}</pre>
+            <pre>{shortEmail}</pre>
           </div>
         ) : null}
       </div>
@@ -10100,25 +11403,49 @@ function ProspectCard({
           <span>{appUi.prospectCard.fitLabel}</span>
         </div>
       </div>
+      <section className={`prospect-decision-panel prospect-decision-hero is-${decisionTone}`} aria-label={appUi.prospectCard.decision.panelLabel}>
+        <div className="prospect-decision-primary">
+          <span>{appUi.prospectCard.decision.recommendation}</span>
+          <strong>{decisionLabel}</strong>
+          <p>{decisionCopy}</p>
+        </div>
+        <div className="prospect-hero-facts">
+          {heroFacts.map((fact) => (
+            <div key={fact.label}>
+              <span>{fact.label}</span>
+              <strong>{fact.value}</strong>
+            </div>
+          ))}
+        </div>
+      </section>
+      <details className="prospect-metric-explainer prospect-metric-details">
+        <summary>
+          <span>{appUi.prospectCard.decision.explanationTitle}</span>
+          <strong>{appUi.prospectCard.decision.dimensionsLabel}</strong>
+        </summary>
+        <p>{appUi.prospectCard.decision.explanationCopy}</p>
+        <div className="prospect-dimension-chips" aria-label={appUi.prospectCard.decision.dimensionsLabel}>
+          {decisionDimensions.map((dimension) => (
+            <span key={dimension}>{dimension}</span>
+          ))}
+        </div>
+        <div className="prospect-metric-grid">
+          {decisionExplanations.map((item) => (
+            <article className="prospect-metric-card" key={item.label}>
+              <div>
+                <span>{item.label}</span>
+                <strong>{item.value}</strong>
+              </div>
+              <p>{item.basis}</p>
+              <small>{item.insight}</small>
+            </article>
+          ))}
+        </div>
+      </details>
       <div className="prospect-summary-strip" aria-label={appUi.prospectCard.summaryLabel}>
         <div>
-          <span>{appUi.prospectCard.website}</span>
-          <strong>{card.domain}</strong>
-        </div>
-        <div>
           <span>{appUi.prospectCard.industry}</span>
-          <strong>{card.industry}</strong>
-        </div>
-        <div>
-          <span>{appUi.prospectCard.confidence}</span>
-          <strong>{Math.round(card.confidenceScore * 100)}%</strong>
-        </div>
-        <div>
-          <span>{appUi.prospectCard.status}</span>
-          <strong>
-            {(card.savedStatus || "saved") === "saved" ? appUi.preview.saved : appUi.preview.unsaved} /{" "}
-            {(card.exportStatus || "not_exported") === "exported" ? appUi.preview.exported : appUi.preview.notExported}
-          </strong>
+          <strong>{industryNeedsReview ? appUi.prospectCard.decision.needsVerification : card.industry}</strong>
         </div>
         {workspaceControls ? (
           <>
@@ -10131,7 +11458,15 @@ function ProspectCard({
               <strong>{stageLabel}</strong>
             </div>
           </>
-        ) : null}
+        ) : (
+          <div>
+            <span>{appUi.prospectCard.status}</span>
+            <strong>
+              {(card.savedStatus || "saved") === "saved" ? appUi.preview.saved : appUi.preview.unsaved} /{" "}
+              {(card.exportStatus || "not_exported") === "exported" ? appUi.preview.exported : appUi.preview.notExported}
+            </strong>
+          </div>
+        )}
       </div>
       <div className="prospect-card-actions prospect-card-primary-actions">
         <CopyButton
@@ -10141,15 +11476,6 @@ function ProspectCard({
           value={emailDraftText}
           onCopy={copyCardValue}
         />
-        <button
-          className={`copy-chip ${copyState?.key === "download-selected" ? `is-${copyState.status}` : ""}`}
-          type="button"
-          onClick={downloadSelectedFields}
-          disabled={!selectedExportFields.length}
-        >
-          <Icon name="download" />
-          {appUi.prospectCard.actions.export}
-        </button>
         {workspaceControls && leadId ? (
           <CopyButton
             copyKey="share-link"
@@ -10247,7 +11573,19 @@ function ProspectCard({
           </div>
         </details>
       ) : null}
-      {workspaceControls && !compact ? renderActivityLog() : null}
+      {workspaceControls && !compact ? (
+        <details className="prospect-meta-panel prospect-activity-details">
+          <summary>
+            <span>{appUi.prospectCard.activity.title}</span>
+            <strong>
+              {pipelineActivity.length
+                ? formatMessage(appUi.prospectCard.activity.recent, { count: pipelineActivity.length })
+                : appUi.prospectCard.activity.noChangesYet}
+            </strong>
+          </summary>
+          {renderActivityLog()}
+        </details>
+      ) : null}
       {!compact && (
         <div className="prospect-tabs" role="tablist" aria-label={appUi.prospectCard.sectionsLabel}>
           {prospectCardTabs.map((tab) => (
@@ -10370,6 +11708,7 @@ function SignalList({ signals }: { signals: OpportunitySignal[] }) {
         <div className="signal-item" key={signal.signal}>
           <span>{formatSignalCategory(signal.category, appUi)}</span>
           <p>{signal.signal}</p>
+          {signal.reason ? <small>{signal.reason}</small> : null}
           <small>{appUi.prospectCard.sources.sourceLabel}: {signal.source}</small>
         </div>
       ))}

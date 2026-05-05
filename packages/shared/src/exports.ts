@@ -229,8 +229,8 @@ export const prospectExportColumns: Record<ProspectExportColumnKey, ProspectExpo
 export const prospectExportPresets: ProspectExportPresetDefinition[] = [
   {
     key: "crm",
-    label: "CRM export",
-    description: "Company, fit, contacts, owner, stage, and source proof.",
+    label: "Prospect CSV",
+    description: "Company, fit, contact paths, status, notes, and source proof.",
     fields: ["identity", "fit", "contacts", "sources"],
     columns: [
       "companyName",
@@ -250,15 +250,15 @@ export const prospectExportPresets: ProspectExportPresetDefinition[] = [
   },
   {
     key: "email",
-    label: "Email draft",
-    description: "The first line, outreach angles, and short email only.",
+    label: "Instantly / Smartlead CSV",
+    description: "Fields that move a qualified prospect into a cold email tool.",
     fields: ["firstLine", "angles", "email"],
     columns: ["companyName", "domain", "subject", "firstLine", "emailBody", "outreachAngles", "owner", "pipelineStage"]
   },
   {
     key: "brief",
     label: "Research brief",
-    description: "A compact account brief with evidence, signals, and sources.",
+    description: "A compact prospect brief with evidence, signals, angles, and sources.",
     fields: ["identity", "fit", "signals", "angles", "sources"],
     columns: ["companyName", "websiteUrl", "summary", "fitReason", "websiteSignals", "outreachAngles", "sourceNotes", "confidenceScore"]
   }

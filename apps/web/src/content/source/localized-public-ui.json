@@ -3,8 +3,8 @@
     "siteUi": {
       "auth": {
         "login": {
-          "heroEyebrow": "网站研究工作区",
-          "cardCopy": "使用 Google 或工作邮箱重新打开你的网站研究工作区。",
+          "heroEyebrow": "网站研究看板",
+          "cardCopy": "使用 Google 或工作邮箱重新打开你的网站研究看板。",
           "recoveryGoogleTitle": "这个账号已经通过 Google 建立了登录方式",
           "recoveryGoogleCopy": "你现在可以直接使用 Google 继续，也可以先向该邮箱发送一次性密码设置邮件，补设邮箱密码供以后登录。",
           "recoveryPasswordTitle": "完成邮箱密码登录设置",
@@ -22,20 +22,20 @@
             "invalidResetEmail": "请输入你登录时使用的工作邮箱。",
             "resetPrepared": "如果这个邮箱对应现有账号，我们会向该邮箱发送一封一次性重置邮件。"
           },
-          "signupCopy": "先创建账号。账号会话生效后，套餐选择和工作区设置会在 /app 内继续。",
+          "signupCopy": "先创建账号。账号会话生效后，套餐选择和看板设置会在 /app 内继续。",
           "signupCta": "创建账号"
         },
         "signup": {
           "heroTitle": "创建账号",
-          "heroCopy": "先创建你的账号。登录后再在 /app 内继续选择套餐并完成工作区设置。",
+          "heroCopy": "先创建你的账号。登录后再在 /app 内继续选择套餐并完成看板设置。",
           "summaryProspects": "研究卡片 + CSV",
-          "oauthCopy": "Google 会先创建账号，然后把你带入工作区设置。",
+          "oauthCopy": "Google 会先创建账号，然后把你带入看板设置。",
           "emailCta": "使用邮箱创建账号",
           "emailLoading": "正在创建账号...",
           "step2Copy": "定义你的服务报价和目标客户画像，让第一批研究卡片从一开始就带有可用的匹配信号。",
-          "setupNote": "登录后再在 /app 内继续完成工作区设置和套餐确认。",
+          "setupNote": "登录后再在 /app 内继续完成看板设置和套餐确认。",
           "loginLead": "已经有账号了？",
-          "loginCopy": "使用同一页面登录并重新打开你的工作区。",
+          "loginCopy": "使用同一页面登录并重新打开你的看板。",
           "selectedPlanPaid": "__PRICE__ · 每月 __CREDITS__ 次扫描",
           "validation": {
             "accountExists": "这个邮箱已经有账号了，请直接登录。",
@@ -51,12 +51,12 @@
         "toolBand": {
           "eyebrow": "把模板转成真实线索流程",
           "title": "在一个真实公司网站上使用同样的流程。",
-          "copy": "从免费工作区开始，运行网站扫描，把匹配分、来源备注、开场白和 CRM 导出字段集中保存，不再手动来回复制。",
+          "copy": "从免费看板开始，运行网站扫描，把匹配分、来源备注、开场白和 CSV 导出字段集中保存，不再手动来回复制。",
           "primaryCta": "免费开始这个流程",
           "secondaryCta": "打开示例线索卡片",
           "points": [
             "20 次免费扫描，用真实网站测试流程",
-            "使用应用内导出流程相同的 CRM 字段命名",
+            "使用应用内导出流程相同的 CSV 字段命名",
             "导入或外联前，只保存合格客户"
           ]
         }
@@ -64,6 +64,119 @@
       "commercial": {
         "nextStepEyebrow": "下一步",
         "nextStepTitle": "把一个真实网站转成你的第一张研究卡片。"
+      },
+      "tools": {
+        "firstLine": {
+          "generator": {
+            "title": "从真实网站生成冷邮件开场白",
+            "copy": "粘贴一个潜在客户网站，选择你的服务类型，在创建完整研究卡片前先获得可直接使用的安全开场白。",
+            "websiteLabel": "潜在客户网站",
+            "websitePlaceholder": "https://example.com",
+            "offerTypeLabel": "服务类型",
+            "toneLabel": "语气",
+            "toneProfessional": "专业",
+            "toneDirect": "直接",
+            "toneCasual": "轻松",
+            "submit": "生成开场白",
+            "loading": "正在生成...",
+            "previewNote": "免费预览只包含开场白。注册后可生成完整研究卡片。",
+            "validationMissingUrl": "请先输入一个潜在客户网站。",
+            "validationTurnstile": "请先完成验证再生成开场白。",
+            "networkError": "暂时无法连接生成器，请稍后重试。",
+            "genericError": "现在暂时无法生成开场白。",
+            "websiteObservation": "网站观察",
+            "fitPreview": "匹配预览",
+            "fitPreviewCopy": "注册后可解锁完整匹配分、来源备注、短邮件、保存客户和 CSV 导出。",
+            "lockedLabel": "完整卡片中解锁",
+            "lockedFields": [
+              "完整研究卡片",
+              "短邮件",
+              "CSV 导出"
+            ],
+            "lockedCopy": "LeadCue 会在首次扫描后，把网站证据、外联上下文和导出字段保存在一起。",
+            "signupCta": "生成完整研究卡片",
+            "copyAll": "复制全部开场白",
+            "exampleModeAria": "服务类型示例",
+            "errors": {
+              "validation_failed": "请输入有效的公开网站 URL。",
+              "turnstile_failed": "验证失败，请刷新后重试。",
+              "rate_limited": "今日免费工具次数已用完。免费开始以生成完整研究卡片。",
+              "fetch_failed": "无法从该 URL 读取足够的公开网站内容。",
+              "generation_failed": "现在暂时无法生成开场白，请稍后重试。"
+            }
+          }
+        },
+        "opportunityFinder": {
+          "eyebrow": "网站机会发现器",
+          "title": "外联前先发现网站上的改进机会",
+          "copy": "粘贴一个潜在客户网站，选择你的服务类型，免费预览 3 个带来源依据的机会信号，不替代完整研究卡片。",
+          "websiteLabel": "潜在客户网站",
+          "websitePlaceholder": "https://example.com",
+          "offerTypeLabel": "服务类型",
+          "submit": "发现机会",
+          "loading": "正在发现机会...",
+          "previewNote": "免费预览包含 3 个机会信号和匹配预览。注册后可解锁完整研究卡片。",
+          "validationMissingUrl": "请先输入一个潜在客户网站。",
+          "validationTurnstile": "请先完成验证再发现机会。",
+          "networkError": "暂时无法连接机会发现器，请稍后重试。",
+          "genericError": "现在暂时无法发现网站机会。",
+          "opportunityLabel": "机会",
+          "sourceLabel": "来源",
+          "reasonLabel": "为什么重要",
+          "fitPreview": "匹配预览",
+          "confidenceLabel": "证据置信度",
+          "fitPreviewCopy": "注册后可解锁完整匹配分、来源备注、开场白、短邮件、保存客户和 CSV 导出。",
+          "lockedLabel": "完整卡片中解锁",
+          "lockedFields": [
+            "完整研究卡片",
+            "开场白",
+            "CSV 导出"
+          ],
+          "lockedCopy": "LeadCue 会在首次扫描后，把机会信号、来源证据、外联文案和导出字段保存在一起。",
+          "signupCta": "生成完整研究卡片",
+          "errors": {
+            "validation_failed": "请输入有效的公开网站 URL。",
+            "turnstile_failed": "验证失败，请刷新后重试。",
+            "rate_limited": "今日免费工具次数已用完。免费开始以生成完整研究卡片。",
+            "fetch_failed": "无法从该 URL 读取足够的公开网站内容。",
+            "generation_failed": "现在暂时无法发现机会，请稍后重试。"
+          }
+        },
+        "prospectScore": {
+          "eyebrow": "网站客户评分器",
+          "title": "外联前先评估这个网站是否值得跟进",
+          "copy": "粘贴一个潜在客户网站，选择你的服务类型，在创建完整研究卡片前先预览可解释的客户评分。",
+          "websiteLabel": "潜在客户网站",
+          "websitePlaceholder": "https://example.com",
+          "offerTypeLabel": "服务类型",
+          "submit": "评估客户",
+          "loading": "正在评估...",
+          "previewNote": "免费预览包含评分、4 个评分维度和最强信号。注册后可解锁完整研究卡片。",
+          "validationMissingUrl": "请先输入一个潜在客户网站。",
+          "validationTurnstile": "请先完成验证再评估客户。",
+          "networkError": "暂时无法连接评分器，请稍后重试。",
+          "genericError": "现在暂时无法评估这个客户。",
+          "scoreLabel": "客户评分",
+          "dimensionLabel": "评分维度",
+          "evidenceLabel": "依据",
+          "reasonLabel": "为什么重要",
+          "strongestSignal": "最强信号",
+          "lockedLabel": "完整卡片中解锁",
+          "lockedFields": [
+            "完整研究卡片",
+            "开场白",
+            "CSV 导出"
+          ],
+          "lockedCopy": "LeadCue 会把这个评分转成已保存研究卡片，包含来源备注、外联文案、状态和导出字段。",
+          "signupCta": "生成完整研究卡片",
+          "errors": {
+            "validation_failed": "请输入有效的公开网站 URL。",
+            "turnstile_failed": "验证失败，请刷新后重试。",
+            "rate_limited": "今日免费工具次数已用完。免费开始以生成完整研究卡片。",
+            "fetch_failed": "无法从该 URL 读取足够的公开网站内容。",
+            "generation_failed": "现在暂时无法评估这个客户，请稍后重试。"
+          }
+        }
       }
     }
   },
@@ -71,8 +184,8 @@
     "siteUi": {
       "auth": {
         "login": {
-          "heroEyebrow": "Webサイトリサーチ用ワークスペース",
-          "cardCopy": "Google または仕事用メールで、Webサイトリサーチのワークスペースを再開できます。",
+          "heroEyebrow": "Webサイトリサーチ用ダッシュボード",
+          "cardCopy": "Google または仕事用メールで、Webサイトリサーチのダッシュボードを再開できます。",
           "recoveryGoogleTitle": "このアカウントはすでに Google サインインで設定されています",
           "recoveryGoogleCopy": "今すぐ Google で続行するか、このメールアドレス宛てにワンタイムのパスワード設定メールを送信して、今後はメールとパスワードでもサインインできるようにできます。",
           "recoveryPasswordTitle": "メールとパスワードのサインイン設定を完了する",
@@ -90,20 +203,20 @@
             "invalidResetEmail": "サインインに使う仕事用メールアドレスを入力してください。",
             "resetPrepared": "このメールアドレスに一致するアカウントがあれば、その受信箱にワンタイムのリセットメールを送信します。"
           },
-          "signupCopy": "先にアカウントを作成してください。セッション有効化後に、プラン選択とワークスペース設定を /app 内で続けます。",
+          "signupCopy": "先にアカウントを作成してください。セッション有効化後に、プラン選択とダッシュボード設定を /app 内で続けます。",
           "signupCta": "アカウントを作成"
         },
         "signup": {
           "heroTitle": "アカウントを作成",
-          "heroCopy": "まずアカウントを作成します。サインイン後、/app 内でプラン選択とワークスペース設定を続けます。",
+          "heroCopy": "まずアカウントを作成します。サインイン後、/app 内でプラン選択とダッシュボード設定を続けます。",
           "summaryProspects": "リサーチカード + CSV",
-          "oauthCopy": "Google で先にアカウントを作成し、そのままワークスペース設定へ進みます。",
+          "oauthCopy": "Google で先にアカウントを作成し、そのままダッシュボード設定へ進みます。",
           "emailCta": "メールでアカウントを作成",
           "emailLoading": "アカウントを作成中...",
           "step2Copy": "提供サービスとターゲット像を定義し、最初のリサーチカードから有用な適合シグナルを出せるようにします。",
-          "setupNote": "ワークスペース設定とプラン確認は、サインイン後に /app 内で続行します。",
+          "setupNote": "ダッシュボード設定とプラン確認は、サインイン後に /app 内で続行します。",
           "loginLead": "すでにアカウントをお持ちですか？",
-          "loginCopy": "同じページからサインインして、ワークスペースを再開できます。",
+          "loginCopy": "同じページからサインインして、ダッシュボードを再開できます。",
           "selectedPlanPaid": "__PRICE__ · 月 __CREDITS__ 件のスキャン",
           "validation": {
             "accountExists": "このメールアドレスのアカウントはすでに存在します。サインインしてください。",
@@ -119,12 +232,12 @@
         "toolBand": {
           "eyebrow": "テンプレートを営業パイプラインへ",
           "title": "実際の企業サイトでも同じワークフローを使えます。",
-          "copy": "無料ワークスペースから始め、Webサイトをスキャンし、適合スコア、ソースメモ、冒頭文、CRMエクスポート項目を手作業でコピーせずにまとめて保持します。",
+          "copy": "無料ダッシュボードから始め、Webサイトをスキャンし、適合スコア、ソースメモ、冒頭文、CSVエクスポート項目を手作業でコピーせずにまとめて保持します。",
           "primaryCta": "このワークフローを無料で始める",
           "secondaryCta": "サンプルのリサーチカードを開く",
           "points": [
             "実際のWebサイトで試せる無料スキャン20回",
-            "アプリのエクスポートと同じ CRM 項目プリセット",
+            "アプリのエクスポートと同じ CSV 項目プリセット",
             "インポートや営業前に、選定済みアカウントだけを保存"
           ]
         }
@@ -132,6 +245,48 @@
       "commercial": {
         "nextStepEyebrow": "次のステップ",
         "nextStepTitle": "実際のWebサイトを、最初のリサーチカードに変換します。"
+      },
+      "tools": {
+        "firstLine": {
+          "generator": {
+            "title": "実際のWebサイトからコールドメールの冒頭文を生成",
+            "copy": "見込み客のWebサイトを貼り付け、提供サービスを選ぶだけで、完全なリサーチカードを作成する前に相手向けの安全な冒頭文を得られます。",
+            "websiteLabel": "見込み客のWebサイト",
+            "websitePlaceholder": "https://example.com",
+            "offerTypeLabel": "提供サービス",
+            "toneLabel": "トーン",
+            "toneProfessional": "プロフェッショナル",
+            "toneDirect": "直接的",
+            "toneCasual": "カジュアル",
+            "submit": "冒頭文を生成",
+            "loading": "生成中...",
+            "previewNote": "無料プレビューは冒頭文のみです。登録後に完全なリサーチカードを作成できます。",
+            "validationMissingUrl": "まず見込み客のWebサイトURLを入力してください。",
+            "validationTurnstile": "冒頭文を生成する前に認証を完了してください。",
+            "networkError": "生成ツールに接続できません。しばらくしてから再度お試しください。",
+            "genericError": "現在、冒頭文を生成できません。",
+            "websiteObservation": "Webサイトの観察",
+            "fitPreview": "適合プレビュー",
+            "fitPreviewCopy": "登録すると、完全な適合スコア、ソースメモ、短いメール、保存済み見込み客、CSVエクスポートを利用できます。",
+            "lockedLabel": "完全カードで解放",
+            "lockedFields": [
+              "完全なリサーチカード",
+              "短いメール",
+              "CSVエクスポート"
+            ],
+            "lockedCopy": "LeadCue は初回スキャン後、Webサイト証拠、アウトリーチ文脈、エクスポート項目をまとめて保存します。",
+            "signupCta": "完全なリサーチカードを生成",
+            "copyAll": "すべての冒頭文をコピー",
+            "exampleModeAria": "提供サービスの例",
+            "errors": {
+              "validation_failed": "有効な公開WebサイトURLを入力してください。",
+              "turnstile_failed": "認証に失敗しました。更新して再度お試しください。",
+              "rate_limited": "本日の無料ツール利用上限に達しました。無料で開始して完全なリサーチカードを生成してください。",
+              "fetch_failed": "そのURLから十分な公開Webサイト本文を読み取れませんでした。",
+              "generation_failed": "現在、冒頭文を生成できません。しばらくしてから再度お試しください。"
+            }
+          }
+        }
       }
     }
   },
@@ -157,7 +312,7 @@
         },
         "analytics": {
           "kicker": "웹사이트 리서치 라이브",
-          "title": "에이전시 파이프라인 스냅샷",
+          "title": "개인 전문가 파이프라인 스냅샷",
           "live": "라이브",
           "timeframe": "지난 24시간",
           "metrics": [
@@ -270,7 +425,7 @@
         "features": {
           "eyebrow": "웹사이트 우선 워크플로우",
           "title": "웹사이트를 먼저 선별하고, 아웃리치 각도를 찾고, 깔끔하게 넘기세요",
-          "copy": "LeadCue는 웹사이트 관찰을 아웃리치에 바로 쓸 수 있는 문맥으로 바꿔, 어떤 계정을 저장하고 개인화해 다음 단계로 넘길지 에이전시가 판단하게 도와줍니다.",
+          "copy": "LeadCue는 웹사이트 관찰을 아웃리치에 바로 쓸 수 있는 문맥으로 바꿔, 어떤 계정을 저장하고 개인화해 다음 단계로 넘길지 개인 전문가가 판단하게 도와줍니다.",
           "items": [
             {
               "title": "의도가 보이는 잠재고객 분석",
@@ -278,7 +433,7 @@
               "meta": "라이브 파이프라인"
             },
             {
-              "title": "에이전시 오퍼에 맞춘 ICP 스코어링",
+              "title": "개인 전문가 오퍼에 맞춘 ICP 스코어링",
               "copy": "서비스 유형, 업종, 지역, 회사 규모, 오퍼 적합도를 기준으로 각 웹사이트를 평가한 뒤 저장 여부를 결정합니다.",
               "meta": "적합도 점수"
             },
@@ -289,7 +444,7 @@
             },
             {
               "title": "아웃리치 스택으로 깔끔하게 내보내기",
-              "copy": "선별된 잠재고객만 Sheets, Smartlead, Instantly, Lemlist 또는 CRM으로 넘기고, 적합하지 않은 리스트는 아래 단계로 보내지 않습니다.",
+              "copy": "선별된 잠재고객만 Sheets, Smartlead, Instantly, Lemlist 또는 CSV으로 넘기고, 적합하지 않은 리스트는 아래 단계로 보내지 않습니다.",
               "meta": "깔끔한 인계"
             }
           ]
@@ -320,13 +475,12 @@
           "copy": "이메일 찾기 도구가 연락처를 찾는 데 도움을 준다면, LeadCue는 첫 메시지를 보내기 전에 왜 이 회사를 연락할 가치가 있는지 판단하게 도와줍니다."
         },
         "pricing": {
-          "title": "주간 아웃리치 리서치에 맞는 스캔 크레딧",
-          "copy": "적은 수의 웹사이트 스캔으로 시작한 뒤, LeadCue가 에이전시의 아웃바운드 리듬에 자리 잡으면 확장하세요.",
+          "title": "개인 잠재고객 발굴에 맞는 간단한 크레딧",
+          "copy": "무료로 시작하고 웹사이트 리서치가 개인 아웃리치 리듬에 자리 잡으면 업그레이드하세요. 좌석 요금제나 팀 요금제는 없습니다.",
           "planUseCases": {
-            "free": "유료 전환 전에 실제 웹사이트로 워크플로우를 검증하려는 팀에 적합합니다.",
-            "starter": "매주 아웃바운드 리서치 습관을 만들고 있는 1인 운영자에게 적합합니다.",
-            "pro": "웹사이트 리서치를 반복 가능한 아웃바운드 파이프라인으로 만들고 싶은 에이전시에 적합합니다.",
-            "agency": "여러 클라이언트 오퍼 사이에서 스캔 크레딧을 공유하는 팀에 적합합니다."
+            "free": "실제 웹사이트로 개인 잠재고객 발굴 흐름을 테스트하기에 적합합니다.",
+            "pro": "정기적으로 아웃리치를 하는 프리랜서, 컨설턴트, 1인 창업자에게 적합합니다.",
+            "power": "더 많은 웹사이트 리서치를 수행하는 개인 운영자에게 적합합니다."
           }
         },
         "faqSection": {
@@ -343,7 +497,7 @@
               "href": "/guides/turn-website-into-cold-email-angle"
             },
             {
-              "title": "잠재고객을 저장하기 전에 에이전시가 평가해야 할 항목",
+              "title": "잠재고객을 저장하기 전에 개인 전문가가 평가해야 할 항목",
               "copy": "적합도, 시급성, 신뢰 근거 부족, 연락 경로를 기준으로 리스트 노이즈를 줄입니다.",
               "label": "적합도 판단",
               "href": "/guides/score-prospect-website"
@@ -387,8 +541,8 @@
         },
         "launch": {
           "eyebrow": "스캔 시작",
-          "title": "에이전시 워크스페이스를 만들고 첫 웹사이트 검토를 실행하세요",
-          "copy": "무료 플랜으로 시작해 에이전시 오퍼를 연결하고, 회사 웹사이트를 출처가 남는 아웃리치 리서치 카드로 바꾸세요.",
+          "title": "개인 전문가 대시보드를 만들고 첫 웹사이트 검토를 실행하세요",
+          "copy": "무료 플랜으로 시작해 개인 전문가 오퍼를 연결하고, 회사 웹사이트를 출처가 남는 아웃리치 리서치 카드로 바꾸세요.",
           "points": [
             "무료 플랜에 스캔 20회 포함",
             "LinkedIn 스크래핑 없음",
@@ -401,13 +555,13 @@
           "startFree": "무료로 시작"
         },
         "footer": {
-          "brandCopy": "더 강한 연락 이유가 필요한 에이전시를 위한 웹사이트 우선 아웃바운드 리서치."
+          "brandCopy": "더 강한 연락 이유가 필요한 개인 전문가를 위한 웹사이트 우선 아웃바운드 리서치."
         }
       },
       "auth": {
         "login": {
-          "heroEyebrow": "웹사이트 리서치 워크스페이스",
-          "cardCopy": "Google 또는 업무용 이메일로 웹사이트 리서치 워크스페이스를 다시 열 수 있습니다.",
+          "heroEyebrow": "웹사이트 리서치 대시보드",
+          "cardCopy": "Google 또는 업무용 이메일로 웹사이트 리서치 대시보드를 다시 열 수 있습니다.",
           "recoveryGoogleTitle": "이 계정은 이미 Google 로그인으로 연결되어 있습니다",
           "recoveryGoogleCopy": "지금 바로 Google로 계속하거나, 이 이메일 주소로 일회성 비밀번호 설정 메일을 보내 이후에는 이메일 비밀번호로도 로그인할 수 있습니다.",
           "recoveryPasswordTitle": "이메일 비밀번호 로그인 설정 마무리",
@@ -454,12 +608,12 @@
         "toolBand": {
           "eyebrow": "템플릿을 파이프라인 결과로",
           "title": "실제 회사 웹사이트에도 같은 워크플로우를 적용하세요.",
-          "copy": "무료 워크스페이스에서 웹사이트 스캔을 실행하고 적합도 점수, 출처 메모, 첫 문장, CRM 내보내기 필드를 한곳에 보관하세요.",
+          "copy": "무료 대시보드에서 웹사이트 스캔을 실행하고 적합도 점수, 출처 메모, 첫 문장, CSV 내보내기 필드를 한곳에 보관하세요.",
           "primaryCta": "이 워크플로우 무료로 시작",
           "secondaryCta": "샘플 리서치 카드 열기",
           "points": [
             "실제 웹사이트로 테스트할 수 있는 무료 스캔 20회",
-            "앱 내보내기 흐름과 같은 CRM 필드 프리셋",
+            "앱 내보내기 흐름과 같은 CSV 필드 프리셋",
             "가져오기나 아웃리치 전에 선별된 계정만 저장"
           ]
         }
@@ -467,6 +621,48 @@
       "commercial": {
         "nextStepEyebrow": "다음 단계",
         "nextStepTitle": "실제 웹사이트 하나를 첫 리서치 카드로 바꾸세요."
+      },
+      "tools": {
+        "firstLine": {
+          "generator": {
+            "title": "실제 웹사이트에서 콜드 이메일 첫 문장 생성",
+            "copy": "잠재고객 웹사이트를 붙여넣고 오퍼를 선택하면, 전체 리서치 카드를 만들기 전에 수신자에게 안전한 첫 문장을 받을 수 있습니다.",
+            "websiteLabel": "잠재고객 웹사이트",
+            "websitePlaceholder": "https://example.com",
+            "offerTypeLabel": "오퍼 유형",
+            "toneLabel": "톤",
+            "toneProfessional": "전문적",
+            "toneDirect": "직접적",
+            "toneCasual": "캐주얼",
+            "submit": "첫 문장 생성",
+            "loading": "생성 중...",
+            "previewNote": "무료 미리보기는 첫 문장만 제공합니다. 가입 후 전체 리서치 카드를 만들 수 있습니다.",
+            "validationMissingUrl": "먼저 잠재고객 웹사이트 URL을 입력하세요.",
+            "validationTurnstile": "첫 문장을 생성하기 전에 인증을 완료하세요.",
+            "networkError": "생성기에 연결할 수 없습니다. 잠시 후 다시 시도하세요.",
+            "genericError": "지금은 첫 문장을 생성할 수 없습니다.",
+            "websiteObservation": "웹사이트 관찰",
+            "fitPreview": "적합도 미리보기",
+            "fitPreviewCopy": "가입하면 전체 적합도 점수, 출처 메모, 짧은 이메일, 저장된 잠재고객, CSV 내보내기를 사용할 수 있습니다.",
+            "lockedLabel": "전체 카드에서 잠금 해제",
+            "lockedFields": [
+              "전체 리서치 카드",
+              "짧은 이메일",
+              "CSV 내보내기"
+            ],
+            "lockedCopy": "LeadCue는 첫 스캔 후 웹사이트 근거, 아웃리치 문맥, 내보내기 필드를 함께 보관합니다.",
+            "signupCta": "전체 리서치 카드 생성",
+            "copyAll": "첫 문장 모두 복사",
+            "exampleModeAria": "오퍼 유형 예시",
+            "errors": {
+              "validation_failed": "유효한 공개 웹사이트 URL을 입력하세요.",
+              "turnstile_failed": "인증에 실패했습니다. 새로고침 후 다시 시도하세요.",
+              "rate_limited": "오늘의 무료 도구 한도에 도달했습니다. 무료로 시작해 전체 리서치 카드를 생성하세요.",
+              "fetch_failed": "해당 URL에서 충분한 공개 웹사이트 문구를 읽을 수 없습니다.",
+              "generation_failed": "지금은 첫 문장을 생성할 수 없습니다. 잠시 후 다시 시도하세요."
+            }
+          }
+        }
       }
     }
   },
@@ -559,7 +755,7 @@
         "features": {
           "eyebrow": "Website-First-Workflow",
           "title": "Website prüfen, Ansatz finden und sauber übergeben",
-          "copy": "LeadCue verwandelt Website-Beobachtungen in akquisebereiten Kontext, damit Agenturen entscheiden können, welche Accounts gespeichert, personalisiert und in die Ansprache überführt werden sollten."
+          "copy": "LeadCue verwandelt Website-Beobachtungen in akquisebereiten Kontext, damit Solo-Profis entscheiden können, welche Accounts gespeichert, personalisiert und in die Ansprache überführt werden sollten."
         },
         "workflow": {
           "eyebrow": "So funktioniert's",
@@ -583,13 +779,12 @@
           "title": "Jeder gespeicherte Account behält seinen Kontaktgrund."
         },
         "pricing": {
-          "title": "Credits, die zu wöchentlicher Outreach-Recherche passen",
-          "copy": "Beginnen Sie mit wenigen Website-Scans und skalieren Sie, sobald LeadCue Teil Ihres Agentur-Rhythmus in der Akquise wird.",
+          "title": "Einfache Credits für Solo-Prospecting",
+          "copy": "Kostenlos starten und upgraden, wenn Website-Recherche Teil Ihres persönlichen Akquise-Rhythmus wird. Einfache Credits für Ihre eigene Recherche.",
           "planUseCases": {
-            "free": "Ideal, um den Workflow vor einem bezahlten Rollout an echten Websites zu prüfen.",
-            "starter": "Ideal für Einzelpersonen, die eine wöchentliche Akquise-Recherche-Routine aufbauen.",
-            "pro": "Ideal für Agenturen, die Website-Recherche in eine wiederholbare Akquise-Pipeline verwandeln wollen.",
-            "agency": "Ideal für Teams, die Scan-Credits über mehrere Kundenangebote hinweg teilen."
+            "free": "Ideal, um Website-Prospecting mit echten Websites zu testen.",
+            "pro": "Ideal für Freelancer, Berater und Solo-Founder mit regelmäßiger Akquise.",
+            "power": "Ideal für Einzelanwender mit höherem Recherchevolumen."
           }
         },
         "faqSection": {
@@ -606,7 +801,7 @@
               "href": "/guides/turn-website-into-cold-email-angle"
             },
             {
-              "title": "Was Agenturen prüfen sollten, bevor sie einen Prospect speichern",
+              "title": "Was Solo-Profis prüfen sollten, bevor sie einen Prospect speichern",
               "copy": "Nutzen Sie Fit, Dringlichkeit, Beleglücken und Kontaktpfade, um Rauschen in der Liste zu vermeiden.",
               "label": "Qualifizierung",
               "href": "/guides/score-prospect-website"
@@ -650,8 +845,8 @@
         },
         "launch": {
           "eyebrow": "Scan starten",
-          "title": "Erstellen Sie Ihren Agentur-Workspace und führen Sie Ihre erste Website-Prüfung durch",
-          "copy": "Starten Sie mit dem kostenlosen Plan, richten Sie Ihr Agenturangebot ein und verwandeln Sie Unternehmenswebsites in quellenbasierte Recherchekarten für die Akquise.",
+          "title": "Erstellen Sie Ihren Solo-Profi-dashboard und führen Sie Ihre erste Website-Prüfung durch",
+          "copy": "Starten Sie mit dem kostenlosen Plan, richten Sie Ihr Solo-Profiangebot ein und verwandeln Sie Unternehmenswebsites in quellenbasierte Recherchekarten für die Akquise.",
           "points": [
             "20 kostenlose Scans inklusive",
             "Kein LinkedIn-Scraping",
@@ -664,13 +859,13 @@
           "startFree": "Kostenlos starten"
         },
         "footer": {
-          "brandCopy": "Websitebasierte Akquise-Recherche für Agenturen, die stärkere Gründe für die Kontaktaufnahme brauchen."
+          "brandCopy": "Websitebasierte Akquise-Recherche für Solo-Profis, die stärkere Gründe für die Kontaktaufnahme brauchen."
         }
       },
       "auth": {
         "login": {
-          "heroEyebrow": "Workspace für Website-Recherche",
-          "cardCopy": "Melden Sie sich mit Google oder Ihrer geschäftlichen E-Mail an, um Ihren Website-Recherche-Workspace wieder zu öffnen.",
+          "heroEyebrow": "dashboard für Website-Recherche",
+          "cardCopy": "Melden Sie sich mit Google oder Ihrer geschäftlichen E-Mail an, um Ihren Website-Recherche-dashboard wieder zu öffnen.",
           "recoveryGoogleTitle": "Dieses Konto ist bereits für Google-Sign-in eingerichtet",
           "recoveryGoogleCopy": "Fahren Sie jetzt mit Google fort oder senden Sie an diese E-Mail-Adresse eine einmalige E-Mail zum Einrichten Ihres Passworts, damit Sie sich künftig auch per E-Mail und Passwort anmelden können.",
           "recoveryPasswordTitle": "E-Mail-/Passwort-Anmeldung fertig einrichten",
@@ -688,20 +883,20 @@
             "invalidResetEmail": "Geben Sie die geschäftliche E-Mail-Adresse ein, mit der Sie sich anmelden.",
             "resetPrepared": "Wenn diese E-Mail-Adresse zu einem Konto passt, senden wir eine einmalige Reset-E-Mail an dieses Postfach."
           },
-          "signupCopy": "Erstellen Sie zuerst Ihr Konto. Sobald die Sitzung aktiv ist, setzen Sie Planauswahl und Workspace-Setup in /app fort.",
+          "signupCopy": "Erstellen Sie zuerst Ihr Konto. Sobald die Sitzung aktiv ist, setzen Sie Planauswahl und dashboard-Setup in /app fort.",
           "signupCta": "Konto erstellen"
         },
         "signup": {
           "heroTitle": "Konto erstellen",
-          "heroCopy": "Beginnen Sie mit Ihrem Konto. Planauswahl und Workspace-Setup gehen nach der Anmeldung in /app weiter.",
+          "heroCopy": "Beginnen Sie mit Ihrem Konto. Planauswahl und dashboard-Setup gehen nach der Anmeldung in /app weiter.",
           "summaryProspects": "Recherchekarten + CSV",
-          "oauthCopy": "Google erstellt zuerst Ihr Konto und führt Sie dann direkt ins Workspace-Setup.",
+          "oauthCopy": "Google erstellt zuerst Ihr Konto und führt Sie dann direkt ins dashboard-Setup.",
           "emailCta": "Konto mit E-Mail erstellen",
           "emailLoading": "Konto wird erstellt...",
           "step2Copy": "Definieren Sie Ihr Angebot und Ihr Zielprofil, damit die ersten Recherchekarten mit nützlichen Fit-Signalen starten.",
-          "setupNote": "Workspace-Setup und Planbestätigung gehen nach der Anmeldung in /app weiter.",
+          "setupNote": "dashboard-Setup und Planbestätigung gehen nach der Anmeldung in /app weiter.",
           "loginLead": "Sie haben bereits ein Konto?",
-          "loginCopy": "Melden Sie sich auf derselben Seite an und öffnen Sie Ihren Workspace erneut.",
+          "loginCopy": "Melden Sie sich auf derselben Seite an und öffnen Sie Ihren dashboard erneut.",
           "selectedPlanPaid": "__PRICE__ · __CREDITS__ Scans/Monat",
           "validation": {
             "accountExists": "Für diese E-Mail existiert bereits ein Konto. Bitte melden Sie sich an.",
@@ -717,12 +912,12 @@
         "toolBand": {
           "eyebrow": "Vom Template zum Pipeline-Ergebnis",
           "title": "Nutzen Sie denselben Workflow auf einer echten Unternehmenswebsite.",
-          "copy": "Starten Sie mit einem kostenlosen Workspace, führen Sie den Website-Scan aus und halten Sie Fit-Score, Quellen-Notizen, Einstiegssatz und CRM-Exportfelder zusammen.",
+          "copy": "Starten Sie mit einem kostenlosen dashboard, führen Sie den Website-Scan aus und halten Sie Fit-Score, Quellen-Notizen, Einstiegssatz und CSV-Exportfelder zusammen.",
           "primaryCta": "Diesen Workflow kostenlos starten",
           "secondaryCta": "Beispiel-Recherchekarte öffnen",
           "points": [
             "20 kostenlose Scans zum Testen mit echten Websites",
-            "Dieselben CRM-Feldpresets wie im Exportflow der App",
+            "Dieselben CSV-Feldpresets wie im Exportflow der App",
             "Nur qualifizierte Accounts vor Import oder Akquise speichern"
           ]
         }
@@ -730,6 +925,48 @@
       "commercial": {
         "nextStepEyebrow": "Nächster Schritt",
         "nextStepTitle": "Verwandeln Sie eine echte Website in Ihre erste Recherchekarte."
+      },
+      "tools": {
+        "firstLine": {
+          "generator": {
+            "title": "Kaltmail-Einstiege aus einer echten Website generieren",
+            "copy": "Fügen Sie eine Prospect-Website ein, wählen Sie Ihr Angebot und erhalten Sie sichere Einstiegssätze, bevor Sie die vollständige Recherchekarte erstellen.",
+            "websiteLabel": "Prospect-Website",
+            "websitePlaceholder": "https://example.com",
+            "offerTypeLabel": "Angebotstyp",
+            "toneLabel": "Ton",
+            "toneProfessional": "Professionell",
+            "toneDirect": "Direkt",
+            "toneCasual": "Locker",
+            "submit": "Einstiegssätze generieren",
+            "loading": "Wird generiert...",
+            "previewNote": "Kostenlose Vorschau: nur Einstiegssätze. Die vollständige Recherchekarte wird nach der Anmeldung freigeschaltet.",
+            "validationMissingUrl": "Geben Sie zuerst eine Prospect-Website ein.",
+            "validationTurnstile": "Schließen Sie die Verifizierung ab, bevor Einstiegssätze generiert werden.",
+            "networkError": "Der Generator ist gerade nicht erreichbar. Bitte versuchen Sie es gleich erneut.",
+            "genericError": "Einstiegssätze können gerade nicht generiert werden.",
+            "websiteObservation": "Website-Beobachtung",
+            "fitPreview": "Fit-Vorschau",
+            "fitPreviewCopy": "Nach der Anmeldung werden vollständiger Fit-Score, Quellen-Notizen, Kurzmail, gespeicherter Prospect und CSV-Export freigeschaltet.",
+            "lockedLabel": "In der vollständigen Karte gesperrt",
+            "lockedFields": [
+              "Vollständige Recherchekarte",
+              "Kurzmail",
+              "CSV-Export"
+            ],
+            "lockedCopy": "LeadCue hält Website-Belege, Outreach-Kontext und Exportfelder nach dem ersten Scan zusammen.",
+            "signupCta": "Vollständige Recherchekarte generieren",
+            "copyAll": "Alle Einstiegssätze kopieren",
+            "exampleModeAria": "Angebotstyp-Beispiele",
+            "errors": {
+              "validation_failed": "Geben Sie eine gültige öffentliche Website-URL ein.",
+              "turnstile_failed": "Verifizierung fehlgeschlagen. Aktualisieren Sie die Seite und versuchen Sie es erneut.",
+              "rate_limited": "Das tägliche Limit des kostenlosen Tools ist erreicht. Starten Sie kostenlos, um vollständige Recherchekarten zu generieren.",
+              "fetch_failed": "Von dieser URL konnte nicht genügend öffentlicher Website-Text gelesen werden.",
+              "generation_failed": "Einstiegssätze können gerade nicht generiert werden. Bitte versuchen Sie es gleich erneut."
+            }
+          }
+        }
       }
     }
   },
@@ -846,13 +1083,12 @@
           "title": "Elke opgeslagen account bewaart de reden om contact op te nemen."
         },
         "pricing": {
-          "title": "Credits die passen bij wekelijks outreachonderzoek",
-          "copy": "Begin met een kleine reeks websitescans en schaal op zodra LeadCue onderdeel wordt van het acquisitieritme van je bureau.",
+          "title": "Eenvoudige credits voor solo-prospecting",
+          "copy": "Start gratis en upgrade zodra websiteonderzoek onderdeel wordt van je persoonlijke outreachritme. Eenvoudige credits voor je eigen onderzoek.",
           "planUseCases": {
-            "free": "Geschikt om de workflow op echte websites te valideren voordat je opschaalt.",
-            "starter": "Geschikt voor één operator die een wekelijkse prospectieroutine opbouwt.",
-            "pro": "Geschikt voor bureaus die websiteonderzoek willen omzetten in een herhaalbare prospectiepijplijn.",
-            "agency": "Geschikt voor teams die scancredits over meerdere klantaanbiedingen delen."
+            "free": "Geschikt om websiteprospecting met echte websites te testen.",
+            "pro": "Geschikt voor freelancers, consultants en solo-founders met regelmatige outreach.",
+            "power": "Geschikt voor individuele operators met hoger onderzoeksvolume."
           }
         },
         "faqSection": {
@@ -980,12 +1216,12 @@
         "toolBand": {
           "eyebrow": "Van template naar pipeline-output",
           "title": "Gebruik dezelfde workflow op een echte bedrijfswebsite.",
-          "copy": "Begin met een gratis werkruimte, voer de websitescan uit en bewaar fitscore, bronnotities, openingszin en CRM-exportvelden op één plek.",
+          "copy": "Begin met een gratis werkruimte, voer de websitescan uit en bewaar fitscore, bronnotities, openingszin en CSV-exportvelden op één plek.",
           "primaryCta": "Start deze workflow gratis",
           "secondaryCta": "Open voorbeeld-onderzoekskaart",
           "points": [
             "20 gratis scans om de workflow op echte websites te testen",
-            "Dezelfde CRM-veldinstellingen als in de exportflow van de app",
+            "Dezelfde CSV-veldinstellingen als in de exportflow van de app",
             "Sla alleen gekwalificeerde accounts op vóór import of outreach"
           ]
         }
@@ -993,6 +1229,48 @@
       "commercial": {
         "nextStepEyebrow": "Volgende stap",
         "nextStepTitle": "Zet één echte website om in je eerste onderzoekskaart."
+      },
+      "tools": {
+        "firstLine": {
+          "generator": {
+            "title": "Genereer cold-email openingszinnen uit een echte website",
+            "copy": "Plak een prospectwebsite, kies je aanbod en krijg veilige openingszinnen voordat je de volledige onderzoekskaart maakt.",
+            "websiteLabel": "Prospectwebsite",
+            "websitePlaceholder": "https://example.com",
+            "offerTypeLabel": "Type aanbod",
+            "toneLabel": "Toon",
+            "toneProfessional": "Professioneel",
+            "toneDirect": "Direct",
+            "toneCasual": "Casual",
+            "submit": "Openingszinnen genereren",
+            "loading": "Genereren...",
+            "previewNote": "Gratis preview: alleen openingszinnen. De volledige onderzoekskaart ontgrendel je na aanmelding.",
+            "validationMissingUrl": "Voer eerst een prospectwebsite in.",
+            "validationTurnstile": "Rond de verificatie af voordat je openingszinnen genereert.",
+            "networkError": "De generator is niet bereikbaar. Probeer het zo opnieuw.",
+            "genericError": "Openingszinnen kunnen nu niet worden gegenereerd.",
+            "websiteObservation": "Website-observatie",
+            "fitPreview": "Fit-preview",
+            "fitPreviewCopy": "Na aanmelding ontgrendel je de volledige fitscore, bronnotities, korte e-mail, opgeslagen prospect en CSV-export.",
+            "lockedLabel": "Vergrendeld in volledige kaart",
+            "lockedFields": [
+              "Volledige onderzoekskaart",
+              "Korte e-mail",
+              "CSV-export"
+            ],
+            "lockedCopy": "LeadCue bewaart websitebewijs, outreachcontext en exportvelden samen na de eerste scan.",
+            "signupCta": "Volledige onderzoekskaart genereren",
+            "copyAll": "Alle openingszinnen kopiëren",
+            "exampleModeAria": "Voorbeelden van aanbodtypen",
+            "errors": {
+              "validation_failed": "Voer een geldige openbare website-URL in.",
+              "turnstile_failed": "Verificatie mislukt. Vernieuw en probeer opnieuw.",
+              "rate_limited": "Daglimiet van de gratis tool bereikt. Start gratis om volledige onderzoekskaarten te genereren.",
+              "fetch_failed": "Er kon niet genoeg openbare websitetekst uit die URL worden gelezen.",
+              "generation_failed": "Openingszinnen kunnen nu niet worden gegenereerd. Probeer het zo opnieuw."
+            }
+          }
+        }
       }
     }
   },
@@ -1109,13 +1387,12 @@
           "title": "Chaque compte enregistré conserve sa raison de contact."
         },
         "pricing": {
-          "title": "Des crédits pensés pour la recherche de prospection hebdomadaire",
-          "copy": "Commencez avec quelques analyses de sites puis augmentez le volume quand LeadCue devient un vrai rythme de travail pour votre agence.",
+          "title": "Des crédits simples pour la prospection solo",
+          "copy": "Commencez gratuitement puis passez à l'offre supérieure lorsque la recherche de sites devient votre rythme personnel de prospection. Pas de sièges, pas d'offre équipe.",
           "planUseCases": {
-            "free": "Idéal pour valider le workflow sur de vrais sites avant de passer au payant.",
-            "starter": "Idéal pour un opérateur qui met en place une routine hebdomadaire de prospection.",
-            "pro": "Idéal pour les agences qui veulent transformer la recherche de sites en pipeline de prospection reproductible.",
-            "agency": "Idéal pour les équipes qui partagent les crédits d'analyse entre plusieurs offres clients."
+            "free": "Idéal pour tester la prospection de sites avec de vrais sites.",
+            "pro": "Idéal pour les freelances, consultants et fondateurs solo qui font de l'outreach régulier.",
+            "power": "Idéal pour les opérateurs individuels avec un volume de recherche plus élevé."
           }
         },
         "faqSection": {
@@ -1243,12 +1520,12 @@
         "toolBand": {
           "eyebrow": "Du modèle au pipeline",
           "title": "Utilisez le même workflow sur un vrai site d'entreprise.",
-          "copy": "Commencez avec un espace gratuit, lancez l'analyse du site, puis gardez le score d'adéquation, les notes sources, la première phrase et les champs d'export CRM au même endroit.",
+          "copy": "Commencez avec un espace gratuit, lancez l'analyse du site, puis gardez le score d'adéquation, les notes sources, la première phrase et les champs d'export CSV au même endroit.",
           "primaryCta": "Commencer ce workflow gratuitement",
           "secondaryCta": "Ouvrir une carte de recherche exemple",
           "points": [
             "20 analyses gratuites pour tester le workflow sur de vrais sites",
-            "Les mêmes préréglages de champs CRM que dans l'export de l'app",
+            "Les mêmes préréglages de champs CSV que dans l'export de l'app",
             "Enregistrer uniquement les comptes qualifiés avant import ou prospection"
           ]
         }
@@ -1256,6 +1533,48 @@
       "commercial": {
         "nextStepEyebrow": "Étape suivante",
         "nextStepTitle": "Transformez un vrai site en votre première carte de recherche."
+      },
+      "tools": {
+        "firstLine": {
+          "generator": {
+            "title": "Générer des accroches de cold email depuis un vrai site",
+            "copy": "Collez le site d’un prospect, choisissez votre offre et obtenez des accroches sûres avant de créer la carte de recherche complète.",
+            "websiteLabel": "Site du prospect",
+            "websitePlaceholder": "https://example.com",
+            "offerTypeLabel": "Type d’offre",
+            "toneLabel": "Ton",
+            "toneProfessional": "Professionnel",
+            "toneDirect": "Direct",
+            "toneCasual": "Décontracté",
+            "submit": "Générer les accroches",
+            "loading": "Génération...",
+            "previewNote": "Aperçu gratuit : accroches uniquement. La carte de recherche complète se débloque après inscription.",
+            "validationMissingUrl": "Saisissez d’abord le site du prospect.",
+            "validationTurnstile": "Terminez la vérification avant de générer les accroches.",
+            "networkError": "Impossible de joindre le générateur. Réessayez dans un instant.",
+            "genericError": "Impossible de générer les accroches pour le moment.",
+            "websiteObservation": "Observation du site",
+            "fitPreview": "Aperçu de l’adéquation",
+            "fitPreviewCopy": "Après inscription, débloquez le score complet, les notes sources, l’e-mail court, le prospect enregistré et l’export CSV.",
+            "lockedLabel": "Verrouillé dans la carte complète",
+            "lockedFields": [
+              "Carte de recherche complète",
+              "E-mail court",
+              "Export CSV"
+            ],
+            "lockedCopy": "LeadCue conserve ensemble les preuves du site, le contexte de prospection et les champs d’export après la première analyse.",
+            "signupCta": "Générer la carte complète",
+            "copyAll": "Copier toutes les accroches",
+            "exampleModeAria": "Exemples de types d’offre",
+            "errors": {
+              "validation_failed": "Saisissez une URL de site public valide.",
+              "turnstile_failed": "La vérification a échoué. Actualisez puis réessayez.",
+              "rate_limited": "La limite quotidienne de l’outil gratuit est atteinte. Commencez gratuitement pour générer des cartes complètes.",
+              "fetch_failed": "Impossible de lire suffisamment de contenu public depuis cette URL.",
+              "generation_failed": "Impossible de générer les accroches pour le moment. Réessayez dans un instant."
+            }
+          }
+        }
       }
     }
   }

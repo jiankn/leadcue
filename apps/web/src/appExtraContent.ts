@@ -26,7 +26,7 @@ const en = {
     dashboard: "Overview",
     import: "Import",
     leads: "Review queue",
-    saved: "Saved accounts",
+    saved: "Saved prospects",
     icp: "ICP",
     credits: "Billing",
     analytics: "Workflow",
@@ -36,7 +36,7 @@ const en = {
     dashboard: {
       eyebrow: "Today",
       title: "Today",
-      copy: "See the next action, current blockers, and workflow progress for this workspace."
+      copy: "See the next action, current blockers, and workflow progress for your personal prospecting flow."
     },
     queue: {
       eyebrow: "Queue",
@@ -45,53 +45,81 @@ const en = {
     },
     qualified: {
       eyebrow: "Qualified",
-      title: "Qualified accounts",
-      copy: "Review the accounts that already passed research and are ready for ownership, notes, and handoff."
+      title: "Qualified prospects",
+      copy: "Review the prospects that already passed research and are ready for status, notes, and outreach."
     },
     exports: {
       eyebrow: "Exports",
       title: "Exports",
-      copy: "Prepare CRM-ready handoff, choose an export preset, and move qualified accounts out of the workspace cleanly."
+      copy: "Choose an export preset and move qualified prospects into your outreach workflow cleanly."
     },
     settings: {
       eyebrow: "Settings",
       title: "Settings",
-      copy: "Configure ICP, workspace identity, and access without breaking the main operating flow."
+      copy: "Configure your prospecting profile, account identity, and access without breaking the main flow."
     },
     leads: {
       eyebrow: "Review queue",
       title: "Review queue",
-      copy: "Work through imported or researching accounts before they move into the saved handoff list."
+      copy: "Work through imported, scanning, and ready-to-review prospects before they move into your saved list."
     },
     icp: {
       eyebrow: "ICP",
       title: "ICP",
-      copy: "Define how LeadCue should score fit, urgency, and actionability before the team scans more websites."
+      copy: "Define how LeadCue should score fit, urgency, and actionability before you scan more websites."
     },
     billing: {
       eyebrow: "Billing",
       title: "Billing",
-      copy: "Monitor credits, subscription status, and export capacity without leaving the workspace."
+      copy: "Monitor credits, subscription status, and export capacity from your personal account."
     },
     import: {
       eyebrow: "Batch research",
       title: "Import websites",
-      copy: "Paste domains or upload a CSV to build a website-first review queue for this workspace."
+      copy: "Paste domains or upload a CSV to build a website-based review queue for your personal workflow."
     },
     saved: {
-      eyebrow: "Saved accounts",
-      title: "Saved accounts",
-      copy: "Export the accounts that already passed review and are ready for outreach or CRM handoff."
+      eyebrow: "Saved prospects",
+      title: "Saved prospects",
+      copy: "Export the prospects that already passed review and are ready for outreach."
     },
     analytics: {
       eyebrow: "Workflow",
       title: "Workflow analytics",
-      copy: "Track how websites enter the queue, turn into qualified accounts, and leave the workspace as exports."
+      copy: "Track how websites enter the queue, turn into qualified prospects, and leave as exports."
     },
     account: {
       eyebrow: "Account",
       title: "Account",
-      copy: "Update workspace identity and password access without breaking the workflow."
+      copy: "Update your account identity and password access without breaking the workflow."
+    }
+  },
+  conversion: {
+    scan: {
+      modeLabel: "Scan depth",
+      basicTitle: "Basic scan",
+      basicCost: "1 credit",
+      basicOutput: "Homepage evidence, fit score, first line, short email, and export-ready notes.",
+      deepTitle: "Deep scan",
+      deepCost: "3 credits",
+      deepOutput: "Adds about, contact, pricing, blog, and careers context when those pages are discoverable.",
+      currentCost: "This run will use __COUNT__ credits after a Prospect Card is saved. You have __REMAINING__ left.",
+      notEnoughCredits: "You need __COUNT__ credits for this scan. Upgrade before running it.",
+      powerHint: "Power is the best fit when deep scans become part of your normal research workflow."
+    },
+    billing: {
+      insufficientTitle: "Not enough credits for this scan",
+      insufficientCopy: "Choose a higher monthly plan when scan volume is the bottleneck, or use a credit pack for temporary spikes.",
+      openBilling: "Review plans",
+      creditPacksEyebrow: "Credit packs",
+      creditPacksTitle: "Handle temporary scan spikes without changing your workflow",
+      creditPacksCopy: "Credit packs are optional add-ons. They do not replace subscriptions, and paid features still follow your plan.",
+      packCta: "Review plan first",
+      packs: [
+        { name: "Small Pack", price: "$9", credits: "100 credits", fit: "One focused prospecting push." },
+        { name: "Growth Pack", price: "$29", credits: "500 credits", fit: "A larger imported website batch." },
+        { name: "Power Pack", price: "$99", credits: "2,000 credits", fit: "High-volume research without waiting for reset." }
+      ]
     }
   },
   common: {
@@ -136,16 +164,16 @@ const en = {
       prospectUrl: "https://prospect.example.com",
       companyName: "Northstar Analytics",
       leadSearch: "Company, domain, or industry",
-      assignTeammate: "Assign a teammate",
-      nextAction: "Add the account angle, blocker, or next action."
+      assignTeammate: "Optional contact name",
+      nextAction: "Add the prospect angle, blocker, or next action."
     },
     messages: {
       demoPreviewIntro: "Current demo preview. Start free to save Prospect Cards, credits, and export history.",
-      sampleWorkspaceData: "__ERROR__ Showing sample workspace data.",
-      sampleWorkspaceDataPlain: "Showing sample workspace data.",
-      workspaceDataUnavailable: "We couldn't load this workspace right now. Refresh and try again.",
-      billingActiveSetup: "Billing is active. Finish the first website-first research run below.",
-      workspaceCreatedSetup: "LeadCue is ready. Finish your first website-first research run below.",
+      sampleWorkspaceData: "__ERROR__ Showing sample account data.",
+      sampleWorkspaceDataPlain: "Showing sample account data.",
+      workspaceDataUnavailable: "We couldn't load your LeadCue data right now. Refresh and try again.",
+      billingActiveSetup: "Billing is active. Finish the first website research run below.",
+      workspaceCreatedSetup: "LeadCue is ready. Finish your first website research run below.",
       createWorkspaceRequired: "Signed in. Preparing LeadCue for your first research run.",
       workspaceCreateFailed: "Unable to prepare LeadCue right now.",
       signedIn: "Signed in.",
@@ -170,7 +198,7 @@ const en = {
       signInRequired: "Sign in to continue.",
       workspaceNotFound: "LeadCue data space not found.",
       subscriptionInactive: "Your subscription is not active. Update billing before scanning more websites.",
-      insufficientCredits: "This workspace does not have enough scan credits for this request.",
+      insufficientCredits: "Your account does not have enough scan credits for this request.",
       createFirstSavedCard:
         "Use the Chrome extension or POST /api/scans while signed in to create the first saved card."
     }
@@ -205,7 +233,7 @@ const en = {
       export: "Export"
     },
     pipelineStages: {
-      researching: "Researching",
+      researching: "Needs review",
       qualified: "Qualified",
       outreach_queued: "Outreach queued",
       contacted: "Contacted",
@@ -214,13 +242,13 @@ const en = {
     },
     activityFields: {
       all: "All",
-      owner: "Owner",
+      owner: "Contact",
       stage: "Stage",
       notes: "Notes"
     },
     serviceTypes: {
       web_design: "Web design / redesign",
-      seo: "SEO agency",
+      seo: "SEO consulting",
       marketing: "Growth / marketing",
       founder: "Founder-led outbound",
       custom: "Custom",
@@ -248,7 +276,7 @@ const en = {
     },
     historyReasons: {
       validation_failed: "validation failed",
-      workspace_unavailable: "workspace unavailable",
+      workspace_unavailable: "account unavailable",
       subscription_inactive: "subscription inactive",
       insufficient_credits: "insufficient credits",
       idempotency_conflict: "idempotency conflict",
@@ -266,37 +294,58 @@ const en = {
       welcomeTitle: "Welcome, __NAME__.",
       workspaceReadyTitle: "Start with one website, __NAME__.",
       intro:
-        "LeadCue is set up for website-first outbound research. Finish one scan to create a Prospect Card with fit score, source-backed notes, first lines, and export-ready context.",
+        "LeadCue is set up for AI website prospecting. Finish one scan to create a Prospect Card with fit score, source-backed notes, first lines, and export-ready context.",
       progress: "__COUNT__/4 ready",
       markComplete: "Mark complete",
-      checklistLabel: "First website-first research checklist",
-      setupSnapshot: "Agency profile",
+      checklistLabel: "First website research checklist",
+      setupSnapshot: "Prospecting profile",
       service: "Offer",
       industries: "Best-fit segments",
       firstTarget: "First website",
       prepareFirstScan: "Prepare website research",
       runFirstScan: "Run first scan",
-      reviewIcp: "Tune Agency Profile",
+      reviewIcp: "Tune Prospecting Profile",
       tasks: {
-        profileSaved: "Agency Profile tuned",
+        profileSaved: "Prospecting Profile tuned",
         firstWebsiteQueued: "First website selected",
         firstProspectCard: "First Prospect Card saved",
-        exportReady: "Export-ready handoff"
+        exportReady: "Export-ready prospect"
       },
       descriptions: {
         profileSaved: "Fit scoring is tuned for __INDUSTRIES__.",
         profileTodo: "Set your offer and best-fit segments so fit score and opportunity signals stay relevant.",
-        websiteQueued: "Ready for website-first research: __URL__",
-        agencySaved: "Agency site saved as context: __URL__",
+        websiteQueued: "Ready for website research: __URL__",
+        agencySaved: "Website saved as context: __URL__",
         websiteTodo: "Add the first prospect website to generate source-backed notes and outreach context.",
         firstCardDone: "__COUNT__ Prospect Cards already saved.",
         firstCardTodo: "Run the first website scan to save a Prospect Card with first lines and export-ready notes.",
-        exportReadyDone: "Your first saved account is ready for CSV or CRM handoff.",
+        exportReadyDone: "Your first saved prospect is ready for CSV export.",
         exportReadyTodo: "After saving a Prospect Card, use exports to hand off qualified accounts to outreach."
+      },
+      guide: {
+        stepLabel: "Step __CURRENT__ of __TOTAL__",
+        currentStep: "Do this next",
+        whyLabel: "Why it matters",
+        profileTitle: "Tune your Prospecting Profile first",
+        profileCopy: "Confirm what you sell and who you serve. LeadCue uses this before it scores any website.",
+        profileWhy: "A clear Prospecting Profile keeps fit score, opportunity signals, and outreach angles focused on your best-fit prospects.",
+        profileAction: "Tune Prospecting Profile",
+        websiteTitle: "Add one prospect website",
+        websiteCopy: "Paste one company website you want LeadCue to research. Start with a real prospect you understand.",
+        websiteWhy: "website research needs a concrete domain before LeadCue can pull source-backed notes and account context.",
+        websiteAction: "Add first website",
+        cardTitle: "Run the first scan",
+        cardCopy: "Let LeadCue turn that website into a Prospect Card with fit score, signals, first lines, and notes.",
+        cardWhy: "The first Prospect Card shows the user exactly what will be saved and reviewed before outreach.",
+        cardAction: "Run first scan",
+        exportTitle: "Export the first qualified prospect",
+        exportCopy: "Once the Prospect Card looks right, open exports and prepare a focused CSV.",
+        exportWhy: "The loop is only complete when a researched prospect can leave LeadCue and move into your outreach workflow.",
+        exportAction: "Open exports"
       }
     },
     metrics: {
-      ariaLabel: "Workspace metrics",
+      ariaLabel: "Personal prospecting metrics",
       savedProspects: "Saved prospects",
       currentPlan: "Current plan",
       creditsLeft: "Credits left",
@@ -324,7 +373,7 @@ const en = {
     },
     icpPanel: {
       eyebrow: "ICP settings",
-      title: "Agency mode",
+      title: "Prospecting profile",
       serviceType: "Service type",
       targetIndustries: "Target industries",
       countries: "Countries",
@@ -340,20 +389,20 @@ const en = {
       import: {
         eyebrow: "Import",
         title: "Build the batch list",
-        copy: "Paste domains or upload a CSV before the team starts reviewing accounts.",
+        copy: "Paste domains or upload a CSV before you start reviewing prospects.",
         metricLabel: "Queued websites"
       },
       queue: {
         eyebrow: "Review",
         title: "Triage the next websites",
-        copy: "See which accounts still need a scan and which already need a human qualification pass.",
+        copy: "See which prospects still need a scan and which already need a human qualification pass.",
         metricLabel: "Ready to review"
       },
       saved: {
         eyebrow: "Saved",
-        title: "Hand off approved accounts",
-        copy: "Only move accounts here after the website evidence and angle are strong enough for outreach.",
-        metricLabel: "Ready for handoff"
+        title: "Save approved prospects",
+        copy: "Only move prospects here after the website evidence and angle are strong enough for outreach.",
+        metricLabel: "Ready for outreach"
       },
       scan: {
         eyebrow: "Scan desk",
@@ -366,24 +415,26 @@ const en = {
       eyebrow: "Queue snapshot",
       title: "What needs review next",
       ready: "Ready",
-      researching: "Researching",
+      researching: "Active",
+      scanning: "AI researching",
+      reviewing: "Ready to review",
       imported: "Imported",
-      workspaceSource: "Workspace lead",
+      workspaceSource: "Saved prospect",
       openSite: "Open site",
       moveToScanDesk: "Move to scan desk",
       reviewCard: "Open card",
       emptyTitle: "No websites waiting in the queue.",
-      emptyCopy: "Import a list or scan the first website to create work for the team."
+      emptyCopy: "Import a list or scan the first website to create your review queue."
     },
     savedPanel: {
-      eyebrow: "Saved handoff",
+      eyebrow: "Saved prospects",
       title: "What is already ready to export",
       qualified: "Qualified",
       outreachQueued: "Outreach queued",
       exported: "Exports",
       openCard: "Open card",
-      emptyTitle: "No saved accounts are ready yet.",
-      emptyCopy: "Move strong accounts out of the review queue once the owner, stage, and notes are ready."
+      emptyTitle: "No saved prospects are ready yet.",
+      emptyCopy: "Move strong prospects out of the review queue once the status and notes are ready."
     },
     nextAction: {
       startWorkspace: "Start free",
@@ -391,11 +442,11 @@ const en = {
       setupRequired: "Preparing your account",
       createWorkspaceTitle: "Preparing LeadCue for your first research run",
       createWorkspaceCopy:
-        "You are signed in. LeadCue is creating the default data space for your Agency Profile, credits, website queue, Prospect Cards, and exports.",
+        "You are signed in. LeadCue is creating the default data space for your Prospecting Profile, credits, website queue, Prospect Cards, and exports.",
       importWebsites: "Import websites",
       openQueue: "Open review queue",
       manualScan: "Use manual scan instead",
-      sampleTitle: "This is the demo workspace preview",
+      sampleTitle: "This is the demo preview",
       sampleCopy:
         "Sign in to reopen your saved research, or start free before importing websites into the review queue.",
       loadErrorTitle: "We couldn't reopen your research data",
@@ -410,7 +461,7 @@ const en = {
     }
   },
   leads: {
-    eyebrow: "Saved accounts",
+    eyebrow: "Saved prospects",
     title: "Prospect library",
     controlsLabel: "Prospect library controls",
     searchLabel: "Search",
@@ -419,10 +470,10 @@ const en = {
     minConfidence: "Min confidence",
     resultsSummary: "Showing __VISIBLE__ of __TOTAL__ prospects",
     selectedCount: "__COUNT__ selected",
-    selectedReadyCopy: "Export only the accounts your team is ready to work.",
+    selectedReadyCopy: "Export only the prospects you are ready to work.",
     selectedEmptyCopy: "Select prospects to export a focused CSV.",
     templateLabel: "Template",
-    crmFieldsLabel: "CRM fields",
+    crmFieldsLabel: "Export fields",
     tableLabel: "Saved prospects",
     selectAllVisible: "Select all visible prospects",
     clearAllVisible: "Clear all visible prospects",
@@ -430,7 +481,7 @@ const en = {
     openProspectCard: "Open Prospect Card for __COMPANY__",
     noMatchingTitle: "No matching prospects.",
     noSavedTitle: "No saved prospects yet.",
-    noMatchingCopy: "Relax the search or score filters to bring more accounts back into view.",
+    noMatchingCopy: "Relax the search or score filters to bring more prospects back into view.",
     noSavedCopy: "Run a website scan to create the first saved Prospect Card.",
     drawerLabel: "Selected lead Prospect Card",
     drawerEyebrow: "Selected lead",
@@ -440,23 +491,37 @@ const en = {
     drawerNoSelection: "No selection",
     drawerFitLabel: "__SCORE__ fit",
     errorShowingPreview: "Showing the list preview because full detail could not load.",
+    detailPageLabel: "Lead detail",
+    detailPageEyebrow: "Prospect detail",
+    detailPageTitle: "Prospect Card",
+    detailPageIntro: "Review the complete Prospect Card, source-backed signals, personal notes, and outreach copy.",
+    detailPageCopy: "Review __COMPANY__ with source-backed signals, personal notes, and outreach copy for __DOMAIN__.",
+    detailBackToQueue: "Back to queue",
+    detailBackToExports: "Back to exports",
+    detailBackToBilling: "Back to billing",
+    detailBackToDashboard: "Back to dashboard",
+    detailBackToSaved: "Back to saved prospects",
     detailEmptyTitle: "Select a lead",
     detailEmptyCopy:
-      "Click any saved account to review the complete Prospect Card, including source-backed signals and email copy."
+      "Click any saved prospect to review the complete Prospect Card, including source-backed signals and email copy."
   },
   reviewQueue: {
     eyebrow: "Review queue",
-    title: "Review imported and researching accounts",
+    title: "Review imported and ready-to-review prospects",
     controlsLabel: "Review queue filters",
     searchLabel: "Search queue",
     statusLabel: "Status",
     sourceLabel: "Source",
     sourceAll: "All sources",
     sourceImported: "Imported only",
-    workspaceSource: "Workspace lead",
+    workspaceSource: "Saved prospect",
     statusAll: "All statuses",
     statusReady: "Ready",
-    statusResearching: "Researching",
+    statusResearching: "Active",
+    statusScanning: "AI researching",
+    statusReviewing: "Ready to review",
+    statusCardReady: "Card ready",
+    statusStalled: "May be stalled",
     resultsSummary: "Showing __VISIBLE__ of __TOTAL__ queue items",
     readySummary: "__COUNT__ ready right now",
     tableLabel: "Review queue",
@@ -467,10 +532,10 @@ const en = {
     emptyTitle: "No review queue yet.",
     emptyCopy: "Import websites or scan the first account to create a review queue.",
     emptyFilteredTitle: "No queue items match this filter.",
-    emptyFilteredCopy: "Relax the filters to bring more imported or researching accounts back into view.",
+    emptyFilteredCopy: "Relax the filters to bring more imported, scanning, or ready-to-review prospects back into view.",
     sideEyebrow: "Queue health",
     sideTitle: "Keep the queue moving every day",
-    sideCopy: "The queue is where research becomes qualification. Focus on moving accounts from ready to researching, then into qualified handoff.",
+    sideCopy: "The queue is where research becomes qualification. Move ready websites into scanning, then review generated cards for saved prospects.",
     importedCountLabel: "Imported websites"
   },
   importer: {
@@ -488,7 +553,9 @@ const en = {
     summaryTitle: "What this import lane is feeding",
     summaryImported: "Imported",
     summaryReady: "Ready",
-    summaryResearching: "Researching",
+    summaryResearching: "Active",
+    summaryScanning: "AI researching",
+    summaryReviewing: "Ready to review",
     historyEyebrow: "Imported websites",
     historyTitle: "Queue history",
     historyCount: "__COUNT__ websites",
@@ -507,33 +574,69 @@ const en = {
     messages: {
       added: "__COUNT__ websites added. __SKIPPED__ duplicates or invalid entries skipped.",
       noWebsitesAdded: "No valid new websites were added. Check the domains and try again.",
+      duplicatesOnly: "__COUNT__ website already exists in your account or queue, so it was skipped.",
       fileReadFailed: "We could not read that file. Try CSV, TXT, or TSV.",
       queueUpdated: "Import queue updated."
     }
   },
   savedAccounts: {
-    eyebrow: "Saved accounts",
-    title: "Approved accounts ready for handoff",
-    tableLabel: "Saved accounts",
+    eyebrow: "Saved prospects",
+    title: "Approved prospects ready for outreach",
+    tableLabel: "Saved prospects",
     statusQualified: "Qualified",
-    resultsSummary: "Showing __VISIBLE__ of __TOTAL__ saved accounts",
-    emptyTitle: "No saved accounts are ready yet.",
-    emptyCopy: "Move an account out of researching once the fit, owner, and notes are ready for outreach.",
-    emptyFilteredTitle: "No saved accounts match this view.",
-    emptyFilteredCopy: "Relax the search or score filters to bring more saved accounts back into view."
+    resultsSummary: "Showing __VISIBLE__ of __TOTAL__ saved prospects",
+    emptyTitle: "No saved prospects are ready yet.",
+    emptyCopy: "Move a prospect out of the review queue once the fit, status, and notes are ready for outreach.",
+    emptyFilteredTitle: "No saved prospects match this view.",
+    emptyFilteredCopy: "Relax the search or score filters to bring more saved prospects back into view."
   },
   prospectCard: {
-    eyebrow: "Prospect Card",
+    eyebrow: "Prospect brief",
     summaryLabel: "Prospect summary",
     fitLabel: "Fit",
     website: "Website",
     industry: "Industry",
     confidence: "Confidence",
     status: "Status",
-    owner: "Owner",
+    owner: "Contact",
     stage: "Stage",
     sectionsLabel: "Prospect Card sections",
     mobileActionsLabel: "Mobile Prospect Card actions",
+    decision: {
+      panelLabel: "Prospect decision brief",
+      recommendation: "Recommendation",
+      prioritize: "Prioritize follow-up",
+      review: "Review before outreach",
+      deprioritize: "Deprioritize for now",
+      prioritizeCopy: "The score and confidence are high enough to justify saving this prospect and preparing source-backed outreach.",
+      reviewCopy: "There is useful signal, but verify the prospect context and strongest source before contacting.",
+      deprioritizeCopy: "The available evidence is not strong enough to spend outreach time before more research.",
+      evidence: "Evidence strength",
+      evidenceSummary: "__SIGNALS__ signals · __SOURCES__ sources · __CONTACTS__ contact paths",
+      evidenceCopy: "Use this to judge whether the card is ready for human review or needs more validation.",
+      risk: "Review gaps",
+      riskIndustry: "Industry is not confirmed from the available public evidence.",
+      riskConfidence: "Confidence is moderate; validate before relying on the recommendation.",
+      riskSignals: "Few source-backed signals were found.",
+      riskContacts: "No direct contact path was found.",
+      noMajorRisk: "No major review gaps detected in this analysis.",
+      needsVerification: "Needs verification",
+      explanationTitle: "Why this recommendation",
+      explanationCopy: "The card should show the operator what evidence drove each metric, not just the final number.",
+      fitBasis: "Fit combines ICP relevance, commercial opportunity, website signals, and whether there is enough contact context to act.",
+      fitInsight: "__SCORE__/100 maps to “__DECISION__” because the strongest thesis is: __REASON__",
+      confidenceBasis: "Confidence reflects evidence coverage: source notes, signal count, industry clarity, and contact paths.",
+      confidenceInsight: "__CONFIDENCE__% confidence is based on __SOURCES__ source notes, __SIGNALS__ signals, and __CONTACTS__ contact paths.",
+      evidenceBasis: "Evidence strength counts the usable proof behind the recommendation; more sources and contact paths reduce guesswork.",
+      evidenceInsight: "Current evidence is anchored by: __SIGNAL__",
+      riskBasis: "Review gaps show what a human should verify before trusting the recommendation or sending outreach.",
+      noSignalInsight: "No strong website signal was available; validate the account manually before outreach.",
+      dimensionsLabel: "Dimensions checked",
+      dimensionCommercial: "Commercial fit",
+      dimensionEvidence: "Website evidence",
+      dimensionContactability: "Contactability",
+      dimensionRisk: "Review risk"
+    },
     contactLabels: {
       emails: "Emails",
       phones: "Phones",
@@ -577,7 +680,7 @@ const en = {
       title: "Export selected fields",
       selected: "__SELECTED__/__TOTAL__ selected",
       presetsLabel: "Export field presets",
-      crmModesLabel: "CRM field naming mode",
+      crmModesLabel: "Export field naming mode",
       csvColumns: "CSV columns",
       columns: "__LABEL__ columns",
       copyCsvRow: "Copy CSV row",
@@ -596,16 +699,16 @@ const en = {
       },
       presets: {
         crm: {
-          label: "CRM export",
-          description: "Company, fit, contacts, owner, stage, and source proof."
+          label: "Prospect CSV",
+          description: "Company, fit, contact paths, status, notes, and source proof."
         },
         email: {
-          label: "Email draft",
-          description: "The first line, outreach angles, and short email only."
+          label: "Instantly / Smartlead CSV",
+          description: "Fields that move a qualified prospect into a cold email tool."
         },
         brief: {
           label: "Research brief",
-          description: "A compact account brief with evidence, signals, and sources."
+          description: "A compact prospect brief with evidence, signals, angles, and sources."
         }
       },
       crmModes: {
@@ -624,19 +727,19 @@ const en = {
       }
     },
     pipeline: {
-      panelLabel: "Prospect owner, stage, and notes",
-      title: "Pipeline context",
+      panelLabel: "Prospect status and notes",
+      title: "Personal follow-up",
       updated: "Updated __TIME__",
       notSavedYet: "Not saved yet",
       notes: "Notes",
       saveContext: "Save context",
-      saveStateIdle: "Save changes to the workspace.",
-      saveStateSaving: "Saving owner, stage, and notes...",
-      saveStateSaved: "Owner, stage, and notes are saved.",
-      saveStateError: "Could not save to workspace."
+      saveStateIdle: "Save changes to this prospect.",
+      saveStateSaving: "Saving contact, status, and notes...",
+      saveStateSaved: "Contact, status, and notes are saved.",
+      saveStateError: "Could not save prospect context."
     },
     activity: {
-      panelLabel: "Pipeline activity log",
+      panelLabel: "Prospect activity log",
       title: "Activity log",
       recent: "__COUNT__ recent",
       noChangesYet: "No changes yet",
@@ -644,9 +747,9 @@ const en = {
       changed: "Changed __FIELDS__ · __TIME__",
       showDiff: "Show diff",
       hideDiff: "Hide diff",
-      diffLabel: "Previous and current pipeline values",
+      diffLabel: "Previous and current prospect values",
       noMatch: "No activity matches this field filter.",
-      empty: "Owner, stage, and notes changes will appear here after the first save."
+      empty: "Contact, status, and notes changes will appear here after the first save."
     },
     copyMenu: {
       fullCard: "Copy full card",
@@ -671,8 +774,8 @@ const en = {
       fitScore: "Fit score",
       confidence: "Confidence",
       industry: "Industry",
-      owner: "Owner",
-      pipelineStage: "Pipeline stage",
+      owner: "Contact",
+      pipelineStage: "Follow-up status",
       notes: "Notes",
       summary: "Summary",
       fitReason: "Fit reason",
@@ -686,7 +789,7 @@ const en = {
   },
   icp: {
     editorEyebrow: "Scoring inputs",
-    editorTitle: "Agency ICP",
+    editorTitle: "Prospecting Profile",
     statusSaving: "Saving",
     statusSaved: "Saved",
     statusApplied: "Applied to new scans",
@@ -696,8 +799,14 @@ const en = {
       targetIndustries: "Target industries",
       targetIndustriesHelp: "Comma separated. Used for fit scoring and outreach angle quality.",
       countries: "Countries",
-      countriesHelp: "Comma separated. Leave broad if your team sells internationally.",
+      countriesHelp: "Comma separated. Leave broad if you sell internationally.",
+      companySize: "Company size",
+      companySizeHelp: "Examples: 1-50 employees, 50-200 employees, mid-market, owner-operated.",
       offer: "Offer",
+      avoidedIndustries: "Avoided industries",
+      avoidedIndustriesHelp: "Comma separated. LeadCue will lower confidence when a prospect appears to match these.",
+      outputLanguage: "Output language",
+      outputLanguageHelp: "New Prospect Cards, first lines, and short emails use this language.",
       firstTargetUrl: "First target URL"
     },
     serviceOptions: {
@@ -723,7 +832,7 @@ const en = {
       items: {
         fit: {
           label: "Fit",
-          copy: "Matches the agency focus, industry, country, and offer."
+          copy: "Matches your focus, industry, country, and offer."
         },
         urgency: {
           label: "Urgency",
@@ -735,7 +844,7 @@ const en = {
         },
         actionability: {
           label: "Actionability",
-          copy: "Produces a first line and angle a rep can actually use."
+          copy: "Produces a first line and angle you can actually use."
         }
       }
     },
@@ -759,20 +868,20 @@ const en = {
     },
     workflowFunnel: {
       eyebrow: "Workflow funnel",
-      title: "From import to outreach handoff",
+      title: "From import to outreach",
       imported: "Imported",
-      importedMeta: "Websites added into the workspace queue",
-      reviewing: "Researching",
+      importedMeta: "Websites added into your review queue",
+      reviewing: "Ready to review",
       reviewingMeta: "__PERCENT__ of imported websites",
       qualified: "Qualified",
       qualifiedMeta: "__PERCENT__ of the active review workload",
       exported: "Exported",
-      exportedMeta: "__PERCENT__ of qualified accounts"
+      exportedMeta: "__PERCENT__ of qualified prospects"
     },
     stageMix: {
       eyebrow: "Stage mix",
-      title: "Where saved accounts sit right now",
-      accountsSuffix: "__COUNT__ accounts"
+      title: "Where saved prospects sit right now",
+      accountsSuffix: "__COUNT__ prospects"
     },
     queueSources: {
       eyebrow: "Import sources",
@@ -791,7 +900,7 @@ const en = {
     },
     funnel: {
       eyebrow: "Research funnel",
-      title: "From click to CRM handoff",
+      title: "From click to export",
       ctaClicks: "CTA clicks",
       ctaClicksMeta: "Start free, tool CTA, pricing clicks",
       signups: "Signups",
@@ -819,15 +928,15 @@ const en = {
     recommendations: {
       eyebrow: "What to do next",
       title: "Operator recommendations",
-      reviewBacklog: "There are more ready websites than researching accounts, so the next move is assigning time to clear the review backlog.",
-      qualificationGap: "Researching accounts outnumber qualified accounts, which suggests the bottleneck is human qualification or ownership follow-up.",
-      exportGap: "Qualified accounts are building up faster than exports, so the handoff into CRM or outreach needs attention.",
+      reviewBacklog: "There are more ready websites than active queue items, so the next move is assigning time to clear the scan backlog.",
+      qualificationGap: "Ready-to-review cards outnumber qualified prospects, which suggests the bottleneck is human qualification or follow-up.",
+      exportGap: "Qualified prospects are building up faster than exports, so the move into outreach needs attention.",
       keepMoving: "The workflow is balanced right now. Keep importing, reviewing, and exporting at the current pace.",
       toolPageCta:
         "Tool-page CTA clicks are healthy. Keep routing those users into signup with the same field template context.",
       exportsGap:
-        "Exports are lower than scans, so the next bottleneck is likely qualification confidence or CRM handoff timing.",
-      crmTemplateTraffic: "The CRM mapping template is pulling the most product-led traffic right now."
+        "Exports are lower than scans, so the next bottleneck is likely qualification confidence or export timing.",
+      crmTemplateTraffic: "The CSV mapping template is pulling the most product-led traffic right now."
     },
     eventNames: {
       scan_completed: "Scan completed",
@@ -837,22 +946,22 @@ const en = {
     },
     eventMetadata: {
       basicScanOneCredit: "basic scan, 1 credit",
-      crmHubSpot: "CRM / HubSpot",
+      crmHubSpot: "CSV / HubSpot",
       hubSpotMappingCta: "HubSpot mapping CTA"
     }
   },
   account: {
     profile: {
-      eyebrow: "Workspace profile",
-      title: "Identity and ownership",
+      eyebrow: "Account profile",
+      title: "Identity",
       statusSaving: "Saving",
       statusSaved: "Saved",
       statusEditable: "Editable",
-      ownerName: "Owner name",
+      ownerName: "Your name",
       ownerPlaceholder: "Alex Rivera",
-      ownerHelp: "Shown in the workspace header and used for internal ownership context.",
-      workspaceName: "Workspace name",
-      workspacePlaceholder: "Northstar Outbound",
+      ownerHelp: "Shown in account and billing areas.",
+      workspaceName: "Account label",
+      workspacePlaceholder: "Northstar Prospecting",
       workspaceHelp: "Used across the dashboard, billing, and account entry points.",
       save: "Save profile",
       saving: "Saving profile"
@@ -865,22 +974,22 @@ const en = {
       statusEnabled: "Enabled",
       currentPassword: "Current password",
       currentPlaceholder: "Required for existing passwords",
-      currentHelp: "Leave blank only if this workspace has never set an email password before.",
+      currentHelp: "Leave blank only if this account has never set an email password before.",
       newPassword: "New password",
       newPlaceholder: "8+ characters",
-      newHelp: "Use a workspace password your team can recover through the reset flow.",
+      newHelp: "Use a secure password you can recover through the reset flow.",
       confirmPassword: "Confirm new password",
       confirmPlaceholder: "Repeat the new password",
       showFields: "Show password fields",
-      showFieldsHelp: "Useful when the workspace owner is updating access for the first time.",
+      showFieldsHelp: "Useful when setting up email password access for the first time.",
       update: "Update password",
       updating: "Updating password"
     },
     summary: {
       eyebrow: "Session summary",
-      title: "What this workspace is using",
+      title: "What this account is using",
       signedInEmail: "Signed-in email",
-      workspace: "Workspace",
+      workspace: "Account",
       plan: "Plan",
       nextCreditReset: "Next credit reset",
       manageBilling: "Manage billing",
@@ -888,11 +997,11 @@ const en = {
       demoPreview: "Demo preview"
     },
     messages: {
-      signInProfile: "Sign in to update workspace profile details.",
-      namesRequired: "Owner name and workspace name are both required.",
-      profileSaved: "Workspace profile saved.",
-      profileSaveFailed: "Unable to update workspace profile.",
-      signInPassword: "Sign in to change the workspace password.",
+      signInProfile: "Sign in to update account profile details.",
+      namesRequired: "Your name and account label are both required.",
+      profileSaved: "Account profile saved.",
+      profileSaveFailed: "Unable to update account profile.",
+      signInPassword: "Sign in to change the account password.",
       passwordMin: "Use at least 8 characters for the new password.",
       passwordMismatch: "The new password and confirmation need to match.",
       currentPasswordRequired: "Enter the current password before setting a new one.",
@@ -906,7 +1015,7 @@ const en = {
       currentPlan: "Current plan",
       scansLeft: "Scans left",
       resetDate: "Reset date",
-      workspaceStatus: "Workspace status"
+      workspaceStatus: "Account status"
     },
     usage: {
       eyebrow: "Usage overview",
@@ -950,10 +1059,9 @@ const en = {
       additionalCredits: "+__COUNT__ scans vs current",
       highestVolume: "Highest volume",
       useCases: {
-        free: "Validate the workflow with real websites before a paid rollout.",
-        starter: "Best for one operator building a weekly outbound habit.",
-        pro: "Best for agencies turning prospect research into a repeatable pipeline.",
-        agency: "Best for teams sharing scan credits across multiple client offers."
+        free: "Best for trying website prospecting on real websites.",
+        pro: "Best for freelancers, consultants, and solo founders doing regular outreach.",
+        power: "Best for individual operators running higher-volume website research."
       }
     },
     policy: {
@@ -966,24 +1074,24 @@ const en = {
       deep: "Deep scans charge 3 credits only after a Prospect Card is saved."
     },
     status: {
-      eyebrow: "Workspace access",
+      eyebrow: "Account access",
       title: "Know what is connected before you upgrade",
-      workspaceStatus: "Workspace status",
+      workspaceStatus: "Account status",
       authenticated: "Authenticated",
       demoPreview: "Demo preview",
       subscriptionState: "Subscription state",
       remainingCredits: "Remaining credits",
       exportMode: "Export mode",
       nextStep: "Next step",
-      unauthenticatedHint: "Use the sign-in bar above to connect a real workspace and sync billing state."
+      unauthenticatedHint: "Use the sign-in bar above to connect your account and sync billing state."
     },
     subscriptionDetails: {
       active: {
         summary: "Scans and exports are available on the current plan.",
-        nextStep: "Keep qualifying accounts, then upgrade only when scan volume is the real bottleneck."
+        nextStep: "Keep qualifying prospects, then upgrade only when scan volume is the real bottleneck."
       },
       trialing: {
-        summary: "The workspace has access right now, but the trial period will need a billing decision soon.",
+        summary: "The dashboard has access right now, but the trial period will need a billing decision soon.",
         nextStep: "Use this window to validate scan quality, save rate, and export handoff."
       },
       pendingCheckout: {
@@ -991,16 +1099,16 @@ const en = {
         nextStep: "Finish the Stripe checkout to unlock the paid credit allowance."
       },
       configurationRequired: {
-        summary: "The workspace selected a paid plan before billing was fully configured in this environment.",
+        summary: "The dashboard selected a paid plan before billing was fully configured in this environment.",
         nextStep: "Contact support or finish the Stripe configuration before relying on paid-plan access."
       },
       pastDue: {
-        summary: "Billing needs attention before the workspace can rely on uninterrupted paid access.",
+        summary: "Billing needs attention before the dashboard can rely on uninterrupted paid access.",
         nextStep: "Open the billing portal and update the payment method or invoice status."
       },
       canceled: {
         summary: "The paid subscription is no longer active for future periods.",
-        nextStep: "Restart checkout if the team still needs higher monthly scan volume."
+        nextStep: "Restart checkout if the solo operator still needs higher monthly scan volume."
       },
       fallbackSummary: "This subscription state needs review before rollout.",
       fallbackNextStep: "Open billing details or contact support if the status does not match the expected plan."
@@ -1070,7 +1178,7 @@ const zh: AppUiExtra = {
     dashboard: {
       eyebrow: "今日",
       title: "今日",
-      copy: "直接看到当前下一步、主要阻断点，以及这个工作空间的流程进度。"
+      copy: "直接看到当前下一步、主要阻断点，以及这个账户的流程进度。"
     },
     queue: {
       eyebrow: "队列",
@@ -1085,47 +1193,75 @@ const zh: AppUiExtra = {
     exports: {
       eyebrow: "导出",
       title: "导出",
-      copy: "选择导出模板，准备 CRM 交接，把已通过账户有序移出工作空间。"
+      copy: "选择导出模板，准备 CSV 交接，把已通过账户有序移出账户。"
     },
     settings: {
       eyebrow: "设置",
       title: "设置",
-      copy: "集中配置 ICP、工作空间身份和访问方式，不打断主流程。"
+      copy: "集中配置 ICP、账户身份和访问方式，不打断主流程。"
     },
     leads: {
       eyebrow: "复核队列",
       title: "复核队列",
-      copy: "先处理新导入和 researching 阶段的账户，再把真正可推进的账户移入已保存列表。"
+      copy: "先处理新导入、AI 研究中和待复核的账户，再把真正可推进的账户移入已保存列表。"
     },
     icp: {
       eyebrow: "ICP",
       title: "ICP",
-      copy: "先定义 LeadCue 如何判断匹配度、紧迫度和可执行性，再让团队继续扫描网站。"
+      copy: "先定义 LeadCue 如何判断匹配度、紧迫度和可执行性，再让个人用户继续扫描网站。"
     },
     billing: {
       eyebrow: "账单",
       title: "账单",
-      copy: "在工作空间内直接查看积分、订阅状态和导出能力。"
+      copy: "在账户内直接查看积分、订阅状态和导出能力。"
     },
     import: {
       eyebrow: "批量导入",
       title: "导入目标网站",
-      copy: "粘贴域名或上传 CSV，把要处理的网站先加入当前工作空间的复核队列。"
+      copy: "粘贴域名或上传 CSV，把要处理的网站先加入当前账户的复核队列。"
     },
     saved: {
       eyebrow: "已保存账户",
       title: "已保存账户",
-      copy: "这里保留已经通过判断、准备交给外拓或 CRM 的账户。"
+      copy: "这里保留已经通过判断、准备交给外拓或 CSV 的账户。"
     },
     analytics: {
       eyebrow: "流程",
       title: "流程分析",
-      copy: "看清网站如何进入队列、变成 qualified 账户，并最终从工作空间导出。"
+      copy: "看清网站如何进入队列、变成 qualified 账户，并最终从账户导出。"
     },
     account: {
       eyebrow: "账户",
       title: "账户",
-      copy: "更新工作空间身份和密码访问，同时不打断当前 workflow。"
+      copy: "更新账户身份和密码访问，同时不打断当前 workflow。"
+    }
+  },
+  conversion: {
+    scan: {
+      modeLabel: "扫描深度",
+      basicTitle: "基础扫描",
+      basicCost: "1 个积分",
+      basicOutput: "首页证据、匹配度、破冰话术、短邮件和可导出备注。",
+      deepTitle: "深度扫描",
+      deepCost: "3 个积分",
+      deepOutput: "在可发现时额外读取 about、contact、pricing、blog、careers 等页面上下文。",
+      currentCost: "保存 Prospect Card 后，本次会使用 __COUNT__ 个积分。当前剩余 __REMAINING__ 个。",
+      notEnoughCredits: "本次扫描需要 __COUNT__ 个积分。请先升级再运行。",
+      powerHint: "如果深度扫描已经成为你的常规研究流程，Power 更适合。"
+    },
+    billing: {
+      insufficientTitle: "本次扫描积分不足",
+      insufficientCopy: "当扫描量成为瓶颈时，选择更高月度套餐；临时高峰则可用积分包补充。",
+      openBilling: "查看套餐",
+      creditPacksEyebrow: "积分包",
+      creditPacksTitle: "不用改变工作流，也能处理临时扫描高峰",
+      creditPacksCopy: "积分包是可选补充，不替代订阅；付费功能仍跟随当前套餐解锁。",
+      packCta: "先查看套餐",
+      packs: [
+        { name: "Small Pack", price: "$9", credits: "100 积分", fit: "一次聚焦的获客推进。" },
+        { name: "Growth Pack", price: "$29", credits: "500 积分", fit: "一批更大的导入网站名单。" },
+        { name: "Power Pack", price: "$99", credits: "2,000 积分", fit: "高频研究，不必等待下次重置。" }
+      ]
     }
   },
   common: {
@@ -1170,14 +1306,14 @@ const zh: AppUiExtra = {
       prospectUrl: "https://prospect.example.com",
       companyName: "Northstar Analytics",
       leadSearch: "公司、域名或行业",
-      assignTeammate: "分配给团队成员",
+      assignTeammate: "分配给个人用户成员",
       nextAction: "添加客户角度、阻碍因素或下一步动作。"
     },
     messages: {
       demoPreviewIntro: "当前为演示预览。免费开始后即可保存潜在客户卡片、积分记录和导出历史。",
-      sampleWorkspaceData: "__ERROR__ 当前显示示例工作空间数据。",
-      sampleWorkspaceDataPlain: "当前显示示例工作空间数据。",
-      workspaceDataUnavailable: "当前无法加载工作空间数据。请刷新后重试。",
+      sampleWorkspaceData: "__ERROR__ 当前显示示例账户数据。",
+      sampleWorkspaceDataPlain: "当前显示示例账户数据。",
+      workspaceDataUnavailable: "当前无法加载账户数据。请刷新后重试。",
       billingActiveSetup: "订阅已生效。请先完成下面的首次网站调研流程。",
       workspaceCreatedSetup: "LeadCue 已准备好。请先完成下面的首次网站调研流程。",
       createWorkspaceRequired: "已登录。正在为你的首次调研准备 LeadCue。",
@@ -1204,7 +1340,7 @@ const zh: AppUiExtra = {
       signInRequired: "请先登录再继续。",
       workspaceNotFound: "未找到 LeadCue 数据空间。",
       subscriptionInactive: "当前订阅未激活。请先更新账单后再继续扫描网站。",
-      insufficientCredits: "当前工作空间的扫描积分不足，无法完成这个请求。",
+      insufficientCredits: "当前账户的扫描积分不足，无法完成这个请求。",
       createFirstSavedCard: "登录后可通过 Chrome 扩展或 POST /api/scans 创建第一张已保存卡片。"
     }
   },
@@ -1238,7 +1374,7 @@ const zh: AppUiExtra = {
       export: "导出"
     },
     pipelineStages: {
-      researching: "调研中",
+      researching: "待判断",
       qualified: "已合格",
       outreach_queued: "待外联",
       contacted: "已联系",
@@ -1281,7 +1417,7 @@ const zh: AppUiExtra = {
     },
     historyReasons: {
       validation_failed: "校验失败",
-      workspace_unavailable: "工作空间不可用",
+      workspace_unavailable: "账户不可用",
       subscription_inactive: "订阅未激活",
       insufficient_credits: "积分不足",
       idempotency_conflict: "幂等冲突",
@@ -1298,19 +1434,19 @@ const zh: AppUiExtra = {
       eyebrow: "初次设置",
       welcomeTitle: "欢迎，__NAME__。",
       workspaceReadyTitle: "从第一个网站开始，__NAME__。",
-      intro: "LeadCue 已按 website-first outbound research 的流程准备好。完成一次扫描后，你会得到包含匹配度、来源证据、破冰话术和导出备注的潜在客户卡片。",
+      intro: "LeadCue 已按 AI website prospecting 的流程准备好。完成一次扫描后，你会得到包含匹配度、来源证据、破冰话术和导出备注的潜在客户卡片。",
       progress: "__COUNT__/4 已完成",
       markComplete: "标记完成",
       checklistLabel: "首次网站调研清单",
-      setupSnapshot: "Agency Profile",
+      setupSnapshot: "Prospecting Profile",
       service: "服务定位",
       industries: "目标客群",
       firstTarget: "首个网站",
       prepareFirstScan: "准备网站调研",
       runFirstScan: "执行首次扫描",
-      reviewIcp: "调整 Agency Profile",
+      reviewIcp: "调整 Prospecting Profile",
       tasks: {
-        profileSaved: "Agency Profile 已调好",
+        profileSaved: "Prospecting Profile 已调好",
         firstWebsiteQueued: "已选择首个网站",
         firstProspectCard: "已保存首张潜在客户卡片",
         exportReady: "准备好导出交接"
@@ -1318,17 +1454,38 @@ const zh: AppUiExtra = {
       descriptions: {
         profileSaved: "匹配度评分已围绕 __INDUSTRIES__ 调整。",
         profileTodo: "先设置你的服务定位和目标客群，后续匹配度和机会信号才会更准。",
-        websiteQueued: "已准备进行 website-first 调研：__URL__",
-        agencySaved: "已把你的 agency 网站作为上下文：__URL__",
+        websiteQueued: "已准备进行 website-based 调研：__URL__",
+        agencySaved: "已把你的 solo professional 网站作为上下文：__URL__",
         websiteTodo: "添加第一个潜在客户网站，用来生成来源证据和外联上下文。",
         firstCardDone: "已保存 __COUNT__ 张潜在客户卡片。",
         firstCardTodo: "运行第一次网站扫描，保存包含破冰话术和可导出备注的 Prospect Card。",
-        exportReadyDone: "首个已保存账户已经可以导出到 CSV 或 CRM。",
+        exportReadyDone: "首个已保存账户已经可以导出到 CSV 或 CSV。",
         exportReadyTodo: "保存 Prospect Card 后，可在导出页把合格账户交接给外联流程。"
+      },
+      guide: {
+        stepLabel: "第 __CURRENT__ 步 / 共 __TOTAL__ 步",
+        currentStep: "现在先做这个",
+        whyLabel: "为什么要做",
+        profileTitle: "先调好你的 Prospecting Profile",
+        profileCopy: "确认你提供什么服务、最适合服务哪些客户。LeadCue 会用这些信息来判断每个网站是否值得跟进。",
+        profileWhy: "Prospecting Profile 越清晰，后续匹配度评分、机会信号和外联角度就越贴近你的理想客户。",
+        profileAction: "完善 Prospecting Profile",
+        websiteTitle: "添加第一个潜在客户网站",
+        websiteCopy: "先贴一个真实公司网站。最好选你个人用户熟悉、愿意拿来验证流程的目标账户。",
+        websiteWhy: "website research 必须先有具体域名，LeadCue 才能抓取来源证据和账户上下文。",
+        websiteAction: "添加第一个网站",
+        cardTitle: "运行第一次网站扫描",
+        cardCopy: "让 LeadCue 把这个网站整理成 Prospect Card，包含匹配度、机会信号、破冰话术和备注。",
+        cardWhy: "第一张 Prospect Card 会让新用户马上看懂：哪些信息会被保存，后续怎么用于审核和外联。",
+        cardAction: "运行首次扫描",
+        exportTitle: "导出第一个合格账户",
+        exportCopy: "确认 Prospect Card 可用后，打开导出页，准备 CSV 或 CSV 交接字段。",
+        exportWhy: "只有当调研账户能交接给外联流程时，首次闭环才真正完成。",
+        exportAction: "打开导出页"
       }
     },
     metrics: {
-      ariaLabel: "工作空间指标",
+      ariaLabel: "账户指标",
       savedProspects: "已保存的潜在客户",
       currentPlan: "当前套餐",
       creditsLeft: "剩余积分",
@@ -1397,14 +1554,16 @@ const zh: AppUiExtra = {
       eyebrow: "队列快照",
       title: "下一步该看什么",
       ready: "待扫描",
-      researching: "研究中",
+      researching: "处理中",
+      scanning: "AI 研究中",
+      reviewing: "待复核",
       imported: "已导入",
-      workspaceSource: "工作空间线索",
+      workspaceSource: "账户线索",
       openSite: "打开网站",
       moveToScanDesk: "送去扫描台",
       reviewCard: "打开卡片",
       emptyTitle: "当前没有待处理的网站。",
-      emptyCopy: "先导入名单，或完成第一次扫描，为团队建立复核工作。"
+      emptyCopy: "先导入名单，或完成第一次扫描，为个人用户建立复核工作。"
     },
     savedPanel: {
       eyebrow: "已保存交接",
@@ -1422,7 +1581,7 @@ const zh: AppUiExtra = {
       setupRequired: "正在准备账户",
       createWorkspaceTitle: "正在为你的首次调研准备 LeadCue",
       createWorkspaceCopy:
-        "你已经登录。LeadCue 正在自动准备 Agency Profile、积分、网站队列、Prospect Card 和导出所需的数据空间。",
+        "你已经登录。LeadCue 正在自动准备 Prospecting Profile、积分、网站队列、Prospect Card 和导出所需的数据空间。",
       importWebsites: "导入网站名单",
       openQueue: "打开复核队列",
       manualScan: "改用手工扫描",
@@ -1447,10 +1606,10 @@ const zh: AppUiExtra = {
     minConfidence: "最低置信度",
     resultsSummary: "显示 __VISIBLE__ / __TOTAL__ 条潜在客户",
     selectedCount: "已选择 __COUNT__ 条",
-    selectedReadyCopy: "只导出团队已准备跟进的账户。",
+    selectedReadyCopy: "只导出个人用户已准备跟进的账户。",
     selectedEmptyCopy: "选择潜在客户后可导出聚焦版 CSV。",
     templateLabel: "模板",
-    crmFieldsLabel: "CRM 字段",
+    crmFieldsLabel: "CSV 字段",
     tableLabel: "已保存的潜在客户",
     selectAllVisible: "选择当前可见的全部潜在客户",
     clearAllVisible: "取消当前可见的全部潜在客户",
@@ -1468,22 +1627,36 @@ const zh: AppUiExtra = {
     drawerNoSelection: "未选择",
     drawerFitLabel: "__SCORE__ 匹配度",
     errorShowingPreview: "完整详情加载失败，当前显示列表预览。",
+    detailPageLabel: "线索详情",
+    detailPageEyebrow: "潜在客户详情",
+    detailPageTitle: "潜在客户卡片",
+    detailPageIntro: "查看完整潜在客户卡片、带来源的信号、管道备注和外联文案。",
+    detailPageCopy: "查看 __COMPANY__ 的带来源信号、管道备注，以及面向 __DOMAIN__ 的外联文案。",
+    detailBackToQueue: "返回队列",
+    detailBackToExports: "返回导出",
+    detailBackToBilling: "返回账单",
+    detailBackToDashboard: "返回总览",
+    detailBackToSaved: "返回已保存账户",
     detailEmptyTitle: "选择一条线索",
     detailEmptyCopy: "点击任意已保存账户，即可查看完整潜在客户卡片，包括带来源的信号与邮件文案。"
   },
   reviewQueue: {
     eyebrow: "复核队列",
-    title: "复核已导入和 researching 阶段的账户",
+    title: "复核已导入和待复核的账户",
     controlsLabel: "复核队列筛选项",
     searchLabel: "搜索队列",
     statusLabel: "状态",
     sourceLabel: "来源",
     sourceAll: "全部来源",
     sourceImported: "仅导入名单",
-    workspaceSource: "工作空间线索",
+    workspaceSource: "账户线索",
     statusAll: "全部状态",
     statusReady: "待扫描",
-    statusResearching: "研究中",
+    statusResearching: "处理中",
+    statusScanning: "AI 研究中",
+    statusReviewing: "待复核",
+    statusCardReady: "卡片已生成",
+    statusStalled: "研究可能卡住",
     resultsSummary: "显示 __VISIBLE__ / __TOTAL__ 条队列项目",
     readySummary: "当前有 __COUNT__ 条待处理",
     tableLabel: "复核队列",
@@ -1494,10 +1667,10 @@ const zh: AppUiExtra = {
     emptyTitle: "还没有复核队列。",
     emptyCopy: "先导入网站，或完成第一次扫描来建立复核队列。",
     emptyFilteredTitle: "当前筛选下没有匹配项。",
-    emptyFilteredCopy: "放宽筛选条件，查看更多已导入或 researching 阶段的网站。",
+    emptyFilteredCopy: "放宽筛选条件，查看更多已导入、AI 研究中或待复核的网站。",
     sideEyebrow: "队列健康度",
     sideTitle: "每天把队列向前推",
-    sideCopy: "复核队列是 research 进入 qualification 的地方。优先把待扫描网站推进到 researching，再从那里推进到 qualified。",
+    sideCopy: "复核队列是从研究结果进入资格判断的地方。先把待扫描网站送入 AI 研究，再复核已生成卡片并推进到已通过判断。",
     importedCountLabel: "已导入网站"
   },
   importer: {
@@ -1515,7 +1688,9 @@ const zh: AppUiExtra = {
     summaryTitle: "当前导入队列情况",
     summaryImported: "已导入",
     summaryReady: "待扫描",
-    summaryResearching: "研究中",
+    summaryResearching: "处理中",
+    summaryScanning: "AI 研究中",
+    summaryReviewing: "待复核",
     historyEyebrow: "已导入网站",
     historyTitle: "导入记录",
     historyCount: "共 __COUNT__ 个网站",
@@ -1534,6 +1709,7 @@ const zh: AppUiExtra = {
     messages: {
       added: "已加入 __COUNT__ 个网站，已跳过 __SKIPPED__ 条重复或无效内容。",
       noWebsitesAdded: "没有识别到可导入的网站，请检查域名格式后重试。",
+      duplicatesOnly: "__COUNT__ 个网站已在账户或队列中，已跳过重复导入。",
       fileReadFailed: "文件读取失败，请上传 CSV、TXT 或 TSV 文件。",
       queueUpdated: "导入队列已更新。"
     }
@@ -1545,13 +1721,13 @@ const zh: AppUiExtra = {
     statusQualified: "已通过判断",
     resultsSummary: "显示 __VISIBLE__ / __TOTAL__ 个已保存账户",
     emptyTitle: "还没有可交接的已保存账户。",
-    emptyCopy: "当账户的匹配度、负责人和备注都准备好后，再把它从 researching 推进过来。",
+    emptyCopy: "当账户的匹配度、负责人和备注都准备好后，再把它从复核队列推进过来。",
     emptyFilteredTitle: "当前视图下没有匹配的已保存账户。",
     emptyFilteredCopy: "放宽搜索或分数筛选，查看更多已保存账户。"
   },
   prospectCard: {
-    eyebrow: "潜在客户卡片",
-    summaryLabel: "潜在客户摘要",
+    eyebrow: "账户研究简报",
+    summaryLabel: "账户摘要",
     fitLabel: "匹配度",
     website: "网站",
     industry: "行业",
@@ -1561,6 +1737,41 @@ const zh: AppUiExtra = {
     stage: "阶段",
     sectionsLabel: "潜在客户卡片分区",
     mobileActionsLabel: "移动端潜在客户卡片操作",
+    decision: {
+      panelLabel: "账户研判简报",
+      recommendation: "建议动作",
+      prioritize: "优先跟进",
+      review: "复核后跟进",
+      deprioritize: "暂缓跟进",
+      prioritizeCopy: "匹配度和置信度足以支持分配负责人，并基于来源证据发起外联。",
+      reviewCopy: "已有可用信号，但联系前应先确认账户背景和最强来源依据。",
+      deprioritizeCopy: "当前证据还不够强，不建议在补充研究前投入外联时间。",
+      evidence: "证据强度",
+      evidenceSummary: "__SIGNALS__ 条信号 · __SOURCES__ 个来源 · __CONTACTS__ 条联系路径",
+      evidenceCopy: "用它判断这张卡是否可以进入人工复核，还是需要继续验证。",
+      risk: "复核缺口",
+      riskIndustry: "公开信息还不能确认行业。",
+      riskConfidence: "置信度中等，使用建议前需要人工确认。",
+      riskSignals: "有来源支撑的网站信号偏少。",
+      riskContacts: "未找到直接联系路径。",
+      noMajorRisk: "本次分析未发现明显复核缺口。",
+      needsVerification: "待确认",
+      explanationTitle: "为什么这样判断",
+      explanationCopy: "卡片不应该只给分数，还要说明每个指标背后的证据、维度和商业含义。",
+      fitBasis: "匹配度综合判断 ICP 相关性、商业机会、网站信号，以及是否有足够联系上下文可以行动。",
+      fitInsight: "__SCORE__/100 对应“__DECISION__”，主要依据是：__REASON__",
+      confidenceBasis: "置信度反映证据覆盖度：来源记录、信号数量、行业是否清楚、联系路径是否可用。",
+      confidenceInsight: "__CONFIDENCE__% 置信度来自 __SOURCES__ 个来源记录、__SIGNALS__ 条信号和 __CONTACTS__ 条联系路径。",
+      evidenceBasis: "证据强度统计这条建议背后有多少可用证据；来源和联系路径越多，主观猜测越少。",
+      evidenceInsight: "当前最主要的证据锚点是：__SIGNAL__",
+      riskBasis: "复核缺口说明人工在采纳建议或发送外联前，最需要确认哪些不确定项。",
+      noSignalInsight: "当前没有足够强的网站信号，建议人工补充验证后再外联。",
+      dimensionsLabel: "判断维度",
+      dimensionCommercial: "商业匹配",
+      dimensionEvidence: "网站证据",
+      dimensionContactability: "联系可达",
+      dimensionRisk: "复核风险"
+    },
     contactLabels: {
       emails: "邮箱",
       phones: "电话",
@@ -1604,7 +1815,7 @@ const zh: AppUiExtra = {
       title: "导出所选字段",
       selected: "已选择 __SELECTED__/__TOTAL__",
       presetsLabel: "导出字段预设",
-      crmModesLabel: "CRM 字段命名方式",
+      crmModesLabel: "CSV 字段命名方式",
       csvColumns: "CSV 列",
       columns: "__LABEL__ 列",
       copyCsvRow: "复制 CSV 行",
@@ -1623,16 +1834,16 @@ const zh: AppUiExtra = {
       },
       presets: {
         crm: {
-          label: "CRM 导出",
-          description: "包含公司、匹配度、联系人、负责人、阶段与来源依据。"
+          label: "潜在客户 CSV",
+          description: "包含公司、匹配度、联系路径、阶段、备注与来源依据。"
         },
         email: {
-          label: "邮件草稿",
-          description: "仅包含破冰话术、外联角度和短邮件。"
+          label: "Instantly / Smartlead CSV",
+          description: "把已通过判断的潜在客户交接到冷邮件工具所需的字段。"
         },
         brief: {
-          label: "研究摘要",
-          description: "紧凑展示账户摘要、证据、信号与来源。"
+          label: "研究简报",
+          description: "包含证据、信号、外联角度和来源的紧凑潜在客户简报。"
         }
       },
       crmModes: {
@@ -1657,10 +1868,10 @@ const zh: AppUiExtra = {
       notSavedYet: "尚未保存",
       notes: "备注",
       saveContext: "保存上下文",
-      saveStateIdle: "将修改保存到工作空间。",
+      saveStateIdle: "将修改保存到账户。",
       saveStateSaving: "正在保存负责人、阶段和备注...",
       saveStateSaved: "负责人、阶段和备注已保存。",
-      saveStateError: "无法保存到工作空间。"
+      saveStateError: "无法保存到账户。"
     },
     activity: {
       panelLabel: "流程活动日志",
@@ -1723,8 +1934,14 @@ const zh: AppUiExtra = {
       targetIndustries: "目标行业",
       targetIndustriesHelp: "使用逗号分隔。用于匹配评分和外联角度质量。",
       countries: "国家",
-      countriesHelp: "使用逗号分隔。如果团队面向国际销售，可保持宽泛。",
+      countriesHelp: "使用逗号分隔。如果个人用户面向国际销售，可保持宽泛。",
+      companySize: "公司规模",
+      companySizeHelp: "例如：1-50 人、50-200 人、中型市场、业主经营。",
       offer: "服务说明",
+      avoidedIndustries: "避免行业",
+      avoidedIndustriesHelp: "使用逗号分隔。当潜在客户看起来属于这些行业时，LeadCue 会降低置信度。",
+      outputLanguage: "输出语言",
+      outputLanguageHelp: "新的 Prospect Card、开场白和短邮件会使用该语言。",
       firstTargetUrl: "首个目标网址"
     },
     serviceOptions: {
@@ -1787,8 +2004,8 @@ const zh: AppUiExtra = {
       eyebrow: "流程漏斗",
       title: "从导入到外拓交接",
       imported: "已导入",
-      importedMeta: "已进入工作空间队列的网站",
-      reviewing: "研究中",
+      importedMeta: "已进入账户队列的网站",
+      reviewing: "待复核",
       reviewingMeta: "占已导入网站的 __PERCENT__",
       qualified: "已通过判断",
       qualifiedMeta: "占活跃复核量的 __PERCENT__",
@@ -1817,7 +2034,7 @@ const zh: AppUiExtra = {
     },
     funnel: {
       eyebrow: "研究漏斗",
-      title: "从点击到 CRM 交接",
+      title: "从点击到 CSV 交接",
       ctaClicks: "CTA 点击",
       ctaClicksMeta: "开始免费、工具 CTA、价格点击",
       signups: "注册",
@@ -1845,13 +2062,13 @@ const zh: AppUiExtra = {
     recommendations: {
       eyebrow: "下一步建议",
       title: "运营建议",
-      reviewBacklog: "待扫描的网站多于正在研究的账户，建议先集中清一轮队列。",
-      qualificationGap: "正在研究的账户多于已通过判断的账户，当前更可能卡在人工判断或负责人跟进上。",
-      exportGap: "已通过判断的账户增长快于导出量，说明 CRM 或外拓交接环节还有堵点。",
+      reviewBacklog: "待扫描的网站多于活跃队列项目，建议先集中清一轮扫描积压。",
+      qualificationGap: "待复核卡片多于已通过判断的账户，当前更可能卡在人工判断或负责人跟进上。",
+      exportGap: "已通过判断的账户增长快于导出量，说明 CSV 或外拓交接环节还有堵点。",
       keepMoving: "当前节奏正常，继续导入名单、推进处理并完成导出即可。",
       toolPageCta: "工具页 CTA 点击表现不错，继续把这批用户以相同字段模板场景引导到注册流程。",
-      exportsGap: "导出量低于扫描量，下一个瓶颈很可能是资格判断信心或 CRM 交接时机。",
-      crmTemplateTraffic: "CRM 字段映射模板目前带来了最多的产品驱动流量。"
+      exportsGap: "导出量低于扫描量，下一个瓶颈很可能是资格判断信心或 CSV 交接时机。",
+      crmTemplateTraffic: "CSV 字段映射模板目前带来了最多的产品驱动流量。"
     },
     eventNames: {
       scan_completed: "扫描完成",
@@ -1861,21 +2078,21 @@ const zh: AppUiExtra = {
     },
     eventMetadata: {
       basicScanOneCredit: "基础扫描，1 积分",
-      crmHubSpot: "CRM / HubSpot",
+      crmHubSpot: "CSV / HubSpot",
       hubSpotMappingCta: "HubSpot 映射 CTA"
     }
   },
   account: {
     profile: {
-      eyebrow: "工作空间资料",
+      eyebrow: "账户资料",
       title: "身份与归属",
       statusSaving: "保存中",
       statusSaved: "已保存",
       statusEditable: "可编辑",
       ownerName: "负责人姓名",
       ownerPlaceholder: "Alex Rivera",
-      ownerHelp: "显示在工作空间头部，并用于内部负责人上下文。",
-      workspaceName: "工作空间名称",
+      ownerHelp: "显示在账户头部，并用于内部负责人上下文。",
+      workspaceName: "账户名称",
       workspacePlaceholder: "Northstar Outbound",
       workspaceHelp: "会用于仪表盘、账单和账户入口等位置。",
       save: "保存资料",
@@ -1889,22 +2106,22 @@ const zh: AppUiExtra = {
       statusEnabled: "已启用",
       currentPassword: "当前密码",
       currentPlaceholder: "已有密码时必填",
-      currentHelp: "只有当该工作空间从未设置过邮箱密码时，才可留空。",
+      currentHelp: "只有当该账户从未设置过邮箱密码时，才可留空。",
       newPassword: "新密码",
       newPlaceholder: "至少 8 个字符",
-      newHelp: "请使用团队可通过重置流程找回的工作空间密码。",
+      newHelp: "请使用个人用户可通过重置流程找回的账户密码。",
       confirmPassword: "确认新密码",
       confirmPlaceholder: "再次输入新密码",
       showFields: "显示密码字段",
-      showFieldsHelp: "适合负责人首次为工作空间配置访问方式时使用。",
+      showFieldsHelp: "适合负责人首次为账户配置访问方式时使用。",
       update: "更新密码",
       updating: "更新密码中"
     },
     summary: {
       eyebrow: "会话概览",
-      title: "当前工作空间的使用情况",
+      title: "当前账户的使用情况",
       signedInEmail: "当前登录邮箱",
-      workspace: "工作空间",
+      workspace: "账户",
       plan: "套餐",
       nextCreditReset: "下次积分重置",
       manageBilling: "管理账单",
@@ -1912,11 +2129,11 @@ const zh: AppUiExtra = {
       demoPreview: "演示预览"
     },
     messages: {
-      signInProfile: "请先登录再更新工作空间资料。",
-      namesRequired: "负责人姓名和工作空间名称都不能为空。",
-      profileSaved: "工作空间资料已保存。",
-      profileSaveFailed: "无法更新工作空间资料。",
-      signInPassword: "请先登录再修改工作空间密码。",
+      signInProfile: "请先登录再更新账户资料。",
+      namesRequired: "负责人姓名和账户名称都不能为空。",
+      profileSaved: "账户资料已保存。",
+      profileSaveFailed: "无法更新账户资料。",
+      signInPassword: "请先登录再修改账户密码。",
       passwordMin: "新密码至少需要 8 个字符。",
       passwordMismatch: "新密码和确认密码必须一致。",
       currentPasswordRequired: "设置新密码前，请先输入当前密码。",
@@ -1930,7 +2147,7 @@ const zh: AppUiExtra = {
       currentPlan: "当前套餐",
       scansLeft: "剩余扫描次数",
       resetDate: "重置日期",
-      workspaceStatus: "工作空间状态"
+      workspaceStatus: "账户状态"
     },
 
     usage: {
@@ -1974,10 +2191,9 @@ const zh: AppUiExtra = {
       additionalCredits: "比当前多 __COUNT__ 次扫描",
       highestVolume: "最高额度",
       useCases: {
-        free: "先用真实网站验证流程，再决定是否付费扩展。",
-        starter: "适合单人运营者建立每周固定的外联节奏。",
-        pro: "适合将潜客研究沉淀为可复用流程的代理商。",
-        agency: "适合在多个客户服务之间共享扫描积分的团队。"
+        free: "先用真实网站验证个人找客户流程。",
+        pro: "适合自由职业者、顾问和独立创始人持续做外联。",
+        power: "适合需要更高扫描量的个人运营者。"
       }
     },
     policy: {
@@ -1991,15 +2207,15 @@ const zh: AppUiExtra = {
     },
     status: {
       eyebrow: "账户状态",
-      title: "了解工作空间当前能否继续扫描",
-      workspaceStatus: "工作空间状态",
+      title: "了解账户当前能否继续扫描",
+      workspaceStatus: "账户状态",
       authenticated: "已认证",
       demoPreview: "演示预览",
       subscriptionState: "订阅状态",
       remainingCredits: "剩余积分",
       exportMode: "导出模式",
       nextStep: "下一步",
-      unauthenticatedHint: "请使用上方登录入口连接真实工作空间，并同步账单状态。"
+      unauthenticatedHint: "请使用上方登录入口连接真实账户，并同步账单状态。"
     },
     subscriptionDetails: {
       active: {
@@ -2007,7 +2223,7 @@ const zh: AppUiExtra = {
         nextStep: "继续筛选账户，只有在扫描量真正成为瓶颈时再升级。"
       },
       trialing: {
-        summary: "工作空间当前可用，但试用期很快需要做出账单决策。",
+        summary: "账户当前可用，但试用期很快需要做出账单决策。",
         nextStep: "趁试用期验证扫描质量、保存率和导出交接效果。"
       },
       pendingCheckout: {
@@ -2015,16 +2231,16 @@ const zh: AppUiExtra = {
         nextStep: "完成 Stripe 结账后即可解锁付费积分额度。"
       },
       configurationRequired: {
-        summary: "该工作空间已选择付费套餐，但当前环境中的账单配置尚未完成。",
+        summary: "该账户已选择付费套餐，但当前环境中的账单配置尚未完成。",
         nextStep: "在依赖付费套餐前，请联系支持或先完成 Stripe 配置。"
       },
       pastDue: {
-        summary: "账单需要处理，否则工作空间无法稳定依赖付费访问。",
+        summary: "账单需要处理，否则账户无法稳定依赖付费访问。",
         nextStep: "打开账单门户，更新付款方式或处理发票状态。"
       },
       canceled: {
         summary: "付费订阅已不再覆盖未来周期。",
-        nextStep: "如果团队仍需要更高的月扫描量，请重新发起结账。"
+        nextStep: "如果个人用户仍需要更高的月扫描量，请重新发起结账。"
       },
       fallbackSummary: "这个订阅状态需要在正式使用前再确认一次。",
       fallbackNextStep: "如果状态与预期套餐不一致，请打开账单详情或联系支持。"
@@ -2091,7 +2307,7 @@ const ja: AppUiExtraOverride = {
     dashboard: {
       eyebrow: "今日",
       title: "今日",
-      copy: "このワークスペースで今やるべきこと、主なボトルネック、進捗をすぐに確認できます。"
+      copy: "このダッシュボードで今やるべきこと、主なボトルネック、進捗をすぐに確認できます。"
     },
     queue: {
       eyebrow: "キュー",
@@ -2106,12 +2322,12 @@ const ja: AppUiExtraOverride = {
     exports: {
       eyebrow: "エクスポート",
       title: "エクスポート",
-      copy: "CRM 向けの引き渡しを整え、プリセットを選び、承認済みアカウントをきれいに外へ出します。"
+      copy: "CSV 向けの引き渡しを整え、プリセットを選び、承認済みアカウントをきれいに外へ出します。"
     },
     settings: {
       eyebrow: "設定",
       title: "設定",
-      copy: "ICP、ワークスペース情報、アクセスを主作業フローを崩さずまとめて管理します。"
+      copy: "ICP、ダッシュボード情報、アクセスを主作業フローを崩さずまとめて管理します。"
     },
     leads: {
       eyebrow: "レビューキュー",
@@ -2121,41 +2337,40 @@ const ja: AppUiExtraOverride = {
     icp: {
       eyebrow: "ICP",
       title: "ICP",
-      copy: "チームがさらにサイトをスキャンする前に、LeadCue が適合度・緊急度・実行可能性をどう評価するかを定義します。"
+      copy: "個人ユーザーがさらにサイトをスキャンする前に、LeadCue が適合度・緊急度・実行可能性をどう評価するかを定義します。"
     },
     billing: {
       eyebrow: "請求",
       title: "請求",
-      copy: "ワークスペースを離れずにクレジット・サブスクリプション状態・エクスポート容量を確認します。"
+      copy: "ダッシュボードを離れずにクレジット・サブスクリプション状態・エクスポート容量を確認します。"
     },
     import: {
       eyebrow: "一括リサーチ",
       title: "サイトをインポート",
-      copy: "ドメインを貼り付けるか CSV をアップロードして、このワークスペースのサイトファーストなレビューキューを作成します。"
+      copy: "ドメインを貼り付けるか CSV をアップロードして、このダッシュボードのサイトファーストなレビューキューを作成します。"
     },
     saved: {
       eyebrow: "保存済みアカウント",
       title: "保存済みアカウント",
-      copy: "レビューを通過し、アウトリーチまたは CRM 引き渡しの準備ができたアカウントをエクスポートします。"
+      copy: "レビューを通過し、アウトリーチまたは CSV 引き渡しの準備ができたアカウントをエクスポートします。"
     },
     analytics: {
       eyebrow: "ワークフロー",
       title: "ワークフロー分析",
-      copy: "サイトがキューに入り、適格アカウントになり、エクスポートとしてワークスペースから出ていく流れを追跡します。"
+      copy: "サイトがキューに入り、適格アカウントになり、エクスポートとしてダッシュボードから出ていく流れを追跡します。"
     },
     account: {
       eyebrow: "アカウント",
       title: "アカウント",
-      copy: "ワークフローを中断することなく、ワークスペースの ID・パスワードアクセスを更新します。"
+      copy: "ワークフローを中断することなく、ダッシュボードの ID・パスワードアクセスを更新します。"
     }
   },
   billing: {
     plans: {
       useCases: {
-        free: "有料展開前に実際のウェブサイトでワークフローを検証します。",
-        starter: "週次のアウトバウンド習慣を構築する1人のオペレーター向け。",
-        pro: "見込み客調査を再現可能なパイプラインに変えるエージェンシー向け。",
-        agency: "複数のクライアントオファー間でスキャンクレジットを共有するチーム向け。"
+        free: "実際のWebサイトで個人向けプロスペクティングを試すのに最適です。",
+        pro: "定期的にアウトリーチするフリーランス、コンサルタント、個人創業者向け。",
+        power: "より多くのWebサイト調査を行う個人オペレーター向け。"
       }
     }
   },
@@ -2199,11 +2414,11 @@ const ja: AppUiExtraOverride = {
     noData: "データなし",
     messages: {
       demoPreviewIntro: "デモプレビューです。無料で始めると Prospect Card、クレジット、エクスポート履歴を保存できます。",
-      sampleWorkspaceData: "__ERROR__ サンプルのワークスペースデータを表示しています。",
-      sampleWorkspaceDataPlain: "サンプルのワークスペースデータを表示しています。",
-      workspaceDataUnavailable: "現在このワークスペースを読み込めません。更新して再試行してください。",
-      billingActiveSetup: "請求は有効です。下の最初の website-first リサーチを完了してください。",
-      workspaceCreatedSetup: "LeadCue の準備ができました。下の最初の website-first リサーチを完了してください。",
+      sampleWorkspaceData: "__ERROR__ サンプルのダッシュボードデータを表示しています。",
+      sampleWorkspaceDataPlain: "サンプルのダッシュボードデータを表示しています。",
+      workspaceDataUnavailable: "現在このダッシュボードを読み込めません。更新して再試行してください。",
+      billingActiveSetup: "請求は有効です。下の最初の website-based リサーチを完了してください。",
+      workspaceCreatedSetup: "LeadCue の準備ができました。下の最初の website-based リサーチを完了してください。",
       createWorkspaceRequired: "ログインしました。最初のリサーチに向けて LeadCue を準備しています。",
       workspaceCreateFailed: "現在 LeadCue を準備できません。",
       signedIn: "ログインしました。",
@@ -2230,7 +2445,7 @@ const ja: AppUiExtraOverride = {
       signInRequired: "続行するにはログインしてください。",
       workspaceNotFound: "LeadCue のデータスペースが見つかりません。",
       subscriptionInactive: "サブスクリプションが有効ではありません。サイトをさらにスキャンする前に請求を更新してください。",
-      insufficientCredits: "このリクエストに必要なスキャンクレジットがワークスペースにありません。",
+      insufficientCredits: "このリクエストに必要なスキャンクレジットがダッシュボードにありません。",
       createFirstSavedCard: "ログインした状態で Chrome 拡張機能または POST /api/scans を使って最初の保存済みカードを作成してください。"
     }
   },
@@ -2279,7 +2494,7 @@ const ja: AppUiExtraOverride = {
     },
     serviceTypes: {
       web_design: "ウェブデザイン / リニューアル",
-      seo: "SEO エージェンシー",
+      seo: "SEO 個人プロフェッショナル",
       marketing: "グロース / マーケティング",
       founder: "創業者主導のアウトバウンド",
       custom: "カスタム",
@@ -2307,7 +2522,7 @@ const ja: AppUiExtraOverride = {
     },
     historyReasons: {
       validation_failed: "検証失敗",
-      workspace_unavailable: "ワークスペース利用不可",
+      workspace_unavailable: "ダッシュボード利用不可",
       subscription_inactive: "サブスクリプション無効",
       insufficient_credits: "クレジット不足",
       idempotency_conflict: "冪等性の競合",
@@ -2325,19 +2540,19 @@ const ja: AppUiExtraOverride = {
       welcomeTitle: "__NAME__ さん、ようこそ。",
       workspaceReadyTitle: "__NAME__ さん、まず 1 件のウェブサイトから始めましょう。",
       intro:
-        "LeadCue は website-first outbound research 向けに準備済みです。1 回スキャンすると、適合度、根拠付きメモ、冒頭文、エクスポート用コンテキストを含む Prospect Card を作成できます。",
+        "LeadCue は AI website prospecting 向けに準備済みです。1 回スキャンすると、適合度、根拠付きメモ、冒頭文、エクスポート用コンテキストを含む Prospect Card を作成できます。",
       progress: "__COUNT__/4 完了",
       markComplete: "完了としてマーク",
-      checklistLabel: "最初の website-first リサーチチェックリスト",
-      setupSnapshot: "Agency Profile",
+      checklistLabel: "最初の website-based リサーチチェックリスト",
+      setupSnapshot: "Prospecting Profile",
       service: "オファー",
       industries: "最適なセグメント",
       firstTarget: "最初のウェブサイト",
       prepareFirstScan: "ウェブサイト調査を準備",
       runFirstScan: "最初のスキャンを実行",
-      reviewIcp: "Agency Profile を調整",
+      reviewIcp: "Prospecting Profile を調整",
       tasks: {
-        profileSaved: "Agency Profile を調整済み",
+        profileSaved: "Prospecting Profile を調整済み",
         firstWebsiteQueued: "最初のウェブサイトを選択済み",
         firstProspectCard: "最初の Prospect Card を保存済み",
         exportReady: "エクスポート引き渡し準備"
@@ -2345,17 +2560,38 @@ const ja: AppUiExtraOverride = {
       descriptions: {
         profileSaved: "適合度スコアリングは __INDUSTRIES__ 向けに調整されています。",
         profileTodo: "オファーと最適なセグメントを設定すると、適合度と機会シグナルがぶれにくくなります。",
-        websiteQueued: "website-first リサーチ準備完了: __URL__",
-        agencySaved: "エージェンシーサイトを文脈として保存しました: __URL__",
+        websiteQueued: "website-based リサーチ準備完了: __URL__",
+        agencySaved: "個人プロフェッショナルサイトを文脈として保存しました: __URL__",
         websiteTodo: "最初の見込み客サイトを追加して、根拠付きメモとアウトリーチ文脈を生成します。",
         firstCardDone: "__COUNT__ 件の Prospect Card が保存済みです。",
         firstCardTodo: "最初のウェブサイトスキャンを実行し、冒頭文とエクスポート用メモ付きの Prospect Card を保存してください。",
-        exportReadyDone: "最初の保存済みアカウントは CSV または CRM へ引き渡せます。",
+        exportReadyDone: "最初の保存済みアカウントは CSV または CSV へ引き渡せます。",
         exportReadyTodo: "Prospect Card を保存したら、エクスポートで適格アカウントをアウトリーチへ渡します。"
+      },
+      guide: {
+        stepLabel: "ステップ __CURRENT__ / __TOTAL__",
+        currentStep: "次に行うこと",
+        whyLabel: "重要な理由",
+        profileTitle: "まず Prospecting Profile を整えましょう",
+        profileCopy: "提供するサービスと理想顧客を確認します。LeadCue はサイトを評価する前にこの情報を使います。",
+        profileWhy: "Prospecting Profile が明確だと、適合度スコア、機会シグナル、アウトリーチ角度が最適なアカウントに絞られます。",
+        profileAction: "Prospecting Profile を調整",
+        websiteTitle: "最初の見込み客サイトを追加",
+        websiteCopy: "LeadCue に調査させたい会社サイトを 1 件貼り付けます。個人ユーザーが理解している実在アカウントから始めてください。",
+        websiteWhy: "website-based リサーチには具体的なドメインが必要です。そこから根拠付きメモとアカウント文脈を取得します。",
+        websiteAction: "最初のサイトを追加",
+        cardTitle: "最初のスキャンを実行",
+        cardCopy: "そのサイトを、適合度、シグナル、冒頭文、メモを含む Prospect Card に変換します。",
+        cardWhy: "最初の Prospect Card で、何が保存され、アウトリーチ前にどう確認するかが分かります。",
+        cardAction: "最初のスキャンを実行",
+        exportTitle: "最初の適格アカウントをエクスポート",
+        exportCopy: "Prospect Card が確認できたら、エクスポートを開いて CSV または CSV 向けに引き渡します。",
+        exportWhy: "調査済みアカウントを LeadCue からアウトリーチフローへ渡せた時点で、最初のループが完了します。",
+        exportAction: "エクスポートを開く"
       }
     },
     metrics: {
-      ariaLabel: "ワークスペース指標",
+      ariaLabel: "ダッシュボード指標",
       savedProspects: "保存済み見込み客",
       currentPlan: "現在のプラン",
       creditsLeft: "残りクレジット",
@@ -2382,7 +2618,7 @@ const ja: AppUiExtraOverride = {
     },
     icpPanel: {
       eyebrow: "ICP 設定",
-      title: "エージェンシーモード",
+      title: "個人プロフェッショナルモード",
       serviceType: "サービス種別",
       targetIndustries: "対象業界",
       countries: "国",
@@ -2398,7 +2634,7 @@ const ja: AppUiExtraOverride = {
       import: {
         eyebrow: "インポート",
         title: "一括リストを作成",
-        copy: "チームがアカウントのレビューを始める前に、ドメインを貼り付けるか CSV をアップロードします。",
+        copy: "個人ユーザーがアカウントのレビューを始める前に、ドメインを貼り付けるか CSV をアップロードします。",
         metricLabel: "キュー内のウェブサイト"
       },
       queue: {
@@ -2426,12 +2662,12 @@ const ja: AppUiExtraOverride = {
       ready: "準備完了",
       researching: "調査中",
       imported: "インポート済み",
-      workspaceSource: "ワークスペースリード",
+      workspaceSource: "ダッシュボードリード",
       openSite: "サイトを開く",
       moveToScanDesk: "スキャンデスクへ移動",
       reviewCard: "カードを開く",
       emptyTitle: "キューで待機中のウェブサイトはありません。",
-      emptyCopy: "リストをインポートするか、最初のウェブサイトをスキャンしてチームの作業を作成してください。"
+      emptyCopy: "リストをインポートするか、最初のウェブサイトをスキャンして個人ユーザーの作業を作成してください。"
     },
     savedPanel: {
       eyebrow: "保存済み引き渡し",
@@ -2449,11 +2685,11 @@ const ja: AppUiExtraOverride = {
       setupRequired: "アカウントを準備中",
       createWorkspaceTitle: "最初のリサーチに向けて LeadCue を準備中",
       createWorkspaceCopy:
-        "ログイン済みです。LeadCue は Agency Profile、クレジット、ウェブサイトキュー、Prospect Card、エクスポート用のデータスペースを自動で準備しています。",
+        "ログイン済みです。LeadCue は Prospecting Profile、クレジット、ウェブサイトキュー、Prospect Card、エクスポート用のデータスペースを自動で準備しています。",
       importWebsites: "ウェブサイトをインポート",
       openQueue: "レビューキューを開く",
       manualScan: "代わりに手動スキャンを使う",
-      sampleTitle: "これはデモ用ワークスペースのプレビューです",
+      sampleTitle: "これはデモ用ダッシュボードのプレビューです",
       sampleCopy:
         "ログインすると保存済みリサーチを再開できます。ウェブサイトをレビューキューに入れる前に無料で始めることもできます。",
       loadErrorTitle: "リサーチデータを再度開けませんでした",
@@ -2479,7 +2715,7 @@ const ja: AppUiExtraOverride = {
     selectedReadyCopy: "対応準備ができたアカウントのみをエクスポートします。",
     selectedEmptyCopy: "見込み客を選択して絞り込んだ CSV をエクスポートします。",
     templateLabel: "テンプレート",
-    crmFieldsLabel: "CRM フィールド",
+    crmFieldsLabel: "CSV フィールド",
     tableLabel: "保存済み見込み客",
     selectAllVisible: "表示中の見込み客をすべて選択",
     clearAllVisible: "表示中の見込み客をすべて解除",
@@ -2497,6 +2733,16 @@ const ja: AppUiExtraOverride = {
     drawerNoSelection: "未選択",
     drawerFitLabel: "適合度 __SCORE__",
     errorShowingPreview: "詳細を読み込めなかったため一覧プレビューを表示しています。",
+    detailPageLabel: "リード詳細",
+    detailPageEyebrow: "見込み客の詳細",
+    detailPageTitle: "Prospect Card",
+    detailPageIntro: "完全な Prospect Card、根拠付きシグナル、パイプラインメモ、アウトリーチ文面を確認します。",
+    detailPageCopy: "__COMPANY__ の根拠付きシグナル、パイプラインメモ、__DOMAIN__ 向けのアウトリーチ文面を確認します。",
+    detailBackToQueue: "キューに戻る",
+    detailBackToExports: "エクスポートに戻る",
+    detailBackToBilling: "請求に戻る",
+    detailBackToDashboard: "ダッシュボードに戻る",
+    detailBackToSaved: "保存済みアカウントに戻る",
     detailEmptyTitle: "リードを選択",
     detailEmptyCopy: "保存済みアカウントをクリックすると完全な Prospect Card を確認できます。"
   },
@@ -2555,7 +2801,7 @@ const ja: AppUiExtraOverride = {
       title: "選択したフィールドをエクスポート",
       selected: "__TOTAL__ 件中 __SELECTED__ 件選択",
       presetsLabel: "エクスポートプリセット",
-      crmModesLabel: "CRM フィールド命名モード",
+      crmModesLabel: "CSV フィールド命名モード",
       csvColumns: "CSV 列",
       columns: "__LABEL__ 列",
       copyCsvRow: "CSV 行をコピー",
@@ -2574,7 +2820,7 @@ const ja: AppUiExtraOverride = {
       },
       presets: {
         crm: {
-          label: "CRM エクスポート"
+          label: "CSV エクスポート"
         },
         email: {
           label: "メール下書き"
@@ -2591,10 +2837,10 @@ const ja: AppUiExtraOverride = {
       notSavedYet: "まだ保存されていません",
       notes: "メモ",
       saveContext: "コンテキストを保存",
-      saveStateIdle: "変更内容をワークスペースに保存します。",
+      saveStateIdle: "変更内容をダッシュボードに保存します。",
       saveStateSaving: "担当者・ステージ・メモを保存中...",
       saveStateSaved: "担当者・ステージ・メモを保存しました。",
-      saveStateError: "ワークスペースに保存できませんでした。"
+      saveStateError: "ダッシュボードに保存できませんでした。"
     },
     activity: {
       panelLabel: "パイプライン活動ログ",
@@ -2651,10 +2897,9 @@ const ko: AppUiExtraOverride = {
   billing: {
     plans: {
       useCases: {
-        free: "유료 확장 전에 실제 웹사이트로 워크플로우를 검증하세요.",
-        starter: "주간 아웃바운드 리듬을 구축하는 1인 운영자에게 적합합니다.",
-        pro: "잠재 고객 조사를 재현 가능한 파이프라인으로 전환하는 에이전시에 적합합니다.",
-        agency: "여러 클라이언트 오퍼 간에 스캔 크레딧을 공유하는 팀에 적합합니다."
+        free: "실제 웹사이트로 개인 잠재고객 발굴 흐름을 테스트하기에 적합합니다.",
+        pro: "정기적으로 아웃리치를 하는 프리랜서, 컨설턴트, 1인 창업자에게 적합합니다.",
+        power: "더 많은 웹사이트 리서치를 수행하는 개인 운영자에게 적합합니다."
       }
     }
   },
@@ -2677,7 +2922,7 @@ const ko: AppUiExtraOverride = {
     dashboard: {
       eyebrow: "오늘",
       title: "오늘",
-      copy: "이 워크스페이스에서 지금 해야 할 일, 주요 막힘, 진행 상황을 바로 확인하세요."
+      copy: "이 대시보드에서 지금 해야 할 일, 주요 막힘, 진행 상황을 바로 확인하세요."
     },
     queue: {
       eyebrow: "대기열",
@@ -2692,12 +2937,12 @@ const ko: AppUiExtraOverride = {
     exports: {
       eyebrow: "내보내기",
       title: "내보내기",
-      copy: "CRM 인계를 준비하고, 프리셋을 고르고, 검증된 계정을 깔끔하게 워크스페이스 밖으로 내보내세요."
+      copy: "CSV 인계를 준비하고, 프리셋을 고르고, 검증된 계정을 깔끔하게 대시보드 밖으로 내보내세요."
     },
     settings: {
       eyebrow: "설정",
       title: "설정",
-      copy: "ICP, 워크스페이스 정보, 접근 권한을 한곳에서 관리하되 주 작업 흐름은 끊지 않습니다."
+      copy: "ICP, 대시보드 정보, 접근 권한을 한곳에서 관리하되 주 작업 흐름은 끊지 않습니다."
     },
     leads: {
       eyebrow: "검토 대기열",
@@ -2712,27 +2957,27 @@ const ko: AppUiExtraOverride = {
     billing: {
       eyebrow: "결제",
       title: "결제",
-      copy: "워크스페이스를 떠나지 않고 크레딧, 구독 상태, 내보내기 가능 여부를 확인하세요."
+      copy: "대시보드를 떠나지 않고 크레딧, 구독 상태, 내보내기 가능 여부를 확인하세요."
     },
     import: {
       eyebrow: "일괄 리서치",
       title: "웹사이트 가져오기",
-      copy: "도메인을 붙여넣거나 CSV를 업로드하여 이 워크스페이스의 웹사이트 우선 검토 대기열을 만드세요."
+      copy: "도메인을 붙여넣거나 CSV를 업로드하여 이 대시보드의 웹사이트 우선 검토 대기열을 만드세요."
     },
     saved: {
       eyebrow: "저장된 계정",
       title: "저장된 계정",
-      copy: "이미 검토를 통과했고 아웃리치 또는 CRM 인계 준비가 된 계정을 내보내세요."
+      copy: "이미 검토를 통과했고 아웃리치 또는 CSV 인계 준비가 된 계정을 내보내세요."
     },
     analytics: {
       eyebrow: "워크플로우",
       title: "워크플로우 분석",
-      copy: "웹사이트가 대기열에 들어오고, 검증된 계정이 되며, 내보내기로 워크스페이스를 떠나는 흐름을 추적하세요."
+      copy: "웹사이트가 대기열에 들어오고, 검증된 계정이 되며, 내보내기로 대시보드를 떠나는 흐름을 추적하세요."
     },
     account: {
       eyebrow: "계정",
       title: "계정",
-      copy: "워크플로우를 중단하지 않고 워크스페이스 ID와 비밀번호 접근을 업데이트하세요."
+      copy: "워크플로우를 중단하지 않고 대시보드 ID와 비밀번호 접근을 업데이트하세요."
     }
   },
   common: {
@@ -2775,11 +3020,11 @@ const ko: AppUiExtraOverride = {
     noData: "데이터 없음",
     messages: {
       demoPreviewIntro: "데모 미리보기입니다. 무료로 시작하면 Prospect Card, 크레딧, 내보내기 기록을 저장할 수 있습니다.",
-      sampleWorkspaceData: "__ERROR__ 샘플 워크스페이스 데이터를 표시합니다.",
-      sampleWorkspaceDataPlain: "샘플 워크스페이스 데이터를 표시합니다.",
-      workspaceDataUnavailable: "지금은 이 워크스페이스를 불러올 수 없습니다. 새로고침 후 다시 시도하세요.",
-      billingActiveSetup: "결제가 활성화되었습니다. 아래 첫 website-first 리서치를 완료하세요.",
-      workspaceCreatedSetup: "LeadCue가 준비되었습니다. 아래 첫 website-first 리서치를 완료하세요.",
+      sampleWorkspaceData: "__ERROR__ 샘플 대시보드 데이터를 표시합니다.",
+      sampleWorkspaceDataPlain: "샘플 대시보드 데이터를 표시합니다.",
+      workspaceDataUnavailable: "지금은 이 대시보드를 불러올 수 없습니다. 새로고침 후 다시 시도하세요.",
+      billingActiveSetup: "결제가 활성화되었습니다. 아래 첫 website-based 리서치를 완료하세요.",
+      workspaceCreatedSetup: "LeadCue가 준비되었습니다. 아래 첫 website-based 리서치를 완료하세요.",
       createWorkspaceRequired: "로그인되었습니다. 첫 리서치를 위해 LeadCue를 준비하고 있습니다.",
       workspaceCreateFailed: "지금은 LeadCue를 준비할 수 없습니다.",
       signedIn: "로그인되었습니다.",
@@ -2805,7 +3050,7 @@ const ko: AppUiExtraOverride = {
       signInRequired: "계속하려면 로그인하세요.",
       workspaceNotFound: "LeadCue 데이터 공간을 찾을 수 없습니다.",
       subscriptionInactive: "구독이 활성화되어 있지 않습니다. 사이트를 더 스캔하기 전에 결제를 업데이트하세요.",
-      insufficientCredits: "이 요청을 처리하기에 워크스페이스의 스캔 크레딧이 부족합니다.",
+      insufficientCredits: "이 요청을 처리하기에 대시보드의 스캔 크레딧이 부족합니다.",
       createFirstSavedCard: "로그인한 상태에서 Chrome 확장 프로그램이나 POST /api/scans 를 사용해 첫 저장 카드를 만드세요."
     }
   },
@@ -2815,19 +3060,19 @@ const ko: AppUiExtraOverride = {
       welcomeTitle: "환영합니다, __NAME__님.",
       workspaceReadyTitle: "__NAME__님, 첫 웹사이트부터 시작하세요.",
       intro:
-        "LeadCue는 website-first outbound research 흐름에 맞게 준비되었습니다. 한 번 스캔하면 적합도, 근거 메모, 첫 문장, 내보내기용 컨텍스트가 담긴 Prospect Card를 만들 수 있습니다.",
+        "LeadCue는 AI website prospecting 흐름에 맞게 준비되었습니다. 한 번 스캔하면 적합도, 근거 메모, 첫 문장, 내보내기용 컨텍스트가 담긴 Prospect Card를 만들 수 있습니다.",
       progress: "__COUNT__/4 준비됨",
       markComplete: "완료로 표시",
-      checklistLabel: "첫 website-first 리서치 체크리스트",
-      setupSnapshot: "Agency Profile",
+      checklistLabel: "첫 website-based 리서치 체크리스트",
+      setupSnapshot: "Prospecting Profile",
       service: "오퍼",
       industries: "최적 세그먼트",
       firstTarget: "첫 웹사이트",
       prepareFirstScan: "웹사이트 리서치 준비",
       runFirstScan: "첫 스캔 실행",
-      reviewIcp: "Agency Profile 조정",
+      reviewIcp: "Prospecting Profile 조정",
       tasks: {
-        profileSaved: "Agency Profile 조정 완료",
+        profileSaved: "Prospecting Profile 조정 완료",
         firstWebsiteQueued: "첫 웹사이트 선택됨",
         firstProspectCard: "첫 Prospect Card 저장됨",
         exportReady: "내보내기 인계 준비"
@@ -2835,17 +3080,38 @@ const ko: AppUiExtraOverride = {
       descriptions: {
         profileSaved: "적합도 스코어링이 __INDUSTRIES__에 맞게 조정되었습니다.",
         profileTodo: "오퍼와 최적 세그먼트를 설정하면 적합도와 기회 신호가 더 정확해집니다.",
-        websiteQueued: "website-first 리서치 준비 완료: __URL__",
-        agencySaved: "에이전시 사이트를 컨텍스트로 저장했습니다: __URL__",
+        websiteQueued: "website-based 리서치 준비 완료: __URL__",
+        agencySaved: "개인 전문가 사이트를 컨텍스트로 저장했습니다: __URL__",
         websiteTodo: "첫 잠재 고객 웹사이트를 추가해 근거 메모와 아웃리치 컨텍스트를 생성하세요.",
         firstCardDone: "__COUNT__개의 Prospect Card가 이미 저장되었습니다.",
         firstCardTodo: "첫 웹사이트 스캔을 실행해 첫 문장과 내보내기 메모가 포함된 Prospect Card를 저장하세요.",
-        exportReadyDone: "첫 저장 계정을 CSV 또는 CRM으로 인계할 수 있습니다.",
+        exportReadyDone: "첫 저장 계정을 CSV 또는 CSV으로 인계할 수 있습니다.",
         exportReadyTodo: "Prospect Card를 저장한 뒤 내보내기에서 검증된 계정을 아웃리치로 넘기세요."
+      },
+      guide: {
+        stepLabel: "__TOTAL__단계 중 __CURRENT__단계",
+        currentStep: "다음에 할 일",
+        whyLabel: "중요한 이유",
+        profileTitle: "먼저 Prospecting Profile을 맞추세요",
+        profileCopy: "무엇을 판매하고 어떤 고객을 가장 잘 돕는지 확인하세요. LeadCue는 웹사이트를 평가하기 전에 이 정보를 사용합니다.",
+        profileWhy: "Prospecting Profile이 명확하면 적합도 점수, 기회 신호, 아웃리치 각도가 최적 계정에 맞춰집니다.",
+        profileAction: "Prospecting Profile 조정",
+        websiteTitle: "첫 잠재 고객 웹사이트 추가",
+        websiteCopy: "LeadCue가 리서치할 회사 웹사이트 하나를 붙여 넣으세요. 개인 사용자이 잘 아는 실제 계정으로 시작하는 것이 좋습니다.",
+        websiteWhy: "website-based 리서치는 구체적인 도메인이 있어야 근거 메모와 계정 컨텍스트를 만들 수 있습니다.",
+        websiteAction: "첫 웹사이트 추가",
+        cardTitle: "첫 스캔 실행",
+        cardCopy: "해당 웹사이트를 적합도, 신호, 첫 문장, 메모가 담긴 Prospect Card로 변환하세요.",
+        cardWhy: "첫 Prospect Card는 무엇이 저장되고 아웃리치 전에 어떻게 검토되는지 바로 보여줍니다.",
+        cardAction: "첫 스캔 실행",
+        exportTitle: "첫 검증 계정 내보내기",
+        exportCopy: "Prospect Card가 괜찮다면 내보내기에서 CSV 또는 CSV 인계를 준비하세요.",
+        exportWhy: "리서치한 계정이 LeadCue를 떠나 아웃리치 워크플로로 이동할 때 첫 루프가 완료됩니다.",
+        exportAction: "내보내기 열기"
       }
     },
     metrics: {
-      ariaLabel: "워크스페이스 지표",
+      ariaLabel: "대시보드 지표",
       savedProspects: "저장된 잠재 고객",
       currentPlan: "현재 플랜",
       creditsLeft: "남은 크레딧",
@@ -2872,7 +3138,7 @@ const ko: AppUiExtraOverride = {
     },
     icpPanel: {
       eyebrow: "ICP 설정",
-      title: "에이전시 모드",
+      title: "개인 전문가 모드",
       serviceType: "서비스 유형",
       targetIndustries: "대상 업종",
       countries: "국가",
@@ -2888,7 +3154,7 @@ const ko: AppUiExtraOverride = {
       import: {
         eyebrow: "가져오기",
         title: "일괄 목록 만들기",
-        copy: "팀이 계정 검토를 시작하기 전에 도메인을 붙여넣거나 CSV를 업로드하세요.",
+        copy: "개인 사용자이 계정 검토를 시작하기 전에 도메인을 붙여넣거나 CSV를 업로드하세요.",
         metricLabel: "대기 중인 웹사이트"
       },
       queue: {
@@ -2916,12 +3182,12 @@ const ko: AppUiExtraOverride = {
       ready: "준비됨",
       researching: "리서치 중",
       imported: "가져옴",
-      workspaceSource: "워크스페이스 리드",
+      workspaceSource: "대시보드 리드",
       openSite: "사이트 열기",
       moveToScanDesk: "스캔 데스크로 이동",
       reviewCard: "카드 열기",
       emptyTitle: "대기열에서 기다리는 웹사이트가 없습니다.",
-      emptyCopy: "목록을 가져오거나 첫 번째 웹사이트를 스캔해 팀의 작업을 만드세요."
+      emptyCopy: "목록을 가져오거나 첫 번째 웹사이트를 스캔해 개인 사용자의 작업을 만드세요."
     },
     savedPanel: {
       eyebrow: "저장된 인계",
@@ -2939,11 +3205,11 @@ const ko: AppUiExtraOverride = {
       setupRequired: "계정 준비 중",
       createWorkspaceTitle: "첫 리서치를 위해 LeadCue 준비 중",
       createWorkspaceCopy:
-        "로그인되었습니다. LeadCue가 Agency Profile, 크레딧, 웹사이트 대기열, Prospect Card, 내보내기용 데이터 공간을 자동으로 준비하고 있습니다.",
+        "로그인되었습니다. LeadCue가 Prospecting Profile, 크레딧, 웹사이트 대기열, Prospect Card, 내보내기용 데이터 공간을 자동으로 준비하고 있습니다.",
       importWebsites: "웹사이트 가져오기",
       openQueue: "검토 대기열 열기",
       manualScan: "수동 스캔 사용",
-      sampleTitle: "데모 워크스페이스 미리보기입니다",
+      sampleTitle: "데모 대시보드 미리보기입니다",
       sampleCopy: "로그인하면 저장된 리서치를 다시 열 수 있습니다. 웹사이트를 검토 대기열에 넣기 전에 무료로 시작할 수도 있습니다.",
       loadErrorTitle: "리서치 데이터를 다시 열 수 없습니다",
       loadErrorCopy: "저장된 대기열과 내보낸 컨텍스트는 보호됩니다. 먼저 새로고침하고, 문제가 계속되면 다시 로그인하세요.",
@@ -2990,7 +3256,7 @@ const ko: AppUiExtraOverride = {
     },
     serviceTypes: {
       web_design: "웹 디자인 / 리디자인",
-      seo: "SEO 에이전시",
+      seo: "SEO 개인 전문가",
       marketing: "성장 / 마케팅",
       founder: "창업자 주도 아웃바운드",
       custom: "맞춤",
@@ -3018,7 +3284,7 @@ const ko: AppUiExtraOverride = {
     },
     historyReasons: {
       validation_failed: "검증 실패",
-      workspace_unavailable: "워크스페이스 사용 불가",
+      workspace_unavailable: "대시보드 사용 불가",
       subscription_inactive: "구독 비활성",
       insufficient_credits: "크레딧 부족",
       idempotency_conflict: "멱등성 충돌",
@@ -3040,10 +3306,10 @@ const ko: AppUiExtraOverride = {
     minConfidence: "최소 신뢰도",
     resultsSummary: "__TOTAL__개 중 __VISIBLE__개 표시",
     selectedCount: "__COUNT__개 선택됨",
-    selectedReadyCopy: "팀이 바로 작업할 준비가 된 계정만 내보냅니다.",
+    selectedReadyCopy: "개인 사용자이 바로 작업할 준비가 된 계정만 내보냅니다.",
     selectedEmptyCopy: "잠재고객을 선택해 집중형 CSV를 내보내세요.",
     templateLabel: "템플릿",
-    crmFieldsLabel: "CRM 필드",
+    crmFieldsLabel: "CSV 필드",
     tableLabel: "저장된 잠재고객",
     selectAllVisible: "보이는 잠재고객 모두 선택",
     clearAllVisible: "보이는 잠재고객 모두 해제",
@@ -3061,6 +3327,16 @@ const ko: AppUiExtraOverride = {
     drawerNoSelection: "선택 없음",
     drawerFitLabel: "적합도 __SCORE__",
     errorShowingPreview: "전체 상세를 불러오지 못해 목록 미리보기를 표시합니다.",
+    detailPageLabel: "리드 상세",
+    detailPageEyebrow: "잠재고객 상세",
+    detailPageTitle: "Prospect Card",
+    detailPageIntro: "전체 Prospect Card, 출처 기반 신호, 파이프라인 메모, 아웃리치 문구를 검토하세요.",
+    detailPageCopy: "__COMPANY__의 출처 기반 신호, 파이프라인 메모, __DOMAIN__용 아웃리치 문구를 검토하세요.",
+    detailBackToQueue: "대기열로 돌아가기",
+    detailBackToExports: "내보내기로 돌아가기",
+    detailBackToBilling: "결제로 돌아가기",
+    detailBackToDashboard: "대시보드로 돌아가기",
+    detailBackToSaved: "저장된 계정으로 돌아가기",
     detailEmptyTitle: "리드를 선택하세요",
     detailEmptyCopy: "저장된 계정을 클릭하면 전체 Prospect Card를 확인할 수 있습니다."
   },
@@ -3119,7 +3395,7 @@ const ko: AppUiExtraOverride = {
       title: "선택한 필드 내보내기",
       selected: "__TOTAL__개 중 __SELECTED__개 선택됨",
       presetsLabel: "내보내기 프리셋",
-      crmModesLabel: "CRM 필드 이름 모드",
+      crmModesLabel: "CSV 필드 이름 모드",
       csvColumns: "CSV 열",
       columns: "__LABEL__ 열",
       copyCsvRow: "CSV 행 복사",
@@ -3138,7 +3414,7 @@ const ko: AppUiExtraOverride = {
       },
       presets: {
         crm: {
-          label: "CRM 내보내기"
+          label: "CSV 내보내기"
         },
         email: {
           label: "이메일 초안"
@@ -3155,10 +3431,10 @@ const ko: AppUiExtraOverride = {
       notSavedYet: "아직 저장되지 않음",
       notes: "메모",
       saveContext: "컨텍스트 저장",
-      saveStateIdle: "변경 내용을 워크스페이스에 저장합니다.",
+      saveStateIdle: "변경 내용을 대시보드에 저장합니다.",
       saveStateSaving: "담당자, 단계, 메모 저장 중...",
       saveStateSaved: "담당자, 단계, 메모가 저장되었습니다.",
-      saveStateError: "워크스페이스에 저장할 수 없습니다."
+      saveStateError: "대시보드에 저장할 수 없습니다."
     },
     activity: {
       panelLabel: "파이프라인 활동 로그",
@@ -3231,7 +3507,7 @@ const de: AppUiExtraOverride = {
     dashboard: {
       eyebrow: "Heute",
       title: "Heute",
-      copy: "Sehen Sie sofort den nächsten Schritt, aktuelle Blocker und den Fortschritt dieses Workspaces."
+      copy: "Sehen Sie sofort den nächsten Schritt, aktuelle Blocker und den Fortschritt dieses dashboards."
     },
     queue: {
       eyebrow: "Queue",
@@ -3246,12 +3522,12 @@ const de: AppUiExtraOverride = {
     exports: {
       eyebrow: "Exporte",
       title: "Exporte",
-      copy: "CRM-Übergaben vorbereiten, ein Export-Preset wählen und qualifizierte Accounts sauber aus dem Workspace herausgeben."
+      copy: "CSV-Übergaben vorbereiten, ein Export-Preset wählen und qualifizierte Accounts sauber aus dem dashboard herausgeben."
     },
     settings: {
       eyebrow: "Einstellungen",
       title: "Einstellungen",
-      copy: "ICP, Workspace-Identität und Zugriff an einem Ort pflegen, ohne den Hauptablauf zu unterbrechen."
+      copy: "ICP, dashboard-Identität und Zugriff an einem Ort pflegen, ohne den Hauptablauf zu unterbrechen."
     },
     leads: {
       eyebrow: "Review-Warteschlange",
@@ -3261,41 +3537,40 @@ const de: AppUiExtraOverride = {
     icp: {
       eyebrow: "ICP",
       title: "ICP",
-      copy: "Definieren Sie, wie LeadCue Fit, Dringlichkeit und Umsetzbarkeit bewerten soll, bevor das Team weitere Websites scannt."
+      copy: "Definieren Sie, wie LeadCue Fit, Dringlichkeit und Umsetzbarkeit bewerten soll, bevor das solo operator weitere Websites scannt."
     },
     billing: {
       eyebrow: "Abrechnung",
       title: "Abrechnung",
-      copy: "Credits, Abonnementstatus und Exportkapazität überwachen, ohne den Workspace zu verlassen."
+      copy: "Credits, Abonnementstatus und Exportkapazität überwachen, ohne den dashboard zu verlassen."
     },
     import: {
       eyebrow: "Batch-Recherche",
       title: "Websites importieren",
-      copy: "Domains einfügen oder CSV hochladen, um eine website-first Review-Warteschlange für diesen Workspace aufzubauen."
+      copy: "Domains einfügen oder CSV hochladen, um eine website-based Review-Warteschlange für diesen dashboard aufzubauen."
     },
     saved: {
       eyebrow: "Gespeicherte Accounts",
       title: "Gespeicherte Accounts",
-      copy: "Accounts exportieren, die bereits geprüft wurden und für Outbound- oder CRM-Übergabe bereit sind."
+      copy: "Accounts exportieren, die bereits geprüft wurden und für Outbound- oder CSV-Übergabe bereit sind."
     },
     analytics: {
       eyebrow: "Workflow",
       title: "Workflow-Analytik",
-      copy: "Nachverfolgen, wie Websites in die Warteschlange gelangen, zu qualifizierten Accounts werden und als Exporte den Workspace verlassen."
+      copy: "Nachverfolgen, wie Websites in die Warteschlange gelangen, zu qualifizierten Accounts werden und als Exporte den dashboard verlassen."
     },
     account: {
       eyebrow: "Konto",
       title: "Konto",
-      copy: "Workspace-Identität und Passwortzugang aktualisieren, ohne den Workflow zu unterbrechen."
+      copy: "dashboard-Identität und Passwortzugang aktualisieren, ohne den Workflow zu unterbrechen."
     }
   },
   billing: {
     plans: {
       useCases: {
-        free: "Validieren Sie den Workflow mit echten Websites, bevor Sie kostenpflichtig erweitern.",
-        starter: "Für Einzelunternehmer, die einen wöchentlichen Outbound-Rhythmus aufbauen.",
-        pro: "Für Agenturen, die Prospect-Research in eine reproduzierbare Pipeline verwandeln.",
-        agency: "Für Teams, die Scan-Credits über mehrere Kundenangebote hinweg teilen."
+        free: "Ideal, um Website-Prospecting mit echten Websites zu testen.",
+        pro: "Ideal für Freelancer, Berater und Solo-Founder mit regelmäßiger Akquise.",
+        power: "Ideal für Einzelanwender mit höherem Recherchevolumen."
       }
     }
   },
@@ -3340,11 +3615,11 @@ const de: AppUiExtraOverride = {
     messages: {
       demoPreviewIntro:
         "Demo-Vorschau. Starten Sie kostenlos, um Prospect Cards, Credits und Exportverlauf zu speichern.",
-      sampleWorkspaceData: "__ERROR__ Beispieldaten des Workspaces werden angezeigt.",
-      sampleWorkspaceDataPlain: "Beispieldaten des Workspaces werden angezeigt.",
-      workspaceDataUnavailable: "Dieser Workspace kann gerade nicht geladen werden. Aktualisieren Sie die Seite und versuchen Sie es erneut.",
-      billingActiveSetup: "Abrechnung ist aktiv. Schließen Sie unten den ersten website-first Research-Lauf ab.",
-      workspaceCreatedSetup: "LeadCue ist bereit. Schließen Sie unten den ersten website-first Research-Lauf ab.",
+      sampleWorkspaceData: "__ERROR__ Beispieldaten des dashboards werden angezeigt.",
+      sampleWorkspaceDataPlain: "Beispieldaten des dashboards werden angezeigt.",
+      workspaceDataUnavailable: "Dieser dashboard kann gerade nicht geladen werden. Aktualisieren Sie die Seite und versuchen Sie es erneut.",
+      billingActiveSetup: "Abrechnung ist aktiv. Schließen Sie unten den ersten website research-Lauf ab.",
+      workspaceCreatedSetup: "LeadCue ist bereit. Schließen Sie unten den ersten website research-Lauf ab.",
       createWorkspaceRequired: "Sie sind angemeldet. LeadCue wird für Ihren ersten Research-Lauf vorbereitet.",
       workspaceCreateFailed: "LeadCue kann gerade nicht vorbereitet werden.",
       signedIn: "Angemeldet.",
@@ -3373,7 +3648,7 @@ const de: AppUiExtraOverride = {
       workspaceNotFound: "LeadCue-Datenbereich nicht gefunden.",
       subscriptionInactive:
         "Ihr Abonnement ist nicht aktiv. Aktualisieren Sie die Abrechnung, bevor Sie weitere Websites scannen.",
-      insufficientCredits: "Dieser Workspace hat nicht genug Scan-Credits für diese Anfrage.",
+      insufficientCredits: "Dieser dashboard hat nicht genug Scan-Credits für diese Anfrage.",
       createFirstSavedCard:
         "Melden Sie sich an und nutzen Sie die Chrome-Erweiterung oder POST /api/scans, um die erste gespeicherte Karte zu erstellen."
     }
@@ -3423,7 +3698,7 @@ const de: AppUiExtraOverride = {
     },
     serviceTypes: {
       web_design: "Webdesign / Relaunch",
-      seo: "SEO-Agentur",
+      seo: "SEO-Solo-Profi",
       marketing: "Wachstum / Marketing",
       founder: "Founder-led Outbound",
       custom: "Benutzerdefiniert",
@@ -3451,7 +3726,7 @@ const de: AppUiExtraOverride = {
     },
     historyReasons: {
       validation_failed: "Validierung fehlgeschlagen",
-      workspace_unavailable: "Workspace nicht verfügbar",
+      workspace_unavailable: "dashboard nicht verfügbar",
       subscription_inactive: "Abonnement inaktiv",
       insufficient_credits: "Zu wenig Credits",
       idempotency_conflict: "Idempotenzkonflikt",
@@ -3469,19 +3744,19 @@ const de: AppUiExtraOverride = {
       welcomeTitle: "Willkommen, __NAME__.",
       workspaceReadyTitle: "Beginnen Sie mit einer Website, __NAME__.",
       intro:
-        "LeadCue ist für website-first outbound research eingerichtet. Ein Scan erstellt eine Prospect Card mit Fit-Score, quellenbasierten Notizen, First Lines und exportbereitem Kontext.",
+        "LeadCue ist für AI website prospecting eingerichtet. Ein Scan erstellt eine Prospect Card mit Fit-Score, quellenbasierten Notizen, First Lines und exportbereitem Kontext.",
       progress: "__COUNT__/4 erledigt",
       markComplete: "Als erledigt markieren",
-      checklistLabel: "Checkliste für den ersten website-first Research-Lauf",
-      setupSnapshot: "Agency Profile",
+      checklistLabel: "Checkliste für den ersten website research-Lauf",
+      setupSnapshot: "Prospecting Profile",
       service: "Angebot",
       industries: "Best-Fit-Segmente",
       firstTarget: "Erste Website",
       prepareFirstScan: "Website-Recherche vorbereiten",
       runFirstScan: "Ersten Scan starten",
-      reviewIcp: "Agency Profile feinjustieren",
+      reviewIcp: "Prospecting Profile feinjustieren",
       tasks: {
-        profileSaved: "Agency Profile abgestimmt",
+        profileSaved: "Prospecting Profile abgestimmt",
         firstWebsiteQueued: "Erste Website ausgewählt",
         firstProspectCard: "Erste Prospect Card gespeichert",
         exportReady: "Exportbereite Übergabe"
@@ -3489,17 +3764,38 @@ const de: AppUiExtraOverride = {
       descriptions: {
         profileSaved: "Das Fit-Scoring ist auf __INDUSTRIES__ abgestimmt.",
         profileTodo: "Legen Sie Angebot und Best-Fit-Segmente fest, damit Fit-Score und Opportunity Signals relevant bleiben.",
-        websiteQueued: "Bereit für website-first Research: __URL__",
-        agencySaved: "Agentur-Website als Kontext gespeichert: __URL__",
+        websiteQueued: "Bereit für website research: __URL__",
+        agencySaved: "Solo-Profi-Website als Kontext gespeichert: __URL__",
         websiteTodo: "Fügen Sie die erste Prospect-Website hinzu, um quellenbasierte Notizen und Outreach-Kontext zu erzeugen.",
         firstCardDone: "__COUNT__ Prospect Cards sind bereits gespeichert.",
         firstCardTodo: "Starten Sie den ersten Website-Scan, um eine Prospect Card mit First Lines und exportbereiten Notizen zu speichern.",
-        exportReadyDone: "Der erste gespeicherte Account ist bereit für CSV- oder CRM-Übergabe.",
+        exportReadyDone: "Der erste gespeicherte Account ist bereit für CSV- oder CSV-Übergabe.",
         exportReadyTodo: "Nach dem Speichern einer Prospect Card übergeben Sie qualifizierte Accounts über Exporte an Outreach."
+      },
+      guide: {
+        stepLabel: "Schritt __CURRENT__ von __TOTAL__",
+        currentStep: "Als Nächstes",
+        whyLabel: "Warum das wichtig ist",
+        profileTitle: "Zuerst das Prospecting Profile abstimmen",
+        profileCopy: "Bestätigen Sie, was Sie anbieten und welche Kunden am besten passen. LeadCue nutzt diese Angaben, bevor Websites bewertet werden.",
+        profileWhy: "Ein klares Prospecting Profile hält Fit-Score, Opportunity Signals und Outreach-Winkel auf Ihre besten Accounts fokussiert.",
+        profileAction: "Prospecting Profile abstimmen",
+        websiteTitle: "Eine Prospect-Website hinzufügen",
+        websiteCopy: "Fügen Sie eine Unternehmenswebsite ein, die LeadCue recherchieren soll. Starten Sie mit einem realen Account, den Ihr solo operator versteht.",
+        websiteWhy: "website research braucht eine konkrete Domain, bevor LeadCue quellenbasierte Notizen und Account-Kontext erzeugen kann.",
+        websiteAction: "Erste Website hinzufügen",
+        cardTitle: "Den ersten Scan starten",
+        cardCopy: "Verwandeln Sie diese Website in eine Prospect Card mit Fit-Score, Signalen, First Lines und Notizen.",
+        cardWhy: "Die erste Prospect Card zeigt sofort, was gespeichert und vor dem Outreach geprüft wird.",
+        cardAction: "Ersten Scan starten",
+        exportTitle: "Den ersten qualifizierten Account exportieren",
+        exportCopy: "Wenn die Prospect Card passt, öffnen Sie Exporte und bereiten CSV- oder CSV-Übergabe vor.",
+        exportWhy: "Der erste Loop ist erst komplett, wenn ein recherchierter Account LeadCue verlässt und in Ihren Outreach-Workflow geht.",
+        exportAction: "Exporte öffnen"
       }
     },
     metrics: {
-      ariaLabel: "Workspace-Kennzahlen",
+      ariaLabel: "dashboard-Kennzahlen",
       savedProspects: "Gespeicherte Prospects",
       currentPlan: "Aktueller Tarif",
       creditsLeft: "Verbleibende Credits",
@@ -3526,7 +3822,7 @@ const de: AppUiExtraOverride = {
     },
     icpPanel: {
       eyebrow: "ICP-Einstellungen",
-      title: "Agenturmodus",
+      title: "Solo-Profimodus",
       serviceType: "Servicetyp",
       targetIndustries: "Zielbranchen",
       countries: "Länder",
@@ -3542,7 +3838,7 @@ const de: AppUiExtraOverride = {
       import: {
         eyebrow: "Importe",
         title: "Batch-Liste aufbauen",
-        copy: "Fügen Sie Domains ein oder laden Sie eine CSV hoch, bevor das Team mit der Prüfung der Accounts beginnt.",
+        copy: "Fügen Sie Domains ein oder laden Sie eine CSV hoch, bevor das solo operator mit der Prüfung der Accounts beginnt.",
         metricLabel: "Websites in der Warteschlange"
       },
       queue: {
@@ -3570,12 +3866,12 @@ const de: AppUiExtraOverride = {
       ready: "Bereit",
       researching: "In Recherche",
       imported: "Importiert",
-      workspaceSource: "Workspace-Lead",
+      workspaceSource: "dashboard-Lead",
       openSite: "Website öffnen",
       moveToScanDesk: "In Scan-Bereich verschieben",
       reviewCard: "Karte öffnen",
       emptyTitle: "Keine Websites warten in der Warteschlange.",
-      emptyCopy: "Importieren Sie eine Liste oder scannen Sie die erste Website, um Arbeit für das Team zu erzeugen."
+      emptyCopy: "Importieren Sie eine Liste oder scannen Sie die erste Website, um Arbeit für das solo operator zu erzeugen."
     },
     savedPanel: {
       eyebrow: "Gespeicherte Übergabe",
@@ -3593,11 +3889,11 @@ const de: AppUiExtraOverride = {
       setupRequired: "Konto wird vorbereitet",
       createWorkspaceTitle: "LeadCue wird für Ihren ersten Research-Lauf vorbereitet",
       createWorkspaceCopy:
-        "Sie sind angemeldet. LeadCue erstellt automatisch den Datenbereich für Agency Profile, Credits, Website-Queue, Prospect Cards und Exporte.",
+        "Sie sind angemeldet. LeadCue erstellt automatisch den Datenbereich für Prospecting Profile, Credits, Website-Queue, Prospect Cards und Exporte.",
       importWebsites: "Websites importieren",
       openQueue: "Review-Warteschlange öffnen",
       manualScan: "Stattdessen manuellen Scan nutzen",
-      sampleTitle: "Dies ist die Demo-Vorschau des Workspaces",
+      sampleTitle: "Dies ist die Demo-Vorschau des dashboards",
       sampleCopy:
         "Melden Sie sich an, um gespeicherte Recherche erneut zu öffnen, oder starten Sie kostenlos, bevor Sie Websites in die Review-Warteschlange importieren.",
       loadErrorTitle: "Ihre Research-Daten konnten nicht erneut geöffnet werden",
@@ -3621,10 +3917,10 @@ const de: AppUiExtraOverride = {
     minConfidence: "Mindest-Vertrauen",
     resultsSummary: "__VISIBLE__ von __TOTAL__ Prospects angezeigt",
     selectedCount: "__COUNT__ ausgewählt",
-    selectedReadyCopy: "Exportieren Sie nur Accounts, mit denen Ihr Team arbeiten kann.",
+    selectedReadyCopy: "Exportieren Sie nur Accounts, mit denen Ihr solo operator arbeiten kann.",
     selectedEmptyCopy: "Wählen Sie Prospects aus, um ein fokussiertes CSV zu exportieren.",
     templateLabel: "Vorlage",
-    crmFieldsLabel: "CRM-Felder",
+    crmFieldsLabel: "CSV-Felder",
     tableLabel: "Gespeicherte Prospects",
     selectAllVisible: "Alle sichtbaren Prospects auswählen",
     clearAllVisible: "Alle sichtbaren Prospects abwählen",
@@ -3642,6 +3938,16 @@ const de: AppUiExtraOverride = {
     drawerNoSelection: "Keine Auswahl",
     drawerFitLabel: "__SCORE__ Fit",
     errorShowingPreview: "Listen-Vorschau wird angezeigt, weil das vollständige Detail nicht geladen werden konnte.",
+    detailPageLabel: "Lead-Detail",
+    detailPageEyebrow: "Prospect-Detail",
+    detailPageTitle: "Prospect Card",
+    detailPageIntro: "Prüfen Sie die vollständige Prospect Card, belegte Signale, Pipeline-Notizen und Outreach-Text.",
+    detailPageCopy: "Prüfen Sie __COMPANY__ mit belegten Signalen, Pipeline-Notizen und Outreach-Text für __DOMAIN__.",
+    detailBackToQueue: "Zur Queue zurück",
+    detailBackToExports: "Zurück zu Exporten",
+    detailBackToBilling: "Zurück zur Abrechnung",
+    detailBackToDashboard: "Zurück zum Dashboard",
+    detailBackToSaved: "Zurück zu gespeicherten Accounts",
     detailEmptyTitle: "Lead auswählen",
     detailEmptyCopy: "Klicken Sie auf einen gespeicherten Account, um die vollständige Prospect Card zu prüfen."
   },
@@ -3700,7 +4006,7 @@ const de: AppUiExtraOverride = {
       title: "Ausgewählte Felder exportieren",
       selected: "__SELECTED__ von __TOTAL__ ausgewählt",
       presetsLabel: "Export-Vorgaben",
-      crmModesLabel: "CRM-Feldbenennung",
+      crmModesLabel: "CSV-Feldbenennung",
       csvColumns: "CSV-Spalten",
       columns: "__LABEL__ Spalten",
       copyCsvRow: "CSV-Zeile kopieren",
@@ -3719,7 +4025,7 @@ const de: AppUiExtraOverride = {
       },
       presets: {
         crm: {
-          label: "CRM-Export"
+          label: "CSV-Export"
         },
         email: {
           label: "E-Mail-Entwurf"
@@ -3736,10 +4042,10 @@ const de: AppUiExtraOverride = {
       notSavedYet: "Noch nicht gespeichert",
       notes: "Notizen",
       saveContext: "Kontext speichern",
-      saveStateIdle: "Änderungen im Workspace speichern.",
+      saveStateIdle: "Änderungen im dashboard speichern.",
       saveStateSaving: "Verantwortlich, Phase und Notizen werden gespeichert...",
       saveStateSaved: "Verantwortlich, Phase und Notizen gespeichert.",
-      saveStateError: "Im Workspace konnte nicht gespeichert werden."
+      saveStateError: "Im dashboard konnte nicht gespeichert werden."
     },
     activity: {
       panelLabel: "Aktivitätsprotokoll der Pipeline",
@@ -3827,7 +4133,7 @@ const nl: AppUiExtraOverride = {
     exports: {
       eyebrow: "Exports",
       title: "Exports",
-      copy: "Bereid CRM-overdracht voor, kies een exportpreset en verplaats gekwalificeerde accounts netjes uit de werkruimte."
+      copy: "Bereid CSV-overdracht voor, kies een exportpreset en verplaats gekwalificeerde accounts netjes uit de werkruimte."
     },
     settings: {
       eyebrow: "Instellingen",
@@ -3842,7 +4148,7 @@ const nl: AppUiExtraOverride = {
     icp: {
       eyebrow: "ICP",
       title: "ICP",
-      copy: "Bepaal hoe LeadCue fit, urgentie en uitvoerbaarheid moet scoren voordat het team meer websites scant."
+      copy: "Bepaal hoe LeadCue fit, urgentie en uitvoerbaarheid moet scoren voordat het solo operator meer websites scant."
     },
     billing: {
       eyebrow: "Facturering",
@@ -3852,12 +4158,12 @@ const nl: AppUiExtraOverride = {
     import: {
       eyebrow: "Batch-onderzoek",
       title: "Websites importeren",
-      copy: "Plak domeinen of upload een CSV om een website-first reviewwachtrij voor deze werkruimte te bouwen."
+      copy: "Plak domeinen of upload een CSV om een website-based reviewwachtrij voor deze werkruimte te bouwen."
     },
     saved: {
       eyebrow: "Opgeslagen accounts",
       title: "Opgeslagen accounts",
-      copy: "Exporteer accounts die al zijn goedgekeurd en klaar voor outreach of CRM-overdracht."
+      copy: "Exporteer accounts die al zijn goedgekeurd en klaar voor outreach of CSV-overdracht."
     },
     analytics: {
       eyebrow: "Workflow",
@@ -3867,16 +4173,15 @@ const nl: AppUiExtraOverride = {
     account: {
       eyebrow: "Account",
       title: "Account",
-      copy: "Werkruimte-identiteit en wachtwoordtoegang bijwerken zonder de workflow te onderbreken."
+      copy: "Dashboard-identiteit en wachtwoordtoegang bijwerken zonder de workflow te onderbreken."
     }
   },
   billing: {
     plans: {
       useCases: {
-        free: "Valideer de workflow met echte websites voordat u betaald uitbreidt.",
-        starter: "Voor solo-operators die een wekelijks outbound-ritme opbouwen.",
-        pro: "Voor bureaus die prospect-onderzoek omzetten in een herhaalbare pipeline.",
-        agency: "Voor teams die scan-credits delen over meerdere klantaanbiedingen."
+        free: "Geschikt om websiteprospecting met echte websites te testen.",
+        pro: "Geschikt voor freelancers, consultants en solo-founders met regelmatige outreach.",
+        power: "Geschikt voor individuele operators met hoger onderzoeksvolume."
       }
     }
   },
@@ -3921,11 +4226,11 @@ const nl: AppUiExtraOverride = {
     messages: {
       demoPreviewIntro:
         "Demo-preview. Start gratis om Prospect Cards, credits en exportgeschiedenis op te slaan.",
-      sampleWorkspaceData: "__ERROR__ Voorbeeldgegevens van de workspace worden getoond.",
-      sampleWorkspaceDataPlain: "Voorbeeldgegevens van de workspace worden getoond.",
-      workspaceDataUnavailable: "We kunnen deze workspace nu niet laden. Vernieuw en probeer opnieuw.",
-      billingActiveSetup: "Facturatie is actief. Rond hieronder eerst de eerste website-first research run af.",
-      workspaceCreatedSetup: "LeadCue is klaar. Rond hieronder eerst de eerste website-first research run af.",
+      sampleWorkspaceData: "__ERROR__ Voorbeeldgegevens van de dashboard worden getoond.",
+      sampleWorkspaceDataPlain: "Voorbeeldgegevens van de dashboard worden getoond.",
+      workspaceDataUnavailable: "We kunnen deze dashboard nu niet laden. Vernieuw en probeer opnieuw.",
+      billingActiveSetup: "Facturatie is actief. Rond hieronder eerst de eerste website research run af.",
+      workspaceCreatedSetup: "LeadCue is klaar. Rond hieronder eerst de eerste website research run af.",
       createWorkspaceRequired: "Je bent ingelogd. LeadCue wordt voorbereid voor je eerste research run.",
       workspaceCreateFailed: "LeadCue kan nu niet worden voorbereid.",
       signedIn: "Ingelogd.",
@@ -3954,7 +4259,7 @@ const nl: AppUiExtraOverride = {
       workspaceNotFound: "LeadCue-dataruimte niet gevonden.",
       subscriptionInactive:
         "Uw abonnement is niet actief. Werk de facturatie bij voordat u meer websites scant.",
-      insufficientCredits: "Deze workspace heeft niet genoeg scancredits voor dit verzoek.",
+      insufficientCredits: "Deze dashboard heeft niet genoeg scancredits voor dit verzoek.",
       createFirstSavedCard:
         "Gebruik de Chrome-extensie of POST /api/scans terwijl u bent aangemeld om de eerste opgeslagen kaart te maken."
     }
@@ -4032,7 +4337,7 @@ const nl: AppUiExtraOverride = {
     },
     historyReasons: {
       validation_failed: "Validatie mislukt",
-      workspace_unavailable: "Workspace niet beschikbaar",
+      workspace_unavailable: "dashboard niet beschikbaar",
       subscription_inactive: "Abonnement inactief",
       insufficient_credits: "Onvoldoende credits",
       idempotency_conflict: "Idempotentieconflict",
@@ -4050,19 +4355,19 @@ const nl: AppUiExtraOverride = {
       welcomeTitle: "Welkom, __NAME__.",
       workspaceReadyTitle: "Begin met één website, __NAME__.",
       intro:
-        "LeadCue is ingericht voor website-first outbound research. Eén scan maakt een Prospect Card met fit-score, bronnotities, first lines en exportklare context.",
+        "LeadCue is ingericht voor AI website prospecting. Eén scan maakt een Prospect Card met fit-score, bronnotities, first lines en exportklare context.",
       progress: "__COUNT__/4 klaar",
       markComplete: "Markeer als voltooid",
-      checklistLabel: "Checklist voor de eerste website-first research run",
-      setupSnapshot: "Agency Profile",
+      checklistLabel: "Checklist voor de eerste website research run",
+      setupSnapshot: "Prospecting Profile",
       service: "Aanbod",
       industries: "Best-fit segmenten",
       firstTarget: "Eerste website",
       prepareFirstScan: "Website-research voorbereiden",
       runFirstScan: "Eerste scan uitvoeren",
-      reviewIcp: "Agency Profile verfijnen",
+      reviewIcp: "Prospecting Profile verfijnen",
       tasks: {
-        profileSaved: "Agency Profile afgestemd",
+        profileSaved: "Prospecting Profile afgestemd",
         firstWebsiteQueued: "Eerste website gekozen",
         firstProspectCard: "Eerste Prospect Card opgeslagen",
         exportReady: "Exportklare overdracht"
@@ -4070,17 +4375,38 @@ const nl: AppUiExtraOverride = {
       descriptions: {
         profileSaved: "De fit-score is afgestemd op __INDUSTRIES__.",
         profileTodo: "Leg je aanbod en best-fit segmenten vast, zodat fit-score en opportunity signals relevant blijven.",
-        websiteQueued: "Klaar voor website-first research: __URL__",
+        websiteQueued: "Klaar voor website research: __URL__",
         agencySaved: "Bureauwebsite opgeslagen als context: __URL__",
         websiteTodo: "Voeg de eerste prospectwebsite toe om bronnotities en outreach-context te genereren.",
         firstCardDone: "__COUNT__ Prospect Cards zijn al opgeslagen.",
         firstCardTodo: "Voer de eerste websitescan uit om een Prospect Card met first lines en exportklare notities op te slaan.",
-        exportReadyDone: "Het eerste opgeslagen account is klaar voor CSV- of CRM-overdracht.",
+        exportReadyDone: "Het eerste opgeslagen account is klaar voor CSV- of CSV-overdracht.",
         exportReadyTodo: "Na het opslaan van een Prospect Card kun je gekwalificeerde accounts via exports overdragen aan outreach."
+      },
+      guide: {
+        stepLabel: "Stap __CURRENT__ van __TOTAL__",
+        currentStep: "Doe dit nu",
+        whyLabel: "Waarom dit telt",
+        profileTitle: "Stem eerst je Prospecting Profile af",
+        profileCopy: "Bevestig wat je verkoopt en wie je beste klanten zijn. LeadCue gebruikt dit voordat websites worden gescoord.",
+        profileWhy: "Een scherp Prospecting Profile houdt fit-score, opportunity signals en outreach-hoeken gericht op je best-fit accounts.",
+        profileAction: "Prospecting Profile afstemmen",
+        websiteTitle: "Voeg één prospectwebsite toe",
+        websiteCopy: "Plak één bedrijfswebsite die LeadCue moet onderzoeken. Begin met een echt account dat je solo operator begrijpt.",
+        websiteWhy: "website research heeft een concrete domeinnaam nodig voordat LeadCue bronnotities en accountcontext kan maken.",
+        websiteAction: "Eerste website toevoegen",
+        cardTitle: "Voer de eerste scan uit",
+        cardCopy: "Zet die website om in een Prospect Card met fit-score, signalen, first lines en notities.",
+        cardWhy: "De eerste Prospect Card laat meteen zien wat wordt opgeslagen en beoordeeld vóór outreach.",
+        cardAction: "Eerste scan uitvoeren",
+        exportTitle: "Exporteer het eerste gekwalificeerde account",
+        exportCopy: "Ziet de Prospect Card er goed uit, open dan exports en maak een CSV- of CSV-overdracht klaar.",
+        exportWhy: "De eerste lus is pas rond wanneer een onderzocht account LeadCue verlaat en naar je outreachflow gaat.",
+        exportAction: "Exports openen"
       }
     },
     metrics: {
-      ariaLabel: "Workspace-statistieken",
+      ariaLabel: "dashboard-statistieken",
       savedProspects: "Opgeslagen prospects",
       currentPlan: "Huidig abonnement",
       creditsLeft: "Resterende credits",
@@ -4123,7 +4449,7 @@ const nl: AppUiExtraOverride = {
       import: {
         eyebrow: "Importeren",
         title: "Batchlijst opbouwen",
-        copy: "Plak domeinen of upload een CSV voordat het team accounts gaat beoordelen.",
+        copy: "Plak domeinen of upload een CSV voordat het solo operator accounts gaat beoordelen.",
         metricLabel: "Websites in de wachtrij"
       },
       queue: {
@@ -4151,12 +4477,12 @@ const nl: AppUiExtraOverride = {
       ready: "Klaar",
       researching: "In onderzoek",
       imported: "Geimporteerd",
-      workspaceSource: "Workspace-lead",
+      workspaceSource: "dashboard-lead",
       openSite: "Site openen",
       moveToScanDesk: "Naar scandesk verplaatsen",
       reviewCard: "Kaart openen",
       emptyTitle: "Er wachten geen websites in de wachtrij.",
-      emptyCopy: "Importeer een lijst of scan de eerste website om werk voor het team te creëren."
+      emptyCopy: "Importeer een lijst of scan de eerste website om werk voor het solo operator te creëren."
     },
     savedPanel: {
       eyebrow: "Opgeslagen overdracht",
@@ -4174,11 +4500,11 @@ const nl: AppUiExtraOverride = {
       setupRequired: "Account voorbereiden",
       createWorkspaceTitle: "LeadCue wordt voorbereid voor je eerste research run",
       createWorkspaceCopy:
-        "Je bent ingelogd. LeadCue maakt automatisch de dataruimte voor Agency Profile, credits, websitewachtrij, Prospect Cards en exports.",
+        "Je bent ingelogd. LeadCue maakt automatisch de dataruimte voor Prospecting Profile, credits, websitewachtrij, Prospect Cards en exports.",
       importWebsites: "Websites importeren",
       openQueue: "Reviewwachtrij openen",
       manualScan: "In plaats daarvan handmatige scan gebruiken",
-      sampleTitle: "Dit is de demo-preview van de workspace",
+      sampleTitle: "Dit is de demo-preview van de dashboard",
       sampleCopy:
         "Log in om je opgeslagen research te openen, of start gratis voordat je websites in de reviewwachtrij importeert.",
       loadErrorTitle: "We konden je researchdata niet opnieuw openen",
@@ -4201,10 +4527,10 @@ const nl: AppUiExtraOverride = {
     minConfidence: "Min. vertrouwen",
     resultsSummary: "__VISIBLE__ van __TOTAL__ prospects getoond",
     selectedCount: "__COUNT__ geselecteerd",
-    selectedReadyCopy: "Exporteer alleen de accounts waar je team klaar voor is.",
+    selectedReadyCopy: "Exporteer alleen de accounts waar je solo operator klaar voor is.",
     selectedEmptyCopy: "Selecteer prospects om een gericht CSV te exporteren.",
     templateLabel: "Sjabloon",
-    crmFieldsLabel: "CRM-velden",
+    crmFieldsLabel: "CSV-velden",
     tableLabel: "Opgeslagen prospects",
     selectAllVisible: "Alle zichtbare prospects selecteren",
     clearAllVisible: "Alle zichtbare prospects wissen",
@@ -4222,6 +4548,16 @@ const nl: AppUiExtraOverride = {
     drawerNoSelection: "Geen selectie",
     drawerFitLabel: "__SCORE__ fit",
     errorShowingPreview: "De lijstpreview wordt getoond omdat de volledige details niet geladen konden worden.",
+    detailPageLabel: "Leaddetail",
+    detailPageEyebrow: "Prospectdetail",
+    detailPageTitle: "Prospect Card",
+    detailPageIntro: "Bekijk de volledige Prospect Card, onderbouwde signalen, pijplijnnotities en outreachtekst.",
+    detailPageCopy: "Bekijk __COMPANY__ met onderbouwde signalen, pijplijnnotities en outreachtekst voor __DOMAIN__.",
+    detailBackToQueue: "Terug naar wachtrij",
+    detailBackToExports: "Terug naar exports",
+    detailBackToBilling: "Terug naar facturatie",
+    detailBackToDashboard: "Terug naar dashboard",
+    detailBackToSaved: "Terug naar opgeslagen accounts",
     detailEmptyTitle: "Selecteer een lead",
     detailEmptyCopy: "Klik op een opgeslagen account om de volledige Prospect Card te bekijken."
   },
@@ -4280,7 +4616,7 @@ const nl: AppUiExtraOverride = {
       title: "Geselecteerde velden exporteren",
       selected: "__SELECTED__ van __TOTAL__ geselecteerd",
       presetsLabel: "Exportpresets",
-      crmModesLabel: "CRM-veldnaammodus",
+      crmModesLabel: "CSV-veldnaammodus",
       csvColumns: "CSV-kolommen",
       columns: "__LABEL__ kolommen",
       copyCsvRow: "CSV-rij kopiëren",
@@ -4299,7 +4635,7 @@ const nl: AppUiExtraOverride = {
       },
       presets: {
         crm: {
-          label: "CRM-export"
+          label: "CSV-export"
         },
         email: {
           label: "E-mailconcept"
@@ -4316,10 +4652,10 @@ const nl: AppUiExtraOverride = {
       notSavedYet: "Nog niet opgeslagen",
       notes: "Notities",
       saveContext: "Context opslaan",
-      saveStateIdle: "Wijzigingen opslaan in de workspace.",
+      saveStateIdle: "Wijzigingen opslaan in de dashboard.",
       saveStateSaving: "Eigenaar, fase en notities worden opgeslagen...",
       saveStateSaved: "Eigenaar, fase en notities zijn opgeslagen.",
-      saveStateError: "Kan niet opslaan in de workspace."
+      saveStateError: "Kan niet opslaan in de dashboard."
     },
     activity: {
       panelLabel: "Pipeline-activiteitslogboek",
@@ -4407,12 +4743,12 @@ const fr: AppUiExtraOverride = {
     exports: {
       eyebrow: "Exports",
       title: "Exports",
-      copy: "Préparez la remise CRM, choisissez un preset d’export et sortez proprement les comptes qualifiés du workspace."
+      copy: "Préparez la remise CSV, choisissez un preset d’export et sortez proprement les comptes qualifiés du dashboard."
     },
     settings: {
       eyebrow: "Réglages",
       title: "Réglages",
-      copy: "Regroupez ICP, identité du workspace et accès sans casser le flux principal."
+      copy: "Regroupez ICP, identité du dashboard et accès sans casser le flux principal."
     },
     leads: {
       eyebrow: "File de revue",
@@ -4422,7 +4758,7 @@ const fr: AppUiExtraOverride = {
     icp: {
       eyebrow: "ICP",
       title: "ICP",
-      copy: "Définissez comment LeadCue doit évaluer l'adéquation, l'urgence et la faisabilité avant que l'équipe scanne d'autres sites."
+      copy: "Définissez comment LeadCue doit évaluer l'adéquation, l'urgence et la faisabilité avant que l'utilisateur scanne d'autres sites."
     },
     billing: {
       eyebrow: "Facturation",
@@ -4437,7 +4773,7 @@ const fr: AppUiExtraOverride = {
     saved: {
       eyebrow: "Comptes enregistrés",
       title: "Comptes enregistrés",
-      copy: "Exportez les comptes déjà approuvés et prêts pour l'outreach ou le transfert CRM."
+      copy: "Exportez les comptes déjà approuvés et prêts pour l'outreach ou le transfert CSV."
     },
     analytics: {
       eyebrow: "Workflow",
@@ -4453,10 +4789,9 @@ const fr: AppUiExtraOverride = {
   billing: {
     plans: {
       useCases: {
-        free: "Validez le workflow avec de vrais sites web avant de passer à une extension payante.",
-        starter: "Pour les opérateurs solo qui construisent un rythme d'outbound hebdomadaire.",
-        pro: "Pour les agences qui transforment la recherche de prospects en pipeline reproductible.",
-        agency: "Pour les équipes qui partagent des crédits de scan entre plusieurs offres clients."
+        free: "Idéal pour tester la prospection de sites avec de vrais sites.",
+        pro: "Idéal pour les freelances, consultants et fondateurs solo qui font de l'outreach régulier.",
+        power: "Idéal pour les opérateurs individuels avec un volume de recherche plus élevé."
       }
     }
   },
@@ -4501,11 +4836,11 @@ const fr: AppUiExtraOverride = {
     messages: {
       demoPreviewIntro:
         "Aperçu démo. Commencez gratuitement pour enregistrer des Prospect Cards, des crédits et l'historique d'export.",
-      sampleWorkspaceData: "__ERROR__ Affichage des données d'exemple du workspace.",
-      sampleWorkspaceDataPlain: "Affichage des données d'exemple du workspace.",
-      workspaceDataUnavailable: "Nous ne pouvons pas charger ce workspace pour le moment. Actualisez puis réessayez.",
-      billingActiveSetup: "La facturation est active. Terminez d'abord le premier run de recherche website-first ci-dessous.",
-      workspaceCreatedSetup: "LeadCue est prêt. Terminez d'abord le premier run de recherche website-first ci-dessous.",
+      sampleWorkspaceData: "__ERROR__ Affichage des données d'exemple du dashboard.",
+      sampleWorkspaceDataPlain: "Affichage des données d'exemple du dashboard.",
+      workspaceDataUnavailable: "Nous ne pouvons pas charger ce dashboard pour le moment. Actualisez puis réessayez.",
+      billingActiveSetup: "La facturation est active. Terminez d'abord le premier run de recherche website-based ci-dessous.",
+      workspaceCreatedSetup: "LeadCue est prêt. Terminez d'abord le premier run de recherche website-based ci-dessous.",
       createWorkspaceRequired: "Vous êtes connecté. LeadCue prépare votre premier run de recherche.",
       workspaceCreateFailed: "Impossible de préparer LeadCue pour le moment.",
       signedIn: "Connecté.",
@@ -4534,7 +4869,7 @@ const fr: AppUiExtraOverride = {
       workspaceNotFound: "Espace de données LeadCue introuvable.",
       subscriptionInactive:
         "Votre abonnement n'est pas actif. Mettez à jour la facturation avant de scanner d'autres sites.",
-      insufficientCredits: "Ce workspace n'a pas assez de crédits de scan pour cette demande.",
+      insufficientCredits: "Ce dashboard n'a pas assez de crédits de scan pour cette demande.",
       createFirstSavedCard:
         "Connectez-vous puis utilisez l'extension Chrome ou POST /api/scans pour créer la première carte enregistrée."
     }
@@ -4612,7 +4947,7 @@ const fr: AppUiExtraOverride = {
     },
     historyReasons: {
       validation_failed: "Validation échouée",
-      workspace_unavailable: "Workspace indisponible",
+      workspace_unavailable: "dashboard indisponible",
       subscription_inactive: "Abonnement inactif",
       insufficient_credits: "Crédits insuffisants",
       idempotency_conflict: "Conflit d'idempotence",
@@ -4630,19 +4965,19 @@ const fr: AppUiExtraOverride = {
       welcomeTitle: "Bienvenue, __NAME__.",
       workspaceReadyTitle: "Commencez par un site, __NAME__.",
       intro:
-        "LeadCue est prêt pour la recherche outbound website-first. Un scan crée une Prospect Card avec score d'adéquation, notes sourcées, premières phrases et contexte prêt à l'export.",
+        "LeadCue est prêt pour la recherche outbound website-based. Un scan crée une Prospect Card avec score d'adéquation, notes sourcées, premières phrases et contexte prêt à l'export.",
       progress: "__COUNT__/4 prêts",
       markComplete: "Marquer comme terminé",
-      checklistLabel: "Checklist du premier run website-first",
-      setupSnapshot: "Agency Profile",
+      checklistLabel: "Checklist du premier run website-based",
+      setupSnapshot: "Prospecting Profile",
       service: "Offre",
       industries: "Segments les plus pertinents",
       firstTarget: "Premier site",
       prepareFirstScan: "Préparer la recherche site",
       runFirstScan: "Lancer le premier scan",
-      reviewIcp: "Ajuster l'Agency Profile",
+      reviewIcp: "Ajuster l'Prospecting Profile",
       tasks: {
-        profileSaved: "Agency Profile ajusté",
+        profileSaved: "Prospecting Profile ajusté",
         firstWebsiteQueued: "Premier site sélectionné",
         firstProspectCard: "Première Prospect Card enregistrée",
         exportReady: "Remise prête à l'export"
@@ -4650,17 +4985,38 @@ const fr: AppUiExtraOverride = {
       descriptions: {
         profileSaved: "Le score d'adéquation est ajusté pour __INDUSTRIES__.",
         profileTodo: "Définissez votre offre et vos segments prioritaires pour garder le score d'adéquation et les signaux d'opportunité pertinents.",
-        websiteQueued: "Prêt pour la recherche website-first : __URL__",
-        agencySaved: "Site agence enregistré comme contexte : __URL__",
+        websiteQueued: "Prêt pour la recherche website-based : __URL__",
+        agencySaved: "Site professionnel indépendant enregistré comme contexte : __URL__",
         websiteTodo: "Ajoutez le premier site prospect pour générer des notes sourcées et un contexte d'outreach.",
         firstCardDone: "__COUNT__ Prospect Cards sont déjà enregistrées.",
         firstCardTodo: "Lancez le premier scan de site pour enregistrer une Prospect Card avec premières phrases et notes prêtes à l'export.",
-        exportReadyDone: "Le premier compte enregistré est prêt pour une remise CSV ou CRM.",
+        exportReadyDone: "Le premier compte enregistré est prêt pour une remise CSV ou CSV.",
         exportReadyTodo: "Après avoir enregistré une Prospect Card, utilisez les exports pour remettre les comptes qualifiés à l'outreach."
+      },
+      guide: {
+        stepLabel: "Étape __CURRENT__ sur __TOTAL__",
+        currentStep: "À faire maintenant",
+        whyLabel: "Pourquoi c'est important",
+        profileTitle: "Ajustez d'abord l'Prospecting Profile",
+        profileCopy: "Confirmez ce que vous vendez et les clients que vous servez le mieux. LeadCue utilise ces données avant de scorer un site.",
+        profileWhy: "Un Prospecting Profile clair garde le score d'adéquation, les signaux d'opportunité et les angles d'outreach centrés sur vos meilleurs comptes.",
+        profileAction: "Ajuster l'Prospecting Profile",
+        websiteTitle: "Ajoutez un site prospect",
+        websiteCopy: "Collez le site d'une entreprise que LeadCue doit rechercher. Commencez par un vrai compte que votre utilisateur comprend.",
+        websiteWhy: "La recherche website-based a besoin d'un domaine concret pour produire des notes sourcées et du contexte de compte.",
+        websiteAction: "Ajouter le premier site",
+        cardTitle: "Lancez le premier scan",
+        cardCopy: "Transformez ce site en Prospect Card avec score d'adéquation, signaux, premières phrases et notes.",
+        cardWhy: "La première Prospect Card montre immédiatement ce qui sera enregistré et relu avant l'outreach.",
+        cardAction: "Lancer le premier scan",
+        exportTitle: "Exportez le premier compte qualifié",
+        exportCopy: "Quand la Prospect Card est prête, ouvrez les exports et préparez une remise CSV ou CSV.",
+        exportWhy: "La première boucle est complète quand un compte recherché quitte LeadCue pour entrer dans votre workflow d'outreach.",
+        exportAction: "Ouvrir les exports"
       }
     },
     metrics: {
-      ariaLabel: "Indicateurs du workspace",
+      ariaLabel: "Indicateurs du dashboard",
       savedProspects: "Prospects enregistrés",
       currentPlan: "Offre actuelle",
       creditsLeft: "Crédits restants",
@@ -4687,7 +5043,7 @@ const fr: AppUiExtraOverride = {
     },
     icpPanel: {
       eyebrow: "Paramètres ICP",
-      title: "Mode agence",
+      title: "Mode professionnel indépendant",
       serviceType: "Type de service",
       targetIndustries: "Secteurs ciblés",
       countries: "Pays",
@@ -4703,7 +5059,7 @@ const fr: AppUiExtraOverride = {
       import: {
         eyebrow: "Importation",
         title: "Construire la liste batch",
-        copy: "Collez des domaines ou téléversez un CSV avant que l'équipe commence la revue des comptes.",
+        copy: "Collez des domaines ou téléversez un CSV avant que l'utilisateur commence la revue des comptes.",
         metricLabel: "Sites en file"
       },
       queue: {
@@ -4731,12 +5087,12 @@ const fr: AppUiExtraOverride = {
       ready: "Prêt",
       researching: "En recherche",
       imported: "Importé",
-      workspaceSource: "Lead du workspace",
+      workspaceSource: "Lead du dashboard",
       openSite: "Ouvrir le site",
       moveToScanDesk: "Déplacer vers le bureau de scan",
       reviewCard: "Ouvrir la fiche",
       emptyTitle: "Aucun site n'attend dans la file.",
-      emptyCopy: "Importez une liste ou scannez le premier site pour créer du travail pour l'équipe."
+      emptyCopy: "Importez une liste ou scannez le premier site pour créer du travail pour l'utilisateur."
     },
     savedPanel: {
       eyebrow: "Remise enregistrée",
@@ -4754,11 +5110,11 @@ const fr: AppUiExtraOverride = {
       setupRequired: "Préparation du compte",
       createWorkspaceTitle: "LeadCue prépare votre premier run de recherche",
       createWorkspaceCopy:
-        "Vous êtes connecté. LeadCue prépare automatiquement l'espace de données pour l'Agency Profile, les crédits, la file de sites, les Prospect Cards et les exports.",
+        "Vous êtes connecté. LeadCue prépare automatiquement l'espace de données pour l'Prospecting Profile, les crédits, la file de sites, les Prospect Cards et les exports.",
       importWebsites: "Importer des sites",
       openQueue: "Ouvrir la file de revue",
       manualScan: "Utiliser plutôt le scan manuel",
-      sampleTitle: "Ceci est l'aperçu du workspace démo",
+      sampleTitle: "Ceci est l'aperçu du dashboard démo",
       sampleCopy:
         "Connectez-vous pour rouvrir vos recherches enregistrées, ou commencez gratuitement avant d'importer des sites dans la file de revue.",
       loadErrorTitle: "Nous n'avons pas pu rouvrir vos données de recherche",
@@ -4781,10 +5137,10 @@ const fr: AppUiExtraOverride = {
     minConfidence: "Confiance min.",
     resultsSummary: "__VISIBLE__ prospects affichés sur __TOTAL__",
     selectedCount: "__COUNT__ sélectionnés",
-    selectedReadyCopy: "Exportez uniquement les comptes prêts à être traités par votre équipe.",
+    selectedReadyCopy: "Exportez uniquement les comptes prêts à être traités par votre utilisateur.",
     selectedEmptyCopy: "Sélectionnez des prospects pour exporter un CSV ciblé.",
     templateLabel: "Modèle",
-    crmFieldsLabel: "Champs CRM",
+    crmFieldsLabel: "Champs CSV",
     tableLabel: "Prospects enregistrés",
     selectAllVisible: "Sélectionner tous les prospects visibles",
     clearAllVisible: "Effacer tous les prospects visibles",
@@ -4802,6 +5158,16 @@ const fr: AppUiExtraOverride = {
     drawerNoSelection: "Aucune sélection",
     drawerFitLabel: "__SCORE__ d'adéquation",
     errorShowingPreview: "L'aperçu de la liste est affiché car le détail complet n'a pas pu être chargé.",
+    detailPageLabel: "Détail du lead",
+    detailPageEyebrow: "Détail du prospect",
+    detailPageTitle: "Prospect Card",
+    detailPageIntro: "Consultez la Prospect Card complète, les signaux sourcés, les notes de pipeline et le texte d'approche.",
+    detailPageCopy: "Consultez __COMPANY__ avec des signaux sourcés, des notes de pipeline et un texte d'approche pour __DOMAIN__.",
+    detailBackToQueue: "Retour à la file",
+    detailBackToExports: "Retour aux exports",
+    detailBackToBilling: "Retour à la facturation",
+    detailBackToDashboard: "Retour au tableau de bord",
+    detailBackToSaved: "Retour aux comptes enregistrés",
     detailEmptyTitle: "Sélectionner un lead",
     detailEmptyCopy: "Cliquez sur un compte enregistré pour consulter la Prospect Card complète."
   },
@@ -4860,7 +5226,7 @@ const fr: AppUiExtraOverride = {
       title: "Exporter les champs sélectionnés",
       selected: "__SELECTED__ sélectionnés sur __TOTAL__",
       presetsLabel: "Préréglages d'export",
-      crmModesLabel: "Mode de nommage des champs CRM",
+      crmModesLabel: "Mode de nommage des champs CSV",
       csvColumns: "Colonnes CSV",
       columns: "__LABEL__ colonnes",
       copyCsvRow: "Copier la ligne CSV",
@@ -4879,7 +5245,7 @@ const fr: AppUiExtraOverride = {
       },
       presets: {
         crm: {
-          label: "Export CRM"
+          label: "Export CSV"
         },
         email: {
           label: "Brouillon d'e-mail"
@@ -4896,10 +5262,10 @@ const fr: AppUiExtraOverride = {
       notSavedYet: "Pas encore enregistré",
       notes: "Notes",
       saveContext: "Enregistrer le contexte",
-      saveStateIdle: "Enregistrer les modifications dans le workspace.",
+      saveStateIdle: "Enregistrer les modifications dans le dashboard.",
       saveStateSaving: "Enregistrement du responsable, de l'étape et des notes...",
       saveStateSaved: "Responsable, étape et notes enregistrés.",
-      saveStateError: "Impossible d'enregistrer dans le workspace."
+      saveStateError: "Impossible d'enregistrer dans le dashboard."
     },
     activity: {
       panelLabel: "Journal d'activité du pipeline",

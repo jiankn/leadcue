@@ -57,7 +57,7 @@ export async function apiJson<T = unknown>(path: string, init: FetchInit = {}): 
   return parsed as T;
 }
 
-export async function testSignIn(email: string, planId: "free" | "starter" | "pro" | "agency" = "free") {
+export async function testSignIn(email: string, planId: "free" | "pro" | "power" = "free") {
   return apiJson<{
     ok: true;
     email: string;

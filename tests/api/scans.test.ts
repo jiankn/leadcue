@@ -36,8 +36,8 @@ function buildScanRequest(overrides: Partial<Record<string, unknown>> = {}) {
   return {
     page: {
       url: "https://northstar.example.com",
-      title: "Northstar Agency",
-      metaDescription: "Boutique agency helping DTC brands scale paid search.",
+      title: "Northstar Studio",
+      metaDescription: "Independent consultant helping DTC brands scale paid search.",
       h1: "Turn every visitor into a qualified lead",
       text: "We help mid-market DTC brands unlock 3x paid search efficiency with predictable reporting and a senior-only pod model. Trusted by 40+ brands.",
       links: [

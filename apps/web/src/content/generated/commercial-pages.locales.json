@@ -2,8 +2,8 @@
   "en": {
     "docs": {
       "eyebrow": "Documentation",
-      "title": "Run website-first prospecting without building another list tool.",
-      "summary": "Use these docs to set up a workspace, run scans, interpret Prospect Cards, manage credits, and hand qualified research to CRM or outbound tools.",
+      "title": "Run AI website prospecting without building another list tool.",
+      "summary": "Use these docs to set up your profile, run scans, interpret Prospect Cards, manage credits, and export qualified research for outreach.",
       "primaryAction": {
         "label": "Open dashboard",
         "href": "/app"
@@ -15,31 +15,31 @@
       "sections": [
         {
           "title": "Quick start",
-          "copy": "LeadCue works best when each scan starts from a real company website, a defined agency offer, and an owner who knows why the account matters.",
+          "copy": "LeadCue works best when each scan starts from a real company website, a defined offer, and a clear reason why the prospect matters.",
           "items": [
-            "Create a workspace with Google or work email and complete the scoring profile.",
-            "Choose the monthly scan volume that matches how often your team reviews websites.",
+            "Sign in with Google or email and complete the scoring profile.",
+            "Choose the monthly scan volume that matches how often you review websites.",
             "Load one real prospect URL, add visible website notes, and run the first scan.",
-            "Review the Prospect Card before copying first lines or exporting the lead."
+            "Review the Prospect Card before copying first lines or exporting the prospect."
           ]
         },
         {
           "title": "How to read a Prospect Card",
-          "copy": "Every saved card is meant to answer three questions fast: why this account fits, what the website proves, and what your rep should say next.",
+          "copy": "Every saved card is meant to answer three questions fast: why this prospect fits, what the website proves, and what you should say next.",
           "items": [
             "Fit score combines your offer, industry, geography, and signal quality.",
             "Signals and source notes keep claims attached to visible website evidence.",
             "First line and short email stay grounded in the saved evidence instead of generic personalization.",
-            "Export fields keep CRM-ready context tied to the same lead record."
+            "Export fields keep source-backed context tied to the same prospect record."
           ]
         },
         {
           "title": "Operating model",
-          "copy": "LeadCue is the research layer before outreach. It should sharpen qualification, not replace human review, CRM ownership, or compliance checks.",
+          "copy": "LeadCue is the research layer before outreach. It should sharpen qualification, not replace human review or compliance checks.",
           "items": [
-            "Run scans only on accounts your team actually wants to evaluate.",
-            "Save leads when the website evidence is specific enough to justify contact.",
-            "Use CSV exports or CRM field mapping to move only qualified research downstream.",
+            "Run scans only on prospects you actually want to evaluate.",
+            "Save prospects when the website evidence is specific enough to justify contact.",
+            "Use CSV exports to move only qualified research downstream.",
             "Refresh ICP settings any time your offer, regions, or target industries change."
           ]
         }
@@ -47,8 +47,8 @@
     },
     "support": {
       "eyebrow": "Support",
-      "title": "Get help with account access, billing, scans, exports, and rollout questions.",
-      "summary": "Support is structured around the actual outbound workflow: signing in, configuring the workspace, scanning websites, exporting leads, and staying within plan limits.",
+      "title": "Get help with login access, billing, scans, exports, and setup questions.",
+      "summary": "Support is structured around the actual personal prospecting workflow: signing in, configuring your profile, scanning websites, exporting prospects, and staying within plan limits.",
       "primaryAction": {
         "label": "Email support",
         "href": "mailto:support@leadcue.app"
@@ -59,13 +59,13 @@
       },
       "sections": [
         {
-          "title": "Account access",
+          "title": "Login access",
           "copy": "Most login issues are recoverable in-product before they become a support ticket.",
           "items": [
-            "Use Google sign-in if the workspace was created with OAuth.",
-            "Use the email password flow if the workspace owner enabled password access.",
+            "Use Google sign-in if the profile was created with OAuth.",
+            "Use the email password flow if you created an email login.",
             "Reset password from the login page when the work email is correct but the password is unknown.",
-            "Include the workspace email and any auth_error message if support is still needed."
+            "Include the login email and any auth_error message if support is still needed."
           ]
         },
         {
@@ -74,16 +74,16 @@
           "items": [
             "Share the prospect URL or scan ID when a Prospect Card looks weak or incomplete.",
             "Mention whether the scan was basic or deep and whether credits were charged.",
-            "Include the export preset or CRM naming mode when CSV output looks wrong.",
+            "Include the export preset or destination naming mode when CSV output looks wrong.",
             "Attach the expected outcome and the actual result so support can reproduce it."
           ]
         },
         {
           "title": "Billing and launch service levels",
-          "copy": "LeadCue currently prioritizes billing blockers, account access, and scan-quality issues that stop an agency team from operating week to week.",
+          "copy": "LeadCue currently prioritizes billing blockers, login access, and scan-quality issues that stop personal prospecting work week to week.",
           "items": [
             "Billing portal and subscription state issues are prioritized first.",
-            "Plan-fit questions should include expected monthly scan volume and seat count.",
+            "Plan-fit questions should include expected monthly scan volume.",
             "Security or privacy concerns should be sent directly to support@leadcue.app.",
             "Feature requests should describe the outbound workflow they would unlock."
           ]
@@ -92,8 +92,8 @@
     },
     "contact": {
       "eyebrow": "Contact",
-      "title": "Talk to LeadCue about agency prospecting workflows, plan fit, and rollout setup.",
-      "summary": "Use contact when you need help deciding if the product matches your workflow, how to map fields into CRM, or how to introduce website-first research to a team.",
+      "title": "Talk to LeadCue about personal prospecting workflows, plan fit, and setup.",
+      "summary": "Use contact when you need help deciding if the product matches your workflow, how to map fields into CSV, or how to use AI website prospecting in your weekly outreach.",
       "primaryAction": {
         "label": "Email LeadCue",
         "href": "mailto:support@leadcue.app"
@@ -105,22 +105,22 @@
       "sections": [
         {
           "title": "Who LeadCue is for",
-          "copy": "LeadCue is strongest for teams already selling web design, SEO, CRO, positioning, or related services where visible website evidence creates a credible outreach angle.",
+          "copy": "LeadCue is strongest for solo professionals selling web design, SEO, CRO, positioning, or related services where visible website evidence creates a credible outreach angle.",
           "items": [
             "Solo founders building a weekly outbound habit.",
-            "Small agencies that need better qualification before list export.",
-            "Outbound teams that want CRM-ready research instead of generic leads.",
-            "Ops owners who need a clear handoff between research and outreach."
+            "Web design freelancers who need better qualification before list export.",
+            "Independent consultants who want export-ready research instead of generic leads.",
+            "Individual sales operators who need a clear path from research to outreach."
           ]
         },
         {
           "title": "What to discuss before rollout",
           "copy": "A good rollout conversation starts from one real workflow and one real offer, not from abstract tool comparisons.",
           "items": [
-            "What a qualified account looks like for your agency.",
+            "What a qualified prospect looks like for your offer.",
             "Where saved Prospect Cards should go after review.",
             "Which website signals matter most for your offer.",
-            "How much monthly scan volume the team will realistically use."
+            "How much monthly scan volume you will realistically use."
           ]
         },
         {
@@ -129,7 +129,7 @@
           "items": [
             "LeadCue does not send campaigns.",
             "LeadCue does not scrape LinkedIn or build contact databases.",
-            "LeadCue does not replace CRM ownership or legal review.",
+            "LeadCue does not replace legal review.",
             "LeadCue does not remove the need for human judgment before contact."
           ]
         }
@@ -138,7 +138,7 @@
     "privacy": {
       "eyebrow": "Privacy",
       "title": "Privacy principles for website-first prospect research.",
-      "summary": "LeadCue is built around user-triggered website analysis, workspace setup data, secure account sessions, and saved research needed for agency outbound operations.",
+      "summary": "LeadCue is built around user-triggered website analysis, profile setup data, secure login sessions, and saved research needed for personal outreach.",
       "primaryAction": {
         "label": "Contact privacy support",
         "href": "mailto:support@leadcue.app"
@@ -150,11 +150,11 @@
       "sections": [
         {
           "title": "Data we process",
-          "copy": "Commercial workspace data is intentionally narrow and tied to the product workflow rather than passive collection.",
+          "copy": "Profile data is intentionally narrow and tied to the product workflow rather than passive collection.",
           "items": [
-            "Account identity from Google OAuth or work email signup.",
-            "Workspace plan, subscription state, and scan-credit usage.",
-            "Agency ICP settings used to score prospect websites.",
+            "Login identity from Google OAuth or email signup.",
+            "Plan, subscription state, and scan-credit usage.",
+            "ICP settings used to score prospect websites.",
             "Prospect website snapshots, generated notes, activity log changes, and saved Prospect Cards."
           ]
         },
@@ -170,20 +170,20 @@
         },
         {
           "title": "Security and retention controls",
-          "copy": "Users should be able to understand what was stored, why it was stored, and how it will leave the workspace.",
+          "copy": "Users should be able to understand what was stored, why it was stored, and how it will leave the product.",
           "items": [
-            "Workspace sessions use server-side cookies instead of exposing tokens in the client.",
+            "Login sessions use server-side cookies instead of exposing tokens in the client.",
             "Password resets use short-lived, one-time tokens.",
             "Billing operations are routed through Stripe when payment is configured.",
-            "Teams can contact support for privacy questions or deletion requests."
+            "Users can contact support for privacy questions or deletion requests."
           ]
         }
       ]
     },
     "terms": {
       "eyebrow": "Terms",
-      "title": "Commercial usage terms for LeadCue workspaces.",
-      "summary": "These terms describe the intended product boundary: website research, prospect qualification, secure account access, and export-ready notes for agency outbound teams.",
+      "title": "Commercial usage terms for LeadCue users.",
+      "summary": "These terms describe the intended product boundary: website research, prospect qualification, secure login access, and export-ready notes for solo professionals.",
       "primaryAction": {
         "label": "Start free",
         "href": "/signup"
@@ -207,10 +207,10 @@
           "title": "Plans, credits, and subscriptions",
           "copy": "Plans are organized around monthly website-scan capacity, with deeper analysis using more credits when configured.",
           "items": [
-            "Free workspaces include limited monthly scan volume.",
+            "The Free plan includes limited monthly scan volume.",
             "Deep scans can consume additional credits based on the published plan rules.",
             "Paid subscriptions use Stripe when billing is configured.",
-            "Customers are responsible for monitoring plan fit, credits, and workspace usage."
+            "Customers are responsible for monitoring plan fit, credits, and usage."
           ]
         },
         {
@@ -218,7 +218,7 @@
           "copy": "LeadCue is the research layer before outreach. It does not guarantee sales outcomes and should be treated as decision support plus structured export.",
           "items": [
             "LeadCue does not send campaigns.",
-            "LeadCue does not replace CRM governance or compliance review.",
+            "LeadCue does not replace compliance review.",
             "Generated Prospect Cards are informational and should be reviewed by the customer.",
             "Customers remain responsible for how exported data and outreach copy are used."
           ]
@@ -229,8 +229,8 @@
   "zh": {
     "docs": {
       "eyebrow": "文档",
-      "title": "运行网站优先勘探，无需构建另一个列表工具。",
-      "summary": "使用这些文档来设置工作区、运行扫描、解释潜客卡片、管理积分以及将合格的研究交给 CRM 或外联工具。",
+      "title": "Run AI website prospecting without building another list tool.",
+      "summary": "Use these docs to set up your profile, run scans, interpret Prospect Cards, manage credits, and export qualified research for outreach.",
       "primaryAction": {
         "label": "打开仪表盘",
         "href": "/app"
@@ -242,31 +242,31 @@
       "sections": [
         {
           "title": "快速入门\n当每次扫描从真实的公司网站、明确的代理报价以及了解帐户重要性的所有者开始时，",
-          "copy": "LeadCue 效果最佳。",
+          "copy": "LeadCue works best when each scan starts from a real company website, a defined offer, and a clear reason why the prospect matters.",
           "items": [
-            "使用 Google 或工作电子邮件创建工作区并完成评分配置文件。",
-            "选择与您的团队审核网站的频率相匹配的每月扫描量。",
+            "Sign in with Google or email and complete the scoring profile.",
+            "Choose the monthly scan volume that matches how often you review websites.",
             "加载一个真实的潜在客户 URL，添加可见的网站注释，然后运行第一次扫描。",
-            "在复制第一行或导出潜在客户之前查看潜客卡片。"
+            "Review the Prospect Card before copying first lines or exporting the prospect."
           ]
         },
         {
           "title": "如何阅读潜客卡片",
-          "copy": "每张保存的卡片都旨在快速回答三个问题：为什么该帐户适合、网站证明了什么以及您的代表接下来应该说什么。",
+          "copy": "Every saved card is meant to answer three questions fast: why this prospect fits, what the website proves, and what you should say next.",
           "items": [
             "适合度分数结合了您的报价、行业、地理位置和信号质量。",
             "信号和源注释将声明附加到可见的网站证据上。",
             "第一行和简短的电子邮件立足于保存的证据，而不是一般的个性化。",
-            "导出字段将 CRM 就绪上下文与相同的潜在客户记录关联起来。"
+            "Export fields keep source-backed context tied to the same prospect record."
           ]
         },
         {
           "title": "运营模式",
-          "copy": "LeadCue 是外展之前的研究层。它应该加强资格认证，而不是取代人工审查、CRM 所有权或合规性检查。",
+          "copy": "LeadCue is the research layer before outreach. It should sharpen qualification, not replace human review or compliance checks.",
           "items": [
-            "仅对您的团队真正想要评估的帐户运行扫描。",
-            "当网站证据足够具体以证明联系合理时，保存潜在客户。",
-            "使用 CSV 导出或 CRM 字段映射仅将合格的研究转移到下游。",
+            "Run scans only on prospects you actually want to evaluate.",
+            "Save prospects when the website evidence is specific enough to justify contact.",
+            "Use CSV exports to move only qualified research downstream.",
             "只要您的产品、地区或目标行业发生变化，即可刷新 ICP 设置。"
           ]
         }
@@ -274,8 +274,8 @@
     },
     "support": {
       "eyebrow": "支持",
-      "title": "获取有关帐户访问、计费、扫描、导出和部署问题的帮助。",
-      "summary": "支持是围绕实际的外联工作流程构建的：登录、配置工作区、扫描网站、导出潜在客户以及保持在计划限制内。",
+      "title": "Get help with login access, billing, scans, exports, and setup questions.",
+      "summary": "Support is structured around the actual personal prospecting workflow: signing in, configuring your profile, scanning websites, exporting prospects, and staying within plan limits.",
       "primaryAction": {
         "label": "电子邮件支持",
         "href": "mailto:support@leadcue.app"
@@ -286,13 +286,13 @@
       },
       "sections": [
         {
-          "title": "帐户访问",
+          "title": "Login access",
           "copy": "大多数登录问题在成为支持票证之前都可以在产品中恢复。",
           "items": [
-            "如果工作区是使用 OAuth 创建的，请使用 Google 登录。",
-            "如果工作区所有者启用了密码访问，请使用电子邮件密码流程。",
+            "Use Google sign-in if the profile was created with OAuth.",
+            "Use the email password flow if you created an email login.",
             "当工作电子邮件正确但密码未知时，从登录页面重置密码。",
-            "如果仍需要支持，请包括工作区电子邮件和任何 auth_error 消息。"
+            "Include the login email and any auth_error message if support is still needed."
           ]
         },
         {
@@ -301,16 +301,16 @@
           "items": [
             "当潜客卡片看起来薄弱或不完整时，分享潜在客户 URL 或扫描 ID。",
             "提及扫描是基本扫描还是深度扫描以及是否收取积分。",
-            "当 CSV 输出看起来错误时，包括导出预设或 CRM 命名模式。",
+            "Include the export preset or destination naming mode when CSV output looks wrong.",
             "附上预期结果和实际结果，以便支持人员可以重现它。"
           ]
         },
         {
           "title": "计费和启动服务级别",
-          "copy": "LeadCue 目前优先考虑账单阻止程序、帐户访问和扫描质量问题，这些问题会阻碍代理团队每周的运营。",
+          "copy": "LeadCue currently prioritizes billing blockers, login access, and scan-quality issues that stop personal prospecting work week to week.",
           "items": [
             "计费门户和订阅状态问题首先被优先考虑。",
-            "计划适合问题应包括预期的每月扫描量和座位数。",
+            "Plan-fit questions should include expected monthly scan volume.",
             "安全或隐私问题应直接发送至 support@leadcue.app。",
             "功能请求应描述他们将解锁的外联工作流程。"
           ]
@@ -319,8 +319,8 @@
     },
     "contact": {
       "eyebrow": "联系我们",
-      "title": "与 LeadCue 讨论机构勘探工作流程、计划配合和部署设置。",
-      "summary": "当您需要帮助确定产品是否符合您的工作流程、如何将字段映射到 CRM 或如何向团队引入网站优先研究时，请使用联系方式。",
+      "title": "Talk to LeadCue about personal prospecting workflows, plan fit, and setup.",
+      "summary": "Use contact when you need help deciding if the product matches your workflow, how to map fields into CSV, or how to use AI website prospecting in your weekly outreach.",
       "primaryAction": {
         "label": "电子邮件 LeadCue",
         "href": "mailto:support@leadcue.app"
@@ -332,22 +332,22 @@
       "sections": [
         {
           "title": "LeadCue 适合谁",
-          "copy": "LeadCue 对于已经销售网页设计、SEO、CRO、定位或相关服务的团队来说是最强的，在这些服务中，可见的网站证据可以创建可信的外展角度。",
+          "copy": "LeadCue is strongest for solo professionals selling web design, SEO, CRO, positioning, or related services where visible website evidence creates a credible outreach angle.",
           "items": [
             "独立创始人养成每周外出的习惯。",
-            "在名单导出之前需要更好资质的小型机构。",
-            "需要 CRM 就绪研究而不是通用销售线索的外向团队。",
-            "需要在研究和推广之间进行明确交接的运营所有者。"
+            "Web design freelancers who need better qualification before list export.",
+            "Independent consultants who want export-ready research instead of generic leads.",
+            "Individual sales operators who need a clear path from research to outreach."
           ]
         },
         {
           "title": "推出前讨论什么",
           "copy": "一次良好的推出对话从一个真实的工作流程和一个真实的报价开始，而不是从抽象的工具比较开始。",
           "items": [
-            "您的代理机构的合格帐户是什么样的。",
+            "What a qualified prospect looks like for your offer.",
             "审核后保存的潜客卡片应存放在何处。",
             "哪个网站信号对您的报价最重要。",
-            "团队每月实际使用的扫描量是多少。"
+            "How much monthly scan volume you will realistically use."
           ]
         },
         {
@@ -356,7 +356,7 @@
           "items": [
             "LeadCue 不发送营销活动。",
             "LeadCue 不会抓取 LinkedIn 或建立联系人数据库。",
-            "LeadCue 不会取代 CRM 所有权或法律审查。",
+            "LeadCue does not replace legal review.",
             "LeadCue 并没有消除在接触之前进行人工判断的需要。"
           ]
         }
@@ -365,7 +365,7 @@
     "privacy": {
       "eyebrow": "隐私",
       "title": "网站优先潜客研究的隐私原则。",
-      "summary": "LeadCue 围绕用户触发的网站分析、工作区设置数据、安全帐户会话以及机构外联操作所需的已保存研究而构建。",
+      "summary": "LeadCue is built around user-triggered website analysis, profile setup data, secure login sessions, and saved research needed for personal outreach.",
       "primaryAction": {
         "label": "联系隐私支持",
         "href": "mailto:support@leadcue.app"
@@ -377,11 +377,11 @@
       "sections": [
         {
           "title": "我们处理的数据",
-          "copy": "商业工作空间数据有意缩小范围并与产品工作流程相关，而不是被动收集。",
+          "copy": "Profile data is intentionally narrow and tied to the product workflow rather than passive collection.",
           "items": [
-            "来自 Google OAuth 或工作电子邮件注册的帐户身份。",
-            "工作区计划、订阅状态和扫描积分使用情况。",
-            "用于对潜在网站进行评分的机构 ICP 设置。",
+            "Login identity from Google OAuth or email signup.",
+            "Plan, subscription state, and scan-credit usage.",
+            "ICP settings used to score prospect websites.",
             "潜在客户网站快照、生成的注释、活动日志更改和保存的潜客卡片。"
           ]
         },
@@ -397,20 +397,20 @@
         },
         {
           "title": "安全和保留控制",
-          "copy": "用户应该能够了解存储的内容、存储原因以及它将如何离开工作区。",
+          "copy": "Users should be able to understand what was stored, why it was stored, and how it will leave the product.",
           "items": [
-            "工作区会话使用服务器端 cookie，而不是在客户端中公开令牌。",
+            "Login sessions use server-side cookies instead of exposing tokens in the client.",
             "密码重置使用短暂的一次性令牌。",
             "配置付款时，计费操作将通过 Stripe 进行路由。",
-            "团队可以就隐私问题或删除请求联系支持人员。"
+            "Users can contact support for privacy questions or deletion requests."
           ]
         }
       ]
     },
     "terms": {
       "eyebrow": "条款",
-      "title": "LeadCue 工作区的商业使用条款。",
-      "summary": "这些术语描述了预期的产品边界：网站研究、潜在客户资格、安全帐户访问以及代理外向团队的出口准备说明。",
+      "title": "Commercial usage terms for LeadCue users.",
+      "summary": "These terms describe the intended product boundary: website research, prospect qualification, secure login access, and export-ready notes for solo professionals.",
       "primaryAction": {
         "label": "免费开始",
         "href": "/signup"
@@ -434,10 +434,10 @@
           "title": "计划、积分和订阅",
           "copy": "计划围绕每月网站扫描容量进行组织，并在配置时使用更多积分进行更深入的分析。",
           "items": [
-            "免费工作区包括每月有限的扫描量。",
+            "The Free plan includes limited monthly scan volume.",
             "深度扫描可能会根据已发布的计划规则消耗额外的积分。",
             "付费订阅在配置计费时使用 Stripe。",
-            "客户负责监控计划适合度、积分和工作空间使用情况。"
+            "Customers are responsible for monitoring plan fit, credits, and usage."
           ]
         },
         {
@@ -445,7 +445,7 @@
           "copy": "LeadCue 是外展之前的研究层。它不能保证销售结果，应被视为决策支持加上结构化出口。",
           "items": [
             "LeadCue 不发送营销活动。",
-            "LeadCue 不会取代 CRM 治理或合规性审查。",
+            "LeadCue does not replace compliance review.",
             "生成的潜客卡片仅供参考，应由客户审核。",
             "客户仍然对如何使用导出的数据和外展副本负责。"
           ]
@@ -456,8 +456,8 @@
   "ja": {
     "docs": {
       "eyebrow": "ドキュメント",
-      "title": "別のリスト ツールを構築せずに、Webサイトファーストの見込み客調査を実行します。",
-      "summary": "これらのドキュメントを使用して、ワークスペースの設定、スキャンの実行、プロスペクト カードの解釈、クレジットの管理、適切な調査を CRM またはアウトバウンド ツールに渡します。",
+      "title": "Run AI website prospecting without building another list tool.",
+      "summary": "Use these docs to set up your profile, run scans, interpret Prospect Cards, manage credits, and export qualified research for outreach.",
       "primaryAction": {
         "label": "ダッシュボードを開く",
         "href": "/app"
@@ -469,31 +469,31 @@
       "sections": [
         {
           "title": "クイックスタート",
-          "copy": "LeadCue は、各スキャンが実際の企業 Webサイト、定義された代理店オファー、およびアカウントが重要である理由を理解している所有者から開始される場合に最適に機能します。",
+          "copy": "LeadCue works best when each scan starts from a real company website, a defined offer, and a clear reason why the prospect matters.",
           "items": [
-            "Google または仕事用メールでワークスペースを作成し、スコアリング プロファイルを完成させます。",
-            "チームが Webサイトをレビューする頻度に合わせて、毎月のスキャン量を選択してください。",
+            "Sign in with Google or email and complete the scoring profile.",
+            "Choose the monthly scan volume that matches how often you review websites.",
             "実際のプロスペクト URL を 1 つロードし、表示される Webサイトのメモを追加して、最初のスキャンを実行します。",
-            "冒頭文をコピーしたりリードをエクスポートしたりする前に、見込み客カードを確認してください。"
+            "Review the Prospect Card before copying first lines or exporting the prospect."
           ]
         },
         {
           "title": "プロスペクトカードの読み方",
-          "copy": "保存されたすべてのカードは、このアカウントがなぜ適合するのか、Webサイトが何を証明しているのか、担当者が次に何を言うべきかという 3 つの質問にすぐに答えることができます。",
+          "copy": "Every saved card is meant to answer three questions fast: why this prospect fits, what the website proves, and what you should say next.",
           "items": [
             "適合スコアは、オファー、業界、地理、信号品質を組み合わせたものです。",
             "シグナルとソースノートにより、目に見える Webサイトの証拠に主張が添付されます。",
             "冒頭文と短い電子メールは、一般的なパーソナライズではなく、保存された証拠に基づいたままになります。",
-            "エクスポート フィールドは、同じリード レコードに関連付けられた CRM 対応コンテキストを保持します。"
+            "Export fields keep source-backed context tied to the same prospect record."
           ]
         },
         {
           "title": "動作モデル",
-          "copy": "LeadCue は、アウトリーチ前のリサーチ層です。それは資格を強化するものであり、人間によるレビュー、CRM の所有権、またはコンプライアンスチェックに取って代わるものではありません。",
+          "copy": "LeadCue is the research layer before outreach. It should sharpen qualification, not replace human review or compliance checks.",
           "items": [
-            "チームが実際に評価したいアカウントに対してのみスキャンを実行します。",
-            "Webサイトの証拠が連絡を正当化するのに十分具体的である場合は、リードを保存します。",
-            "CSV エクスポートまたは CRM フィールド マッピングを使用して、適格な調査のみを下流に移動します。",
+            "Run scans only on prospects you actually want to evaluate.",
+            "Save prospects when the website evidence is specific enough to justify contact.",
+            "Use CSV exports to move only qualified research downstream.",
             "オファー、地域、対象業界が変更されるたびに ICP 設定を更新します。"
           ]
         }
@@ -501,8 +501,8 @@
     },
     "support": {
       "eyebrow": "サポート",
-      "title": "アカウント アクセス、請求、スキャン、エクスポート、ロールアウトに関する質問についてサポートを受けます。",
-      "summary": "サポートは、サインイン、ワークスペースの構成、Webサイトのスキャン、リードのエクスポート、プラン制限内での維持など、実際のアウトバウンド ワークフローを中心に構成されています。",
+      "title": "Get help with login access, billing, scans, exports, and setup questions.",
+      "summary": "Support is structured around the actual personal prospecting workflow: signing in, configuring your profile, scanning websites, exporting prospects, and staying within plan limits.",
       "primaryAction": {
         "label": "電子メールによるサポート",
         "href": "mailto:support@leadcue.app"
@@ -513,13 +513,13 @@
       },
       "sections": [
         {
-          "title": "アカウントへのアクセス",
+          "title": "Login access",
           "copy": "ログインの問題のほとんどは、サポート チケットになる前に製品内で回復できます。",
           "items": [
-            "ワークスペースが OAuth で作成された場合は、Google サインインを使用します。",
-            "ワークスペース所有者がパスワード アクセスを有効にしている場合は、電子メール パスワード フローを使用します。",
+            "Use Google sign-in if the profile was created with OAuth.",
+            "Use the email password flow if you created an email login.",
             "仕事用メールアドレスは正しいが、パスワードが不明な場合は、ログイン ページからパスワードをリセットします。",
-            "サポートがまだ必要な場合は、ワークスペースの電子メールと auth_error メッセージを含めます。"
+            "Include the login email and any auth_error message if support is still needed."
           ]
         },
         {
@@ -528,16 +528,16 @@
           "items": [
             "プロスペクト カードが弱いか不完全であると思われる場合は、プロスペクト URL またはスキャン ID を共有します。",
             "スキャンが基本か詳細か、またクレジットが請求されたかどうかについて言及します。",
-            "CSV 出力が正しくない場合は、エクスポート プリセットまたは CRM 命名モードを含めます。",
+            "Include the export preset or destination naming mode when CSV output looks wrong.",
             "サポートが再現できるように、予想される結果と実際の結果を添付してください。"
           ]
         },
         {
           "title": "Billing and launch service levels",
-          "copy": "LeadCue は現在、代理店チームの毎週の業務を妨げる請求阻害要因、アカウント アクセス、スキャン品質の問題を優先しています。",
+          "copy": "LeadCue currently prioritizes billing blockers, login access, and scan-quality issues that stop personal prospecting work week to week.",
           "items": [
             "請求ポータルとサブスクリプションの状態の問題が最初に優先されます。",
-            "計画に適合する質問には、予想される月間スキャン量とシート数を含める必要があります。",
+            "Plan-fit questions should include expected monthly scan volume.",
             "セキュリティまたはプライバシーに関する懸念がある場合は、support@leadcue.app に直接送信してください。",
             "機能リクエストでは、ロックを解除するア​​ウトバウンド ワークフローを説明する必要があります。"
           ]
@@ -546,8 +546,8 @@
     },
     "contact": {
       "eyebrow": "お問い合わせ",
-      "title": "代理店の見込み客ワークフロー、計画の適合、展開の設定について LeadCue に相談してください。",
-      "summary": "製品がワークフローに適合するかどうか、フィールドを CRM にマッピングする方法、または Webサイトファーストの調査をチームに導入する方法を決定する際にサポートが必要な場合は、お問い合わせを使用してください。",
+      "title": "Talk to LeadCue about personal prospecting workflows, plan fit, and setup.",
+      "summary": "Use contact when you need help deciding if the product matches your workflow, how to map fields into CSV, or how to use AI website prospecting in your weekly outreach.",
       "primaryAction": {
         "label": "LeadCue にメールで送信する",
         "href": "mailto:support@leadcue.app"
@@ -559,22 +559,22 @@
       "sections": [
         {
           "title": "Who LeadCue is for",
-          "copy": "LeadCue は、Web デザイン、SEO、CRO、ポジショニング、または Webサイトの目に見える証拠が信頼できるアウトリーチ角度を生み出す関連サービスをすでに販売しているチームにとって最も強力です。",
+          "copy": "LeadCue is strongest for solo professionals selling web design, SEO, CRO, positioning, or related services where visible website evidence creates a credible outreach angle.",
           "items": [
             "毎週のアウトバウンド習慣を構築しているソロの創業者。",
-            "リストをエクスポートする前に、より適切な資格が必要な小規模代理店。",
-            "一般的なリードではなく CRM 対応の調査を必要とするアウトバウンド チーム。",
-            "研究とアウトリーチの間で明確な引き継ぎが必要な運用オーナー。"
+            "Web design freelancers who need better qualification before list export.",
+            "Independent consultants who want export-ready research instead of generic leads.",
+            "Individual sales operators who need a clear path from research to outreach."
           ]
         },
         {
           "title": "展開前に話し合うべきこと",
           "copy": "優れた展開に関する会話は、抽象的なツールの比較からではなく、1 つの実際のワークフローと 1 つの実際のオファーから始まります。",
           "items": [
-            "代理店にとって適格なアカウントとはどのようなものですか。",
+            "What a qualified prospect looks like for your offer.",
             "保存された見込み客カードはレビュー後にどこに移動する必要があります。",
             "オファーにとって最も重要な Webサイトのシグナル。",
-            "チームが実際に使用する月間スキャン量。"
+            "How much monthly scan volume you will realistically use."
           ]
         },
         {
@@ -583,7 +583,7 @@
           "items": [
             "LeadCue はキャンペーンを送信しません。",
             "LeadCue は LinkedIn を収集したり、連絡先データベースを構築したりしません。",
-            "LeadCue は、CRM の所有権や法的レビューに代わるものではありません。",
+            "LeadCue does not replace legal review.",
             "LeadCue では、接触前に人間による判断が必要になるわけではありません。"
           ]
         }
@@ -592,7 +592,7 @@
     "privacy": {
       "eyebrow": "プライバシー",
       "title": "Webサイトファーストの見込み客調査のためのプライバシー原則。",
-      "summary": "LeadCue は、ユーザーがトリガーする Webサイト分析、ワークスペース設定データ、安全なアカウント セッション、および代理店のアウトバウンド業務に必要な保存されたリサーチを中心に構築されています。",
+      "summary": "LeadCue is built around user-triggered website analysis, profile setup data, secure login sessions, and saved research needed for personal outreach.",
       "primaryAction": {
         "label": "プライバシー サポートに問い合わせる",
         "href": "mailto:support@leadcue.app"
@@ -604,11 +604,11 @@
       "sections": [
         {
           "title": "当社が処理するデータ",
-          "copy": "商用ワークスペース データは意図的に限定されており、受動的収集ではなく製品ワークフローに関連付けられています。",
+          "copy": "Profile data is intentionally narrow and tied to the product workflow rather than passive collection.",
           "items": [
-            "Google OAuth または仕事用メールのサインアップからのアカウント ID。",
-            "ワークスペース プラン、サブスクリプションの状態、およびスキャン クレジットの使用状況。",
-            "見込み客の Webサイトをスコアリングするために使用される代理店の ICP 設定。",
+            "Login identity from Google OAuth or email signup.",
+            "Plan, subscription state, and scan-credit usage.",
+            "ICP settings used to score prospect websites.",
             "プロスペクト Webサイトのスナップショット、生成されたメモ、アクティビティ ログの変更、および保存されたプロスペクト カード。"
           ]
         },
@@ -624,20 +624,20 @@
         },
         {
           "title": "セキュリティと保持の管理",
-          "copy": "ユーザーは、何が保存されたのか、なぜ保存されたのか、どのようにワークスペースから削除されるのかを理解できる必要があります。",
+          "copy": "Users should be able to understand what was stored, why it was stored, and how it will leave the product.",
           "items": [
-            "ワークスペース セッションは、クライアントでトークンを公開する代わりに、サーバー側の Cookie を使用します。",
+            "Login sessions use server-side cookies instead of exposing tokens in the client.",
             "パスワードのリセットでは、有効期間が短いワンタイム トークンを使用します。",
             "支払いが設定されている場合、請求操作は Stripe 経由でルーティングされます。",
-            "チームは、プライバシーに関する質問や削除リクエストについてサポートに問い合わせることができます。"
+            "Users can contact support for privacy questions or deletion requests."
           ]
         }
       ]
     },
     "terms": {
       "eyebrow": "規約",
-      "title": "LeadCue ワークスペースの商用利用規約。",
-      "summary": "これらの用語は、Webサイト調査、見込み客の認定、安全なアカウント アクセス、代理店のアウトバウンド チーム向けの輸出準備完了メモなど、対象となる製品の境界を説明します。",
+      "title": "Commercial usage terms for LeadCue users.",
+      "summary": "These terms describe the intended product boundary: website research, prospect qualification, secure login access, and export-ready notes for solo professionals.",
       "primaryAction": {
         "label": "無料で始める",
         "href": "/signup"
@@ -661,10 +661,10 @@
           "title": "プラン、クレジット、サブスクリプション",
           "copy": "プランは、毎月の Webサイト スキャン容量を中心に編成されており、構成するとより多くのクレジットを使用してより詳細な分析が行われます。",
           "items": [
-            "無料のワークスペースには、毎月のスキャン量が制限されています。",
+            "The Free plan includes limited monthly scan volume.",
             "ディープ スキャンでは、公開されたプラン ルールに基づいて追加のクレジットを消費する可能性があります。",
             "有料サブスクリプションでは、課金が構成されている場合に Stripe を使用します。",
-            "お客様は、プランの適合性、クレジット、ワークスペースの使用状況を監視する責任があります。"
+            "Customers are responsible for monitoring plan fit, credits, and usage."
           ]
         },
         {
@@ -672,7 +672,7 @@
           "copy": "LeadCue は、アウトリーチ前のリサーチ層です。これは販売結果を保証するものではなく、意思決定のサポートと構造化された輸出として扱う必要があります。",
           "items": [
             "LeadCue はキャンペーンを送信しません。",
-            "LeadCue は、CRM ガバナンスやコンプライアンス レビューに代わるものではありません。",
+            "LeadCue does not replace compliance review.",
             "生成された見込みカードは情報提供のため、お客様が確認する必要があります。",
             "エクスポートされたデータとアウトリーチ コピーがどのように使用されるかについては、引き続きお客様の責任となります。"
           ]
@@ -683,44 +683,44 @@
   "ko": {
     "docs": {
       "eyebrow": "문서",
-      "title": "다른 목록 도구를 구축하지 않고도 웹사이트 우선 잠재고객 발굴을 실행하세요.",
-      "summary": "이 문서를 사용하여 작업 공간을 설정하고, 스캔을 실행하고, 잠재 고객 카드를 해석하고, 크레딧을 관리하고, 검증된 조사를 CRM 또는 아웃바운드 도구에 전달하세요.",
+      "title": "Run AI website prospecting without building another list tool.",
+      "summary": "Use these docs to set up your profile, run scans, interpret Prospect Cards, manage credits, and export qualified research for outreach.",
       "primaryAction": {
         "label": "대시보드 열기",
         "href": "/app"
       },
       "secondaryAction": {
-        "label": "지원팀에 문의",
+        "label": "지원개인 사용자에 문의",
         "href": "/support"
       },
       "sections": [
         {
           "title": "빠른 시작",
-          "copy": "LeadCue는 각 스캔이 실제 회사 웹사이트, 정의된 대행사 제안 및 계정이 중요한 이유를 알고 있는 소유자에서 시작될 때 가장 잘 작동합니다.",
+          "copy": "LeadCue works best when each scan starts from a real company website, a defined offer, and a clear reason why the prospect matters.",
           "items": [
-            "Google 또는 업무 이메일로 작업공간을 만들고 점수 프로필을 완성하세요.",
-            "팀에서 웹 사이트를 검토하는 빈도와 일치하는 월간 검사 볼륨을 선택하세요.",
+            "Sign in with Google or email and complete the scoring profile.",
+            "Choose the monthly scan volume that matches how often you review websites.",
             "하나의 실제 잠재 고객 URL을 로드하고 눈에 보이는 웹사이트 메모를 추가한 후 첫 번째 스캔을 실행하세요.",
-            "첫 문장을 복사하거나 리드를 내보내기 전에 잠재 고객 카드를 검토하세요."
+            "Review the Prospect Card before copying first lines or exporting the prospect."
           ]
         },
         {
           "title": "잠재 고객 카드를 읽는 방법",
-          "copy": "저장된 모든 카드는 이 계정이 적합한 이유, 웹사이트에서 증명하는 내용, 담당자가 다음에 해야 할 말 등 세 가지 질문에 빠르게 답하기 위한 것입니다.",
+          "copy": "Every saved card is meant to answer three questions fast: why this prospect fits, what the website proves, and what you should say next.",
           "items": [
             "적합도 점수는 제안, 산업, 지역 및 신호 품질을 결합합니다.",
             "신호 및 소스 메모는 눈에 보이는 웹사이트 증거에 대한 주장을 계속 첨부합니다.",
             "첫 번째 줄과 짧은 이메일은 일반적인 개인화 대신 저장된 증거를 기반으로 합니다.",
-            "내보내기 필드는 동일한 리드 레코드에 연결된 CRM 지원 컨텍스트를 유지합니다."
+            "Export fields keep source-backed context tied to the same prospect record."
           ]
         },
         {
           "title": "운영 모델",
-          "copy": "LeadCue는 아웃리치 이전의 연구 계층입니다. 이는 인적 검토, CRM 소유권 또는 규정 준수 확인을 대체하는 것이 아니라 자격을 강화해야 합니다.",
+          "copy": "LeadCue is the research layer before outreach. It should sharpen qualification, not replace human review or compliance checks.",
           "items": [
-            "팀에서 실제로 평가하려는 계정에 대해서만 검사를 실행하세요.",
-            "웹사이트 증거가 연락을 정당화할 만큼 충분히 구체적이면 리드를 저장하세요.",
-            "적격한 연구만 다운스트림으로 이동하려면 CSV 내보내기 또는 CRM 필드 매핑을 사용하세요.",
+            "Run scans only on prospects you actually want to evaluate.",
+            "Save prospects when the website evidence is specific enough to justify contact.",
+            "Use CSV exports to move only qualified research downstream.",
             "제품, 지역 또는 대상 산업이 변경될 때마다 ICP 설정을 새로 고칩니다."
           ]
         }
@@ -728,8 +728,8 @@
     },
     "support": {
       "eyebrow": "지원",
-      "title": "계정 액세스, 청구, 스캔, 내보내기 및 출시 질문에 대한 도움을 받으세요.",
-      "summary": "지원은 로그인, 작업 공간 구성, 웹 사이트 검색, 리드 내보내기, 계획 한도 내 유지 등 실제 아웃바운드 워크플로를 중심으로 구성됩니다.",
+      "title": "Get help with login access, billing, scans, exports, and setup questions.",
+      "summary": "Support is structured around the actual personal prospecting workflow: signing in, configuring your profile, scanning websites, exporting prospects, and staying within plan limits.",
       "primaryAction": {
         "label": "이메일 지원",
         "href": "mailto:support@leadcue.app"
@@ -740,13 +740,13 @@
       },
       "sections": [
         {
-          "title": "계정 액세스",
+          "title": "Login access",
           "copy": "대부분의 로그인 문제는 지원 티켓이 되기 전에 제품 내에서 복구할 수 있습니다.",
           "items": [
-            "작업공간이 OAuth로 생성된 경우 Google 로그인을 사용하세요.",
-            "워크스페이스 소유자가 비밀번호 액세스를 활성화한 경우 이메일 비밀번호 흐름을 사용하세요.",
+            "Use Google sign-in if the profile was created with OAuth.",
+            "Use the email password flow if you created an email login.",
             "업무용 이메일은 정확하지만 비밀번호를 알 수 없는 경우 로그인 페이지에서 비밀번호를 재설정하세요.",
-            "지원이 여전히 필요한 경우 작업공간 이메일과 auth_error 메시지를 포함하세요."
+            "Include the login email and any auth_error message if support is still needed."
           ]
         },
         {
@@ -755,16 +755,16 @@
           "items": [
             "잠재 고객 카드가 약하거나 불완전해 보이는 경우 잠재 고객 URL 또는 스캔 ID를 공유하세요.",
             "스캔이 기본인지 심층인지, 크레딧이 청구되었는지 언급합니다.",
-            "CSV 출력이 잘못된 경우 내보내기 사전 설정 또는 CRM 이름 지정 모드를 포함합니다.",
-            "지원팀에서 재현할 수 있도록 예상 결과와 실제 결과를 첨부하세요."
+            "Include the export preset or destination naming mode when CSV output looks wrong.",
+            "지원개인 사용자에서 재현할 수 있도록 예상 결과와 실제 결과를 첨부하세요."
           ]
         },
         {
           "title": "청구 및 출시 서비스 수준",
-          "copy": "LeadCue는 현재 대행사 팀의 매주 운영을 방해하는 청구 차단, 계정 액세스 및 스캔 품질 문제에 우선순위를 두고 있습니다.",
+          "copy": "LeadCue currently prioritizes billing blockers, login access, and scan-quality issues that stop personal prospecting work week to week.",
           "items": [
             "청구 포털 및 구독 상태 문제가 우선적으로 처리됩니다.",
-            "계획 적합성 질문에는 예상되는 월별 스캔 볼륨과 좌석 수가 포함되어야 합니다.",
+            "Plan-fit questions should include expected monthly scan volume.",
             "보안 또는 개인 정보 보호 문제는 support@leadcue.app으로 직접 보내야 합니다.",
             "기능 요청은 잠금 해제할 아웃바운드 워크플로를 설명해야 합니다."
           ]
@@ -773,8 +773,8 @@
     },
     "contact": {
       "eyebrow": "문의",
-      "title": "대행사 발굴 워크플로, 계획 적합성 및 출시 설정에 대해 LeadCue와 상담하세요.",
-      "summary": "제품이 워크플로와 일치하는지 결정하는 데 도움이 필요할 때, CRM에 필드를 매핑하는 방법, 팀에 웹사이트 우선 조사를 도입하는 방법에 대해 도움이 필요할 때 문의하세요.",
+      "title": "Talk to LeadCue about personal prospecting workflows, plan fit, and setup.",
+      "summary": "Use contact when you need help deciding if the product matches your workflow, how to map fields into CSV, or how to use AI website prospecting in your weekly outreach.",
       "primaryAction": {
         "label": "이메일 LeadCue",
         "href": "mailto:support@leadcue.app"
@@ -786,22 +786,22 @@
       "sections": [
         {
           "title": "LeadCue는 누구를 위한 것인가요?",
-          "copy": "LeadCue는 눈에 보이는 웹사이트 증거가 신뢰할 수 있는 홍보 각도를 만드는 웹 디자인, SEO, CRO, 포지셔닝 또는 관련 서비스를 이미 판매하고 있는 팀에 가장 강력합니다.",
+          "copy": "LeadCue is strongest for solo professionals selling web design, SEO, CRO, positioning, or related services where visible website evidence creates a credible outreach angle.",
           "items": [
             "매주 아웃바운드 습관을 구축하는 솔로 창업자.",
-            "목록을 내보내기 전에 더 나은 검증이 필요한 소규모 기관.",
-            "일반적인 리드 대신 CRM에 적합한 조사를 원하는 아웃바운드 팀.",
-            "연구와 지원 사이의 명확한 전환이 필요한 운영 소유자."
+            "Web design freelancers who need better qualification before list export.",
+            "Independent consultants who want export-ready research instead of generic leads.",
+            "Individual sales operators who need a clear path from research to outreach."
           ]
         },
         {
           "title": "출시 전 논의할 사항",
           "copy": "좋은 출시 대화는 추상적인 도구 비교가 아닌 하나의 실제 워크플로와 하나의 실제 제안에서 시작됩니다.",
           "items": [
-            "대행사의 적격 계정은 무엇인가요?",
+            "What a qualified prospect looks like for your offer.",
             "저장된 잠재 고객 카드는 검토 후 어디로 이동해야 합니까?",
             "귀하의 제안에 가장 중요한 웹사이트 신호는 무엇입니까?",
-            "팀이 실제로 사용할 월간 스캔 볼륨은 얼마나 됩니까?"
+            "How much monthly scan volume you will realistically use."
           ]
         },
         {
@@ -810,7 +810,7 @@
           "items": [
             "LeadCue는 캠페인을 보내지 않습니다.",
             "LeadCue는 LinkedIn을 스크랩하거나 연락처 데이터베이스를 구축하지 않습니다.",
-            "LeadCue는 CRM 소유권이나 법적 검토를 대체하지 않습니다.",
+            "LeadCue does not replace legal review.",
             "LeadCue는 접촉 전 인간 판단의 필요성을 제거하지 않습니다."
           ]
         }
@@ -819,9 +819,9 @@
     "privacy": {
       "eyebrow": "개인정보 보호",
       "title": "웹사이트 우선 잠재 고객 조사에 대한 개인 정보 보호 원칙.",
-      "summary": "LeadCue는 사용자가 실행하는 웹사이트 분석, 작업 공간 설정 데이터, 보안 계정 세션 및 대행사 아웃바운드 운영에 필요한 저장된 연구를 중심으로 구축되었습니다.",
+      "summary": "LeadCue is built around user-triggered website analysis, profile setup data, secure login sessions, and saved research needed for personal outreach.",
       "primaryAction": {
-        "label": "개인정보 보호 지원팀에 문의하세요.",
+        "label": "개인정보 보호 지원개인 사용자에 문의하세요.",
         "href": "mailto:support@leadcue.app"
       },
       "secondaryAction": {
@@ -831,11 +831,11 @@
       "sections": [
         {
           "title": "당사가 처리하는 데이터",
-          "copy": "상업용 작업 공간 데이터는 의도적으로 범위를 좁히고 수동적 수집이 아닌 제품 워크플로우에 연결됩니다.",
+          "copy": "Profile data is intentionally narrow and tied to the product workflow rather than passive collection.",
           "items": [
-            "Google OAuth 또는 직장 이메일 가입의 계정 ID입니다.",
-            "Workspace 요금제, 구독 상태 및 스캔 크레딧 사용량입니다.",
-            "잠재 웹사이트의 점수를 매기는 데 사용되는 대행사 ICP 설정입니다.",
+            "Login identity from Google OAuth or email signup.",
+            "Plan, subscription state, and scan-credit usage.",
+            "ICP settings used to score prospect websites.",
             "잠재 고객 웹사이트 스냅샷, 생성된 메모, 활동 로그 변경 사항 및 저장된 잠재 고객 카드."
           ]
         },
@@ -851,20 +851,20 @@
         },
         {
           "title": "보안 및 보존 통제",
-          "copy": "사용자는 저장된 항목, 저장된 이유, 작업 공간에서 나가는 방법을 이해할 수 있어야 합니다.",
+          "copy": "Users should be able to understand what was stored, why it was stored, and how it will leave the product.",
           "items": [
-            "Workspace 세션은 클라이언트에 토큰을 노출하는 대신 서버 측 쿠키를 사용합니다.",
+            "Login sessions use server-side cookies instead of exposing tokens in the client.",
             "비밀번호 재설정에는 수명이 짧은 일회성 토큰이 사용됩니다.",
             "결제가 구성되면 결제 작업은 Stripe을 통해 라우팅됩니다.",
-            "팀은 개인정보 보호 관련 질문이나 삭제 요청에 대해 지원팀에 문의할 수 있습니다."
+            "Users can contact support for privacy questions or deletion requests."
           ]
         }
       ]
     },
     "terms": {
       "eyebrow": "용어",
-      "title": "LeadCue 작업공간에 대한 상업적 사용 조건.",
-      "summary": "이 용어는 웹사이트 조사, 잠재 고객 자격, 보안 계정 액세스, 대행사 아웃바운드 팀을 위한 수출 준비 메모 등 의도된 제품 범위를 설명합니다.",
+      "title": "Commercial usage terms for LeadCue users.",
+      "summary": "These terms describe the intended product boundary: website research, prospect qualification, secure login access, and export-ready notes for solo professionals.",
       "primaryAction": {
         "label": "무료로 시작하기",
         "href": "/signup"
@@ -888,10 +888,10 @@
           "title": "요금제, 크레딧, 구독",
           "copy": "계획은 월별 웹사이트 스캔 용량을 중심으로 구성되며 구성 시 더 많은 크레딧을 사용하여 심층 분석됩니다.",
           "items": [
-            "무료 작업 공간에는 제한된 월간 스캔 볼륨이 포함됩니다.",
+            "The Free plan includes limited monthly scan volume.",
             "정밀 스캔은 게시된 계획 규칙에 따라 추가 크레딧을 소비할 수 있습니다.",
             "유료 구독은 청구가 구성될 때 Stripe을 사용합니다.",
-            "고객은 계획 적합성, 크레딧 및 작업 공간 사용량을 모니터링할 책임이 있습니다."
+            "Customers are responsible for monitoring plan fit, credits, and usage."
           ]
         },
         {
@@ -899,7 +899,7 @@
           "copy": "LeadCue는 지원 이전의 연구 계층입니다. 이는 판매 결과를 보장하지 않으며 의사결정 지원과 구조화된 수출로 처리되어야 합니다.",
           "items": [
             "LeadCue는 캠페인을 보내지 않습니다.",
-            "LeadCue는 CRM 거버넌스 또는 규정 준수 검토를 대체하지 않습니다.",
+            "LeadCue does not replace compliance review.",
             "생성된 잠재 고객 카드는 정보 제공용이므로 고객이 검토해야 합니다.",
             "내보낸 데이터와 홍보 사본이 사용되는 방식에 대한 책임은 고객에게 있습니다."
           ]
@@ -910,8 +910,8 @@
   "de": {
     "docs": {
       "eyebrow": "Dokumentation",
-      "title": "Führen Sie Website-First-Prospecting durch, ohne ein weiteres Listentool zu erstellen.",
-      "summary": "Verwenden Sie diese Dokumente, um einen Arbeitsbereich einzurichten, Scans durchzuführen, Interessentenkarten zu interpretieren, Gutschriften zu verwalten und qualifizierte Recherchen an CRM- oder Outbound-Tools weiterzugeben.",
+      "title": "Run AI website prospecting without building another list tool.",
+      "summary": "Use these docs to set up your profile, run scans, interpret Prospect Cards, manage credits, and export qualified research for outreach.",
       "primaryAction": {
         "label": "Dashboard öffnen",
         "href": "/app"
@@ -923,31 +923,31 @@
       "sections": [
         {
           "title": "Schnellstart",
-          "copy": "LeadCue funktioniert am besten, wenn jeder Scan von einer echten Unternehmenswebsite, einem definierten Agenturangebot und einem Eigentümer ausgeht, der weiß, warum das Konto wichtig ist.",
+          "copy": "LeadCue works best when each scan starts from a real company website, a defined offer, and a clear reason why the prospect matters.",
           "items": [
-            "Erstellen Sie einen Arbeitsbereich mit Google oder einer geschäftlichen E-Mail und vervollständigen Sie das Bewertungsprofil.",
-            "Wählen Sie das monatliche Scanvolumen, das der Häufigkeit entspricht, mit der Ihr Team Websites überprüft.",
+            "Sign in with Google or email and complete the scoring profile.",
+            "Choose the monthly scan volume that matches how often you review websites.",
             "Laden Sie eine echte potenzielle URL, fügen Sie sichtbare Website-Notizen hinzu und führen Sie den ersten Scan durch.",
-            "Überprüfen Sie die Interessentenkarte, bevor Sie die ersten Zeilen kopieren oder den Lead exportieren."
+            "Review the Prospect Card before copying first lines or exporting the prospect."
           ]
         },
         {
           "title": "So lesen Sie eine Prospektkarte",
-          "copy": "Jede gespeicherte Karte soll drei Fragen schnell beantworten: Warum dieses Konto passt, was die Website beweist und was Ihr Vertreter als nächstes sagen sollte.",
+          "copy": "Every saved card is meant to answer three questions fast: why this prospect fits, what the website proves, and what you should say next.",
           "items": [
             "Der Fit-Score kombiniert Ihr Angebot, Ihre Branche, Ihre Region und Ihre Signalqualität.",
             "Signale und Quellenhinweise halten Ansprüche an sichtbare Website-Beweise geknüpft.",
             "Die erste Zeile und die kurze E-Mail basieren auf den gespeicherten Beweisen und nicht auf allgemeiner Personalisierung.",
-            "Exportfelder sorgen dafür, dass der CRM-fähige Kontext mit demselben Lead-Datensatz verknüpft bleibt."
+            "Export fields keep source-backed context tied to the same prospect record."
           ]
         },
         {
           "title": "Betriebsmodell",
-          "copy": "LeadCue ist die Rechercheschicht vor der Ansprache. Es sollte die Qualifikation schärfen und nicht die menschliche Überprüfung, die CRM-Verantwortung oder Compliance-Prüfungen ersetzen.",
+          "copy": "LeadCue is the research layer before outreach. It should sharpen qualification, not replace human review or compliance checks.",
           "items": [
-            "Führen Sie Scans nur für Konten durch, die Ihr Team tatsächlich auswerten möchte.",
-            "Speichern Sie Leads, wenn die Website-Beweise spezifisch genug sind, um eine Kontaktaufnahme zu rechtfertigen.",
-            "Verwenden Sie CSV-Exporte oder CRM-Feldzuordnung, um nur qualifizierte Forschung nachgelagert zu verschieben.",
+            "Run scans only on prospects you actually want to evaluate.",
+            "Save prospects when the website evidence is specific enough to justify contact.",
+            "Use CSV exports to move only qualified research downstream.",
             "Aktualisieren Sie die ICP-Einstellungen jederzeit, wenn sich Ihr Angebot, Ihre Regionen oder Ihre Zielbranchen ändern."
           ]
         }
@@ -955,8 +955,8 @@
     },
     "support": {
       "eyebrow": "Support",
-      "title": "Erhalten Sie Hilfe bei Kontozugriff, Abrechnung, Scans, Exporten und Rollout-Fragen.",
-      "summary": "Der Support ist rund um den eigentlichen Outbound-Workflow strukturiert: Anmelden, Konfigurieren des Arbeitsbereichs, Scannen von Websites, Exportieren von Leads und Einhaltung der Plangrenzen.",
+      "title": "Get help with login access, billing, scans, exports, and setup questions.",
+      "summary": "Support is structured around the actual personal prospecting workflow: signing in, configuring your profile, scanning websites, exporting prospects, and staying within plan limits.",
       "primaryAction": {
         "label": "E-Mail-Support",
         "href": "mailto:support@leadcue.app"
@@ -967,13 +967,13 @@
       },
       "sections": [
         {
-          "title": "Kontozugriff",
+          "title": "Login access",
           "copy": "Die meisten Anmeldeprobleme können im Produkt behoben werden, bevor sie zu einem Support-Ticket werden.",
           "items": [
-            "Verwenden Sie die Google-Anmeldung, wenn der Arbeitsbereich mit OAuth erstellt wurde.",
-            "Verwenden Sie den E-Mail-Passwortfluss, wenn der Workspace-Inhaber den Passwortzugriff aktiviert hat.",
+            "Use Google sign-in if the profile was created with OAuth.",
+            "Use the email password flow if you created an email login.",
             "Setzen Sie das Passwort von der Anmeldeseite zurück, wenn die geschäftliche E-Mail-Adresse korrekt ist, das Passwort jedoch unbekannt ist.",
-            "Fügen Sie die Workspace-E-Mail und alle auth_error-Nachrichten hinzu, wenn weiterhin Unterstützung benötigt wird."
+            "Include the login email and any auth_error message if support is still needed."
           ]
         },
         {
@@ -982,16 +982,16 @@
           "items": [
             "Geben Sie die URL des potenziellen Kunden weiter oder scannen Sie die ID, wenn eine Karte des potenziellen Kunden schwach oder unvollständig erscheint.",
             "Geben Sie an, ob der Scan einfach oder umfassend war und ob Credits berechnet wurden.",
-            "Fügen Sie die Exportvoreinstellung oder den CRM-Benennungsmodus hinzu, wenn die CSV-Ausgabe falsch aussieht.",
+            "Include the export preset or destination naming mode when CSV output looks wrong.",
             "Hängen Sie das erwartete Ergebnis und das tatsächliche Ergebnis an, damit der Support es reproduzieren kann."
           ]
         },
         {
           "title": "Abrechnungs- und Startservicelevel",
-          "copy": "LeadCue priorisiert derzeit Abrechnungsblocker, Kontozugriff und Probleme mit der Scanqualität, die ein Agenturteam Woche für Woche am Arbeiten hindern.",
+          "copy": "LeadCue currently prioritizes billing blockers, login access, and scan-quality issues that stop personal prospecting work week to week.",
           "items": [
             "Probleme mit dem Abrechnungsportal und dem Abonnementstatus werden zuerst priorisiert.",
-            "Fragen zur Plananpassung sollten das erwartete monatliche Scanvolumen und die Anzahl der Sitzplätze umfassen.",
+            "Plan-fit questions should include expected monthly scan volume.",
             "Sicherheits- oder Datenschutzbedenken sollten direkt an support@leadcue.app gesendet werden.",
             "Funktionsanfragen sollten den ausgehenden Workflow beschreiben, den sie freischalten würden."
           ]
@@ -1000,8 +1000,8 @@
     },
     "contact": {
       "eyebrow": "Kontakt",
-      "title": "Sprechen Sie mit LeadCue über Arbeitsabläufe bei der Akquise von Agenturen, Plananpassung und Einführungseinrichtung.",
-      "summary": "Nutzen Sie Kontakt, wenn Sie Hilfe bei der Entscheidung benötigen, ob das Produkt zu Ihrem Arbeitsablauf passt, wie Sie Felder in CRM zuordnen oder wie Sie einem Team Website-First-Recherche einführen.",
+      "title": "Talk to LeadCue about personal prospecting workflows, plan fit, and setup.",
+      "summary": "Use contact when you need help deciding if the product matches your workflow, how to map fields into CSV, or how to use AI website prospecting in your weekly outreach.",
       "primaryAction": {
         "label": "E-Mail LeadCue",
         "href": "mailto:support@leadcue.app"
@@ -1013,22 +1013,22 @@
       "sections": [
         {
           "title": "Für wen LeadCue gedacht ist",
-          "copy": "LeadCue eignet sich am besten für Teams, die bereits Webdesign, SEO, CRO, Positionierung oder verwandte Dienstleistungen verkaufen, bei denen sichtbare Website-Beweise einen glaubwürdigen Outreach-Ansatz schaffen.",
+          "copy": "LeadCue is strongest for solo professionals selling web design, SEO, CRO, positioning, or related services where visible website evidence creates a credible outreach angle.",
           "items": [
             "Solo-Gründer entwickeln eine wöchentliche Outbound-Gewohnheit.",
-            "Kleine Agenturen, die vor dem Listenexport eine bessere Qualifizierung benötigen.",
-            "Outbound-Teams, die CRM-fähige Recherchen anstelle allgemeiner Leads wünschen.",
-            "Betriebsleiter, die eine klare Übergabe zwischen Forschung und Ansprache benötigen."
+            "Web design freelancers who need better qualification before list export.",
+            "Independent consultants who want export-ready research instead of generic leads.",
+            "Individual sales operators who need a clear path from research to outreach."
           ]
         },
         {
           "title": "Was vor der Einführung besprochen werden sollte",
           "copy": "Ein gutes Rollout-Gespräch beginnt mit einem echten Workflow und einem echten Angebot, nicht mit abstrakten Tool-Vergleichen.",
           "items": [
-            "So sieht ein qualifiziertes Konto für Ihre Agentur aus.",
+            "What a qualified prospect looks like for your offer.",
             "Wo gespeicherte Interessentenkarten nach der Überprüfung aufbewahrt werden sollen.",
             "Welche Website-Signale für Ihr Angebot am wichtigsten sind.",
-            "Wie viel monatliches Scanvolumen das Team realistischerweise verwenden wird."
+            "How much monthly scan volume you will realistically use."
           ]
         },
         {
@@ -1037,7 +1037,7 @@
           "items": [
             "LeadCue versendet keine Kampagnen.",
             "LeadCue durchsucht weder LinkedIn noch erstellt es Kontaktdatenbanken.",
-            "LeadCue ersetzt weder den Besitz von CRM noch die rechtliche Prüfung.",
+            "LeadCue does not replace legal review.",
             "LeadCue macht ein menschliches Urteilsvermögen vor dem Kontakt nicht überflüssig."
           ]
         }
@@ -1046,7 +1046,7 @@
     "privacy": {
       "eyebrow": "Datenschutz",
       "title": "Datenschutzgrundsätze für die Website-First-Interessentenrecherche.",
-      "summary": "LeadCue basiert auf benutzergesteuerter Website-Analyse, Workspace-Einrichtungsdaten, sicheren Kontositzungen und gespeicherten Recherchen, die für ausgehende Agenturvorgänge erforderlich sind.",
+      "summary": "LeadCue is built around user-triggered website analysis, profile setup data, secure login sessions, and saved research needed for personal outreach.",
       "primaryAction": {
         "label": "Kontaktieren Sie den Datenschutz-Support",
         "href": "mailto:support@leadcue.app"
@@ -1058,11 +1058,11 @@
       "sections": [
         {
           "title": "Daten, die wir verarbeiten",
-          "copy": "Kommerzielle Arbeitsbereichsdaten sind absichtlich eng gefasst und eher an den Produkt-Workflow als an die passive Erfassung gebunden.",
+          "copy": "Profile data is intentionally narrow and tied to the product workflow rather than passive collection.",
           "items": [
-            "Kontoidentität von Google OAuth oder geschäftliche E-Mail-Anmeldung.",
-            "Workspace-Plan, Abonnementstatus und Scan-Credit-Nutzung.",
-            "Agentur-ICP-Einstellungen, die zur Bewertung potenzieller Websites verwendet werden.",
+            "Login identity from Google OAuth or email signup.",
+            "Plan, subscription state, and scan-credit usage.",
+            "ICP settings used to score prospect websites.",
             "Schnappschüsse der Website potenzieller Kunden, generierte Notizen, Änderungen im Aktivitätsprotokoll und gespeicherte Karten potenzieller Kunden."
           ]
         },
@@ -1078,20 +1078,20 @@
         },
         {
           "title": "Sicherheits- und Aufbewahrungskontrollen",
-          "copy": "Benutzer sollten verstehen können, was gespeichert wurde, warum es gespeichert wurde und wie es den Arbeitsbereich verlässt.",
+          "copy": "Users should be able to understand what was stored, why it was stored, and how it will leave the product.",
           "items": [
-            "Workspace-Sitzungen verwenden serverseitige Cookies, anstatt Token im Client verfügbar zu machen.",
+            "Login sessions use server-side cookies instead of exposing tokens in the client.",
             "Beim Zurücksetzen von Passwörtern werden kurzlebige, einmalige Token verwendet.",
             "Abrechnungsvorgänge werden über Stripe weitergeleitet, wenn die Zahlung konfiguriert ist.",
-            "Teams können sich bei Datenschutzfragen oder Löschanfragen an den Support wenden."
+            "Users can contact support for privacy questions or deletion requests."
           ]
         }
       ]
     },
     "terms": {
       "eyebrow": "Bedingungen",
-      "title": "Kommerzielle Nutzungsbedingungen für LeadCue-Arbeitsbereiche.",
-      "summary": "Diese Begriffe beschreiben die beabsichtigte Produktgrenze: Website-Recherche, Qualifizierung potenzieller Kunden, sicherer Kontozugriff und exportfähige Notizen für Outbound-Teams von Agenturen.",
+      "title": "Commercial usage terms for LeadCue users.",
+      "summary": "These terms describe the intended product boundary: website research, prospect qualification, secure login access, and export-ready notes for solo professionals.",
       "primaryAction": {
         "label": "Kostenlos starten",
         "href": "/signup"
@@ -1115,10 +1115,10 @@
           "title": "Pläne, Credits und Abonnements",
           "copy": "Die Pläne basieren auf der monatlichen Website-Scan-Kapazität, wobei eine tiefergehende Analyse bei entsprechender Konfiguration mehr Credits erfordert.",
           "items": [
-            "Kostenlose Arbeitsbereiche beinhalten ein begrenztes monatliches Scanvolumen.",
+            "The Free plan includes limited monthly scan volume.",
             "Tiefenscans können basierend auf den veröffentlichten Planregeln zusätzliche Credits verbrauchen.",
             "Bezahlte Abonnements verwenden Stripe, wenn die Abrechnung konfiguriert ist.",
-            "Kunden sind für die Überwachung der Plananpassung, der Gutschriften und der Arbeitsbereichsnutzung verantwortlich."
+            "Customers are responsible for monitoring plan fit, credits, and usage."
           ]
         },
         {
@@ -1126,7 +1126,7 @@
           "copy": "LeadCue ist die Rechercheebene vor der Ansprache. Es garantiert keine Verkaufsergebnisse und sollte als Entscheidungshilfe und strukturierter Export betrachtet werden.",
           "items": [
             "LeadCue versendet keine Kampagnen.",
-            "LeadCue ersetzt nicht die CRM-Governance oder Compliance-Überprüfung.",
+            "LeadCue does not replace compliance review.",
             "Die generierten Interessentenkarten dienen der Information und sollten vom Kunden überprüft werden.",
             "Kunden bleiben dafür verantwortlich, wie exportierte Daten und Outreach-Kopie verwendet werden."
           ]
@@ -1137,8 +1137,8 @@
   "nl": {
     "docs": {
       "eyebrow": "Documentatie",
-      "title": "Voer website-eerste prospectie uit zonder nog een lijsttool te bouwen.",
-      "summary": "Gebruik deze documenten om een ​​werkruimte in te richten, scans uit te voeren, prospectkaarten te interpreteren, credits te beheren en gekwalificeerd onderzoek uit te voeren naar CRM- of uitgaande tools.",
+      "title": "Run AI website prospecting without building another list tool.",
+      "summary": "Use these docs to set up your profile, run scans, interpret Prospect Cards, manage credits, and export qualified research for outreach.",
       "primaryAction": {
         "label": "Dashboard openen",
         "href": "/app"
@@ -1150,31 +1150,31 @@
       "sections": [
         {
           "title": "Snelle start",
-          "copy": "LeadCue werkt het beste wanneer elke scan begint vanaf een echte bedrijfswebsite, een gedefinieerd aanbod van een bureau en een eigenaar die weet waarom het account ertoe doet.",
+          "copy": "LeadCue works best when each scan starts from a real company website, a defined offer, and a clear reason why the prospect matters.",
           "items": [
-            "Maak een werkruimte met Google of zakelijke e-mail en voltooi het scoreprofiel.",
-            "Kies het maandelijkse scanvolume dat overeenkomt met hoe vaak uw team websites beoordeelt.",
+            "Sign in with Google or email and complete the scoring profile.",
+            "Choose the monthly scan volume that matches how often you review websites.",
             "Laad één echte prospect-URL, voeg zichtbare websitenotities toe en voer de eerste scan uit.",
-            "Controleer de prospectkaart voordat u de eerste regels kopieert of de lead exporteert."
+            "Review the Prospect Card before copying first lines or exporting the prospect."
           ]
         },
         {
           "title": "Een prospectkaart lezen",
-          "copy": "Elke opgeslagen kaart is bedoeld om snel drie vragen te beantwoorden: waarom dit account past, wat de website bewijst en wat uw vertegenwoordiger vervolgens moet zeggen.",
+          "copy": "Every saved card is meant to answer three questions fast: why this prospect fits, what the website proves, and what you should say next.",
           "items": [
             "Fitscore combineert uw aanbod, branche, geografie en signaalkwaliteit.",
             "Signalen en bronnotities zorgen ervoor dat claims gekoppeld blijven aan zichtbaar websitebewijs.",
             "Eerstelijns- en korte e-mails blijven gebaseerd op het opgeslagen bewijsmateriaal in plaats van op algemene personalisatie.",
-            "Exportvelden houden de CRM-ready context gekoppeld aan dezelfde leadrecord."
+            "Export fields keep source-backed context tied to the same prospect record."
           ]
         },
         {
           "title": "Bedrijfsmodel",
-          "copy": "LeadCue is de onderzoekslaag vóór outreach. Het moet de kwalificatie aanscherpen en niet in de plaats komen van menselijke beoordeling, CRM-eigendom of nalevingscontroles.",
+          "copy": "LeadCue is the research layer before outreach. It should sharpen qualification, not replace human review or compliance checks.",
           "items": [
-            "Voer alleen scans uit op accounts die uw team daadwerkelijk wil evalueren.",
-            "Bewaar leads wanneer het websitebewijs specifiek genoeg is om contact te rechtvaardigen.",
-            "Gebruik CSV-exports of CRM-veldtoewijzingen om alleen gekwalificeerd onderzoek stroomafwaarts te verplaatsen.",
+            "Run scans only on prospects you actually want to evaluate.",
+            "Save prospects when the website evidence is specific enough to justify contact.",
+            "Use CSV exports to move only qualified research downstream.",
             "Vernieuw de ICP-instellingen telkens wanneer uw aanbod, regio's of doelsectoren veranderen."
           ]
         }
@@ -1182,8 +1182,8 @@
     },
     "support": {
       "eyebrow": "Support",
-      "title": "Krijg hulp bij accounttoegang, facturering, scans, exports en vragen over de implementatie.",
-      "summary": "Ondersteuning is opgebouwd rond de daadwerkelijke uitgaande workflow: inloggen, de werkruimte configureren, websites scannen, leads exporteren en binnen de planlimieten blijven.",
+      "title": "Get help with login access, billing, scans, exports, and setup questions.",
+      "summary": "Support is structured around the actual personal prospecting workflow: signing in, configuring your profile, scanning websites, exporting prospects, and staying within plan limits.",
       "primaryAction": {
         "label": "E-mailondersteuning",
         "href": "mailto:support@leadcue.app"
@@ -1194,13 +1194,13 @@
       },
       "sections": [
         {
-          "title": "Accounttoegang",
+          "title": "Login access",
           "copy": "De meeste inlogproblemen kunnen in het product worden hersteld voordat ze een supportticket worden.",
           "items": [
-            "Gebruik Google-aanmelding als de werkruimte is gemaakt met OAuth.",
-            "Gebruik de e-mailwachtwoordstroom als de eigenaar van de werkruimte wachtwoordtoegang heeft ingeschakeld.",
+            "Use Google sign-in if the profile was created with OAuth.",
+            "Use the email password flow if you created an email login.",
             "Wachtwoord opnieuw instellen vanaf de inlogpagina als het zakelijke e-mailadres correct is, maar het wachtwoord onbekend is.",
-            "Voeg de e-mail van de werkruimte en eventuele auth_error-berichten toe als er nog steeds ondersteuning nodig is."
+            "Include the login email and any auth_error message if support is still needed."
           ]
         },
         {
@@ -1209,16 +1209,16 @@
           "items": [
             "Deel de prospect-URL of scan-ID wanneer een prospectkaart er zwak of onvolledig uitziet.",
             "Vermeld of de scan eenvoudig of diep was en of er credits in rekening werden gebracht.",
-            "Voeg de exportvoorinstelling of CRM-naamgevingsmodus toe als de CSV-uitvoer er verkeerd uitziet.",
+            "Include the export preset or destination naming mode when CSV output looks wrong.",
             "Voeg het verwachte resultaat en het daadwerkelijke resultaat toe, zodat de ondersteuning dit kan reproduceren."
           ]
         },
         {
           "title": "Serviceniveaus voor facturering en lancering",
-          "copy": "LeadCue geeft momenteel prioriteit aan factureringsblokkeringen, accounttoegang en problemen met de scankwaliteit die ervoor zorgen dat een bureauteam niet van week tot week kan werken.",
+          "copy": "LeadCue currently prioritizes billing blockers, login access, and scan-quality issues that stop personal prospecting work week to week.",
           "items": [
             "Problemen met de factureringsportal en de abonnementsstatus krijgen als eerste prioriteit.",
-            "Plan-fit-vragen moeten het verwachte maandelijkse scanvolume en het aantal stoelen bevatten.",
+            "Plan-fit questions should include expected monthly scan volume.",
             "Beveiligings- of privacykwesties moeten rechtstreeks naar support@leadcue.app worden gestuurd.",
             "Functieverzoeken moeten de uitgaande workflow beschrijven die ze zouden ontgrendelen."
           ]
@@ -1227,8 +1227,8 @@
     },
     "contact": {
       "eyebrow": "Contact",
-      "title": "Praat met LeadCue over de workflows voor prospectie van bureaus, de planning en het opzetten van de implementatie.",
-      "summary": "Gebruik contact als u hulp nodig heeft bij het beslissen of het product aansluit bij uw workflow, hoe u velden in CRM kunt toewijzen of hoe u website-first-onderzoek aan een team kunt introduceren.",
+      "title": "Talk to LeadCue about personal prospecting workflows, plan fit, and setup.",
+      "summary": "Use contact when you need help deciding if the product matches your workflow, how to map fields into CSV, or how to use AI website prospecting in your weekly outreach.",
       "primaryAction": {
         "label": "E-mail LeadCue",
         "href": "mailto:support@leadcue.app"
@@ -1240,22 +1240,22 @@
       "sections": [
         {
           "title": "Voor wie is LeadCue bedoeld",
-          "copy": "LeadCue is het sterkst voor teams die al webdesign, SEO, CRO, positionering of aanverwante diensten verkopen, waarbij zichtbaar websitebewijs een geloofwaardige outreach-hoek creëert.",
+          "copy": "LeadCue is strongest for solo professionals selling web design, SEO, CRO, positioning, or related services where visible website evidence creates a credible outreach angle.",
           "items": [
             "Solo-oprichters die een wekelijkse uitgaande gewoonte opbouwen.",
-            "Kleine bureaus die een betere kwalificatie nodig hebben voordat de lijst wordt geëxporteerd.",
-            "Uitgaande teams die CRM-ready onderzoek willen in plaats van generieke leads.",
-            "Ops-eigenaren die een duidelijke overdracht nodig hebben tussen onderzoek en outreach."
+            "Web design freelancers who need better qualification before list export.",
+            "Independent consultants who want export-ready research instead of generic leads.",
+            "Individual sales operators who need a clear path from research to outreach."
           ]
         },
         {
           "title": "Wat u moet bespreken vóór de uitrol",
           "copy": "Een goed implementatiegesprek begint met één echte workflow en één echt aanbod, niet met abstracte toolvergelijkingen.",
           "items": [
-            "Hoe een gekwalificeerd account eruit ziet voor uw bureau.",
+            "What a qualified prospect looks like for your offer.",
             "Waar opgeslagen prospectkaarten na beoordeling naartoe moeten gaan.",
             "Welke websitesignalen het belangrijkst zijn voor uw aanbod.",
-            "Hoeveel maandelijks scanvolume het team realistisch gezien zal gebruiken."
+            "How much monthly scan volume you will realistically use."
           ]
         },
         {
@@ -1264,7 +1264,7 @@
           "items": [
             "LeadCue verzendt geen campagnes.",
             "LeadCue scrapt niet op LinkedIn en bouwt geen contactendatabases op.",
-            "LeadCue vervangt CRM-eigendom of juridische beoordeling niet.",
+            "LeadCue does not replace legal review.",
             "LeadCue neemt de noodzaak van menselijk oordeel vóór contact niet weg."
           ]
         }
@@ -1273,7 +1273,7 @@
     "privacy": {
       "eyebrow": "Privacy",
       "title": "Privacyprincipes voor website-first prospectonderzoek.",
-      "summary": "LeadCue is gebouwd rond door de gebruiker geactiveerde websiteanalyse, gegevens over het instellen van de werkruimte, beveiligde accountsessies en opgeslagen onderzoek dat nodig is voor uitgaande activiteiten van bureaus.",
+      "summary": "LeadCue is built around user-triggered website analysis, profile setup data, secure login sessions, and saved research needed for personal outreach.",
       "primaryAction": {
         "label": "Neem contact op met de privacyondersteuning",
         "href": "mailto:support@leadcue.app"
@@ -1285,11 +1285,11 @@
       "sections": [
         {
           "title": "Gegevens die wij verwerken",
-          "copy": "Commerciële werkruimtegegevens zijn opzettelijk beperkt en gekoppeld aan de productworkflow in plaats van aan passieve verzameling.",
+          "copy": "Profile data is intentionally narrow and tied to the product workflow rather than passive collection.",
           "items": [
-            "Accountidentiteit van Google OAuth of zakelijke e-mailaanmelding.",
-            "Werkruimteabonnement, abonnementsstatus en gebruik van scantegoed.",
-            "ICP-instellingen van bureaus die worden gebruikt om prospectwebsites te scoren.",
+            "Login identity from Google OAuth or email signup.",
+            "Plan, subscription state, and scan-credit usage.",
+            "ICP settings used to score prospect websites.",
             "Momentopnamen van prospectwebsites, gegenereerde notities, wijzigingen in het activiteitenlogboek en opgeslagen prospectkaarten."
           ]
         },
@@ -1305,20 +1305,20 @@
         },
         {
           "title": "Beveiligings- en bewaarcontroles",
-          "copy": "Gebruikers moeten kunnen begrijpen wat er is opgeslagen, waarom het is opgeslagen en hoe het de werkruimte zal verlaten.",
+          "copy": "Users should be able to understand what was stored, why it was stored, and how it will leave the product.",
           "items": [
-            "Werkruimtesessies maken gebruik van cookies aan de serverzijde in plaats van het vrijgeven van tokens in de client.",
+            "Login sessions use server-side cookies instead of exposing tokens in the client.",
             "Voor het opnieuw instellen van wachtwoorden worden tijdelijke, eenmalige tokens gebruikt.",
             "Factureringsbewerkingen worden via Stripe gerouteerd wanneer de betaling is geconfigureerd.",
-            "Teams kunnen contact opnemen met de ondersteuning voor privacyvragen of verwijderingsverzoeken."
+            "Users can contact support for privacy questions or deletion requests."
           ]
         }
       ]
     },
     "terms": {
       "eyebrow": "Voorwaarden",
-      "title": "Commerciële gebruiksvoorwaarden voor LeadCue-werkruimten.",
-      "summary": "Deze termen beschrijven de beoogde productgrens: websiteonderzoek, kwalificatie van potentiële klanten, beveiligde accounttoegang en exportklare notities voor uitgaande teams van bureaus.",
+      "title": "Commercial usage terms for LeadCue users.",
+      "summary": "These terms describe the intended product boundary: website research, prospect qualification, secure login access, and export-ready notes for solo professionals.",
       "primaryAction": {
         "label": "Gratis starten",
         "href": "/signup"
@@ -1342,10 +1342,10 @@
           "title": "Abonnementen, tegoeden en abonnementen",
           "copy": "Plannen zijn georganiseerd rond de maandelijkse websitescancapaciteit, waarbij diepere analyses gebruik maken van meer tegoeden indien geconfigureerd.",
           "items": [
-            "Gratis werkruimten omvatten een beperkt maandelijks scanvolume.",
+            "The Free plan includes limited monthly scan volume.",
             "Diepe scans kunnen extra credits verbruiken op basis van de gepubliceerde planregels.",
             "Betaalde abonnementen gebruiken Stripe wanneer de facturering is geconfigureerd.",
-            "Klanten zijn verantwoordelijk voor het monitoren van de geschiktheid van het plan, de kredieten en het gebruik van de werkruimte."
+            "Customers are responsible for monitoring plan fit, credits, and usage."
           ]
         },
         {
@@ -1353,7 +1353,7 @@
           "copy": "LeadCue is de onderzoekslaag vóór outreach. Het garandeert geen verkoopresultaten en moet worden behandeld als beslissingsondersteuning plus gestructureerde export.",
           "items": [
             "LeadCue verzendt geen campagnes.",
-            "LeadCue vervangt CRM-beheer of nalevingsbeoordeling niet.",
+            "LeadCue does not replace compliance review.",
             "Gegenereerde prospectkaarten zijn informatief en moeten door de klant worden beoordeeld.",
             "Klanten blijven verantwoordelijk voor de manier waarop geëxporteerde gegevens en outreach-kopieën worden gebruikt."
           ]
@@ -1364,8 +1364,8 @@
   "fr": {
     "docs": {
       "eyebrow": "Documentation",
-      "title": "Exécutez une prospection axée sur le site Web sans créer un autre outil de liste.",
-      "summary": "Utilisez ces documents pour configurer un espace de travail, exécuter des analyses, interpréter les cartes de prospect, gérer les crédits et transmettre des recherches qualifiées au CRM ou à des outils sortants.",
+      "title": "Run AI website prospecting without building another list tool.",
+      "summary": "Use these docs to set up your profile, run scans, interpret Prospect Cards, manage credits, and export qualified research for outreach.",
       "primaryAction": {
         "label": "Ouvrir le tableau de bord",
         "href": "/app"
@@ -1377,31 +1377,31 @@
       "sections": [
         {
           "title": "Démarrage rapide",
-          "copy": "LeadCue fonctionne mieux lorsque chaque analyse démarre à partir d'un véritable site Web d'entreprise, d'une offre d'agence définie et d'un propriétaire qui sait pourquoi le compte est important.",
+          "copy": "LeadCue works best when each scan starts from a real company website, a defined offer, and a clear reason why the prospect matters.",
           "items": [
-            "Créez un espace de travail avec Google ou une messagerie professionnelle et complétez le profil de notation.",
-            "Choisissez le volume d'analyse mensuel qui correspond à la fréquence à laquelle votre équipe examine les sites Web.",
+            "Sign in with Google or email and complete the scoring profile.",
+            "Choose the monthly scan volume that matches how often you review websites.",
             "Chargez une véritable URL de prospect, ajoutez des notes de site Web visibles et exécutez la première analyse.",
-            "Examinez la fiche de prospect avant de copier les premières lignes ou d'exporter le prospect."
+            "Review the Prospect Card before copying first lines or exporting the prospect."
           ]
         },
         {
           "title": "Comment lire une carte de prospect",
-          "copy": "Chaque carte enregistrée est destinée à répondre rapidement à trois questions : pourquoi ce compte convient, ce que le site Web prouve et ce que votre représentant devrait dire ensuite.",
+          "copy": "Every saved card is meant to answer three questions fast: why this prospect fits, what the website proves, and what you should say next.",
           "items": [
             "Le score d'ajustement combine votre offre, votre secteur d'activité, votre zone géographique et la qualité du signal.",
             "Les signaux et les notes sources maintiennent les allégations attachées aux preuves visibles sur le site Web.",
             "La première ligne et les e-mails courts restent basés sur les preuves enregistrées au lieu d'une personnalisation générique.",
-            "Les champs d'exportation conservent le contexte prêt pour CRM lié au même enregistrement de prospect."
+            "Export fields keep source-backed context tied to the same prospect record."
           ]
         },
         {
           "title": "Modèle opérationnel",
-          "copy": "LeadCue est la couche de recherche avant la prospection. Il doit affiner les qualifications et non remplacer l'examen humain, la propriété du CRM ou les contrôles de conformité.",
+          "copy": "LeadCue is the research layer before outreach. It should sharpen qualification, not replace human review or compliance checks.",
           "items": [
-            "Exécutez des analyses uniquement sur les comptes que votre équipe souhaite réellement évaluer.",
-            "Enregistrez les prospects lorsque les preuves du site Web sont suffisamment spécifiques pour justifier le contact.",
-            "Utilisez les exportations CSV ou le mappage de champs CRM pour déplacer uniquement les recherches qualifiées en aval.",
+            "Run scans only on prospects you actually want to evaluate.",
+            "Save prospects when the website evidence is specific enough to justify contact.",
+            "Use CSV exports to move only qualified research downstream.",
             "Actualisez les paramètres ICP à chaque fois que votre offre, vos régions ou vos secteurs cibles changent."
           ]
         }
@@ -1409,8 +1409,8 @@
     },
     "support": {
       "eyebrow": "Support",
-      "title": "Obtenez de l'aide sur l'accès au compte, la facturation, les analyses, les exportations et les questions de déploiement.",
-      "summary": "L'assistance est structurée autour du flux de travail sortant réel : connexion, configuration de l'espace de travail, analyse des sites Web, exportation de prospects et respect des limites du plan.",
+      "title": "Get help with login access, billing, scans, exports, and setup questions.",
+      "summary": "Support is structured around the actual personal prospecting workflow: signing in, configuring your profile, scanning websites, exporting prospects, and staying within plan limits.",
       "primaryAction": {
         "label": "Assistance par e-mail",
         "href": "mailto:support@leadcue.app"
@@ -1421,13 +1421,13 @@
       },
       "sections": [
         {
-          "title": "Accès au compte",
+          "title": "Login access",
           "copy": "La plupart des problèmes de connexion sont récupérables dans le produit avant de devenir un ticket d'assistance.",
           "items": [
-            "Utilisez la connexion Google si l'espace de travail a été créé avec OAuth.",
-            "Utilisez le flux de mot de passe de courrier électronique si le propriétaire de l'espace de travail a activé l'accès par mot de passe.",
+            "Use Google sign-in if the profile was created with OAuth.",
+            "Use the email password flow if you created an email login.",
             "Réinitialisez le mot de passe à partir de la page de connexion lorsque l'e-mail professionnel est correct mais que le mot de passe est inconnu.",
-            "Incluez l'e-mail de l'espace de travail et tout message auth_error si l'assistance est toujours nécessaire."
+            "Include the login email and any auth_error message if support is still needed."
           ]
         },
         {
@@ -1436,16 +1436,16 @@
           "items": [
             "Partagez l'URL du prospect ou scannez l'identifiant lorsqu'une carte de prospect semble faible ou incomplète.",
             "Mentionnez si l'analyse était basique ou approfondie et si des crédits ont été facturés.",
-            "Incluez le préréglage d'exportation ou le mode de dénomination CRM lorsque la sortie CSV semble incorrecte.",
+            "Include the export preset or destination naming mode when CSV output looks wrong.",
             "Joignez le résultat attendu et le résultat réel afin que le support puisse le reproduire."
           ]
         },
         {
           "title": "Niveaux de service de facturation et de lancement",
-          "copy": "LeadCue donne actuellement la priorité aux bloqueurs de facturation, à l'accès aux comptes et aux problèmes de qualité d'analyse qui empêchent une équipe d'agence de fonctionner de semaine en semaine.",
+          "copy": "LeadCue currently prioritizes billing blockers, login access, and scan-quality issues that stop personal prospecting work week to week.",
           "items": [
             "Les problèmes liés au portail de facturation et à l'état de l'abonnement sont prioritaires.",
-            "Les questions d'ajustement du plan doivent inclure le volume d'analyse mensuel attendu et le nombre de sièges.",
+            "Plan-fit questions should include expected monthly scan volume.",
             "Les problèmes de sécurité ou de confidentialité doivent être envoyés directement à support@leadcue.app.",
             "Les demandes de fonctionnalités doivent décrire le flux de travail sortant qu'elles débloqueraient."
           ]
@@ -1454,8 +1454,8 @@
     },
     "contact": {
       "eyebrow": "Contact",
-      "title": "Parlez à LeadCue des flux de travail de prospection des agences, de l'adéquation du plan et de la configuration du déploiement.",
-      "summary": "Utilisez Contact lorsque vous avez besoin d'aide pour décider si le produit correspond à votre flux de travail, comment mapper les champs dans CRM ou comment présenter la recherche sur le site Web à une équipe.",
+      "title": "Talk to LeadCue about personal prospecting workflows, plan fit, and setup.",
+      "summary": "Use contact when you need help deciding if the product matches your workflow, how to map fields into CSV, or how to use AI website prospecting in your weekly outreach.",
       "primaryAction": {
         "label": "Envoyer un e-mail à LeadCue",
         "href": "mailto:support@leadcue.app"
@@ -1467,22 +1467,22 @@
       "sections": [
         {
           "title": "À qui s'adresse LeadCue",
-          "copy": "LeadCue est le plus puissant pour les équipes qui vendent déjà des services de conception Web, de référencement, de CRO, de positionnement ou connexes, où les preuves visibles du site Web créent un angle de prospection crédible.",
+          "copy": "LeadCue is strongest for solo professionals selling web design, SEO, CRO, positioning, or related services where visible website evidence creates a credible outreach angle.",
           "items": [
             "Les fondateurs solo développent une habitude hebdomadaire de sorties.",
-            "Petites agences qui ont besoin d'une meilleure qualification avant l'exportation de la liste.",
-            "Équipes sortantes qui souhaitent des recherches prêtes pour le CRM plutôt que des prospects génériques.",
-            "Propriétaires d'opérations qui ont besoin d'un transfert clair entre la recherche et la prospection."
+            "Web design freelancers who need better qualification before list export.",
+            "Independent consultants who want export-ready research instead of generic leads.",
+            "Individual sales operators who need a clear path from research to outreach."
           ]
         },
         {
           "title": "Points à discuter avant le déploiement",
           "copy": "Une bonne conversation sur le déploiement commence à partir d'un flux de travail réel et d'une offre réelle, et non de comparaisons abstraites d'outils.",
           "items": [
-            "À quoi ressemble un compte qualifié pour votre agence.",
+            "What a qualified prospect looks like for your offer.",
             "Où les cartes de prospect enregistrées doivent être placées après examen.",
             "Quels signaux de sites Web sont les plus importants pour votre offre.",
-            "Quel volume d'analyse mensuel l'équipe utilisera de manière réaliste."
+            "How much monthly scan volume you will realistically use."
           ]
         },
         {
@@ -1491,7 +1491,7 @@
           "items": [
             "LeadCue n'envoie pas de campagnes.",
             "LeadCue ne supprime pas LinkedIn et ne crée pas de bases de données de contacts.",
-            "LeadCue ne remplace pas la propriété du CRM ou l'examen juridique.",
+            "LeadCue does not replace legal review.",
             "LeadCue ne supprime pas le besoin de jugement humain avant le contact."
           ]
         }
@@ -1500,7 +1500,7 @@
     "privacy": {
       "eyebrow": "Confidentialité",
       "title": "Principes de confidentialité pour la recherche de prospects axée sur le site Web.",
-      "summary": "LeadCue est construit autour de l'analyse de sites Web déclenchée par l'utilisateur, des données de configuration de l'espace de travail, des sessions de compte sécurisées et des recherches enregistrées nécessaires aux opérations sortantes de l'agence.",
+      "summary": "LeadCue is built around user-triggered website analysis, profile setup data, secure login sessions, and saved research needed for personal outreach.",
       "primaryAction": {
         "label": "Contacter l'assistance en matière de confidentialité",
         "href": "mailto:support@leadcue.app"
@@ -1512,11 +1512,11 @@
       "sections": [
         {
           "title": "Données que nous traitons",
-          "copy": "Les données de l'espace de travail commercial sont intentionnellement restreintes et liées au flux de travail du produit plutôt qu'à une collecte passive.",
+          "copy": "Profile data is intentionally narrow and tied to the product workflow rather than passive collection.",
           "items": [
-            "Identité du compte provenant de Google OAuth ou inscription par e-mail professionnelle.",
-            "Forfait Workspace, état de l'abonnement et utilisation du crédit de numérisation.",
-            "Paramètres ICP de l'agence utilisés pour évaluer les sites Web de prospects.",
+            "Login identity from Google OAuth or email signup.",
+            "Plan, subscription state, and scan-credit usage.",
+            "ICP settings used to score prospect websites.",
             "Instantanés du site Web des prospects, notes générées, modifications du journal d'activité et cartes de prospects enregistrées."
           ]
         },
@@ -1532,20 +1532,20 @@
         },
         {
           "title": "Contrôles de sécurité et de conservation",
-          "copy": "Les utilisateurs doivent être capables de comprendre ce qui a été stocké, pourquoi cela a été stocké et comment cela quittera l'espace de travail.",
+          "copy": "Users should be able to understand what was stored, why it was stored, and how it will leave the product.",
           "items": [
-            "Les sessions Workspace utilisent des cookies côté serveur au lieu d'exposer des jetons dans le client.",
+            "Login sessions use server-side cookies instead of exposing tokens in the client.",
             "Les réinitialisations de mot de passe utilisent des jetons uniques et de courte durée.",
             "Les opérations de facturation sont acheminées via Stripe lorsque le paiement est configuré.",
-            "Les équipes peuvent contacter l'assistance pour des questions de confidentialité ou des demandes de suppression."
+            "Users can contact support for privacy questions or deletion requests."
           ]
         }
       ]
     },
     "terms": {
       "eyebrow": "Conditions",
-      "title": "Conditions d'utilisation commerciale des espaces de travail LeadCue.",
-      "summary": "Ces termes décrivent les limites du produit prévu : recherche de sites Web, qualification de prospects, accès sécurisé au compte et notes prêtes à l'exportation pour les équipes sortantes de l'agence.",
+      "title": "Commercial usage terms for LeadCue users.",
+      "summary": "These terms describe the intended product boundary: website research, prospect qualification, secure login access, and export-ready notes for solo professionals.",
       "primaryAction": {
         "label": "Commencer gratuitement",
         "href": "/signup"
@@ -1569,10 +1569,10 @@
           "title": "Forfaits, crédits et abonnements\nLes forfaits",
           "copy": "sont organisés autour d'une capacité d'analyse mensuelle du site Web, avec une analyse plus approfondie utilisant plus de crédits une fois configurés.",
           "items": [
-            "Les espaces de travail gratuits incluent un volume d'analyse mensuel limité.",
+            "The Free plan includes limited monthly scan volume.",
             "Les analyses approfondies peuvent consommer des crédits supplémentaires en fonction des règles du plan publié.",
             "Les abonnements payants utilisent Stripe lorsque la facturation est configurée.",
-            "Les clients sont responsables de la surveillance de l'adéquation du plan, des crédits et de l'utilisation de l'espace de travail."
+            "Customers are responsible for monitoring plan fit, credits, and usage."
           ]
         },
         {
@@ -1580,7 +1580,7 @@
           "copy": "LeadCue est la couche de recherche avant la prospection. Il ne garantit pas les résultats des ventes et doit être traité comme une aide à la décision et une exportation structurée.",
           "items": [
             "LeadCue n'envoie pas de campagnes.",
-            "LeadCue ne remplace pas la gouvernance CRM ou la vérification de la conformité.",
+            "LeadCue does not replace compliance review.",
             "Les cartes de prospect générées sont informatives et doivent être examinées par le client.",
             "Les clients restent responsables de la manière dont les données exportées et les copies de prospection sont utilisées."
           ]

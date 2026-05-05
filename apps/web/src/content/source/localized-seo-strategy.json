@@ -3,97 +3,137 @@
     "siteUi": {
       "home": {
         "seo": {
-          "title": "LeadCue - Website-First Outbound Research Workspace for Agencies",
-          "description": "LeadCue helps agencies turn prospect websites into Prospect Cards with fit scores, opportunity signals, source-backed first lines, and CRM-ready context.",
-          "structuredDescription": "LeadCue is a website-first outbound research workspace for agencies that turns public website evidence into qualified outreach opportunities."
+          "title": "AI Website Prospecting Tool for Solo Professionals | LeadCue",
+          "description": "LeadCue helps solo professionals research company websites, score prospect fit, find opportunity signals, and write natural cold email openers before outreach.",
+          "structuredDescription": "LeadCue is an AI website prospecting tool for solo professionals that turns public website evidence into qualified prospects."
         },
         "hero": {
-          "eyebrow": "Website-first outbound research for agencies",
-          "titleLead": "Turn prospect websites into",
-          "titleAccent": "qualified Prospect Cards",
-          "subhead": "LeadCue helps SEO, web design, and growth agencies review websites, find opportunity signals, score fit, and prepare source-backed first lines before accounts move into CRM or email tools.",
+          "eyebrow": "AI website prospecting for solo professionals",
+          "titleLead": "Turn websites into",
+          "titleAccent": "qualified prospects",
+          "subhead": "LeadCue helps freelancers, consultants, and solo founders research company websites, score prospect fit, find opportunity signals, and write natural outreach before sending a cold email.",
           "microcopy": "20 free scans. Google sign-in. No LinkedIn scraping. Built for website review before outreach.",
-          "visualNote": "Website evidence, fit scoring, Prospect Cards, and outreach context in one workspace"
+          "visualNote": "Website evidence, fit scoring, Prospect Cards, and outreach context for your personal workflow"
         }
       },
       "content": {
         "productNav": {
           "extension": "Chrome extension",
           "reviewQueue": "Review queue",
-          "workspace": "Workspace"
+          "dashboard": "Dashboard"
         }
       }
     },
     "seoPages": {
       "website-prospecting": {
         "title": "Website prospecting: qualify companies from their sites",
-        "seoTitle": "Website Prospecting Guide for Agency Outbound | LeadCue",
-        "description": "Use website prospecting to qualify accounts, spot source-backed outreach angles, and decide which companies deserve agency outreach.",
+        "seoTitle": "Website Prospecting Guide for Solo Professionals | LeadCue",
+        "description": "Use website prospecting to qualify prospects, spot source-backed outreach angles, and decide which companies deserve personal outreach.",
         "primaryKeyword": "website prospecting",
-        "secondaryKeywords": ["website-first outbound research", "prospect website research", "website review before outreach"]
-      },
-      "prospect-research-tool-for-agencies": {
-        "title": "How to choose a prospect research tool for agencies",
-        "seoTitle": "Prospect Research Tool for Agencies | LeadCue",
-        "description": "Compare prospect research tools by fit scoring, website evidence, outreach context, review workflows, and CRM-ready exports for agency teams.",
-        "primaryKeyword": "prospect research tool for agencies",
-        "secondaryKeywords": ["agency prospect research", "qualified outreach workflow", "outreach context workspace"]
+        "secondaryKeywords": [
+          "AI website prospecting tool",
+          "prospect website research",
+          "website research for cold email"
+        ]
       },
       "cold-email-first-lines": {
         "title": "Cold email first lines from real website evidence",
         "seoTitle": "Cold Email First Lines from Website Evidence | LeadCue",
         "description": "Write personalized cold email first lines from prospect websites, visible page signals, and source-backed business angles.",
         "primaryKeyword": "cold email first lines from website",
-        "secondaryKeywords": ["personalized cold email opener", "website-based outreach", "cold email first line examples"]
-      },
-      "agency-lead-qualification": {
-        "title": "Agency lead qualification before outreach starts",
-        "seoTitle": "Agency Lead Qualification Workflow | LeadCue",
-        "description": "Score agency prospects with website signals, fit evidence, confidence, and a clear reason to contact before saving another lead.",
-        "primaryKeyword": "agency lead qualification",
-        "secondaryKeywords": ["qualified outreach workflow", "lead qualification for agencies", "prospect fit scoring"]
-      },
-      "use-cases/web-design-agencies": {
-        "title": "Website prospecting for web design agencies",
-        "seoTitle": "Website Prospecting for Web Design Agencies | LeadCue",
-        "description": "Find web design prospects by reviewing website clarity, proof, CTA placement, contact paths, and redesign-ready signals.",
-        "primaryKeyword": "website prospecting for web design agencies",
-        "secondaryKeywords": ["web design agency leads", "website audit outreach", "web design prospect research"]
-      },
-      "use-cases/seo-agencies": {
-        "title": "Prospect research for SEO agencies using website gaps",
-        "seoTitle": "Prospect Research for SEO Agencies | LeadCue",
-        "description": "Help SEO agencies find prospects by spotting content freshness, service page depth, internal linking, and search-demand gaps on real websites.",
-        "primaryKeyword": "prospect research for SEO agencies",
-        "secondaryKeywords": ["SEO agency prospecting", "website gaps outreach", "SEO client prospect research"]
-      },
-      "use-cases/marketing-agencies": {
-        "title": "Website prospecting for marketing agencies",
-        "seoTitle": "Website Prospecting for Marketing Agencies | LeadCue",
-        "description": "Qualify marketing prospects from conversion signals, trust proof, campaign paths, and website evidence before outreach.",
-        "primaryKeyword": "website prospecting for marketing agencies",
-        "secondaryKeywords": ["marketing agency prospecting", "growth agency outreach", "website-based lead qualification"]
+        "secondaryKeywords": [
+          "personalized cold email opener",
+          "website-based outreach",
+          "cold email first line examples"
+        ]
       },
       "guides/turn-website-into-cold-email-angle": {
         "title": "How to turn a prospect website into a cold email angle",
         "seoTitle": "Turn a Prospect Website into a Cold Email Angle | LeadCue",
         "description": "Turn prospect website observations into a specific cold email angle, first line, and low-pressure next step.",
         "primaryKeyword": "cold email angle from website",
-        "secondaryKeywords": ["website-based cold email", "outreach angle from website", "personalized outreach angle"]
+        "secondaryKeywords": [
+          "website-based cold email",
+          "outreach angle from website",
+          "personalized outreach angle"
+        ]
       },
       "guides/score-prospect-website": {
         "title": "How to score a prospect website before outreach",
         "seoTitle": "How to Score a Prospect Website for Outreach | LeadCue",
         "description": "Use a lightweight website scoring workflow to decide whether a prospect deserves outreach, review, or export.",
         "primaryKeyword": "score prospect website",
-        "secondaryKeywords": ["prospect website checklist", "website lead scoring", "website review before outreach"]
+        "secondaryKeywords": [
+          "prospect website checklist",
+          "website lead scoring",
+          "website review before outreach"
+        ]
       },
       "guides/website-audit-outreach": {
         "title": "Website audit outreach that sends useful ideas first",
-        "seoTitle": "Website Audit Outreach Guide for Agencies | LeadCue",
-        "description": "Use website audit outreach to send source-backed ideas, start a useful conversation, and avoid generic agency pitches.",
+        "seoTitle": "Website Audit Outreach Guide for Solo Professionals | LeadCue",
+        "description": "Use website audit outreach to send source-backed ideas, start a useful conversation, and avoid generic redesign pitches.",
         "primaryKeyword": "website audit outreach",
-        "secondaryKeywords": ["website audit cold email", "agency audit outreach", "website review outreach"]
+        "secondaryKeywords": [
+          "website audit cold email",
+          "website outreach ideas",
+          "website review outreach"
+        ]
+      },
+      "prospect-research-tool-for-solo-professionals": {
+        "title": "How to choose a prospect research tool for solo professionals",
+        "seoTitle": "Prospect Research Tool for Solo Professionals | LeadCue",
+        "description": "Compare prospect research tools by fit scoring, website evidence, outreach context, review workflows, and export-ready fields for personal outreach.",
+        "primaryKeyword": "prospect research tool for solo professionals",
+        "secondaryKeywords": [
+          "AI prospect research tool",
+          "qualified outreach workflow",
+          "prospecting dashboard"
+        ]
+      },
+      "prospect-qualification": {
+        "title": "Prospect qualification before outreach starts",
+        "seoTitle": "Prospect Qualification Workflow | LeadCue",
+        "description": "Score prospects with website signals, fit evidence, confidence, and a clear reason to contact before saving another lead.",
+        "primaryKeyword": "prospect qualification",
+        "secondaryKeywords": [
+          "qualified outreach workflow",
+          "lead qualification score",
+          "prospect fit scoring"
+        ]
+      },
+      "use-cases/web-design-freelancers": {
+        "title": "Website prospecting for web design freelancers",
+        "seoTitle": "Website Prospecting for Web Design Freelancers | LeadCue",
+        "description": "Find web design prospects by reviewing website clarity, proof, CTA placement, contact paths, and redesign-ready signals.",
+        "primaryKeyword": "find web design leads",
+        "secondaryKeywords": [
+          "prospecting tool for freelancers",
+          "find businesses that need website redesign",
+          "website audit outreach"
+        ]
+      },
+      "use-cases/seo-consultants": {
+        "title": "Prospect research for SEO consultants using website gaps",
+        "seoTitle": "Prospect Research for SEO Consultants | LeadCue",
+        "description": "Help SEO consultants find prospects by spotting content freshness, service page depth, internal linking, and search-demand gaps on real websites.",
+        "primaryKeyword": "prospecting tool for consultants",
+        "secondaryKeywords": [
+          "SEO consultant prospecting",
+          "website gaps outreach",
+          "SEO client prospect research"
+        ]
+      },
+      "use-cases/marketing-consultants": {
+        "title": "Website prospecting for marketing consultants",
+        "seoTitle": "Website Prospecting for Marketing Consultants | LeadCue",
+        "description": "Qualify marketing prospects from conversion signals, trust proof, campaign paths, and website evidence before outreach.",
+        "primaryKeyword": "prospecting tool for consultants",
+        "secondaryKeywords": [
+          "marketing consultant prospecting",
+          "growth prospecting",
+          "website-based lead qualification"
+        ]
       }
     },
     "productPages": {
@@ -102,33 +142,57 @@
         "seoTitle": "Prospect Research Chrome Extension | LeadCue",
         "description": "Review a prospect website from Chrome, capture visible evidence, and save a qualified outreach card without leaving the page.",
         "primaryKeyword": "prospect research Chrome extension",
-        "secondaryKeywords": ["website prospecting Chrome extension", "outreach research extension", "prospect website review"]
+        "secondaryKeywords": [
+          "website prospecting Chrome extension",
+          "outreach research extension",
+          "prospect website review"
+        ]
       },
       "tools/batch-website-review-queue": {
-        "title": "Batch website review queue for agency prospecting",
-        "seoTitle": "Batch Website Review Queue for Agency Prospecting | LeadCue",
-        "description": "Import prospect websites into a review queue, prioritize accounts, and keep qualification work moving before outreach.",
+        "title": "Batch website review queue for personal prospecting",
+        "seoTitle": "Batch Website Review Queue for Personal Prospecting | LeadCue",
+        "description": "Import prospect websites into a review queue, prioritize prospects, and keep qualification work moving before outreach.",
         "primaryKeyword": "batch website review queue",
-        "secondaryKeywords": ["batch website prospecting", "website review workflow", "agency prospect review queue"]
-      },
-      "tools/outreach-context-workspace": {
-        "title": "Outreach context workspace for website-based prospecting",
-        "seoTitle": "Outreach Context Workspace for Agencies | LeadCue",
-        "description": "Keep website evidence, fit scores, first lines, source notes, and CRM export fields together before launching outreach.",
-        "primaryKeyword": "outreach context workspace",
-        "secondaryKeywords": ["qualified outreach workflow", "website research workspace", "outreach-ready context"]
-      },
-      "templates/crm-csv-field-mapping": {
-        "primaryKeyword": "CRM CSV field mapping",
-        "secondaryKeywords": ["CRM export for prospect research", "HubSpot CSV export fields", "Salesforce lead CSV fields"]
+        "secondaryKeywords": [
+          "batch website prospecting",
+          "website review workflow",
+          "personal prospect review queue"
+        ]
       },
       "templates/cold-email-first-line": {
         "primaryKeyword": "cold email first line template",
-        "secondaryKeywords": ["cold email opener template", "website signal outreach", "personalized first line template"]
+        "secondaryKeywords": [
+          "cold email opener template",
+          "website signal outreach",
+          "personalized first line template"
+        ]
       },
       "templates/website-prospecting-checklist": {
         "primaryKeyword": "website prospecting checklist",
-        "secondaryKeywords": ["prospect website checklist", "website audit checklist", "agency outbound checklist"]
+        "secondaryKeywords": [
+          "prospect website checklist",
+          "website audit checklist",
+          "personal outreach checklist"
+        ]
+      },
+      "tools/prospecting-dashboard": {
+        "title": "Prospecting dashboard for website-based outreach",
+        "seoTitle": "Prospecting Dashboard for Solo Professionals | LeadCue",
+        "description": "Keep website evidence, fit scores, first lines, source notes, and export fields together before launching outreach.",
+        "primaryKeyword": "prospecting dashboard",
+        "secondaryKeywords": [
+          "qualified outreach workflow",
+          "website research dashboard",
+          "outreach-ready context"
+        ]
+      },
+      "templates/csv-field-mapping": {
+        "primaryKeyword": "CSV field mapping",
+        "secondaryKeywords": [
+          "CSV export for prospect research",
+          "HubSpot CSV export fields",
+          "Salesforce CSV fields"
+        ]
       }
     }
   },
@@ -137,18 +201,18 @@
       "home": {
         "seo": {
           "title": "LeadCue - 网站客户开发工具",
-          "description": "LeadCue 帮助代理机构和服务商批量审查客户官网，判断线索是否值得开发，并生成开发信上下文、开场白和 CRM 可用备注。",
-          "structuredDescription": "LeadCue 是面向代理机构的网站客户开发工具，用客户官网证据筛选线索、生成开发信切入角度，并保留可导出的外联上下文。"
+          "description": "LeadCue 帮助个人专业用户和服务商批量审查客户官网，判断线索是否值得开发，并生成开发信上下文、开场白和 CSV 可用备注。",
+          "structuredDescription": "LeadCue 是面向个人专业用户的网站客户开发工具，用客户官网证据筛选线索、生成开发信切入角度，并保留可导出的外联上下文。"
         },
         "hero": {
           "eyebrow": "面向服务商的网站客户开发工具",
           "titleLead": "用客户官网判断",
           "titleAccent": "哪些线索值得开发",
-          "subhead": "LeadCue 帮 SEO、网站建设和增长服务商审查客户官网，找出值得联系的理由，并在进入 CRM 或开发信工具前整理好外联上下文。",
+          "subhead": "LeadCue 帮 SEO、网站建设和增长服务商审查客户官网，找出值得联系的理由，并在进入 CSV 或开发信工具前整理好外联上下文。",
           "primaryCta": "免费开始",
           "secondaryCta": "查看示例卡片",
           "microcopy": "20 次免费扫描。支持 Google 登录。不抓取 LinkedIn。专为开发前的网站审查而做。",
-          "visualNote": "网站证据、线索评分和开发信上下文集中在一个工作区"
+          "visualNote": "网站证据、线索评分和开发信上下文集中在一个看板"
         },
         "heroVisual": {
           "browserChip": "实时网站扫描",
@@ -168,8 +232,8 @@
           "firstLineMeta": "基于首页证据生成"
         },
         "analytics": {
-          "kicker": "网站研究实时看板",
-          "title": "代理机构线索概览",
+          "kicker": "网站客户开发看板",
+          "title": "个人专业用户线索概览",
           "live": "实时",
           "timeframe": "过去 24 小时",
           "metrics": [
@@ -242,17 +306,23 @@
           "CSV 导出就绪",
           "备注带来源证据"
         ],
-        "trustBandLead": "为需要有明确联系理由的代理外联团队而设计",
+        "trustBandLead": "为需要有明确联系理由的代理外联个人用户而设计",
         "map": {
           "eyebrow": "产品展示",
-          "title": "开始开发前，团队需要的研究信息都在这里",
-          "copy": "快速了解 LeadCue 能做什么、网站审查如何进行、线索卡片包含哪些内容，以及扫描额度如何随团队规模扩展。",
+          "title": "开始开发前，个人用户需要的研究信息都在这里",
+          "copy": "快速了解 LeadCue 能做什么、网站审查如何进行、线索卡片包含哪些内容，以及扫描额度如何随个人用户规模扩展。",
           "items": [
             {
               "href": "#features",
               "eyebrow": "功能",
               "title": "围绕网站审查集中管理",
-              "copy": "匹配评分、网站信号、导出字段和团队备注都保留在同一张线索卡里。"
+              "copy": "匹配评分、网站信号、导出字段和个人用户备注都保留在同一张线索卡里。"
+            },
+            {
+              "href": "/tools/website-opportunity-finder",
+              "eyebrow": "免费工具",
+              "title": "先预览网站改进机会",
+              "copy": "粘贴一个潜在客户网站，在注册前发现带来源依据的机会信号。"
             },
             {
               "href": "#how",
@@ -291,13 +361,13 @@
           ]
         },
         "features": {
-          "eyebrow": "网站优先工作流程",
+          "eyebrow": "AI 网站客户开发工作流程",
           "title": "先判断网站是否值得开发，再找到切入角度并顺手交接",
-          "copy": "LeadCue 把网站观察点转成可用于外联的上下文，帮助代理机构判断哪些客户值得保存、个性化跟进并推进到开发流程。",
+          "copy": "LeadCue 把网站观察点转成可用于外联的上下文，帮助个人专业用户判断哪些客户值得保存、个性化跟进并推进到开发流程。",
           "items": [
             {
               "title": "看得见意图的线索分析",
-              "copy": "跟踪已扫描网站、保存率、匹配分和已复制开场白，让团队知道哪些研究真正转化为外联机会。",
+              "copy": "跟踪已扫描网站、保存率、匹配分和已复制开场白，让个人用户知道哪些研究真正转化为外联机会。",
               "meta": "实时看板"
             },
             {
@@ -312,7 +382,7 @@
             },
             {
               "title": "导出到你现有的外联工具",
-              "copy": "把合格客户导出到 Sheets、Smartlead、Instantly、Lemlist 或 CRM，避免把无效名单带进后续流程。",
+              "copy": "把合格客户导出到 Sheets、Smartlead、Instantly、Lemlist 或 CSV，避免把无效名单带进后续流程。",
               "meta": "干净交接"
             }
           ]
@@ -323,7 +393,7 @@
           "steps": [
             {
               "title": "打开一个客户官网",
-              "copy": "从团队已经通过搜索、目录、转介绍或名单导出找到的公司网站开始。"
+              "copy": "从个人用户已经通过搜索、目录、转介绍或名单导出找到的公司网站开始。"
             },
             {
               "title": "点击 LeadCue",
@@ -336,33 +406,33 @@
           ]
         },
         "method": {
-          "eyebrow": "代理机构研究方法",
+          "eyebrow": "个人专业用户研究方法",
           "titleLead": "用网站证据",
           "titleAccent": "替代主观猜测",
-          "copy": "LeadCue 会把销售信号和产生它们的具体网站观察点绑定在一起，让团队在写开发信或启动序列前先判断线索质量。",
+          "copy": "LeadCue 会把销售信号和产生它们的具体网站观察点绑定在一起，让个人用户在写开发信或启动序列前先判断线索质量。",
           "checklist": [
             "根据你的代理服务评估客户匹配度",
             "捕获 CTA、信任背书、SEO 和定位问题",
             "只导出有可信联系理由的客户"
           ],
-          "frameTitle": "研究工作台",
+          "frameTitle": "研究看板",
           "frameCopy": "ICP 匹配、网站观察和外联备注始终连在一起。"
         },
         "researchVisual": {
-          "headline": "研究工作台",
+          "headline": "研究看板",
           "fitLabel": "合格匹配",
           "cueLabel": "网站信号",
           "stackTitle": "带来源的备注",
           "stackItems": [
             "CTA 隐藏在首屏下方",
             "主导航缺少明显客户背书",
-            "开场白已可导出到 CRM"
+            "开场白已可导出到 CSV"
           ]
         },
         "sampleCard": {
           "eyebrow": "示例输出",
           "title": "每个保存的客户，都带着明确的联系理由",
-          "copy": "每张卡片都把匹配度、网站证据、联系路径、外联角度和可复制的开场白连在一起，让团队知道该说什么，以及为什么这么说。",
+          "copy": "每张卡片都把匹配度、网站证据、联系路径、外联角度和可复制的开场白连在一起，让个人用户知道该说什么，以及为什么这么说。",
           "previewEyebrow": "线索卡片",
           "previewAriaLabel": "紧凑版线索卡片示例",
           "summaryAriaLabel": "线索摘要示例",
@@ -376,7 +446,7 @@
           "shortEmailLabel": "短邮件",
           "replyReadyLabel": "可用于回复",
           "exportFields": [
-            "CRM CSV",
+            "CSV CSV",
             "开场白",
             "来源备注"
           ],
@@ -434,7 +504,7 @@
               "哪些客户值得研究"
             ],
             [
-              "CRM",
+              "CSV",
               "销售流程跟踪",
               "外联前的网站洞察"
             ],
@@ -447,13 +517,13 @@
         },
         "pricing": {
           "eyebrow": "价格",
-          "title": "适合每周网站客户开发的扫描额度",
-          "copy": "先从小批量网站扫描开始；当 LeadCue 成为代理机构固定的外联研究流程后，再扩大扫描量。",
+          "title": "适合个人开发客户的简单积分",
+          "copy": "先免费开始；当网站研究成为你的个人外联节奏后再升级。不做扫描量、不做个人用户套餐，只按你需要的扫描积分使用。",
           "mostUseful": "最实用",
           "scansSuffix": "次扫描",
           "perMonth": "/月",
           "startFreeScan": "开始免费扫描",
-          "startAgencySetup": "开始机构设置",
+          "startSetup": "开始设置",
           "startPlan": "开始 __PLAN__",
           "ariaStartFree": "免费开始使用 __PLAN__ 计划",
           "ariaSubscribe": "订阅 __PLAN__ 计划",
@@ -463,27 +533,21 @@
               "示例线索卡片",
               "基础开场白文案"
             ],
-            "starter": [
-              "每月 300 次网站扫描",
-              "保存潜在客户列表",
-              "CSV 导出"
-            ],
             "pro": [
-              "每月 1,500 次网站扫描",
-              "自定义 ICP 设置",
-              "优先级分析"
+              "每月 500 次网站扫描",
+              "完整线索卡片",
+              "保存线索与 CSV 导出"
             ],
-            "agency": [
-              "每月 5,000 次网站扫描",
-              "3 个机构工作区",
-              "共享扫描额度"
+            "power": [
+              "每月 2,000 次网站扫描",
+              "批量 URL 导入",
+              "深度扫描与导出预设"
             ]
           },
           "planUseCases": {
-            "free": "适合先用真实网站验证流程，再决定是否付费。",
-            "starter": "适合一个人建立每周客户开发节奏。",
-            "pro": "适合把网站研究变成可重复外联流程的代理机构。",
-            "agency": "适合多个客户项目共用扫描额度的团队。"
+            "free": "适合先用真实网站验证个人找客户流程。",
+            "pro": "适合自由职业者、顾问和独立创始人持续做外联。",
+            "power": "适合需要更高扫描量的个人运营者。"
           }
         },
         "faqSection": {
@@ -501,11 +565,11 @@
             },
             {
               "question": "我可以直接用 LeadCue 群发营销邮件吗？",
-              "answer": "不可以。LeadCue 负责外联前的研究层：保存线索卡片、复制开场白，或把合格客户导出到你现有的 CRM 和邮件工具。"
+              "answer": "不可以。LeadCue 负责外联前的研究层：保存线索卡片、复制开场白，或把合格客户导出到你现有的 CSV 和邮件工具。"
             },
             {
-              "question": "什么样的团队最适合用 LeadCue？",
-              "answer": "最适合做 B2B 客户开发的小型 SEO、网站建设/改版和增长营销服务商。他们需要先用客户官网找到真实切入点，再决定是否写开发信、导入 CRM 或分配给销售。"
+              "question": "什么样的个人用户最适合用 LeadCue？",
+              "answer": "最适合做 B2B 客户开发的小型 SEO、网站建设/改版和增长营销服务商。他们需要先用客户官网找到真实切入点，再决定是否写开发信、导入 CSV 或分配给销售。"
             }
           ]
         },
@@ -513,11 +577,29 @@
           "eyebrow": "外联资源",
           "titleLead": "用更好的信号",
           "titleAccent": "建立更清晰的外联研究系统",
-          "copy": "这里是面向实战团队的文章：让每个保存的客户都带着证据、时机判断和可信的开场理由。",
+          "copy": "这里是面向实战个人用户的文章：让每个保存的客户都带着证据、时机判断和可信的开场理由。",
           "readGuide": "阅读指南",
           "browseLead": "浏览内容库",
-          "browseTitle": "16 个搜索意图页面、工具和 CRM 指南",
+          "browseTitle": "搜索意图页面、免费工具和 CSV 指南",
           "items": [
+            {
+              "title": "免费网站客户开发工具集",
+              "copy": "从一个潜在客户网站出发，在评分、机会发现和开场白生成之间选择合适工具。",
+              "label": "工具集合",
+              "href": "/tools/free-website-prospecting-tools"
+            },
+            {
+              "title": "面向个人客户开发的网站机会发现器",
+              "copy": "粘贴一个潜在客户网站，先预览 3 个带来源依据的改进机会，再决定是否保存完整卡片。",
+              "label": "免费工具",
+              "href": "/tools/website-opportunity-finder"
+            },
+            {
+              "title": "网站客户评分器",
+              "copy": "在加入外联名单前，先预览匹配度、证据、联系路径和外联准备度。",
+              "label": "免费工具",
+              "href": "/tools/website-prospect-score-checker"
+            },
             {
               "title": "如何把潜在客户网站转成开发信切入角度",
               "copy": "从可见页面证据出发，整理成可信外联理由的实用流程。",
@@ -525,14 +607,14 @@
               "href": "/guides/turn-website-into-cold-email-angle"
             },
             {
-              "title": "代理机构保存客户前应该评估什么",
+              "title": "个人专业用户保存客户前应该评估什么",
               "copy": "用匹配度、紧迫性、信任缺口和联系路径筛掉名单噪音。",
               "label": "资格判断",
               "href": "/guides/score-prospect-website"
             },
             {
               "title": "为什么先研究网站，比通用线索名单更有效",
-              "copy": "LeadCue 会让每个保存的客户都带着团队真正能使用的联系理由。",
+              "copy": "LeadCue 会让每个保存的客户都带着个人用户真正能使用的联系理由。",
               "label": "策略",
               "href": "/website-prospecting"
             }
@@ -559,7 +641,7 @@
           },
           "strategy": {
             "kicker": "策略",
-            "title": "网站优先的外联研究",
+            "title": "AI 网站客户开发的外联研究",
             "items": [
               "为什么联系这个客户",
               "网站证明了什么",
@@ -569,7 +651,7 @@
         },
         "launch": {
           "eyebrow": "开始扫描",
-          "title": "创建机构工作区，完成第一次网站审查",
+          "title": "创建机构看板，完成第一次网站审查",
           "copy": "从免费计划开始，填写你的代理服务定位，再用 LeadCue 把公司网站转成有来源证据的外联研究卡片。",
           "points": [
             "免费计划包含 20 次扫描",
@@ -578,14 +660,14 @@
           ],
           "cardKicker": "商业启动路径",
           "cardTitle": "免费计划从每月 20 次网站扫描开始。",
-          "cardCopy": "付费计划解锁更高的月度扫描量、已保存客户流程，以及面向外联团队的优先级分析。",
+          "cardCopy": "付费计划解锁更高的月度扫描量、已保存客户流程，以及面向外联个人用户的优先级分析。",
           "quickScanLabel": "第一个潜在客户网站",
           "quickScanAria": "第一个潜在客户网站",
           "queueScan": "加入扫描队列",
           "startFree": "免费开始"
         },
         "footer": {
-          "brandCopy": "面向代理机构的网站优先外联研究工具，帮助团队找到更充分的联系理由。",
+          "brandCopy": "面向个人专业用户的AI 网站客户开发外联研究工具，帮助个人用户找到更充分的联系理由。",
           "productTitle": "产品",
           "resourcesTitle": "资源",
           "legalTitle": "法律",
@@ -604,7 +686,9 @@
         "productNav": {
           "extension": "Chrome 插件",
           "reviewQueue": "批量审查",
-          "workspace": "外联工作台"
+          "dashboard": "外联看板",
+          "opportunityFinder": "机会发现器",
+          "prospectScore": "评分器"
         }
       }
     },
@@ -615,15 +699,11 @@
         "seoTitle": "网站客户开发工具与筛选流程 | LeadCue",
         "description": "用客户官网里的 CTA、案例、内容、联系方式和定位信号筛选销售线索，找到开发信切入角度。",
         "primaryKeyword": "网站客户开发工具",
-        "secondaryKeywords": ["网站线索挖掘工具", "客户官网开发信个性化", "批量网站客户开发"]
-      },
-      "prospect-research-tool-for-agencies": {
-        "category": "线索筛选工具",
-        "title": "代理机构如何选择销售线索筛选工具",
-        "seoTitle": "销售线索筛选工具选型指南 | LeadCue",
-        "description": "面向代理机构的线索筛选工具应保留网站证据、匹配评分、开发信角度和 CRM 导出字段，而不只是收集公司名单。",
-        "primaryKeyword": "销售线索筛选工具",
-        "secondaryKeywords": ["客户开发工具", "外贸客户开发工具", "开发信个性化工具"]
+        "secondaryKeywords": [
+          "网站线索挖掘工具",
+          "客户官网开发信个性化",
+          "批量网站客户开发"
+        ]
       },
       "cold-email-first-lines": {
         "category": "开发信开场白",
@@ -631,39 +711,11 @@
         "seoTitle": "客户官网开发信个性化开场白 | LeadCue",
         "description": "学习如何从客户官网观察点写出自然可信的开发信开场白，避免泛泛夸奖和硬套模板。",
         "primaryKeyword": "客户官网开发信个性化",
-        "secondaryKeywords": ["开发信个性化开场白", "冷邮件开场白", "网站证据开发信"]
-      },
-      "agency-lead-qualification": {
-        "category": "线索筛选",
-        "title": "销售线索筛选：开发前先判断客户是否值得跟进",
-        "seoTitle": "销售线索筛选流程 | LeadCue",
-        "description": "用网站证据、匹配评分和开发理由筛选线索，避免把不合适的客户直接推进 CRM 或开发信序列。",
-        "primaryKeyword": "销售线索筛选工具",
-        "secondaryKeywords": ["线索评分工具", "客户开发筛选", "高质量销售线索"]
-      },
-      "use-cases/web-design-agencies": {
-        "category": "网站建设获客",
-        "title": "网站建设公司客户开发：用客户官网找到切入点",
-        "seoTitle": "网站建设公司客户开发方法 | LeadCue",
-        "description": "网站建设公司可以通过客户官网的 CTA、案例、视觉层级和联系方式发现可沟通的改版机会。",
-        "primaryKeyword": "网站建设公司客户开发",
-        "secondaryKeywords": ["网站改版客户开发", "网站诊断客户开发", "网页设计客户开发"]
-      },
-      "use-cases/seo-agencies": {
-        "category": "SEO 获客",
-        "title": "SEO 客户开发工具：从网站内容缺口找到机会",
-        "seoTitle": "SEO客户开发工具与网站线索筛选 | LeadCue",
-        "description": "通过内容更新、服务页深度、内部链接和搜索意图缺口，帮助 SEO 服务商找到更自然的客户开发理由。",
-        "primaryKeyword": "SEO客户开发工具",
-        "secondaryKeywords": ["SEO客户开发", "网站内容诊断客户开发", "SEO销售线索"]
-      },
-      "use-cases/marketing-agencies": {
-        "category": "营销服务获客",
-        "title": "营销服务公司客户开发：从网站转化信号筛选线索",
-        "seoTitle": "营销服务公司客户开发流程 | LeadCue",
-        "description": "用客户官网的转化路径、信任证明和活动落地页信号，筛选适合营销服务外联的客户。",
-        "primaryKeyword": "营销服务公司客户开发",
-        "secondaryKeywords": ["增长服务客户开发", "网站转化线索筛选", "营销获客工具"]
+        "secondaryKeywords": [
+          "开发信个性化开场白",
+          "冷邮件开场白",
+          "网站证据开发信"
+        ]
       },
       "guides/turn-website-into-cold-email-angle": {
         "category": "开发信切入角度",
@@ -671,7 +723,11 @@
         "seoTitle": "客户官网开发信切入角度指南 | LeadCue",
         "description": "把官网观察点转成开发信的第一句话、业务影响和低压力下一步，让外联更像真实研究。",
         "primaryKeyword": "客户官网开发信切入角度",
-        "secondaryKeywords": ["开发信个性化角度", "客户官网外联", "网站证据开发信"]
+        "secondaryKeywords": [
+          "开发信个性化角度",
+          "客户官网外联",
+          "网站证据开发信"
+        ]
       },
       "guides/score-prospect-website": {
         "category": "网站筛选清单",
@@ -679,7 +735,11 @@
         "seoTitle": "客户网站开发筛选清单 | LeadCue",
         "description": "用一套轻量清单检查客户官网是否有明确开发理由，再决定是否保存、分配或导出线索。",
         "primaryKeyword": "客户网站开发筛选清单",
-        "secondaryKeywords": ["客户网站评分", "网站客户开发清单", "销售线索评分"]
+        "secondaryKeywords": [
+          "客户网站评分",
+          "网站客户开发清单",
+          "销售线索评分"
+        ]
       },
       "guides/website-audit-outreach": {
         "category": "网站诊断开发",
@@ -687,7 +747,71 @@
         "seoTitle": "网站诊断客户开发指南 | LeadCue",
         "description": "用网站诊断式外联提供具体建议，而不是一上来推销服务，适合网站建设、SEO 和增长服务商。",
         "primaryKeyword": "网站诊断客户开发",
-        "secondaryKeywords": ["网站审核客户开发", "网站诊断开发信", "网站审查外联"]
+        "secondaryKeywords": [
+          "网站审核客户开发",
+          "网站诊断开发信",
+          "网站审查外联"
+        ]
+      },
+      "prospect-research-tool-for-solo-professionals": {
+        "category": "线索筛选工具",
+        "title": "个人专业用户如何选择销售线索筛选工具",
+        "seoTitle": "销售线索筛选工具选型指南 | LeadCue",
+        "description": "面向个人专业用户的线索筛选工具应保留网站证据、匹配评分、开发信角度和 CSV 导出字段，而不只是收集公司名单。",
+        "primaryKeyword": "销售线索筛选工具",
+        "secondaryKeywords": [
+          "客户开发工具",
+          "外贸客户开发工具",
+          "开发信个性化工具"
+        ]
+      },
+      "prospect-qualification": {
+        "category": "线索筛选",
+        "title": "销售线索筛选：开发前先判断客户是否值得跟进",
+        "seoTitle": "销售线索筛选流程 | LeadCue",
+        "description": "用网站证据、匹配评分和开发理由筛选线索，避免把不合适的客户直接推进 CSV 或开发信序列。",
+        "primaryKeyword": "销售线索筛选工具",
+        "secondaryKeywords": [
+          "线索评分工具",
+          "客户开发筛选",
+          "高质量销售线索"
+        ]
+      },
+      "use-cases/web-design-freelancers": {
+        "category": "网站建设获客",
+        "title": "网站建设公司客户开发：用客户官网找到切入点",
+        "seoTitle": "网站建设公司客户开发方法 | LeadCue",
+        "description": "网站建设公司可以通过客户官网的 CTA、案例、视觉层级和联系方式发现可沟通的改版机会。",
+        "primaryKeyword": "网站建设公司客户开发",
+        "secondaryKeywords": [
+          "网站改版客户开发",
+          "网站诊断客户开发",
+          "网页设计客户开发"
+        ]
+      },
+      "use-cases/seo-consultants": {
+        "category": "SEO 获客",
+        "title": "SEO 客户开发工具：从网站内容缺口找到机会",
+        "seoTitle": "SEO客户开发工具与网站线索筛选 | LeadCue",
+        "description": "通过内容更新、服务页深度、内部链接和搜索意图缺口，帮助 SEO 服务商找到更自然的客户开发理由。",
+        "primaryKeyword": "SEO客户开发工具",
+        "secondaryKeywords": [
+          "SEO客户开发",
+          "网站内容诊断客户开发",
+          "SEO销售线索"
+        ]
+      },
+      "use-cases/marketing-consultants": {
+        "category": "营销服务获客",
+        "title": "营销服务公司客户开发：从网站转化信号筛选线索",
+        "seoTitle": "营销服务公司客户开发流程 | LeadCue",
+        "description": "用客户官网的转化路径、信任证明和活动落地页信号，筛选适合营销服务外联的客户。",
+        "primaryKeyword": "营销服务公司客户开发",
+        "secondaryKeywords": [
+          "增长服务客户开发",
+          "网站转化线索筛选",
+          "营销获客工具"
+        ]
       }
     },
     "productPages": {
@@ -697,7 +821,11 @@
         "seoTitle": "客户开发 Chrome 插件 | LeadCue",
         "description": "在 Chrome 里审查客户官网，保存网站证据、匹配评分和开发信上下文，不用在表格和页面之间来回复制。",
         "primaryKeyword": "客户开发 Chrome 插件",
-        "secondaryKeywords": ["网站客户开发插件", "开发信 Chrome 插件", "客户官网线索工具"]
+        "secondaryKeywords": [
+          "网站客户开发插件",
+          "开发信 Chrome 插件",
+          "客户官网线索工具"
+        ]
       },
       "tools/batch-website-review-queue": {
         "category": "批量审查队列",
@@ -705,27 +833,47 @@
         "seoTitle": "批量网站客户开发工具 | LeadCue",
         "description": "批量导入客户官网，按优先级审查线索、保存证据，并把真正值得开发的客户推进外联。",
         "primaryKeyword": "批量网站客户开发",
-        "secondaryKeywords": ["批量网站审查", "网站线索批量筛选", "客户官网批量分析"]
-      },
-      "tools/outreach-context-workspace": {
-        "category": "外联上下文工作台",
-        "title": "开发信上下文工作台：把网站证据和开场白放在一起",
-        "seoTitle": "开发信上下文工作台 | LeadCue",
-        "description": "把客户官网证据、匹配评分、开发信开场白、来源备注和 CRM 字段保存在同一个外联工作区。",
-        "primaryKeyword": "开发信上下文工作台",
-        "secondaryKeywords": ["开发信个性化工具", "外联上下文", "网站证据开发信"]
-      },
-      "templates/crm-csv-field-mapping": {
-        "primaryKeyword": "CRM线索字段导出",
-        "secondaryKeywords": ["CRM CSV 字段映射", "线索导出字段", "客户开发 CRM 导出"]
+        "secondaryKeywords": [
+          "批量网站审查",
+          "网站线索批量筛选",
+          "客户官网批量分析"
+        ]
       },
       "templates/cold-email-first-line": {
         "primaryKeyword": "开发信个性化开场白模板",
-        "secondaryKeywords": ["开发信开场白模板", "冷邮件开场白模板", "客户官网开发信"]
+        "secondaryKeywords": [
+          "开发信开场白模板",
+          "冷邮件开场白模板",
+          "客户官网开发信"
+        ]
       },
       "templates/website-prospecting-checklist": {
         "primaryKeyword": "客户网站开发筛选清单",
-        "secondaryKeywords": ["网站客户开发清单", "网站诊断清单", "销售线索筛选清单"]
+        "secondaryKeywords": [
+          "网站客户开发清单",
+          "网站诊断清单",
+          "销售线索筛选清单"
+        ]
+      },
+      "tools/prospecting-dashboard": {
+        "category": "外联上下文看板",
+        "title": "开发信上下文看板：把网站证据和开场白放在一起",
+        "seoTitle": "开发信上下文看板 | LeadCue",
+        "description": "把客户官网证据、匹配评分、开发信开场白、来源备注和 CSV 字段保存在同一个外联看板。",
+        "primaryKeyword": "开发信上下文看板",
+        "secondaryKeywords": [
+          "开发信个性化工具",
+          "外联上下文",
+          "网站证据开发信"
+        ]
+      },
+      "templates/csv-field-mapping": {
+        "primaryKeyword": "CSV线索字段导出",
+        "secondaryKeywords": [
+          "CSV CSV 字段映射",
+          "线索导出字段",
+          "客户开发 CSV 导出"
+        ]
       }
     }
   },
@@ -734,18 +882,18 @@
       "home": {
         "seo": {
           "title": "LeadCue - 見込み客リサーチツール",
-          "description": "LeadCue は代理店向けの見込み客リサーチツールです。見込み客サイトを確認し、営業すべき理由とメール文脈を整理してから CRM やメールツールへ渡せます。",
-          "structuredDescription": "LeadCue はWebサイトの根拠から見込み客を評価し、営業メールの冒頭文、営業アングル、CRM向けメモをまとめる代理店向けツールです。"
+          "description": "LeadCue は個人プロフェッショナル向けの見込み客リサーチツールです。見込み客サイトを確認し、営業すべき理由とメール文脈を整理してから CSV やメールツールへ渡せます。",
+          "structuredDescription": "LeadCue はWebサイトの根拠から見込み客を評価し、営業メールの冒頭文、営業アングル、CSV向けメモをまとめる個人プロフェッショナル向けツールです。"
         },
         "hero": {
-          "eyebrow": "代理店向けの見込み客リサーチツール",
+          "eyebrow": "個人プロフェッショナル向けの見込み客リサーチツール",
           "titleLead": "Webサイトを見て",
           "titleAccent": "営業すべき見込み客を選ぶ",
-          "subhead": "LeadCue は SEO、Web制作、グロース支援の代理店が見込み客サイトを確認し、連絡すべき理由と営業メールの文脈を整理するためのワークスペースです。",
+          "subhead": "LeadCue は SEO、Web制作、グロース支援の個人プロフェッショナルが見込み客サイトを確認し、連絡すべき理由と営業メールの文脈を整理するためのダッシュボードです。",
           "primaryCta": "無料で始める",
           "secondaryCta": "サンプルカードを見る",
           "microcopy": "無料スキャン20回。Googleログイン対応。LinkedInスクレイピングなし。営業前のWebサイト確認に特化。",
-          "visualNote": "Webサイトの根拠、適合スコア、営業文脈を1つのワークスペースに"
+          "visualNote": "Webサイトの根拠、適合スコア、営業文脈を1つのダッシュボードに"
         },
         "heroVisual": {
           "browserChip": "リアルタイムWebサイトスキャン",
@@ -766,7 +914,7 @@
         },
         "analytics": {
           "kicker": "Webサイトリサーチのライブ状況",
-          "title": "代理店パイプラインのスナップショット",
+          "title": "個人プロフェッショナルパイプラインのスナップショット",
           "live": "ライブ",
           "timeframe": "過去24時間",
           "metrics": [
@@ -791,8 +939,8 @@
               "delta": "+31%"
             }
           ],
-          "chartLabel": "適格アカウント",
-          "chartTitle": "Webサイトレビューから保存済みアカウントへ",
+          "chartLabel": "適格見込み客",
+          "chartTitle": "Webサイトレビューから保存済み見込み客へ",
           "chartBadge": "+24件保存",
           "mixLabel": "機会の組み合わせ",
           "mix": [
@@ -839,7 +987,7 @@
           "CSVエクスポート対応",
           "ソース付きメモ"
         ],
-        "trustBandLead": "連絡する理由が必要な代理店のアウトバウンドチーム向けに構築",
+        "trustBandLead": "連絡する理由が必要な個人プロフェッショナルのアウトバウンド個人ユーザー向けに構築",
         "map": {
           "eyebrow": "製品ツアー",
           "title": "営業前のリサーチに必要なものをまとめて確認",
@@ -849,7 +997,7 @@
               "href": "#features",
               "eyebrow": "機能",
               "title": "Webサイト調査を1か所に集約",
-              "copy": "適合スコア、シグナル、エクスポート項目、チームの文脈を1つのカードにまとめます。"
+              "copy": "適合スコア、シグナル、エクスポート項目、個人ユーザーの文脈を1つのカードにまとめます。"
             },
             {
               "href": "#how",
@@ -873,7 +1021,7 @@
               "href": "#resources",
               "eyebrow": "リソース",
               "title": "アウトバウンドの品質を高める",
-              "copy": "根拠に基づくアウトリーチ調査と、より精度の高いアカウント選定に役立つガイドを使えます。"
+              "copy": "根拠に基づくアウトリーチ調査と、より精度の高い見込み客選定に役立つガイドを使えます。"
             }
           ]
         },
@@ -888,9 +1036,9 @@
           ]
         },
         "features": {
-          "eyebrow": "Webサイトファーストのワークフロー",
+          "eyebrow": "AI Webサイト調査のワークフロー",
           "title": "Webサイトを見極め、切り口を見つけ、きれいに引き渡す",
-          "copy": "LeadCueはWebサイトの観察をアウトリーチに使える文脈へ変換し、保存・パーソナライズ・営業開始に値するアカウントを代理店が判断できるようにします。",
+          "copy": "LeadCueはWebサイトの観察をアウトリーチに使える文脈へ変換し、保存・パーソナライズ・営業開始に値する見込み客を個人プロフェッショナルが判断できるようにします。",
           "items": [
             {
               "title": "意図が見える見込み客分析",
@@ -898,18 +1046,18 @@
               "meta": "ライブパイプライン"
             },
             {
-              "title": "代理店オファー向けICPスコアリング",
+              "title": "個人プロフェッショナルオファー向けICPスコアリング",
               "copy": "保存する前に、サービス種別、業界、地域、企業規模、オファーとの相性に基づいて各Webサイトを評価します。",
               "meta": "適合スコアリング"
             },
             {
               "title": "すべてのカードにWebサイト証拠",
-              "copy": "ページの観察、営業シグナル、アウトリーチの切り口、冒頭文をまとめ、担当者がなぜ重要な見込み客なのか理解できるようにします。",
+              "copy": "ページの観察、営業シグナル、アウトリーチの切り口、冒頭文をまとめ、フォロー状況がなぜ重要な見込み客なのか理解できるようにします。",
               "meta": "ソース付き"
             },
             {
               "title": "アウトリーチスタックへのエクスポート",
-              "copy": "不適格なリストを持ち込まず、適格な見込み客だけをSheets、Smartlead、Instantly、Lemlist、またはCRMへ移動します。",
+              "copy": "不適格なリストを持ち込まず、適格な見込み客だけをSheets、Smartlead、Instantly、Lemlist、またはCSVへ移動します。",
               "meta": "クリーンな引き渡し"
             }
           ]
@@ -920,7 +1068,7 @@
           "steps": [
             {
               "title": "企業サイトを開く",
-              "copy": "検索、ディレクトリ、紹介、リストのエクスポートでチームが見つけた企業サイトから始めます。"
+              "copy": "検索、ディレクトリ、紹介、リストのエクスポートで個人ユーザーが見つけた企業サイトから始めます。"
             },
             {
               "title": "LeadCueをクリック",
@@ -933,14 +1081,13 @@
           ]
         },
         "pricing": {
-          "title": "毎週のアウトリーチ調査に合うスキャン枠",
-          "copy": "少量のWebサイトスキャンから始め、LeadCueが代理店のアウトバウンド調査リズムに組み込まれたら拡張できます。",
+          "title": "個人のプロスペクティングに合うシンプルなクレジット",
+          "copy": "無料で始め、Webサイト調査が個人のアウトリーチ習慣になったらアップグレードできます。席数課金や個人ユーザープランはありません。",
           "perMonth": "/月",
           "planUseCases": {
-            "free": "有料導入前に、実際のWebサイトでワークフローを検証するのに最適です。",
-            "starter": "毎週のアウトバウンド習慣を作る1人の担当者に最適です。",
-            "pro": "Webサイト調査を再現可能なアウトバウンドパイプラインにしたい代理店に最適です。",
-            "agency": "複数のクライアントオファーでスキャン枠を共有するチームに最適です。"
+            "free": "実際のWebサイトで個人向けプロスペクティングを試すのに最適です。",
+            "pro": "定期的にアウトリーチするフリーランス、コンサルタント、個人創業者向け。",
+            "power": "より多くのWebサイト調査を行う個人オペレーター向け。"
           }
         },
         "faqSection": {
@@ -957,14 +1104,14 @@
               "href": "/guides/turn-website-into-cold-email-angle"
             },
             {
-              "title": "見込み客を保存する前に代理店が評価すべきこと",
+              "title": "見込み客を保存する前に個人プロフェッショナルが評価すべきこと",
               "copy": "適合度、緊急性、実績の不足、連絡導線を使ってリスト作成のノイズを避けます。",
               "label": "適合判断",
               "href": "/guides/score-prospect-website"
             },
             {
               "title": "汎用リードリストよりWebサイト起点の調査が強い理由",
-              "copy": "LeadCueは、保存したすべてのアカウントをチームが実際に使える理由と結びつけます。",
+              "copy": "LeadCueは、保存したすべての見込み客を個人ユーザーが実際に使える理由と結びつけます。",
               "label": "戦略",
               "href": "/website-prospecting"
             }
@@ -993,7 +1140,7 @@
             "kicker": "戦略",
             "title": "Webサイト起点のアウトリーチ調査",
             "items": [
-              "なぜこのアカウントか",
+              "なぜこの見込み客か",
               "サイトが何を示しているか",
               "次に何を伝えるべきか"
             ]
@@ -1001,8 +1148,8 @@
         },
         "launch": {
           "eyebrow": "スキャンを開始",
-          "title": "代理店ワークスペースを作成し、最初のWebサイトレビューを実行",
-          "copy": "無料プランから始め、代理店のオファーを設定し、企業サイトをソース付きのアウトリーチリサーチカードに変換します。",
+          "title": "個人プロフェッショナルダッシュボードを作成し、最初のWebサイトレビューを実行",
+          "copy": "無料プランから始め、個人プロフェッショナルのオファーを設定し、企業サイトをソース付きのアウトリーチリサーチカードに変換します。",
           "points": [
             "無料プランに20回のスキャンを含む",
             "LinkedInスクレイピングなし",
@@ -1010,19 +1157,19 @@
           ],
           "cardKicker": "商業ローンチパス",
           "cardTitle": "無料プランは月20回のWebサイトスキャンから始められます。",
-          "cardCopy": "有料プランでは月間スキャン量の増加、見込み客ワークフローの保存、アウトバウンドチーム向け優先分析が使えます。",
+          "cardCopy": "有料プランでは月間スキャン量の増加、見込み客ワークフローの保存、アウトバウンド個人ユーザー向け優先分析が使えます。",
           "queueScan": "キュースキャン",
           "startFree": "無料で始める"
         },
         "footer": {
-          "brandCopy": "連絡する理由を強くしたい代理店向けの、Webサイト起点アウトリーチ調査ツール。"
+          "brandCopy": "連絡する理由を強くしたい個人プロフェッショナル向けの、Webサイト起点アウトリーチ調査ツール。"
         }
       },
       "content": {
         "productNav": {
           "extension": "Chrome拡張",
           "reviewQueue": "レビューキュー",
-          "workspace": "ワークスペース"
+          "dashboard": "ダッシュボード"
         }
       }
     },
@@ -1031,51 +1178,79 @@
         "category": "Webサイト営業リサーチ",
         "title": "見込み客リサーチツール：Webサイトから営業すべき企業を選ぶ",
         "seoTitle": "見込み客リサーチツール | LeadCue",
-        "description": "WebサイトのCTA、実績、コンテンツ、問い合わせ導線から、代理店が営業すべき見込み客とアプローチ理由を見つけます。",
+        "description": "WebサイトのCTA、実績、コンテンツ、問い合わせ導線から、個人プロフェッショナルが営業すべき見込み客とアプローチ理由を見つけます。",
         "primaryKeyword": "見込み客リサーチツール",
-        "secondaryKeywords": ["Webサイト分析 営業", "営業リード 精査", "営業前 Webサイト チェックリスト"]
-      },
-      "prospect-research-tool-for-agencies": {
-        "title": "代理店向けの見込み客リサーチツールの選び方",
-        "seoTitle": "代理店向け見込み客リサーチツール | LeadCue",
-        "description": "適合スコア、Webサイトの根拠、営業メール文脈、CRM連携を基準に、代理店向けリサーチツールを比較します。",
-        "primaryKeyword": "代理店向け見込み客リサーチツール",
-        "secondaryKeywords": ["営業リサーチツール", "アウトバウンド営業 リサーチ", "営業リード 精査"]
+        "secondaryKeywords": [
+          "Webサイト分析 営業",
+          "営業リード 精査",
+          "営業前 Webサイト チェックリスト"
+        ]
       },
       "cold-email-first-lines": {
         "title": "Webサイトの根拠から作る営業メールの書き出し",
         "seoTitle": "営業メール 書き出し 例文 | LeadCue",
         "description": "見込み客のWebサイトで見つけた具体的な観察点から、自然で信頼できる営業メールの書き出しを作ります。",
         "primaryKeyword": "営業メール 書き出し 例文",
-        "secondaryKeywords": ["営業メール パーソナライズ", "コールドメール 冒頭文", "Webサイト根拠 メール"]
-      },
-      "agency-lead-qualification": {
-        "title": "代理店の営業リード精査：保存する前に適合度を見る",
-        "seoTitle": "営業リード 精査ワークフロー | LeadCue",
-        "description": "Webサイトの根拠と適合スコアから、営業すべき企業を選び、汎用的なリードリストを減らします。",
-        "primaryKeyword": "営業リード 精査",
-        "secondaryKeywords": ["見込み客 評価", "営業前 リード確認", "Webサイト分析 営業"]
-      },
-      "use-cases/web-design-agencies": {
-        "title": "Web制作会社の見込み客開拓",
-        "seoTitle": "Web制作会社 見込み客 開拓 | LeadCue",
-        "description": "CTA、実績、ファーストビュー、問い合わせ導線から、Web制作会社が提案しやすい見込み客を見つけます。",
-        "primaryKeyword": "Web制作会社 見込み客 開拓",
-        "secondaryKeywords": ["Web制作 営業リスト", "サイト改善 営業", "Webデザイン会社 営業"]
-      },
-      "use-cases/seo-agencies": {
-        "title": "SEO会社のリード獲得：Webサイトの内容ギャップを見る",
-        "seoTitle": "SEO会社 リード獲得 | LeadCue",
-        "description": "コンテンツ更新、サービスページの深さ、内部リンク、検索意図の不足からSEO提案のきっかけを見つけます。",
-        "primaryKeyword": "SEO会社 リード獲得",
-        "secondaryKeywords": ["SEO営業 リサーチ", "SEO見込み客 開拓", "Webサイト分析 SEO営業"]
+        "secondaryKeywords": [
+          "営業メール パーソナライズ",
+          "コールドメール 冒頭文",
+          "Webサイト根拠 メール"
+        ]
       },
       "guides/website-audit-outreach": {
         "title": "Webサイト診断を使った営業メール",
         "seoTitle": "Webサイト診断 営業メール | LeadCue",
         "description": "Webサイト診断の具体的な気づきを先に伝え、売り込みではなく役立つ提案として会話を始めます。",
         "primaryKeyword": "Webサイト診断 営業メール",
-        "secondaryKeywords": ["Webサイト監査 営業", "サイト改善 メール", "営業前 Webサイト チェック"]
+        "secondaryKeywords": [
+          "Webサイト監査 営業",
+          "サイト改善 メール",
+          "営業前 Webサイト チェック"
+        ]
+      },
+      "prospect-research-tool-for-solo-professionals": {
+        "title": "個人プロフェッショナル向けの見込み客リサーチツールの選び方",
+        "seoTitle": "個人プロフェッショナル向け見込み客リサーチツール | LeadCue",
+        "description": "適合スコア、Webサイトの根拠、営業メール文脈、CSV連携を基準に、個人プロフェッショナル向けリサーチツールを比較します。",
+        "primaryKeyword": "個人プロフェッショナル向け見込み客リサーチツール",
+        "secondaryKeywords": [
+          "営業リサーチツール",
+          "アウトバウンド営業 リサーチ",
+          "営業リード 精査"
+        ]
+      },
+      "prospect-qualification": {
+        "title": "個人プロフェッショナルの営業リード精査：保存する前に適合度を見る",
+        "seoTitle": "営業リード 精査ワークフロー | LeadCue",
+        "description": "Webサイトの根拠と適合スコアから、営業すべき企業を選び、汎用的なリードリストを減らします。",
+        "primaryKeyword": "営業リード 精査",
+        "secondaryKeywords": [
+          "見込み客 評価",
+          "営業前 リード確認",
+          "Webサイト分析 営業"
+        ]
+      },
+      "use-cases/web-design-freelancers": {
+        "title": "Web制作会社の見込み客開拓",
+        "seoTitle": "Web制作会社 見込み客 開拓 | LeadCue",
+        "description": "CTA、実績、ファーストビュー、問い合わせ導線から、Web制作会社が提案しやすい見込み客を見つけます。",
+        "primaryKeyword": "Web制作会社 見込み客 開拓",
+        "secondaryKeywords": [
+          "Web制作 営業リスト",
+          "サイト改善 営業",
+          "Webデザイン会社 営業"
+        ]
+      },
+      "use-cases/seo-consultants": {
+        "title": "SEO会社のリード獲得：Webサイトの内容ギャップを見る",
+        "seoTitle": "SEO会社 リード獲得 | LeadCue",
+        "description": "コンテンツ更新、サービスページの深さ、内部リンク、検索意図の不足からSEO提案のきっかけを見つけます。",
+        "primaryKeyword": "SEO会社 リード獲得",
+        "secondaryKeywords": [
+          "SEO営業 リサーチ",
+          "SEO見込み客 開拓",
+          "Webサイト分析 SEO営業"
+        ]
       }
     },
     "productPages": {
@@ -1085,7 +1260,11 @@
         "seoTitle": "見込み客リサーチ Chrome拡張 | LeadCue",
         "description": "Chromeで見込み客サイトを見ながら根拠を保存し、営業メールの文脈と適合スコアをまとめます。",
         "primaryKeyword": "見込み客リサーチ Chrome拡張",
-        "secondaryKeywords": ["営業リサーチ Chrome拡張", "Webサイト分析 営業", "営業前サイト確認"]
+        "secondaryKeywords": [
+          "営業リサーチ Chrome拡張",
+          "Webサイト分析 営業",
+          "営業前サイト確認"
+        ]
       },
       "tools/batch-website-review-queue": {
         "category": "レビューキュー",
@@ -1093,15 +1272,23 @@
         "seoTitle": "Webサイト一括レビューキュー | LeadCue",
         "description": "見込み客サイトをまとめて取り込み、優先度を付けながら営業すべき企業だけを保存します。",
         "primaryKeyword": "Webサイト一括レビューキュー",
-        "secondaryKeywords": ["営業リスト Webサイト分析", "見込み客サイト確認", "Webサイト分析 営業"]
+        "secondaryKeywords": [
+          "営業リスト Webサイト分析",
+          "見込み客サイト確認",
+          "Webサイト分析 営業"
+        ]
       },
-      "tools/outreach-context-workspace": {
-        "category": "営業文脈ワークスペース",
-        "title": "営業メールの文脈をまとめるワークスペース",
-        "seoTitle": "営業メール 文脈ワークスペース | LeadCue",
-        "description": "Webサイトの根拠、適合スコア、メール冒頭文、ソースメモ、CRM項目を1か所にまとめます。",
-        "primaryKeyword": "営業メール 文脈ワークスペース",
-        "secondaryKeywords": ["営業メール パーソナライズ", "Webサイト根拠 メール", "見込み客リサーチツール"]
+      "tools/prospecting-dashboard": {
+        "category": "営業文脈ダッシュボード",
+        "title": "営業メールの文脈をまとめるダッシュボード",
+        "seoTitle": "営業メール 文脈ダッシュボード | LeadCue",
+        "description": "Webサイトの根拠、適合スコア、メール冒頭文、ソースメモ、CSV項目を1か所にまとめます。",
+        "primaryKeyword": "営業メール 文脈ダッシュボード",
+        "secondaryKeywords": [
+          "営業メール パーソナライズ",
+          "Webサイト根拠 メール",
+          "見込み客リサーチツール"
+        ]
       }
     }
   },
@@ -1110,23 +1297,23 @@
       "home": {
         "seo": {
           "title": "LeadCue - 잠재고객 리서치 툴",
-          "description": "LeadCue는 에이전시가 잠재고객 웹사이트를 검토하고, 연락할 이유를 찾고, CRM이나 이메일 도구로 넘기기 전에 아웃리치 문맥을 준비하게 돕습니다.",
-          "structuredDescription": "LeadCue는 웹사이트 기반 리드 발굴, 잠재고객 검증, 콜드메일 첫 문장, CRM용 근거 메모를 한 곳에 모으는 에이전시용 리서치 툴입니다."
+          "description": "LeadCue는 개인 전문가가 잠재고객 웹사이트를 검토하고, 연락할 이유를 찾고, CSV이나 이메일 도구로 넘기기 전에 아웃리치 문맥을 준비하게 돕습니다.",
+          "structuredDescription": "LeadCue는 웹사이트 기반 리드 발굴, 잠재고객 검증, 콜드메일 첫 문장, CSV용 근거 메모를 한 곳에 모으는 개인 전문가용 리서치 툴입니다."
         },
         "hero": {
-          "eyebrow": "에이전시를 위한 잠재고객 리서치 툴",
+          "eyebrow": "개인 전문가를 위한 잠재고객 리서치 툴",
           "titleLead": "웹사이트 신호로",
           "titleAccent": "연락할 가치가 있는 리드를 선별",
-          "subhead": "LeadCue는 SEO, 웹디자인, 그로스 에이전시가 잠재고객 웹사이트를 검토하고 연락할 이유와 콜드메일 문맥을 정리하도록 돕습니다.",
+          "subhead": "LeadCue는 SEO, 웹디자인, 그로스 개인 전문가가 잠재고객 웹사이트를 검토하고 연락할 이유와 콜드메일 문맥을 정리하도록 돕습니다.",
           "microcopy": "무료 스캔 20회. Google 로그인. LinkedIn 스크래핑 없음. 아웃리치 전 웹사이트 검토에 특화.",
-          "visualNote": "웹사이트 근거, 적합도 점수, 아웃리치 문맥을 하나의 워크스페이스에"
+          "visualNote": "웹사이트 근거, 적합도 점수, 아웃리치 문맥을 하나의 대시보드에"
         }
       },
       "content": {
         "productNav": {
           "extension": "Chrome 확장",
           "reviewQueue": "검토 큐",
-          "workspace": "워크스페이스"
+          "dashboard": "대시보드"
         }
       }
     },
@@ -1137,35 +1324,55 @@
         "seoTitle": "잠재고객 리서치 툴 | LeadCue",
         "description": "웹사이트의 CTA, 고객 증거, 콘텐츠, 연락 경로를 검토해 아웃리치할 가치가 있는 B2B 리드를 찾습니다.",
         "primaryKeyword": "잠재고객 리서치 툴",
-        "secondaryKeywords": ["웹사이트 기반 리드 발굴", "B2B 리드 발굴 툴", "웹사이트 분석 영업 리드"]
-      },
-      "prospect-research-tool-for-agencies": {
-        "title": "에이전시용 잠재고객 리서치 툴 선택법",
-        "seoTitle": "에이전시 잠재고객 리서치 툴 | LeadCue",
-        "description": "적합도 점수, 웹사이트 근거, 아웃리치 문맥, CRM 내보내기 기준으로 에이전시 리서치 툴을 비교합니다.",
-        "primaryKeyword": "에이전시 잠재고객 리서치 툴",
-        "secondaryKeywords": ["아웃바운드 영업 리서치", "에이전시 리드 검증", "잠재고객 검증 워크플로우"]
+        "secondaryKeywords": [
+          "웹사이트 기반 리드 발굴",
+          "B2B 리드 발굴 툴",
+          "웹사이트 분석 영업 리드"
+        ]
       },
       "cold-email-first-lines": {
         "title": "웹사이트 근거로 쓰는 콜드메일 첫 문장",
         "seoTitle": "콜드메일 첫 문장 예시 | LeadCue",
         "description": "잠재고객 웹사이트에서 확인한 구체적인 신호로 자연스럽고 검증 가능한 콜드메일 첫 문장을 만듭니다.",
         "primaryKeyword": "콜드메일 첫 문장",
-        "secondaryKeywords": ["콜드메일 개인화", "웹사이트 근거 이메일", "아웃리치 이메일 첫 문장"]
-      },
-      "agency-lead-qualification": {
-        "title": "에이전시 리드 검증: 저장하기 전에 적합도를 확인",
-        "seoTitle": "에이전시 리드 검증 워크플로우 | LeadCue",
-        "description": "웹사이트 신호와 적합도 점수로 연락할 가치가 있는 잠재고객만 저장하고 내보냅니다.",
-        "primaryKeyword": "에이전시 리드 검증",
-        "secondaryKeywords": ["잠재고객 검증 워크플로우", "B2B 리드 검증", "영업 리드 검증"]
+        "secondaryKeywords": [
+          "콜드메일 개인화",
+          "웹사이트 근거 이메일",
+          "아웃리치 이메일 첫 문장"
+        ]
       },
       "guides/website-audit-outreach": {
         "title": "웹사이트 진단 영업 메일: 유용한 제안을 먼저 보내기",
         "seoTitle": "웹사이트 진단 영업 메일 | LeadCue",
         "description": "웹사이트 진단에서 확인한 근거를 바탕으로 일반적인 영업 피치가 아닌 유용한 제안으로 대화를 시작합니다.",
         "primaryKeyword": "웹사이트 진단 영업 메일",
-        "secondaryKeywords": ["웹사이트 감사 아웃리치", "웹사이트 분석 영업", "콜드메일 개인화"]
+        "secondaryKeywords": [
+          "웹사이트 감사 아웃리치",
+          "웹사이트 분석 영업",
+          "콜드메일 개인화"
+        ]
+      },
+      "prospect-research-tool-for-solo-professionals": {
+        "title": "개인 전문가용 잠재고객 리서치 툴 선택법",
+        "seoTitle": "개인 전문가 잠재고객 리서치 툴 | LeadCue",
+        "description": "적합도 점수, 웹사이트 근거, 아웃리치 문맥, CSV 내보내기 기준으로 개인 전문가 리서치 툴을 비교합니다.",
+        "primaryKeyword": "개인 전문가 잠재고객 리서치 툴",
+        "secondaryKeywords": [
+          "아웃바운드 영업 리서치",
+          "개인 리드 검증",
+          "잠재고객 검증 워크플로우"
+        ]
+      },
+      "prospect-qualification": {
+        "title": "개인 리드 검증: 저장하기 전에 적합도를 확인",
+        "seoTitle": "개인 리드 검증 워크플로우 | LeadCue",
+        "description": "웹사이트 신호와 적합도 점수로 연락할 가치가 있는 잠재고객만 저장하고 내보냅니다.",
+        "primaryKeyword": "개인 리드 검증",
+        "secondaryKeywords": [
+          "잠재고객 검증 워크플로우",
+          "B2B 리드 검증",
+          "영업 리드 검증"
+        ]
       }
     },
     "productPages": {
@@ -1175,7 +1382,11 @@
         "seoTitle": "잠재고객 리서치 Chrome 확장 | LeadCue",
         "description": "Chrome에서 잠재고객 웹사이트를 보며 근거, 적합도 점수, 콜드메일 문맥을 바로 저장합니다.",
         "primaryKeyword": "잠재고객 리서치 Chrome 확장",
-        "secondaryKeywords": ["영업 리서치 Chrome 확장", "웹사이트 기반 리드 발굴", "웹사이트 분석 영업"]
+        "secondaryKeywords": [
+          "영업 리서치 Chrome 확장",
+          "웹사이트 기반 리드 발굴",
+          "웹사이트 분석 영업"
+        ]
       },
       "tools/batch-website-review-queue": {
         "category": "웹사이트 검토 큐",
@@ -1183,15 +1394,23 @@
         "seoTitle": "대량 웹사이트 검토 큐 | LeadCue",
         "description": "잠재고객 웹사이트를 한 번에 가져와 우선순위를 정하고, 아웃리치할 가치가 있는 리드만 저장합니다.",
         "primaryKeyword": "대량 웹사이트 검토 큐",
-        "secondaryKeywords": ["웹사이트 기반 리드 발굴", "B2B 리드 발굴 툴", "웹사이트 분석 영업 리드"]
+        "secondaryKeywords": [
+          "웹사이트 기반 리드 발굴",
+          "B2B 리드 발굴 툴",
+          "웹사이트 분석 영업 리드"
+        ]
       },
-      "tools/outreach-context-workspace": {
-        "category": "아웃리치 문맥 워크스페이스",
-        "title": "아웃리치 문맥 워크스페이스",
-        "seoTitle": "아웃리치 문맥 워크스페이스 | LeadCue",
-        "description": "웹사이트 근거, 적합도 점수, 콜드메일 첫 문장, 소스 메모, CRM 필드를 한 곳에 정리합니다.",
-        "primaryKeyword": "아웃리치 문맥 워크스페이스",
-        "secondaryKeywords": ["콜드메일 개인화", "잠재고객 리서치 툴", "잠재고객 검증 워크플로우"]
+      "tools/prospecting-dashboard": {
+        "category": "아웃리치 문맥 대시보드",
+        "title": "아웃리치 문맥 대시보드",
+        "seoTitle": "아웃리치 문맥 대시보드 | LeadCue",
+        "description": "웹사이트 근거, 적합도 점수, 콜드메일 첫 문장, 소스 메모, CSV 필드를 한 곳에 정리합니다.",
+        "primaryKeyword": "아웃리치 문맥 대시보드",
+        "secondaryKeywords": [
+          "콜드메일 개인화",
+          "잠재고객 리서치 툴",
+          "잠재고객 검증 워크플로우"
+        ]
       }
     }
   },
@@ -1200,23 +1419,23 @@
       "home": {
         "seo": {
           "title": "LeadCue - B2B Lead Recherche Tool",
-          "description": "LeadCue hilft Agenturen, Prospect-Websites vor der Kaltakquise zu prüfen, relevante Kontaktgründe zu finden und outreach-fertigen Kontext zu speichern.",
-          "structuredDescription": "LeadCue ist ein B2B Lead Recherche Tool für Agenturen: Websites prüfen, Fit bewerten, Kaltakquise-Einstiege schreiben und CRM-Kontext exportieren."
+          "description": "LeadCue hilft Solo-Profis, Prospect-Websites vor der Kaltakquise zu prüfen, relevante Kontaktgründe zu finden und outreach-fertigen Kontext zu speichern.",
+          "structuredDescription": "LeadCue ist ein B2B Lead Recherche Tool für Solo-Profis: Websites prüfen, Fit bewerten, Kaltakquise-Einstiege schreiben und CSV-Kontext exportieren."
         },
         "hero": {
-          "eyebrow": "B2B Lead Recherche Tool für Agenturen",
+          "eyebrow": "B2B Lead Recherche Tool für Solo-Profis",
           "titleLead": "Websites prüfen, bevor",
           "titleAccent": "die Kaltakquise startet",
-          "subhead": "LeadCue hilft SEO-, Webdesign- und Growth-Agenturen, Prospect-Websites zu prüfen, Kontaktgründe zu finden und den Kontext für Kaltakquise und CRM sauber vorzubereiten.",
+          "subhead": "LeadCue hilft SEO-, Webdesign- und Growth-Solo-Profis, Prospect-Websites zu prüfen, Kontaktgründe zu finden und den Kontext für Kaltakquise und CSV sauber vorzubereiten.",
           "microcopy": "20 kostenlose Scans. Google-Login. Kein LinkedIn-Scraping. Gebaut für Website-Prüfung vor der Ansprache.",
-          "visualNote": "Website-Belege, Fit-Score und Ansprache-Kontext in einem Workspace"
+          "visualNote": "Website-Belege, Fit-Score und Ansprache-Kontext in einem dashboard"
         }
       },
       "content": {
         "productNav": {
           "extension": "Chrome-Erweiterung",
           "reviewQueue": "Review-Queue",
-          "workspace": "Workspace"
+          "dashboard": "dashboard"
         }
       }
     },
@@ -1224,24 +1443,36 @@
       "website-prospecting": {
         "category": "B2B Lead Recherche",
         "title": "B2B Lead Recherche Tool: Websites vor der Akquise prüfen",
-        "seoTitle": "B2B Lead Recherche Tool für Agenturen | LeadCue",
+        "seoTitle": "B2B Lead Recherche Tool für Solo-Profis | LeadCue",
         "description": "Prüfen Sie Prospect-Websites, erkennen Sie belastbare Akquise-Anlässe und priorisieren Sie B2B Leads vor der Kaltakquise.",
         "primaryKeyword": "B2B Lead Recherche Tool",
-        "secondaryKeywords": ["Website Analyse Kaltakquise", "Akquise Tool für Agenturen", "B2B Leads qualifizieren"]
+        "secondaryKeywords": [
+          "Website Analyse Kaltakquise",
+          "Akquise Tool für Solo-Profis",
+          "B2B Leads qualifizieren"
+        ]
       },
       "cold-email-first-lines": {
         "title": "Kaltakquise-E-Mail-Einstiege aus echten Website-Belegen",
         "seoTitle": "Kaltakquise E-Mail Einstieg | LeadCue",
         "description": "Schreiben Sie personalisierte Kaltakquise-Einstiege aus sichtbaren Website-Signalen statt generischer Komplimente.",
         "primaryKeyword": "Kaltakquise E-Mail Einstieg",
-        "secondaryKeywords": ["Kaltakquise E-Mail Personalisierung", "Website Analyse Kaltakquise", "Cold Email Einstieg"]
+        "secondaryKeywords": [
+          "Kaltakquise E-Mail Personalisierung",
+          "Website Analyse Kaltakquise",
+          "Cold Email Einstieg"
+        ]
       },
       "guides/website-audit-outreach": {
         "title": "Website Audit Akquise: erst hilfreiche Ideen senden",
         "seoTitle": "Website Audit Akquise Guide | LeadCue",
         "description": "Nutzen Sie Website-Audit-Akquise, um konkrete Beobachtungen und nützliche Ideen zu senden, bevor Sie ein Gespräch anfragen.",
         "primaryKeyword": "Website Audit Akquise",
-        "secondaryKeywords": ["Website Analyse Kaltakquise", "Kaltakquise E-Mail Personalisierung", "Agentur Akquise Tool"]
+        "secondaryKeywords": [
+          "Website Analyse Kaltakquise",
+          "Kaltakquise E-Mail Personalisierung",
+          "Solo-Profi Akquise Tool"
+        ]
       }
     },
     "productPages": {
@@ -1250,21 +1481,33 @@
         "seoTitle": "B2B Lead Recherche Chrome-Erweiterung | LeadCue",
         "description": "Prüfen Sie Prospect-Websites direkt in Chrome und speichern Sie Belege, Fit-Score und Kaltakquise-Kontext.",
         "primaryKeyword": "B2B Lead Recherche Chrome-Erweiterung",
-        "secondaryKeywords": ["Akquise Chrome-Erweiterung", "Website Analyse Kaltakquise", "Prospect Research Chrome Extension"]
+        "secondaryKeywords": [
+          "Akquise Chrome-Erweiterung",
+          "Website Analyse Kaltakquise",
+          "Prospect Research Chrome Extension"
+        ]
       },
       "tools/batch-website-review-queue": {
-        "title": "Batch Website Review Queue für Agentur-Akquise",
+        "title": "Batch Website Review Queue für Solo-Profi-Akquise",
         "seoTitle": "Batch Website Review Queue | LeadCue",
-        "description": "Importieren Sie Prospect-Websites in eine Review-Queue, priorisieren Sie Accounts und halten Sie Akquise-Recherche strukturiert.",
+        "description": "Importieren Sie Prospect-Websites in eine Review-Queue, priorisieren Sie Prospects und halten Sie Akquise-Recherche strukturiert.",
         "primaryKeyword": "Batch Website Review Queue",
-        "secondaryKeywords": ["Website Analyse Kaltakquise", "Akquise Tool für Agenturen", "B2B Leads qualifizieren"]
+        "secondaryKeywords": [
+          "Website Analyse Kaltakquise",
+          "Akquise Tool für Solo-Profis",
+          "B2B Leads qualifizieren"
+        ]
       },
-      "tools/outreach-context-workspace": {
-        "title": "Akquise-Kontext Workspace für Website-Recherche",
-        "seoTitle": "Akquise-Kontext Workspace | LeadCue",
-        "description": "Halten Sie Website-Belege, Fit-Score, E-Mail-Einstieg, Quellen-Notizen und CRM-Felder an einem Ort zusammen.",
-        "primaryKeyword": "Akquise-Kontext Workspace",
-        "secondaryKeywords": ["Kaltakquise E-Mail Personalisierung", "B2B Lead Recherche Tool", "Akquise Workflow"]
+      "tools/prospecting-dashboard": {
+        "title": "Akquise-Kontext dashboard für Website-Recherche",
+        "seoTitle": "Akquise-Kontext dashboard | LeadCue",
+        "description": "Halten Sie Website-Belege, Fit-Score, E-Mail-Einstieg, Quellen-Notizen und CSV-Felder an einem Ort zusammen.",
+        "primaryKeyword": "Akquise-Kontext dashboard",
+        "secondaryKeywords": [
+          "Kaltakquise E-Mail Personalisierung",
+          "B2B Lead Recherche Tool",
+          "Akquise Workflow"
+        ]
       }
     }
   },
@@ -1273,23 +1516,23 @@
       "home": {
         "seo": {
           "title": "LeadCue - B2B prospectie tool",
-          "description": "LeadCue helpt bureaus prospectwebsites beoordelen, relevante acquisitie-aanleidingen vinden en outreachcontext klaarzetten voordat leads naar CRM of e-mailtools gaan.",
-          "structuredDescription": "LeadCue is een B2B prospectie tool voor bureaus die websitebewijs, fitscores, koude-e-mailopeners en CRM-klare context samenbrengt."
+          "description": "LeadCue helpt solo professionals prospectwebsites beoordelen, relevante acquisitie-aanleidingen vinden en outreachcontext klaarzetten voordat leads naar CSV of e-mailtools gaan.",
+          "structuredDescription": "LeadCue is een B2B prospectie tool voor solo professionals die websitebewijs, fitscores, koude-e-mailopeners en CSV-klare context samenbrengt."
         },
         "hero": {
-          "eyebrow": "B2B prospectie tool voor bureaus",
+          "eyebrow": "B2B prospectie tool voor solo professionals",
           "titleLead": "Beoordeel websites voordat",
           "titleAccent": "je prospects benadert",
-          "subhead": "LeadCue helpt SEO-, webdesign- en growthbureaus prospectwebsites beoordelen, een concrete acquisitie-aanleiding vinden en outreachcontext voorbereiden.",
+          "subhead": "LeadCue helpt SEO-, webdesign- en growthsolo professionals prospectwebsites beoordelen, een concrete acquisitie-aanleiding vinden en outreachcontext voorbereiden.",
           "microcopy": "20 gratis scans. Google-login. Geen LinkedIn-scraping. Gebouwd voor websitebeoordeling vóór acquisitie.",
-          "visualNote": "Websitebewijs, fitscore en outreachcontext in één werkruimte"
+          "visualNote": "Websitebewijs, fitscore en outreachcontext in één dashboard"
         }
       },
       "content": {
         "productNav": {
           "extension": "Chrome-extensie",
           "reviewQueue": "Reviewqueue",
-          "workspace": "Werkruimte"
+          "dashboard": "Dashboard"
         }
       }
     },
@@ -1297,24 +1540,36 @@
       "website-prospecting": {
         "category": "B2B prospectie",
         "title": "B2B prospectie tool: beoordeel websites vóór acquisitie",
-        "seoTitle": "B2B prospectie tool voor bureaus | LeadCue",
+        "seoTitle": "B2B prospectie tool voor solo professionals | LeadCue",
         "description": "Gebruik websiteanalyse om prospects te kwalificeren, acquisitie-aanleidingen te vinden en betere koude e-mails te schrijven.",
         "primaryKeyword": "B2B prospectie tool",
-        "secondaryKeywords": ["leadonderzoek tool", "website analyse voor acquisitie", "leads kwalificeren"]
+        "secondaryKeywords": [
+          "leadonderzoek tool",
+          "website analyse voor acquisitie",
+          "leads kwalificeren"
+        ]
       },
       "cold-email-first-lines": {
         "title": "Koude e-mail openingszin op basis van websitebewijs",
         "seoTitle": "Koude e-mail openingszin | LeadCue",
         "description": "Schrijf persoonlijke openingszinnen voor koude e-mails vanuit concrete signalen op de prospectwebsite.",
         "primaryKeyword": "koude e-mail openingszin",
-        "secondaryKeywords": ["koude e-mail personalisatie", "website analyse acquisitie", "persoonlijke openingszin"]
+        "secondaryKeywords": [
+          "koude e-mail personalisatie",
+          "website analyse acquisitie",
+          "persoonlijke openingszin"
+        ]
       },
       "guides/website-audit-outreach": {
         "title": "Website audit acquisitie: stuur eerst nuttige ideeën",
         "seoTitle": "Website Audit Acquisitie Guide | LeadCue",
         "description": "Gebruik website-auditacquisitie om concrete verbeterideeën te delen voordat je om een gesprek vraagt.",
         "primaryKeyword": "website audit acquisitie",
-        "secondaryKeywords": ["website analyse acquisitie", "koude e-mail personalisatie", "acquisitie tool voor bureaus"]
+        "secondaryKeywords": [
+          "website analyse acquisitie",
+          "koude e-mail personalisatie",
+          "acquisitie tool voor solo professionals"
+        ]
       }
     },
     "productPages": {
@@ -1323,21 +1578,33 @@
         "seoTitle": "Leadonderzoek Chrome-extensie | LeadCue",
         "description": "Beoordeel prospectwebsites in Chrome en sla websitebewijs, fitscore en outreachcontext direct op.",
         "primaryKeyword": "leadonderzoek Chrome-extensie",
-        "secondaryKeywords": ["B2B prospectie tool", "website analyse acquisitie", "prospectie Chrome-extensie"]
+        "secondaryKeywords": [
+          "B2B prospectie tool",
+          "website analyse acquisitie",
+          "prospectie Chrome-extensie"
+        ]
       },
       "tools/batch-website-review-queue": {
         "title": "Batch website reviewqueue voor B2B prospectie",
         "seoTitle": "Batch Website Reviewqueue | LeadCue",
         "description": "Importeer prospectwebsites, beoordeel ze in batches en bewaar alleen leads die klaar zijn voor acquisitie.",
         "primaryKeyword": "batch website reviewqueue",
-        "secondaryKeywords": ["B2B prospectie tool", "website analyse acquisitie", "leads kwalificeren"]
+        "secondaryKeywords": [
+          "B2B prospectie tool",
+          "website analyse acquisitie",
+          "leads kwalificeren"
+        ]
       },
-      "tools/outreach-context-workspace": {
-        "title": "Outreachcontext werkruimte voor websiteprospectie",
-        "seoTitle": "Outreachcontext Werkruimte | LeadCue",
-        "description": "Houd websitebewijs, fitscore, openingszin, bronnotities en CRM-velden samen voordat outreach start.",
-        "primaryKeyword": "outreachcontext werkruimte",
-        "secondaryKeywords": ["koude e-mail personalisatie", "leadonderzoek tool", "B2B prospectie tool"]
+      "tools/prospecting-dashboard": {
+        "title": "Outreachcontext dashboard voor websiteprospectie",
+        "seoTitle": "Outreachcontext Dashboard | LeadCue",
+        "description": "Houd websitebewijs, fitscore, openingszin, bronnotities en CSV-velden samen voordat outreach start.",
+        "primaryKeyword": "outreachcontext dashboard",
+        "secondaryKeywords": [
+          "koude e-mail personalisatie",
+          "leadonderzoek tool",
+          "B2B prospectie tool"
+        ]
       }
     }
   },
@@ -1346,14 +1613,14 @@
       "home": {
         "seo": {
           "title": "LeadCue - outil de recherche de prospects",
-          "description": "LeadCue aide les agences à qualifier les prospects à partir de leur site web, trouver une raison de contact et préparer le contexte avant le CRM ou l'emailing.",
-          "structuredDescription": "LeadCue est un outil de recherche de prospects pour agences qui réunit preuves du site, score d'adéquation, premières lignes d'email et contexte prêt pour le CRM."
+          "description": "LeadCue aide les professionnels indépendants à qualifier les prospects à partir de leur site web, trouver une raison de contact et préparer le contexte avant le CSV ou l'emailing.",
+          "structuredDescription": "LeadCue est un outil de recherche de prospects pour professionnels indépendants qui réunit preuves du site, score d'adéquation, premières lignes d'email et contexte prêt pour le CSV."
         },
         "hero": {
-          "eyebrow": "Outil de recherche de prospects pour agences",
+          "eyebrow": "Outil de recherche de prospects pour professionnels indépendants",
           "titleLead": "Qualifier les prospects",
           "titleAccent": "à partir de leur site web",
-          "subhead": "LeadCue aide les agences SEO, web design et growth à examiner les sites prospects, trouver une raison crédible de contact et préparer le contexte de prospection.",
+          "subhead": "LeadCue aide les professionnels indépendants SEO, web design et growth à examiner les sites prospects, trouver une raison crédible de contact et préparer le contexte de prospection.",
           "microcopy": "20 analyses gratuites. Connexion Google. Sans scraping LinkedIn. Conçu pour examiner les sites avant la prospection.",
           "visualNote": "Preuves du site, score d'adéquation et contexte de prospection dans un seul espace"
         }
@@ -1362,7 +1629,7 @@
         "productNav": {
           "extension": "Extension Chrome",
           "reviewQueue": "File d'analyse",
-          "workspace": "Espace de travail"
+          "dashboard": "Tableau de bord"
         }
       }
     },
@@ -1370,24 +1637,36 @@
       "website-prospecting": {
         "category": "Recherche de prospects",
         "title": "Outil de recherche de prospects à partir des sites web",
-        "seoTitle": "Outil de recherche de prospects pour agences | LeadCue",
+        "seoTitle": "Outil de recherche de prospects pour professionnels indépendants | LeadCue",
         "description": "Analysez les sites prospects pour qualifier les comptes, trouver des angles de prospection et rédiger des emails plus crédibles.",
         "primaryKeyword": "outil de recherche de prospects",
-        "secondaryKeywords": ["outil de prospection B2B", "prospection commerciale agence", "qualification de leads B2B"]
+        "secondaryKeywords": [
+          "outil de prospection B2B",
+          "prospection commerciale professionnel indépendant",
+          "qualification de leads B2B"
+        ]
       },
       "cold-email-first-lines": {
         "title": "Première phrase d'email de prospection issue du site web",
         "seoTitle": "Première phrase email de prospection | LeadCue",
         "description": "Rédigez des premières phrases d'email de prospection à partir d'observations vérifiables sur le site du prospect.",
         "primaryKeyword": "première phrase email de prospection",
-        "secondaryKeywords": ["email de prospection personnalisé", "prospection par site web", "email à froid personnalisé"]
+        "secondaryKeywords": [
+          "email de prospection personnalisé",
+          "prospection par site web",
+          "email à froid personnalisé"
+        ]
       },
       "guides/website-audit-outreach": {
         "title": "Audit de site pour la prospection : envoyer des idées utiles",
         "seoTitle": "Audit de site prospection | LeadCue",
         "description": "Utilisez un audit de site léger pour ouvrir une conversation utile avant de demander un rendez-vous commercial.",
         "primaryKeyword": "audit de site prospection",
-        "secondaryKeywords": ["prospection par audit de site", "email de prospection personnalisé", "outil prospection agence web"]
+        "secondaryKeywords": [
+          "prospection par audit de site",
+          "email de prospection personnalisé",
+          "outil prospection professionnel indépendant web"
+        ]
       }
     },
     "productPages": {
@@ -1396,21 +1675,33 @@
         "seoTitle": "Extension Chrome recherche de prospects | LeadCue",
         "description": "Analysez un site prospect dans Chrome, capturez les preuves visibles et sauvegardez le contexte de prospection.",
         "primaryKeyword": "extension Chrome recherche de prospects",
-        "secondaryKeywords": ["outil de recherche de prospects", "prospection commerciale agence", "analyse site prospect"]
+        "secondaryKeywords": [
+          "outil de recherche de prospects",
+          "prospection commerciale professionnel indépendant",
+          "analyse site prospect"
+        ]
       },
       "tools/batch-website-review-queue": {
         "title": "File d'analyse de sites pour la prospection B2B",
         "seoTitle": "File d'analyse de sites prospects | LeadCue",
         "description": "Importez des sites prospects, qualifiez-les en file d'attente et gardez seulement les comptes prêts pour la prospection.",
         "primaryKeyword": "file d'analyse de sites prospects",
-        "secondaryKeywords": ["outil de prospection B2B", "qualification de leads B2B", "analyse site prospect"]
+        "secondaryKeywords": [
+          "outil de prospection B2B",
+          "qualification de leads B2B",
+          "analyse site prospect"
+        ]
       },
-      "tools/outreach-context-workspace": {
+      "tools/prospecting-dashboard": {
         "title": "Espace de contexte pour les emails de prospection",
         "seoTitle": "Espace de contexte prospection | LeadCue",
-        "description": "Gardez preuves du site, score d'adéquation, première phrase, notes sources et champs CRM dans le même espace.",
+        "description": "Gardez preuves du site, score d'adéquation, première phrase, notes sources et champs CSV dans le même espace.",
         "primaryKeyword": "espace de contexte prospection",
-        "secondaryKeywords": ["email de prospection personnalisé", "outil de recherche de prospects", "qualification de leads B2B"]
+        "secondaryKeywords": [
+          "email de prospection personnalisé",
+          "outil de recherche de prospects",
+          "qualification de leads B2B"
+        ]
       }
     }
   }

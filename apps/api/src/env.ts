@@ -23,5 +23,7 @@ export interface Env {
   STRIPE_PRICE_AGENCY?: string;
   STRIPE_PORTAL_RETURN_URL?: string;
   STRIPE_WEBHOOK_SECRET?: string;
+  TURNSTILE_SECRET_KEY?: string;
+  FREE_TOOL_DAILY_LIMIT?: string;
   LEADCUE_TEST_MODE?: string;
 }

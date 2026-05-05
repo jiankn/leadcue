@@ -391,7 +391,7 @@ function getRouteMeta(basePath) {
     return { changefreq: "monthly", priority: "0.78" };
   }
 
-  if (basePath === "/agency-lead-qualification") {
+  if (basePath === "/prospect-qualification") {
     return { changefreq: "monthly", priority: "0.85" };
   }
 

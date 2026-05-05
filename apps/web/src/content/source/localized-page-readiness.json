@@ -1,11 +1,11 @@
 {
   "seoPages": {
-    "website-first-outbound-research": ["en"],
-    "website-research-layer-for-agencies": ["en"],
+    "ai-website-prospecting-tool": ["en"],
+    "ai-prospect-research-tool": ["en"],
     "guides/website-opportunity-signals": ["en"],
     "guides/find-a-reason-to-contact-prospects": ["en"],
     "guides/source-backed-prospect-notes": ["en"],
-    "guides/icp-fit-score-for-agency-outbound": ["en"]
+    "guides/icp-fit-score-for-solo-prospecting": ["en"]
   },
   "productPages": {
     "tools/prospect-card": ["en"]

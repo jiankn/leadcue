@@ -28,9 +28,9 @@ await desktop.locator("#start").screenshot({ path: join(outputDir, "start-after-
 await desktop.goto(`${baseUrl}/signup?plan=pro`, { waitUntil: "networkidle" });
 await desktop.waitForTimeout(700);
 await desktop.screenshot({ path: join(outputDir, "signup-after-desktop.png") });
-await desktop.getByLabel("Work email").fill("visual-check@agency.com");
-await desktop.getByLabel("Agency focus").selectOption("seo");
-await desktop.getByLabel("Agency website").fill("https://northstar.agency");
+await desktop.getByLabel("Work email").fill("visual-check@leadcue.test");
+await desktop.getByLabel("Focus area").selectOption("seo");
+await desktop.getByLabel("Your website").fill("https://northstar-studio.example");
 await desktop.getByRole("button", { name: "Continue" }).click();
 await desktop.waitForTimeout(400);
 await desktop.screenshot({ path: join(outputDir, "signup-step-two-after-desktop.png") });
@@ -69,9 +69,9 @@ await mobile.locator("#start").screenshot({ path: join(outputDir, "start-after-m
 await mobile.goto(`${baseUrl}/signup?plan=pro`, { waitUntil: "networkidle" });
 await mobile.waitForTimeout(700);
 await mobile.screenshot({ path: join(outputDir, "signup-after-mobile.png") });
-await mobile.getByLabel("Work email").fill("visual-check@agency.com");
-await mobile.getByLabel("Agency focus").selectOption("seo");
-await mobile.getByLabel("Agency website").fill("https://northstar.agency");
+await mobile.getByLabel("Work email").fill("visual-check@leadcue.test");
+await mobile.getByLabel("Focus area").selectOption("seo");
+await mobile.getByLabel("Your website").fill("https://northstar-studio.example");
 await mobile.getByRole("button", { name: "Continue" }).click();
 await mobile.waitForTimeout(400);
 await mobile.screenshot({ path: join(outputDir, "signup-step-two-after-mobile.png") });

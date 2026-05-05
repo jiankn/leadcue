@@ -54,7 +54,7 @@
   <rect x="882" y="246" width="258" height="274" rx="28" fill="#0D4540" stroke="#1E6A63" />
   <text x="914" y="302" fill="#BFE7DD" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="24" font-weight="700">Qualified fit</text>
   <text x="914" y="386" fill="url(#glow)" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="92" font-weight="800">92</text>
-  <text x="914" y="432" fill="#D3EEE7" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="24" font-weight="600">リードを保存してエクスポートする前に使用できるスコア付け方法をチームに提供します。</text>
+  <text x="914" y="432" fill="#D3EEE7" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="24" font-weight="600">Give solo operators a scoring method they can use before saving and exporting prospects.</text>
   <rect x="914" y="458" width="194" height="14" rx="7" fill="#135852" />
   <rect x="914" y="458" width="138" height="14" rx="7" fill="#96FF6A" />
 </svg>

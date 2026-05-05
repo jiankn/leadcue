@@ -12,39 +12,39 @@ export type CommercialPageDefinition = {
 export const commercialPages: Record<CommercialPageSlug, CommercialPageDefinition> = {
   docs: {
     eyebrow: "Documentation",
-    title: "Run website-first prospecting without building another list tool.",
+    title: "Run AI website prospecting without building another list tool.",
     summary:
-      "Use these docs to set up a workspace, run scans, interpret Prospect Cards, manage credits, and hand qualified research to CRM or outbound tools.",
+      "Use these docs to set up your profile, run scans, interpret Prospect Cards, manage credits, and export qualified research for outreach.",
     primaryAction: { label: "Open dashboard", href: "/app" },
     secondaryAction: { label: "Contact support", href: "/support" },
     sections: [
       {
         title: "Quick start",
-        copy: "LeadCue works best when each scan starts from a real company website, a defined agency offer, and an owner who knows why the account matters.",
+        copy: "LeadCue works best when each scan starts from a real company website, a defined offer, and a clear reason why the prospect matters.",
         items: [
-          "Create a workspace with Google or work email and complete the scoring profile.",
-          "Choose the monthly scan volume that matches how often your team reviews websites.",
+          "Sign in with Google or email and complete the scoring profile.",
+          "Choose the monthly scan volume that matches how often you review websites.",
           "Load one real prospect URL, add visible website notes, and run the first scan.",
-          "Review the Prospect Card before copying first lines or exporting the lead."
+          "Review the Prospect Card before copying first lines or exporting the prospect."
         ]
       },
       {
         title: "How to read a Prospect Card",
-        copy: "Every saved card is meant to answer three questions fast: why this account fits, what the website proves, and what your rep should say next.",
+        copy: "Every saved card is meant to answer three questions fast: why this prospect fits, what the website proves, and what you should say next.",
         items: [
           "Fit score combines your offer, industry, geography, and signal quality.",
           "Signals and source notes keep claims attached to visible website evidence.",
           "First line and short email stay grounded in the saved evidence instead of generic personalization.",
-          "Export fields keep CRM-ready context tied to the same lead record."
+          "Export fields keep source-backed context tied to the same prospect record."
         ]
       },
       {
         title: "Operating model",
-        copy: "LeadCue is the research layer before outreach. It should sharpen qualification, not replace human review, CRM ownership, or compliance checks.",
+        copy: "LeadCue is the research layer before outreach. It should sharpen qualification, not replace human review or compliance checks.",
         items: [
-          "Run scans only on accounts your team actually wants to evaluate.",
-          "Save leads when the website evidence is specific enough to justify contact.",
-          "Use CSV exports or CRM field mapping to move only qualified research downstream.",
+          "Run scans only on prospects you actually want to evaluate.",
+          "Save prospects when the website evidence is specific enough to justify contact.",
+          "Use CSV exports to move only qualified research downstream.",
           "Refresh ICP settings any time your offer, regions, or target industries change."
         ]
       }
@@ -52,20 +52,20 @@ export const commercialPages: Record<CommercialPageSlug, CommercialPageDefinitio
   },
   support: {
     eyebrow: "Support",
-    title: "Get help with account access, billing, scans, exports, and rollout questions.",
+    title: "Get help with login access, billing, scans, exports, and setup questions.",
     summary:
-      "Support is structured around the actual outbound workflow: signing in, configuring the workspace, scanning websites, exporting leads, and staying within plan limits.",
+      "Support is structured around the actual personal prospecting workflow: signing in, configuring your profile, scanning websites, exporting prospects, and staying within plan limits.",
     primaryAction: { label: "Email support", href: "mailto:support@leadcue.app" },
     secondaryAction: { label: "Read docs", href: "/docs" },
     sections: [
       {
-        title: "Account access",
+        title: "Login access",
         copy: "Most login issues are recoverable in-product before they become a support ticket.",
         items: [
-          "Use Google sign-in if the workspace was created with OAuth.",
-          "Use the email password flow if the workspace owner enabled password access.",
+          "Use Google sign-in if the profile was created with OAuth.",
+          "Use the email password flow if you created an email login.",
           "Reset password from the login page when the work email is correct but the password is unknown.",
-          "Include the workspace email and any auth_error message if support is still needed."
+          "Include the login email and any auth_error message if support is still needed."
         ]
       },
       {
@@ -74,16 +74,16 @@ export const commercialPages: Record<CommercialPageSlug, CommercialPageDefinitio
         items: [
           "Share the prospect URL or scan ID when a Prospect Card looks weak or incomplete.",
           "Mention whether the scan was basic or deep and whether credits were charged.",
-          "Include the export preset or CRM naming mode when CSV output looks wrong.",
+          "Include the export preset or destination naming mode when CSV output looks wrong.",
           "Attach the expected outcome and the actual result so support can reproduce it."
         ]
       },
       {
         title: "Billing and launch service levels",
-        copy: "LeadCue currently prioritizes billing blockers, account access, and scan-quality issues that stop an agency team from operating week to week.",
+        copy: "LeadCue currently prioritizes billing blockers, login access, and scan-quality issues that stop personal prospecting work week to week.",
         items: [
           "Billing portal and subscription state issues are prioritized first.",
-          "Plan-fit questions should include expected monthly scan volume and seat count.",
+          "Plan-fit questions should include expected monthly scan volume.",
           "Security or privacy concerns should be sent directly to support@leadcue.app.",
           "Feature requests should describe the outbound workflow they would unlock."
         ]
@@ -92,30 +92,30 @@ export const commercialPages: Record<CommercialPageSlug, CommercialPageDefinitio
   },
   contact: {
     eyebrow: "Contact",
-    title: "Talk to LeadCue about agency prospecting workflows, plan fit, and rollout setup.",
+    title: "Talk to LeadCue about personal prospecting workflows, plan fit, and setup.",
     summary:
-      "Use contact when you need help deciding if the product matches your workflow, how to map fields into CRM, or how to introduce website-first research to a team.",
+      "Use contact when you need help deciding if the product matches your workflow, how to map fields into CSV, or how to use AI website prospecting in your weekly outreach.",
     primaryAction: { label: "Email LeadCue", href: "mailto:support@leadcue.app" },
     secondaryAction: { label: "Start free", href: "/signup" },
     sections: [
       {
         title: "Who LeadCue is for",
-        copy: "LeadCue is strongest for teams already selling web design, SEO, CRO, positioning, or related services where visible website evidence creates a credible outreach angle.",
+        copy: "LeadCue is strongest for solo professionals selling web design, SEO, CRO, positioning, or related services where visible website evidence creates a credible outreach angle.",
         items: [
           "Solo founders building a weekly outbound habit.",
-          "Small agencies that need better qualification before list export.",
-          "Outbound teams that want CRM-ready research instead of generic leads.",
-          "Ops owners who need a clear handoff between research and outreach."
+          "Web design freelancers who need better qualification before list export.",
+          "Independent consultants who want export-ready research instead of generic leads.",
+          "Individual sales operators who need a clear path from research to outreach."
         ]
       },
       {
         title: "What to discuss before rollout",
         copy: "A good rollout conversation starts from one real workflow and one real offer, not from abstract tool comparisons.",
         items: [
-          "What a qualified account looks like for your agency.",
+          "What a qualified prospect looks like for your offer.",
           "Where saved Prospect Cards should go after review.",
           "Which website signals matter most for your offer.",
-          "How much monthly scan volume the team will realistically use."
+          "How much monthly scan volume you will realistically use."
         ]
       },
       {
@@ -124,7 +124,7 @@ export const commercialPages: Record<CommercialPageSlug, CommercialPageDefinitio
         items: [
           "LeadCue does not send campaigns.",
           "LeadCue does not scrape LinkedIn or build contact databases.",
-          "LeadCue does not replace CRM ownership or legal review.",
+          "LeadCue does not replace legal review.",
           "LeadCue does not remove the need for human judgment before contact."
         ]
       }
@@ -134,17 +134,17 @@ export const commercialPages: Record<CommercialPageSlug, CommercialPageDefinitio
     eyebrow: "Privacy",
     title: "Privacy principles for website-first prospect research.",
     summary:
-      "LeadCue is built around user-triggered website analysis, workspace setup data, secure account sessions, and saved research needed for agency outbound operations.",
+      "LeadCue is built around user-triggered website analysis, profile setup data, secure login sessions, and saved research needed for personal outreach.",
     primaryAction: { label: "Contact privacy support", href: "mailto:support@leadcue.app" },
     secondaryAction: { label: "Back home", href: "/" },
     sections: [
       {
         title: "Data we process",
-        copy: "Commercial workspace data is intentionally narrow and tied to the product workflow rather than passive collection.",
+        copy: "Profile data is intentionally narrow and tied to the product workflow rather than passive collection.",
         items: [
-          "Account identity from Google OAuth or work email signup.",
-          "Workspace plan, subscription state, and scan-credit usage.",
-          "Agency ICP settings used to score prospect websites.",
+          "Login identity from Google OAuth or email signup.",
+          "Plan, subscription state, and scan-credit usage.",
+          "ICP settings used to score prospect websites.",
           "Prospect website snapshots, generated notes, activity log changes, and saved Prospect Cards."
         ]
       },
@@ -160,21 +160,21 @@ export const commercialPages: Record<CommercialPageSlug, CommercialPageDefinitio
       },
       {
         title: "Security and retention controls",
-        copy: "Users should be able to understand what was stored, why it was stored, and how it will leave the workspace.",
+        copy: "Users should be able to understand what was stored, why it was stored, and how it will leave the product.",
         items: [
-          "Workspace sessions use server-side cookies instead of exposing tokens in the client.",
+          "Login sessions use server-side cookies instead of exposing tokens in the client.",
           "Password resets use short-lived, one-time tokens.",
           "Billing operations are routed through Stripe when payment is configured.",
-          "Teams can contact support for privacy questions or deletion requests."
+          "Users can contact support for privacy questions or deletion requests."
         ]
       }
     ]
   },
   terms: {
     eyebrow: "Terms",
-    title: "Commercial usage terms for LeadCue workspaces.",
+    title: "Commercial usage terms for LeadCue users.",
     summary:
-      "These terms describe the intended product boundary: website research, prospect qualification, secure account access, and export-ready notes for agency outbound teams.",
+      "These terms describe the intended product boundary: website research, prospect qualification, secure login access, and export-ready notes for solo professionals.",
     primaryAction: { label: "Start free", href: "/signup" },
     secondaryAction: { label: "Ask a question", href: "/contact" },
     sections: [
@@ -192,10 +192,10 @@ export const commercialPages: Record<CommercialPageSlug, CommercialPageDefinitio
         title: "Plans, credits, and subscriptions",
         copy: "Plans are organized around monthly website-scan capacity, with deeper analysis using more credits when configured.",
         items: [
-          "Free workspaces include limited monthly scan volume.",
+          "The Free plan includes limited monthly scan volume.",
           "Deep scans can consume additional credits based on the published plan rules.",
           "Paid subscriptions use Stripe when billing is configured.",
-          "Customers are responsible for monitoring plan fit, credits, and workspace usage."
+          "Customers are responsible for monitoring plan fit, credits, and usage."
         ]
       },
       {
@@ -203,7 +203,7 @@ export const commercialPages: Record<CommercialPageSlug, CommercialPageDefinitio
         copy: "LeadCue is the research layer before outreach. It does not guarantee sales outcomes and should be treated as decision support plus structured export.",
         items: [
           "LeadCue does not send campaigns.",
-          "LeadCue does not replace CRM governance or compliance review.",
+          "LeadCue does not replace compliance review.",
           "Generated Prospect Cards are informational and should be reviewed by the customer.",
           "Customers remain responsible for how exported data and outreach copy are used."
         ]

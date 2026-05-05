@@ -13,9 +13,9 @@ describe("parseSiteLocalePath", () => {
   it("defaults to en for plain paths", () => {
     expect(parseSiteLocalePath("/")).toEqual({ locale: "en", path: "/" });
     expect(parseSiteLocalePath("/app")).toEqual({ locale: "en", path: "/app" });
-    expect(parseSiteLocalePath("/templates/crm-csv-field-mapping")).toEqual({
+    expect(parseSiteLocalePath("/templates/csv-field-mapping")).toEqual({
       locale: "en",
-      path: "/templates/crm-csv-field-mapping"
+      path: "/templates/csv-field-mapping"
     });
   });
 

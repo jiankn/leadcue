@@ -267,6 +267,30 @@
   margin: 0.25rem 0 0;
 }
 
+.billing-kpis > div {
+  gap: 0.34rem;
+  min-height: 72px;
+  padding: 1rem 1.08rem;
+  border-color: rgba(12, 77, 69, 0.2);
+  background: linear-gradient(180deg, #ffffff 0%, #f3faf6 100%);
+  box-shadow: 0 12px 28px rgba(5, 45, 38, 0.1);
+}
+
+.billing-kpis span {
+  color: rgba(12, 77, 69, 0.78);
+  font-size: 0.86rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  text-transform: none;
+}
+
+.billing-kpis strong {
+  color: #073f36;
+  font-size: clamp(1.05rem, 1.6vw, 1.22rem);
+  font-weight: 800;
+  line-height: 1.25;
+}
+
 .billing-meter-meta {
   display: flex;
   flex-wrap: wrap;

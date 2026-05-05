@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
-  <title id="title">File d'analyse de sites pour agence</title>
-  <desc id="desc">Examiner, prioriser et qualifier des listes de domaines avant qu'elles n'entrent dans l'outreach ou le CRM.</desc>
+  <title id="title">File d'analyse de sites pour professionnel indépendant</title>
+  <desc id="desc">Examiner, prioriser et qualifier des listes de domaines avant qu'elles n'entrent dans l'outreach ou le CSV.</desc>
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="630" gradientUnits="userSpaceOnUse">
       <stop stop-color="#073733" />
@@ -35,10 +35,11 @@
     <text x="22" y="30" fill="#96FF6A" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="22" font-weight="700">Workflow produit</text>
   </g>
   <text x="78" y="336" fill="#F7FFFC" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="72" font-weight="800">File d'analyse de sites</text>
-<text x="78" y="420" fill="#F7FFFC" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="72" font-weight="800">pour agence</text>
+<text x="78" y="420" fill="#F7FFFC" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="72" font-weight="800">pour professionnel</text>
+<text x="78" y="504" fill="#F7FFFC" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="72" font-weight="800">indépendant</text>
   <text x="78" y="514" fill="#D3EEE7" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="30" font-weight="600">Examiner, prioriser et qualifier des listes de</text>
 <text x="78" y="554" fill="#D3EEE7" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="30" font-weight="600">domaines avant qu'elles n'entrent dans l'outreach ou</text>
-<text x="78" y="594" fill="#D3EEE7" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="30" font-weight="600">le CRM.</text>
+<text x="78" y="594" fill="#D3EEE7" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="30" font-weight="600">le CSV.</text>
   <g transform="translate(78, 548)">
     <rect width="262" height="44" rx="22" fill="#114b45" stroke="#1f6d66" />
     <text x="22" y="29" fill="#dffbf3" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="20" font-weight="700">file d'analyse de sites pro…</text>

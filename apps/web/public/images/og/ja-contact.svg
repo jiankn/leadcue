@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
-  <title id="title">代理店の見込み客ワークフロー、計画の適合、展開の設定について LeadCue に相談してください。</title>
-  <desc id="desc">製品がワークフローに適合するかどうか、フィールドを CRM にマッピングする方法、または Webサイトファーストの調査をチームに導入する方法を決定する際にサポートが必要な場合は、お問い合わせを使用してください。</desc>
+  <title id="title">Talk to LeadCue about personal prospecting workflows, plan fit, and setup.</title>
+  <desc id="desc">Use contact when you need help deciding if the product matches your workflow, how to map fields into CSV, or how to use AI website prospecting in your weekly outreach.</desc>
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="630" gradientUnits="userSpaceOnUse">
       <stop stop-color="#073733" />
@@ -34,10 +34,12 @@
     <rect width="330" height="46" rx="23" fill="#0D4540" stroke="#1E6A63" />
     <text x="22" y="30" fill="#96FF6A" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="22" font-weight="700">お問い合わせ</text>
   </g>
-  <text x="78" y="336" fill="#F7FFFC" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="72" font-weight="800">代理店の見込み客ワークフロー、計画の適合、展開の設定について</text>
-<text x="78" y="420" fill="#F7FFFC" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="72" font-weight="800">LeadCue に相談してください。</text>
-  <text x="78" y="514" fill="#D3EEE7" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="30" font-weight="600">製品がワークフローに適合するかどうか、フィールドを CRM にマッピングする方法、または</text>
-<text x="78" y="554" fill="#D3EEE7" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="30" font-weight="600">Webサイトファーストの調査をチームに導入する方法を決定する際にサポートが必要な場合は、お問い合わせを使用してください。</text>
+  <text x="78" y="336" fill="#F7FFFC" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="72" font-weight="800">Talk to LeadCue about</text>
+<text x="78" y="420" fill="#F7FFFC" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="72" font-weight="800">personal prospecting</text>
+<text x="78" y="504" fill="#F7FFFC" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="72" font-weight="800">workflows, plan fit, and…</text>
+  <text x="78" y="514" fill="#D3EEE7" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="30" font-weight="600">Use contact when you need help deciding if the</text>
+<text x="78" y="554" fill="#D3EEE7" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="30" font-weight="600">product matches your workflow, how to map fields</text>
+<text x="78" y="594" fill="#D3EEE7" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="30" font-weight="600">into CSV, or how to use AI website prospecting in…</text>
   <g transform="translate(78, 548)">
     <rect width="262" height="44" rx="22" fill="#114b45" stroke="#1f6d66" />
     <text x="22" y="29" fill="#dffbf3" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="20" font-weight="700">お問い合わせ</text>

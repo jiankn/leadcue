@@ -37,29 +37,29 @@ export const seoContentPages: SeoContentPage[] = [
     slug: "website-prospecting",
     eyebrow: "Core concept",
     category: "Website prospecting",
-    title: "Website prospecting: turn company pages into qualified outbound accounts",
-    seoTitle: "Website Prospecting Guide for Agency Outbound | LeadCue",
+    title: "Website prospecting: turn company pages into qualified prospects",
+    seoTitle: "Website Prospecting Guide for Solo Professionals | LeadCue",
     description:
-      "Learn how website prospecting helps agencies qualify accounts, find evidence-backed sales angles, and write better outreach from public company pages.",
-    intent: "Explain the category for teams searching for a better way to prospect from websites.",
+      "Learn how website prospecting helps solo professionals qualify prospects, find evidence-backed angles, and write better outreach from public company pages.",
+    intent: "Explain the category for individual operators searching for a better way to prospect from websites.",
     readingTime: "7 min read",
     updatedAt: "2026-04-23",
     primaryKeyword: "website prospecting",
-    secondaryKeywords: ["website-first prospecting", "prospect website research", "agency outbound research"],
+    secondaryKeywords: ["AI website prospecting tool", "prospect website research", "website research for cold email"],
     heroBullets: [
       "Start from a real company website instead of a generic contact list.",
       "Score fit with visible evidence: CTAs, proof, positioning, content gaps, and contact paths.",
-      "Turn each observation into a first line, outreach angle, and CRM-ready note."
+      "Turn each observation into a first line, outreach angle, and export-ready note."
     ],
     sections: [
       {
         title: "What website prospecting means",
         copy:
-          "Website prospecting is the process of qualifying a company by reading the public signals on its site before you write outreach. For agencies, the website usually contains the pain: unclear positioning, weak proof, hidden calls to action, stale content, missing service pages, or conversion gaps.",
+          "Website prospecting is the process of qualifying a company by reading the public signals on its site before you write outreach. For solo professionals, the website often contains the useful angle: unclear positioning, weak proof, hidden calls to action, stale content, missing service pages, or conversion gaps.",
         items: [
           "It is useful when your offer improves websites, SEO, conversion, demand generation, or messaging.",
-          "It creates a reason to contact the account that is visible and source-backed.",
-          "It keeps reps from saving leads just because a company matches an industry filter."
+          "It creates a reason to contact the prospect that is visible and source-backed.",
+          "It keeps you from saving leads just because a company matches an industry filter."
         ]
       },
       {
@@ -86,7 +86,7 @@ export const seoContentPages: SeoContentPage[] = [
     example: {
       title: "Example website prospecting note",
       copy:
-        "Northstar Analytics explains its reporting product clearly, but the demo CTA and finance-team proof are not visible until after the first scroll.",
+        "Northstar Analytics explains its reporting product clearly, but the demo CTA and finance proof are not visible until after the first scroll.",
       items: [
         "Signal: Demo CTA appears late on the homepage.",
         "Business angle: High-intent visitors may understand the product without knowing why to act now.",
@@ -97,115 +97,115 @@ export const seoContentPages: SeoContentPage[] = [
       {
         question: "Is website prospecting the same as website scraping?",
         answer:
-          "No. Website prospecting uses visible public website information to qualify an account and prepare better outreach. It does not require scraping social networks or buying contact databases."
+          "No. Website prospecting uses visible public website information to qualify a prospect and prepare better outreach. It does not require scraping social networks or buying contact databases."
       },
       {
         question: "Who should use website prospecting?",
         answer:
-          "It is strongest for web design, SEO, growth, CRO, and marketing agencies because their offers can be tied directly to website observations."
+          "It is strongest for web design freelancers, SEO consultants, growth consultants, CRO specialists, and solo founders because their offers can be tied directly to website observations."
       },
       {
-        question: "What should be saved in the CRM?",
+        question: "What should be saved before export?",
         answer:
-          "Save the company, website URL, fit score, source-backed signals, first line, contact path, and the reason the account is worth outreach."
+          "Save the company, website URL, fit score, source-backed signals, first line, contact path, and the reason the prospect is worth outreach."
       }
     ],
-    related: ["website-first-outbound-research", "tools/prospect-card", "guides/website-opportunity-signals"]
+    related: ["tools/website-prospect-score-checker", "tools/website-opportunity-finder", "ai-website-prospecting-tool"]
   },
   {
-    slug: "website-first-outbound-research",
+    slug: "ai-website-prospecting-tool",
     eyebrow: "Core concept",
-    category: "Website-first outbound",
-    title: "Website-first outbound research: qualify accounts before outreach",
-    seoTitle: "Website-First Outbound Research for Agencies | LeadCue",
+    category: "AI website prospecting",
+    title: "AI website prospecting tool: qualify prospects before outreach",
+    seoTitle: "AI Website Prospecting Tool for Solo Professionals | LeadCue",
     description:
-      "Use website-first outbound research to find opportunity signals, score account fit, and prepare source-backed first lines before CRM or email tools.",
-    intent: "Define the LeadCue method for teams that research prospect websites before outreach.",
+      "Use AI website prospecting to find opportunity signals, score prospect fit, and prepare source-backed first lines before outreach.",
+    intent: "Define the LeadCue method for solo professionals who research prospect websites before outreach.",
     readingTime: "8 min read",
     updatedAt: "2026-05-03",
-    primaryKeyword: "website-first outbound research",
-    secondaryKeywords: ["website research before cold outreach", "website-first prospecting", "source-backed outreach context"],
+    primaryKeyword: "AI website prospecting tool",
+    secondaryKeywords: ["website research before cold outreach", "website prospecting tool", "source-backed outreach context"],
     heroBullets: [
       "Start with what the prospect's website already proves instead of a generic contact record.",
-      "Use opportunity signals and fit scoring to decide whether the account deserves outreach.",
-      "Turn the research into a Prospect Card that carries context into CRM, CSV, or email workflows."
+      "Use opportunity signals and fit scoring to decide whether the prospect deserves outreach.",
+      "Turn the research into a Prospect Card that carries context into CSV or email workflows."
     ],
     sections: [
       {
-        title: "What website-first outbound research changes",
+        title: "What AI website prospecting changes",
         copy:
-          "Traditional outbound often starts with a list and searches for a contact. Website-first outbound starts with the company website and asks whether there is a credible reason to contact the account at all.",
+          "Traditional outbound often starts with a list and searches for a contact. AI website prospecting starts with the company website and asks whether there is a credible reason to contact the prospect at all.",
         items: [
           "The first decision is qualification, not email discovery.",
           "The research output is a source-backed reason to contact, not a vague personalization line.",
-          "The handoff keeps website evidence, fit score, first line, and CRM fields together."
+          "The handoff keeps website evidence, fit score, first line, and export fields together."
         ]
       },
       {
         title: "Workflow matrix",
         copy:
-          "The workflow should move from public evidence to account judgment to outreach preparation without losing context between tools.",
+          "The workflow should move from public evidence to prospect judgment to outreach preparation without losing context between tools.",
         items: [
           "Review: inspect homepage, proof, CTA, service pages, content freshness, and contact path.",
           "Qualify: score ICP fit, signal strength, confidence, and outreach readiness.",
-          "Prepare: save a Prospect Card with source notes, first line, outreach angle, owner, and export status."
+          "Prepare: save a Prospect Card with source notes, first line, outreach angle, follow-up status, and export status."
         ]
       },
       {
         title: "When it is the right motion",
         copy:
-          "Website-first research is strongest when the agency's offer can be connected to visible website improvements or missed opportunities.",
+          "Website prospecting is strongest when your offer can be connected to visible website improvements or missed opportunities.",
         items: [
-          "Web design teams can use CTA, proof, navigation, and conversion signals.",
-          "SEO teams can use thin pages, stale content, weak internal paths, and missing intent pages.",
-          "Growth teams can use positioning, campaign path, lead magnet, and proof gaps."
+          "Web design freelancers can use CTA, proof, navigation, and conversion signals.",
+          "SEO consultants can use thin pages, stale content, weak internal paths, and missing intent pages.",
+          "Growth consultants can use positioning, campaign path, lead magnet, and proof gaps."
         ]
       }
     ],
     example: {
       title: "Website-first research example",
       copy:
-        "Instead of saving a SaaS company because it matches an industry filter, the researcher saves it because the site has a clear product story, hidden finance proof, and no above-the-fold demo CTA.",
+        "Instead of saving a SaaS company because it matches an industry filter, you save it because the site has a clear product story, hidden finance proof, and no above-the-fold demo CTA.",
       items: [
         "Signal: proof and CTA are not visible when intent is highest.",
-        "Fit: the agency sells conversion-focused website improvements.",
-        "Output: a Prospect Card with a verifiable first line and CRM-ready note."
+        "Fit: your offer is conversion-focused website improvements.",
+        "Output: a Prospect Card with a verifiable first line and export-ready note."
       ]
     },
     faqs: [
       {
-        question: "Is website-first outbound research the same as scraping?",
+        question: "Is AI website prospecting the same as scraping?",
         answer:
           "No. The workflow uses visible public website evidence, human review, and source-backed notes. It is not designed to scrape social platforms or build hidden contact intelligence."
       },
       {
-        question: "Who should use website-first outbound research?",
+        question: "Who should use AI website prospecting?",
         answer:
-          "It is strongest for SEO, web design, CRO, growth, positioning, and marketing agencies because their offers can be tied to website evidence."
+          "It is strongest for SEO consultants, web design freelancers, CRO specialists, growth consultants, positioning consultants, and solo founders because their offers can be tied to website evidence."
       },
       {
         question: "What should be produced before outreach starts?",
         answer:
-          "A saved Prospect Card should include fit score, opportunity signals, source notes, first line, reason to contact, owner, and export status."
+          "A saved Prospect Card should include fit score, opportunity signals, source notes, first line, reason to contact, and export status."
       }
     ],
-    related: ["website-prospecting", "tools/prospect-card", "website-research-layer-for-agencies"]
+    related: ["website-prospecting", "tools/prospect-card", "ai-prospect-research-tool"]
   },
   {
-    slug: "website-research-layer-for-agencies",
+    slug: "ai-prospect-research-tool",
     eyebrow: "Product category",
     category: "Research layer",
-    title: "Website research layer for agencies: the step before CRM and email",
-    seoTitle: "Website Research Layer for Agencies | LeadCue",
+    title: "AI prospect research tool: the step before cold email",
+    seoTitle: "AI Prospect Research Tool for Solo Professionals | LeadCue",
     description:
-      "Learn why agencies need a website research layer that qualifies accounts, preserves source evidence, and prepares outreach context before downstream tools.",
-    intent: "Position LeadCue as the research layer between account lists and outreach execution.",
+      "Learn why solo professionals need a prospect research tool that qualifies companies, preserves source evidence, and prepares outreach context before sending cold email.",
+    intent: "Position LeadCue as the research layer between prospect lists and outreach execution.",
     readingTime: "8 min read",
     updatedAt: "2026-05-03",
-    primaryKeyword: "website research layer for agencies",
-    secondaryKeywords: ["outreach research layer", "agency prospect research workflow", "qualified outreach workflow"],
+    primaryKeyword: "AI prospect research tool",
+    secondaryKeywords: ["outreach research layer", "website prospect research workflow", "qualified outreach workflow"],
     heroBullets: [
-      "A CRM stores accounts after they are accepted; a research layer decides whether they should be accepted.",
+      "A spreadsheet stores prospects after they are accepted; a research layer decides whether they should be accepted.",
       "An email tool sends messages; a research layer prepares the source-backed reason to send one.",
       "A website research layer keeps Prospect Cards, fit scores, and opportunity signals together."
     ],
@@ -213,86 +213,86 @@ export const seoContentPages: SeoContentPage[] = [
       {
         title: "Where the research layer sits",
         copy:
-          "Many agencies have contact sources, spreadsheets, CRMs, and email tools, but no dedicated place to decide whether a website-backed account is worth outreach.",
+          "Many solo professionals have contact sources, spreadsheets, and email tools, but no dedicated place to decide whether a website-backed prospect is worth outreach.",
         items: [
-          "Before CRM: qualify the website and avoid importing weak accounts.",
+          "Before export: qualify the website and avoid adding weak prospects.",
           "Before email: prepare first lines and context that can be verified.",
-          "Before reporting: preserve why the account was selected, skipped, or reviewed."
+          "Before follow-up: preserve why the prospect was selected, skipped, or reviewed."
         ]
       },
       {
         title: "Decision table for tool boundaries",
         copy:
-          "A focused research layer should not pretend to replace every outbound tool. Its value is to improve the quality of accounts and context handed downstream.",
+          "A focused research layer should not pretend to replace every outbound tool. Its value is to improve the quality of prospects and context handed downstream.",
         items: [
           "Contact database: finds people or emails; research layer explains why the company is worth contacting.",
-          "CRM: manages pipeline; research layer creates the source-backed context before import.",
+          "Pipeline tool: manages follow-up status; research layer creates the source-backed context before export.",
           "Email sequencer: sends campaigns; research layer prepares claims, first lines, and notes before sending."
         ]
       },
       {
         title: "Signals the layer should preserve",
         copy:
-          "The layer becomes useful when every saved account carries enough context for another teammate to understand the decision without repeating the research.",
+          "The layer becomes useful when every saved prospect carries enough context for you to understand the decision later without repeating the research.",
         items: [
           "Website evidence: page observation, source path, and buyer implication.",
           "Qualification: ICP fit, confidence, save threshold, and opportunity category.",
-          "Handoff: first line, short email context, CRM fields, owner, stage, and export status."
+          "Handoff: first line, short email context, export fields, status, and follow-up notes."
         ]
       }
     ],
     example: {
       title: "Research layer handoff example",
       copy:
-        "A researcher reviews a website, saves a Prospect Card, and exports only the qualified account with fit score, source notes, first line, and a short outreach angle attached.",
+          "You review a website, save a Prospect Card, and export only the qualified prospect with fit score, source notes, first line, and a short outreach angle attached.",
       items: [
-        "The CRM receives context, not just a URL.",
+        "The exported row receives context, not just a URL.",
         "The email writer can verify the claim before sending.",
-        "The team can review why the account was selected."
+        "You can review why the prospect was selected."
       ]
     },
     faqs: [
       {
-        question: "Does a website research layer replace a CRM?",
+        question: "Does a website research layer replace an outreach tool?",
         answer:
-          "No. It sits before the CRM and prepares qualified, source-backed account context for import or handoff."
+          "No. It sits before your outreach workflow and prepares qualified, source-backed prospect context for export or handoff."
       },
       {
         question: "Does it replace an email finder?",
         answer:
-          "No. Email finders help locate contacts. A website research layer helps explain whether the account is worth contacting and what the outreach should reference."
+          "No. Email finders help locate contacts. A website research layer helps explain whether the prospect is worth contacting and what the outreach should reference."
       },
       {
-        question: "What makes the layer useful for agencies?",
+        question: "What makes the layer useful for solo professionals?",
         answer:
-          "Agencies can connect their offer to visible website opportunities, then save that evidence as a reusable Prospect Card."
+          "Solo professionals can connect their offer to visible website opportunities, then save that evidence as a reusable Prospect Card."
       }
     ],
-    related: ["website-first-outbound-research", "prospect-research-tool-for-agencies", "tools/outreach-context-workspace"]
+    related: ["ai-website-prospecting-tool", "website-prospecting", "tools/prospecting-dashboard"]
   },
   {
     slug: "guides/website-opportunity-signals",
     eyebrow: "Signal guide",
     category: "Opportunity signals",
-    title: "Website opportunity signals agencies can use before outreach",
-    seoTitle: "Website Opportunity Signals for Agency Outbound | LeadCue",
+    title: "Website opportunity signals solo professionals can use before outreach",
+    seoTitle: "Website Opportunity Signals for Solo Outreach | LeadCue",
     description:
-      "Use website opportunity signals to spot CTA, proof, SEO, content, positioning, and timing cues that can support source-backed agency outreach.",
-    intent: "Give agencies a signal taxonomy for turning website observations into outreach reasons.",
+      "Use website opportunity signals to spot CTA, proof, SEO, content, positioning, and timing cues that can support source-backed personal outreach.",
+    intent: "Give solo professionals a signal taxonomy for turning website observations into outreach reasons.",
     readingTime: "9 min read",
     updatedAt: "2026-05-03",
     primaryKeyword: "website opportunity signals",
-    secondaryKeywords: ["opportunity signals for outreach", "website sales signals", "agency outreach signals"],
+    secondaryKeywords: ["opportunity signals for outreach", "website sales signals", "website prospecting signals"],
     heroBullets: [
       "Opportunity signals connect a visible page observation to a business-relevant outreach angle.",
-      "The best signals are specific enough for a buyer to verify and relevant enough for the agency offer.",
+      "The best signals are specific enough for a buyer to verify and relevant enough for your offer.",
       "Weak signals should trigger review or skip decisions instead of automatic export."
     ],
     sections: [
       {
         title: "Signal taxonomy",
         copy:
-          "A useful taxonomy keeps teams from treating subjective design opinions as sales evidence. Each signal should map to a buyer outcome and an agency offer.",
+          "A useful taxonomy keeps you from treating subjective design opinions as sales evidence. Each signal should map to a buyer outcome and your offer.",
         items: [
           "Conversion signals: hidden CTA, unclear next step, confusing navigation, weak contact path.",
           "Trust signals: missing case studies, buried proof, no results, weak testimonials, unclear customer segments.",
@@ -302,17 +302,17 @@ export const seoContentPages: SeoContentPage[] = [
       {
         title: "How to score signal strength",
         copy:
-          "Signal strength depends on visibility, relevance, and confidence. A visible issue that matches the agency offer is stronger than a broad guess about the business.",
+          "Signal strength depends on visibility, relevance, and confidence. A visible issue that matches your offer is stronger than a broad guess about the business.",
         items: [
           "Strong: the source is visible, the implication is clear, and the offer can help.",
           "Medium: the pattern is plausible but needs another source or manual review.",
-          "Weak: the note is subjective, generic, or disconnected from the agency offer."
+          "Weak: the note is subjective, generic, or disconnected from your offer."
         ]
       },
       {
         title: "Turn signals into outreach context",
         copy:
-          "Signals become useful when they are converted into a reason to contact, a first line, and a Prospect Card note that the team can verify later.",
+          "Signals become useful when they are converted into a reason to contact, a first line, and a Prospect Card note you can verify later.",
         items: [
           "Observation: what the page shows and where it appears.",
           "Implication: why it may affect conversion, trust, discovery, or buyer confidence.",
@@ -344,10 +344,10 @@ export const seoContentPages: SeoContentPage[] = [
       {
         question: "What should happen when the signal is weak?",
         answer:
-          "Do not export the account automatically. Mark it for review, scan another page, or skip until a stronger reason to contact appears."
+          "Do not export the prospect automatically. Mark it for review, scan another page, or skip until a stronger reason to contact appears."
       }
     ],
-    related: ["website-first-outbound-research", "guides/find-a-reason-to-contact-prospects", "tools/prospect-card"]
+    related: ["tools/website-opportunity-finder", "guides/find-a-reason-to-contact-prospects", "tools/prospect-card"]
   },
   {
     slug: "guides/find-a-reason-to-contact-prospects",
@@ -357,7 +357,7 @@ export const seoContentPages: SeoContentPage[] = [
     seoTitle: "Find a Reason to Contact Prospects from Website Evidence | LeadCue",
     description:
       "Find a credible reason to contact a prospect by reviewing website signals, qualifying fit, and turning source evidence into a useful first line.",
-    intent: "Help outbound teams solve the core problem of why this account should be contacted now.",
+    intent: "Help solo operators solve the core problem of why this prospect should be contacted now.",
     readingTime: "8 min read",
     updatedAt: "2026-05-03",
     primaryKeyword: "reason to contact prospects",
@@ -365,15 +365,15 @@ export const seoContentPages: SeoContentPage[] = [
     heroBullets: [
       "A good reason to contact is specific, visible, relevant to the offer, and easy to verify.",
       "The website should provide evidence, not just a name to personalize around.",
-      "If there is no credible reason, the account should be skipped or reviewed instead of exported."
+      "If there is no credible reason, the prospect should be skipped or reviewed instead of exported."
     ],
     sections: [
       {
         title: "A simple qualification order",
         copy:
-          "Start with account fit, then inspect the website for evidence, then decide whether the observation supports a useful first touch.",
+          "Start with prospect fit, then inspect the website for evidence, then decide whether the observation supports a useful first touch.",
         items: [
-          "Fit: does the company match the agency's ICP, service model, and target market?",
+          "Fit: does the company match your ICP, offer, and target market?",
           "Evidence: does the website show a specific opportunity signal or gap?",
           "Message: can the observation become a first line and next step without overclaiming?"
         ]
@@ -381,11 +381,11 @@ export const seoContentPages: SeoContentPage[] = [
       {
         title: "Reason-to-contact checklist",
         copy:
-          "Before saving the account, the researcher should be able to answer five questions that make the outreach defensible.",
+          "Before saving the prospect, you should be able to answer five questions that make the outreach defensible.",
         items: [
           "What did we see on the website, and where did we see it?",
-          "Why might it matter to the buyer or marketing team?",
-          "Why is our offer relevant to that observation?"
+          "Why might it matter to the buyer?",
+          "Why is your offer relevant to that observation?"
         ]
       },
       {
@@ -395,14 +395,14 @@ export const seoContentPages: SeoContentPage[] = [
         items: [
           "Vague compliments such as liking the website without a specific observation.",
           "Unverified claims about performance, rankings, revenue, or conversion impact.",
-          "Signals that do not connect to the agency offer or buyer outcome."
+          "Signals that do not connect to your offer or buyer outcome."
         ]
       }
     ],
     example: {
       title: "Reason to contact example",
       copy:
-        "The website targets finance teams, but the homepage does not surface finance proof or a clear demo CTA above the first scroll.",
+        "The website targets finance buyers, but the homepage does not surface finance proof or a clear demo CTA above the first scroll.",
       items: [
         "Observation: proof and CTA placement are visible website details.",
         "Implication: high-intent visitors may not see enough trust before acting.",
@@ -413,7 +413,7 @@ export const seoContentPages: SeoContentPage[] = [
       {
         question: "What if a website has no obvious issue?",
         answer:
-          "Do not force a reason. Scan another important page, review a different offer angle, or skip the account until stronger evidence appears."
+          "Do not force a reason. Scan another important page, review a different offer angle, or skip the prospect until stronger evidence appears."
       },
       {
         question: "Should the first email include every reason?",
@@ -426,31 +426,31 @@ export const seoContentPages: SeoContentPage[] = [
           "Yes, if it is specific and relevant. The reason can be an opportunity to build on a strength, not only a problem to fix."
       }
     ],
-    related: ["guides/website-opportunity-signals", "cold-email-first-lines", "tools/prospect-card"]
+    related: ["tools/website-opportunity-finder", "guides/website-opportunity-signals", "cold-email-first-lines"]
   },
   {
     slug: "guides/source-backed-prospect-notes",
     eyebrow: "Research quality",
     category: "Source-backed notes",
-    title: "Source-backed prospect notes for safer agency outreach",
-    seoTitle: "Source-Backed Prospect Notes for Agency Outreach | LeadCue",
+    title: "Source-backed prospect notes for safer personal outreach",
+    seoTitle: "Source-Backed Prospect Notes for Personal Outreach | LeadCue",
     description:
-      "Create source-backed prospect notes that keep website evidence, uncertainty, first lines, and CRM handoff context attached to each saved account.",
-    intent: "Show teams how to preserve evidence so outreach copy can be reviewed before sending.",
+      "Create source-backed prospect notes that keep website evidence, uncertainty, first lines, and export context attached to each saved prospect.",
+    intent: "Show solo professionals how to preserve evidence so outreach copy can be reviewed before sending.",
     readingTime: "7 min read",
     updatedAt: "2026-05-03",
     primaryKeyword: "source-backed prospect notes",
     secondaryKeywords: ["source-backed notes", "website evidence notes", "outreach context notes"],
     heroBullets: [
-      "Source-backed notes help reps verify claims before they appear in outreach.",
+      "Source-backed notes help you verify claims before they appear in outreach.",
       "They reduce generic personalization by tying each first line to a visible page observation.",
-      "They make CRM handoff safer because context travels with the account."
+      "They make export safer because context travels with the prospect."
     ],
     sections: [
       {
         title: "What source-backed means",
         copy:
-          "A source-backed note states what was observed, where it was observed, why it may matter, and how confident the team should be before using it in outreach.",
+          "A source-backed note states what was observed, where it was observed, why it may matter, and how confident you should be before using it in outreach.",
         items: [
           "Source: page type, URL path, section, or visible website area.",
           "Observation: the exact cue, not a broad interpretation.",
@@ -460,7 +460,7 @@ export const seoContentPages: SeoContentPage[] = [
       {
         title: "Note structure",
         copy:
-          "The best notes are compact enough for CRM but complete enough that another teammate can understand and verify the outreach angle.",
+          "The best notes are compact enough for export but complete enough that you can understand and verify the outreach angle later.",
         items: [
           "Observed cue: demo CTA appears below the first scroll.",
           "Possible implication: visitors may need a clearer next step when intent is highest.",
@@ -470,7 +470,7 @@ export const seoContentPages: SeoContentPage[] = [
       {
         title: "Review before sending",
         copy:
-          "Source-backed notes should improve judgment, not remove it. Reps should review the source and remove any claim that cannot be supported.",
+          "Source-backed notes should improve judgment, not remove it. Review the source and remove any claim that cannot be supported.",
         items: [
           "Avoid revenue, ranking, or conversion claims without evidence.",
           "Keep uncertainty visible when a signal is incomplete.",
@@ -490,9 +490,9 @@ export const seoContentPages: SeoContentPage[] = [
     },
     faqs: [
       {
-        question: "Should source notes be exported to CRM?",
+        question: "Should source notes be exported?",
         answer:
-          "Yes. Put short source notes in CRM fields or notes so reps can verify why the account was selected."
+          "Yes. Put short source notes in export fields or notes so you can verify why the prospect was selected."
       },
       {
         question: "Can AI-generated notes be used directly?",
@@ -502,44 +502,44 @@ export const seoContentPages: SeoContentPage[] = [
       {
         question: "How long should a source-backed note be?",
         answer:
-          "Long enough to preserve the observation, implication, and source, but short enough to scan during campaign review."
+          "Long enough to preserve the observation, implication, and source, but short enough to scan during outreach review."
       }
     ],
-    related: ["tools/prospect-card", "tools/outreach-context-workspace", "cold-email-first-lines"]
+    related: ["tools/prospect-card", "tools/prospecting-dashboard", "cold-email-first-lines"]
   },
   {
-    slug: "guides/icp-fit-score-for-agency-outbound",
+    slug: "guides/icp-fit-score-for-solo-prospecting",
     eyebrow: "Scoring guide",
     category: "Fit scoring",
-    title: "ICP fit score for agency outbound research",
-    seoTitle: "ICP Fit Score for Agency Outbound Research | LeadCue",
+    title: "ICP fit score for solo website prospecting",
+    seoTitle: "ICP Fit Score for Solo Website Prospecting | LeadCue",
     description:
-      "Build an ICP fit score that combines account fit, website opportunity signals, evidence confidence, and export readiness before agency outreach.",
-    intent: "Help agencies separate account fit from signal confidence and outreach readiness.",
+      "Build an ICP fit score that combines prospect fit, website opportunity signals, evidence confidence, and export readiness before personal outreach.",
+    intent: "Help solo professionals separate prospect fit from signal confidence and outreach readiness.",
     readingTime: "8 min read",
     updatedAt: "2026-05-03",
     primaryKeyword: "ICP fit score",
-    secondaryKeywords: ["prospect fit score", "agency lead scoring", "qualified prospect score"],
+    secondaryKeywords: ["prospect fit score", "lead qualification score", "qualified prospect score"],
     heroBullets: [
-      "Fit score answers whether the company matches the agency offer.",
+      "Fit score answers whether the company matches your offer.",
       "Confidence score answers whether the website evidence is strong enough to use.",
-      "Export readiness answers whether the account can move downstream without rework."
+      "Export readiness answers whether the prospect can move downstream without rework."
     ],
     sections: [
       {
         title: "Fit score model",
         copy:
-          "A practical score should combine the account profile with website evidence and handoff readiness instead of treating all signals as equal.",
+          "A practical score should combine the prospect profile with website evidence and handoff readiness instead of treating all signals as equal.",
         items: [
           "40 points: ICP match across industry, region, company type, size, and service fit.",
           "35 points: opportunity signal quality, source specificity, and buyer implication.",
-          "25 points: confidence, contact path, first-line readiness, owner, and export fields."
+          "25 points: confidence, contact path, first-line readiness, follow-up status, and export fields."
         ]
       },
       {
         title: "Decision thresholds",
         copy:
-          "Thresholds help the team avoid exporting weak leads while still preserving accounts that deserve manual review.",
+          "Thresholds help you avoid exporting weak prospects while still preserving companies that deserve manual review.",
         items: [
           "80-100: save and prioritize for outreach after source review.",
           "65-79: review manually or scan another page before export.",
@@ -551,16 +551,16 @@ export const seoContentPages: SeoContentPage[] = [
         copy:
           "A high fit score is only useful when the evidence is strong enough to support a real outreach reason.",
         items: [
-          "Giving high scores to accounts that match the industry but have no visible reason to contact.",
-          "Mixing account fit with confidence so weak evidence looks stronger than it is.",
-          "Exporting accounts before first line, source notes, and owner fields are complete."
+          "Giving high scores to prospects that match the industry but have no visible reason to contact.",
+          "Mixing prospect fit with confidence so weak evidence looks stronger than it is.",
+          "Exporting prospects before first line, source notes, and export fields are complete."
         ]
       }
     ],
     example: {
       title: "Fit score example",
       copy:
-        "A B2B SaaS company matches the agency ICP, shows a hidden demo CTA and missing proof path, and has enough source evidence for a first line.",
+        "A B2B SaaS company matches your ICP, shows a hidden demo CTA and missing proof path, and has enough source evidence for a first line.",
       items: [
         "ICP fit: 36/40.",
         "Signal quality: 28/35.",
@@ -571,7 +571,7 @@ export const seoContentPages: SeoContentPage[] = [
       {
         question: "Is fit score the same as confidence score?",
         answer:
-          "No. Fit score measures account relevance. Confidence measures whether the available website evidence is strong enough to trust."
+          "No. Fit score measures prospect relevance. Confidence measures whether the available website evidence is strong enough to trust."
       },
       {
         question: "What score should qualify a lead?",
@@ -581,36 +581,36 @@ export const seoContentPages: SeoContentPage[] = [
       {
         question: "Should low-score leads be deleted?",
         answer:
-          "Not necessarily. Keep them out of campaigns, but use their notes to improve ICP rules or review later."
+          "Not necessarily. Keep them out of outreach, but use their notes to improve ICP rules or review later."
       }
     ],
-    related: ["agency-lead-qualification", "guides/score-prospect-website", "tools/prospect-card"]
+    related: ["tools/website-prospect-score-checker", "prospect-qualification", "guides/score-prospect-website"]
   },
   {
-    slug: "prospect-research-tool-for-agencies",
+    slug: "prospect-research-tool-for-solo-professionals",
     eyebrow: "Buying guide",
-    category: "Agency software",
-    title: "How to choose a prospect research tool for agency outbound",
-    seoTitle: "Prospect Research Tool for Agencies | What to Look For | LeadCue",
+    category: "Prospecting software",
+    title: "How to choose a prospect research tool for solo professionals",
+    seoTitle: "Prospect Research Tool for Solo Professionals | LeadCue",
     description:
-      "A practical buying guide for agencies comparing prospect research tools, fit scoring workflows, source-backed notes, and CRM export paths.",
-    intent: "Help buyers evaluate prospect research software for an agency workflow.",
+      "A practical buying guide for solo professionals comparing prospect research tools, fit scoring workflows, source-backed notes, and CSV export paths.",
+    intent: "Help buyers evaluate prospect research software for a personal workflow.",
     readingTime: "8 min read",
     updatedAt: "2026-04-23",
-    primaryKeyword: "prospect research tool for agencies",
-    secondaryKeywords: ["agency prospecting software", "lead research tool", "outbound research workflow"],
+    primaryKeyword: "prospect research tool for solo professionals",
+    secondaryKeywords: ["AI prospect research tool", "lead research tool", "outbound research workflow"],
     heroBullets: [
       "A research tool should improve lead quality, not just increase lead volume.",
       "The output should explain why a prospect is worth contacting.",
-      "Exports should carry source notes into the tools your team already uses."
+      "Exports should carry source notes into the tools you already use."
     ],
     sections: [
       {
         title: "The job the tool should do",
         copy:
-          "An agency prospect research tool should help a team decide whether an account deserves outreach. That means it needs to combine ICP fit, website evidence, outreach angle, and handoff fields instead of only collecting company names.",
+          "A prospect research tool should help you decide whether a company deserves outreach. That means it needs to combine ICP fit, website evidence, outreach angle, and handoff fields instead of only collecting company names.",
         items: [
-          "Qualify accounts before they enter a campaign.",
+          "Qualify prospects before they enter outreach.",
           "Show the source behind each sales cue.",
           "Create copy that references a real page observation."
         ]
@@ -618,62 +618,62 @@ export const seoContentPages: SeoContentPage[] = [
       {
         title: "Features that matter",
         copy:
-          "The most useful features sit between research and outreach. They help the operator move from a website scan to a saved prospect card, then to a CSV or CRM row without losing context.",
+          "The most useful features sit between research and outreach. They help the operator move from a website scan to a saved prospect card, then to a CSV row without losing context.",
         items: [
           "Fit score and confidence score for prioritization.",
           "Website cues grouped by web design, SEO, marketing, and timing.",
-          "CRM export fields that map to HubSpot, Salesforce, Pipedrive, or a custom template."
+          "Export fields that map to a spreadsheet, email workflow, or custom template."
         ]
       },
       {
         title: "Tool evaluation matrix",
         copy:
-          "When comparing prospect research tools, separate contact discovery from website-backed qualification so your team does not buy a list tool for a research-quality problem.",
+          "When comparing prospect research tools, separate contact discovery from website-backed qualification so you do not buy a list tool for a research-quality problem.",
         items: [
           "Contact discovery: useful when the bottleneck is finding people or emails.",
-          "Website research layer: useful when the bottleneck is deciding why the account is worth contacting.",
-          "Outbound handoff: useful when the team needs first lines, source notes, fit score, and CRM-ready fields together."
+          "Website research layer: useful when the bottleneck is deciding why the prospect is worth contacting.",
+          "Outbound handoff: useful when you need first lines, source notes, fit score, and export-ready fields together."
         ]
       },
       {
         title: "Red flags when comparing tools",
         copy:
-          "Avoid tools that create the illusion of volume while hiding why the account matters. If every output looks generic, your team will still spend time rewriting notes and guessing at relevance.",
+          "Avoid tools that create the illusion of volume while hiding why the prospect matters. If every output looks generic, you will still spend time rewriting notes and guessing at relevance.",
         items: [
           "No visible source notes or page references.",
           "No distinction between fit score and data confidence.",
-          "No practical handoff into sheets, CRM, or outreach tools."
+          "No practical handoff into sheets or outreach tools."
         ]
       }
     ],
     example: {
       title: "Evaluation checklist",
       copy:
-        "Before adopting a prospect research tool, run five real websites through it and compare whether the output helps your team decide who to contact first.",
+        "Before adopting a prospect research tool, run five real websites through it and compare whether the output helps you decide who to contact first.",
       items: [
-        "Can the tool explain why the account fits your ICP?",
-        "Can the rep copy a credible first line without editing from scratch?",
+        "Can the tool explain why the prospect fits your ICP?",
+        "Can you copy a credible first line without editing from scratch?",
         "Can exported fields preserve the evidence behind the outreach angle?"
       ]
     },
     faqs: [
       {
-        question: "Should an agency use a lead database or a research tool?",
+        question: "Should I use a lead database or a research tool?",
         answer:
-          "Use a database when you only need contact discovery. Use a research tool when the bottleneck is knowing which accounts deserve outreach and what to say."
+          "Use a database when you only need contact discovery. Use a research tool when the bottleneck is knowing which prospects deserve outreach and what to say."
       },
       {
         question: "How many fields should a prospect card include?",
         answer:
-          "Enough to preserve context: company, URL, fit score, confidence, signals, first line, contact path, source notes, owner, stage, and export status."
+          "Enough to preserve context: company, URL, fit score, confidence, signals, first line, contact path, source notes, status, and export status."
       },
       {
         question: "Does AI-generated research need human review?",
         answer:
-          "Yes. AI should reduce research time, but reps should review source notes before sending outreach or saving an account as qualified."
+          "Yes. AI should reduce research time, but you should review source notes before sending outreach or saving a prospect as qualified."
       }
     ],
-    related: ["website-research-layer-for-agencies", "tools/prospect-card", "agency-lead-qualification"]
+    related: ["ai-prospect-research-tool", "tools/prospect-card", "prospect-qualification"]
   },
   {
     slug: "cold-email-first-lines",
@@ -683,7 +683,7 @@ export const seoContentPages: SeoContentPage[] = [
     seoTitle: "Cold Email First Lines from Website Evidence | LeadCue",
     description:
       "Learn how to write personalized cold email first lines from website observations, avoid generic openers, and connect each line to a credible business angle.",
-    intent: "Teach outbound teams how to create first lines that feel researched.",
+    intent: "Teach solo operators how to create first lines that feel researched.",
     readingTime: "7 min read",
     updatedAt: "2026-04-23",
     primaryKeyword: "cold email first lines",
@@ -707,7 +707,7 @@ export const seoContentPages: SeoContentPage[] = [
       {
         title: "Use website evidence, not personalization theater",
         copy:
-          "Many first lines fail because they mention a podcast, LinkedIn post, or award that has nothing to do with the offer. Website evidence works better for agencies because it points directly to marketing, design, SEO, or conversion opportunities.",
+          "Many first lines fail because they mention a podcast, LinkedIn post, or award that has nothing to do with the offer. Website evidence works better for solo outreach because it points directly to marketing, design, SEO, or conversion opportunities.",
         items: [
           "CTA placement can support a conversion angle.",
           "Inactive content can support an SEO or demand generation angle.",
@@ -738,7 +738,7 @@ export const seoContentPages: SeoContentPage[] = [
     example: {
       title: "Before and after",
       copy:
-        "Weak: 'I loved your website.' Stronger: 'I noticed the product story is clear, but the demo CTA and finance-team proof show up after the first scroll.'",
+        "Weak: 'I loved your website.' Stronger: 'I noticed the product story is clear, but the demo CTA and finance proof show up after the first scroll.'",
       items: [
         "The stronger line is specific.",
         "It names the business context.",
@@ -749,7 +749,7 @@ export const seoContentPages: SeoContentPage[] = [
       {
         question: "Should every cold email include a first line?",
         answer:
-          "If the account is worth personalized outreach, yes. If you cannot find a relevant observation, the account may not be ready for a high-effort touch."
+          "If the prospect is worth personalized outreach, yes. If you cannot find a relevant observation, the prospect may not be ready for a high-effort touch."
       },
       {
         question: "Can AI write first lines?",
@@ -765,38 +765,38 @@ export const seoContentPages: SeoContentPage[] = [
     related: ["guides/source-backed-prospect-notes", "guides/find-a-reason-to-contact-prospects", "tools/prospect-card"]
   },
   {
-    slug: "agency-lead-qualification",
+    slug: "prospect-qualification",
     eyebrow: "Qualification",
     category: "Lead qualification",
-    title: "Agency lead qualification: score fit before saving another prospect",
-    seoTitle: "Agency Lead Qualification Workflow | Fit Score and Website Signals",
+    title: "Prospect qualification: score fit before saving another prospect",
+    seoTitle: "Prospect Qualification Workflow | Fit Score and Website Signals",
     description:
-      "Build an agency lead qualification workflow that uses fit score, confidence, website signals, contact paths, and source-backed notes before outreach.",
-    intent: "Help agencies define what makes a prospect worth saving and exporting.",
+      "Build a personal prospect qualification workflow that uses fit score, confidence, website signals, contact paths, and source-backed notes before outreach.",
+    intent: "Help solo professionals define what makes a prospect worth saving and exporting.",
     readingTime: "8 min read",
     updatedAt: "2026-04-23",
-    primaryKeyword: "agency lead qualification",
-    secondaryKeywords: ["lead qualification for agencies", "fit score", "qualified prospect workflow"],
+    primaryKeyword: "prospect qualification",
+    secondaryKeywords: ["lead qualification score", "fit score", "qualified prospect workflow"],
     heroBullets: [
-      "Qualification should happen before a prospect enters a campaign.",
-      "A saved lead needs both ICP fit and a reason to reach out.",
+      "Qualification should happen before a prospect enters personal outreach.",
+      "A saved prospect needs both ICP fit and a reason to reach out.",
       "Confidence matters because thin page data can make a signal weaker."
     ],
     sections: [
       {
         title: "Separate fit from evidence quality",
         copy:
-          "Fit score answers whether the company matches your offer. Confidence answers whether the available website evidence is strong enough to trust the recommendation. Both are needed before a rep saves the account.",
+          "Fit score answers whether the company matches your offer. Confidence answers whether the available website evidence is strong enough to trust the recommendation. Both are needed before you save the prospect.",
         items: [
           "Fit includes industry, company type, service need, and offer relevance.",
           "Confidence includes page depth, source clarity, and signal specificity.",
-          "A high-fit account with weak evidence may need manual review before outreach."
+          "A high-fit prospect with weak evidence may need manual review before outreach."
         ]
       },
       {
         title: "Define your save threshold",
         copy:
-          "Teams should agree on when a prospect is worth saving. Without a threshold, reps save too many accounts and the CRM fills with leads that have no usable outreach angle.",
+          "Set a clear threshold for when a prospect is worth saving. Without one, it is easy to keep too many companies that have no usable outreach angle.",
         items: [
           "Save when fit score is strong and at least two website cues support the angle.",
           "Review when fit is strong but confidence is medium.",
@@ -806,32 +806,32 @@ export const seoContentPages: SeoContentPage[] = [
       {
         title: "Qualification matrix",
         copy:
-          "A clear matrix keeps high-fit accounts with weak evidence out of campaigns while preserving accounts that deserve manual review.",
+          "A clear matrix keeps high-fit prospects with weak evidence out of outreach while preserving companies that deserve manual review.",
         items: [
           "High fit and high confidence: save as a Prospect Card and prioritize outreach.",
           "High fit and low confidence: review another page before export.",
-          "Low fit and strong signal: archive the note unless the agency offer or ICP changes."
+          "Low fit and strong signal: archive the note unless your offer or ICP changes."
         ]
       },
       {
         title: "Carry qualification into export",
         copy:
-          "The qualification context should not disappear when a lead leaves the research tool. Export fields should include fit score, signal summary, first line, source notes, owner, stage, and saved/exported status.",
+          "The qualification context should not disappear when a prospect leaves the research tool. Export fields should include fit score, signal summary, first line, source notes, follow-up status, and saved/exported status.",
         items: [
-          "Use owner and stage fields to prevent duplicate work.",
-          "Keep source notes in the CRM for review and coaching.",
-          "Export only saved leads when building campaign lists."
+          "Use status fields to prevent duplicate work.",
+          "Keep source notes in exports or your own notes for review.",
+          "Export only saved prospects when building outreach lists."
         ]
       }
     ],
     example: {
       title: "A practical save rule",
       copy:
-        "Save an account when it matches the ICP, has at least two source-backed website cues, and has a first line your team would be comfortable sending.",
+        "Save a prospect when it matches the ICP, has at least two source-backed website cues, and has a first line you would be comfortable sending.",
       items: [
         "Fit score: 80 or higher.",
         "Confidence: 70% or higher.",
-        "Status: saved, assigned, and ready for CRM export."
+        "Status: saved, reviewed, and ready for CSV export."
       ]
     },
     faqs: [
@@ -841,41 +841,41 @@ export const seoContentPages: SeoContentPage[] = [
           "Start with 80 for high-priority outreach, then adjust based on reply quality and booked meetings rather than scan volume alone."
       },
       {
-        question: "Should weak-fit accounts be deleted?",
+        question: "Should weak-fit prospects be deleted?",
         answer:
-          "Not always. Keep them out of immediate campaigns, but use notes to understand whether the ICP or scoring rules need refinement."
+          "Not always. Keep them out of immediate outreach, but use notes to understand whether the ICP or scoring rules need refinement."
       },
       {
-        question: "How should agencies review qualification quality?",
+        question: "How should solo professionals review qualification quality?",
         answer:
-          "Review saved leads weekly by fit score, confidence, reply rate, and whether the first line matched a real source note."
+          "Review saved prospects weekly by fit score, confidence, reply quality, and whether the first line matched a real source note."
       }
     ],
-    related: ["guides/icp-fit-score-for-agency-outbound", "tools/prospect-card", "guides/website-opportunity-signals"]
+    related: ["guides/icp-fit-score-for-solo-prospecting", "tools/prospect-card", "guides/website-opportunity-signals"]
   },
   {
-    slug: "use-cases/web-design-agencies",
+    slug: "use-cases/web-design-freelancers",
     eyebrow: "Use case",
-    category: "Web design agencies",
-    title: "Website prospecting for web design agencies",
-    seoTitle: "Website Prospecting for Web Design Agencies | LeadCue",
+    category: "Web design freelancers",
+    title: "Website prospecting for web design freelancers",
+    seoTitle: "Website Prospecting for Web Design Freelancers | LeadCue",
     description:
-      "How web design agencies can find redesign-ready prospects by spotting weak CTAs, buried proof, confusing navigation, and conversion gaps.",
-    intent: "Show web design agencies how LeadCue supports redesign and conversion outreach.",
+      "How web design freelancers can find redesign-ready prospects by spotting weak CTAs, buried proof, confusing navigation, and conversion gaps.",
+    intent: "Show web design freelancers how LeadCue supports redesign and conversion outreach.",
     readingTime: "6 min read",
     updatedAt: "2026-04-23",
-    primaryKeyword: "website prospecting for web design agencies",
-    secondaryKeywords: ["web design agency lead generation", "redesign prospecting", "website audit outreach"],
+    primaryKeyword: "find web design leads",
+    secondaryKeywords: ["prospecting tool for freelancers", "find businesses that need website redesign", "website audit outreach"],
     heroBullets: [
       "Find redesign reasons that are visible on the prospect site.",
-      "Prioritize accounts with conversion and proof gaps.",
+      "Prioritize prospects with conversion and proof gaps.",
       "Write outreach around a specific improvement, not a generic redesign pitch."
     ],
     sections: [
       {
         title: "Best signals for web design offers",
         copy:
-          "A web design agency needs signals that point to conversion, clarity, credibility, or user experience. The strongest signals are easy for the prospect to verify because they are visible on the page.",
+          "A web design freelancer needs signals that point to conversion, clarity, credibility, or user experience. The strongest signals are easy for the prospect to verify because they are visible on the page.",
         items: [
           "Primary CTA is hidden, vague, or inconsistent across the site.",
           "Proof is buried below product explanations or missing from key pages.",
@@ -893,9 +893,9 @@ export const seoContentPages: SeoContentPage[] = [
         ]
       },
       {
-        title: "What to save for the team",
+        title: "What to save for yourself",
         copy:
-          "Every saved lead should help the next person understand the redesign angle quickly. A Prospect Card should include the signal, the source, and the likely business impact.",
+          "Every saved prospect should help you understand the redesign angle quickly when you come back later. A Prospect Card should include the signal, the source, and the likely business impact.",
         items: [
           "Fit score and confidence.",
           "Top web design cues.",
@@ -930,31 +930,31 @@ export const seoContentPages: SeoContentPage[] = [
           "No. It helps identify and package initial sales angles. A full audit can come later after the prospect engages."
       }
     ],
-    related: ["guides/website-audit-outreach", "website-prospecting", "cold-email-first-lines"]
+    related: ["tools/website-opportunity-finder", "guides/website-audit-outreach", "cold-email-first-lines"]
   },
   {
-    slug: "use-cases/seo-agencies",
+    slug: "use-cases/seo-consultants",
     eyebrow: "Use case",
-    category: "SEO agencies",
-    title: "Prospect research for SEO agencies using visible website gaps",
-    seoTitle: "Prospect Research for SEO Agencies | Website Gaps and Outreach",
+    category: "SEO consultants",
+    title: "Prospect research for SEO consultants using visible website gaps",
+    seoTitle: "Prospect Research for SEO Consultants | Website Gaps and Outreach",
     description:
-      "How SEO agencies can use website prospecting to find thin pages, stale content, weak metadata, and source-backed reasons to start outreach.",
-    intent: "Help SEO agencies use website evidence to prioritize and personalize outbound.",
+      "How SEO consultants can use website prospecting to find thin pages, stale content, weak metadata, and source-backed reasons to start outreach.",
+    intent: "Help SEO consultants use website evidence to prioritize and personalize outbound.",
     readingTime: "6 min read",
     updatedAt: "2026-04-23",
-    primaryKeyword: "prospect research for SEO agencies",
-    secondaryKeywords: ["SEO agency prospecting", "SEO lead qualification", "website content gaps"],
+    primaryKeyword: "prospecting tool for consultants",
+    secondaryKeywords: ["SEO consultant prospecting", "SEO lead qualification", "website content gaps"],
     heroBullets: [
-      "Use visible SEO and content gaps to qualify accounts.",
+      "Use visible SEO and content gaps to qualify prospects.",
       "Avoid generic 'we can improve your rankings' outreach.",
-      "Export source notes so campaign writers know the exact angle."
+      "Export source notes so your outreach keeps the exact angle."
     ],
     sections: [
       {
         title: "SEO signals that support outreach",
         copy:
-          "SEO agencies should focus on signals that a business owner or marketing leader can understand without a technical audit. Public pages often show enough evidence to open a useful conversation.",
+          "SEO consultants should focus on signals that a business leader can understand without a technical audit. Public pages often show enough evidence to open a useful conversation.",
         items: [
           "Thin or outdated service pages.",
           "Inactive blog or resource hub.",
@@ -974,7 +974,7 @@ export const seoContentPages: SeoContentPage[] = [
       {
         title: "What to export",
         copy:
-          "SEO prospect notes should be reusable by campaign builders and sales reps. Keep the page source, category, and recommended first line together.",
+          "SEO prospect notes should be reusable when you write outreach or follow up. Keep the page source, category, and recommended first line together.",
         items: [
           "Primary website gap.",
           "Recommended content angle.",
@@ -996,7 +996,7 @@ export const seoContentPages: SeoContentPage[] = [
       {
         question: "Should SEO prospecting require a full crawl?",
         answer:
-          "Not for the first touch. A light website scan can find enough evidence to decide whether the account is worth deeper review."
+          "Not for the first touch. A light website scan can find enough evidence to decide whether the prospect is worth deeper review."
       },
       {
         question: "What SEO signals are too technical for cold outreach?",
@@ -1004,36 +1004,36 @@ export const seoContentPages: SeoContentPage[] = [
           "Avoid leading with obscure technical details unless the buyer is technical. Start with visible business impact such as thin service pages or stale content."
       },
       {
-        question: "How can SEO agencies avoid generic first lines?",
+        question: "How can SEO consultants avoid generic first lines?",
         answer:
           "Tie the first line to a specific page gap, content absence, or buyer journey issue rather than a broad claim about rankings."
       }
     ],
-    related: ["guides/score-prospect-website", "cold-email-first-lines", "website-prospecting"]
+    related: ["tools/website-prospect-score-checker", "guides/score-prospect-website", "website-prospecting"]
   },
   {
-    slug: "use-cases/marketing-agencies",
+    slug: "use-cases/marketing-consultants",
     eyebrow: "Use case",
-    category: "Marketing agencies",
-    title: "Website prospecting for marketing agencies and growth teams",
-    seoTitle: "Website Prospecting for Marketing Agencies | Growth Outreach",
+    category: "Marketing consultants",
+    title: "Website prospecting for marketing consultants and solo founders",
+    seoTitle: "Website Prospecting for Marketing Consultants | Growth Outreach",
     description:
-      "Use website prospecting to find unclear positioning, weak campaign paths, missing proof, and lead-generation opportunities for marketing agency outbound.",
-    intent: "Show growth and marketing agencies how to build evidence-backed outreach from company websites.",
+      "Use website prospecting to find unclear positioning, weak campaign paths, missing proof, and lead-generation opportunities for personal outreach.",
+    intent: "Show marketing consultants and solo founders how to build evidence-backed outreach from company websites.",
     readingTime: "6 min read",
     updatedAt: "2026-04-23",
-    primaryKeyword: "website prospecting for marketing agencies",
-    secondaryKeywords: ["marketing agency prospecting", "growth agency lead generation", "campaign angle research"],
+    primaryKeyword: "prospecting tool for consultants",
+    secondaryKeywords: ["marketing consultant prospecting", "growth prospecting", "campaign angle research"],
     heroBullets: [
       "Find campaign angles before a company enters outreach.",
       "Use positioning and proof gaps to write useful first touches.",
-      "Save notes that explain why the account is a fit."
+      "Save notes that explain why the prospect is a fit."
     ],
     sections: [
       {
         title: "Signals for marketing offers",
         copy:
-          "Marketing agencies need signals that reveal demand generation, conversion, or messaging opportunities. The public website often shows whether a company is ready for better campaigns.",
+          "Marketing consultants need signals that reveal demand generation, conversion, or messaging opportunities. The public website often shows whether a company is ready for better campaigns.",
         items: [
           "Unclear positioning or vague value proposition.",
           "No lead magnet, demo path, webinar, guide, or conversion offer.",
@@ -1053,11 +1053,11 @@ export const seoContentPages: SeoContentPage[] = [
       {
         title: "Build a repeatable research motion",
         copy:
-          "Marketing teams can review more accounts when each saved prospect uses the same fields. Consistency makes it easier to compare accounts and coach outreach quality.",
+          "Solo operators can review more prospects when each saved Prospect Card uses the same fields. Consistency makes it easier to compare opportunities and improve outreach quality.",
         items: [
-          "Score fit against the agency's ICP.",
+          "Score fit against your ICP.",
           "Classify signals as positioning, proof, campaign, or conversion.",
-          "Export only accounts with a concrete opening angle."
+          "Export only prospects with a concrete opening angle."
         ]
       }
     ],
@@ -1073,12 +1073,12 @@ export const seoContentPages: SeoContentPage[] = [
     },
     faqs: [
       {
-        question: "What makes website prospecting useful for growth agencies?",
+        question: "What makes website prospecting useful for growth consultants?",
         answer:
           "It turns visible page gaps into campaign ideas, which makes outreach more relevant than a generic promise of more leads."
       },
       {
-        question: "Should marketing agencies focus on fit or urgency?",
+        question: "Should marketing consultants focus on fit or urgency?",
         answer:
           "Both. Fit tells you the company matches your offer. Website signals help explain why the timing may be right."
       },
@@ -1088,7 +1088,7 @@ export const seoContentPages: SeoContentPage[] = [
           "Include fit score, campaign angle, proof gap, first line, source notes, and the recommended next step."
       }
     ],
-    related: ["cold-email-first-lines", "agency-lead-qualification", "website-prospecting"]
+    related: ["cold-email-first-lines", "prospect-qualification", "website-prospecting"]
   },
   {
     slug: "guides/turn-website-into-cold-email-angle",
@@ -1164,10 +1164,10 @@ export const seoContentPages: SeoContentPage[] = [
       {
         question: "What if the website has no obvious issue?",
         answer:
-          "Do not force it. Either scan another page, save the account for later review, or skip it until you have a stronger reason to reach out."
+          "Do not force it. Either scan another page, save the prospect for later review, or skip it until you have a stronger reason to reach out."
       }
     ],
-    related: ["cold-email-first-lines", "guides/website-audit-outreach", "website-prospecting"]
+    related: ["tools/website-opportunity-finder", "cold-email-first-lines", "guides/website-audit-outreach"]
   },
   {
     slug: "guides/score-prospect-website",
@@ -1177,21 +1177,21 @@ export const seoContentPages: SeoContentPage[] = [
     seoTitle: "How to Score a Prospect Website for Outreach | LeadCue Guide",
     description:
       "Use this practical scoring framework to qualify prospect websites by ICP fit, website cues, confidence, contact paths, and outreach readiness.",
-    intent: "Give teams a scoring method they can use before saving and exporting leads.",
+    intent: "Give solo operators a scoring method they can use before saving and exporting prospects.",
     readingTime: "8 min read",
     updatedAt: "2026-04-23",
     primaryKeyword: "score prospect website",
     secondaryKeywords: ["prospect fit score", "lead qualification score", "website sales signals"],
     heroBullets: [
-      "Fit score tells you whether the account matches your offer.",
+      "Fit score tells you whether the prospect matches your offer.",
       "Signal quality tells you whether the outreach reason is strong.",
-      "Export readiness tells you whether the lead is ready for the next tool."
+      "Export readiness tells you whether the prospect is ready for the next step."
     ],
     sections: [
       {
         title: "Score ICP fit first",
         copy:
-          "Start with the account itself. If the company does not match your agency focus, even a clear website gap may not be worth pursuing.",
+          "Start with the company itself. If it does not match your offer focus, even a clear website gap may not be worth pursuing.",
         items: [
           "Industry and market fit.",
           "Company size or complexity fit.",
@@ -1211,21 +1211,21 @@ export const seoContentPages: SeoContentPage[] = [
       {
         title: "Weighted scoring matrix",
         copy:
-          "A weighted model gives each reviewer the same decision language and makes it easier to tune the workflow after campaigns run.",
+          "A weighted model gives you the same decision language each time and makes it easier to tune the workflow after outreach runs.",
         items: [
           "ICP fit: 40 points for industry, region, company type, size, and service fit.",
           "Opportunity signal: 35 points for source specificity, business implication, and offer relevance.",
-          "Readiness: 25 points for confidence, contact path, first line, owner, and export fields."
+          "Readiness: 25 points for confidence, contact path, first line, follow-up status, and export fields."
         ]
       },
       {
         title: "Score export readiness",
         copy:
-          "A lead is not ready just because it has a high score. The handoff fields need to be complete enough for a rep or campaign builder to use without redoing the research.",
+          "A prospect is not ready just because it has a high score. The handoff fields need to be complete enough for you to use without redoing the research.",
         items: [
           "First line is copy-ready.",
           "Source notes are attached.",
-          "Owner, stage, and CRM export fields are set."
+          "Follow-up status and export fields are set."
         ]
       }
     ],
@@ -1243,34 +1243,34 @@ export const seoContentPages: SeoContentPage[] = [
       {
         question: "Should scoring be fully automated?",
         answer:
-          "Automation should create a recommendation, but teams should review edge cases and use reply quality to tune the model."
+          "Automation should create a recommendation, but you should review edge cases and use reply quality to tune the model."
       },
       {
         question: "What is the difference between fit and confidence?",
         answer:
-          "Fit measures account relevance. Confidence measures how strong and complete the available evidence is."
+          "Fit measures prospect relevance. Confidence measures how strong and complete the available evidence is."
       },
       {
         question: "Should low-score leads be exported?",
         answer:
-          "Usually no. Exporting weak leads creates downstream work and lowers campaign quality."
+          "Usually no. Exporting weak prospects creates downstream work and lowers outreach quality."
       }
     ],
-    related: ["guides/icp-fit-score-for-agency-outbound", "agency-lead-qualification", "tools/prospect-card"]
+    related: ["tools/website-prospect-score-checker", "tools/website-opportunity-finder", "guides/icp-fit-score-for-solo-prospecting"]
   },
   {
     slug: "guides/website-audit-outreach",
     eyebrow: "Guide",
     category: "Website audit outreach",
     title: "Website audit outreach: send useful ideas before asking for a call",
-    seoTitle: "Website Audit Outreach Guide for Agencies | LeadCue",
+    seoTitle: "Website Audit Outreach Guide for Solo Professionals | LeadCue",
     description:
-      "Learn how agencies can use lightweight website audits to create helpful cold outreach, avoid generic redesign pitches, and earn replies.",
-    intent: "Teach agencies how to package audit-style observations into better first touches.",
+      "Learn how solo professionals can use lightweight website audits to create helpful cold outreach, avoid generic redesign pitches, and earn replies.",
+    intent: "Teach solo professionals how to package audit-style observations into better first touches.",
     readingTime: "8 min read",
     updatedAt: "2026-04-23",
     primaryKeyword: "website audit outreach",
-    secondaryKeywords: ["website audit cold email", "agency outreach ideas", "homepage teardown email"],
+    secondaryKeywords: ["website audit cold email", "website outreach ideas", "homepage teardown email"],
     heroBullets: [
       "A lightweight audit should open a conversation, not overwhelm the buyer.",
       "The best first touch gives one useful observation and one clear next step.",
@@ -1300,11 +1300,11 @@ export const seoContentPages: SeoContentPage[] = [
       {
         title: "Use audit notes for follow-up",
         copy:
-          "If the prospect does not reply, the source notes still help with follow-up. A rep can reference the same signal from a new angle without inventing a new reason.",
+          "If the prospect does not reply, the source notes still help with follow-up. You can reference the same signal from a new angle without inventing a new reason.",
         items: [
           "Follow up with one example, not a generic bump.",
-          "Keep the original source note visible in the CRM.",
-          "Stop when the account no longer has a strong reason to reach out."
+          "Keep the original source note visible in your notes.",
+          "Stop when the prospect no longer has a strong reason to reach out."
         ]
       }
     ],
@@ -1332,10 +1332,10 @@ export const seoContentPages: SeoContentPage[] = [
       {
         question: "What if the website already looks good?",
         answer:
-          "Look for messaging, proof, conversion, or content gaps. If there is no meaningful gap, skip the account or use a different offer."
+          "Look for messaging, proof, conversion, or content gaps. If there is no meaningful gap, skip the prospect or use a different offer."
       }
     ],
-    related: ["use-cases/web-design-agencies", "guides/turn-website-into-cold-email-angle", "cold-email-first-lines"]
+    related: ["tools/website-opportunity-finder", "use-cases/web-design-freelancers", "guides/turn-website-into-cold-email-angle"]
   }
 ];
 

@@ -81,7 +81,7 @@ describe("/api/billing/checkout", () => {
     const res = await apiFetch("/api/billing/checkout", {
       method: "POST",
       headers: { cookie },
-      body: { planId: "starter" }
+      body: { planId: "pro" }
     });
     // Without STRIPE_SECRET_KEY + price ids, the endpoint must not 500
     expect([200, 400, 402, 503]).toContain(res.status);

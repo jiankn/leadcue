@@ -43,19 +43,19 @@
   },
   "home": {
     "seo": {
-      "title": "LeadCue - Website-First Outbound Research Workspace for Agencies",
-      "description": "LeadCue helps agencies turn prospect websites into Prospect Cards with fit scores, opportunity signals, source-backed first lines, and CRM-ready context.",
-      "structuredDescription": "LeadCue is a website-first outbound research workspace for agencies that turns public website evidence into qualified outreach opportunities."
+      "title": "AI Website Prospecting Tool for Solo Professionals | LeadCue",
+      "description": "LeadCue helps solo professionals research company websites, score prospect fit, find opportunity signals, and write natural cold email openers before outreach.",
+      "structuredDescription": "LeadCue is an AI website prospecting tool for solo professionals that turns public website evidence into qualified prospects."
     },
     "hero": {
-      "eyebrow": "Website-first outbound research for agencies",
-      "titleLead": "Turn prospect websites into",
-      "titleAccent": "qualified Prospect Cards",
-      "subhead": "LeadCue helps SEO, web design, and growth agencies review websites, find opportunity signals, score fit, and prepare source-backed first lines before accounts move into CRM or email tools.",
+      "eyebrow": "AI website prospecting for solo professionals",
+      "titleLead": "Turn websites into",
+      "titleAccent": "qualified prospects",
+      "subhead": "LeadCue helps freelancers, consultants, and solo founders research company websites, score prospect fit, find opportunity signals, and write natural outreach before sending a cold email.",
       "primaryCta": "Start free",
       "secondaryCta": "View sample card",
       "microcopy": "20 free scans. Google sign-in. No LinkedIn scraping. Built for website review before outreach.",
-      "visualNote": "Website evidence, fit scoring, Prospect Cards, and outreach context in one workspace"
+      "visualNote": "Website evidence, fit scoring, Prospect Cards, and outreach context for your personal workflow"
     },
     "heroVisual": {
       "browserChip": "Live website scan",
@@ -77,7 +77,7 @@
     },
     "analytics": {
       "kicker": "Website research live",
-      "title": "Agency pipeline snapshot",
+      "title": "Personal prospecting snapshot",
       "live": "Live",
       "timeframe": "Last 24h",
       "metrics": [
@@ -150,17 +150,23 @@
       "CSV export ready",
       "Source-backed notes"
     ],
-    "trustBandLead": "Built for agency outbound teams that need a reason to reach out",
+    "trustBandLead": "Built for solo professionals who need a reason to reach out",
     "map": {
       "eyebrow": "Product tour",
-      "title": "Everything a team needs before starting outreach research",
+      "title": "Everything you need before starting outreach",
       "copy": "Jump into the parts that matter: what LeadCue does, how the website review works, what the card contains, and how pricing scales.",
       "items": [
         {
           "href": "#features",
           "eyebrow": "Features",
           "title": "Everything around the website scan",
-          "copy": "Fit scoring, signals, exports, and team context stay in one card."
+          "copy": "Fit scoring, signals, exports, and personal context stay in one card."
+        },
+        {
+          "href": "/tools/website-opportunity-finder",
+          "eyebrow": "Free tool",
+          "title": "Preview website opportunities first",
+          "copy": "Paste a prospect site and find source-backed opportunities before signup."
         },
         {
           "href": "#how",
@@ -192,35 +198,35 @@
       "eyebrow": "Outbound is not a list problem",
       "title": "You do not need more random leads. You need a reason to reach out.",
       "questions": [
-        "Is this company a fit for our offer?",
+        "Is this company a fit for my offer?",
         "What did their website reveal?",
         "Which problem can we credibly pitch?",
         "What should the first line say?"
       ]
     },
     "features": {
-      "eyebrow": "Website-first workflow",
-      "title": "Qualify the website, find the angle, and hand off cleanly",
-      "copy": "LeadCue turns website observations into outreach-ready context, so agencies can decide which accounts are worth saving, personalizing, and moving into outreach.",
+      "eyebrow": "Personal website prospecting workflow",
+      "title": "Qualify the website, find the angle, and decide what to do next",
+      "copy": "LeadCue turns website observations into outreach-ready context, so you can decide which prospects are worth saving, personalizing, and moving into your own outreach workflow.",
       "items": [
         {
           "title": "Prospect analytics that show intent",
-          "copy": "Track websites scanned, save rate, fit scores, and copied first lines so your team sees which research turns into outreach.",
+          "copy": "Track websites scanned, save rate, fit scores, and copied first lines so you can see which research turns into outreach.",
           "meta": "Live pipeline"
         },
         {
-          "title": "ICP scoring for agency offers",
+          "title": "Prospecting profile scoring",
           "copy": "Score each website against your service type, industries, regions, company size, and offer before saving it.",
           "meta": "Fit scoring"
         },
         {
           "title": "Website evidence in every card",
-          "copy": "Keep the page observation, sales cue, outreach angle, and first line together so reps know why the prospect matters.",
+          "copy": "Keep the page observation, sales cue, outreach angle, and first line together so you know why the prospect matters.",
           "meta": "Source backed"
         },
         {
           "title": "Exports for your outreach stack",
-          "copy": "Move qualified prospects into Sheets, Smartlead, Instantly, Lemlist, or your CRM without carrying unqualified lists.",
+          "copy": "Move qualified prospects into Sheets, Smartlead, Instantly, Lemlist, or your CSV workflow without carrying unqualified lists.",
           "meta": "Clean handoff"
         }
       ]
@@ -231,7 +237,7 @@
       "steps": [
         {
           "title": "Open a company website",
-          "copy": "Start from the company site your team already found through search, directories, referrals, or list exports."
+          "copy": "Start from a company site you found through search, directories, referrals, or list exports."
         },
         {
           "title": "Click LeadCue",
@@ -244,12 +250,12 @@
       ]
     },
     "method": {
-      "eyebrow": "Agency research method",
+      "eyebrow": "Personal research method",
       "titleLead": "Replace guesswork with",
       "titleAccent": "website-backed evidence",
-      "copy": "LeadCue keeps sales cues attached to the exact website observations that created them, so teams can qualify prospects before writing a sequence.",
+      "copy": "LeadCue keeps sales cues attached to the exact website observations that created them, so you can qualify prospects before writing a cold email.",
       "checklist": [
-        "Score fit against your agency offer",
+        "Score fit against your personal offer",
         "Capture CTA, proof, SEO, and positioning gaps",
         "Export only accounts with a credible outreach reason"
       ],
@@ -266,13 +272,13 @@
       "stackItems": [
         "CTA hidden below the fold",
         "No visible proof in main nav",
-        "First line ready for CRM export"
+        "First line ready for CSV export"
       ]
     },
     "sampleCard": {
       "eyebrow": "Sample output",
-      "title": "Every saved account carries its reason to contact",
-      "copy": "Each card connects fit, website evidence, contact paths, outreach angles, and copy-ready first lines so your team knows what to say and why.",
+      "title": "Every saved prospect carries its reason to contact",
+      "copy": "Each card connects fit, website evidence, contact paths, outreach angles, and copy-ready first lines so you know what to say and why.",
       "previewEyebrow": "Prospect Card",
       "previewAriaLabel": "Compact sample Prospect Card",
       "summaryAriaLabel": "Sample prospect summary",
@@ -291,7 +297,7 @@
       "replyReadyLabel": "Reply-ready",
       "noneLabel": "None",
       "exportFields": [
-        "CRM CSV",
+        "CSV export",
         "First line",
         "Source notes"
       ],
@@ -317,17 +323,17 @@
       "title": "Use LeadCue when outreach needs proof, not placeholders",
       "items": [
         {
-          "title": "Web design agencies",
+          "title": "Web design freelancers",
           "copy": "Find weak CTAs, buried demo paths, thin proof, confusing navigation, and redesign reasons you can mention in outreach.",
           "cta": "Start with redesign angles"
         },
         {
-          "title": "SEO agencies",
+          "title": "Independent SEO consultants",
           "copy": "Spot thin metadata, stale blogs, weak service pages, and content gaps before writing a tailored first line.",
           "cta": "Start with SEO gaps"
         },
         {
-          "title": "Marketing agencies",
+          "title": "Solo marketing consultants",
           "copy": "Identify unclear positioning, missing lead magnets, weak landing pages, and campaign angles worth pitching.",
           "cta": "Start with growth angles"
         }
@@ -349,7 +355,7 @@
           "Which accounts deserve research"
         ],
         [
-          "CRM",
+          "CSV export",
           "Pipeline tracking",
           "Website insight before outreach"
         ],
@@ -362,13 +368,13 @@
     },
     "pricing": {
       "eyebrow": "Pricing",
-      "title": "Credits that match weekly outreach research",
-      "copy": "Start with a small batch of website scans, then scale when LeadCue becomes part of your agency's outbound research rhythm.",
+      "title": "Simple credits for solo prospecting",
+      "copy": "Start free, then upgrade when website research becomes part of your personal outbound rhythm. Simple credits you can use when you need them.",
       "mostUseful": "Most useful",
       "scansSuffix": "scans",
       "perMonth": "/mo",
       "startFreeScan": "Start free scan",
-      "startAgencySetup": "Start agency setup",
+      "startSetup": "Start setup",
       "startPlan": "Start __PLAN__",
       "ariaStartFree": "Start free with the __PLAN__ plan",
       "ariaSubscribe": "Subscribe with the __PLAN__ plan",
@@ -378,27 +384,21 @@
           "Sample Prospect Cards",
           "Basic first-line copy"
         ],
-        "starter": [
-          "300 website scans/month",
-          "Saved prospect list",
-          "CSV export"
-        ],
         "pro": [
-          "1,500 website scans/month",
-          "Custom ICP settings",
-          "Priority analytics"
+          "500 website scans/month",
+          "Full Prospect Cards",
+          "Saved prospects and CSV export"
         ],
-        "agency": [
-          "5,000 website scans/month",
-          "3 agency workspaces",
-          "Shared scan credits"
+        "power": [
+          "2,000 website scans/month",
+          "Batch URL import",
+          "Deep scan and export presets"
         ]
       },
       "planUseCases": {
-        "free": "Validate the workflow with real websites before a paid rollout.",
-        "starter": "Best for one operator building a weekly outbound habit.",
-        "pro": "Best for agencies turning website research into a repeatable outbound pipeline.",
-        "agency": "Best for teams sharing scan credits across multiple client offers."
+        "free": "Best for trying website prospecting on real websites.",
+        "pro": "Best for freelancers, consultants, and solo founders doing regular outreach.",
+        "power": "Best for individual operators running higher-volume website research."
       }
     },
     "faqSection": {
@@ -420,7 +420,7 @@
         },
         {
           "question": "Who is LeadCue built for first?",
-          "answer": "LeadCue is built first for small SEO, web design, redesign, and growth agencies that do outbound and need specific website-backed reasons to contact prospects."
+          "answer": "LeadCue is built first for solo professionals: web design freelancers, independent SEO or marketing consultants, solo founders, and individual sales operators who need specific website-backed reasons to contact prospects."
         }
       ]
     },
@@ -428,11 +428,29 @@
       "eyebrow": "Outbound resources",
       "titleLead": "Build a sharper outreach research system with",
       "titleAccent": "better signals",
-      "copy": "Practical articles for teams that want every saved account to carry evidence, timing, and a credible reason to start a conversation.",
+      "copy": "Practical articles for solo professionals who want every saved prospect to carry evidence, timing, and a credible reason to start a conversation.",
       "readGuide": "Read the guide",
       "browseLead": "Browse the content library",
-      "browseTitle": "16 search-intent pages, tools, and CRM guides",
+      "browseTitle": "Search-intent pages, free tools, and CSV guides",
       "items": [
+        {
+          "title": "Free website prospecting tools",
+          "copy": "Choose between scoring, opportunity discovery, and first-line generation from one prospect website.",
+          "label": "Tool collection",
+          "href": "/tools/free-website-prospecting-tools"
+        },
+        {
+          "title": "Website opportunity finder for personal prospecting",
+          "copy": "Paste a prospect site and preview three source-backed improvement opportunities before you save the full card.",
+          "label": "Free tool",
+          "href": "/tools/website-opportunity-finder"
+        },
+        {
+          "title": "Website prospect score checker",
+          "copy": "Preview fit, evidence, contact path, and outreach readiness before adding a prospect to your list.",
+          "label": "Free tool",
+          "href": "/tools/website-prospect-score-checker"
+        },
         {
           "title": "How to turn a prospect website into a cold email angle",
           "copy": "A practical workflow for moving from visible page evidence to credible outreach.",
@@ -440,14 +458,14 @@
           "href": "/guides/turn-website-into-cold-email-angle"
         },
         {
-          "title": "What agencies should score before saving a prospect",
+          "title": "What solo professionals should score before saving a prospect",
           "copy": "Use fit, urgency, proof gaps, and contact paths to avoid list-building noise.",
           "label": "Qualification",
           "href": "/guides/score-prospect-website"
         },
         {
           "title": "Why website-first research beats generic lead lists",
-          "copy": "LeadCue keeps every saved account tied to a reason your team can actually use.",
+          "copy": "LeadCue keeps every saved prospect tied to a reason you can actually use.",
           "label": "Strategy",
           "href": "/website-prospecting"
         }
@@ -484,8 +502,8 @@
     },
     "launch": {
       "eyebrow": "Start scanning",
-      "title": "Create your agency workspace and run your first website review",
-      "copy": "Start with the free plan, connect your agency offer, and use LeadCue to turn company websites into source-backed outreach research cards.",
+      "title": "Run your first website review",
+      "copy": "Start with the free plan, define your personal offer, and use LeadCue to turn company websites into source-backed Prospect Cards.",
       "points": [
         "20 scans included on Free",
         "No LinkedIn scraping",
@@ -493,7 +511,7 @@
       ],
       "cardKicker": "Commercial launch path",
       "cardTitle": "Free plan starts with 20 website scans/month.",
-      "cardCopy": "Paid plans unlock higher monthly scan volume, saved prospect workflow, and priority analytics for outbound teams.",
+      "cardCopy": "Paid plans unlock higher monthly scan volume, saved prospects, CSV export, and deeper website research for individual operators.",
       "quickScanLabel": "First prospect website",
       "quickScanPlaceholder": "https://prospect.example.com",
       "quickScanAria": "First prospect website",
@@ -501,7 +519,7 @@
       "startFree": "Start free"
     },
     "footer": {
-      "brandCopy": "Website-first outbound research for agencies that need stronger reasons to reach out.",
+      "brandCopy": "AI website prospecting for solo professionals who need stronger reasons to reach out.",
       "productTitle": "Product",
       "resourcesTitle": "Resources",
       "legalTitle": "Legal",
@@ -526,9 +544,11 @@
     "productNav": {
       "extension": "Chrome extension",
       "reviewQueue": "Review queue",
-      "workspace": "Workspace",
+      "dashboard": "Dashboard",
       "csvTool": "CSV tool",
       "firstLines": "First lines",
+      "opportunityFinder": "Opportunity finder",
+      "prospectScore": "Score checker",
       "checklist": "Checklist",
       "integrations": "Integrations"
     },
@@ -547,12 +567,12 @@
     "toolBand": {
       "eyebrow": "Turn the template into pipeline output",
       "title": "Use the same workflow on a real company website.",
-      "copy": "Start with a free workspace, run the website scan, then keep the fit score, source notes, first line, and CRM export fields together instead of copying them by hand.",
+      "copy": "Start free, run the website scan, then keep the fit score, source notes, first line, and CSV export fields together instead of copying them by hand.",
       "primaryCta": "Start free with this workflow",
       "secondaryCta": "Open sample Prospect Card",
       "points": [
         "20 free scans to test the workflow on real websites",
-        "The same CRM naming presets used in the app export flow",
+        "The same export fields used in the app workflow",
         "Save only qualified accounts before import or outreach"
       ]
     }
@@ -565,7 +585,7 @@
       "searchPlaceholder": "Search scans, credits, OAuth, exports...",
       "cards": [
         {
-          "title": "Workspace setup",
+          "title": "Personal setup",
           "copy": "Create an account, choose a plan, and finish onboarding.",
           "href": "/docs"
         },
@@ -592,7 +612,7 @@
   "auth": {
     "errors": {
       "google_not_configured": "Google sign-in is not configured for this environment yet.",
-      "database_unavailable": "Authentication is unavailable until the workspace database is ready.",
+      "database_unavailable": "Authentication is unavailable until the account database is ready.",
       "state_missing": "Your sign-in session expired. Start the Google flow again.",
       "state_invalid": "Your sign-in session expired. Start the Google flow again.",
       "access_denied": "Google sign-in was canceled before completion.",
@@ -600,9 +620,9 @@
       "google_exchange_failed": "Google could not complete sign-in. Try again or use your work email setup."
     },
     "login": {
-      "heroEyebrow": "Website research workspace",
-      "heroTitle": "Turn website research into ranked accounts.",
-      "heroCopy": "Source-backed signals, fit scores, and outreach context in one workspace.",
+      "heroEyebrow": "Personal website prospecting",
+      "heroTitle": "Turn website research into ranked prospects.",
+      "heroCopy": "Source-backed signals, fit scores, and outreach context for your personal workflow.",
       "proofItems": [
         {
           "label": "Qualified fit",
@@ -613,17 +633,17 @@
           "value": "3+"
         },
         {
-          "label": "CRM ready",
+          "label": "CSV ready",
           "value": "CSV"
         }
       ],
       "cardEyebrow": "Welcome back",
       "cardTitle": "Sign in",
-      "cardCopy": "Use Google or your work email to reopen your website research workspace.",
+      "cardCopy": "Use Google or your work email to reopen your website research account.",
       "googleCta": "Continue with Google",
       "divider": "or sign in with email",
       "emailLabel": "Email",
-      "emailPlaceholder": "you@agency.com",
+      "emailPlaceholder": "you@example.com",
       "passwordLabel": "Password",
       "passwordPlaceholder": "8+ characters",
       "show": "Show",
@@ -648,9 +668,9 @@
       "recoveryLinkLoading": "Preparing setup email...",
       "recoveryPrepared": "If that email matches an account, we will send a one-time password setup link to that inbox.",
       "recoveryOpenLink": "Open setup link",
-      "sessionNote": "Password sign-in uses the same secure workspace session as Google OAuth.",
+      "sessionNote": "Password sign-in uses the same secure account session as Google OAuth.",
       "signupLead": "New to LeadCue?",
-      "signupCopy": "Create your account first. Workspace setup continues inside /app after your session is active.",
+      "signupCopy": "Create your account first. Personal setup continues inside /app after your session is active.",
       "signupCta": "Create account",
       "validation": {
         "invalidLogin": "Enter a valid work email and an 8+ character password.",
@@ -666,7 +686,7 @@
     "reset": {
       "eyebrow": "Account recovery",
       "title": "Choose a new password",
-      "copy": "This updates the password for your LeadCue workspace login and keeps the same secure session model as Google sign-in.",
+      "copy": "This updates the password for your LeadCue account login and keeps the same secure session model as Google sign-in.",
       "passwordLabel": "New password",
       "confirmLabel": "Confirm password",
       "confirmPlaceholder": "Repeat the new password",
@@ -676,32 +696,32 @@
       "shortPassword": "Use at least 8 characters for the new password.",
       "mismatch": "The new password and confirmation need to match.",
       "invalidLink": "This reset link is no longer valid. Request a new one.",
-      "success": "Password updated. Reopening your workspace...",
+      "success": "Password updated. Reopening your account...",
       "genericError": "Unable to reset the password right now."
     },
     "signup": {
       "heroEyebrow": "Get started",
       "heroTitle": "Create account",
-      "heroCopy": "Start with your account. Plan selection and workspace setup continue inside /app after sign-in.",
+      "heroCopy": "Start with your account. Plan selection and personal setup continue inside /app after sign-in.",
       "summaryProspects": "Research cards + CSV",
       "planLabel": "Plan",
       "oauthCta": "Continue with Google",
-      "oauthCopy": "Google creates your account first, then hands you into workspace setup.",
+      "oauthCopy": "Google creates your account first, then hands you into personal setup.",
       "divider": "or use work email",
       "emailCta": "Create account with email",
       "emailLoading": "Creating account...",
-      "successTitle": "Workspace setup saved.",
+      "successTitle": "Account setup saved.",
       "stepBasics": "Basics",
       "stepScoring": "Scoring",
       "progressAria": "Signup progress",
       "step1Lead": "Step 1 of 2",
-      "step1Title": "Workspace basics",
-      "step1Copy": "Start with the account and agency details LeadCue needs for the first setup.",
+      "step1Title": "Account basics",
+      "step1Copy": "Start with the account and offer details LeadCue needs for the first setup.",
       "workEmail": "Work email",
       "password": "Password",
-      "agencyFocus": "Agency focus",
-      "agencyWebsite": "Agency website",
-      "agencyWebsitePlaceholder": "https://youragency.com",
+      "offerFocus": "Offer focus",
+      "userWebsite": "Your website",
+      "userWebsitePlaceholder": "https://yourwebsite.com",
       "continue": "Continue",
       "step2Lead": "Step 2 of 2",
       "step2Title": "Scoring context",
@@ -709,17 +729,17 @@
       "offerDescription": "Offer description",
       "targetIndustries": "Target industries",
       "firstProspectUrl": "First prospect URL",
-      "setupNote": "Workspace setup and plan confirmation continue inside /app after sign-in.",
+      "setupNote": "Account setup and plan confirmation continue inside /app after sign-in.",
       "back": "Back",
-      "createWorkspace": "Create workspace",
+      "createAccountSetup": "Create account setup",
       "continueToBilling": "Continue to billing",
       "loginLead": "Already have an account?",
-      "loginCopy": "Use the same page to sign in and reopen your workspace.",
+      "loginCopy": "Use the same page to sign in and reopen your account.",
       "loginCta": "Sign in",
       "focusOptions": {
         "web_design": "Web design / redesign",
-        "seo": "SEO agency",
-        "marketing": "Growth / marketing agency",
+        "seo": "SEO consulting",
+        "marketing": "Growth / marketing consulting",
         "founder": "Founder-led outbound"
       },
       "selectedPlanFree": "20 scans/month to validate the workflow.",
@@ -731,14 +751,14 @@
         "googleAccountExists": "This email already has a Google sign-in account. Switch to sign in and continue with Google.",
         "passwordSetupRequired": "This email already has an account, but email password sign-in is not ready yet. Switch to sign in and request a reset link.",
         "accountCreateFailed": "Unable to create account right now. Please try again.",
-        "setupFailed": "Unable to create workspace setup.",
-        "billingPending": "Workspace setup saved. Billing is pending, and you can review the workspace now.",
-        "dashboardReady": "Workspace setup saved. You can continue into the dashboard."
+        "setupFailed": "Unable to create account setup.",
+        "billingPending": "Account setup saved. Billing is pending, and you can review the dashboard now.",
+        "dashboardReady": "Account setup saved. You can continue into the dashboard."
       }
     }
   },
   "tools": {
-    "crmMapping": {
+    "csvMapping": {
       "eyebrow": "CSV field mapper",
       "copyHeader": "Copy header",
       "sampleCsv": "Sample CSV",
@@ -756,11 +776,11 @@
       "readyChecklist": "Ready-to-import checklist",
       "readyMissing": "Add the missing required fields before export.",
       "readyComplete": "Your export contains the minimum required fields.",
-      "readyMissingCopy": "Missing: __MISSING__. These fields usually prevent broken ownership or duplicate imports.",
-      "readyCompleteCopy": "This header is ready for a selected-lead export and a first CRM import pass.",
+      "readyMissingCopy": "Missing: __MISSING__. These fields usually prevent broken follow-up or duplicate imports.",
+      "readyCompleteCopy": "This header is ready for a selected-prospect export and a first CSV import pass.",
       "bestPractice": "Best practice",
-      "bestPracticeTitle": "Import selected saved leads, not every scanned website.",
-      "bestPracticeCopy": "That keeps your CRM focused on accounts with fit, evidence, and a usable first line.",
+      "bestPracticeTitle": "Import selected saved prospects, not every scanned website.",
+      "bestPracticeCopy": "That keeps your next workflow focused on prospects with fit, evidence, and a usable first line.",
       "modes": [
         {
           "value": "hubspot",
@@ -770,12 +790,12 @@
         {
           "value": "salesforce",
           "label": "Salesforce",
-          "copy": "Lead import labels for source, owner, and description."
+          "copy": "Lead import labels for source, status, and description."
         },
         {
           "value": "pipedrive",
           "label": "Pipedrive",
-          "copy": "Organization, owner, stage, and note handoff fields."
+          "copy": "Organization, status, stage, and note handoff fields."
         },
         {
           "value": "custom",
@@ -869,16 +889,16 @@
           "description": "Evidence that lets reps verify the claim."
         },
         {
-          "key": "owner",
+          "key": "followUpStatus",
           "group": "Workflow",
           "labels": {
-            "hubspot": "HubSpot owner",
-            "salesforce": "Lead Owner",
-            "pipedrive": "Owner",
-            "custom": "owner"
+            "hubspot": "HubSpot status",
+            "salesforce": "Lead Status",
+            "pipedrive": "Status",
+            "custom": "follow_up_status"
           },
           "sample": "Alex Rivera",
-          "description": "The teammate responsible for follow-up."
+          "description": "Optional status or note field for follow-up."
         },
         {
           "key": "stage",
@@ -902,7 +922,7 @@
             "custom": "export_status"
           },
           "sample": "Not exported",
-          "description": "Prevents duplicate CRM handoff."
+          "description": "Prevents duplicate CSV handoff."
         }
       ]
     },
@@ -920,6 +940,44 @@
       "copyFirstLine": "Copy first line",
       "runInLeadCue": "Run this in LeadCue",
       "badExample": "Loved your site and thought I'd reach out because we help companies grow.",
+      "generator": {
+        "title": "Generate cold email first lines from a real website",
+        "copy": "Paste a prospect website, choose your offer, and get recipient-safe openers before you create the full Prospect Card.",
+        "websiteLabel": "Prospect website",
+        "websitePlaceholder": "https://example.com",
+        "offerTypeLabel": "Offer type",
+        "toneLabel": "Tone",
+        "toneProfessional": "Professional",
+        "toneDirect": "Direct",
+        "toneCasual": "Casual",
+        "submit": "Generate first lines",
+        "loading": "Generating...",
+        "previewNote": "Free preview: first lines only. Full Prospect Card unlocks after signup.",
+        "validationMissingUrl": "Enter a prospect website URL first.",
+        "validationTurnstile": "Complete the verification before generating first lines.",
+        "networkError": "Unable to reach the generator. Try again in a moment.",
+        "genericError": "Unable to generate first lines right now.",
+        "websiteObservation": "Website observation",
+        "fitPreview": "Fit preview",
+        "fitPreviewCopy": "Signup unlocks the full fit score, source notes, short email, saved prospect, and CSV export.",
+        "lockedLabel": "Locked in full card",
+        "lockedFields": [
+          "Full Prospect Card",
+          "Short email",
+          "CSV export"
+        ],
+        "lockedCopy": "LeadCue keeps website evidence, outreach context, and export fields together after the first scan.",
+        "signupCta": "Generate full Prospect Card",
+        "copyAll": "Copy all first lines",
+        "exampleModeAria": "Offer type examples",
+        "errors": {
+          "validation_failed": "Enter a valid public website URL.",
+          "turnstile_failed": "Verification failed. Refresh and try again.",
+          "rate_limited": "Daily free tool limit reached. Start free to generate full Prospect Cards.",
+          "fetch_failed": "Unable to read enough public website copy from that URL.",
+          "generation_failed": "Unable to generate first lines right now. Try again in a moment."
+        }
+      },
       "modeLabels": {
         "web_design": "Web design",
         "seo": "SEO",
@@ -1033,6 +1091,77 @@
         }
       ]
     },
+    "opportunityFinder": {
+      "eyebrow": "Website opportunity finder",
+      "title": "Find website improvement opportunities before outreach",
+      "copy": "Paste a prospect website, choose your offer, and preview three source-backed opportunities without generating the full Prospect Card.",
+      "websiteLabel": "Prospect website",
+      "websitePlaceholder": "https://example.com",
+      "offerTypeLabel": "Offer type",
+      "submit": "Find opportunities",
+      "loading": "Finding opportunities...",
+      "previewNote": "Free preview: 3 opportunity signals and fit preview. Full Prospect Card unlocks after signup.",
+      "validationMissingUrl": "Enter a prospect website URL first.",
+      "validationTurnstile": "Complete the verification before finding opportunities.",
+      "networkError": "Unable to reach the opportunity finder. Try again in a moment.",
+      "genericError": "Unable to find website opportunities right now.",
+      "opportunityLabel": "Opportunity",
+      "sourceLabel": "Source",
+      "reasonLabel": "Why it matters",
+      "fitPreview": "Fit preview",
+      "confidenceLabel": "Evidence confidence",
+      "fitPreviewCopy": "Signup unlocks the full fit score, source notes, first lines, short email, saved prospect, and CSV export.",
+      "lockedLabel": "Locked in full card",
+      "lockedFields": [
+        "Full Prospect Card",
+        "First lines",
+        "CSV export"
+      ],
+      "lockedCopy": "LeadCue keeps the opportunity, source evidence, outreach copy, and export fields together after the first scan.",
+      "signupCta": "Generate full Prospect Card",
+      "errors": {
+        "validation_failed": "Enter a valid public website URL.",
+        "turnstile_failed": "Verification failed. Refresh and try again.",
+        "rate_limited": "Daily free tool limit reached. Start free to generate full Prospect Cards.",
+        "fetch_failed": "Unable to read enough public website copy from that URL.",
+        "generation_failed": "Unable to find opportunities right now. Try again in a moment."
+      }
+    },
+    "prospectScore": {
+      "eyebrow": "Website prospect score checker",
+      "title": "Score a prospect website before outreach",
+      "copy": "Paste a prospect website, choose your offer, and preview an explainable score before creating the full Prospect Card.",
+      "websiteLabel": "Prospect website",
+      "websitePlaceholder": "https://example.com",
+      "offerTypeLabel": "Offer type",
+      "submit": "Score prospect",
+      "loading": "Scoring prospect...",
+      "previewNote": "Free preview: score, four dimensions, and strongest signal. Full Prospect Card unlocks after signup.",
+      "validationMissingUrl": "Enter a prospect website URL first.",
+      "validationTurnstile": "Complete the verification before scoring this prospect.",
+      "networkError": "Unable to reach the score checker. Try again in a moment.",
+      "genericError": "Unable to score this prospect right now.",
+      "scoreLabel": "Prospect score",
+      "dimensionLabel": "Scoring dimensions",
+      "evidenceLabel": "Evidence",
+      "reasonLabel": "Why it matters",
+      "strongestSignal": "Strongest signal",
+      "lockedLabel": "Locked in full card",
+      "lockedFields": [
+        "Full Prospect Card",
+        "First lines",
+        "CSV export"
+      ],
+      "lockedCopy": "LeadCue turns this score into a saved research card with source notes, outreach copy, status, and export fields.",
+      "signupCta": "Generate full Prospect Card",
+      "errors": {
+        "validation_failed": "Enter a valid public website URL.",
+        "turnstile_failed": "Verification failed. Refresh and try again.",
+        "rate_limited": "Daily free tool limit reached. Start free to generate full Prospect Cards.",
+        "fetch_failed": "Unable to read enough public website copy from that URL.",
+        "generation_failed": "Unable to score this prospect right now. Try again in a moment."
+      }
+    },
     "integration": {
       "eyebrow": "__PLATFORM__ import kit",
       "title": "__PLATFORM__ CSV header and sample row",
@@ -1045,7 +1174,7 @@
       "quickWins": "Quick wins",
       "quickWinsTitle": "What makes this import immediately useful",
       "mistakes": "Common mistakes",
-      "mistakesTitle": "What usually weakens CRM handoff",
+      "mistakesTitle": "What usually weakens CSV handoff",
       "downloadSample": "Download sample CSV",
       "openTemplate": "Open mapping template",
       "playbooks": {
@@ -1067,23 +1196,23 @@
           "quickWins": [
             "Set Lead Source to Website Prospecting or LeadCue for cleaner reporting.",
             "Use Description or a long-text custom field for source-backed summary.",
-            "Route owner and lead status before the campaign handoff."
+            "Set status before the campaign handoff."
           ],
           "mistakes": [
             "Over-mapping every research field into a rigid schema.",
             "Skipping custom numeric fields for fit and confidence scores.",
-            "Moving accounts into sequences before the owner verifies the reason to reach out."
+            "Moving prospects into sequences before you verify the reason to reach out."
           ]
         },
         "Pipedrive": {
           "recordType": "Organization or lead import",
           "quickWins": [
             "Use Organization fields for website identity and note fields for the research reason.",
-            "Map Stage to researching or qualified before the account is touched by outreach.",
-            "Keep owner attached so handoff stays accountable."
+            "Map Stage to researching or qualified before the prospect is touched by outreach.",
+            "Keep status attached so handoff stays clear."
           ],
           "mistakes": [
-            "Creating deals before the account has shown any engagement.",
+            "Creating deals before the prospect has shown any engagement.",
             "Burying source notes in a place reps never review.",
             "Losing export status and re-importing the same account twice."
           ]

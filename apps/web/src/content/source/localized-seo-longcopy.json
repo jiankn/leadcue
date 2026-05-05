@@ -6,7 +6,7 @@
         "heroBullets": [
           "从客户官网出发，而不是从泛泛的公司名单或邮箱库出发。",
           "用首屏、案例、CTA、内容更新和联系方式判断这个线索是否值得开发。",
-          "把每个观察点转成开发信开场白、业务切入角度和 CRM 可用备注。"
+          "把每个观察点转成开发信开场白、业务切入角度和 CSV 可用备注。"
         ],
         "sections": [
           {
@@ -39,7 +39,7 @@
         ],
         "example": {
           "title": "网站客户开发备注示例",
-          "copy": "Northstar Analytics 的产品说明很清楚，但首页首屏没有直接展示预约演示 CTA，面向财务团队的客户证明也需要下滑后才看到。",
+          "copy": "Northstar Analytics 的产品说明很清楚，但首页首屏没有直接展示预约演示 CTA，面向财务个人用户的客户证明也需要下滑后才看到。",
           "items": [
             "信号：预约演示入口在首屏下方，强意图访客可能需要多走一步。",
             "业务角度：如果买家已经理解产品，却没有立即行动入口，转化可能被延后。",
@@ -52,17 +52,17 @@
             "answer": "不是。网站客户开发关注公开可见的信息，并用这些信息判断线索质量和开发理由；它不等于批量抓取联系人，也不依赖购买邮箱数据库。"
           },
           {
-            "question": "哪些团队最适合这种方法？",
+            "question": "哪些个人用户最适合这种方法？",
             "answer": "网站建设、SEO、增长营销、CRO 和品牌定位服务商最适合，因为他们的服务可以直接和客户官网里的问题或机会对应起来。"
           },
           {
-            "question": "应该把哪些内容保存到 CRM？",
-            "answer": "至少保存公司名称、官网 URL、匹配评分、主要网站信号、来源备注、开发信开场白、负责人、阶段和导出状态。"
+            "question": "应该把哪些内容保存到 CSV？",
+            "answer": "至少保存公司名称、官网 URL、匹配评分、主要网站信号、来源备注、开发信开场白、跟进状态、阶段和导出状态。"
           }
         ]
       },
       "cold-email-first-lines": {
-        "intent": "教团队从客户官网证据中写出自然可信的开发信开场白。",
+        "intent": "教个人用户从客户官网证据中写出自然可信的开发信开场白。",
         "heroBullets": [
           "开发信开场白要来自客户官网的真实观察，而不是泛泛夸奖。",
           "第一句话要短、具体，并且能自然接到你的服务价值。",
@@ -185,7 +185,7 @@
     "productPages": {
       "tools/prospect-research-chrome-extension": {
         "eyebrow": "产品工作流",
-        "intent": "帮助团队在查看客户官网时完成线索研究、证据保存和开发信准备。",
+        "intent": "帮助个人用户在查看客户官网时完成线索研究、证据保存和开发信准备。",
         "heroBullets": [
           "浏览客户官网时直接保存网站证据。",
           "把匹配评分、开发信线索和来源备注放进同一张线索卡。",
@@ -222,34 +222,34 @@
           },
           {
             "question": "插件保存的内容能导出吗？",
-            "answer": "可以。保存后的线索可以继续带着匹配评分、来源备注和开发信上下文进入 CSV 或 CRM 导出流程。"
+            "answer": "可以。保存后的线索可以继续带着匹配评分、来源备注和开发信上下文进入 CSV 或 CSV 导出流程。"
           }
         ]
       },
       "tools/batch-website-review-queue": {
         "eyebrow": "产品工作流",
-        "intent": "帮助团队批量审查客户官网，先筛选合格线索，再进入外联。",
+        "intent": "帮助个人用户批量审查客户官网，先筛选合格线索，再进入外联。",
         "heroBullets": [
           "把客户官网列表导入审查队列，而不是直接丢进开发信工具。",
           "先筛选、评分、保存证据，再决定哪些客户值得外联。",
-          "适合团队批量处理域名列表、外贸客户名单或 CRM 待开发客户。"
+          "适合个人用户批量处理域名列表、外贸客户名单或 CSV 待开发客户。"
         ],
         "sections": [
           {
             "title": "批量审查队列解决什么问题",
-            "copy": "批量获客最容易变成噪音：名单很多，但不知道哪些值得联系。审查队列的作用是把“导入的网站”和“值得开发的客户”分开，让团队先完成判断，再进入开发信或 CRM。",
+            "copy": "批量获客最容易变成噪音：名单很多，但不知道哪些值得联系。审查队列的作用是把“导入的网站”和“值得开发的客户”分开，让个人用户先完成判断，再进入开发信或 CSV。",
             "items": [
-              "从表格、CRM 或人工研究中导入域名。",
+              "从表格、CSV 或人工研究中导入域名。",
               "按统一标准审查官网信号和匹配度。",
               "只把有明确开发理由的客户保存为合格线索。"
             ]
           },
           {
-            "title": "团队如何使用队列",
-            "copy": "队列适合研究和发送分工的团队。研究员负责把网站证据和开发理由整理清楚，销售或负责人再决定是否导出、分配或写入开发信序列。",
+            "title": "个人用户如何使用队列",
+            "copy": "队列适合研究和发送分工的个人用户。研究员负责把网站证据和开发理由整理清楚，销售或跟进状态再决定是否导出、分配或写入开发信序列。",
             "items": [
               "优先处理高匹配、高置信度客户。",
-              "为每个合格线索分配负责人和下一步阶段。",
+              "为每个合格线索分配跟进状态和下一步阶段。",
               "导出时保留来源备注和开发信开场白。"
             ]
           }
@@ -269,18 +269,18 @@
           }
         ]
       },
-      "tools/outreach-context-workspace": {
+      "tools/prospecting-dashboard": {
         "eyebrow": "产品工作流",
-        "intent": "帮助团队从研究到 CRM 或开发信交接时保留完整外联上下文。",
+        "intent": "帮助个人用户从研究到 CSV 或开发信交接时保留完整外联上下文。",
         "heroBullets": [
-          "把网站证据、开发信开场白和 CRM 字段放在同一个工作区。",
+          "把网站证据、开发信开场白和 CSV 字段放在同一个看板。",
           "让发送前复核更容易，避免只剩下一句泛泛的 AI 文案。",
-          "适合把研究结果交给销售、BD 或外包发送团队。"
+          "适合把研究结果交给个人用户。"
         ],
         "sections": [
           {
             "title": "为什么外联上下文容易丢",
-            "copy": "很多团队在一个地方研究客户，在另一个地方写备注，再把名单导出到第三个工具。等到真正发送开发信时，最初为什么选择这个客户已经说不清了。",
+            "copy": "很多个人用户在一个地方研究客户，在另一个地方写备注，再把名单导出到第三个工具。等到真正发送开发信时，最初为什么选择这个客户已经说不清了。",
             "items": [
               "只导出公司名和网址，会丢掉开发理由。",
               "开场白如果没有来源备注，发送前很难判断是否可信。",
@@ -288,23 +288,23 @@
             ]
           },
           {
-            "title": "工作区应该保留哪些上下文",
-            "copy": "一个有用的外联工作区应该保留完整但简洁的证据链：官网信号、业务影响、匹配评分、开发信开场白、来源备注、负责人、阶段和导出状态。",
+            "title": "看板应该保留哪些上下文",
+            "copy": "一个有用的外联看板应该保留完整但简洁的证据链：官网信号、业务影响、匹配评分、开发信开场白、来源备注、跟进状态、阶段和导出状态。",
             "items": [
               "官网观察点和对应的业务含义。",
               "匹配评分和置信度，用来安排优先级。",
-              "可导入 CRM 的字段，保证交接时上下文不丢。"
+              "可导入 CSV 的字段，保证交接时上下文不丢。"
             ]
           }
         ],
         "faqs": [
           {
-            "question": "外联上下文工作台是 CRM 吗？",
-            "answer": "不是。它位于 CRM 之前，帮助团队判断哪些客户值得外联，以及应该把哪些研究上下文交给 CRM。"
+            "question": "外联上下文看板是 CSV 吗？",
+            "answer": "不是。它位于 CSV 之前，帮助个人用户判断哪些客户值得外联，以及应该把哪些研究上下文交给 CSV。"
           },
           {
             "question": "它会替代开发信发送工具吗？",
-            "answer": "不会。LeadCue 准备研究和上下文，发送仍然可以在 CRM、CSV 或邮件序列工具中完成。"
+            "answer": "不会。LeadCue 准备研究和上下文，发送仍然可以在 CSV、CSV 或邮件序列工具中完成。"
           },
           {
             "question": "发送前最应该复核什么？",
@@ -321,14 +321,14 @@
         "heroBullets": [
           "一般的なリードリストではなく、見込み客のWebサイトから判断を始めます。",
           "ファーストビュー、実績、CTA、コンテンツ更新、問い合わせ導線から営業すべき理由を見つけます。",
-          "観察した根拠を、営業メールの冒頭文、提案角度、CRM向けメモに変換します。"
+          "観察した根拠を、営業メールの冒頭文、提案角度、CSV向けメモに変換します。"
         ],
         "sections": [
           {
             "title": "Webサイト起点の見込み客リサーチとは",
             "copy": "Webサイト起点の見込み客リサーチは、連絡先を増やすための作業ではありません。営業する前に相手のWebサイトを確認し、自社サービスと合うか、自然に連絡できる理由があるかを見極めるためのプロセスです。",
             "items": [
-              "Web制作、SEO、CRO、グロース支援、メッセージ改善の代理店に向いています。",
+              "Web制作、SEO、CRO、グロース支援、メッセージ改善の個人プロフェッショナルに向いています。",
               "目的はリード数を増やすことではなく、営業すべき企業を絞ることです。",
               "よい出力は、なぜ今連絡する価値があるのかを説明できます。"
             ]
@@ -354,7 +354,7 @@
         ],
         "example": {
           "title": "見込み客リサーチメモの例",
-          "copy": "Northstar Analytics は製品説明が明確ですが、デモ予約CTAと財務チーム向けの実績がファーストビューには見えていません。",
+          "copy": "Northstar Analytics は製品説明が明確ですが、デモ予約CTAと財務個人ユーザー向けの実績がファーストビューには見えていません。",
           "items": [
             "シグナル：デモ予約の導線が下部にあり、強い関心を持つ訪問者が一手間かかります。",
             "営業角度：製品理解は進んでも、すぐに行動する理由が弱くなる可能性があります。",
@@ -367,12 +367,12 @@
             "answer": "いいえ。公開されているWebサイト情報を確認し、営業判断とメール文脈を作るための作業です。連絡先データベースの購入やSNSスクレイピングとは異なります。"
           },
           {
-            "question": "どんなチームに向いていますか？",
-            "answer": "Web制作、SEO、CRO、グロース支援、メッセージ改善など、Webサイト上の課題と自社サービスを結び付けられるチームに向いています。"
+            "question": "どんな個人ユーザーに向いていますか？",
+            "answer": "Web制作、SEO、CRO、グロース支援、メッセージ改善など、Webサイト上の課題と自社サービスを結び付けられる個人ユーザーに向いています。"
           },
           {
-            "question": "CRMには何を残すべきですか？",
-            "answer": "会社名、URL、適合スコア、主なWebサイトシグナル、ソースメモ、営業メールの冒頭文、担当者、ステージ、エクスポート状態を残すと引き継ぎやすくなります。"
+            "question": "CSVには何を残すべきですか？",
+            "answer": "会社名、URL、適合スコア、主なWebサイトシグナル、ソースメモ、営業メールの冒頭文、フォロー状況、ステージ、エクスポート状態を残すと引き継ぎやすくなります。"
           }
         ]
       },
@@ -537,7 +537,7 @@
           },
           {
             "question": "保存した内容は後でエクスポートできますか？",
-            "answer": "はい。保存した見込み客は、適合スコア、ソースメモ、営業メール文脈を保ったままCSVやCRM連携へ進められます。"
+            "answer": "はい。保存した見込み客は、適合スコア、ソースメモ、営業メール文脈を保ったままCSVやCSV連携へ進められます。"
           }
         ]
       },
@@ -547,24 +547,24 @@
         "heroBullets": [
           "見込み客サイトのリストを、送信前のレビューキューに取り込みます。",
           "スコア、根拠、優先度を確認してから営業対象を保存します。",
-          "大量のドメインリストを扱う代理店チームに向いています。"
+          "大量のドメインリストを扱う個人プロフェッショナル個人ユーザーに向いています。"
         ],
         "sections": [
           {
             "title": "レビューキューの役割",
             "copy": "大量のリストは、そのままではノイズになりやすいです。レビューキューは、取り込んだサイトと実際に営業すべき企業を分け、根拠があるものだけを次の工程に送るための場所です。",
             "items": [
-              "スプレッドシート、CRM、手作業の調査からドメインを取り込みます。",
+              "スプレッドシート、CSV、手作業の調査からドメインを取り込みます。",
               "同じ基準でWebサイトのシグナルと適合度を確認します。",
               "明確な営業理由がある企業だけを保存します。"
             ]
           },
           {
-            "title": "チームでの使い方",
-            "copy": "レビューキューは、リサーチ担当と送信担当が分かれているチームで特に役立ちます。保存された各企業には、なぜ選ばれたかを説明する根拠が残ります。",
+            "title": "個人ユーザーでの使い方",
+            "copy": "レビューキューは、リサーチ担当と送信担当が分かれている個人ユーザーで特に役立ちます。保存された各企業には、なぜ選ばれたかを説明する根拠が残ります。",
             "items": [
               "高適合かつ高信頼度の企業を優先します。",
-              "エクスポート前に担当者とステージを決めます。",
+              "エクスポート前にフォロー状況とステージを決めます。",
               "ソースメモと冒頭文を付けて必要な企業だけを出力します。"
             ]
           }
@@ -580,22 +580,22 @@
           },
           {
             "question": "人の確認を入れられますか？",
-            "answer": "はい。保存、担当者設定、エクスポート、メール送信の前に人が確認する前提のワークフローです。"
+            "answer": "はい。保存、フォロー状況設定、エクスポート、メール送信の前に人が確認する前提のワークフローです。"
           }
         ]
       },
-      "tools/outreach-context-workspace": {
+      "tools/prospecting-dashboard": {
         "eyebrow": "プロダクトワークフロー",
-        "intent": "リサーチからCRMやメール送信まで、営業文脈を失わずに引き継ぎます。",
+        "intent": "リサーチからCSVやメール送信まで、営業文脈を失わずに引き継ぎます。",
         "heroBullets": [
-          "Webサイトの根拠、冒頭文、CRM項目を1つのワークスペースにまとめます。",
+          "Webサイトの根拠、冒頭文、CSV項目を1つのダッシュボードにまとめます。",
           "送信前に、メール内の主張が確認できるかを見直せます。",
           "リサーチ担当から営業担当への引き継ぎに向いています。"
         ],
         "sections": [
           {
             "title": "営業文脈が失われる理由",
-            "copy": "多くのチームでは、調査、メモ、エクスポートが別々の場所で行われます。実際に営業メールを書く頃には、なぜその企業を選んだのかが曖昧になってしまいます。",
+            "copy": "多くの個人ユーザーでは、調査、メモ、エクスポートが別々の場所で行われます。実際に営業メールを書く頃には、なぜその企業を選んだのかが曖昧になってしまいます。",
             "items": [
               "会社名とURLだけでは連絡理由が残りません。",
               "ソースメモがない冒頭文は確認しにくくなります。",
@@ -604,22 +604,22 @@
           },
           {
             "title": "残すべき文脈",
-            "copy": "有用なワークスペースは、Webサイトのシグナル、事業上の意味、適合スコア、冒頭文、ソースメモ、担当者、ステージ、エクスポート状態を短くつなげて残します。",
+            "copy": "有用なダッシュボードは、Webサイトのシグナル、事業上の意味、適合スコア、冒頭文、ソースメモ、フォロー状況、ステージ、エクスポート状態を短くつなげて残します。",
             "items": [
               "Webサイトの観察点と、その意味。",
               "優先順位付けに使う適合スコアと信頼度。",
-              "CRMに渡しても文脈が失われにくいフィールド。"
+              "CSVに渡しても文脈が失われにくいフィールド。"
             ]
           }
         ],
         "faqs": [
           {
-            "question": "これはCRMですか？",
-            "answer": "いいえ。CRMの前段にあるリサーチ用のワークスペースです。どの企業を渡すべきか、どんな文脈を渡すべきかを整理します。"
+            "question": "これはCSVですか？",
+            "answer": "いいえ。CSVの前段にあるリサーチ用のダッシュボードです。どの企業を渡すべきか、どんな文脈を渡すべきかを整理します。"
           },
           {
             "question": "メール送信ツールを置き換えますか？",
-            "answer": "置き換えません。LeadCueは調査と文脈を準備し、送信はCRM、CSV、メール配信ツールで行えます。"
+            "answer": "置き換えません。LeadCueは調査と文脈を準備し、送信はCSV、CSV、メール配信ツールで行えます。"
           },
           {
             "question": "送信前に何を確認すべきですか？",
@@ -636,14 +636,14 @@
         "heroBullets": [
           "일반 연락처 리스트가 아니라 잠재고객 웹사이트에서 판단을 시작합니다.",
           "첫 화면, 고객 증거, CTA, 콘텐츠 업데이트, 연락 경로로 영업할 이유를 찾습니다.",
-          "각 관찰을 콜드메일 첫 문장, 제안 각도, CRM 메모로 바꿉니다."
+          "각 관찰을 콜드메일 첫 문장, 제안 각도, CSV 메모로 바꿉니다."
         ],
         "sections": [
           {
             "title": "웹사이트 기반 리드 발굴의 의미",
             "copy": "웹사이트 기반 리드 발굴은 단순히 연락처를 더 모으는 일이 아닙니다. 연락하기 전에 잠재고객의 공개 웹사이트를 보고, 우리 서비스와 맞는지, 자연스럽게 연락할 만한 이유가 있는지 판단하는 과정입니다.",
             "items": [
-              "웹디자인, SEO, CRO, 그로스 마케팅, 메시지 개선 서비스를 제공하는 팀에 적합합니다.",
+              "웹디자인, SEO, CRO, 그로스 마케팅, 메시지 개선 서비스를 제공하는 개인 사용자에 적합합니다.",
               "목표는 더 많은 회사를 찾는 것이 아니라 연락할 가치가 있는 회사를 고르는 것입니다.",
               "좋은 결과물은 왜 지금 연락해야 하는지를 설명할 수 있어야 합니다."
             ]
@@ -669,7 +669,7 @@
         ],
         "example": {
           "title": "웹사이트 기반 리드 메모 예시",
-          "copy": "Northstar Analytics는 제품 설명은 명확하지만, 데모 CTA와 재무팀 대상 고객 증거가 첫 화면에는 보이지 않습니다.",
+          "copy": "Northstar Analytics는 제품 설명은 명확하지만, 데모 CTA와 재무개인 사용자 대상 고객 증거가 첫 화면에는 보이지 않습니다.",
           "items": [
             "신호: 데모 예약 경로가 아래쪽에 있어 관심이 높은 방문자가 한 단계를 더 거쳐야 합니다.",
             "영업 각도: 제품을 이해한 방문자가 바로 행동할 이유를 놓칠 수 있습니다.",
@@ -682,11 +682,11 @@
             "answer": "아닙니다. 공개된 웹사이트 정보를 검토해 리드 품질과 연락 이유를 판단하는 과정입니다. 연락처 DB 구매나 소셜 스크래핑과 다릅니다."
           },
           {
-            "question": "어떤 팀에 가장 잘 맞나요?",
-            "answer": "웹디자인, SEO, CRO, 그로스 마케팅, 메시지 개선처럼 웹사이트에서 보이는 문제와 서비스를 직접 연결할 수 있는 팀에 잘 맞습니다."
+            "question": "어떤 개인 사용자에 가장 잘 맞나요?",
+            "answer": "웹디자인, SEO, CRO, 그로스 마케팅, 메시지 개선처럼 웹사이트에서 보이는 문제와 서비스를 직접 연결할 수 있는 개인 사용자에 잘 맞습니다."
           },
           {
-            "question": "CRM에는 무엇을 남겨야 하나요?",
+            "question": "CSV에는 무엇을 남겨야 하나요?",
             "answer": "회사명, URL, 적합도 점수, 주요 웹사이트 신호, 소스 메모, 콜드메일 첫 문장, 담당자, 단계, 내보내기 상태를 남기는 것이 좋습니다."
           }
         ]
@@ -756,7 +756,7 @@
         "heroBullets": [
           "영업 피치 전에 상대가 확인할 수 있는 웹사이트 관찰을 보냅니다.",
           "진단 범위를 작게 잡아 답장하기 쉬운 제안으로 만듭니다.",
-          "웹디자인, SEO, CRO, 그로스 에이전시의 첫 아웃리치에 적합합니다."
+          "웹디자인, SEO, CRO, 그로스 개인 전문가의 첫 아웃리치에 적합합니다."
         ],
         "sections": [
           {
@@ -852,7 +852,7 @@
           },
           {
             "question": "저장한 내용은 내보낼 수 있나요?",
-            "answer": "네. 저장된 잠재고객은 적합도 점수, 소스 메모, 아웃리치 문맥을 유지한 채 CSV나 CRM으로 보낼 수 있습니다."
+            "answer": "네. 저장된 잠재고객은 적합도 점수, 소스 메모, 아웃리치 문맥을 유지한 채 CSV나 CSV으로 보낼 수 있습니다."
           }
         ]
       },
@@ -862,21 +862,21 @@
         "heroBullets": [
           "잠재고객 웹사이트 목록을 발송 전 검토 큐로 가져옵니다.",
           "점수, 근거, 우선순위를 확인한 뒤 영업할 계정만 저장합니다.",
-          "도메인 리스트를 많이 다루는 에이전시 팀에 적합합니다."
+          "도메인 리스트를 많이 다루는 개인 전문가 개인 사용자에 적합합니다."
         ],
         "sections": [
           {
             "title": "검토 큐의 역할",
             "copy": "많은 리스트는 그대로 두면 노이즈가 됩니다. 검토 큐는 가져온 웹사이트와 실제로 연락할 가치가 있는 리드를 분리하고, 근거가 있는 계정만 다음 단계로 보내는 공간입니다.",
             "items": [
-              "스프레드시트, CRM, 수동 조사에서 도메인을 가져옵니다.",
+              "스프레드시트, CSV, 수동 조사에서 도메인을 가져옵니다.",
               "같은 기준으로 웹사이트 신호와 적합도를 검토합니다.",
               "명확한 연락 이유가 있는 계정만 저장합니다."
             ]
           },
           {
-            "title": "팀에서 사용하는 방식",
-            "copy": "검토 큐는 리서치 담당자와 발송 담당자가 나뉜 팀에서 특히 유용합니다. 저장된 각 계정에는 왜 선택되었는지 설명하는 근거가 남습니다.",
+            "title": "개인 사용자에서 사용하는 방식",
+            "copy": "검토 큐는 리서치 담당자와 발송 담당자가 나뉜 개인 사용자에서 특히 유용합니다. 저장된 각 계정에는 왜 선택되었는지 설명하는 근거가 남습니다.",
             "items": [
               "적합도와 신뢰도가 높은 계정을 먼저 처리합니다.",
               "내보내기 전에 담당자와 단계를 정합니다.",
@@ -899,18 +899,18 @@
           }
         ]
       },
-      "tools/outreach-context-workspace": {
+      "tools/prospecting-dashboard": {
         "eyebrow": "제품 워크플로우",
-        "intent": "리서치부터 CRM 또는 이메일 도구 전달까지 아웃리치 문맥을 잃지 않게 합니다.",
+        "intent": "리서치부터 CSV 또는 이메일 도구 전달까지 아웃리치 문맥을 잃지 않게 합니다.",
         "heroBullets": [
-          "웹사이트 근거, 첫 문장, CRM 필드를 하나의 워크스페이스에 모읍니다.",
+          "웹사이트 근거, 첫 문장, CSV 필드를 하나의 대시보드에 모읍니다.",
           "발송 전 이메일의 주장이 검증 가능한지 확인할 수 있습니다.",
           "리서치 담당자에서 영업 담당자로 넘길 때 적합합니다."
         ],
         "sections": [
           {
             "title": "아웃리치 문맥이 사라지는 이유",
-            "copy": "많은 팀은 조사, 메모, 내보내기를 서로 다른 곳에서 처리합니다. 실제 메일을 쓸 때가 되면 왜 그 회사를 선택했는지 흐려집니다.",
+            "copy": "많은 개인 사용자은 조사, 메모, 내보내기를 서로 다른 곳에서 처리합니다. 실제 메일을 쓸 때가 되면 왜 그 회사를 선택했는지 흐려집니다.",
             "items": [
               "회사명과 URL만으로는 연락 이유가 남지 않습니다.",
               "소스 메모 없는 첫 문장은 검토하기 어렵습니다.",
@@ -919,22 +919,22 @@
           },
           {
             "title": "남겨야 할 문맥",
-            "copy": "유용한 워크스페이스는 웹사이트 신호, 비즈니스 의미, 적합도 점수, 첫 문장, 소스 메모, 담당자, 단계, 내보내기 상태를 짧게 연결해 남깁니다.",
+            "copy": "유용한 대시보드는 웹사이트 신호, 비즈니스 의미, 적합도 점수, 첫 문장, 소스 메모, 담당자, 단계, 내보내기 상태를 짧게 연결해 남깁니다.",
             "items": [
               "웹사이트 관찰과 그 의미.",
               "우선순위 판단에 필요한 적합도 점수와 신뢰도.",
-              "CRM으로 보내도 문맥이 사라지지 않는 필드."
+              "CSV으로 보내도 문맥이 사라지지 않는 필드."
             ]
           }
         ],
         "faqs": [
           {
-            "question": "CRM인가요?",
-            "answer": "아닙니다. CRM 전에 사용하는 리서치 워크스페이스입니다. 어떤 계정을 넘길지, 어떤 문맥을 넘길지 정리합니다."
+            "question": "CSV인가요?",
+            "answer": "아닙니다. CSV 전에 사용하는 리서치 대시보드입니다. 어떤 계정을 넘길지, 어떤 문맥을 넘길지 정리합니다."
           },
           {
             "question": "이메일 발송 도구를 대체하나요?",
-            "answer": "대체하지 않습니다. LeadCue는 리서치와 문맥을 준비하고, 발송은 CRM, CSV, 이메일 시퀀스 도구에서 진행할 수 있습니다."
+            "answer": "대체하지 않습니다. LeadCue는 리서치와 문맥을 준비하고, 발송은 CSV, CSV, 이메일 시퀀스 도구에서 진행할 수 있습니다."
           },
           {
             "question": "발송 전에 무엇을 확인해야 하나요?",
@@ -947,20 +947,20 @@
   "de": {
     "seoPages": {
       "website-prospecting": {
-        "intent": "Zeigt, wie Agenturen anhand von Websites besser qualifizierte B2B Leads auswählen.",
+        "intent": "Zeigt, wie Solo-Profis anhand von Websites besser qualifizierte B2B Leads auswählen.",
         "heroBullets": [
           "Starten Sie nicht mit einer generischen Leadliste, sondern mit der Website des potenziellen Kunden.",
-          "Prüfen Sie CTA, Belege, Inhalte, Positionierung und Kontaktwege, bevor ein Account in die Akquise geht.",
-          "Verwandeln Sie jede Beobachtung in einen Kaltakquise-Einstieg, einen Akquise-Anlass und eine CRM-Notiz."
+          "Prüfen Sie CTA, Belege, Inhalte, Positionierung und Kontaktwege, bevor ein Prospect in die Akquise geht.",
+          "Verwandeln Sie jede Beobachtung in einen Kaltakquise-Einstieg, einen Akquise-Anlass und eine CSV-Notiz."
         ],
         "sections": [
           {
             "title": "Was Website-basierte Lead Recherche bedeutet",
-            "copy": "Website-basierte Lead Recherche ist keine reine Datensammlung. Vor der Ansprache wird die öffentliche Website eines Unternehmens geprüft, um zu entscheiden, ob der Account zur eigenen Dienstleistung passt und ob es einen konkreten, belegbaren Grund für die Kontaktaufnahme gibt.",
+            "copy": "Website-basierte Lead Recherche ist keine reine Datensammlung. Vor der Ansprache wird die öffentliche Website eines Unternehmens geprüft, um zu entscheiden, ob der Prospect zur eigenen Dienstleistung passt und ob es einen konkreten, belegbaren Grund für die Kontaktaufnahme gibt.",
             "items": [
-              "Geeignet für Webdesign-, SEO-, CRO-, Growth- und Positionierungsagenturen.",
-              "Der Fokus liegt auf besseren Accounts, nicht auf mehr Namen in einer Liste.",
-              "Ein gutes Ergebnis erklärt, warum ein Account jetzt angesprochen werden sollte."
+              "Geeignet für Webdesign-, SEO-, CRO-, Growth- und PositionierungsSolo-Profis.",
+              "Der Fokus liegt auf besseren Prospects, nicht auf mehr Namen in einer Liste.",
+              "Ein gutes Ergebnis erklärt, warum ein Prospect jetzt angesprochen werden sollte."
             ]
           },
           {
@@ -984,7 +984,7 @@
         ],
         "example": {
           "title": "Beispiel für eine Lead-Recherche-Notiz",
-          "copy": "Northstar Analytics erklärt das Produkt klar, aber der Demo-CTA und der Beleg für Finance-Teams erscheinen erst nach dem ersten Scrollen.",
+          "copy": "Northstar Analytics erklärt das Produkt klar, aber der Demo-CTA und der Beleg für Finance-Solo operators erscheinen erst nach dem ersten Scrollen.",
           "items": [
             "Signal: Der Demo-Pfad ist im ersten View nicht sichtbar.",
             "Akquise-Anlass: Besucher können das Produkt verstehen, ohne sofort einen klaren nächsten Schritt zu sehen.",
@@ -997,12 +997,12 @@
             "answer": "Nein. Es geht um sichtbare öffentliche Website-Informationen, menschliche Bewertung und belegbaren Akquise-Kontext, nicht um das massenhafte Sammeln von Kontaktdaten."
           },
           {
-            "question": "Für welche Teams ist das geeignet?",
-            "answer": "Besonders für Webdesign-, SEO-, CRO-, Growth- und Messaging-Agenturen, weil ihre Angebote direkt mit sichtbaren Website-Signalen verbunden werden können."
+            "question": "Für welche Solo operators ist das geeignet?",
+            "answer": "Besonders für Webdesign-, SEO-, CRO-, Growth- und Messaging-Solo-Profis, weil ihre Angebote direkt mit sichtbaren Website-Signalen verbunden werden können."
           },
           {
-            "question": "Was sollte ins CRM übernommen werden?",
-            "answer": "Firma, URL, Fit-Score, wichtigste Website-Signale, Quellen-Notizen, E-Mail-Einstieg, Owner, Stage und Exportstatus."
+            "question": "Was sollte ins CSV übernommen werden?",
+            "answer": "Firma, URL, Fit-Score, wichtigste Website-Signale, Quellen-Notizen, E-Mail-Einstieg, Status, Stage und Exportstatus."
           }
         ]
       },
@@ -1036,7 +1036,7 @@
             "title": "Weniger Template-Gefühl",
             "copy": "Die Struktur darf wiederholbar sein, der Inhalt nicht. Beobachtung, Auswirkung und kleiner nächster Schritt können als Muster bleiben, aber jedes Unternehmen braucht seine eigene Website-Beobachtung.",
             "items": [
-              "Firma, Seitenposition und Beobachtung auf den echten Account anpassen.",
+              "Firma, Seitenposition und Beobachtung auf den echten Prospect anpassen.",
               "Unbelegbare Urteile entfernen.",
               "Im ersten Kontakt keine vollständige Analyse senden."
             ]
@@ -1054,7 +1054,7 @@
         "faqs": [
           {
             "question": "Muss jeder Einstieg personalisiert sein?",
-            "answer": "Die Struktur kann gleich bleiben, aber die Beobachtung sollte account-spezifisch sein. Sonst wirkt die Nachricht wie Massenversand."
+            "answer": "Die Struktur kann gleich bleiben, aber die Beobachtung sollte prospect-spezifisch sein. Sonst wirkt die Nachricht wie Massenversand."
           },
           {
             "question": "Wie lang sollte der Einstieg sein?",
@@ -1071,7 +1071,7 @@
         "heroBullets": [
           "Senden Sie zuerst eine überprüfbare Website-Beobachtung, nicht sofort einen Pitch.",
           "Halten Sie das Audit leichtgewichtig, damit die Antwort einfach bleibt.",
-          "Geeignet für Webdesign-, SEO-, CRO- und Growth-Agenturen."
+          "Geeignet für Webdesign-, SEO-, CRO- und Growth-Solo-Profis."
         ],
         "sections": [
           {
@@ -1117,7 +1117,7 @@
             "answer": "Nicht, wenn der Umfang klein bleibt. Ein konkreter Punkt und eine kurze Idee reichen für die erste Nachricht."
           },
           {
-            "question": "Kann man das für jeden Account nutzen?",
+            "question": "Kann man das für jeden Prospect nutzen?",
             "answer": "Nein. Es sollte einen sichtbaren Website-Punkt geben, der klar zu Ihrem Angebot passt."
           },
           {
@@ -1131,11 +1131,11 @@
       "tools/prospect-research-chrome-extension": {
         "eyebrow": "Produkt-Workflow",
         "category": "Chrome-Erweiterung",
-        "intent": "Hilft Teams, beim Prüfen einer Prospect-Website Belege und Akquise-Kontext zu speichern.",
+        "intent": "Hilft Solo operators, beim Prüfen einer Prospect-Website Belege und Akquise-Kontext zu speichern.",
         "heroBullets": [
-          "Speichern Sie Website-Belege direkt beim Prüfen des Accounts.",
+          "Speichern Sie Website-Belege direkt beim Prüfen des Prospects.",
           "Fit-Score, E-Mail-Einstieg und Quellen-Notizen bleiben in einer Karte.",
-          "Geeignet für manuelle Prüfung hochwertiger Accounts."
+          "Geeignet für manuelle Prüfung hochwertiger Prospects."
         ],
         "sections": [
           {
@@ -1164,40 +1164,40 @@
           },
           {
             "question": "Wann nutze ich Erweiterung statt Batch-Import?",
-            "answer": "Die Erweiterung eignet sich für einzelne Accounts. Der Batch-Import ist besser, wenn bereits eine Domainliste vorliegt."
+            "answer": "Die Erweiterung eignet sich für einzelne Prospects. Der Batch-Import ist besser, wenn bereits eine Domainliste vorliegt."
           },
           {
             "question": "Kann ich gespeicherte Notizen exportieren?",
-            "answer": "Ja. Gespeicherte Accounts können mit Fit-Score, Quellen-Notizen und Akquise-Kontext in CSV oder CRM übergeben werden."
+            "answer": "Ja. Gespeicherte Prospects können mit Fit-Score, Quellen-Notizen und Akquise-Kontext in CSV oder CSV übergeben werden."
           }
         ]
       },
       "tools/batch-website-review-queue": {
         "eyebrow": "Produkt-Workflow",
         "category": "Review-Queue",
-        "intent": "Hilft Agenturen, viele Prospect-Websites zu prüfen und nur qualifizierte Accounts zu speichern.",
+        "intent": "Hilft Solo-Profis, viele Prospect-Websites zu prüfen und nur qualifizierte Prospects zu speichern.",
         "heroBullets": [
           "Importieren Sie Website-Listen in eine Review-Queue statt direkt in Sequenzen.",
-          "Bewerten, priorisieren und speichern Sie nur Accounts mit klarem Akquise-Anlass.",
-          "Ideal für Agenturen, die viele Domains strukturiert prüfen."
+          "Bewerten, priorisieren und speichern Sie nur Prospects mit klarem Akquise-Anlass.",
+          "Ideal für Solo-Profis, die viele Domains strukturiert prüfen."
         ],
         "sections": [
           {
             "title": "Wofür die Review-Queue da ist",
-            "copy": "Viele Listen erzeugen nur Volumen. Die Review-Queue trennt importierte Websites von tatsächlich qualifizierten Accounts und hält die Bewertung vor dem Outreach fest.",
+            "copy": "Viele Listen erzeugen nur Volumen. Die Review-Queue trennt importierte Websites von tatsächlich qualifizierten Prospects und hält die Bewertung vor dem Outreach fest.",
             "items": [
-              "Domains aus Tabellen, CRM-Listen oder manueller Recherche importieren.",
+              "Domains aus Tabellen, CSV-Listen oder manueller Recherche importieren.",
               "Website-Signale und Fit nach einheitlichen Kriterien prüfen.",
-              "Nur Accounts mit belastbarem Kontaktgrund speichern."
+              "Nur Prospects mit belastbarem Kontaktgrund speichern."
             ]
           },
           {
-            "title": "So nutzt ein Team die Queue",
-            "copy": "Die Queue hilft besonders, wenn Recherche und Versand getrennte Rollen sind. Jeder gespeicherte Account trägt die Begründung mit, warum er in die Akquise gehen sollte.",
+            "title": "So nutzt ein Solo operator die Queue",
+            "copy": "Die Queue hilft besonders, wenn Recherche und Versand getrennte Rollen sind. Jeder gespeicherte Prospect trägt die Begründung mit, warum er in die Akquise gehen sollte.",
             "items": [
-              "High-Fit-Accounts zuerst bearbeiten.",
-              "Owner und Stage vor Export festlegen.",
-              "Nur ausgewählte Accounts mit Quellen-Notizen und Einstieg exportieren."
+              "High-Fit-Prospects zuerst bearbeiten.",
+              "Status und Stage vor Export festlegen.",
+              "Nur ausgewählte Prospects mit Quellen-Notizen und Einstieg exportieren."
             ]
           }
         ],
@@ -1216,43 +1216,43 @@
           }
         ]
       },
-      "tools/outreach-context-workspace": {
+      "tools/prospecting-dashboard": {
         "eyebrow": "Produkt-Workflow",
-        "category": "Akquise-Workspace",
-        "intent": "Bewahrt den Akquise-Grund von der Recherche bis zur CRM- oder E-Mail-Übergabe.",
+        "category": "Akquise-Dashboard",
+        "intent": "Bewahrt den Akquise-Grund von der Recherche bis zur CSV- oder E-Mail-Übergabe.",
         "heroBullets": [
-          "Website-Belege, E-Mail-Einstiege und CRM-Felder bleiben zusammen.",
+          "Website-Belege, E-Mail-Einstiege und CSV-Felder bleiben zusammen.",
           "Vor dem Versand lässt sich prüfen, ob jede Aussage belegbar ist.",
           "Gut für die Übergabe von Recherche an Sales oder BD."
         ],
         "sections": [
           {
             "title": "Warum Akquise-Kontext verloren geht",
-            "copy": "Viele Teams recherchieren an einer Stelle, notieren woanders und exportieren in ein drittes Tool. Beim Versand ist oft nicht mehr klar, warum der Account ausgewählt wurde.",
+            "copy": "Viele Solo operators recherchieren an einer Stelle, notieren woanders und exportieren in ein drittes Tool. Beim Versand ist oft nicht mehr klar, warum der Prospect ausgewählt wurde.",
             "items": [
               "Nur Firma und URL reichen nicht als Akquise-Grund.",
               "Einstiege ohne Quellen-Notiz sind schwer zu prüfen.",
-              "Sales braucht den Grund, warum ein Account priorisiert wurde."
+              "Sales braucht den Grund, warum ein Prospect priorisiert wurde."
             ]
           },
           {
-            "title": "Was der Workspace bewahrt",
-            "copy": "Ein guter Workspace verbindet Website-Signal, geschäftliche Bedeutung, Fit-Score, Einstieg, Quellen-Notiz, Owner, Stage und Exportstatus.",
+            "title": "Was der Dashboard bewahrt",
+            "copy": "Ein guter Dashboard verbindet Website-Signal, geschäftliche Bedeutung, Fit-Score, Einstieg, Quellen-Notiz, Status, Stage und Exportstatus.",
             "items": [
-              "Beobachtung und Bedeutung für den Account.",
+              "Beobachtung und Bedeutung für den Prospect.",
               "Fit-Score und Vertrauen für Priorisierung.",
-              "CRM-Felder, die den Kontext beim Handoff erhalten."
+              "CSV-Felder, die den Kontext beim Handoff erhalten."
             ]
           }
         ],
         "faqs": [
           {
-            "question": "Ist das ein CRM?",
-            "answer": "Nein. Der Workspace liegt vor dem CRM und bereitet qualifizierte Accounts samt Kontext für die Übergabe vor."
+            "question": "Ist das ein CSV?",
+            "answer": "Nein. Der Dashboard liegt vor dem CSV und bereitet qualifizierte Prospects samt Kontext für die Übergabe vor."
           },
           {
             "question": "Ersetzt es ein E-Mail-Tool?",
-            "answer": "Nein. LeadCue bereitet Recherche und Kontext vor; Versand kann über CRM, CSV oder Sequencing-Tools laufen."
+            "answer": "Nein. LeadCue bereitet Recherche und Kontext vor; Versand kann über CSV, CSV oder Sequencing-Tools laufen."
           },
           {
             "question": "Was sollte vor dem Versand geprüft werden?",
@@ -1265,20 +1265,20 @@
   "nl": {
     "seoPages": {
       "website-prospecting": {
-        "intent": "Legt uit hoe bureaus betere B2B prospects selecteren op basis van hun websites.",
+        "intent": "Legt uit hoe freelancers betere B2B prospects selecteren op basis van hun websites.",
         "heroBullets": [
           "Begin bij de prospectwebsite, niet bij een generieke contactlijst.",
-          "Beoordeel CTA's, bewijs, content, positionering en contactpaden voordat een account naar acquisitie gaat.",
-          "Zet elke observatie om in een koude-e-mailopening, acquisitie-aanleiding en CRM-notitie."
+          "Beoordeel CTA's, bewijs, content, positionering en contactpaden voordat een prospect naar acquisitie gaat.",
+          "Zet elke observatie om in een koude-e-mailopening, acquisitie-aanleiding en CSV-notitie."
         ],
         "sections": [
           {
             "title": "Wat websitegerichte prospectie betekent",
-            "copy": "Websitegerichte prospectie is geen dataverzameling om meer namen te krijgen. Je bekijkt de openbare website van een bedrijf voordat je contact opneemt, zodat je weet of het account past en of er een concrete reden is om te mailen.",
+            "copy": "Websitegerichte prospectie is geen dataverzameling om meer namen te krijgen. Je bekijkt de openbare website van een bedrijf voordat je contact opneemt, zodat je weet of het prospect past en of er een concrete reden is om te mailen.",
             "items": [
-              "Geschikt voor webdesign-, SEO-, CRO-, growth- en positioneringsbureaus.",
-              "Het doel is betere accounts selecteren, niet simpelweg meer leads verzamelen.",
-              "Een goede output legt uit waarom dit account nu benaderd moet worden."
+              "Geschikt voor webdesign-, SEO-, CRO-, growth- en positioneringsfreelancers.",
+              "Het doel is betere prospects selecteren, niet simpelweg meer leads verzamelen.",
+              "Een goede output legt uit waarom dit prospect nu benaderd moet worden."
             ]
           },
           {
@@ -1302,7 +1302,7 @@
         ],
         "example": {
           "title": "Voorbeeld van een prospectienotitie",
-          "copy": "Northstar Analytics legt het product helder uit, maar de demo-CTA en bewijs voor finance-teams verschijnen pas na de eerste scroll.",
+          "copy": "Northstar Analytics legt het product helder uit, maar de demo-CTA en bewijs voor finance-solo operators verschijnen pas na de eerste scroll.",
           "items": [
             "Signaal: de demo-route is niet zichtbaar in het eerste scherm.",
             "Acquisitiehoek: bezoekers kunnen het product begrijpen zonder direct een duidelijke vervolgstap te zien.",
@@ -1315,11 +1315,11 @@
             "answer": "Nee. Het gaat om zichtbare openbare website-informatie, menselijke beoordeling en brongebonden acquisitiecontext, niet om massaal contactgegevens verzamelen."
           },
           {
-            "question": "Voor welke teams werkt dit goed?",
-            "answer": "Vooral voor webdesign-, SEO-, CRO-, growth- en messagingteams die hun aanbod direct aan websiteobservaties kunnen koppelen."
+            "question": "Voor welke solo operators werkt dit goed?",
+            "answer": "Vooral voor webdesign-, SEO-, CRO-, growth- en messagingsolo operators die hun aanbod direct aan websiteobservaties kunnen koppelen."
           },
           {
-            "question": "Wat moet naar het CRM?",
+            "question": "Wat moet naar het CSV?",
             "answer": "Bedrijf, URL, fitscore, belangrijkste websitesignalen, bronnotities, openingszin, eigenaar, fase en exportstatus."
           }
         ]
@@ -1354,7 +1354,7 @@
             "title": "Minder templategevoel",
             "copy": "De structuur mag herhaalbaar zijn, de inhoud niet. Observatie, impact en kleine vervolgstap kunnen hetzelfde patroon volgen, maar elke prospect heeft eigen websitedetails nodig.",
             "items": [
-              "Pas bedrijf, paginapositie en observatie aan op het echte account.",
+              "Pas bedrijf, paginapositie en observatie aan op het echte prospect.",
               "Verwijder onbewezen oordelen.",
               "Stuur in de eerste mail geen volledige analyse."
             ]
@@ -1372,7 +1372,7 @@
         "faqs": [
           {
             "question": "Moet elke openingszin persoonlijk zijn?",
-            "answer": "De structuur mag hetzelfde zijn, maar de observatie moet account-specifiek zijn. Anders voelt de mail als massaverzending."
+            "answer": "De structuur mag hetzelfde zijn, maar de observatie moet prospect-specifiek zijn. Anders voelt de mail als massaverzending."
           },
           {
             "question": "Hoe lang moet de openingszin zijn?",
@@ -1389,7 +1389,7 @@
         "heroBullets": [
           "Stuur eerst een controleerbare websiteobservatie, niet meteen een pitch.",
           "Houd de audit licht zodat antwoorden makkelijk blijft.",
-          "Geschikt voor webdesign-, SEO-, CRO- en growthbureaus."
+          "Geschikt voor webdesign-, SEO-, CRO- en growthfreelancers."
         ],
         "sections": [
           {
@@ -1435,7 +1435,7 @@
             "answer": "Niet als je de scope klein houdt. Eén concreet punt en één kort idee zijn genoeg voor de eerste mail."
           },
           {
-            "question": "Kun je dit voor elk account gebruiken?",
+            "question": "Kun je dit voor elk prospect gebruiken?",
             "answer": "Nee. Er moet een zichtbaar websitepunt zijn dat duidelijk past bij je aanbod."
           },
           {
@@ -1449,11 +1449,11 @@
       "tools/prospect-research-chrome-extension": {
         "eyebrow": "Productworkflow",
         "category": "Chrome-extensie",
-        "intent": "Helpt teams tijdens het bekijken van een prospectwebsite bewijs en acquisitiecontext vast te leggen.",
+        "intent": "Helpt solo operators tijdens het bekijken van een prospectwebsite bewijs en acquisitiecontext vast te leggen.",
         "heroBullets": [
-          "Sla websitebewijs op terwijl je het account bekijkt.",
+          "Sla websitebewijs op terwijl je het prospect bekijkt.",
           "Fitscore, e-mailopening en bronnotities blijven in één kaart.",
-          "Geschikt voor handmatige review van waardevolle accounts."
+          "Geschikt voor handmatige review van waardevolle prospects."
         ],
         "sections": [
           {
@@ -1482,40 +1482,40 @@
           },
           {
             "question": "Wanneer gebruik ik de extensie in plaats van batchimport?",
-            "answer": "Gebruik de extensie voor losse accounts. Batchimport is beter als je al een lijst met domeinen hebt."
+            "answer": "Gebruik de extensie voor losse prospects. Batchimport is beter als je al een lijst met domeinen hebt."
           },
           {
             "question": "Kan ik opgeslagen notities exporteren?",
-            "answer": "Ja. Opgeslagen accounts kunnen met fitscore, bronnotities en context naar CSV of CRM."
+            "answer": "Ja. Opgeslagen prospects kunnen met fitscore, bronnotities en context naar CSV of CSV."
           }
         ]
       },
       "tools/batch-website-review-queue": {
         "eyebrow": "Productworkflow",
         "category": "Reviewqueue",
-        "intent": "Helpt bureaus veel prospectwebsites te beoordelen en alleen gekwalificeerde accounts te bewaren.",
+        "intent": "Helpt freelancers veel prospectwebsites te beoordelen en alleen gekwalificeerde prospects te bewaren.",
         "heroBullets": [
           "Importeer websitelijsten in een reviewqueue in plaats van direct in sequences.",
-          "Beoordeel, prioriteer en bewaar alleen accounts met duidelijke aanleiding.",
-          "Ideaal voor bureaus die veel domeinen gestructureerd willen beoordelen."
+          "Beoordeel, prioriteer en bewaar alleen prospects met duidelijke aanleiding.",
+          "Ideaal voor freelancers die veel domeinen gestructureerd willen beoordelen."
         ],
         "sections": [
           {
             "title": "Waar de reviewqueue voor is",
-            "copy": "Veel lijsten zorgen vooral voor volume. De reviewqueue scheidt geïmporteerde websites van echt gekwalificeerde accounts en bewaart de beoordeling vóór outreach.",
+            "copy": "Veel lijsten zorgen vooral voor volume. De reviewqueue scheidt geïmporteerde websites van echt gekwalificeerde prospects en bewaart de beoordeling vóór outreach.",
             "items": [
-              "Domeinen importeren uit spreadsheets, CRM-lijsten of handmatige research.",
+              "Domeinen importeren uit spreadsheets, CSV-lijsten of handmatige research.",
               "Websitesignalen en fit volgens dezelfde criteria beoordelen.",
-              "Alleen accounts met een sterke contactreden bewaren."
+              "Alleen prospects met een sterke contactreden bewaren."
             ]
           },
           {
-            "title": "Hoe teams de queue gebruiken",
-            "copy": "De queue helpt vooral als research en verzending gescheiden rollen zijn. Elk opgeslagen account draagt de reden mee waarom het naar acquisitie moet.",
+            "title": "Hoe solo operators de queue gebruiken",
+            "copy": "De queue helpt vooral als research en verzending gescheiden rollen zijn. Elk opgeslagen prospect draagt de reden mee waarom het naar acquisitie moet.",
             "items": [
-              "High-fit accounts eerst verwerken.",
+              "High-fit prospects eerst verwerken.",
               "Eigenaar en fase vóór export vastleggen.",
-              "Alleen geselecteerde accounts met bronnotities en opening exporteren."
+              "Alleen geselecteerde prospects met bronnotities en opening exporteren."
             ]
           }
         ],
@@ -1534,43 +1534,43 @@
           }
         ]
       },
-      "tools/outreach-context-workspace": {
+      "tools/prospecting-dashboard": {
         "eyebrow": "Productworkflow",
-        "category": "Acquisitiewerkruimte",
-        "intent": "Bewaart de reden voor acquisitie van research tot overdracht naar CRM of e-mailtool.",
+        "category": "Acquisitiedashboard",
+        "intent": "Bewaart de reden voor acquisitie van research tot overdracht naar CSV of e-mailtool.",
         "heroBullets": [
-          "Websitebewijs, e-mailopeningen en CRM-velden blijven samen.",
+          "Websitebewijs, e-mailopeningen en CSV-velden blijven samen.",
           "Voor verzending kun je controleren of elke claim klopt.",
           "Handig voor overdracht van research naar sales of BD."
         ],
         "sections": [
           {
             "title": "Waarom acquisitiecontext verdwijnt",
-            "copy": "Veel teams doen research op één plek, noteren ergens anders en exporteren naar een derde tool. Bij verzending is vaak niet meer duidelijk waarom het account gekozen is.",
+            "copy": "Veel solo operators doen research op één plek, noteren ergens anders en exporteren naar een derde tool. Bij verzending is vaak niet meer duidelijk waarom het prospect gekozen is.",
             "items": [
               "Alleen bedrijf en URL zijn geen contactreden.",
               "Openingen zonder bronnotitie zijn lastig te controleren.",
-              "Sales heeft de reden nodig waarom een account prioriteit kreeg."
+              "Sales heeft de reden nodig waarom een prospect prioriteit kreeg."
             ]
           },
           {
-            "title": "Wat de werkruimte bewaart",
-            "copy": "Een goede werkruimte verbindt websitesignaal, zakelijke betekenis, fitscore, opening, bronnotitie, eigenaar, fase en exportstatus.",
+            "title": "Wat de dashboard bewaart",
+            "copy": "Een goede dashboard verbindt websitesignaal, zakelijke betekenis, fitscore, opening, bronnotitie, eigenaar, fase en exportstatus.",
             "items": [
-              "Observatie en betekenis voor het account.",
+              "Observatie en betekenis voor het prospect.",
               "Fitscore en vertrouwen voor prioritering.",
-              "CRM-velden die context behouden bij overdracht."
+              "CSV-velden die context behouden bij overdracht."
             ]
           }
         ],
         "faqs": [
           {
-            "question": "Is dit een CRM?",
-            "answer": "Nee. De werkruimte zit vóór het CRM en bereidt gekwalificeerde accounts met context voor overdracht voor."
+            "question": "Is dit een CSV?",
+            "answer": "Nee. De dashboard zit vóór het CSV en bereidt gekwalificeerde prospects met context voor overdracht voor."
           },
           {
             "question": "Vervangt dit een e-mailtool?",
-            "answer": "Nee. LeadCue bereidt research en context voor; verzending kan via CRM, CSV of sequencingtools."
+            "answer": "Nee. LeadCue bereidt research en context voor; verzending kan via CSV, CSV of sequencingtools."
           },
           {
             "question": "Wat moet je controleren voor verzending?",
@@ -1583,18 +1583,18 @@
   "fr": {
     "seoPages": {
       "website-prospecting": {
-        "intent": "Explique comment les agences sélectionnent de meilleurs prospects B2B à partir de leurs sites web.",
+        "intent": "Explique comment les professionnels indépendants sélectionnent de meilleurs prospects B2B à partir de leurs sites web.",
         "heroBullets": [
           "Partez du site du prospect, pas d'une liste de contacts générique.",
           "Évaluez CTA, preuves, contenu, positionnement et parcours de contact avant la prospection.",
-          "Transformez chaque observation en première phrase, angle de prospection et note CRM."
+          "Transformez chaque observation en première phrase, angle de prospection et note CSV."
         ],
         "sections": [
           {
             "title": "Ce que signifie la recherche de prospects par site web",
             "copy": "La recherche de prospects par site web ne consiste pas à collecter plus de noms. Elle consiste à examiner le site public d'une entreprise avant de la contacter, afin de vérifier l'adéquation avec votre offre et de trouver une raison crédible d'entrer en contact.",
             "items": [
-              "Adapté aux agences web design, SEO, CRO, growth et positionnement.",
+              "Adapté aux professionnels indépendants web design, SEO, CRO, growth et positionnement.",
               "L'objectif est de sélectionner de meilleurs comptes, pas d'augmenter le volume brut.",
               "Un bon résultat explique pourquoi ce compte mérite une prospection maintenant."
             ]
@@ -1634,10 +1634,10 @@
           },
           {
             "question": "Quelles équipes devraient utiliser cette méthode ?",
-            "answer": "Les agences web design, SEO, CRO, growth et messaging, car leurs offres peuvent être reliées à des signaux visibles sur le site."
+            "answer": "Les professionnels indépendants web design, SEO, CRO, growth et messaging, car leurs offres peuvent être reliées à des signaux visibles sur le site."
           },
           {
-            "question": "Que faut-il garder dans le CRM ?",
+            "question": "Que faut-il garder dans le CSV ?",
             "answer": "Entreprise, URL, score d'adéquation, signaux principaux, notes sources, première phrase, propriétaire, étape et statut d'export."
           }
         ]
@@ -1707,7 +1707,7 @@
         "heroBullets": [
           "Envoyez d'abord une observation vérifiable, pas un pitch.",
           "Gardez l'audit léger pour faciliter la réponse.",
-          "Adapté aux agences web design, SEO, CRO et growth."
+          "Adapté aux professionnels indépendants web design, SEO, CRO et growth."
         ],
         "sections": [
           {
@@ -1804,25 +1804,25 @@
           },
           {
             "question": "Puis-je exporter les notes sauvegardées ?",
-            "answer": "Oui. Les comptes sauvegardés peuvent passer en CSV ou CRM avec score, notes sources et contexte de prospection."
+            "answer": "Oui. Les comptes sauvegardés peuvent passer en CSV ou CSV avec score, notes sources et contexte de prospection."
           }
         ]
       },
       "tools/batch-website-review-queue": {
         "eyebrow": "Workflow produit",
         "category": "File d'analyse",
-        "intent": "Aide les agences à analyser de nombreux sites prospects et à garder seulement les comptes qualifiés.",
+        "intent": "Aide les professionnels indépendants à analyser de nombreux sites prospects et à garder seulement les comptes qualifiés.",
         "heroBullets": [
           "Importez des listes de sites dans une file d'analyse avant les séquences.",
           "Évaluez, priorisez et gardez seulement les comptes avec une raison claire de contact.",
-          "Idéal pour les agences qui doivent examiner de nombreux domaines."
+          "Idéal pour les professionnels indépendants qui doivent examiner de nombreux domaines."
         ],
         "sections": [
           {
             "title": "Le rôle de la file d'analyse",
             "copy": "Les grandes listes créent souvent du volume sans qualité. La file d'analyse sépare les sites importés des comptes réellement qualifiés et conserve l'évaluation avant la prospection.",
             "items": [
-              "Importer des domaines depuis un tableur, un CRM ou une recherche manuelle.",
+              "Importer des domaines depuis un tableur, un CSV ou une recherche manuelle.",
               "Évaluer les signaux du site et l'adéquation avec les mêmes critères.",
               "Garder seulement les comptes avec une raison de contact solide."
             ]
@@ -1852,12 +1852,12 @@
           }
         ]
       },
-      "tools/outreach-context-workspace": {
+      "tools/prospecting-dashboard": {
         "eyebrow": "Workflow produit",
         "category": "Espace de prospection",
-        "intent": "Conserve la raison de contact de la recherche jusqu'au CRM ou à l'outil d'emailing.",
+        "intent": "Conserve la raison de contact de la recherche jusqu'au CSV ou à l'outil d'emailing.",
         "heroBullets": [
-          "Preuves du site, premières phrases et champs CRM restent ensemble.",
+          "Preuves du site, premières phrases et champs CSV restent ensemble.",
           "Avant l'envoi, chaque affirmation peut être vérifiée.",
           "Utile pour passer la recherche à sales ou BD."
         ],
@@ -1877,18 +1877,18 @@
             "items": [
               "Observation et signification pour le compte.",
               "Score et confiance pour prioriser.",
-              "Champs CRM qui conservent le contexte lors du transfert."
+              "Champs CSV qui conservent le contexte lors du transfert."
             ]
           }
         ],
         "faqs": [
           {
-            "question": "Est-ce un CRM ?",
-            "answer": "Non. L'espace se situe avant le CRM et prépare les comptes qualifiés avec leur contexte."
+            "question": "Est-ce un CSV ?",
+            "answer": "Non. L'espace se situe avant le CSV et prépare les comptes qualifiés avec leur contexte."
           },
           {
             "question": "Remplace-t-il un outil d'emailing ?",
-            "answer": "Non. LeadCue prépare la recherche et le contexte ; l'envoi peut se faire via CRM, CSV ou outil de séquences."
+            "answer": "Non. LeadCue prépare la recherche et le contexte ; l'envoi peut se faire via CSV, CSV ou outil de séquences."
           },
           {
             "question": "Que vérifier avant l'envoi ?",

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
   <title id="title">Pipedrive CSV Export for Prospect Research Notes</title>
-  <desc id="desc">Prepare Pipedrive CSV imports for website prospecting research with organization fields, owner, stage, fit score, first line, and notes.</desc>
+  <desc id="desc">Prepare Pipedrive CSV imports for website prospecting research with organization fields, follow-up status, fit score, first line, and notes.</desc>
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="630" gradientUnits="userSpaceOnUse">
       <stop stop-color="#073733" />
@@ -38,7 +38,7 @@
 <text x="78" y="420" fill="#F7FFFC" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="72" font-weight="800">Prospect Research Notes</text>
   <text x="78" y="514" fill="#D3EEE7" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="30" font-weight="600">Prepare Pipedrive CSV imports for website</text>
 <text x="78" y="554" fill="#D3EEE7" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="30" font-weight="600">prospecting research with organization fields,</text>
-<text x="78" y="594" fill="#D3EEE7" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="30" font-weight="600">owner, stage, fit score, first line, and notes.</text>
+<text x="78" y="594" fill="#D3EEE7" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="30" font-weight="600">follow-up status, fit score, first line, and notes.</text>
   <g transform="translate(78, 548)">
     <rect width="262" height="44" rx="22" fill="#114b45" stroke="#1f6d66" />
     <text x="22" y="29" fill="#dffbf3" font-family="'Segoe UI', 'Noto Sans', sans-serif" font-size="20" font-weight="700">Pipedrive CSV import fields</text>
