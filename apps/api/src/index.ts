@@ -5526,7 +5526,7 @@ function normalizeLeadIdList(value: unknown): string[] {
 }
 
 function buildExportFileName(
-  preset: Extract<ExportRun["preset"], "crm" | "email" | "brief">,
+  preset: ExportRun["preset"],
   crmMode: Extract<ExportRun["crmMode"], "hubspot" | "salesforce" | "pipedrive">
 ) {
   const datePart = new Date().toISOString().slice(0, 10);
@@ -5646,11 +5646,13 @@ function mapQueueItem(row: QueueItemRow): WorkspaceQueueItem {
 }
 
 function mapExportRun(row: ExportRunRow): ExportRun {
+  const preset = isProspectExportPresetKey(row.preset) ? row.preset : "crm";
+
   return {
     id: row.id,
     status: row.status === "failed" ? "failed" : row.status === "pending" ? "pending" : "completed",
     leadCount: row.lead_count || 0,
-    preset: row.preset === "email" || row.preset === "brief" ? row.preset : "crm",
+    preset,
     crmMode: row.crm_mode === "salesforce" || row.crm_mode === "pipedrive" ? row.crm_mode : "hubspot",
     scope: isExportRunScope(row.export_scope) ? row.export_scope : "all_qualified",
     fileName: row.file_name || null,

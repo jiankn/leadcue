@@ -14,6 +14,9 @@ describe("isProspectExportPresetKey", () => {
     expect(isProspectExportPresetKey("crm")).toBe(true);
     expect(isProspectExportPresetKey("email")).toBe(true);
     expect(isProspectExportPresetKey("brief")).toBe(true);
+    expect(isProspectExportPresetKey("instantly")).toBe(true);
+    expect(isProspectExportPresetKey("smartlead")).toBe(true);
+    expect(isProspectExportPresetKey("csv")).toBe(true);
   });
 
   it("rejects unknown or custom keys", () => {
@@ -54,6 +57,21 @@ describe("getProspectExportColumns", () => {
   it("returns the brief preset columns", () => {
     const columns = getProspectExportColumns("brief");
     expect(columns.length).toBeGreaterThan(0);
+  });
+
+  it("returns Instantly and Smartlead specific columns", () => {
+    const instantly = getProspectExportColumns("instantly");
+    const smartlead = getProspectExportColumns("smartlead");
+    expect(instantly.map((c) => c.key)).toContain("personalization");
+    expect(instantly.map((c) => c.key)).toContain("customFieldFitScore");
+    expect(smartlead.map((c) => c.key)).toContain("domain");
+    expect(smartlead.map((c) => c.key)).toContain("customFieldSourceNotes");
+  });
+
+  it("returns the general LeadCue CSV columns", () => {
+    const columns = getProspectExportColumns("csv");
+    expect(columns.map((c) => c.key)).toContain("websiteSignals");
+    expect(columns.map((c) => c.key)).toContain("pipelineNotes");
   });
 });
 
@@ -101,6 +119,21 @@ describe("buildProspectExportCsv", () => {
     const csv = buildProspectExportCsv([], "crm", "hubspot");
     // header only, no body row
     expect(csv.split(/\r?\n/).filter(Boolean).length).toBe(1);
+  });
+
+  it("emits Instantly custom fields", () => {
+    const csv = buildProspectExportCsv([{ card: SAMPLE_PROSPECT_CARD }], "instantly");
+    const header = csv.split(/\r?\n/)[0];
+    expect(header).toContain("Personalization");
+    expect(header).toContain("LeadCue Fit Score");
+    expect(header).toContain("LeadCue Source Notes");
+  });
+
+  it("emits Smartlead and LeadCue CSV exports", () => {
+    const smartlead = buildProspectExportCsv([{ card: SAMPLE_PROSPECT_CARD }], "smartlead");
+    const leadcueCsv = buildProspectExportCsv([{ card: SAMPLE_PROSPECT_CARD }], "csv");
+    expect(smartlead.split(/\r?\n/)[0]).toContain("domain");
+    expect(leadcueCsv.split(/\r?\n/)[0]).toContain("website_signals");
   });
 });
 

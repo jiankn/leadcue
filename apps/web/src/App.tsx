@@ -152,6 +152,7 @@ const prospectCardTabs: ProspectCardTab[] = ["overview", "signals", "contacts", 
 const pipelineStageOptions: ProspectPipelineStage[] = ["researching", "qualified", "outreach_queued", "contacted", "won", "archived"];
 
 const activityFieldFilters: ActivityFieldFilter[] = ["all", "owner", "stage", "notes"];
+const visibleProspectExportPresets: Array<Exclude<ProspectExportPresetKey, "custom">> = ["instantly", "smartlead", "csv", "crm", "brief"];
 const fallbackAppUi = getAppUi("en");
 
 const defaultProspectMeta: ProspectPipelineContext = {
@@ -6212,7 +6213,7 @@ function DashboardApp() {
   const [leadMinFit, setLeadMinFit] = useState(0);
   const [leadMinConfidence, setLeadMinConfidence] = useState(0);
   const [selectedLeadIds, setSelectedLeadIds] = useState<string[]>([]);
-  const [bulkExportPreset, setBulkExportPreset] = useState<Exclude<ProspectExportPresetKey, "custom">>("email");
+  const [bulkExportPreset, setBulkExportPreset] = useState<Exclude<ProspectExportPresetKey, "custom">>("instantly");
   const [bulkCrmFieldMode, setBulkCrmFieldMode] = useState<ProspectCrmFieldMode>("hubspot");
   const [bulkExportState, setBulkExportState] = useState<"idle" | "loading" | "error">("idle");
   const [dashboardState, setDashboardState] = useState<"loading" | "ready" | "sample" | "needs_workspace" | "error">("loading");
@@ -9462,11 +9463,13 @@ function DashboardApp() {
                           value={bulkExportPreset}
                           onChange={(event) => setBulkExportPreset(event.currentTarget.value as Exclude<ProspectExportPresetKey, "custom">)}
                         >
-                          {prospectExportPresets.map((preset) => (
-                            <option value={preset.key} key={preset.key}>
-                              {appUi.prospectCard.export.presets[preset.key].label}
-                            </option>
-                          ))}
+                          {prospectExportPresets
+                            .filter((preset) => visibleProspectExportPresets.includes(preset.key))
+                            .map((preset) => (
+                              <option value={preset.key} key={preset.key}>
+                                {appUi.prospectCard.export.presets[preset.key].label}
+                              </option>
+                            ))}
                         </select>
                         <small>{appUi.prospectCard.export.presets[bulkExportPreset].description}</small>
                       </label>
@@ -10653,7 +10656,7 @@ function ProspectCard({
   const [exportSelection, setExportSelection] = useState<Record<ProspectExportFieldKey, boolean>>(
     defaultProspectExportSelection
   );
-  const [exportPreset, setExportPreset] = useState<ProspectExportPresetKey>("email");
+  const [exportPreset, setExportPreset] = useState<ProspectExportPresetKey>("instantly");
   const [crmFieldMode, setCrmFieldMode] = useState<ProspectCrmFieldMode>("hubspot");
   const [metaFields, setMetaFields] = useState<ProspectPipelineContext>(() => ({
     ...normalizeProspectMeta(card.pipelineContext)
@@ -10811,11 +10814,13 @@ function ProspectCard({
     ...field,
     label: appUi.prospectCard.export.fields[field.key]
   }));
-  const localizedExportPresets = prospectExportPresets.map((preset) => ({
-    ...preset,
-    label: appUi.prospectCard.export.presets[preset.key].label,
-    description: appUi.prospectCard.export.presets[preset.key].description
-  }));
+  const localizedExportPresets = prospectExportPresets
+    .filter((preset) => visibleProspectExportPresets.includes(preset.key))
+    .map((preset) => ({
+      ...preset,
+      label: appUi.prospectCard.export.presets[preset.key].label,
+      description: appUi.prospectCard.export.presets[preset.key].description
+    }));
   const localizedCrmFieldModes = prospectCrmFieldModes.map((mode) => ({
     ...mode,
     label: appUi.prospectCard.export.crmModes[mode.value].label,

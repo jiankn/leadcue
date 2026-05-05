@@ -62,6 +62,44 @@ describe("/api/exports", () => {
     expect(lines.length).toBeGreaterThanOrEqual(2);
   });
 
+  it("returns Instantly and Smartlead preset CSV files", async () => {
+    const instantly = await apiFetch("/api/exports", {
+      method: "POST",
+      headers: { cookie },
+      body: { preset: "instantly" }
+    });
+    expect(instantly.status).toBe(200);
+    expect(instantly.headers.get("content-disposition") ?? "").toContain("leadcue-instantly-");
+    const instantlyCsv = await instantly.text();
+    expect(instantlyCsv.split(/\r?\n/)[0]).toContain("Personalization");
+    expect(instantlyCsv.split(/\r?\n/)[0]).toContain("LeadCue Fit Score");
+
+    const smartlead = await apiFetch("/api/exports", {
+      method: "POST",
+      headers: { cookie },
+      body: { preset: "smartlead" }
+    });
+    expect(smartlead.status).toBe(200);
+    expect(smartlead.headers.get("content-disposition") ?? "").toContain("leadcue-smartlead-");
+    const smartleadCsv = await smartlead.text();
+    expect(smartleadCsv.split(/\r?\n/)[0]).toContain("domain");
+    expect(smartleadCsv.split(/\r?\n/)[0]).toContain("custom_source_notes");
+  });
+
+  it("returns a general LeadCue CSV preset", async () => {
+    const res = await apiFetch("/api/exports", {
+      method: "POST",
+      headers: { cookie },
+      body: { preset: "csv" }
+    });
+    expect(res.status).toBe(200);
+    expect(res.headers.get("content-disposition") ?? "").toContain("leadcue-csv-");
+    const csv = await res.text();
+    const header = csv.split(/\r?\n/)[0];
+    expect(header).toContain("website_signals");
+    expect(header).toContain("pipeline_notes");
+  });
+
   it("serves a Content-Disposition attachment header", async () => {
     const res = await apiFetch("/api/exports", {
       method: "POST",

@@ -11,7 +11,7 @@ export type ProspectExportFieldKey =
   | "email"
   | "sources";
 
-export type ProspectExportPresetKey = "crm" | "email" | "brief" | "custom";
+export type ProspectExportPresetKey = "crm" | "email" | "brief" | "instantly" | "smartlead" | "csv" | "custom";
 export type ProspectCrmFieldMode = "hubspot" | "salesforce" | "pipedrive";
 
 export type ProspectExportColumnKey =
@@ -31,6 +31,10 @@ export type ProspectExportColumnKey =
   | "subject"
   | "firstLine"
   | "emailBody"
+  | "personalization"
+  | "customFieldFitScore"
+  | "customFieldSourceNotes"
+  | "customFieldOutreachAngles"
   | "outreachAngles"
   | "summary"
   | "fitReason"
@@ -40,6 +44,7 @@ export interface ProspectExportColumnDefinition {
   key: ProspectExportColumnKey;
   label: string;
   crmLabels?: Record<ProspectCrmFieldMode, string>;
+  presetLabels?: Partial<Record<Exclude<ProspectExportPresetKey, "custom">, string>>;
 }
 
 export interface ProspectExportPresetDefinition {
@@ -103,6 +108,10 @@ export const prospectExportColumns: Record<ProspectExportColumnKey, ProspectExpo
   companyName: {
     key: "companyName",
     label: "company_name",
+    presetLabels: {
+      instantly: "Company Name",
+      smartlead: "company_name"
+    },
     crmLabels: {
       hubspot: "name",
       salesforce: "Name",
@@ -112,6 +121,9 @@ export const prospectExportColumns: Record<ProspectExportColumnKey, ProspectExpo
   domain: {
     key: "domain",
     label: "domain",
+    presetLabels: {
+      smartlead: "domain"
+    },
     crmLabels: {
       hubspot: "domain",
       salesforce: "Account_Domain__c",
@@ -121,6 +133,10 @@ export const prospectExportColumns: Record<ProspectExportColumnKey, ProspectExpo
   websiteUrl: {
     key: "websiteUrl",
     label: "website_url",
+    presetLabels: {
+      instantly: "Website",
+      smartlead: "website"
+    },
     crmLabels: {
       hubspot: "website",
       salesforce: "Website",
@@ -184,6 +200,10 @@ export const prospectExportColumns: Record<ProspectExportColumnKey, ProspectExpo
   primaryEmail: {
     key: "primaryEmail",
     label: "primary_email",
+    presetLabels: {
+      instantly: "Email",
+      smartlead: "email"
+    },
     crmLabels: {
       hubspot: "email",
       salesforce: "Email",
@@ -217,9 +237,62 @@ export const prospectExportColumns: Record<ProspectExportColumnKey, ProspectExpo
       pipedrive: "Source Notes"
     }
   },
-  subject: { key: "subject", label: "subject" },
-  firstLine: { key: "firstLine", label: "first_line" },
-  emailBody: { key: "emailBody", label: "email_body" },
+  subject: {
+    key: "subject",
+    label: "subject",
+    presetLabels: {
+      instantly: "Subject",
+      smartlead: "subject"
+    }
+  },
+  firstLine: {
+    key: "firstLine",
+    label: "first_line",
+    presetLabels: {
+      instantly: "First Line",
+      smartlead: "first_line"
+    }
+  },
+  emailBody: {
+    key: "emailBody",
+    label: "email_body",
+    presetLabels: {
+      instantly: "Email Body",
+      smartlead: "email_body"
+    }
+  },
+  personalization: {
+    key: "personalization",
+    label: "personalization",
+    presetLabels: {
+      instantly: "Personalization",
+      smartlead: "personalization"
+    }
+  },
+  customFieldFitScore: {
+    key: "customFieldFitScore",
+    label: "custom_fit_score",
+    presetLabels: {
+      instantly: "LeadCue Fit Score",
+      smartlead: "custom_fit_score"
+    }
+  },
+  customFieldSourceNotes: {
+    key: "customFieldSourceNotes",
+    label: "custom_source_notes",
+    presetLabels: {
+      instantly: "LeadCue Source Notes",
+      smartlead: "custom_source_notes"
+    }
+  },
+  customFieldOutreachAngles: {
+    key: "customFieldOutreachAngles",
+    label: "custom_outreach_angles",
+    presetLabels: {
+      instantly: "LeadCue Outreach Angles",
+      smartlead: "custom_outreach_angles"
+    }
+  },
   outreachAngles: { key: "outreachAngles", label: "outreach_angles" },
   summary: { key: "summary", label: "summary" },
   fitReason: { key: "fitReason", label: "fit_reason" },
@@ -256,6 +329,69 @@ export const prospectExportPresets: ProspectExportPresetDefinition[] = [
     columns: ["companyName", "domain", "subject", "firstLine", "emailBody", "outreachAngles", "owner", "pipelineStage"]
   },
   {
+    key: "instantly",
+    label: "Instantly CSV",
+    description: "Campaign-ready columns for Instantly with personalization and custom LeadCue context.",
+    fields: ["identity", "firstLine", "email", "angles", "sources"],
+    columns: [
+      "primaryEmail",
+      "companyName",
+      "websiteUrl",
+      "subject",
+      "firstLine",
+      "emailBody",
+      "personalization",
+      "customFieldFitScore",
+      "customFieldSourceNotes",
+      "customFieldOutreachAngles"
+    ]
+  },
+  {
+    key: "smartlead",
+    label: "Smartlead CSV",
+    description: "Smartlead import columns with first-line, email body, and source-backed custom fields.",
+    fields: ["identity", "firstLine", "email", "angles", "sources"],
+    columns: [
+      "primaryEmail",
+      "companyName",
+      "domain",
+      "subject",
+      "firstLine",
+      "emailBody",
+      "personalization",
+      "customFieldFitScore",
+      "customFieldSourceNotes",
+      "customFieldOutreachAngles"
+    ]
+  },
+  {
+    key: "csv",
+    label: "LeadCue CSV",
+    description: "A general-purpose CSV for spreadsheets, manual review, or custom outbound systems.",
+    fields: ["identity", "fit", "signals", "contacts", "angles", "firstLine", "email", "sources"],
+    columns: [
+      "companyName",
+      "domain",
+      "websiteUrl",
+      "industry",
+      "fitScore",
+      "confidenceScore",
+      "primaryEmail",
+      "contactPage",
+      "subject",
+      "firstLine",
+      "emailBody",
+      "outreachAngles",
+      "summary",
+      "fitReason",
+      "websiteSignals",
+      "sourceNotes",
+      "owner",
+      "pipelineStage",
+      "pipelineNotes"
+    ]
+  },
+  {
     key: "brief",
     label: "Research brief",
     description: "A compact prospect brief with evidence, signals, angles, and sources.",
@@ -274,7 +410,7 @@ const stageLabels: Record<ProspectPipelineStage, string> = {
 };
 
 export function isProspectExportPresetKey(value: unknown): value is Exclude<ProspectExportPresetKey, "custom"> {
-  return value === "crm" || value === "email" || value === "brief";
+  return value === "crm" || value === "email" || value === "brief" || value === "instantly" || value === "smartlead" || value === "csv";
 }
 
 export function isProspectCrmFieldMode(value: unknown): value is ProspectCrmFieldMode {
@@ -293,7 +429,7 @@ export function getProspectExportColumns(
 
   return preset.columns.map((columnKey) => {
     const column = prospectExportColumns[columnKey];
-    const label = presetKey === "crm" ? column.crmLabels?.[crmMode] || column.label : column.label;
+    const label = presetKey === "crm" ? column.crmLabels?.[crmMode] || column.label : column.presetLabels?.[presetKey] || column.label;
     return { ...column, label };
   });
 }
@@ -322,6 +458,10 @@ export function prospectCardToExportRecord({
     subject: `Quick idea for ${card.companyName}`,
     firstLine,
     emailBody: card.shortEmail,
+    personalization: firstLine,
+    customFieldFitScore: card.fitScore,
+    customFieldSourceNotes: card.sourceNotes.map((note) => `${note.claim} (${note.source})`).join(" | "),
+    customFieldOutreachAngles: card.outreachAngles.join(" | "),
     outreachAngles: card.outreachAngles.join(" | "),
     summary: card.summary,
     fitReason: card.fitReason,

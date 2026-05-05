@@ -133,7 +133,7 @@ export interface ExportRun {
   id: string;
   status: ExportRunStatus;
   leadCount: number;
-  preset: "crm" | "email" | "brief";
+  preset: "crm" | "email" | "brief" | "instantly" | "smartlead" | "csv";
   crmMode: "hubspot" | "salesforce" | "pipedrive";
   scope: ExportRunScope;
   fileName: string | null;
@@ -144,7 +144,7 @@ export interface ExportRun {
 }
 
 export interface ExportRequest {
-  preset?: "crm" | "email" | "brief";
+  preset?: "crm" | "email" | "brief" | "instantly" | "smartlead" | "csv";
   crmMode?: "hubspot" | "salesforce" | "pipedrive";
   leadIds?: string[];
   scope?: ExportRunScope;

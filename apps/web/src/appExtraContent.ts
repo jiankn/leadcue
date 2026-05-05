@@ -706,6 +706,18 @@ const en = {
           label: "Instantly / Smartlead CSV",
           description: "Fields that move a qualified prospect into a cold email tool."
         },
+        instantly: {
+          label: "Instantly CSV",
+          description: "Email, company, opener, email body, and LeadCue custom fields for Instantly import."
+        },
+        smartlead: {
+          label: "Smartlead CSV",
+          description: "Email, company, domain, opener, email body, and custom fields for Smartlead import."
+        },
+        csv: {
+          label: "LeadCue CSV",
+          description: "A complete spreadsheet export for manual review or a custom outbound workflow."
+        },
         brief: {
           label: "Research brief",
           description: "A compact prospect brief with evidence, signals, angles, and sources."
@@ -1840,6 +1852,18 @@ const zh: AppUiExtra = {
         email: {
           label: "Instantly / Smartlead CSV",
           description: "把已通过判断的潜在客户交接到冷邮件工具所需的字段。"
+        },
+        instantly: {
+          label: "Instantly CSV",
+          description: "包含邮箱、公司、破冰话术、邮件正文和 LeadCue 自定义字段，适合导入 Instantly。"
+        },
+        smartlead: {
+          label: "Smartlead CSV",
+          description: "包含邮箱、公司、域名、破冰话术、邮件正文和自定义字段，适合导入 Smartlead。"
+        },
+        csv: {
+          label: "LeadCue CSV",
+          description: "完整表格导出，适合人工复核或自定义外联流程。"
         },
         brief: {
           label: "研究简报",
