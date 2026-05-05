@@ -4482,6 +4482,50 @@ function reviewQueueStatusLabel(row: ReviewQueueRow, appUi: AppUi) {
   return appUi.reviewQueue.statusResearching;
 }
 
+function handoffStatusLabel(value: LeadHandoffStatus, appUi: AppUi) {
+  return appUi.savedAccounts.handoffStatuses[value] || humanizeEnumLabel(value);
+}
+
+function handoffStatusTone(value: LeadHandoffStatus) {
+  if (value === "pending") {
+    return "is-warning";
+  }
+
+  return value === "won" ? "is-success" : "";
+}
+
+function exportRunStatusLabel(value: ExportRun["status"], appUi: AppUi) {
+  return appUi.exportHistory.statuses[value] || humanizeEnumLabel(value);
+}
+
+function exportRunScopeLabel(value: ExportRun["scope"], appUi: AppUi) {
+  return appUi.exportHistory.scopes[value] || humanizeEnumLabel(value);
+}
+
+function buildExportRunPreview(input: {
+  preset: Exclude<ProspectExportPresetKey, "custom">;
+  crmMode: ProspectCrmFieldMode;
+  scope: ExportRun["scope"];
+  leadIds: string[];
+  leadCount: number;
+  fileName: string;
+  completedAt: string;
+}): ExportRun {
+  return {
+    id: `local_export_${input.completedAt}_${input.scope}`,
+    status: "completed",
+    leadCount: input.leadCount,
+    preset: input.preset,
+    crmMode: input.crmMode,
+    scope: input.scope,
+    fileName: input.fileName,
+    leadIds: input.leadIds,
+    createdAt: input.completedAt,
+    completedAt: input.completedAt,
+    createdByUserId: null
+  };
+}
+
 function recipientSafeOutboundText(value: string) {
   return value
     .replace(/扫描到的链接里未看到博客或资源入口。?/g, "导航里没有明显的资源或内容入口。")
@@ -7415,6 +7459,17 @@ function DashboardApp() {
       const blob = await response.blob();
       const contentDisposition = response.headers.get("Content-Disposition");
       const fileName = contentDisposition?.match(/filename=([^;]+)/i)?.[1]?.replace(/^["']|["']$/g, "") || "leadcue-export.csv";
+      const exportedLeadIds = sourceLeads.map((lead) => lead.id);
+      const completedAt = new Date().toISOString();
+      const exportRunPreview = buildExportRunPreview({
+        preset: bulkExportPreset,
+        crmMode: bulkCrmFieldMode,
+        scope: "all_qualified",
+        leadIds: exportedLeadIds,
+        leadCount: sourceLeads.length,
+        fileName,
+        completedAt
+      });
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.href = url;
@@ -7426,6 +7481,7 @@ function DashboardApp() {
       setActiveProspect((current) => (current ? { ...current, exportStatus: "exported" } : current));
       setSelectedLead((current) => (current ? { ...current, exportStatus: "exported" } : current));
       await refreshWorkflowData();
+      applyLocalExportSuccess(exportRunPreview);
       void trackEvent({
         name: "export_completed",
         metadata: {
@@ -7436,7 +7492,9 @@ function DashboardApp() {
       });
       setDashboardMessage(
         formatMessage(appUi.common.messages.csvExportPrepared, {
-          label: bulkExportLabel(bulkExportPreset, bulkCrmFieldMode, appUi)
+          count: sourceLeads.length,
+          label: bulkExportLabel(bulkExportPreset, bulkCrmFieldMode, appUi),
+          filename: fileName
         })
       );
     } catch (error) {
@@ -7605,6 +7663,26 @@ function DashboardApp() {
     setSelectedLeadIds([]);
   }
 
+  function applyLocalExportSuccess(run: ExportRun) {
+    const exportedLeadIds = new Set(run.leadIds);
+
+    setExportRuns((current) =>
+      current.some((item) => item.fileName === run.fileName && item.preset === run.preset && item.leadCount === run.leadCount)
+        ? current
+        : [run, ...current].slice(0, 50)
+    );
+    setQueueItems((current) =>
+      current.map((item) =>
+        item.researchStatus === "qualified" &&
+        item.handoffStatus === "pending" &&
+        item.leadId &&
+        exportedLeadIds.has(item.leadId)
+          ? { ...item, handoffStatus: "exported", updatedAt: run.completedAt || run.createdAt }
+          : item
+      )
+    );
+  }
+
   async function exportSelectedLeads() {
     const selectedRows = sourceLeads.filter((lead) => selectedLeadIds.includes(lead.id));
     if (!selectedRows.length) {
@@ -7637,6 +7715,16 @@ function DashboardApp() {
       const blob = await response.blob();
       const contentDisposition = response.headers.get("Content-Disposition");
       const fileName = contentDisposition?.match(/filename=([^;]+)/i)?.[1]?.replace(/^["']|["']$/g, "") || "leadcue-export.csv";
+      const completedAt = new Date().toISOString();
+      const exportRunPreview = buildExportRunPreview({
+        preset: bulkExportPreset,
+        crmMode: bulkCrmFieldMode,
+        scope: "selected",
+        leadIds: selectedRows.map((lead) => lead.id),
+        leadCount: selectedRows.length,
+        fileName,
+        completedAt
+      });
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.href = url;
@@ -7646,6 +7734,7 @@ function DashboardApp() {
       link.remove();
       URL.revokeObjectURL(url);
       await refreshWorkflowData();
+      applyLocalExportSuccess(exportRunPreview);
       setActiveProspect((current) =>
         current && selectedRows.some((lead) => lead.id === selectedLeadId) ? { ...current, exportStatus: "exported" } : current
       );
@@ -7656,7 +7745,8 @@ function DashboardApp() {
       setDashboardMessage(
         formatMessage(appUi.common.messages.selectedLeadExported, {
           count: selectedRows.length,
-          label: bulkExportLabel(bulkExportPreset, bulkCrmFieldMode, appUi)
+          label: bulkExportLabel(bulkExportPreset, bulkCrmFieldMode, appUi),
+          filename: fileName
         })
       );
       void trackEvent({
@@ -7976,6 +8066,14 @@ function DashboardApp() {
   const reviewReviewingCount = reviewQueueRows.filter((row) => row.researchStatus === "reviewing").length;
   const reviewActiveCount = reviewScanningCount + reviewReviewingCount;
   const exportRunCount = exportRuns.length;
+  const latestExportRun = exportRuns[0] || null;
+  const exportedHandoffCount = queueItems.filter(
+    (item) => queueItemResearchStatus(item) === "qualified" && queueItemHandoffStatus(item) !== "pending"
+  ).length;
+  const pendingHandoffCount = queueItems.filter(
+    (item) => queueItemResearchStatus(item) === "qualified" && queueItemHandoffStatus(item) === "pending"
+  ).length;
+  const recentExportRuns = exportRuns.slice(0, 6);
   const topSavedAccounts = useMemo(
     () =>
       [...savedSourceLeads]
@@ -9380,6 +9478,10 @@ function DashboardApp() {
                     <span>{appUi.analytics.kpis.exportsCompleted}</span>
                     <strong>{analyticsSummary.totals.exportsCompleted.toLocaleString()}</strong>
                   </div>
+                  <div className="billing-summary-card">
+                    <span>{appUi.exportHistory.handoffCompleted}</span>
+                    <strong>{exportedHandoffCount.toLocaleString()}</strong>
+                  </div>
                 </div>
               ) : null}
               {showSavedAccountsEmptyState ? (
@@ -9528,6 +9630,71 @@ function DashboardApp() {
                       </button>
                     </div>
                   </div>
+                  {isExportsSection ? (
+                    <div className="export-history-grid" aria-label={appUi.exportHistory.title}>
+                      <div className="export-history-panel">
+                        <div className="panel-header">
+                          <div>
+                            <p className="eyebrow">{appUi.exportHistory.eyebrow}</p>
+                            <h2>{appUi.exportHistory.title}</h2>
+                          </div>
+                          <span className="status-pill">
+                            {formatMessage(appUi.exportHistory.runCount, { count: exportRunCount })}
+                          </span>
+                        </div>
+                        {recentExportRuns.length ? (
+                          <div className="export-run-list">
+                            {recentExportRuns.map((run) => (
+                              <article className="export-run-card" key={run.id}>
+                                <div>
+                                  <strong>{bulkExportLabel(run.preset, run.crmMode, appUi)}</strong>
+                                  <span>
+                                    {formatMessage(appUi.exportHistory.runSummary, {
+                                      count: run.leadCount,
+                                      scope: exportRunScopeLabel(run.scope, appUi),
+                                      time: formatHistoryTime(run.completedAt || run.createdAt, locale, appUi.common.unknownTime)
+                                    })}
+                                  </span>
+                                  <small>{run.fileName || appUi.exportHistory.fileUnavailable}</small>
+                                </div>
+                                <span className={`status-pill ${run.status === "completed" ? "is-success" : run.status === "failed" ? "is-danger" : "is-warning"}`}>
+                                  {exportRunStatusLabel(run.status, appUi)}
+                                </span>
+                              </article>
+                            ))}
+                          </div>
+                        ) : (
+                          <div className="empty-panel-copy">
+                            <strong>{appUi.exportHistory.emptyTitle}</strong>
+                            <span>{appUi.exportHistory.emptyCopy}</span>
+                          </div>
+                        )}
+                      </div>
+                      <div className="export-history-panel">
+                        <p className="eyebrow">{appUi.exportHistory.handoffEyebrow}</p>
+                        <h2>{appUi.exportHistory.handoffTitle}</h2>
+                        <p className="panel-copy">
+                          {latestExportRun
+                            ? formatMessage(appUi.exportHistory.latestRunCopy, {
+                                count: latestExportRun.leadCount,
+                                label: bulkExportLabel(latestExportRun.preset, latestExportRun.crmMode, appUi),
+                                filename: latestExportRun.fileName || appUi.exportHistory.fileUnavailable
+                              })
+                            : appUi.exportHistory.handoffEmptyCopy}
+                        </p>
+                        <div className="overview-kpi-row">
+                          <div>
+                            <span>{appUi.exportHistory.handoffCompleted}</span>
+                            <strong>{exportedHandoffCount.toLocaleString()}</strong>
+                          </div>
+                          <div>
+                            <span>{appUi.exportHistory.handoffPending}</span>
+                            <strong>{pendingHandoffCount.toLocaleString()}</strong>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ) : null}
                   <div className="lead-table lead-table-expanded" role="table" aria-label={appUi.savedAccounts.tableLabel}>
                     <div className="lead-row lead-head" role="row">
                       <span className="lead-select-cell lead-select-heading">
@@ -9548,36 +9715,43 @@ function DashboardApp() {
                       <span>{appUi.dashboard.leadsPanel.industry}</span>
                       <span>{appUi.dashboard.leadsPanel.fit}</span>
                       <span>{appUi.dashboard.leadsPanel.confidence}</span>
+                      <span>{appUi.savedAccounts.handoffLabel}</span>
                     </div>
                     {visibleLeads.length ? (
-                      visibleLeads.map((lead) => (
-                        <div
-                          className={`lead-row lead-row-record ${selectedLeadId === lead.id ? "is-selected" : ""} ${
-                            selectedLeadIds.includes(lead.id) ? "is-checked" : ""
-                          }`}
-                          role="row"
-                          key={lead.id || lead.domain}
-                        >
-                          <label className="lead-select-cell">
-                            <input
-                              type="checkbox"
-                              checked={selectedLeadIds.includes(lead.id)}
-                              onChange={() => toggleLeadSelection(lead.id)}
-                              aria-label={formatMessage(appUi.leads.selectLead, { company: lead.companyName })}
-                            />
-                          </label>
-                          <a
-                            className="lead-row-open"
-                            href={leadDetailHref(lead.id, "overview", isExportsSection ? "exports" : "qualified") || appRoutes.qualified}
-                            aria-label={formatMessage(appUi.leads.openProspectCard, { company: lead.companyName })}
+                      visibleLeads.map((lead) => {
+                        const handoffStatus = queueItemHandoffStatus(queueItemByLeadId.get(lead.id) || queueItemByDomain.get(lead.domain));
+                        return (
+                          <div
+                            className={`lead-row lead-row-record ${selectedLeadId === lead.id ? "is-selected" : ""} ${
+                              selectedLeadIds.includes(lead.id) ? "is-checked" : ""
+                            }`}
+                            role="row"
+                            key={lead.id || lead.domain}
                           >
-                            <strong>{lead.companyName}</strong>
-                            <span>{lead.industry}</span>
-                            <span>{lead.fitScore}</span>
-                            <span>{Math.round(lead.confidenceScore * 100)}%</span>
-                          </a>
-                        </div>
-                      ))
+                            <label className="lead-select-cell">
+                              <input
+                                type="checkbox"
+                                checked={selectedLeadIds.includes(lead.id)}
+                                onChange={() => toggleLeadSelection(lead.id)}
+                                aria-label={formatMessage(appUi.leads.selectLead, { company: lead.companyName })}
+                              />
+                            </label>
+                            <a
+                              className="lead-row-open"
+                              href={leadDetailHref(lead.id, "overview", isExportsSection ? "exports" : "qualified") || appRoutes.qualified}
+                              aria-label={formatMessage(appUi.leads.openProspectCard, { company: lead.companyName })}
+                            >
+                              <strong>{lead.companyName}</strong>
+                              <span>{lead.industry}</span>
+                              <span>{lead.fitScore}</span>
+                              <span>{Math.round(lead.confidenceScore * 100)}%</span>
+                              <span className={`status-pill ${handoffStatusTone(handoffStatus)}`}>
+                                {handoffStatusLabel(handoffStatus, appUi)}
+                              </span>
+                            </a>
+                          </div>
+                        );
+                      })
                     ) : (
                       <div className="empty-table-state">
                         <strong>{sourceLeads.length ? appUi.savedAccounts.emptyFilteredTitle : appUi.savedAccounts.emptyTitle}</strong>

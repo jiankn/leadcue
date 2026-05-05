@@ -188,12 +188,12 @@ const en = {
       scanFailed: "Scan failed. No credit was used. Fix the URL and try again.",
       onboardingDismissed: "Setup guide dismissed.",
       onboardingUpdateFailed: "Unable to update onboarding.",
-      csvExportPrepared: "CSV export prepared with __LABEL__ fields.",
+      csvExportPrepared: "Exported __COUNT__ leads with __LABEL__. File: __FILENAME__.",
       csvExportFailed: "CSV export failed.",
       billingPortalUnavailable: "Billing portal is not available yet.",
       signedOutDemo: "Signed out. Showing the demo preview.",
       selectLeadBeforeExport: "Select at least one lead before exporting.",
-      selectedLeadExported: "Exported __COUNT__ selected leads with __LABEL__ fields.",
+      selectedLeadExported: "Exported __COUNT__ selected leads with __LABEL__. File: __FILENAME__.",
       selectedLeadExportFailed: "Selected lead export failed.",
       signInRequired: "Sign in to continue.",
       workspaceNotFound: "LeadCue data space not found.",
@@ -584,11 +584,43 @@ const en = {
     title: "Approved prospects ready for outreach",
     tableLabel: "Saved prospects",
     statusQualified: "Qualified",
+    handoffLabel: "Handoff",
+    handoffStatuses: {
+      pending: "Ready to export",
+      exported: "Exported",
+      outreach_queued: "Outreach queued",
+      contacted: "Contacted",
+      won: "Won"
+    },
     resultsSummary: "Showing __VISIBLE__ of __TOTAL__ saved prospects",
     emptyTitle: "No saved prospects are ready yet.",
     emptyCopy: "Move a prospect out of the review queue once the fit, status, and notes are ready for outreach.",
     emptyFilteredTitle: "No saved prospects match this view.",
     emptyFilteredCopy: "Relax the search or score filters to bring more saved prospects back into view."
+  },
+  exportHistory: {
+    eyebrow: "Export history",
+    title: "Recent exports",
+    runCount: "__COUNT__ runs",
+    runSummary: "__COUNT__ leads · __SCOPE__ · __TIME__",
+    fileUnavailable: "File name unavailable",
+    emptyTitle: "No exports yet.",
+    emptyCopy: "Choose a preset and export qualified prospects. Completed files will appear here with preset, count, and handoff status.",
+    handoffEyebrow: "Handoff",
+    handoffTitle: "What changed after export",
+    handoffCompleted: "Exported",
+    handoffPending: "Ready to export",
+    latestRunCopy: "Latest: __COUNT__ leads exported with __LABEL__ into __FILENAME__.",
+    handoffEmptyCopy: "Exported prospects are marked as exported so you can separate ready accounts from accounts already handed off.",
+    statuses: {
+      pending: "Pending",
+      completed: "Completed",
+      failed: "Failed"
+    },
+    scopes: {
+      all_qualified: "All qualified",
+      selected: "Selected"
+    }
   },
   prospectCard: {
     eyebrow: "Prospect brief",
@@ -1342,12 +1374,12 @@ const zh: AppUiExtra = {
       scanFailed: "扫描失败。未扣除积分，请修正网址后重试。",
       onboardingDismissed: "已关闭设置引导。",
       onboardingUpdateFailed: "无法更新引导状态。",
-      csvExportPrepared: "CSV 已准备完成，包含 __LABEL__ 字段。",
+      csvExportPrepared: "已用 __LABEL__ 导出 __COUNT__ 条线索。文件：__FILENAME__。",
       csvExportFailed: "CSV 导出失败。",
       billingPortalUnavailable: "账单门户暂时不可用。",
       signedOutDemo: "已退出登录，当前显示演示预览。",
       selectLeadBeforeExport: "请先选择至少一条线索再导出。",
-      selectedLeadExported: "已导出 __COUNT__ 条所选线索，包含 __LABEL__ 字段。",
+      selectedLeadExported: "已用 __LABEL__ 导出 __COUNT__ 条所选线索。文件：__FILENAME__。",
       selectedLeadExportFailed: "所选线索导出失败。",
       signInRequired: "请先登录再继续。",
       workspaceNotFound: "未找到 LeadCue 数据空间。",
@@ -1731,11 +1763,43 @@ const zh: AppUiExtra = {
     title: "已通过判断、可交接的账户",
     tableLabel: "已保存账户",
     statusQualified: "已通过判断",
+    handoffLabel: "交接状态",
+    handoffStatuses: {
+      pending: "待导出",
+      exported: "已导出",
+      outreach_queued: "已加入外联",
+      contacted: "已联系",
+      won: "已成交"
+    },
     resultsSummary: "显示 __VISIBLE__ / __TOTAL__ 个已保存账户",
     emptyTitle: "还没有可交接的已保存账户。",
     emptyCopy: "当账户的匹配度、负责人和备注都准备好后，再把它从复核队列推进过来。",
     emptyFilteredTitle: "当前视图下没有匹配的已保存账户。",
     emptyFilteredCopy: "放宽搜索或分数筛选，查看更多已保存账户。"
+  },
+  exportHistory: {
+    eyebrow: "导出历史",
+    title: "最近导出",
+    runCount: "__COUNT__ 次导出",
+    runSummary: "__COUNT__ 条线索 · __SCOPE__ · __TIME__",
+    fileUnavailable: "文件名不可用",
+    emptyTitle: "还没有导出记录。",
+    emptyCopy: "选择一个预设并导出已通过判断的账户后，这里会显示预设、数量、文件名和交接状态。",
+    handoffEyebrow: "交接",
+    handoffTitle: "导出后发生了什么",
+    handoffCompleted: "已导出",
+    handoffPending: "待导出",
+    latestRunCopy: "最近一次：用 __LABEL__ 导出 __COUNT__ 条线索到 __FILENAME__。",
+    handoffEmptyCopy: "导出后，线索会被标记为已导出，方便区分待交接账户和已交接账户。",
+    statuses: {
+      pending: "待处理",
+      completed: "已完成",
+      failed: "失败"
+    },
+    scopes: {
+      all_qualified: "全部已通过判断",
+      selected: "所选线索"
+    }
   },
   prospectCard: {
     eyebrow: "账户研究简报",
