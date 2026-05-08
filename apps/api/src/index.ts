@@ -20,6 +20,9 @@ import {
   type FirstLineToolResponse,
   type IcpUpdateRequest,
   type LeadHandoffStatus,
+  type LeadHandoffUpdateRequest,
+  type LeadHandoffUpdateResponse,
+  type LeadHandoffUpdateStatus,
   type OpportunityFinderToolRequest,
   type OpportunityFinderToolResponse,
   type OpportunitySignal,
@@ -1855,6 +1858,45 @@ app.post("/api/queue/import", async (c) => {
   } catch (error) {
     console.error("queue_import_failed", error);
     return c.json({ ok: false, error: "Unable to save websites into the queue." }, 500);
+  }
+});
+
+app.patch("/api/queue/handoff", async (c) => {
+  const workspaceId = await resolveWorkspaceId(c);
+  const payload = (await c.req.json<LeadHandoffUpdateRequest>().catch(() => ({ leadIds: [], status: "outreach_queued" }))) as LeadHandoffUpdateRequest;
+  const leadIds = normalizeLeadIdList(payload.leadIds);
+  const status = isLeadHandoffUpdateStatus(payload.status) ? payload.status : null;
+
+  if (!leadIds.length || !status) {
+    return c.json({ ok: false, error: "At least one lead ID and a valid handoff status are required." }, 400);
+  }
+
+  const updatedAt = new Date().toISOString();
+
+  if (!c.env.DB) {
+    return c.json({
+      ok: true,
+      status,
+      updated: leadIds.length,
+      updatedAt,
+      items: [],
+      source: "sample"
+    } satisfies LeadHandoffUpdateResponse);
+  }
+
+  try {
+    const result = await updateLeadHandoffStatus(c.env.DB, workspaceId, leadIds, status, updatedAt);
+    return c.json({
+      ok: true,
+      status,
+      updated: result.updated,
+      updatedAt,
+      items: result.items,
+      source: "d1"
+    } satisfies LeadHandoffUpdateResponse);
+  } catch (error) {
+    console.error("queue_handoff_update_failed", error);
+    return c.json({ ok: false, error: "Unable to update handoff status." } satisfies LeadHandoffUpdateResponse, 500);
   }
 });
 
@@ -5509,6 +5551,10 @@ function isLeadHandoffStatus(value: unknown): value is LeadHandoffStatus {
   return value === "pending" || value === "exported" || value === "outreach_queued" || value === "contacted" || value === "won";
 }
 
+function isLeadHandoffUpdateStatus(value: unknown): value is LeadHandoffUpdateStatus {
+  return value === "outreach_queued" || value === "contacted" || value === "won";
+}
+
 function isExportRunScope(value: unknown): value is ExportRunScope {
   return value === "all_qualified" || value === "selected";
 }
@@ -5690,6 +5736,66 @@ async function listQueueItems(db: D1Database, workspaceId: string): Promise<Work
     .all<QueueItemRow>();
 
   return query.results.map(mapQueueItem);
+}
+
+async function updateLeadHandoffStatus(
+  db: D1Database,
+  workspaceId: string,
+  leadIds: string[],
+  status: LeadHandoffUpdateStatus,
+  updatedAt: string
+) {
+  const normalizedLeadIds = normalizeLeadIdList(leadIds);
+  if (!normalizedLeadIds.length) {
+    return { updated: 0, items: [] as WorkspaceQueueItem[] };
+  }
+
+  const placeholders = normalizedLeadIds.map(() => "?").join(", ");
+  const updateResult = await db
+    .prepare(
+      `UPDATE queue_items
+       SET handoff_status = ?,
+           updated_at = ?
+       WHERE workspace_id = ?
+         AND lead_id IN (${placeholders})
+         AND research_status = 'qualified'`
+    )
+    .bind(status, updatedAt, workspaceId, ...normalizedLeadIds)
+    .run();
+
+  const rows = await db
+    .prepare(
+      `SELECT *
+       FROM queue_items
+       WHERE workspace_id = ?
+         AND lead_id IN (${placeholders})
+         AND research_status = 'qualified'
+       ORDER BY created_at DESC`
+    )
+    .bind(workspaceId, ...normalizedLeadIds)
+    .all<QueueItemRow>();
+  const items = rows.results.map(mapQueueItem);
+  const updatedLeadIds = items.flatMap((item) => (item.leadId && item.handoffStatus === status ? [item.leadId] : []));
+
+  if (updatedLeadIds.length) {
+    const leadPlaceholders = updatedLeadIds.map(() => "?").join(", ");
+    await db
+      .prepare(
+        `UPDATE leads
+         SET pipeline_stage = ?,
+             pipeline_updated_at = ?,
+             updated_at = CURRENT_TIMESTAMP
+         WHERE workspace_id = ?
+           AND id IN (${leadPlaceholders})`
+      )
+      .bind(status, updatedAt, workspaceId, ...updatedLeadIds)
+      .run();
+  }
+
+  return {
+    updated: updateResult.meta?.changes ?? updatedLeadIds.length,
+    items
+  };
 }
 
 async function upsertQueueImportItems(

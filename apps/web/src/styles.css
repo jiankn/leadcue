@@ -6526,6 +6526,10 @@ h3 {
   gap: 8px;
 }
 
+.lead-handoff-actions {
+  display: contents;
+}
+
 .lead-table {
   display: grid;
   margin-top: 18px;

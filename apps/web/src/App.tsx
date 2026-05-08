@@ -20,6 +20,8 @@ import {
   type IcpUpdateRequest,
   type LeadListItem,
   type LeadHandoffStatus,
+  type LeadHandoffUpdateResponse,
+  type LeadHandoffUpdateStatus,
   type OpportunityFinderToolResponse,
   type OpportunityFinderToolSuccessResponse,
   type ProspectScoreToolResponse,
@@ -4494,6 +4496,10 @@ function handoffStatusTone(value: LeadHandoffStatus) {
   return value === "won" ? "is-success" : "";
 }
 
+function pipelineStageFromHandoffStatus(value: LeadHandoffUpdateStatus): ProspectPipelineStage {
+  return value;
+}
+
 function exportRunStatusLabel(value: ExportRun["status"], appUi: AppUi) {
   return appUi.exportHistory.statuses[value] || humanizeEnumLabel(value);
 }
@@ -6260,6 +6266,7 @@ function DashboardApp() {
   const [bulkExportPreset, setBulkExportPreset] = useState<Exclude<ProspectExportPresetKey, "custom">>("instantly");
   const [bulkCrmFieldMode, setBulkCrmFieldMode] = useState<ProspectCrmFieldMode>("hubspot");
   const [bulkExportState, setBulkExportState] = useState<"idle" | "loading" | "error">("idle");
+  const [handoffUpdateState, setHandoffUpdateState] = useState<"idle" | "loading" | "error">("idle");
   const [dashboardState, setDashboardState] = useState<"loading" | "ready" | "sample" | "needs_workspace" | "error">("loading");
   const [dashboardMessage, setDashboardMessage] = useState("");
   const [workspaceCreateState, setWorkspaceCreateState] = useState<"idle" | "loading" | "error">("idle");
@@ -7681,6 +7688,82 @@ function DashboardApp() {
           : item
       )
     );
+  }
+
+  async function updateSelectedLeadHandoffStatus(status: LeadHandoffUpdateStatus) {
+    const selectedRows = sourceLeads.filter((lead) => selectedLeadIds.includes(lead.id));
+    if (!selectedRows.length) {
+      setDashboardMessage(appUi.common.messages.selectLeadBeforeHandoff);
+      return;
+    }
+
+    setHandoffUpdateState("loading");
+
+    try {
+      const response = await fetchAppApi("/api/queue/handoff", {
+        method: "PATCH",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          leadIds: selectedRows.map((lead) => lead.id),
+          status
+        })
+      });
+      const result = (await response.json().catch(() => ({}))) as LeadHandoffUpdateResponse;
+
+      if (!response.ok || !result.ok) {
+        throw new Error(result.error || appUi.common.messages.handoffUpdateFailed);
+      }
+
+      const updatedLeadIds = new Set(selectedRows.map((lead) => lead.id));
+      const updatedAt = result.updatedAt || new Date().toISOString();
+      const stage = pipelineStageFromHandoffStatus(status);
+
+      setQueueItems((current) =>
+        current.map((item) =>
+          item.leadId && updatedLeadIds.has(item.leadId)
+            ? { ...item, handoffStatus: status, researchStatus: "qualified", updatedAt }
+            : item
+        )
+      );
+      result.items?.forEach((item) => mergeQueueItemState(item));
+      setLeads((current) =>
+        current.map((lead) =>
+          updatedLeadIds.has(lead.id)
+            ? { ...lead, pipelineContext: { ...normalizeProspectMeta(lead.pipelineContext), stage, updatedAt } }
+            : lead
+        )
+      );
+      setSelectedLead((current) =>
+        current && selectedLeadId && updatedLeadIds.has(selectedLeadId)
+          ? { ...current, pipelineContext: { ...normalizeProspectMeta(current.pipelineContext), stage, updatedAt } }
+          : current
+      );
+      setActiveProspect((current) =>
+        current && selectedLeadId && updatedLeadIds.has(selectedLeadId)
+          ? { ...current, pipelineContext: { ...normalizeProspectMeta(current.pipelineContext), stage, updatedAt } }
+          : current
+      );
+      setHandoffUpdateState("idle");
+      setDashboardMessage(
+        formatMessage(appUi.common.messages.handoffUpdated, {
+          count: selectedRows.length,
+          status: handoffStatusLabel(status, appUi)
+        })
+      );
+      void trackEvent({
+        name: "handoff_status_updated",
+        metadata: {
+          status,
+          count: selectedRows.length
+        }
+      });
+    } catch (error) {
+      setHandoffUpdateState("error");
+      setDashboardMessage(resolveAppErrorMessage(error, appUi.common.messages.handoffUpdateFailed, appUi));
+    }
   }
 
   async function exportSelectedLeads() {
@@ -9628,6 +9711,34 @@ function DashboardApp() {
                         <Icon name="download" />
                         {bulkExportState === "loading" ? appUi.common.exporting : appUi.common.exportSelected}
                       </button>
+                      {isExportsSection ? (
+                        <div className="lead-handoff-actions" aria-label={appUi.exportHistory.handoffTitle}>
+                          <button
+                            className="button button-secondary button-small"
+                            type="button"
+                            onClick={() => void updateSelectedLeadHandoffStatus("outreach_queued")}
+                            disabled={!selectedSourceLeads.length || handoffUpdateState === "loading"}
+                          >
+                            {appUi.exportHistory.markOutreachQueued}
+                          </button>
+                          <button
+                            className="button button-secondary button-small"
+                            type="button"
+                            onClick={() => void updateSelectedLeadHandoffStatus("contacted")}
+                            disabled={!selectedSourceLeads.length || handoffUpdateState === "loading"}
+                          >
+                            {appUi.exportHistory.markContacted}
+                          </button>
+                          <button
+                            className="button button-secondary button-small"
+                            type="button"
+                            onClick={() => void updateSelectedLeadHandoffStatus("won")}
+                            disabled={!selectedSourceLeads.length || handoffUpdateState === "loading"}
+                          >
+                            {appUi.exportHistory.markWon}
+                          </button>
+                        </div>
+                      ) : null}
                     </div>
                   </div>
                   {isExportsSection ? (

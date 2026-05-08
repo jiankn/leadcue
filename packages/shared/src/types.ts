@@ -98,6 +98,7 @@ export interface ProspectPipelineActivity {
 export type QueueSource = "manual" | "csv" | "apollo" | "clay" | "directory" | "workspace";
 export type WorkspaceResearchStatus = "queued" | "scanning" | "reviewing" | "qualified" | "archived";
 export type LeadHandoffStatus = "pending" | "exported" | "outreach_queued" | "contacted" | "won";
+export type LeadHandoffUpdateStatus = Extract<LeadHandoffStatus, "outreach_queued" | "contacted" | "won">;
 
 export interface WorkspaceQueueItem {
   id: string;
@@ -124,6 +125,21 @@ export interface QueueImportItemInput {
 
 export interface QueueImportRequest {
   items: QueueImportItemInput[];
+}
+
+export interface LeadHandoffUpdateRequest {
+  leadIds: string[];
+  status: LeadHandoffUpdateStatus;
+}
+
+export interface LeadHandoffUpdateResponse {
+  ok: boolean;
+  status?: LeadHandoffUpdateStatus;
+  updated?: number;
+  updatedAt?: string;
+  items?: WorkspaceQueueItem[];
+  source?: "d1" | "sample";
+  error?: string;
 }
 
 export type ExportRunStatus = "pending" | "completed" | "failed";

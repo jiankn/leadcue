@@ -1,4 +1,5 @@
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
+import type { LeadHandoffUpdateResponse, LeadListItem, WorkspaceQueueItem } from "@leadcue/shared";
 import { apiFetch, ensureTestMode, testCleanup, testSignIn, uniqueTestEmail } from "./helpers/client";
 
 ensureTestMode();
@@ -108,6 +109,45 @@ describe("/api/exports", () => {
     });
     expect(res.headers.get("content-disposition") ?? "").toMatch(/attachment; filename=.*\.csv/i);
     await res.text();
+  });
+
+  it("updates exported lead handoff status in bulk", async () => {
+    const leadsRes = await apiFetch("/api/leads", {
+      headers: { cookie }
+    });
+    const leads = (await leadsRes.json()) as { leads?: LeadListItem[] };
+    const targetLeadId = leads.leads?.[0]?.id;
+    expect(targetLeadId).toBeTruthy();
+
+    await apiFetch(`/api/leads/${targetLeadId}/context`, {
+      method: "PATCH",
+      headers: { cookie },
+      body: { stage: "qualified", owner: "", notes: "" }
+    });
+
+    await apiFetch("/api/exports", {
+      method: "POST",
+      headers: { cookie },
+      body: { preset: "csv", scope: "all_qualified" }
+    }).then((res) => res.text());
+
+    const handoffRes = await apiFetch("/api/queue/handoff", {
+      method: "PATCH",
+      headers: { cookie },
+      body: { leadIds: [targetLeadId], status: "outreach_queued" }
+    });
+    expect(handoffRes.status).toBe(200);
+    const handoff = (await handoffRes.json()) as LeadHandoffUpdateResponse;
+    expect(handoff.ok).toBe(true);
+    expect(handoff.status).toBe("outreach_queued");
+    expect(handoff.updated).toBeGreaterThanOrEqual(1);
+    expect(handoff.items?.some((item) => item.leadId === targetLeadId && item.handoffStatus === "outreach_queued")).toBe(true);
+
+    const queueRes = await apiFetch("/api/queue", {
+      headers: { cookie }
+    });
+    const queue = (await queueRes.json()) as { items?: WorkspaceQueueItem[] };
+    expect(queue.items?.some((item) => item.leadId === targetLeadId && item.handoffStatus === "outreach_queued")).toBe(true);
   });
 });
 
