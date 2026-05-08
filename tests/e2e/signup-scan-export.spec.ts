@@ -48,13 +48,12 @@ test.describe("Signup → Scan → Lead → Export end-to-end", () => {
     await expect(companyNameInput).toBeEditable();
     await companyNameInput.fill("Acme Example");
     await notesInput.fill("Visible CTA gap above the fold; pricing CTA missing on the homepage hero.");
-    await scanForm.locator('button[type="submit"]').first().click();
-
-    const status = scanForm.locator('[role="status"]');
-    await expect(status).not.toHaveText("", { timeout: 30_000 });
-
-    // Once the scan is done, the section should expose the saved prospect summary
-    await expect(scanConsole.locator(".scan-preview")).toBeVisible({ timeout: 30_000 });
+    await Promise.all([
+      page.waitForURL(/\/app\/leads\/[^/?]+.*from=queue/, { timeout: 30_000 }),
+      scanForm.locator('button[type="submit"]').first().click()
+    ]);
+    await expect(page.locator("section.lead-detail-page")).toBeVisible({ timeout: 30_000 });
+    await expect(page.locator("section.lead-detail-page")).toContainText("Acme Example");
 
     // Verify the lead lands in /api/leads via the API as well
     const leads = await apiJson<{ leads: Array<{ companyName: string; domain: string }> }>(
